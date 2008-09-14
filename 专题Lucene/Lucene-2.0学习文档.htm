@@ -1,0 +1,799 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"><head>
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Lucene-2.0学习文档（１） - 企业应用 - Java - JavaEye论坛</title>
+    <meta name="description" content="&nbsp;  [原创]Lucene-2.0学习文档  作者：Javafish(likunkun)  Email:javafish@sunxin.org        Lucene是apache组织的一个用java实现全文搜索引擎的开源项目。  其功能非常的强大，api也很简单。总得来说用Lucene来进行建立  和搜索和操作数据库是差不多的(有点像)，Document可以看作是  数据库的一行记 ...">
+    <meta name="keywords" content="Lucene 企业应用 Java">
+    <link rel="shortcut icon" href="http://www.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <link href="http://www.javaeye.com/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml">
+    <link href="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/forum.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/application.js" type="text/javascript"></script>
+      <link href="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/hotkey.js" type="text/javascript"></script>
+<script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/se_hilite.js" type="text/javascript"></script>            <script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/dragdrop.js" type="text/javascript"></script>
+  </head><body>
+    <div id="page">
+      <div id="header" class="clearfix">
+        <ul id="user_nav">
+  <li class="last"><a href="http://www.javaeye.com/index/help">帮助</a></li>
+    <li><a href="http://www.javaeye.com/signup">注册</a></li>
+    <li><a href="http://www.javaeye.com/login">登录</a></li>
+    <li class="highlight"><span>您还没有登录 !</span></li>  
+</ul>
+
+        
+        <div id="branding">
+          <a href="http://www.javaeye.com/"><img alt="JavaEye3.0" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/logo.gif" title="JavaEye-最棒的软件开发交流社区"></a>
+        </div>  
+        <div id="ad">
+          <embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/bbs2.swf" play="true" loop="true" menu="true" width="720" height="60">
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+  <link href="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/hotkey.js" type="text/javascript"></script>
+<script src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/se_hilite.js" type="text/javascript"></script>
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a> <span class="arrow">→</span>
+    <h1><span class="hilite1"><span class="hilite1">Lucene</span></span>-2.0学习文档（１）</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href="http://www.javaeye.com/forums/board/Java">全部</a>
+    <a href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</a>
+    <a href="http://www.javaeye.com/forums/tag/Spring">Spring</a>
+    <a href="http://www.javaeye.com/forums/tag/Struts">Struts</a>
+    <a href="http://www.javaeye.com/forums/tag/Webwork">Webwork</a>
+    <a href="http://www.javaeye.com/forums/tag/iBATIS">iBATIS</a>
+    <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a>
+    <a href="http://www.javaeye.com/forums/tag/Design-Pattern">设计模式</a>
+    <a href="http://www.javaeye.com/forums/tag/DAO">DAO</a>
+    <a href="http://www.javaeye.com/forums/tag/Object-Domain">领域模型</a>
+    <a href="http://www.javaeye.com/forums/tag/OO">OO</a>
+    <a href="http://www.javaeye.com/forums/tag/Tomcat">Tomcat</a>
+    <a href="http://www.javaeye.com/forums/tag/SOA">SOA</a>
+    <a href="http://www.javaeye.com/forums/tag/JBoss">JBoss</a>
+    <a href="http://www.javaeye.com/forums/tag/J2ME">J2ME</a>
+</div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">« 上一页</span> <span class="current">1</span> <a href="http://www.javaeye.com/topic/39874?page=2" rel="next">2</a> <a href="http://www.javaeye.com/topic/39874?page=2" class="next_page" rel="next">下一页 »</a></div>
+    <div class="info">浏览 12896 次</div>
+  </div>
+</div>
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class="locked">锁定老贴子</span> <a href="http://www.javaeye.com/topic/39874">主题：<span class="hilite1"><span class="hilite1">Lucene</span></span>-2.0学习文档（１）</a></div>
+        <div id="topic_rate_box"><strong class="highlight">该帖已经被评为良好帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_190334">
+  <td class="postauthor">
+    <ul>
+      <li class="name">likunkun</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/star1.gif" alt="一星会员" title="一星会员"></li>
+      <li><a href="http://likunkun.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/a00a092c-e219-4731-941a-64f11aa5bf5c.jpg" title="likunkun的博客: javafish的技术讨论空间"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 21</li>
+      <li>积分: 135</li>
+      <li>来自: 太原</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-21 关键字: <strong><span class="hilite1"><span class="hilite1">Lucene</span></span></strong></div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+          <div style="position: relative;" id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+            <ul>
+                <li><a href="http://www.javaeye.com/topic/39597" target="_blank">搜索篇:<span class="hilite1"><span class="hilite1">lucene</span></span>的简单实例&lt;一&gt;</a></li>
+                <li><a href="http://www.javaeye.com/topic/39876" target="_blank"><span class="hilite1"><span class="hilite1">Lucene</span></span>-2.0学习文档（３）</a></li>
+            </ul>
+            <br><span>推荐圈子: <a href="http://analysis.group.javaeye.com/" target="_blank">中文分词</a></span>
+            <br><a href="http://www.javaeye.com/wiki/topic/39874" target="_blank">更多相关推荐</a>
+          </div>
+          <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+      <p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 8.85pt; text-indent: -8.85pt; text-align: center;" align="left"><strong><span lang="EN-US"></span></strong>&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.6pt; text-indent: -3.6pt;"><font size="3"><span style="font-size: 14pt;" lang="EN-US"><font size="3"><span style="font-size: 14pt;" lang="EN-US">[原创]<span class="hilite1"><span class="hilite1">Lucene</span></span>-2.0学习文档</span></font></span></font></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.6pt; text-indent: -3.6pt;"><font size="3"><span style="font-size: 14pt;" lang="EN-US">作者：Javafish(likunkun)</span></font></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.6pt; text-indent: -3.6pt;"><font size="3"><span style="font-size: 14pt;" lang="EN-US">Email:javafish@sunxin.org<br>
+</span></font></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.6pt; text-indent: -3.6pt;"><font size="3"><span style="font-size: 14pt;" lang="EN-US"></span></font></p>
+<font size="3"><span style="font-size: 14pt;" lang="EN-US">
+<p><font size="3" face="Arial"><span class="hilite1"><span class="hilite1">Lucene</span></span>是apache组织的一个用java实现全文搜索引擎的开源项目。</font></p>
+<p><font size="3" face="Arial">其功能非常的强大，api也很简单。总得来说用<span class="hilite1"><span class="hilite1">Lucene</span></span>来进行建立</font></p>
+<p><font size="3" face="Arial">和搜索和操作数据库是差不多的(有点像)，Document可以看作是</font></p>
+<p><font size="3" face="Arial">数据库的一行记录，Field可以看作是数据库的字段。用<span class="hilite1"><span class="hilite1">lucene</span></span>实</font></p>
+<p><font face="Arial"><font size="3">现搜索引擎就像用JDBC实现连接数据库一样简单。</font><br>
+</font></p>
+</span></font>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.6pt; text-indent: -3.6pt;"><font size="3"><span style="font-size: 14pt; font-family: 宋体;"></span></font></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.6pt; text-indent: -3.6pt;"><font size="3"><span style="font-size: 14pt; font-family: 宋体;"></span></font><span style="font-size: 14pt;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 4.8pt; text-indent: -4.8pt;"><span><span class="hilite1"><span class="hilite1">Lucene</span></span>2.0，它与以前广泛应用和介绍的<span class="hilite1"><span class="hilite1">Lucene</span></span> <st1:chsdate isrocdate="False" month="12" w:st="on" day="30" islunardate="False" year="1899">1.4.3</st1:chsdate>并不兼容。</span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 4.8pt; text-indent: -4.8pt;"><span><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 4.8pt; text-indent: -4.8pt;"><span><span class="hilite1"><span class="hilite1">Lucene</span></span>2.0的下载地址是<a href="http://apache.justdn.org/lucene/java/">http://apache.justdn.org/<span class="hilite1"><span class="hilite1">lucene</span></span>/java/</a></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 4.8pt; text-indent: -4.8pt;"><span><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.55pt; text-indent: -3.55pt;"><span lang="EN-US"><span></span></span><span style="font-family: 宋体;">大家先看一个例子，通过这个例子来对</span><span lang="EN-US"><span class="hilite1"><span class="hilite1">lucene</span></span></span><span style="font-family: 宋体;">的一个大概的认识。</span><span lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.55pt; text-indent: -3.55pt;"><span style="font-family: 宋体;">一个</span><span lang="EN-US">Junit</span><span style="font-family: 宋体;">测试用例：</span><span lang="EN-US">(</span><span style="font-family: 宋体;">为了让代码清晰好看，我们将异常都抛出</span><span lang="EN-US">)<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.55pt; text-indent: -3.55pt;"><span lang="EN-US">a)<span>&nbsp;&nbsp;&nbsp; </span></span><strong><span style="font-family: 宋体;">这是一个建立文件索引的例子</span></strong><span lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">public</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">void</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> testIndexHello() </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">throws</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> IOException</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp; </span>{</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Date date1 = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> Date();</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;</span></span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">可以说是创建一个新的写入工具</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">第一个参数是要索引建立在哪个目录里</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">第二个参数是新建一个文本分析器<span lang="EN-US">,</span>这里用的是标准的大家也可以自己写一个</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">第三个参数如果是<span lang="EN-US">true</span>，在建立索引之前先将<span lang="EN-US">c:\\index</span>目录清空。</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>IndexWriter writer = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> IndexWriter(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"c:\\index"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">,</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> StandardAnalyzer(),</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">true</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">这个是数据源的文件夹</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>File file = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> File(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"c:\\file"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; color: rgb(63, 95, 191); font-family: 宋体;" lang="EN-US">/**</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span>&nbsp;</span></span><span style="font-size: 10pt; color: rgb(63, 95, 191); font-family: 宋体;" lang="EN-US">*</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> </span><span style="font-size: 10pt; color: rgb(63, 95, 191); font-family: 宋体;">例子主要是将<span lang="EN-US">C:\\file</span>目录下的文件的内容进行建立索引，将文件路径作为搜索内容的附属<span lang="EN-US">.</span></span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span>&nbsp;</span></span><span style="font-size: 10pt; color: rgb(63, 95, 191); font-family: 宋体;" lang="EN-US">*/</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">if</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">(file.isDirectory())</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>String[] fileList = file.list();</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">for</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> (</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">int</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> i = 0; i &lt; fileList.</span><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">length</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">; i++)</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">建立一个新的文档<span lang="EN-US">,</span>它可以看作是数据库的一行记录</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Document doc = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> Document();</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>File f = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> File(file,</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fileList[i]);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Reader reader = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> BufferedReader(</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> FileReader(f));</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>doc.add(</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> Field(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"file"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">,reader));</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">为<span lang="EN-US">doument</span>添加<span lang="EN-US">field</span></span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>doc.add(</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> Field(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"path"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">,f.getAbsolutePath(),Field.Store.</span><em><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">YES</span></em><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">,Field.Index.</span><em><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">NO</span></em><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">));</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>writer.addDocument(doc);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>writer.close();</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">这一步是必须的，只有这样数据才会被写入索引的目录里</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Date date2 = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> Date();</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>System.</span><em><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">out</span></em><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">.println(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;">用时<span lang="EN-US">"</span></span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">+(date2.getTime()-date1.getTime())+</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;">毫秒<span lang="EN-US">"</span></span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">}</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;">注意：因为建立索引本来就是费时，所以说最后输出的用时会比较长，请不要奇怪。</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 3.4pt; text-indent: -3.4pt; text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">b)</span><span style="font-size: 10pt; color: black; font-family: 宋体;">一个通过索引来全文检索的例子<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">public</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">void</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> HelloSearch() </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">throws</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> IOException, ParseException</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp; </span>{</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>IndexSearcher indexSearcher = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> IndexSearcher(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"c:\\index"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">);</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">和上面的<span lang="EN-US">IndexWriter</span>一样是一个工具</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>QueryParser queryParser = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> QueryParser(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"file"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">,</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">这是一个分词器</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> <span style="background: silver none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">StandardAnalyzer</span>());</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BufferedReader br = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> BufferedReader(</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">new</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> InputStreamReader(System.</span><em><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">in</span></em><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">));</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Query query = queryParser.parse(br.readLine());</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">这个地方<span lang="EN-US">Query</span>是抽象类大家也注意一下，下面会讲到的</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Hits hits = indexSearcher.search(query);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Document doc = </span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">null</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">;</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>System.</span><em><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">out</span></em><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">.print(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;">正搜索<span lang="EN-US">................"</span></span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">for</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> (</span><strong><span style="font-size: 10pt; color: rgb(127, 0, 85); font-family: 宋体;" lang="EN-US">int</span></strong><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> i = 0; i &lt; hits.length(); i++)</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>doc = hits.doc(i);</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>System.</span><em><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">out</span></em><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">.println(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;">内容是：<span lang="EN-US">"</span></span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">+doc.get(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"file"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">));</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;" lang="EN-US">//</span><span style="font-size: 10pt; color: rgb(63, 127, 95); font-family: 宋体;">注意这里输出的是什么</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>System.</span><em><span style="font-size: 10pt; color: rgb(0, 0, 192); font-family: 宋体;" lang="EN-US">out</span></em><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">.println(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;">文件的路径是：<span lang="EN-US">"</span></span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"> + doc.get(</span><span style="font-size: 10pt; color: rgb(42, 0, 255); font-family: 宋体;" lang="EN-US">"path"</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">));</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</span><span style="font-size: 10pt; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US"><span>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;">通过上面的两个例子应该可以看出<span lang="EN-US"><span class="hilite1"><span class="hilite1">Lucene</span></span></span>还是比较简单的。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="font-size: 10pt; color: black; font-family: 宋体;">运行一下上面的两个例子，大家可能会说怎么<span lang="EN-US">doc.get(</span></span><span style="font-size: 10pt; color: black;" lang="EN-US">“</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">file</span><span style="font-size: 10pt; color: black;" lang="EN-US">”</span><span style="font-size: 10pt; color: black; font-family: 宋体;" lang="EN-US">);</span><span style="font-size: 10pt; color: black; font-family: 宋体;">返回的是空呢<span lang="EN-US">,</span>我们马上会讲到。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><strong><span style="font-size: 16pt; color: black; font-family: 宋体;">下面讲一下索引的建立<span lang="EN-US"><o:p></o:p></span></span></strong></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">其实从上面的例子就可以看出建立索引就用到<span lang="EN-US">Document,IndexWriter,Field</span>。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">最简单的步骤就是：<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 21pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">首先分别<span lang="EN-US">new </span>一个<span lang="EN-US">Document</span>，<span lang="EN-US">IndexWriter,Field<o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 21pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">然后用<span lang="EN-US">Doument.add()</span>方法加入<span lang="EN-US">Field,<o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 21pt; text-align: left;" align="left"><span>其次用IndexWrtier.addDocument()方法加入Document。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin: 0cm -88.6pt 0pt 21pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">最后调用一下<span lang="EN-US">IndexWriter.close()</span>方法关闭输入索引，这一步非常的重要只有调用这个方法索引才会被写入索引的目录里，而这是被很多初学的人所忽略的。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;" lang="EN-US">Document</span><span style="color: black; font-family: 宋体;">没有什么好介绍的，把它的作用看成数据库中的一行记录就行。<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;" lang="EN-US">Field</span><span style="color: black; font-family: 宋体;">是一个比较重要的也是比较复杂的：<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">看一下它的构造函数有<span lang="EN-US">5</span>个：<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.html#Field%28java.lang.String,%20byte%5B%5D,%20org.apache.lucene.document.Field.Store%29"><span new="" times="" roman="" style="font-size: 10.5pt;">Field</span></a></span></strong></code><code><span style="font-size: 12pt;" lang="EN-US">(<a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;name, byte[]&nbsp;value, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Store.html" title="class in org.apache.lucene.document"><span new="" times="" roman="" style="font-size: 10.5pt;">Field.Store</span></a>&nbsp;store)<o:p></o:p></span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.html#Field%28java.lang.String,%20java.io.Reader%29"><span new="" times="" roman="" style="font-size: 10.5pt;">Field</span></a></span></strong></code><code><span style="font-size: 12pt;" lang="EN-US">(<a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;name, <a href="http://java.sun.com/j2se/1.4/docs/api/java/io/Reader.html" title="class or interface in java.io"><span new="" times="" roman="" style="font-size: 10.5pt;">Reader</span></a>&nbsp;reader)<o:p></o:p></span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.html#Field%28java.lang.String,%20java.io.Reader,%20org.apache.lucene.document.Field.TermVector%29"><span new="" times="" roman="" style="font-size: 10.5pt;">Field</span></a></span></strong></code><code><span style="font-size: 12pt;" lang="EN-US">(<a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;name, <a href="http://java.sun.com/j2se/1.4/docs/api/java/io/Reader.html" title="class or interface in java.io"><span new="" times="" roman="" style="font-size: 10.5pt;">Reader</span></a>&nbsp;reader, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.TermVector.html" title="class in org.apache.lucene.document"><span new="" times="" roman="" style="font-size: 10.5pt;">Field.TermVector</span></a>&nbsp;termVector)<o:p></o:p></span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.html#Field%28java.lang.String,%20java.lang.String,%20org.apache.lucene.document.Field.Store,%20org.apache.lucene.document.Field.Index%29"><span new="" times="" roman="" style="font-size: 10.5pt;">Field</span></a></span></strong></code><code><span style="font-size: 12pt;" lang="EN-US">(<a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;name, <a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;value, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Store.html" title="class in org.apache.lucene.document"><span new="" times="" roman="" style="font-size: 10.5pt;">Field.Store</span></a>&nbsp;store, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html" title="class in org.apache.lucene.document"><span new="" times="" roman="" style="font-size: 10.5pt;">Field.Index</span></a>&nbsp;index)<o:p></o:p></span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.html#Field%28java.lang.String,%20java.lang.String,%20org.apache.lucene.document.Field.Store,%20org.apache.lucene.document.Field.Index,%20org.apache.lucene.document.Field.TermVector%29"><span new="" times="" roman="" style="font-size: 10.5pt;">Field</span></a></span></strong></code><code><span style="font-size: 12pt;" lang="EN-US">(<a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;name, <a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;value, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Store.html" title="class in org.apache.lucene.document"><span new="" times="" roman="" style="font-size: 10.5pt;">Field.Store</span></a>&nbsp;store, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html" title="class in org.apache.lucene.document"><span new="" times="" roman="" style="font-size: 10.5pt;">Field.Index</span></a>&nbsp;index, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.TermVector.html" title="class in org.apache.lucene.document"><span new="" times="" roman="" style="font-size: 10.5pt;">Field.TermVector</span></a>&nbsp;termVector)<o:p></o:p></span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><span>在<span lang="EN-US">Field</span>中有三个内部类：<span lang="EN-US">Field.Index,Field.Store,Field.termVector</span>，而构造函数也用到了它们。<span lang="EN-US"><o:p></o:p></span></span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span>注意：</span></strong></code><code><strong><span style="font-size: 12pt;" lang="EN-US">termVector</span></strong></code><code><strong><span style="font-size: 12pt;">是<span lang="EN-US"><span class="hilite1"><span class="hilite1">Lucene</span></span> 1.4</span></span></strong></code><code><strong><span>新增的它提供一种向量机制来进行模糊查询的这个不常用，默认是<span lang="EN-US">false</span>不过是什么对于一般查询无影响。<span lang="EN-US"><o:p></o:p></span></span></strong></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><span>它们的不同的组合，在全文检索中有着不同的作用。看看下面的表吧<span lang="EN-US">:<o:p></o:p></span></span></code></p>
+<table class="MsoTableGrid" style="border: medium none ; width: 518.4pt; border-collapse: collapse;" width="691" border="1" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td style="border: 1pt solid windowtext; padding: 0cm 5.4pt; width: 131.4pt;" valign="top" width="175">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;" lang="EN-US">Field.Index<o:p></o:p></span></p>
+            </td>
+            <td style="border-style: solid solid solid none; border-color: windowtext windowtext windowtext -moz-use-text-color; border-width: 1pt 1pt 1pt medium; padding: 0cm 5.4pt; width: 99pt;" valign="top" width="132">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;" lang="EN-US">Field.Store<o:p></o:p></span></p>
+            </td>
+            <td style="border-style: solid solid solid none; border-color: windowtext windowtext windowtext -moz-use-text-color; border-width: 1pt 1pt 1pt medium; padding: 0cm 5.4pt; width: 288pt;" valign="top" width="384">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">说明<span lang="EN-US"><o:p></o:p></span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border-style: none solid solid; border-color: -moz-use-text-color; border-width: medium 1pt 1pt; padding: 0cm 5.4pt; width: 131.4pt;" valign="top" width="175">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html#TOKENIZED"><span new="" times="" roman="" style="font-size: 10.5pt;">TOKENIZED</span></a>(</span></strong></code><code><strong><span style="font-size: 12pt;">分词<span lang="EN-US">)</span></span></strong></code><span style="color: black; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 99pt;" valign="top" width="132">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Store.html#YES"><span new="" times="" roman="" style="font-size: 10.5pt;">YES</span></a></span></strong></code><span style="color: black; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 288pt;" valign="top" width="384">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">文章的标题或内容<span lang="EN-US">(</span>如果是内容的话不能太长<span lang="EN-US">)</span>是可以被搜索的<span lang="EN-US"><o:p></o:p></span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border-style: none solid solid; border-color: -moz-use-text-color; border-width: medium 1pt 1pt; padding: 0cm 5.4pt; width: 131.4pt;" valign="top" width="175">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html#TOKENIZED"><span new="" times="" roman="" style="font-size: 10.5pt;">TOKENIZED</span></a><o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 99pt;" valign="top" width="132">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html#NO"><span new="" times="" roman="" style="font-size: 10.5pt;">NO</span></a><o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 288pt;" valign="top" width="384">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">文章的标题或内容<span lang="EN-US">(</span>内容可以很长<span lang="EN-US">)</span>也是可以被看过的<span lang="EN-US"><o:p></o:p></span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border-style: none solid solid; border-color: -moz-use-text-color; border-width: medium 1pt 1pt; padding: 0cm 5.4pt; width: 131.4pt;" valign="top" width="175">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html#NO"><span new="" times="" roman="" style="font-size: 10.5pt;">NO</span></a><o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 99pt;" valign="top" width="132">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Store.html#YES"><span new="" times="" roman="" style="font-size: 10.5pt;">YES</span></a><o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 288pt;" valign="top" width="384">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">这是不能被搜索的，它只是被搜索内容的附属物。如<span lang="EN-US">URL</span>等<span lang="EN-US"><o:p></o:p></span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border-style: none solid solid; border-color: -moz-use-text-color; border-width: medium 1pt 1pt; padding: 0cm 5.4pt; width: 131.4pt;" valign="top" width="175">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html#UN_TOKENIZED"><span new="" times="" roman="" style="font-size: 10.5pt;">UN_TOKENIZED</span></a><o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 99pt;" valign="top" width="132">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US">YES/NO<o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 288pt;" valign="top" width="384">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">不被分词，它作为一个整体被搜索<span lang="EN-US">,</span>搜一部分是搜不出来的<span lang="EN-US"><o:p></o:p></span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border-style: none solid solid; border-color: -moz-use-text-color; border-width: medium 1pt 1pt; padding: 0cm 5.4pt; width: 131.4pt;" valign="top" width="175">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html#NO"><span new="" times="" roman="" style="font-size: 10.5pt;">NO</span></a><o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 99pt;" valign="top" width="132">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.Index.html#NO"><span new="" times="" roman="" style="font-size: 10.5pt;">NO</span></a><o:p></o:p></span></strong></code></p>
+            </td>
+            <td style="border-style: none solid solid none; border-color: -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 288pt;" valign="top" width="384">
+            <p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">没有这种用法<span lang="EN-US"><o:p></o:p></span></span></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">而对于</span><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.html#Field%28java.lang.String,%20java.io.Reader%29"><span new="" times="" roman="" style="font-size: 10.5pt;">Field</span></a></span></strong></code><code><span style="font-size: 12pt;" lang="EN-US">(<a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" times="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;name, <a href="http://java.sun.com/j2se/1.4/docs/api/java/io/Reader.html" title="class or interface in java.io"><span new="" times="" roman="" style="font-size: 10.5pt;">Reader</span></a>&nbsp;reader)<o:p></o:p></span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt; color: red;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.html#Field%28java.lang.String,%20java.io.Reader,%20org.apache.lucene.document.Field.TermVector%29"><span new="" color="" times="" red="" roman="" style="font-size: 10.5pt;">Field</span></a></span></strong></code><code><strong><span style="font-size: 12pt; color: red;" lang="EN-US">(<a href="http://java.sun.com/j2se/1.4/docs/api/java/lang/String.html" title="class or interface in java.lang"><span new="" color="" times="" red="" roman="" style="font-size: 10.5pt;">String</span></a>&nbsp;name, <a href="http://java.sun.com/j2se/1.4/docs/api/java/io/Reader.html" title="class or interface in java.io"><span new="" color="" times="" red="" roman="" style="font-size: 10.5pt;">Reader</span></a>&nbsp;reader, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/document/Field.TermVector.html" title="class in org.apache.lucene.document"><span new="" color="" times="" red="" roman="" style="font-size: 10.5pt;">Field.TermVector</span></a>&nbsp;termVector)<o:p></o:p></span></strong></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><strong><span style="color: red; font-family: 宋体;">他们是<span lang="EN-US">Field.Index.TOKENIZED</span>和<span lang="EN-US">Field.Store.NO</span>的。这就是为什么我们在上面的例子中会出现文章的内容为<span lang="EN-US">null</span>了。因为它只是被索引了，而并没有被存储下来。如果一定要看到文章的内容的话可以通过文章的路径得到毕竟文章的路径是作为搜索的附属物被搜索出来了。<u><span style="border: 1pt solid windowtext; padding: 0cm; background: rgb(217, 217, 217) none repeat scroll 0% 50%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">而我们在<span lang="EN-US">Web</span>开发的时候一般是将大数据放在数据库中，不会放在文件系统中，更不会放在索引目录里，因为它太大了操作会加大服务器的负担</span></u><em>。</em></span></strong><strong><span style="color: black; font-family: 宋体;" lang="EN-US"><o:p></o:p></span></strong></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">下面介绍一下<span lang="EN-US">IndexWriter:<o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">它就是一个写入索引的写入器<span lang="EN-US">,</span>它的任务比较简单：<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;" lang="EN-US">1.</span><span style="color: black; font-family: 宋体;">用<span lang="EN-US">addDocument()</span>将已经准备好写入索引的<span lang="EN-US">document</span>们加入<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;" lang="EN-US">2.</span><span style="color: black; font-family: 宋体;">调用<span lang="EN-US">close()</span>将索引写入索引目录<span lang="EN-US"><o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><span style="color: black; font-family: 宋体;">先看一下它的构造函数<span lang="EN-US">:<o:p></o:p></span></span></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left"><code><strong><span style="font-size: 12pt;" lang="EN-US"><a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/index/IndexWriter.html#IndexWriter%28org.apache.lucene.store.Directory,%20org.apache.lucene.analysis.Analyzer,%20boolean%29"><span new="" times="" roman="" style="font-size: 10.5pt;">IndexWriter</span></a></span></strong></code><code><span style="font-size: 12pt;" lang="EN-US">(<a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/store/Directory.html" title="class in org.apache.lucene.store"><span new="" times="" roman="" style="font-size: 10.5pt;">Directory</span></a>&nbsp;d, <a href="http://www.javaeye.com/topic/%C3%91%C2%A7%C3%8F%C2%B0%C3%97%C3%8A%C3%81%C3%8F/luence/lucene-2.0.0/docs/api/org/apache/lucene/analysis/Analyzer.html" title="class in org.apache.lucene.analysis"><span new="" times="" roman="" style="font-size: 10.5pt;">Analyzer</span></a>&nbsp;a, boolean&nbsp;create)</span></code></p>
+<p class="MsoNormal" style="margin-right: -88.6pt; text-align: left;" align="left">（未完）<code><span style="font-size: 12pt;" lang="EN-US"><o:p></o:p></span></code></p>
+<p align="left">&nbsp;</p>
+    </div>
+    
+      <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+      <div id="forum_advert_b3">
+        <span>推荐链接</span>
+        <ul class="adverts"><li><a href="http://www.javaeye.com/adverts/111" target="_blank"><span style="color: red; font-weight: bold;">IBM Rational开发者大会9月盛大揭幕！</span></a></li><li><a href="http://www.javaeye.com/adverts/79" target="_blank">全新 IBM SOA 数据服务开发工具</a></li></ul>
+      </div>
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://likunkun.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://likunkun.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+                        
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191706">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      说一点题外话,有点奇怪:
+<br>楼主的ID是likunkun,而在文中有写"[原创]<span class="hilite1"><span class="hilite1">Lucene</span></span>-2.0学习文档 作者：Javafish"
+<br>难道楼主有"likunkun"和"Javafish"两个ID?
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191706" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191711">
+  <td class="postauthor">
+    <ul>
+      <li class="name">likunkun</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/star1.gif" alt="一星会员" title="一星会员"></li>
+      <li><a href="http://likunkun.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/a00a092c-e219-4731-941a-64f11aa5bf5c.jpg" title="likunkun的博客: javafish的技术讨论空间"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 21</li>
+      <li>积分: 135</li>
+      <li>来自: 太原</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      来javaeye的时候本来想注册javafish呢，可是已经被注册了，５５５５...就用likunkun了，呵呵
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://likunkun.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://likunkun.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191711" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191714">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">likunkun 写道</div><div class="quote_div">来javaeye的时候本来想注册javafish呢，可是已经被注册了，５５５５...就用likunkun了，呵呵</div>
+<br>哦，原来是这样，javaeye有看到你的文章作者的名字和你的ID不同，以为你是转载的，所以有一些人不知情投了隐藏;有时候要标明一下可以更好一些,因为论坛里一般人不喜欢把转载的东西放进来,都鼓励原创的。
+<br>文章写得不错，你的几篇文章都被加入了<span class="hilite1"><span class="hilite1">lucene</span></span>专栏...
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191714" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191716">
+  <td class="postauthor">
+    <ul>
+      <li class="name">likunkun</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/star1.gif" alt="一星会员" title="一星会员"></li>
+      <li><a href="http://likunkun.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/a00a092c-e219-4731-941a-64f11aa5bf5c.jpg" title="likunkun的博客: javafish的技术讨论空间"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 21</li>
+      <li>积分: 135</li>
+      <li>来自: 太原</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      谢谢鼓励
+<br>不过不能改名字了
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://likunkun.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://likunkun.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191716" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191717">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">likunkun 写道</div><div class="quote_div">谢谢鼓励
+<br>不过不能改名字了</div>
+<br>可以把一些有提到ID的地方改为
+<br>"作者：Javafish(likunkun)"之类的或者其他形式，以莫别人误会
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191717" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191720">
+  <td class="postauthor">
+    <ul>
+      <li class="name">likunkun</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/star1.gif" alt="一星会员" title="一星会员"></li>
+      <li><a href="http://likunkun.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/a00a092c-e219-4731-941a-64f11aa5bf5c.jpg" title="likunkun的博客: javafish的技术讨论空间"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 21</li>
+      <li>积分: 135</li>
+      <li>来自: 太原</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      ok^_^
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://likunkun.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://likunkun.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191720" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_193759">
+  <td class="postauthor">
+    <ul>
+      <li class="name">yanger</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/star2.gif" alt="二星会员" title="二星会员"></li>
+      <li><a href="http://yanger.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/25ec6017-dca7-4f49-aa07-2bcfba0ed6d3.jpg" title="yanger的博客: yanger"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 28</li>
+      <li>积分: 213</li>
+      <li>来自: SH</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-27 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      我请教几个问题,luncene2能支持多大的数据量？在2中如何进行多线程index?
+<br>
+<br>另外，增量索引的时候好像有bug，用起来总是感觉不放心，删除索引也是同样的问题，定向删除如何实现呢？
+<br>
+<br>谢谢
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://yanger.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://yanger.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_193759" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_193887">
+  <td class="postauthor">
+    <ul>
+      <li class="name">likunkun</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/star1.gif" alt="一星会员" title="一星会员"></li>
+      <li><a href="http://likunkun.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/a00a092c-e219-4731-941a-64f11aa5bf5c.jpg" title="likunkun的博客: javafish的技术讨论空间"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 21</li>
+      <li>积分: 135</li>
+      <li>来自: 太原</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-27 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">yanger 写道</div><div class="quote_div">我请教几个问题,luncene2能支持多大的数据量？在2中如何进行多线程index?
+<br>
+<br>另外，增量索引的时候好像有bug，用起来总是感觉不放心，删除索引也是同样的问题，定向删除如何实现呢？
+<br>
+<br>谢谢</div>作为搜索引擎的话数据量应该不限吧<br>对于数据量<span class="hilite1"><span class="hilite1">Lucene</span></span>有性能的调优即调整一下生成索引的大小和数量等等<br>对于多线程的问题可以看一下<span class="hilite1"><span class="hilite1">Lucene</span></span>里IndexReader和IndexWriter的源代码，都是作了同步的，<span class="hilite1"><span class="hilite1">Lucene</span></span>也有锁的机制可以维护同步.<br>不知道定向删除是什么意思.
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://likunkun.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://likunkun.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_193887" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_193932">
+  <td class="postauthor">
+    <ul>
+      <li class="name">yanger</li>
+      <li>等级: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/star2.gif" alt="二星会员" title="二星会员"></li>
+      <li><a href="http://yanger.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/25ec6017-dca7-4f49-aa07-2bcfba0ed6d3.jpg" title="yanger的博客: yanger"></a></li>
+      <li>性别: <img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 28</li>
+      <li>积分: 213</li>
+      <li>来自: SH</li>
+      <li><img src="Lucene-2.0%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-27 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      我在2000万的数据量上，速度很慢，几乎不能工作，真的是没有限制？
+<br>
+<br>我的意思是，增量的数据可以增量索引，那么部分失效的数据，如何从索引中删除呢.当然在数据库可以知道失效数据的IDs.
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://yanger.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://yanger.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_193932" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr>
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">« 上一页</span> <span class="current">1</span> <a href="http://www.javaeye.com/topic/39874?page=2" rel="next">2</a> <a href="http://www.javaeye.com/topic/39874?page=2" class="next_page" rel="next">下一页 »</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a>
+     <span class="arrow">→</span> <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a>
+    <br><br>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2"><span>JavaEye推荐</span><ul class="adverts"></ul></div>
+  </div>
+  
+</div>
+
+<div style="display: none;">
+<form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">    <input id="post_rate_id" name="id" type="hidden">
+    <input id="post_rate_type" name="type" type="hidden">
+</form></div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":39874, "type":type}});
+    }
+
+</script>
+        </div>
+        <div id="nav">
+<div class="wrapper">
+<ul>
+<li><a href="http://www.javaeye.com/">首页</a></li>
+<li><a href="http://www.javaeye.com/news">新闻</a></li>
+<li><a href="http://www.javaeye.com/forums" class="selected">论坛</a></li>
+<li><a href="http://www.javaeye.com/ask">问答</a></li>
+<li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+<li><a href="http://www.javaeye.com/blogs">博客</a></li>
+<li><a href="http://www.javaeye.com/groups">圈子</a></li>
+<li><a href="http://www.javaeye.com/jobs">招聘</a></li>
+<li><a href="http://www.javaeye.com/index/service">服务</a></li>
+<li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+</ul>
+</div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com/">Java</a></li>
+    <li><a href="http://ruby.javaeye.com/">Ruby</a></li>
+    <li><a href="http://ajax.javaeye.com/">AJAX</a></li>
+    <li><a href="http://agile.javaeye.com/">敏捷</a></li>
+    <li><a href="http://book.javaeye.com/">图书</a></li>
+    <li><a href="http://oracle.javaeye.com/">Oracle</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com/">普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="http://www.javaeye.com/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com/">JavaEye黑板报</a></li>
+      <li><a href="http://www.javaeye.com/index/sitemap">网站地图</a></li>
+      <li><a href="http://www.javaeye.com/index/aboutus">关于我们</a></li>
+      <li><a href="http://www.javaeye.com/index/contactus">联系我们</a></li>
+      <li class="last"><a href="http://www.javaeye.com/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    © 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>      
+    </div>
+  </body></html>

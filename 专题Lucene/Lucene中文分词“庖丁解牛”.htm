@@ -1,0 +1,762 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"><head>
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Lucene中文分词“庖丁解牛” - 企业应用 - Java - JavaEye论坛</title>
+    <meta name="description" content="&nbsp;Lucene中文分词 “庖丁解牛”   &nbsp;附件 为本人设计编写的组件，中文分词“庖丁解牛”，具有相当好的使用价值。。。   高效率：我的赛扬PC 1 秒解析 &gt;&gt;&gt; 20000汉字的词语 &nbsp;(实际测试结果数据，可达1秒10万+汉字。)  高可维护性：使用“庖丁”隐喻，形象明晰  ...">
+    <meta name="keywords" content="设计模式,中文分词,庖丁解牛,庖丁,Lucene 企业应用 Java">
+    <link rel="shortcut icon" href="http://www.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <link href="http://www.javaeye.com/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml">
+    <link href="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/forum.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/application.js" type="text/javascript"></script>
+      <link href="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/hotkey.js" type="text/javascript"></script>
+<script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/se_hilite.js" type="text/javascript"></script>            <script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/dragdrop.js" type="text/javascript"></script>
+  <style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style></head><body>
+    <div id="page">
+      <div id="header" class="clearfix">
+        <ul id="user_nav">
+  <li class="last"><a href="http://www.javaeye.com/index/help">帮助</a></li>
+    <li><a href="http://www.javaeye.com/signup">注册</a></li>
+    <li><a href="http://www.javaeye.com/login">登录</a></li>
+    <li class="highlight"><span>您还没有登录 !</span></li>  
+</ul>
+
+        
+        <div id="branding">
+          <a href="http://www.javaeye.com/"><img alt="JavaEye3.0" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/logo.gif" title="JavaEye-最棒的软件开发交流社区"></a>
+        </div>  
+        <div id="ad">
+          <embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/bbs2.swf" play="true" loop="true" menu="true" width="720" height="60">
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+  <link href="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/hotkey.js" type="text/javascript"></script>
+<script src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/se_hilite.js" type="text/javascript"></script>
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a> <span class="arrow">→</span>
+    <h1><span class="hilite1"><span class="hilite1">Lucene</span></span>中文分词“庖丁解牛”</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href="http://www.javaeye.com/forums/board/Java">全部</a>
+    <a href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</a>
+    <a href="http://www.javaeye.com/forums/tag/Spring">Spring</a>
+    <a href="http://www.javaeye.com/forums/tag/Struts">Struts</a>
+    <a href="http://www.javaeye.com/forums/tag/Webwork">Webwork</a>
+    <a href="http://www.javaeye.com/forums/tag/iBATIS">iBATIS</a>
+    <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a>
+    <a href="http://www.javaeye.com/forums/tag/Design-Pattern">设计模式</a>
+    <a href="http://www.javaeye.com/forums/tag/DAO">DAO</a>
+    <a href="http://www.javaeye.com/forums/tag/Object-Domain">领域模型</a>
+    <a href="http://www.javaeye.com/forums/tag/OO">OO</a>
+    <a href="http://www.javaeye.com/forums/tag/Tomcat">Tomcat</a>
+    <a href="http://www.javaeye.com/forums/tag/SOA">SOA</a>
+    <a href="http://www.javaeye.com/forums/tag/JBoss">JBoss</a>
+    <a href="http://www.javaeye.com/forums/tag/J2ME">J2ME</a>
+</div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">« 上一页</span> <span class="current">1</span> <a href="http://www.javaeye.com/topic/49441?page=2" rel="next">2</a> <a href="http://www.javaeye.com/topic/49441?page=3">3</a> <span class="gap">…</span> <a href="http://www.javaeye.com/topic/49441?page=6">6</a> <a href="http://www.javaeye.com/topic/49441?page=7">7</a> <a href="http://www.javaeye.com/topic/49441?page=2" class="next_page" rel="next">下一页 »</a></div>
+    <div class="info">浏览 50639 次</div>
+  </div>
+</div>
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class="locked">已锁定</span> <a href="http://www.javaeye.com/topic/49441">主题：<span class="hilite1"><span class="hilite1">Lucene</span></span>中文分词“庖丁解牛”</a></div>
+        <div id="topic_rate_box"><strong class="highlight">该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_211235">
+  <td class="postauthor">
+    <ul>
+      <li class="name">Qieqie</li>
+      <li>等级: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/star5.gif" alt="五星会员" title="五星会员"></li>
+      <li><a href="http://qieqie.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/6b04cc2d-0da8-4f31-8579-ac58aad1e05d.jpg" title="Qieqie的博客: Qieqie"></a></li>
+      <li>性别: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 516</li>
+      <li>积分: 648</li>
+      <li>来自: 北京</li>
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 关键字: <strong>设计模式,中文分词,庖丁解牛,庖丁,<span class="hilite1"><span class="hilite1">Lucene</span></span></strong></div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+          <div style="position: relative;" id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+            <ul>
+                <li><a href="http://www.javaeye.com/topic/110148" target="_blank">中文分词 庖丁解牛 2.0.0版本发布</a></li>
+                <li><a href="http://www.javaeye.com/topic/112164" target="_blank">中文分词 庖丁解牛 版本号 2.0.1</a></li>
+            </ul>
+            <br><span>推荐圈子: <a href="http://lucene-group.group.javaeye.com/" target="_blank"><span class="hilite1"><span class="hilite1">lucene</span></span>爱好者</a></span>
+            <br><a href="http://www.javaeye.com/wiki/topic/49441" target="_blank">更多相关推荐</a>
+          </div>
+          <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+      <p>&nbsp;L<font face="Arial"><strong>ucene中文分词 “庖丁解牛” </strong></font></p>
+<p>&nbsp;<font face="Arial">附件 为本人设计编写的组件，中文分词“庖丁解牛”，具有相当好的使用价值。。。 </font></p>
+<p>高效率：我的赛扬PC <strong>1 秒</strong>解析 <strong>&gt;&gt;&gt; 20000</strong>汉字的词语 &nbsp;(实际测试结果数据，可达<strong>1秒10万+</strong>汉字<font color="#808080">。</font>)<br>
+高可维护性：使用“庖丁”隐喻，形象明晰<br>
+高灵活性，可扩展：OOD</p>
+<p><font face="Arial">对比：《终于突破中文分词的效率问题》<a href="http://www.lucene.org.cn/read.php?tid=54&amp;fpage=2">http://www.<span class="hilite1"><span class="hilite1">lucene</span></span>.org.cn/read.php?tid=54&amp;fpage=2 </a>他的效率为 <strong>6秒</strong> 解析<strong>2588</strong>汉字<br>
+&nbsp;</font></p>
+<p><font face="Arial"><strong>2007-08-08：</strong></font></p>
+<p><font face="Arial"><strong>由于庖丁解牛进行了一些调整和重构，这里的附件代码已经是"较旧"的，最新的下载地址：</strong></font></p>
+<p><font face="Arial"><a href="http://code.google.com/p/paoding/downloads/list"><font face="Arial"><strong>http://code.google.com/p/paoding/downloads/list</strong></font></a></font></p>
+<p>SVN地址为：<font face="Arial"><a href="http://paoding.googlecode.com/svn/trunk/paoding-analysis/"><strong>http://paoding.googlecode.com/svn/trunk/paoding-analysis/</strong></a>&nbsp; </font></p>
+<p><strong>同时也可以通过浏览器访问<font face="Arial"><a href="http://paoding.googlecode.com/svn/trunk/paoding-analysis/">http://paoding.googlecode.com/svn/trunk/paoding-analysis/</a>&nbsp; <strong>直接</strong>浏览代码。</font></strong></p>
+<p><strong>最新的在JavaEye的发布帖子是：</strong></p>
+<p><font face="Arial"><a href="http://www.javaeye.com/topic/110148">http://www.javaeye.com/topic/110148</a>&nbsp;&nbsp; 中文分词 庖丁解牛 2.0.0 发布</font></p>
+<p>&nbsp;</p>
+<p><strong></strong></p>
+    </div>
+    <div class="attachments">
+      <ul>
+        <li><a href="http://www.javaeye.com/topics/download/e729baf3-4422-4bfd-a516-fd8b4298aec1">Paoding.rar</a> (1.1 MB)</li>
+        <li>描述: 中文分词“庖丁解牛”，面向对象，高效率，高扩展性 </li>
+        <li>下载次数: 3299</li>
+      </ul>
+      <ul>
+        <li><a href="http://www.javaeye.com/topics/download/fef5af05-cb9e-4868-963c-5f57c775d697">HashBinaryDictionary.java.rar</a> (2.2 KB)</li>
+        <li>描述: 原来的HashBinaryDictionary.java使用对第一个字符hash+二份查找。这个算法已经不错。
+但下面的更新使用了更好的策略。可连续hash词语的字符。理论上这个词典算法应该到达极致了。
+覆盖HashBinaryDictionary.java在com/sohospace/dictionary下</li>
+        <li>下载次数: 1483</li>
+      </ul>
+      <ul>
+        <li><a href="http://www.javaeye.com/topics/download/3d4436eb-d97d-461d-8555-4a7be754c132">Main1.java.rar</a> (6.1 KB)</li>
+        <li>描述: 对一个长度2185856的字符串(4,347,520字节)的分词效率测试。 下载解压后添加到源文件中 </li>
+        <li>下载次数: 1207</li>
+      </ul>
+</div>
+      <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+      <div id="forum_advert_b3">
+        <span>推荐链接</span>
+        <ul class="adverts"><li><a href="http://www.javaeye.com/adverts/111" target="_blank"><span style="color: red; font-weight: bold;">IBM Rational开发者大会9月盛大揭幕！</span></a></li><li><a href="http://www.javaeye.com/adverts/79" target="_blank">全新 IBM SOA 数据服务开发工具</a></li></ul>
+      </div>
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://qieqie.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://qieqie.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+                        
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211252">
+  <td class="postauthor">
+    <ul>
+      <li class="name">Qieqie</li>
+      <li>等级: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/star5.gif" alt="五星会员" title="五星会员"></li>
+      <li><a href="http://qieqie.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/6b04cc2d-0da8-4f31-8579-ac58aad1e05d.jpg" title="Qieqie的博客: Qieqie"></a></li>
+      <li>性别: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 516</li>
+      <li>积分: 648</li>
+      <li>来自: 北京</li>
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      示例代码：搜索时...
+<br><div class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" title="复制代码"><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_copy.gif" alt="复制代码"></a></div></div><ol class="dp-j" start="1"><li><span><span>XAnalyzer&nbsp;analyzer&nbsp;=&nbsp;XFactory.getQueryAnalyzer();</span><span class="comment">//搜索时应使用的分析器</span><span>&nbsp;&nbsp;</span></span></li><li><span>String&nbsp;testString&nbsp;=&nbsp;<span class="string">"中华人民共和国在1949年建立，从此开始了新中国的伟大篇章"</span><span>;&nbsp;&nbsp;</span></span></li><li><span>Reader&nbsp;r&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;StringReader(testString);&nbsp;&nbsp;</span></span></li><li><span>XTokenizer&nbsp;ts&nbsp;=&nbsp;(XTokenizer)&nbsp;analyzer.tokenStream(<span class="string">""</span><span>,&nbsp;r);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>Token&nbsp;t;&nbsp;&nbsp;</span></li><li><span><span class="keyword">while</span><span>&nbsp;((t&nbsp;=&nbsp;ts.next())&nbsp;!=&nbsp;</span><span class="keyword">null</span><span>)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;System.out.println(t);&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="java">XAnalyzer analyzer = XFactory.getQueryAnalyzer();//搜索时应使用的分析器
+String testString = "中华人民共和国在1949年建立，从此开始了新中国的伟大篇章";
+Reader r = new StringReader(testString);
+XTokenizer ts = (XTokenizer) analyzer.tokenStream("", r);
+
+Token t;
+while ((t = ts.next()) != null) {
+   System.out.println(t);
+}
+</pre>
+<br>-------------------
+<br>以上是旧版本的paoding的示例代码，新版本的代码应是：
+<br>
+<br><div class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" title="复制代码"><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_copy.gif" alt="复制代码"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">//&nbsp;将庖丁封装成符合<span class="hilite1"><span class="hilite1">Lucene</span></span>要求的Analyzer规范</span><span>&nbsp;&nbsp;</span></span></li><li><span>Paoding&nbsp;paoding&nbsp;=&nbsp;PaodingMaker.make();&nbsp;&nbsp;</span></li><li><span>Analyzer&nbsp;queryAnalyzer&nbsp;=&nbsp;PaodingAnalyzer.queryMode(paoding);&nbsp;&nbsp;</span></li><li><span>...&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="java">// 将庖丁封装成符合<span class="hilite1"><span class="hilite1">Lucene</span></span>要求的Analyzer规范
+Paoding paoding = PaodingMaker.make();
+Analyzer queryAnalyzer = PaodingAnalyzer.queryMode(paoding);
+...
+</pre>
+<br>
+<br><strong>解析结果如下：</strong>
+<br>(中华人民共和国,0,7)
+<br>(1949年,8,13)
+<br>(建立,13,15)
+<br>(从此,16,18)
+<br>(开始,18,20)
+<br>(新中国,21,24)
+<br>(伟大,25,27)
+<br>(大篇,26,28)
+<br>(篇章,27,29)
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://qieqie.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://qieqie.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211252" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211256">
+  <td class="postauthor">
+    <ul>
+      <li class="name">Qieqie</li>
+      <li>等级: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/star5.gif" alt="五星会员" title="五星会员"></li>
+      <li><a href="http://qieqie.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/6b04cc2d-0da8-4f31-8579-ac58aad1e05d.jpg" title="Qieqie的博客: Qieqie"></a></li>
+      <li>性别: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 516</li>
+      <li>积分: 648</li>
+      <li>来自: 北京</li>
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      示例代码2： 建立索引时...
+<br>
+<br><div class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" title="复制代码"><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_copy.gif" alt="复制代码"></a></div></div><ol class="dp-j" start="1"><li><span><span>XAnalyzer&nbsp;analyzer&nbsp;=&nbsp;XFactory.getWriterAnalyzer();</span><span class="comment">//建立索引时应使用的分析器&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;</span></span></li><li><span>String&nbsp;testString&nbsp;=&nbsp;<span class="string">"中华人民共和国在1949年建立，从此开始了新中国的伟大篇章"</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>Reader&nbsp;r&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;StringReader(testString);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>XTokenizer&nbsp;ts&nbsp;=&nbsp;(XTokenizer)&nbsp;analyzer.tokenStream(<span class="string">""</span><span>,&nbsp;r);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>Token&nbsp;t;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span><span class="keyword">while</span><span>&nbsp;((t&nbsp;=&nbsp;ts.next())&nbsp;!=&nbsp;</span><span class="keyword">null</span><span>)&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;System.out.println(t);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="java">XAnalyzer analyzer = XFactory.getWriterAnalyzer();//建立索引时应使用的分析器   
+String testString = "中华人民共和国在1949年建立，从此开始了新中国的伟大篇章";   
+Reader r = new StringReader(testString);   
+XTokenizer ts = (XTokenizer) analyzer.tokenStream("", r);   
+  
+Token t;   
+while ((t = ts.next()) != null) {   
+   System.out.println(t);   
+}   </pre>
+<br>
+<br>-------------------
+<br>以上是旧版本的paoding的示例代码，新版本的代码应是：
+<br>
+<br><div class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" title="复制代码"><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_copy.gif" alt="复制代码"></a></div></div><ol class="dp-j" start="1"><li><span><span class="comment">//&nbsp;将庖丁封装成符合<span class="hilite1"><span class="hilite1">Lucene</span></span>要求的Analyzer规范</span><span>&nbsp;&nbsp;</span></span></li><li><span>Paoding&nbsp;paoding&nbsp;=&nbsp;PaodingMaker.make();&nbsp;&nbsp;</span></li><li><span>Analyzer&nbsp;writerAnalyzer&nbsp;=&nbsp;PaodingAnalyzer.writerMode(paoding);&nbsp;&nbsp;</span></li><li><span>...&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="java">// 将庖丁封装成符合<span class="hilite1"><span class="hilite1">Lucene</span></span>要求的Analyzer规范
+Paoding paoding = PaodingMaker.make();
+Analyzer writerAnalyzer = PaodingAnalyzer.writerMode(paoding);
+...
+</pre>
+<br>
+<br>
+<br><strong>解析结果如下：</strong> 
+<br>(中华,0,2)
+<br>(中华人民,0,4)
+<br>(中华人民共和国,0,7)
+<br>(华人,1,3)
+<br>(人民,2,4)
+<br>(人民共和国,2,7)
+<br>(共和,4,6)
+<br>(共和国,4,7)
+<br>(1949,8,12)
+<br>(1949年,8,13)
+<br>(年,12,13)
+<br>(建立,13,15)
+<br>(从此,16,18)
+<br>(开始,18,20)
+<br>(新中国,21,24)
+<br>(中国,22,24)
+<br>(伟大,25,27)
+<br>(大,26,27)
+<br>(大篇,26,28)
+<br>(篇章,27,29)
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://qieqie.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://qieqie.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211256" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211272">
+  <td class="postauthor">
+    <ul>
+      <li class="name">菲利浦思</li>
+      <li>等级: 初级会员</li>
+      <li><a href="http://flydragon-chen.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/7ecf135a-ad5c-4cbb-bf86-7d95fd4c45ec.gif" title="菲利浦思的博客: 菲利浦思"></a></li>
+      
+      <li>文章: 12</li>
+      <li>积分: 21</li>
+      
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      速度不错,将自动切分和词表切分2个机制的结合得也不错
+<br>评分:90分
+<br>加油!继续努力!希望能够做到自动识别大多数人名
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://flydragon-chen.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://flydragon-chen.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211272" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211277">
+  <td class="postauthor">
+    <ul>
+      <li class="name">菲利浦思</li>
+      <li>等级: 初级会员</li>
+      <li><a href="http://flydragon-chen.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/7ecf135a-ad5c-4cbb-bf86-7d95fd4c45ec.gif" title="菲利浦思的博客: 菲利浦思"></a></li>
+      
+      <li>文章: 12</li>
+      <li>积分: 21</li>
+      
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      这种切分还是有很明显的缺点.例如下面一段文字:
+<br>"发展社区老年活动场所和服务设施"
+<br>
+<br>如果我想搜索日本的和服相关资料,输入关键字"和服"的时候,上面的资料也会被搜索出来
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://flydragon-chen.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://flydragon-chen.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211277" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211318">
+  <td class="postauthor">
+    <ul>
+      <li class="name">Qieqie</li>
+      <li>等级: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/star5.gif" alt="五星会员" title="五星会员"></li>
+      <li><a href="http://qieqie.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/6b04cc2d-0da8-4f31-8579-ac58aad1e05d.jpg" title="Qieqie的博客: Qieqie"></a></li>
+      <li>性别: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 516</li>
+      <li>积分: 648</li>
+      <li>来自: 北京</li>
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">菲利浦思 写道</div><div class="quote_div">这种切分还是有很明显的缺点.例如下面一段文字:
+<br>"发展社区老年活动场所和服务设施"
+<br>
+<br>如果我想搜索日本的和服相关资料,输入关键字"和服"的时候,上面的资料也会被搜索出来</div>
+<br>
+<br>
+<br>搜索引擎是第一步搜索：
+<br>      在浩瀚的信息中，快速集结最后可能是所想要的结果，按照可能是最好的顺序展现出来。
+<br>
+<br>人的眼睛是第二步搜索：
+<br>      找寻最符合要求的结果，同时将机器无法轻易识别的<strong>少数</strong>“无效”结果过滤
+<br>
+<br>“和服”问题，涉及了汉语语义的问题，几乎不可完全解决(可作为“特例”解决，或通过排序方法，将他排到相对靠后等价解决)。
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://qieqie.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://qieqie.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211318" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211385">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      谢谢,下载来测试..
+<br>前一排自己也有写过关于<span class="hilite1"><span class="hilite1">lucene</span></span>的几篇文章;中文分词的确是一个难点
+<br>这一篇文章我加入专栏啦,让更多人了解一下
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211385" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211390">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      有点不对啊
+<br>是精华贴,为什么楼主的积分显示"积分:62";
+<br>精华贴应该是加一百分的啊:"评价帖子的建议标准：非常好的主题帖可以点击评为精华，加100分"
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211390" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211392">
+  <td class="postauthor">
+    <ul>
+      <li class="name">SteveGY</li>
+      <li>等级: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/star1.gif" alt="一星会员" title="一星会员"></li>
+      <li><a href="http://stevegy.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/user-logo.gif" title="SteveGY的博客: 有所为，有所不为"></a></li>
+      <li>性别: <img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 66</li>
+      <li>积分: 139</li>
+      
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">Qieqie 写道</div><div class="quote_div"><div class="quote_title">菲利浦思 写道</div><div class="quote_div">这种切分还是有很明显的缺点.例如下面一段文字:
+<br>"发展社区老年活动场所和服务设施"
+<br>
+<br>如果我想搜索日本的和服相关资料,输入关键字"和服"的时候,上面的资料也会被搜索出来</div>
+<br>
+<br>
+<br>搜索引擎是第一步搜索：
+<br>      在浩瀚的信息中，快速集结最后可能是所想要的结果，按照可能是最好的顺序展现出来。
+<br>
+<br>人的眼睛是第二步搜索：
+<br>      找寻最符合要求的结果，同时将机器无法轻易识别的<strong>少数</strong>“无效”结果过滤
+<br>
+<br>“和服”问题，涉及了汉语语义的问题，几乎不可完全解决(可作为“特例”解决，或通过排序方法，将他排到相对靠后等价解决)。
+<br>
+<br>
+<br></div>
+<br>
+<br>所以引入rank参数还是应该考虑的，rank的算法决定了这类问题发生时的结果序列。
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://stevegy.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://stevegy.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211392" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_211604">
+  <td class="postauthor">
+    <ul>
+      <li class="name">菲利浦思</li>
+      <li>等级: 初级会员</li>
+      <li><a href="http://flydragon-chen.javaeye.com/" target="_blank"><img alt="用户头像" src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/7ecf135a-ad5c-4cbb-bf86-7d95fd4c45ec.gif" title="菲利浦思的博客: 菲利浦思"></a></li>
+      
+      <li>文章: 12</li>
+      <li>积分: 21</li>
+      
+      <li><img src="Lucene%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E2%80%9C%E5%BA%96%E4%B8%81%E8%A7%A3%E7%89%9B%E2%80%9D_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-01-23 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">Qieqie 写道</div><div class="quote_div"><div class="quote_title">菲利浦思 写道</div><div class="quote_div">这种切分还是有很明显的缺点.例如下面一段文字:
+<br>"发展社区老年活动场所和服务设施"
+<br>
+<br>如果我想搜索日本的和服相关资料,输入关键字"和服"的时候,上面的资料也会被搜索出来</div>
+<br>
+<br>
+<br>搜索引擎是第一步搜索：
+<br>      在浩瀚的信息中，快速集结最后可能是所想要的结果，按照可能是最好的顺序展现出来。
+<br>
+<br>人的眼睛是第二步搜索：
+<br>      找寻最符合要求的结果，同时将机器无法轻易识别的<strong>少数</strong>“无效”结果过滤
+<br>
+<br>“和服”问题，涉及了汉语语义的问题，几乎不可完全解决(可作为“特例”解决，或通过排序方法，将他排到相对靠后等价解决)。
+<br>
+<br>
+<br></div>
+<br>实话实说本人之前就是遇到这样的问题，到目前为止还是没有解决，因为不是做语言研究，感觉知识不够用，目前做个项目还要做词性分析，很难！大家继续加油！
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://flydragon-chen.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://flydragon-chen.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_211604" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr>
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">« 上一页</span> <span class="current">1</span> <a href="http://www.javaeye.com/topic/49441?page=2" rel="next">2</a> <a href="http://www.javaeye.com/topic/49441?page=3">3</a> <span class="gap">…</span> <a href="http://www.javaeye.com/topic/49441?page=6">6</a> <a href="http://www.javaeye.com/topic/49441?page=7">7</a> <a href="http://www.javaeye.com/topic/49441?page=2" class="next_page" rel="next">下一页 »</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a>
+     <span class="arrow">→</span> <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a>
+    <br><br>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2"><span>JavaEye推荐</span><ul class="adverts"></ul></div>
+  </div>
+  
+</div>
+
+<div style="display: none;">
+<form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">    <input id="post_rate_id" name="id" type="hidden">
+    <input id="post_rate_type" name="type" type="hidden">
+</form></div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":49441, "type":type}});
+    }
+
+</script>
+        </div>
+        <div id="nav">
+<div class="wrapper">
+<ul>
+<li><a href="http://www.javaeye.com/">首页</a></li>
+<li><a href="http://www.javaeye.com/news">新闻</a></li>
+<li><a href="http://www.javaeye.com/forums" class="selected">论坛</a></li>
+<li><a href="http://www.javaeye.com/ask">问答</a></li>
+<li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+<li><a href="http://www.javaeye.com/blogs">博客</a></li>
+<li><a href="http://www.javaeye.com/groups">圈子</a></li>
+<li><a href="http://www.javaeye.com/jobs">招聘</a></li>
+<li><a href="http://www.javaeye.com/index/service">服务</a></li>
+<li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+</ul>
+</div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com/">Java</a></li>
+    <li><a href="http://ruby.javaeye.com/">Ruby</a></li>
+    <li><a href="http://ajax.javaeye.com/">AJAX</a></li>
+    <li><a href="http://agile.javaeye.com/">敏捷</a></li>
+    <li><a href="http://book.javaeye.com/">图书</a></li>
+    <li><a href="http://oracle.javaeye.com/">Oracle</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com/">普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="http://www.javaeye.com/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com/">JavaEye黑板报</a></li>
+      <li><a href="http://www.javaeye.com/index/sitemap">网站地图</a></li>
+      <li><a href="http://www.javaeye.com/index/aboutus">关于我们</a></li>
+      <li><a href="http://www.javaeye.com/index/contactus">联系我们</a></li>
+      <li class="last"><a href="http://www.javaeye.com/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    © 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>      
+    </div>
+  </body></html>
