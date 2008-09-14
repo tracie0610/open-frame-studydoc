@@ -1,0 +1,1452 @@
+<html><head>
+
+
+ 
+
+
+
+
+<!--  显示一个主题下所有帖子 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<title>
+关于 Hibernate缓存的问题 - Powered by Jdon
+</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link rel="stylesheet" href="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/jivejdon.css" type="text/css">
+<script language="javascript">
+var contextPath = '/jivejdon';
+</script>
+<script language="javascript" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/menu.js"></script>
+</head><body topmargin="5" vlink="#000000" alink="#000000" bgcolor="#ffffff" link="#000000" marginheight="0" marginwidth="0">
+
+<table width="100%" bgcolor="#707070" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr><td>
+<table width="100%" bgcolor="#ffffcc" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr>
+          <td rowspan="2">
+          <table cellpadding="0" cellspacing="0">
+              <tbody><tr>
+                <td> <a href="http://www.jdon.com/"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/jdon.gif" alt="JiveJdon Community Forums" width="120" border="0" height="60"></a>
+                
+                </td>
+              </tr>
+            </tbody></table></td>
+            <td valign="top" align="right">
+            
+            </td></tr>
+        <tr>
+         <td valign="bottom" align="right">  
+
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td>
+
+<font color="#555555">
+
+
+
+  </font>
+</td></tr></tbody></table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+
+<td align="right">
+          
+
+  <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_groups.gif" width="17" align="absmiddle" height="17"><span class="smallgray">在线298人</span>
+  &nbsp;&nbsp;<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/world.gif" width="17" align="absmiddle" height="17"><a href="http://www.jdon.com/">Home</a>
+  &nbsp;&nbsp;<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/folder_folder.gif" width="17" align="absmiddle" height="17"><a href="http://www.jdon.com/jivejdon/">论坛</a>
+  &nbsp;&nbsp;<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/users.gif" width="17" align="absmiddle" height="17"><a href="http://www.jdon.com/trainning.htm" target="_blank">培训咨询</a>  
+  &nbsp;&nbsp;<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/star.gif" width="17" align="absmiddle" height="17"><a href="http://www.jdon.com/communication.htm" target="_blank">精华</a>
+  &nbsp;&nbsp;<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/search.gif" width="17" align="absmiddle" border="0" height="17"><a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml">查搜</a>
+
+
+  &nbsp;&nbsp;<a href="http://www.jdon.com/jivejdon/account/newAccountForm.shtml"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_add.gif" width="17" align="absmiddle" border="0" height="17">注册</a>
+
+
+
+  &nbsp;&nbsp;<a href="http://www.jdon.com/jivejdon/message/index.jsp"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_right.gif" width="17" align="absmiddle" border="0" height="17">登陆</a>
+
+              
+
+                  
+       
+</td></tr>
+</tbody></table>
+
+           </td>
+        </tr>
+</tbody></table>
+</td>
+        </tr>
+</tbody></table>
+
+
+
+
+<!-- Support for non-traditional but simple message -->
+
+
+<!-- Support for non-traditional but simpler use of errors... -->
+
+
+
+<script language="javascript" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/imagetool.js"></script><style>
+.pictools {position:absolute;border:1px solid;border-left-color:#dddddd;border-top-color:#dddddd;border-right-color:#333333;border-bottom-color:#333333;background:#dddddd;}
+.pictools1 {border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt {padding:3 4 4 4;}
+.pt_bt_up {padding:2 3 3 3;border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt_down {padding:2 2 3 4;border:1px solid;border-left-color:#999999;border-top-color:#999999;border-right-color:#ffffff;border-bottom-color:#ffffff;}
+</style>
+<table class="pictools" id="pictools" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_restore()"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/bt_img_full_size.gif" title="orign" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_fit()"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/bt_img_fit.gif" title="fit" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomin()"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/bt_img_zoom_in.gif" title="enlarge" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomout()"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/bt_img_zoom_out.gif" title="ensmall" width="15" height="15"></td></tr></tbody></table></td></tr></tbody></table>
+<table class="pictools" id="pictools1" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr></tr></tbody></table></td></tr></tbody></table>
+
+
+
+<!-- 导航区  -->
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<form name="threadListForm" method="get" action="/jivejdon/query/searchThreadAction.shtml" class="search"></form>
+    <td valign="top" width="50%">
+    
+
+
+
+    <b>
+    <a href="http://www.jdon.com/">首页</a>
+    »
+    <a href="http://www.jdon.com/jivejdon/index.jsp" title="返回论坛列表">论坛</a>
+    »
+    
+    <a href="http://www.jdon.com/jivejdon/forum.jsp?forumId=62">开源项目大家谈</a>
+    
+    </b>
+
+    </td>
+     
+     <td valign="top" align="right">   
+        <input name="query" size="25" type="text">
+         <input value="论坛搜索" type="submit">
+    </td>
+     
+    
+</tr>
+</tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/728x90.htm" scrolling="no" width="758" frameborder="0" height="91"></iframe>
+</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+    <table width="100%" cellpadding="0" cellspacing="0"><tbody><tr><td>
+
+
+<!--  上下主题 start -->
+
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="2">
+<tbody><tr><td colspan="3"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/blank.gif" width="1" border="0" height="5"></td></tr>
+<tr>
+    <td width="1%" nowrap="nowrap">
+
+
+
+
+
+   
+   
+     <a href="http://www.jdon.com/jivejdon/thread/24253.html" title="有没有人对struts+hibernate做过压力测试？" class="forum">
+    <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/prev.gif" alt="???zh_CN.forumThreadPrev.name???" width="10" height="10" hspace="2">
+     上一主题
+    </a>
+   
+
+
+    </td>
+    <td width="98%" align="center">
+
+<table border="0" cellpadding="0" cellspacing="2">
+<tbody><tr>
+  
+	<td nowrap="nowrap">
+        &nbsp;
+        <a href="http://www.jdon.com/jivejdon/thread/24197.html">
+                      <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/back_to.gif" alt="Go back to the topic " width="12" border="0" height="12">返回本主题
+        </a>
+    </td>
+    
+	<td nowrap="nowrap">
+        &nbsp;
+        <a href="http://www.jdon.com/jivejdon/forum.jsp?forumId=62" title="返回主题列表"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/back_to.gif" alt="Go back to the topic listing" width="12" border="0" height="12">返回主题列表</a>
+    </td>
+    
+</tr>
+</tbody></table>
+
+    </td>
+    <td width="1%" nowrap="nowrap">
+
+    
+    
+     <a href="http://www.jdon.com/jivejdon/thread/22251.html" title="hibernate批量查询问题" class="forum">
+    <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/next.gif" alt="???zh_CN.forumThreadNext.name???" width="10" height="10" hspace="2">
+     下一主题
+    </a>
+   
+    
+
+    </td>
+</tr>
+</tbody></table>
+<!--  上下主题 结束  -->
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="2" cellspacing="1">
+<tbody><tr><td bgcolor="#ffffff">
+
+<table width="100%" align="center" bgcolor="#cfcfa0" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td class="smallgray">
+
+    这个主题共有 <b>6</b> 回复 ／ <b>1</b> 页 [
+
+
+
+
+
+     ]
+    </td><td>
+    </td>
+    
+    <td width="250" align="right">
+       &nbsp;<a href="http://www.jdon.com/jivejdon/message/messageAction.shtml?forum.forumId=62"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/newtopic.gif" alt="发表新帖子" width="113" border="0" height="20"></a>
+        &nbsp;<a href="#reply"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/replytopic.gif" alt="回复该主题贴" width="113" border="0" height="20"></a>
+    </td>
+</tr>
+</tbody></table>
+
+
+
+ 
+<a name="14292020"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+ <td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+
+    <tbody><tr bgcolor="#ffffec">
+        <td rowspan="2" valign="top" width="1%">
+        <table width="120" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <span id="menu_14292020" onmouseover="showMenu(this.id,'/jivejdon/account/accountProfile.shtml?winwidth=160&amp;userId=53432','URL:200:200')">
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=53432"><b>willow990</b></a>
+             </span>
+             
+            <br><br>
+             
+          <a href="http://www.jdon.com/jivejdon/account/protected/shortmessageAction.shtml?messageTo=willow990" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_comment.gif" width="18" border="0" height="18"><span class="smallgray">悄悄话</span></a>     
+             <br>
+            <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=53432" target="_blank"><span class="smallgray"> 发表文章: 3</span></a>
+            <br>
+           <span class="smallgray"> 注册时间: 2005年12月13日 09:09</span>
+          
+             
+            </td>
+        </tr>
+        </tbody></table>
+        </td>
+        <td>
+ 
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody><tr>
+        <td width="97%">
+        关于 Hibernate缓存的问题
+        </td>
+        <td width="1%" nowrap="nowrap">
+        <span class="smallgray">
+          2005年12月13日 09:17
+         </span>
+        </td>
+       <td width="1%" align="center" nowrap="nowrap">
+       <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=24197&amp;message=14292020#14292020"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/album_add.gif" alt="本帖网址" width="18" border="0" height="18"></a>
+
+       <a href="#" onclick="window.open('http://send.ivansms.com/ibook/sendbook.asp?publisher=banq&amp;checklogin=1','MyArticle','width=496,height=498,top=100,left=300,toolbar=no,menubar=no,scrollbars=no,resizable=no')">       
+       <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="发送到手机" width="18" border="0" height="18"></a>
+       
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14292020&amp;forum.forumId=62"> <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/comment_reply.gif" alt="回复" width="18" border="0" height="18"></a>
+         
+              
+         
+          </td>
+    </tr>
+   </tbody></table>
+   
+         </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+            
+ <!-- advert -->
+
+<!--  first message -->
+
+    <table width="1%" align="right" border="0" cellpadding="0" cellspacing="5">
+          <tbody><tr><td>
+            <div style="margin-top: 0px; margin-left: 5px;" id="vgad300x250">
+                 
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//336x280, 创建于 07-11-18
+google_ad_slot = "6368516427";
+google_ad_width = 336;
+google_ad_height = 280;
+//--></script>
+<script type="text/javascript" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="336" frameborder="0" height="280"></iframe>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+            </div> 
+          </td></tr>
+    </tbody></table>                    
+
+  
+<span class="tpc_content">
+      我在开发一个J2EE的项目,我使用了<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>中间件,由于我的系统纪录数比较大,当系统初始启动时,需要<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>将纪录从数据库中读取到服务器端.这时<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的缓存机制会将这些数据缓存.可是当我的纪录数达到一万多条时,系统会发生OutOfMemory异常.请高手指教,谢谢!!!
+</span>
+
+        
+        </td></tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14293022"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+ <td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+
+    <tbody><tr bgcolor="#eae9ea">
+        <td rowspan="2" valign="top" width="1%">
+        <table width="120" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <span id="menu_14293022" onmouseover="showMenu(this.id,'/jivejdon/account/accountProfile.shtml?winwidth=160&amp;userId=2','URL:200:200')">
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+             </span>
+             
+            <br><br>
+             
+          <a href="http://www.jdon.com/jivejdon/account/protected/shortmessageAction.shtml?messageTo=banq" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_comment.gif" width="18" border="0" height="18"><span class="smallgray">悄悄话</span></a>     
+             <br>
+            <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank"><span class="smallgray"> 发表文章: 9185</span></a>
+            <br>
+           <span class="smallgray"> 注册时间: 2002年08月03日 17:08</span>
+          
+             
+            </td>
+        </tr>
+        </tbody></table>
+        </td>
+        <td>
+ 
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody><tr>
+        <td width="97%">
+        Re: 关于 Hibernate缓存的问题
+        </td>
+        <td width="1%" nowrap="nowrap">
+        <span class="smallgray">
+          2005年12月13日 10:30
+         </span>
+        </td>
+       <td width="1%" align="center" nowrap="nowrap">
+       <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=24197&amp;message=14293022#14293022"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/album_add.gif" alt="本帖网址" width="18" border="0" height="18"></a>
+
+       <a href="#" onclick="window.open('http://send.ivansms.com/ibook/sendbook.asp?publisher=banq&amp;checklogin=1','MyArticle','width=496,height=498,top=100,left=300,toolbar=no,menubar=no,scrollbars=no,resizable=no')">       
+       <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="发送到手机" width="18" border="0" height="18"></a>
+       
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14293022&amp;forum.forumId=62"> <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/comment_reply.gif" alt="回复" width="18" border="0" height="18"></a>
+         
+              
+         
+          </td>
+    </tr>
+   </tbody></table>
+   
+         </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+            
+ <!-- advert -->
+
+
+  
+<span class="tpc_content">
+      看看这个帖子，对这个问题讨论全面：<br><br><a href="http://www.jdon.com/jive/thread.jsp?forum=62&amp;thread=22251">http://www.jdon.com/jive/thread.jsp?forum=62&amp;thread=22251</a>
+</span>
+
+        
+        </td></tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14296114"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+ <td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+
+    <tbody><tr bgcolor="#ffffec">
+        <td rowspan="2" valign="top" width="1%">
+        <table width="120" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <span id="menu_14296114" onmouseover="showMenu(this.id,'/jivejdon/account/accountProfile.shtml?winwidth=160&amp;userId=53432','URL:200:200')">
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=53432"><b>willow990</b></a>
+             </span>
+             
+            <br><br>
+             
+          <a href="http://www.jdon.com/jivejdon/account/protected/shortmessageAction.shtml?messageTo=willow990" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_comment.gif" width="18" border="0" height="18"><span class="smallgray">悄悄话</span></a>     
+             <br>
+            <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=53432" target="_blank"><span class="smallgray"> 发表文章: 3</span></a>
+            <br>
+           <span class="smallgray"> 注册时间: 2005年12月13日 09:09</span>
+          
+             
+            </td>
+        </tr>
+        </tbody></table>
+        </td>
+        <td>
+ 
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody><tr>
+        <td width="97%">
+        Re: 关于 Hibernate缓存的问题
+        </td>
+        <td width="1%" nowrap="nowrap">
+        <span class="smallgray">
+          2005年12月13日 14:50
+         </span>
+        </td>
+       <td width="1%" align="center" nowrap="nowrap">
+       <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=24197&amp;message=14296114#14296114"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/album_add.gif" alt="本帖网址" width="18" border="0" height="18"></a>
+
+       <a href="#" onclick="window.open('http://send.ivansms.com/ibook/sendbook.asp?publisher=banq&amp;checklogin=1','MyArticle','width=496,height=498,top=100,left=300,toolbar=no,menubar=no,scrollbars=no,resizable=no')">       
+       <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="发送到手机" width="18" border="0" height="18"></a>
+       
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14296114&amp;forum.forumId=62"> <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/comment_reply.gif" alt="回复" width="18" border="0" height="18"></a>
+         
+              
+         
+          </td>
+    </tr>
+   </tbody></table>
+   
+         </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+            
+ <!-- advert -->
+
+
+  
+<span class="tpc_content">
+      我看了你说的帖子,但是我觉得并不适用我的情况,由于我在服务器使用一个集合存放所有的Customer对象,有几万个对象,我直接使用<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的O/RM映射机制,将整个集合进行映射,由于使用Lazy方式,当程序初始启动时,只会生成该集合的引用。这时不会<b>OutOfMemory</b>。但是如果当客户段的请求需要对该集合中的数据进行操作时,这时<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>会自动将数据库中所有的Customer对象恢复到集合中后，才可以对集合进行操作。问题在于当<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>将Customer从数据库中恢复时，Hibernate会将为这几万个对象在Session进行缓存，这时就会<b>OutOfMemory</b>。<br>你所提到的帖子是对于多步操作可以进行Session的flush操作。可是我这里<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的自动恢复集合对象中的元素，是不可以进行flush操作的。请问：有没有什么解决的方法，谢谢！！！<br><br>我的意思可以用代码表示如下：<br><br><br><pre><br>List list = <b>new</b> ArrayList()；<br><br><b>for</b>(<b>int</b> i = 0; i &lt; 50000; i++) {<br>  Customer c = <b>new</b> Customer();<br>  list.add(c);<br>}<br><br><font color="#0000aa"><i>// 将存取List存入数据库,这时没有异常</i></font><i></i><font color="black"><br>Session session = sessionFactory.openSession();<br>Transaction tx = session.beginTransaction(); <br>session.save(list)<br>tx.commit()<br>.....<br></font><font color="#0000aa"><i>//  将List读出,由于使用Lazy模式这时不会有异常.</i></font><i></i><font color="black"><br>Session session = sessionFactory.openSession();<br>Transaction tx = session.beginTransaction(); <br>List newList = session.createQuery(</font><font color="#00bb00">"from List"</font><font color="black">).get(0);<br>tx.commit()<br><br></font><font color="#0000aa"><i>// 这时读取List中元素。.Hibernate将所有Customer对象恢复，发生//OutofMemeory异常</i></font><i></i><font color="black"><br>Customer newCustomer = (Customer)newList.get(0);<br><br><br><br><br><br><br></font></pre>
+</span>
+
+<font color="black">        
+        </font></td></tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14298040"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+ <td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+
+    <tbody><tr bgcolor="#eae9ea">
+        <td rowspan="2" valign="top" width="1%">
+        <table width="120" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <span id="menu_14298040" onmouseover="showMenu(this.id,'/jivejdon/account/accountProfile.shtml?winwidth=160&amp;userId=2','URL:200:200')">
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+             </span>
+             
+            <br><br>
+             
+          <a href="http://www.jdon.com/jivejdon/account/protected/shortmessageAction.shtml?messageTo=banq" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_comment.gif" width="18" border="0" height="18"><span class="smallgray">悄悄话</span></a>     
+             <br>
+            <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank"><span class="smallgray"> 发表文章: 9185</span></a>
+            <br>
+           <span class="smallgray"> 注册时间: 2002年08月03日 17:08</span>
+          
+             
+            </td>
+        </tr>
+        </tbody></table>
+        </td>
+        <td>
+ 
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody><tr>
+        <td width="97%">
+        Re: 关于 Hibernate缓存的问题
+        </td>
+        <td width="1%" nowrap="nowrap">
+        <span class="smallgray">
+          2005年12月13日 15:22
+         </span>
+        </td>
+       <td width="1%" align="center" nowrap="nowrap">
+       <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=24197&amp;message=14298040#14298040"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/album_add.gif" alt="本帖网址" width="18" border="0" height="18"></a>
+
+       <a href="#" onclick="window.open('http://send.ivansms.com/ibook/sendbook.asp?publisher=banq&amp;checklogin=1','MyArticle','width=496,height=498,top=100,left=300,toolbar=no,menubar=no,scrollbars=no,resizable=no')">       
+       <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="发送到手机" width="18" border="0" height="18"></a>
+       
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14298040&amp;forum.forumId=62"> <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/comment_reply.gif" alt="回复" width="18" border="0" height="18"></a>
+         
+              
+         
+          </td>
+    </tr>
+   </tbody></table>
+   
+         </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+            
+ <!-- advert -->
+
+
+  
+<span class="tpc_content">
+      个人认为:两个方案：<br>1.关闭<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>缓存，如何关闭，在我上面链接中的文章有介绍。<br>2.直接使用JDBC，借助其他专门批量数据优化的框架提升性能，如Jdon框架等。
+</span>
+
+        
+        </td></tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14311704"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+ <td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+
+    <tbody><tr bgcolor="#ffffec">
+        <td rowspan="2" valign="top" width="1%">
+        <table width="120" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <span id="menu_14311704" onmouseover="showMenu(this.id,'/jivejdon/account/accountProfile.shtml?winwidth=160&amp;userId=53432','URL:200:200')">
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=53432"><b>willow990</b></a>
+             </span>
+             
+            <br><br>
+             
+          <a href="http://www.jdon.com/jivejdon/account/protected/shortmessageAction.shtml?messageTo=willow990" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_comment.gif" width="18" border="0" height="18"><span class="smallgray">悄悄话</span></a>     
+             <br>
+            <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=53432" target="_blank"><span class="smallgray"> 发表文章: 3</span></a>
+            <br>
+           <span class="smallgray"> 注册时间: 2005年12月13日 09:09</span>
+          
+             
+            </td>
+        </tr>
+        </tbody></table>
+        </td>
+        <td>
+ 
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody><tr>
+        <td width="97%">
+        Re: 关于 Hibernate缓存的问题解决方案
+        </td>
+        <td width="1%" nowrap="nowrap">
+        <span class="smallgray">
+          2005年12月14日 09:39
+         </span>
+        </td>
+       <td width="1%" align="center" nowrap="nowrap">
+       <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=24197&amp;message=14311704#14311704"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/album_add.gif" alt="本帖网址" width="18" border="0" height="18"></a>
+
+       <a href="#" onclick="window.open('http://send.ivansms.com/ibook/sendbook.asp?publisher=banq&amp;checklogin=1','MyArticle','width=496,height=498,top=100,left=300,toolbar=no,menubar=no,scrollbars=no,resizable=no')">       
+       <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="发送到手机" width="18" border="0" height="18"></a>
+       
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14311704&amp;forum.forumId=62"> <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/comment_reply.gif" alt="回复" width="18" border="0" height="18"></a>
+         
+              
+         
+          </td>
+    </tr>
+   </tbody></table>
+   
+         </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+            
+ <!-- advert -->
+
+
+  
+<span class="tpc_content">
+      由于我设计时是期望对于List中Customer 对象的任何更新后由<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>自动更新,我期望的事务处理的粒度是在List级而不是在Customer级.所有我倾向于不清空Session.我的解决方案是增加JVM的Heap的尺寸。由于所有<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的
+Session管理的对象是存放JVM的Heap中,它Session可是使用的大小是由JVM的Heap大小决定的。而JVM的默认Heap大小是
+1M。所以会遇到前面说到的OutOfMemory问题。我通过改变JVM的Heap大小解决了上面的问题（设为32M―128M）。同时通过增加
+Heap大小，测试通过了10万条数据.不知你觉得这种方案是否可行.<br><br>关于改变JVM的Heap尺存，见<br><a href="http://www.devx.com/tips/Tip/5578">Setting Heap Sizes</a>
+</span>
+
+        
+        </td></tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14313323"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+ <td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+
+    <tbody><tr bgcolor="#eae9ea">
+        <td rowspan="2" valign="top" width="1%">
+        <table width="120" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <span id="menu_14313323" onmouseover="showMenu(this.id,'/jivejdon/account/accountProfile.shtml?winwidth=160&amp;userId=45922','URL:200:200')">
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=45922"><b>yuxie</b></a>
+             </span>
+             
+            <br><br>
+             
+          <a href="http://www.jdon.com/jivejdon/account/protected/shortmessageAction.shtml?messageTo=yuxie" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_comment.gif" width="18" border="0" height="18"><span class="smallgray">悄悄话</span></a>     
+             <br>
+            <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=45922" target="_blank"><span class="smallgray"> 发表文章: 50</span></a>
+            <br>
+           <span class="smallgray"> 注册时间: 2004年11月09日 18:03</span>
+          
+             
+            </td>
+        </tr>
+        </tbody></table>
+        </td>
+        <td>
+ 
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody><tr>
+        <td width="97%">
+        Re: 关于 Hibernate缓存的问题
+        </td>
+        <td width="1%" nowrap="nowrap">
+        <span class="smallgray">
+          2005年12月14日 11:16
+         </span>
+        </td>
+       <td width="1%" align="center" nowrap="nowrap">
+       <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=24197&amp;message=14313323#14313323"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/album_add.gif" alt="本帖网址" width="18" border="0" height="18"></a>
+
+       <a href="#" onclick="window.open('http://send.ivansms.com/ibook/sendbook.asp?publisher=banq&amp;checklogin=1','MyArticle','width=496,height=498,top=100,left=300,toolbar=no,menubar=no,scrollbars=no,resizable=no')">       
+       <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="发送到手机" width="18" border="0" height="18"></a>
+       
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14313323&amp;forum.forumId=62"> <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/comment_reply.gif" alt="回复" width="18" border="0" height="18"></a>
+         
+              
+         
+          </td>
+    </tr>
+   </tbody></table>
+   
+         </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+            
+ <!-- advert -->
+
+
+  
+<span class="tpc_content">
+      为什么要把所有的数据都取出来呢？？很少需要这种情况吧
+</span>
+
+        
+        </td></tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14313998"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+ <td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+
+    <tbody><tr bgcolor="#ffffec">
+        <td rowspan="2" valign="top" width="1%">
+        <table width="120" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <span id="menu_14313998" onmouseover="showMenu(this.id,'/jivejdon/account/accountProfile.shtml?winwidth=160&amp;userId=7799','URL:200:200')">
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=7799"><b>yellowicq</b></a>
+             </span>
+             
+            <br><br>
+             
+          <a href="http://www.jdon.com/jivejdon/account/protected/shortmessageAction.shtml?messageTo=yellowicq" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/user_comment.gif" width="18" border="0" height="18"><span class="smallgray">悄悄话</span></a>     
+             <br>
+            <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=7799" target="_blank"><span class="smallgray"> 发表文章: 12</span></a>
+            <br>
+           <span class="smallgray"> 注册时间: 2003年05月20日 14:40</span>
+          
+             
+            </td>
+        </tr>
+        </tbody></table>
+        </td>
+        <td>
+ 
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody><tr>
+        <td width="97%">
+        Re: 关于 Hibernate缓存的问题
+        </td>
+        <td width="1%" nowrap="nowrap">
+        <span class="smallgray">
+          2005年12月14日 12:07
+         </span>
+        </td>
+       <td width="1%" align="center" nowrap="nowrap">
+       <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=24197&amp;message=14313998#14313998"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/album_add.gif" alt="本帖网址" width="18" border="0" height="18"></a>
+
+       <a href="#" onclick="window.open('http://send.ivansms.com/ibook/sendbook.asp?publisher=banq&amp;checklogin=1','MyArticle','width=496,height=498,top=100,left=300,toolbar=no,menubar=no,scrollbars=no,resizable=no')">       
+       <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="发送到手机" width="18" border="0" height="18"></a>
+       
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14313998&amp;forum.forumId=62"> <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/comment_reply.gif" alt="回复" width="18" border="0" height="18"></a>
+         
+              
+         
+          </td>
+    </tr>
+   </tbody></table>
+   
+         </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+            
+ <!-- advert -->
+
+
+  
+<span class="tpc_content">
+      应该使用分页查询
+</span>
+
+        
+        </td></tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+
+
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr bgcolor="#ffffcc">
+  <td>
+
+    </td>
+    <td align="right">
+<table width="100%" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td class="smallgray" align="right">
+ 这个主题有 <b>6</b> 回复 ／ <b>1</b> 页 [
+
+
+
+
+
+     ]
+
+    </td>
+  
+</tr>
+</tbody></table>
+    </td>
+</tr>
+</tbody></table>
+
+</td></tr></tbody></table>
+
+<!--  上下主题 start -->
+
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="2">
+<tbody><tr>
+    <td valign="top" width="1%" nowrap="nowrap">
+
+   
+
+  
+  
+     <a href="http://www.jdon.com/jivejdon/thread/24253.html" title="有没有人对struts+hibernate做过压力测试？" class="forum">
+    <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/prev.gif" alt="???zh_CN.forumThreadPrev.name???" width="10" height="10" hspace="2">
+     上一主题
+    </a>
+       
+
+
+    </td>
+    <td width="98%" align="center">
+
+<table border="0" cellpadding="0" cellspacing="2">
+<tbody><tr>
+    
+	<td nowrap="nowrap">
+        &nbsp;
+        <a href="http://www.jdon.com/jivejdon/thread/24197.html">
+                     <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/back_to.gif" alt="Go back to the topic " width="12" border="0" height="12">返回本主题
+        </a>
+    </td>
+    	
+	<td nowrap="nowrap">
+        &nbsp;
+        <a href="http://www.jdon.com/jivejdon/forum.jsp?forumId=62" title="返回主题列表"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/back_to.gif" alt="Go back to the topic listing" width="12" border="0" height="12">返回主题列表</a>
+    </td>
+
+    <td nowrap="nowrap">&nbsp;&nbsp;</td>
+	<td><a href="#top">
+     	<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/up_to.gif" alt="返回页首" width="12" border="0" height="12">返回页首</a>
+    </td>
+</tr>
+</tbody></table>
+
+    </td>
+    <td valign="top" width="1%" nowrap="nowrap">
+
+  
+     <a href="http://www.jdon.com/jivejdon/thread/22251.html" title="hibernate批量查询问题" class="forum">
+    <img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/next.gif" alt="???zh_CN.forumThreadNext.name???" width="10" height="10" hspace="2">
+     下一主题
+    </a>
+    
+    
+
+    </td>
+</tr>
+</tbody></table>
+
+
+
+<!--  上下主题 结束  -->
+
+
+<center>
+<table><tbody><tr><td>
+<iframe marginheight="0" marginwidth="0" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/hotlist.htm" scrolling="no" width="500" frameborder="0" height="290"></iframe>
+</td><td valign="top" align="center">
+
+<table><tbody><tr><td>
+
+<a href="javascript:location.href='http://www.google.com/bookmarks/mark?op=add&amp;bkmk='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/google.gif" alt="google" width="16" border="0" height="16"></a>
+
+<a href="javascript:location.href='http://myweb2.search.yahoo.com/myresults/bookmarklet?u='+encodeURIComponent(location.href)+'&amp;t='+encodeURIComponent(document.title)">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/yahoo.gif" alt="yahoo" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(vivi=window.open('http://vivi.sina.com.cn/collect/icollect.php?pid=28&amp;title='+escape(d.title)+'&amp;url='+escape(d.location.href)+'&amp;desc='+escape(t),'vivi','scrollbars=no,width=480,height=480,left=75,top=20,status=no,resizable=yes'));vivi.focus();">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/vivi.gif" alt="新浪ViVi" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/365key.gif" alt="365Key网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(yesky=window.open('http://hot.yesky.com/dp.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;st=2','yesky','scrollbars=no,width=400,height=480,left=75,top=20,status=no,resizable=yes'));yesky.focus();">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/yesky.gif" alt="天极网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" title="功能强大的网络收藏夹，一秒钟操作就可以轻松实现保存带来的价值、分享带来的快乐">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/cn3.gif" alt="CSDN网摘" width="16" border="0" height="16"></a>
+
+<a href='javascript:u=location.href;t=document.title;c%20=%20""%20+%20(window.getSelection%20?%20window.getSelection()%20:%20document.getSelection%20?%20document.getSelection()%20:%20document.selection.createRange().text);var%20url="http://cang.baidu.com/do/add?it="+encodeURIComponent(t)+"&amp;iu="+encodeURIComponent(u)+"&amp;dc="+encodeURIComponent(c)+"&amp;fr=ien#nw=1";window.open(url,"_blank","scrollbars=no,width=600,height=450,left=75,top=20,status=no,resizable=yes");%20void%200'>
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/baidu.gif" alt="添加到百度搜藏" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://my.poco.cn/fav/storeIt.php?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;img=http://www.h-strong.com/blog/logo.gif','keyit','scrollbars=no,width=475,height=575,status=no,resizable=yes'));keyit.focus();">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/poco.gif" alt="POCO网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://blogmark.bokee.com/jsp/key/quickaddkey.jsp?k='+encodeURI(d.title)+'&amp;u='+encodeURI(d.location.href)+'&amp;c='+encodeURI(t),'keyit','scrollbars=no,width=500,height=430,status=no,resizable=yes'));keyit.focus();">
+<img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/bokee.gif" alt="博采网摘" width="16" border="0" height="16"></a>
+
+</td></tr><tr><td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//200x200, 创建于 07-11-17
+google_ad_slot = "6327363222";
+google_ad_width = 200;
+google_ad_height = 200;
+//--></script>
+<script type="text/javascript" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="200" frameborder="0" height="200"></iframe>
+
+
+
+
+
+
+
+
+
+  
+
+</td></tr></tbody></table>
+
+</td></tr></tbody></table>
+</center>
+
+<center>
+热点TAG:
+
+
+
+
+<cetner>
+
+  <a href="http://www.jdon.com/jivejdon/key/aop" target="_blank"> AOP</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/cache" target="_blank"> cache</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ddd" target="_blank"> DDD</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank"> EJB</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9B%86%E7%BE%A4" target="_blank"> 集群</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E6%A8%A1%E5%BC%8F" target="_blank"> 设计模式</a>
+
+  <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank"> Hibernate</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ioc" target="_blank"> IOC</a>
+
+  <a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"> JiveJdon</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1&amp;view=on" target="_blank"> OO</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/rbac" target="_blank"> RBAC</a>
+
+  <a href="http://www.jdon.com/dl/best/spring.htm" target="_blank"> Spring</a>
+
+  <a href="http://www.jdon.com/dl/best/struts.htm" target="_blank"> Struts</a>
+
+</cetner></center>
+
+
+
+
+<form name="queryForm" method="post" action="/jivejdon/query/threadViewQuery.shtml">
+<input name="queryType" value="HOT1" type="hidden">
+<input name="forumId" value="62" type="hidden"> 
+  <table id="Table2" width="90%" align="center" bgcolor="#999999" border="0" cellpadding="0" cellspacing="1">
+    <tbody><tr>
+      <td bgcolor="#ffffff">
+          <table id="table1" width="100%" align="center" bgcolor="#e6e6e6" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>            
+              <td align="middle">              
+              查询本论坛内
+                        <select name="dateRange"><option value="1">近一天</option>
+<option value="3">近三天</option>
+<option value="5">近一周</option>
+<option value="30">近一月</option>
+<option value="90">近三月</option>
+<option value="190">近半年</option>
+<option value="365">近一年</option>
+<option value="3650">所有</option></select>
+           回复超过<input name="messageReplyCountWindow" size="4" value="10" type="text">的热门帖子                           
+              <input name="btnsearch" value=" 查询 " style="width: 60px;" type="submit">
+            </td>
+          </tr>
+         
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+</form> 
+<center>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</center>
+<a name="reply"></a>
+<form name="messageReplyForm" method="post" action="/jivejdon/message/messageReplySaveAction.shtml" onsubmit="return checkPost(this);">
+<input name="action" value="create" type="hidden">
+<input name="parentMessage.messageId" value="14292020" type="hidden">
+<input name="messageId" value="" type="hidden">
+
+<!-- create another name "messageForm", so in messageFormBody.jsp it can be used -->
+
+快速发表回复
+
+
+
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function tag(theTag) {
+    var el = document.forms[0].body;
+    if (el == null)
+        el = document.forms[1].body;
+    if (el == null)
+        el = document.forms[2].body;
+        
+    if (theTag == 'b') {
+        el.value += "[b][/b]";
+    } else if (theTag == 'i') {
+        el.value += "[i][/i]";
+    } else if (theTag == 'u') {
+        el.value += "[u][/u]";
+    } else if (theTag == 'code') {
+        el.value += "\n[code]\n// 在此输入java代码\n[/code]";
+    } else if (theTag == 'image') {
+        var url = prompt("请输入一个图片的URL","http://");
+        if (url != null) {
+            el.value += "[img]" + url + "[/img]";
+        }
+    } else if (theTag == 'url') {
+        var url = prompt("请输入链接的URL","http://");
+        var text = prompt("请输入链接文本");
+        if (url != null) {
+            if (text != null) {
+                el.value += "[url=" + url + "]" + text + "[/url]";
+            } else {
+                el.value += "[url]" + url + "[/url]";
+            }
+        }
+    }
+}
+function MM_openBrWindow(theURL,features) { //v2.0
+   window.open(theURL,"adwin",features);
+
+}
+
+//-->
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+
+function checkPost(theForm) {
+     var check = false;
+      if ((theForm.body.value  != "")
+          && (theForm.subject.value  != "")){
+          check = true;
+          return check;
+      }else{
+          alert("请输入发言标题和发言内容！");
+          return check;
+      }
+      if ((theForm.body.value.length  < 4096)){
+          check = true;
+          return check;
+      }else{
+          alert("请发言内容长度必须小于" + 4096);
+          return check;          
+      }
+}
+//-->
+</script>
+
+<table border="0" cellpadding="2" cellspacing="0">
+
+<tbody><tr>
+	<td align="right">标题</td>
+	<td><input name="subject" maxlength="75" size="40" tabindex="1" value="" type="text"></td>
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+	<td>
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tbody><tr><td>
+    	<a href="#" onclick="tag('b');return false;"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/b.gif" alt="粗体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('i');return false;"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/i.gif" alt="斜体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('u');return false;"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/u.gif" alt="下划线" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/image.gif" alt="插入图片" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/blank.gif" width="5" border="0" height="1"></td>
+      
+        <td>
+    	<a href="#" onclick="tag('code');return false;"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/code.gif" alt="插入代码" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('url');return false;"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/link.gif" alt="插入url链接" width="23" border="0" height="22"></a>
+        </td>        
+		 <td><ihtml:img page="/images/blank.gif" width="5" height="1" border="0"></ihtml:img></td>
+       <td>
+        <a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/file.gif" alt="插入附件" width="23" border="0" height="22"></a>
+            <input readonly="readonly" size="10" name="attachsize" id="attachsize" value="" style="border: 0px solid Black; background: transparent none repeat scroll 0% 0%; width: 120px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"> 
+        </td>
+       <td><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/blank.gif" width="5" border="0" height="1"></td>
+    </tr>
+    </tbody></table>
+	</td>
+</tr>
+<tr>
+	<td valign="top" align="right">
+	内容
+	</td>
+
+	<td>
+	<textarea name="body" tabindex="2" cols="85" rows="25"></textarea>	
+	</td>
+</tr>
+
+</tbody></table>
+
+<table border="0" cellpadding="4" cellspacing="0">
+<tbody><tr>
+ <td width="20">&nbsp;</td>
+ <td>
+    <input value="发 表" name="formButton" tabindex="3" type="submit"> 
+ </td>
+</tr>
+</tbody></table>
+
+ <script>
+document.messageReplyForm.subject.value='re:关于 Hibernate缓存的问题';
+
+</script>
+</form>
+
+
+</td>
+
+</tr>
+</tbody></table>
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/software.htm" scrolling="no" width="760" frameborder="0" height="200"></iframe>
+</center>
+
+
+
+
+
+  
+
+ 
+
+
+
+
+<table style="border: 1px dashed rgb(51, 51, 51);" width="100%" align="center" border="0" cellpadding="0" cellspacing="2">
+<tbody><tr><td><p align="center">
+
+  <table align="center" border="0" cellpadding="0" cellspacing="1">
+  <tbody><tr>
+    <td>
+    <table align="center">
+      <tbody><tr><td align="center">
+       
+       <table><tbody><tr><td>
+        <a href="http://www.jdon.com/jivejdon/rss" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/rss_button.gif" width="36" border="0" height="14"></a>        
+        </td>
+        <td><a href="http://wap.feedsky.com/jdon" target="_blank"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/phone.gif" alt="手机阅读" width="18" border="0" height="18"></a>
+        </td>
+        <td>
+        <a href="http://www.google.com/ig/add?feedurl=http://www.jdon.com/jivejdon/rss"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/add-to-google.gif" alt="add to google" width="104" border="0" height="17"></a>
+         </td>
+          <td>
+        <a href="http://add.my.yahoo.com/rss?url=http://www.jdon.com/jivejdon/rss"><img src="Hibernate%E7%BC%93%E5%AD%98%E7%9A%84%E9%97%AE%E9%A2%98_files/add-to-myyahoo.gif" alt="add to yahoo" width="91" border="0" height="17"></a>
+         </td></tr></tbody></table>
+         
+         
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+         <a href="http://www.jdon.com/aboutsite.htm" target="_blank"><span class="small2"><font color="#666666">解惑之道在<strong>J道</strong> ，打造中国最具影响力的的企业软件社区 </font></span>
+          </a>
+        </td>
+      
+      </tr>
+      <tr>
+        <td align="center">
+		<span class="small2">OpenSource <strong>JIVEJDON</strong> <a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"><b style="color: rgb(255, 153, 0);">v3.0</b></a> Powered
+		by <a href="http://www.jdon.com/jdonframework/" target="_blank"><b>JdonFramework</b></a>  Code © 2002-08 <a href="http://www.jdon.com/" target="_blank"><b>jdon.com</b></a></span>
+		</td>
+        </tr>
+    </tbody></table>
+    
+    </td>
+  </tr>
+</tbody></table>
+
+
+</p></td></tr></tbody></table>
+<a href="http://www.jdon.com/jivejdon/thread/BanIP.jsp" rel="nofollow"><font color="#ffffff">anti spam</font></a>
+
+ 
+
+
+</body></html>

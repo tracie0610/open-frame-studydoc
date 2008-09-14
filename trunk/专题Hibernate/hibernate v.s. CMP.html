@@ -1,0 +1,1614 @@
+<html><head>
+
+
+
+
+
+<!--  显示一个主题下所有帖子 -->
+
+
+
+
+
+
+
+
+
+
+
+
+<script language="javascript">
+var contextPath = '/jivejdon';
+</script>
+
+
+
+<title>转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</title>  
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="hibernate%20v.s.%20CMP_files/jivejdon.css" type="text/css">
+<link rel="shortcut icon" href="http://www.jdon.com/favicon.ico">
+<script language="javascript" src="hibernate%20v.s.%20CMP_files/imagetool.js"></script><style>
+.pictools {position:absolute;border:1px solid;border-left-color:#dddddd;border-top-color:#dddddd;border-right-color:#333333;border-bottom-color:#333333;background:#dddddd;}
+.pictools1 {border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt {padding:3 4 4 4;}
+.pt_bt_up {padding:2 3 3 3;border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt_down {padding:2 2 3 4;border:1px solid;border-left-color:#999999;border-top-color:#999999;border-right-color:#ffffff;border-bottom-color:#ffffff;}
+</style>
+<meta http-equiv="refresh" content="900"></head><body topmargin="2" leftmargin="0" text="#000000" bgcolor="#ffffff" marginwidth="0"><table class="pictools" id="pictools" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_restore()"><img src="hibernate%20v.s.%20CMP_files/bt_img_full_size.gif" title="orign" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_fit()"><img src="hibernate%20v.s.%20CMP_files/bt_img_fit.gif" title="fit" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomin()"><img src="hibernate%20v.s.%20CMP_files/bt_img_zoom_in.gif" title="enlarge" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomout()"><img src="hibernate%20v.s.%20CMP_files/bt_img_zoom_out.gif" title="ensmall" width="15" height="15"></td></tr></tbody></table></td></tr></tbody></table>
+<table class="pictools" id="pictools1" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr></tr></tbody></table></td></tr></tbody></table>
+
+
+
+ <table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+          <tbody><tr> 
+            <td rowspan="3" valign="bottom" width="129" align="center" bgcolor="#ffffff"> 
+            
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                  <tbody><tr>
+                    <td align="center">
+                    <img src="hibernate%20v.s.%20CMP_files/jdon.gif" width="120" height="60"></td>
+                  </tr>
+				  <tr>
+				    <td height="9"></td>
+				  </tr>
+                </tbody></table>
+                
+            </td>
+            <td valign="bottom">
+			<table width="100%" cellpadding="0" cellspacing="0">
+              <tbody><tr bgcolor="#cac9bb">
+                <td valign="bottom" width="43%" align="left" bgcolor="#cabfa8"><img src="hibernate%20v.s.%20CMP_files/00.gif" alt="jdon" width="107" height="55"></td>
+                <td class="smallgray" valign="bottom" width="57%" align="right" bgcolor="#cabfa8" height="55"><em>解惑授道，企业信息化解决之道 </em></td>
+              </tr>
+            </tbody></table></td>
+          </tr>
+          <tr> 
+		    <td>
+			<table bgcolor="#cccccc" cellpadding="0" cellspacing="1">
+                <tbody><tr>
+			            <td width="222" bgcolor="#707070" height="26">&nbsp;</td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/index.html" target="_blank" class="a03">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/design.htm" target="_blank" class="a03">设计研究</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/product.htm" target="_blank" class="a03">构件产品</a></div></td>			
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/trainning.htm" target="_blank" class="a03">培训咨询</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jdonframework/" target="_blank" class="a03">开源框架</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jive/index.jsp" target="_blank" class="a03">论坛</a></div></td>
+
+			</tr></tbody></table>
+			</td>
+          </tr>
+</tbody></table>
+
+<table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+
+  <tbody><tr> 
+    <td colspan="7" class="bianxian" bgcolor="#ffffff" height="11"> 
+      <table width="100%" border="0" bordercolor="#000000" cellpadding="0" cellspacing="0" height="1">
+        <tbody><tr> 
+          <td> 
+            <table width="100%" bgcolor="#000000" border="0" cellpadding="0" cellspacing="0" height="2">
+              <tbody><tr> 
+                <td></td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr> 
+    
+    <td valign="top" bgcolor="#ffffff">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%">
+        <tbody><tr> 
+          <td valign="top" width="122" bgcolor="#ffffd7">
+          	
+
+   <table width="100%" align="center" border="0" cellpadding="3" cellspacing="0" height="1000">
+            <tbody><tr>
+              <td valign="top" align="left"></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right">
+<form name="messageListForm" method="get" action="/jivejdon/query/searchAction.shtml">
+<input name="query" size="13" type="text">
+<input value=" 搜索 " type="submit">
+<br>热点Tag:
+
+
+
+
+<cetner>
+
+  <a href="http://www.jdon.com/jivejdon/key/aop" target="_blank"> AOP</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/cache" target="_blank"> cache</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ddd" target="_blank"> DDD</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank"> EJB</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9B%86%E7%BE%A4" target="_blank"> 集群</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E6%A8%A1%E5%BC%8F" target="_blank"> 设计模式</a>
+
+  <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank"> Hibernate</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ioc" target="_blank"> IOC</a>
+
+  <a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"> JiveJdon</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1&amp;view=on" target="_blank"> OO</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/rbac" target="_blank"> RBAC</a>
+
+  <a href="http://www.jdon.com/dl/best/spring.htm" target="_blank"> Spring</a>
+
+  <a href="http://www.jdon.com/dl/best/struts.htm" target="_blank"> Struts</a>
+
+
+
+
+
+
+              
+ <p><a href="http://www.jdon.com/jdonframework/app.htm" target="_blank"><font color="#ff3333"><strong>Jdon框架演示</strong></font></a></p>
+ <p><a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"><font color="#ff3333"><strong>JiveJdon3.0<br>
+   源码下载</strong></font></a>
+     </p>
+ <p><a href="http://www.jdon.com/designpatterns/index.htm" target="_blank"><font color="#ff3333"><strong>GoF设计模式</strong></font></a></p>
+ <p><a href="http://www.jdon.com/trainning/jiaocheng.htm" target="_blank"><font color="#ff3333"><strong>在线教程</strong></font></a></p>
+ <p><a href="http://www.jdon.com/communication.htm" target="_blank"><strong><font color="#ff3333">社区精彩讨论</font></strong></a></p>
+            
+
+
+<p>
+<br>
+<br>
+<br>
+
+
+<a href="javascript:location.href='http://www.google.com/bookmarks/mark?op=add&amp;bkmk='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)">
+<img src="hibernate%20v.s.%20CMP_files/google.gif" alt="google" width="16" border="0" height="16"></a>
+
+<a href="javascript:location.href='http://myweb2.search.yahoo.com/myresults/bookmarklet?u='+encodeURIComponent(location.href)+'&amp;t='+encodeURIComponent(document.title)">
+<img src="hibernate%20v.s.%20CMP_files/yahoo.gif" alt="yahoo" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(vivi=window.open('http://vivi.sina.com.cn/collect/icollect.php?pid=28&amp;title='+escape(d.title)+'&amp;url='+escape(d.location.href)+'&amp;desc='+escape(t),'vivi','scrollbars=no,width=480,height=480,left=75,top=20,status=no,resizable=yes'));vivi.focus();">
+<img src="hibernate%20v.s.%20CMP_files/vivi.gif" alt="新浪ViVi" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();">
+<img src="hibernate%20v.s.%20CMP_files/365key.gif" alt="365Key网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(yesky=window.open('http://hot.yesky.com/dp.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;st=2','yesky','scrollbars=no,width=400,height=480,left=75,top=20,status=no,resizable=yes'));yesky.focus();">
+<img src="hibernate%20v.s.%20CMP_files/yesky.gif" alt="天极网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" title="功能强大的网络收藏夹，一秒钟操作就可以轻松实现保存带来的价值、分享带来的快乐">
+<img src="hibernate%20v.s.%20CMP_files/cn3.gif" alt="CSDN网摘" width="16" border="0" height="16"></a>
+
+<a href='javascript:u=location.href;t=document.title;c%20=%20""%20+%20(window.getSelection%20?%20window.getSelection()%20:%20document.getSelection%20?%20document.getSelection()%20:%20document.selection.createRange().text);var%20url="http://cang.baidu.com/do/add?it="+encodeURIComponent(t)+"&amp;iu="+encodeURIComponent(u)+"&amp;dc="+encodeURIComponent(c)+"&amp;fr=ien#nw=1";window.open(url,"_blank","scrollbars=no,width=600,height=450,left=75,top=20,status=no,resizable=yes");%20void%200'>
+<img src="hibernate%20v.s.%20CMP_files/baidu.gif" alt="添加到百度搜藏" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://my.poco.cn/fav/storeIt.php?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;img=http://www.h-strong.com/blog/logo.gif','keyit','scrollbars=no,width=475,height=575,status=no,resizable=yes'));keyit.focus();">
+<img src="hibernate%20v.s.%20CMP_files/poco.gif" alt="POCO网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://blogmark.bokee.com/jsp/key/quickaddkey.jsp?k='+encodeURI(d.title)+'&amp;u='+encodeURI(d.location.href)+'&amp;c='+encodeURI(t),'keyit','scrollbars=no,width=500,height=430,status=no,resizable=yes'));keyit.focus();">
+<img src="hibernate%20v.s.%20CMP_files/bokee.gif" alt="博采网摘" width="16" border="0" height="16"></a>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</p>
+   
+				  
+
+              </cetner></form></td>
+            </tr>
+            <tr><td valign="bottom">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<iframe marginheight="0" marginwidth="0" src="hibernate%20v.s.%20CMP_files/120x600.htm" scrolling="no" width="120" frameborder="0" height="2000"></iframe>
+
+
+
+
+
+              
+
+            	</td></tr>
+          </tbody></table>            
+          </td>
+		  <td width="1" height="100%">
+<table background="hibernate%20v.s.%20CMP_files/blackpoint.gif" cellpadding="0" cellspacing="0" height="100%">
+              <tbody><tr><td> <img name="" src="" alt="" width="1" height="1"></td></tr></tbody></table>
+		  </td> 
+          <td valign="top"> 
+            <table width="100%" border="0" cellpadding="3" cellspacing="8">
+              <tbody><tr>
+                <td>
+                	
+	
+
+<!--  get the first message, regard it as article -->
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td>
+  
+     <h3 align="center">转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</h3>
+         <p align="center">
+            作者：<a href="http://www.jdon.com/jivejdon/profile.jsp?user=6650"><b>kuaizxl</b></a>
+            发表时间：2003年04月01日 09:52
+            <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1315382&amp;forum.forumId=16"><img src="hibernate%20v.s.%20CMP_files/reply.gif" alt="回复此消息" width="17" border="0" height="17" hspace="3">回复</a>
+            <br>
+</p><center>
+原贴网址：<a href="http://www.jdon.com/jivejdon/thread/6062.html">
+http://www.jdon.com/jivejdon/thread/6062.html</a>
+</center>   
+           <p></p>
+         
+  <!-- advert -->
+  
+         <table width="1%" align="left" border="0" cellpadding="0" cellspacing="5"> <tbody><tr> <td>
+         <div style="margin-top: 0px; margin-left: 5px;" id="vgad300x250">
+                
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//article用336x280, 创建于 07-11-18
+google_ad_slot = "7823422663";
+google_ad_width = 336;
+google_ad_height = 280;
+//--></script>
+<script type="text/javascript" src="hibernate%20v.s.%20CMP_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="hibernate%20v.s.%20CMP_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="336" frameborder="0" height="280"></iframe>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+           </div>
+          </td></tr>
+            </tbody></table>
+                    
+          <p class="article">O-R Mapping<br>      J2EE的标准是CMP Entity Bean，而实际应用中受到诟病最多的也是它。我们化了整整半年时间研究CMP2.0的开发方法，目前总算能够将代码量减少到70%，并且有希望减少到90%。我曾经很满足现有的成绩，但是当我真正地阅读了<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>后，对CMP2.0的信心彻底动摇了。<br>      <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>至少比CMP2.0有以下优点：<br>      1. 兼容性。 规范一模一样，实现各有不同，这是CMP的现状。用第三方O-R Mapping工具可以解决这个问题。<br>      2. 保护智力投资。在了解了Orion, Weblogic, JBoss的CMP实现后，我不愿意再去学习Websphere 或者Resin的实现了。<br>      3. 性能。<br>           a. local v.s. remote， <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>、JDO、Castor都是本地调用，CMP2.0虽然也有Local接口，但是Web层还是需要通过Remote接口访问<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>层的数据,序列化、网络调用、创建大量的对象，都是性能降低的原因。<br>           b. transaction，J2EE提出了一个全新的事务模型（method-based descriptor)，对程序员的开发确实是个“简化”，记得一本教程建议所有的<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>方法都用Required。但这样的结果是什么？ 性能极度降低！互锁！没有办法，我们只有再去调节各个方法的Transaction属性，然后又出现 新的互锁...<br>           新的事务模型是不成功的。它试图简化问题，却引入了更为严重的问题。各家厂商的Transaction实现也不尽相同，有的支持Optimistic Lock，有的在VM中同步Entity对象，又是兼容性的一大敌。<br>           <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>没有试图创造一个更新的模式，相反，它沿用了传统数据库的Transaction编程模式，在对J2EE的Transaction伤透脑筋后看到它，真是十分亲切，感觉自己确实在编程，而不是碰运气填代码了。<br>      4. 动态Query。<br>
+Entity
+Bean很难实现动态Query，这是因为它基于代码自动生成技术，即最终的执行代码是在部署编译时生成的。hibernate则有根本的改变，它基于
+reflection机制，运行时动态Query是很自然的事。另外，hibernate几乎支持所有的SQL语法，传统数据库可以做的它就可以做。<br>      5. 发展速度。<br>
+I have a dream, 有一天Entity Bean会变得很好。但至少目前来看，Entity
+Bean是一个不完善的产品，它是大公司政治斗争和妥协的产品，而且习惯性将一些问题“无限期搁置”，典型的例子就是Query（之所以不提其他问题，是
+因为其他都是Entity Bean的致命伤：））<br>           形成强烈反差的是，hibernate的核心程序员只有一人，但它改进的速度确是Entity Bean无法企及的。<br>      6. 继承和多态。<br>           <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1&amp;view=on" target="_blank" title="??"><b>OO</b></a>语言的精华在Entity Bean这里是行不通的，我曾经自我安慰将Entity Bean看做一个“内存中的数据表”，才找到了一点平衡。<br>           但当我看到<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>时，又开始不平衡了。<br>           <br>      另外，CMP2.0也有一些缺点是可以弥补的。<br>      1. 代码维护。<br>           大量的接口文件和配置文件，开发和维护的工作量很大。<br>           解决途径：采用xdoclet,可以自动产生众多的接口和配置文件，甚至facade, delegate等高级模式。<br>      <br>      至少目前来看，hibernate的缺点有：<br>      1. 代码维护<br>          <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>提供了自动生成mapping文件“框架”的工具，但还需要手工调节。而这类开发，能想到的最佳模式就是xdoclet的（代码+注释）的模式了。幸好，hibernate的程序员已经向xdoclet项目增加了<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的模块。现在需要的是等待xdoclet的下一个release。<br>      <br>      结论：<br>           <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>至少从文档上超越了Entity Bean很多，我要学习<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>。<br>      <br>      主页：<br>      <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>.sourceforge.net<br>           有愿意一起研究<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的大家多交流交流。<br>           <br>      guty<br>      guty2001@sina.com<br></p>    
+                
+</td></tr></tbody></table>
+
+
+
+
+ 
+<a name="1317420"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月01日 14:52
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1317420&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	对于CMP 我只能说：没有更好，只有合适。<br><br>其
+实你的问题主要是处理transaction上，如果手工使用JTA，你还是会伤脑筋的，因为这是个应用问题，要仔细分析你的业务对象，哪些过程是必须事
+务的，一般在产品的1.0都会去掉transaction，这样顺利多，等产品相对稳定成熟，这时再考虑transaction。<br><br>将entity
+bean想像成内存中的一张数据表，这是符合entity bean原理的，不要将太多重担压在entity
+bean的CMP上,对于复杂的SQL，BMP是好的选择，有种CMP-BMP模式：先使用BMP，等以后QL丰富后，再稍微改动一下就可以回到CMP，
+推荐你这种方式。<br><br>还有，其实大量数据库操作中有一半是查询，大量查询建议你使用DAO模式。<br><br><br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="1317443"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月01日 14:53
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1317443&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	我主要想说的是：选择框架软件最好是主流，hibernate可能很好，但是生命力有多长？如果主要开发者停止了，你的产品也就陷入停顿发展。
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="1317522"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月01日 15:03
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1317522&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=857"><b>wys1978</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=857" target="_blank">发表文章: 163</a>/
+            注册时间: 2002年09月03日 12:28
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	我觉得JDO会是一个比较好的O/R mapping的规范, 感觉它会成为以后的趋势, :)
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="1318203"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月01日 16:08
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1318203&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	我觉得，JDO最大的缺点是性能优化很难，其实这也是<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>的问题，这个问题不解决，JDO如果只是提供使用上便利的话，想真正代替实体bean比较难。<br><br>我曾经使用过Castor，这东西用好了，很方便，但是在用的时候，摸索很长时间，不知道哪里多个空格还是少写点什么，我反复删除，重写了好几次，总算碰巧调通了，最后不知道问题在哪里，让人生畏。<br><br>而开放CMP时，由于使用Jbuilder 几乎没有什么问题，看来，越是自动化的东西，支持的开发工具就越重要。<br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="1325893"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月02日 14:32
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1325893&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=6621"><b>fishandfly</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=6621" target="_blank">发表文章: 44</a>/
+            注册时间: 2003年03月31日 12:59
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	castor我用过啊！除了update比较繁琐外，其他的都可以，不过他们的网站好象备分服务器坏了，所以一直没有新的版本。<br>我觉得castor的事务处理一般，和普通的jdbc没什么两样，本来觉得cmp的挺好的，看了搂主的文章失望不少！<br>不如大家都看看OFBIZ的Entity Engine吧！而且OFBIZ还提供了数据的维护工具，挺好的！<br><br>:)<br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="1326505"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月02日 15:51
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1326505&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=6650"><b>kuaizxl</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=6650" target="_blank">发表文章: 5</a>/
+            注册时间: 2003年04月01日 09:50
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	作为一个架构师，应该花更多时间留意最新的技术和发展的趋势，而作为一个技术负责人，应该寻找最优的解决方案，我更倾向于后者
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="1332323"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月03日 15:29
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1332323&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=3454"><b>jackyz</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=3454" target="_blank">发表文章: 35</a>/
+            注册时间: 2002年11月13日 16:51
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	Great! 我正在准备一个项目，性能要求非常高。而上一个项目用 CMP O-R Mapping 的方案，其性能不能让人满意。就目前而言，我从文档以及示例程序所得到的感觉与你相同。<br><br>其次，就 <a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a> 而言，以 BO + session facade + CMP 的方式也是可以在 <a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a> 端替换为 BO + session facade + BMP + DAO(Hibernate) 的实现（这一点在 <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a> 的文档中有提到）。或者，在性能要求非常高的情况下，还可以去掉 <a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a> 层，简化为 BO + (DAO)Hibernate 的方式。可以认为，只要合理的设计 DAO 接口， BO 的具体实现中可以保留实现方式上的变化。<br><br>我的项目初步计划采用 Maverick + <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a> + JCS ，给点意见？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="1352299"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年04月07日 02:27
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=1352299&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=6783"><b>jpenguin</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=6783" target="_blank">发表文章: 16</a>/
+            注册时间: 2003年04月07日 02:20
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	I like <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a> very much. I studied the SQL statements issued by <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a> by turning on SQL logging of PostgreSQL. At session.flush() and then commit() time <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a> will examine all persistent objects that have been changed (by comparing the new values with old values stored in a <a href="http://www.jdon.com/jivejdon/key/cache" target="_blank" title="??"><b>cache</b></a>) in the session and issue SQL update statements for them. There's also XDoclet support for <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a> now, so if you use that, you can switch to CMP if you want.
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="2068098"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年06月15日 02:12
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=2068098&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=7158"><b>dreamaster</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=7158" target="_blank">发表文章: 11</a>/
+            注册时间: 2003年04月22日 10:00
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	hibernate只是按照应该的方法实现一个持久层框架应该实现的功能，所以性能各方面都很出色，很奇怪，为什么像cmp等就做不到呢？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="2113927"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年06月19日 23:14
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=2113927&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=8696"><b>newroc</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=8696" target="_blank">发表文章: 3</a>/
+            注册时间: 2003年06月19日 22:01
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	最近才开始注意<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>，不知道他用的多吗，从网上的关于他的资料数量来看好像不是特别多，是我没有发现还是他比较新的缘故呢
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="2117248"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年06月20日 09:49
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=2117248&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=4069"><b>uu_snow</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=4069" target="_blank">发表文章: 55</a>/
+            注册时间: 2002年11月29日 10:52
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	如果使用<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>，如果我在一个方法内部要同时<br>处理对两个DB的CUD操作和一个LDAP的操作<br>它好象不能保证事务的完整性吧<br><br>另外，hibernate能处理三张表以上的复杂查询操作吗？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="2142194"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年06月21日 10:52
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=2142194&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2612"><b>SUPERMY</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2612" target="_blank">发表文章: 25</a>/
+            注册时间: 2002年10月21日 20:10
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	我一直以为，我已经理解了<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>,可是越深入的学习，发现很多东西还没有真正的理解。建议你深入学习一下，ejb不是像你理解的那样。我认为，ejb得使用可以使软件的开发，走上工业化、规模化的发展。
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="2230488"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年06月29日 03:01
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=2230488&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=8963"><b>guty</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=8963" target="_blank">发表文章: 55</a>/
+            注册时间: 2003年06月29日 02:17
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	各位关注<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的朋友，你们好。这是我去年发在chinajavaworld上的文章，那时我的一个J2EE项目快要结束，当时特别想找一个<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>的替代技术，就发现了<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>，后来又发现了Rickard的<a href="http://www.jdon.com/jivejdon/key/aop" target="_blank" title="??"><b>AOP</b></a>框架。<br><br>经过几个月的测试和基础开发，从今年初开始，我开始在项目中全面采用比较灵活的技术，其中包括用<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>来作O-R,用webwork/OGNL来做Web页面的数据绑定，用C++和Webservices来代替Java客户程序。<br><br>目前来看,hibernate是最正确的选择，和过去的<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>开发（即使是用了xdoclet)相比，大家感觉都工作量都轻松多了。简单而强大，可以用来形容许多产品，也可以这么形容<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>。hql语言可以做绝大多数sql能作的工作，包括outer join等高级特性。<br><br>从设计上来讲，hibernate通过对集合、继承的支持，使我们能够建立一个足够“复杂”的对象模型，而且能够“完全”覆盖数据库层，这都是它强于<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>的地方。<br><br>开源项目确实存在着banq所说的不稳定因素，但<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>却似乎与众不同。它和eclipse是我见到的能够真正做到small iteration的开源项目，后者有IBM做后盾，前者主要是靠Gavin一年多来几乎全职地投入。目前<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>是2.0.1版，可以说是一款非常非常非常稳定的产品。<br><br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="2230495"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2003年06月29日 03:32
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=2230495&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=8963"><b>guty</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=8963" target="_blank">发表文章: 55</a>/
+            注册时间: 2003年06月29日 02:17
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	也许我对<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>的理解还不是很深，对目前一些快速开发工具也不是很清楚，但根据过去的几个项目经验，我很清楚什么工作是<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>完成不了的，什么工作是纯组件模型难以封装的。<br><br>不久前一个朋友跟我说用jbuilder开发<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>非常简单了，点点鼠标就可以完成。我看他那么狂热，没有好当面泼凉水，但这里，可以顺便说说“点点鼠标”完成不了的工作：<br>  1. 对象重构，如果要改动属性、方法、对象关系，也许界面操作就不那么轻松了；<br>  2. 版本控制，cvs上保存哪些文件<br>  3. 本地调试<br>  4, 还有一点，如果对象达到数十，甚至成百上千个，如果你还认为<a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank" title="??"><b>EJB</b></a>开发很轻松，我就真的很佩服你。
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+
+
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+    <td>
+<table width="100%" align="center" bgcolor="#ffffcc" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//300x250, 创建于 07-11-18
+google_ad_slot = "5308192209";
+google_ad_width = 300;
+google_ad_height = 250;
+//--></script>
+<script type="text/javascript" src="hibernate%20v.s.%20CMP_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="hibernate%20v.s.%20CMP_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" frameborder="0" height="250"></iframe>
+
+
+
+
+
+
+
+  
+
+    </td><td></td><td>
+    </td>
+</tr>
+</tbody></table>
+    </td>
+</tr>
+</tbody></table>       
+
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+    <td>
+<table width="100%" align="center" bgcolor="#ffffcc" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td class="smallgray">
+ 这个主题共有 <b>164</b> 回复 ／ <b>11</b> 页 [
+
+
+<b><span class="paginator_currentPage">1</span></b>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=6062&amp;count=15&amp;start=15" class="paginator_href"><b>2</b></a>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=6062&amp;count=15&amp;start=30" class="paginator_href"><b>3</b></a>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=6062&amp;count=15&amp;start=45" class="paginator_href"><b>4</b></a>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=6062&amp;count=15&amp;start=60" class="paginator_href"><b>5</b></a>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=6062&amp;count=15&amp;start=75" class="paginator_href"><b>6</b></a> ... <a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=6062&amp;count=15&amp;start=150" class="paginator_href" title="Go to the last page">11
+</a><a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=6062&amp;count=15&amp;start=15">下一页</a>
+
+     ]
+    </td><td></td><td>
+
+    </td>
+</tr>
+</tbody></table>
+    </td>
+</tr>
+</tbody></table>
+<!--  上下主题 start -->
+
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="2">
+<tbody><tr>
+    <td valign="top" width="1%" nowrap="nowrap">
+  &nbsp;
+    </td>
+    <td width="98%" align="center">
+
+<table width="100%" border="0" cellpadding="0" cellspacing="2">
+
+
+    <tbody><tr>
+	<td>上一篇:
+        
+   
+     <a href="http://www.jdon.com/jivejdon/thread/34379.html" title="求助：关于spring security" class="forum">
+        求助：关于spring security
+        </a>
+             
+    </td>      
+
+
+ 
+	<td align="right">下一篇:
+   
+  
+     <a href="http://www.jdon.com/jivejdon/thread/34386.html" title="spring 2.5 + hibernate3.1 + c3p0 出现的数据库连接问题" class="forum">
+        spring 2.5 + hiberna..
+    </a>       
+       
+    </td>  
+</tr>
+    
+
+</tbody></table>
+
+    </td>
+    <td valign="top" width="1%" nowrap="nowrap">
+    &nbsp;
+    </td>
+</tr>
+</tbody></table>
+<!--  上下主题 结束  -->
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="hibernate%20v.s.%20CMP_files/hotlist.htm" scrolling="no" width="500" frameborder="0" height="290"></iframe>
+</center>
+
+<form name="queryForm" method="post" action="/jivejdon/query/threadViewQuery.shtml">
+<input name="queryType" value="HOT1" type="hidden">
+<input name="forumId" value="16" type="hidden"> 
+  <table id="Table2" width="90%" align="center" bgcolor="#999999" border="0" cellpadding="0" cellspacing="1">
+    <tbody><tr>
+      <td bgcolor="#ffffff">
+          <table id="table1" width="100%" align="center" bgcolor="#e6e6e6" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>            
+              <td align="middle">              
+              查询本论坛
+                        <select name="dateRange"><option value="1">近一天</option>
+<option value="3">近三天</option>
+<option value="5">近一周</option>
+<option value="30">近一月</option>
+<option value="90">近三月</option>
+<option value="190">近半年</option>
+<option value="365">近一年</option>
+<option value="3650">所有</option></select>
+           最热门帖子                           
+              <input name="btnsearch" value=" 查询 " style="width: 60px;" type="submit">
+            </td>
+          </tr>         
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+</form> 
+
+<a name="reply"></a>
+<form name="messageReplyForm" method="post" action="/jivejdon/message/messageReplySaveAction.shtml" onsubmit="return checkPost(this);">
+<input name="action" value="create" type="hidden">
+<input name="parentMessage.messageId" value="1315382" type="hidden">
+<input name="messageId" value="" type="hidden">
+快速发表回复:
+<!-- create another name "messageForm", so in messageFormBody.jsp it can be used -->
+
+
+
+
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function tag(theTag) {
+    var el = document.forms[0].body;
+    if (el == null)
+        el = document.forms[1].body;
+    if (el == null)
+        el = document.forms[2].body;
+        
+    if (theTag == 'b') {
+        el.value += "[b][/b]";
+    } else if (theTag == 'i') {
+        el.value += "[i][/i]";
+    } else if (theTag == 'u') {
+        el.value += "[u][/u]";
+    } else if (theTag == 'code') {
+        el.value += "\n[code]\n// 在此输入java代码\n[/code]";
+    } else if (theTag == 'image') {
+        var url = prompt("请输入一个图片的URL","http://");
+        if (url != null) {
+            el.value += "[img]" + url + "[/img]";
+        }
+    } else if (theTag == 'url') {
+        var url = prompt("请输入链接的URL","http://");
+        var text = prompt("请输入链接文本");
+        if (url != null) {
+            if (text != null) {
+                el.value += "[url=" + url + "]" + text + "[/url]";
+            } else {
+                el.value += "[url]" + url + "[/url]";
+            }
+        }
+    }
+}
+function MM_openBrWindow(theURL,features) { //v2.0
+   window.open(theURL,"adwin",features);
+
+}
+
+//-->
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+
+function checkPost(theForm) {
+     var check = false;
+      if ((theForm.body.value  != "")
+          && (theForm.subject.value  != "")){
+          check = true;
+          return check;
+      }else{
+          alert("请输入发言标题和发言内容！");
+          return check;
+      }
+      if ((theForm.body.value.length  < 4096)){
+          check = true;
+          return check;
+      }else{
+          alert("请发言内容长度必须小于" + 4096);
+          return check;          
+      }
+}
+//-->
+</script>
+
+<table border="0" cellpadding="2" cellspacing="0">
+
+<tbody><tr>
+	<td align="right">标题</td>
+	<td><input name="subject" maxlength="75" size="40" tabindex="1" value="" type="text"></td>
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+	<td>
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tbody><tr><td>
+    	<a href="#" onclick="tag('b');return false;"><img src="hibernate%20v.s.%20CMP_files/b.gif" alt="粗体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="hibernate%20v.s.%20CMP_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('i');return false;"><img src="hibernate%20v.s.%20CMP_files/i.gif" alt="斜体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="hibernate%20v.s.%20CMP_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('u');return false;"><img src="hibernate%20v.s.%20CMP_files/u.gif" alt="下划线" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="hibernate%20v.s.%20CMP_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="hibernate%20v.s.%20CMP_files/image.gif" alt="插入图片" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="hibernate%20v.s.%20CMP_files/blank.gif" width="5" border="0" height="1"></td>
+      
+        <td>
+    	<a href="#" onclick="tag('code');return false;"><img src="hibernate%20v.s.%20CMP_files/code.gif" alt="插入代码" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="hibernate%20v.s.%20CMP_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('url');return false;"><img src="hibernate%20v.s.%20CMP_files/link.gif" alt="插入url链接" width="23" border="0" height="22"></a>
+        </td>        
+		 <td><ihtml:img page="/images/blank.gif" width="5" height="1" border="0"></ihtml:img></td>
+       <td>
+        <a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="hibernate%20v.s.%20CMP_files/file.gif" alt="插入附件" width="23" border="0" height="22"></a>
+            <input readonly="readonly" size="10" name="attachsize" id="attachsize" value="" style="border: 0px solid Black; background: transparent none repeat scroll 0% 0%; width: 120px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"> 
+        </td>
+       <td><img src="hibernate%20v.s.%20CMP_files/blank.gif" width="5" border="0" height="1"></td>
+    </tr>
+    </tbody></table>
+	</td>
+</tr>
+<tr>
+	<td valign="top" align="right">
+	内容
+	</td>
+
+	<td>
+	<textarea name="body" tabindex="2" cols="85" rows="25"></textarea>	
+	</td>
+</tr>
+
+</tbody></table>
+
+<table border="0" cellpadding="4" cellspacing="0">
+<tbody><tr>
+ <td width="20">&nbsp;</td>
+ <td>
+    <input value="发 表" name="formButton" tabindex="3" type="submit"> 
+ </td>
+</tr>
+</tbody></table>
+
+ <script>
+document.messageReplyForm.subject.value='re:转贴：最佳J2EE方案讨论之O-R Mapping： hibernate v.s. CMP，请大家讨论';
+
+</script>
+</form>
+
+ <center>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   </center>
+
+
+
+
+
+   </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="hibernate%20v.s.%20CMP_files/software.htm" scrolling="no" width="760" frameborder="0" height="200"></iframe>
+</center>
+
+
+
+
+
+  
+ 
+
+<table width="778" align="center" border="0" cellpadding="5" cellspacing="0">
+  <tbody>
+  <tr><td align="center">
+       <table><tbody><tr><td>
+        <a href="http://www.jdon.com/jivejdon/rss" target="_blank"><img src="hibernate%20v.s.%20CMP_files/rss_button.gif" width="36" border="0" height="14"></a>        
+        </td>
+        <td><a href="http://wap.feedsky.com/jdon" target="_blank"><img src="hibernate%20v.s.%20CMP_files/phone.gif" alt="手机阅读" width="18" border="0" height="18"></a>
+        </td>
+        <td>
+        <a href="http://www.google.com/ig/add?feedurl=http://www.jdon.com/jivejdon/rss"><img src="hibernate%20v.s.%20CMP_files/add-to-google.gif" alt="add to google" width="104" border="0" height="17"></a>
+         </td>
+          <td>
+        <a href="http://add.my.yahoo.com/rss?url=http://www.jdon.com/jivejdon/rss"><img src="hibernate%20v.s.%20CMP_files/add-to-myyahoo.gif" alt="add to yahoo" width="91" border="0" height="17"></a>
+         </td></tr></tbody></table>
+  </td></tr>
+  <tr>
+    <td align="center">
+      <span class="white"><a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">联系我们 </a> | 
+      <a href="http://www.jdon.com/aboutsite.htm" target="_blank" class="a03">关于我们 </a>| <a href="http://www.jdon.com/jivejdon/rss" target="_blank" class="a03">RSS订阅</a> |
+         <a href="http://www.jdon.com/advert.htm" target="_blank" class="a03">广告联系</a> | <a href="http://www.jdon.com/sitemap.html" target="_blank" class="a03">网站地图</a> 
+      <br>
+        <span class="a03">Copyright (C) 2002-2008 Jdon.com, All 
+      Rights Reserved 版权所有 上海解道计算机技术有限公司</span><span class="nava"><br>
+      <a href="http://www.miibeian.gov.cn/" target="_blank" class="a03">沪ICP备05018152号</a> <a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">如有意见请与我们联系</a> <a href="http://www.jdon.com/jdonframework/index.htm" class="a03">Powered by JdonFramework </a></span></span></td>
+</tr>
+  </tbody></table>
+  
+ 
+
+
+</body></html>

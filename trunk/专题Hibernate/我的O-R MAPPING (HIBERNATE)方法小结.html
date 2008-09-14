@@ -1,0 +1,1549 @@
+<html><head>
+
+
+
+
+
+<!--  显示一个主题下所有帖子 -->
+
+
+
+
+
+
+
+
+
+
+
+
+<script language="javascript">
+var contextPath = '/jivejdon';
+</script>
+
+
+
+<title>我的O/R MAPPING (HIBERNATE)方法小结</title>  
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/jivejdon.css" type="text/css">
+<link rel="shortcut icon" href="http://www.jdon.com/favicon.ico">
+<script language="javascript" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/imagetool.js"></script><style>
+.pictools {position:absolute;border:1px solid;border-left-color:#dddddd;border-top-color:#dddddd;border-right-color:#333333;border-bottom-color:#333333;background:#dddddd;}
+.pictools1 {border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt {padding:3 4 4 4;}
+.pt_bt_up {padding:2 3 3 3;border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt_down {padding:2 2 3 4;border:1px solid;border-left-color:#999999;border-top-color:#999999;border-right-color:#ffffff;border-bottom-color:#ffffff;}
+</style>
+<meta http-equiv="refresh" content="900"></head><body topmargin="2" leftmargin="0" text="#000000" bgcolor="#ffffff" marginwidth="0"><table class="pictools" id="pictools" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_restore()"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/bt_img_full_size.gif" title="orign" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_fit()"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/bt_img_fit.gif" title="fit" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomin()"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/bt_img_zoom_in.gif" title="enlarge" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomout()"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/bt_img_zoom_out.gif" title="ensmall" width="15" height="15"></td></tr></tbody></table></td></tr></tbody></table>
+<table class="pictools" id="pictools1" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr></tr></tbody></table></td></tr></tbody></table>
+
+
+
+ <table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+          <tbody><tr> 
+            <td rowspan="3" valign="bottom" width="129" align="center" bgcolor="#ffffff"> 
+            
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                  <tbody><tr>
+                    <td align="center">
+                    <img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/jdon.gif" width="120" height="60"></td>
+                  </tr>
+				  <tr>
+				    <td height="9"></td>
+				  </tr>
+                </tbody></table>
+                
+            </td>
+            <td valign="bottom">
+			<table width="100%" cellpadding="0" cellspacing="0">
+              <tbody><tr bgcolor="#cac9bb">
+                <td valign="bottom" width="43%" align="left" bgcolor="#cabfa8"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/00.gif" alt="jdon" width="107" height="55"></td>
+                <td class="smallgray" valign="bottom" width="57%" align="right" bgcolor="#cabfa8" height="55"><em>解惑授道，企业信息化解决之道 </em></td>
+              </tr>
+            </tbody></table></td>
+          </tr>
+          <tr> 
+		    <td>
+			<table bgcolor="#cccccc" cellpadding="0" cellspacing="1">
+                <tbody><tr>
+			            <td width="222" bgcolor="#707070" height="26">&nbsp;</td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/index.html" target="_blank" class="a03">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/design.htm" target="_blank" class="a03">设计研究</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/product.htm" target="_blank" class="a03">构件产品</a></div></td>			
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/trainning.htm" target="_blank" class="a03">培训咨询</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jdonframework/" target="_blank" class="a03">开源框架</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jive/index.jsp" target="_blank" class="a03">论坛</a></div></td>
+
+			</tr></tbody></table>
+			</td>
+          </tr>
+</tbody></table>
+
+<table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+
+  <tbody><tr> 
+    <td colspan="7" class="bianxian" bgcolor="#ffffff" height="11"> 
+      <table width="100%" border="0" bordercolor="#000000" cellpadding="0" cellspacing="0" height="1">
+        <tbody><tr> 
+          <td> 
+            <table width="100%" bgcolor="#000000" border="0" cellpadding="0" cellspacing="0" height="2">
+              <tbody><tr> 
+                <td></td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr> 
+    
+    <td valign="top" bgcolor="#ffffff">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%">
+        <tbody><tr> 
+          <td valign="top" width="122" bgcolor="#ffffd7">
+          	
+
+   <table width="100%" align="center" border="0" cellpadding="3" cellspacing="0" height="1000">
+            <tbody><tr>
+              <td valign="top" align="left"></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right">
+<form name="messageListForm" method="get" action="/jivejdon/query/searchAction.shtml">
+<input name="query" size="13" type="text">
+<input value=" 搜索 " type="submit">
+<br>热点Tag:
+
+
+
+
+<cetner>
+
+  <a href="http://www.jdon.com/jivejdon/key/aop" target="_blank"> AOP</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/cache" target="_blank"> cache</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ddd" target="_blank"> DDD</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank"> EJB</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9B%86%E7%BE%A4" target="_blank"> 集群</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E6%A8%A1%E5%BC%8F" target="_blank"> 设计模式</a>
+
+  <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank"> Hibernate</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ioc" target="_blank"> IOC</a>
+
+  <a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"> JiveJdon</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1&amp;view=on" target="_blank"> OO</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/rbac" target="_blank"> RBAC</a>
+
+  <a href="http://www.jdon.com/dl/best/spring.htm" target="_blank"> Spring</a>
+
+  <a href="http://www.jdon.com/dl/best/struts.htm" target="_blank"> Struts</a>
+
+
+
+
+
+
+              
+ <p><a href="http://www.jdon.com/jdonframework/app.htm" target="_blank"><font color="#ff3333"><strong>Jdon框架演示</strong></font></a></p>
+ <p><a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"><font color="#ff3333"><strong>JiveJdon3.0<br>
+   源码下载</strong></font></a>
+     </p>
+ <p><a href="http://www.jdon.com/designpatterns/index.htm" target="_blank"><font color="#ff3333"><strong>GoF设计模式</strong></font></a></p>
+ <p><a href="http://www.jdon.com/trainning/jiaocheng.htm" target="_blank"><font color="#ff3333"><strong>在线教程</strong></font></a></p>
+ <p><a href="http://www.jdon.com/communication.htm" target="_blank"><strong><font color="#ff3333">社区精彩讨论</font></strong></a></p>
+            
+
+
+<p>
+<br>
+<br>
+<br>
+
+
+<a href="javascript:location.href='http://www.google.com/bookmarks/mark?op=add&amp;bkmk='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/google.gif" alt="google" width="16" border="0" height="16"></a>
+
+<a href="javascript:location.href='http://myweb2.search.yahoo.com/myresults/bookmarklet?u='+encodeURIComponent(location.href)+'&amp;t='+encodeURIComponent(document.title)">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/yahoo.gif" alt="yahoo" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(vivi=window.open('http://vivi.sina.com.cn/collect/icollect.php?pid=28&amp;title='+escape(d.title)+'&amp;url='+escape(d.location.href)+'&amp;desc='+escape(t),'vivi','scrollbars=no,width=480,height=480,left=75,top=20,status=no,resizable=yes'));vivi.focus();">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/vivi.gif" alt="新浪ViVi" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/365key.gif" alt="365Key网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(yesky=window.open('http://hot.yesky.com/dp.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;st=2','yesky','scrollbars=no,width=400,height=480,left=75,top=20,status=no,resizable=yes'));yesky.focus();">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/yesky.gif" alt="天极网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" title="功能强大的网络收藏夹，一秒钟操作就可以轻松实现保存带来的价值、分享带来的快乐">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/cn3.gif" alt="CSDN网摘" width="16" border="0" height="16"></a>
+
+<a href='javascript:u=location.href;t=document.title;c%20=%20""%20+%20(window.getSelection%20?%20window.getSelection()%20:%20document.getSelection%20?%20document.getSelection()%20:%20document.selection.createRange().text);var%20url="http://cang.baidu.com/do/add?it="+encodeURIComponent(t)+"&amp;iu="+encodeURIComponent(u)+"&amp;dc="+encodeURIComponent(c)+"&amp;fr=ien#nw=1";window.open(url,"_blank","scrollbars=no,width=600,height=450,left=75,top=20,status=no,resizable=yes");%20void%200'>
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/baidu.gif" alt="添加到百度搜藏" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://my.poco.cn/fav/storeIt.php?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;img=http://www.h-strong.com/blog/logo.gif','keyit','scrollbars=no,width=475,height=575,status=no,resizable=yes'));keyit.focus();">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/poco.gif" alt="POCO网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://blogmark.bokee.com/jsp/key/quickaddkey.jsp?k='+encodeURI(d.title)+'&amp;u='+encodeURI(d.location.href)+'&amp;c='+encodeURI(t),'keyit','scrollbars=no,width=500,height=430,status=no,resizable=yes'));keyit.focus();">
+<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/bokee.gif" alt="博采网摘" width="16" border="0" height="16"></a>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</p>
+   
+				  
+
+              </cetner></form></td>
+            </tr>
+            <tr><td valign="bottom">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<iframe marginheight="0" marginwidth="0" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/120x600.htm" scrolling="no" width="120" frameborder="0" height="2000"></iframe>
+
+
+
+
+
+              
+
+            	</td></tr>
+          </tbody></table>            
+          </td>
+		  <td width="1" height="100%">
+<table background="%E6%88%91%E7%9A%84O-R%20MAPPING%20(HIBERNATE)%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/blackpoint.gif" cellpadding="0" cellspacing="0" height="100%">
+              <tbody><tr><td> <img name="" src="" alt="" width="1" height="1"></td></tr></tbody></table>
+		  </td> 
+          <td valign="top"> 
+            <table width="100%" border="0" cellpadding="3" cellspacing="8">
+              <tbody><tr>
+                <td>
+                	
+	
+
+<!--  get the first message, regard it as article -->
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td>
+  
+     <h3 align="center">我的O/R MAPPING (HIBERNATE)方法小结</h3>
+         <p align="center">
+            作者：<a href="http://www.jdon.com/jivejdon/profile.jsp?user=51459"><b>xyz</b></a>
+            发表时间：2005年08月22日 20:18
+            <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=13011700&amp;forum.forumId=16"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/reply.gif" alt="回复此消息" width="17" border="0" height="17" hspace="3">回复</a>
+            <br>
+</p><center>
+原贴网址：<a href="http://www.jdon.com/jivejdon/thread/22244.html">
+http://www.jdon.com/jivejdon/thread/22244.html</a>
+</center>   
+           <p></p>
+         
+  <!-- advert -->
+  
+         <table width="1%" align="left" border="0" cellpadding="0" cellspacing="5"> <tbody><tr> <td>
+         <div style="margin-top: 0px; margin-left: 5px;" id="vgad300x250">
+                
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//article用336x280, 创建于 07-11-18
+google_ad_slot = "7823422663";
+google_ad_width = 336;
+google_ad_height = 280;
+//--></script>
+<script type="text/javascript" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="336" frameborder="0" height="280"></iframe>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+           </div>
+          </td></tr>
+            </tbody></table>
+                    
+          <p class="article">（一）对象之间的关系：<br>1．	依赖：<br>        依赖对象通过调用被依赖对象的方法来获得服务。一种比较松散的关系，并且是短期的。我们的过程与对象往往依赖与我们的实体域对象。如在<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a> 的 action中调用模型层的方法。<br>2．	关联<br>        它使一个类指到另一个类的属性。长期的<br>3．	聚合<br>        聚合关系是关联关系的一种，是强的关联关系。聚合是整体和部分之间的关系。<br>4．	组合<br>        也叫合成关系，组成关系是关联关系的一种，是比聚合关系强的关系。对象负责代表部分的对象的生命周期。<br>注：既然聚合，组合关系属于关联关系，那么如何区分一般关联关系，聚合关系和组合关系呢？<br>一般关联：只要一个对象联系到另外一个对象就形成了关联关系。如：人和他的猫，黑豹乐队和窦魏，pc机和显示器。<br>聚合关系：一种强关联关系，它要求有部分和整体的关系，并且没有了整体部分也可以独立存在。在上面三个例子中人和它的猫显然没有部分和整体的关系，所以只能是一般的关联关系。而黑豹乐队和窦魏，窦魏等人组成了黑豹乐队即：窦魏和黑豹是整体和部分的关系。而<br>窦魏脱离了黑豹（早就离开了）更或者黑豹不存在了那么窦魏仍然可以以音乐人的身份存在（即对象仍然可以独立存在）所以它属于聚合关系。组成关系是可以共享的。（窦魏也可以加入其他乐队）。<br>组合关系：一种更强的整体和部分的关系。它并且要求代表整体的对象负责代表部分的对象的生命周期，组成关系是不能共享的。如：pc机和显示器的关系。<br>我
+觉得：如果两个实体是整体和部分的关系，那么它们到底是聚合还是组合，这取决于你的需求。比如说：pc机和显示器的关系，如果你的系统中，显示器脱离了
+pc机就不存在意义了，也可以说：所有显示器的访问都是通过pc机进行的，那么你可以把关系设定为组合（如你在为一个只买品牌机的代理商作系统你可能是可
+以这么作的）。如果你的显示器脱离的pc机仍然可以独立存在，也就是说在系统中可以直接访问显示器对象，那么你可以将关系设为聚合（如你在为一个买散件的
+代理商作系统你可能是可以这么作的）<br>5．	继承<br>       这个我不想多讲了，用过面向对象的语言都应该知道。<br>（二）关系数据库的关系<br>一对一<br>一对多<br>多对一<br>多对多<br>（三）o/r mapping策略<br>1．继承：<br>	对于继承关系一般有三种策略：<br>策略1继承树的每个类对应一个表&lt;joined-subclass &gt;<br>      共享主键<br>策略2继承树的根类对应一个表&lt;discriminator &gt;&lt;subclass &gt;<br>需要添加一个识别字段<br>策略3继承树的叶子类对应一个表<br>不支持多态查询<br>2．关联<br>2．1一对一<br>一半有两种策略：<br>策略1：唯一的外键<br>&lt;many-to-one&gt;+unique=”true” (唯一的外键)<br>&lt;one-to-one&gt;<br>策略2：共享主键<br>&lt;one-to-one&gt;<br>&lt;one-to-one&gt;&lt;constrained=”true”&gt; (既是主键又是外键)<br>注意：生成方式需要用：foreign<br>2．2一对多（无需多说）<br>2．3多对一（无需多说）<br>2．4多对多<br>策略1：A,B表多对多的关系需要引入C表。<br>C表中的所有属性即为主键又为外键分别参照A,B两表。<br>C表中不可以有其他属性<br>策略2：将多对多拆分成两个一对多：<br>A,B对象多对多的关系需要引入C对象。使得A,B两对象与C对象的关系为一对多。对应数据库中：A,B表多对多的关系需要引入C表。A,B两表与C表的关系为一对多。<br>C表又自己的主键<br>C表中又非主键的外键分别参照A,B两表。<br>C表中不可以有其他属性<br>如；学生 ，课程为多对多的关系 那么引入学生选课。<br>注意：策略1和策略2的不同在于：策略2引入了新的对象而策略1没有。这是因为这样：策略1的c表不能又自己的东西。而策略2有。<br>2．5其他<br>上面说过：聚合与组成是关联的一种所以他们也符合以上策略。<br>特别的：当用到组合关系的是否我们可用用到<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的“组件”&lt;component&gt;.由于“组件”它完全可以满足组成关系的强关联。<br>3．依赖<br>一般不在实体域对象中体现。<br></p>    
+                
+</td></tr></tbody></table>
+
+
+
+
+ 
+<a name="13016377"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2005年08月23日 09:16
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=13016377&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=51468"><b>jane830527</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=51468" target="_blank">发表文章: 1</a>/
+            注册时间: 2005年08月23日 09:14
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	好！
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="13016568"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2005年08月23日 09:33
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=13016568&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=7161"><b>kkkk</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=7161" target="_blank">发表文章: 3</a>/
+            注册时间: 2003年04月22日 13:50
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	支持
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="13016702"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>O/R MAPPING (HIBERNATE)方法小结 （补充内容）：</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2005年08月23日 09:54
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=13016702&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=51459"><b>xyz</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=51459" target="_blank">发表文章: 75</a>/
+            注册时间: 2005年08月22日 20:17
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	另外我看到了一种”键关联”的方法，感觉很有道理。我理解了一下总结如下：<br>1．	一般关联：<br>这种方法对于一般的关联总是引入c表（另外的一张表）仅仅表示关系。<br>C表的主键有分别指向A,B两表（外键）。当指向一方的外键unique=”true”即唯一，那么这一方为“一”，反之为“多”的一方。这样就可以形成一般的关联关系。但是注意的是：c表不映射为对象。C表也没有自己的属性。<br>2．	聚合和组成<br>当实体A的非主键列中有一个引自实体B的时候，这种关系是B聚合A。如果这种引用是强制性的，则是合成关系，否则为聚合关系。是否为强制性，只需要将引用列设为非空即可；<br>3．	继承<br>当实体A的主键引用自实体B的时候（即为外键），那么A继承 B。<br>总
+结：我觉得O/RM的方法有很多，我们可以看到“按外键“的方法思路很清晰。但是它在解决一般的关联的时候总是引入另外一张表这样势必影响效率。另外，既
+然聚合和组合是关联的一种那么即使是组合关系我也把它看成一般关联，也不算错的。关系数据库一开始就不是为了面向对象的语言服务的，所以我们在这里映射无
+论那种方法似乎都不能说是完全的，正确无误完成了O/RM。<br>所以我觉得一切都要看我们的项目需求。因地制宜！<br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="13029380"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2005年08月24日 10:50
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=13029380&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=51501"><b>robert8292</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=51501" target="_blank">发表文章: 1</a>/
+            注册时间: 2005年08月24日 10:47
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	“策略2：共享主键”关于这个问题昨天刚被问到，凭着项目中的记忆，勉强答对了，汗。<br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="13112863"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2005年08月31日 14:07
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=13112863&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=51618"><b>xxaxxx</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=51618" target="_blank">发表文章: 1</a>/
+            注册时间: 2005年08月31日 14:05
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	水平不错！
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14668737"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2006年01月02日 21:38
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14668737&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	该文章好就好在它从设计角度来看待<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>，对象关系和数据库之间的存在阻抗，如何通过<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>配置设置，该文从这个角度描述。<br><br>如果你看懂本文，并且觉得很好，说明你已经掌握了使用<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>的真谛。<br><br>如果你不以为然，或者没看懂，虽然你也在用<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>，说明你只是将hiberante作为数据库傀儡，请尽快转变你的思路到域模型驱动分析设计上来。<br><br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14668936"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2006年01月02日 21:40
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14668936&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	从另外一个方面说：使用<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>需要相当的设计功底，而非传统的数据库功底，如果你没有这个功底，会误用<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>，反而是一种损害。<br><br><a href="http://www.jdon.com/jive/article.jsp?forum=91&amp;thread=24451">http://www.jdon.com/jive/article.jsp?forum=91&amp;thread=24451</a>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="14904757"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2006年01月12日 20:50
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=14904757&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=53967"><b>stook</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=53967" target="_blank">发表文章: 1</a>/
+            注册时间: 2006年01月12日 20:47
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	嗯，言简意赅，很不错的总结呀！！支持！！<img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/stook6J13B.gif" border="0">
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="19182530"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>有个不解请教大哥？</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2006年08月02日 08:57
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=19182530&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=57392"><b>fzing</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=57392" target="_blank">发表文章: 1</a>/
+            注册时间: 2006年08月02日 08:43
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	关于2．4多对多中，文章提到了两种策略<br>策略1：A,B表多对多的关系需要引入C表。<br>策略2：将多对多拆分成两个一对多。<br>小弟未能领悟两者区别，能否请大哥举一示例详细说明一下？<br>还有两中策略中文章都提到C表中不可以有其他属性<br>请看下面一个设计：<br>　　学生：Student(学号（pk）, 姓名, 年龄)；<br>　　课程：Course(课程名称（pk）, 学分)；<br>　　选课关系：SelectCourse(学号（pk）, 课程名称（pk）, 成绩)。<br>其中关系表中的成绩是否算其他属性呢？？请教大哥<br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="19797458"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2006年08月24日 17:23
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=19797458&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=57772"><b>yuansu2006</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=57772" target="_blank">发表文章: 8</a>/
+            注册时间: 2006年08月24日 16:27
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	大家好!
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="23111275"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>回复:有个不解请教大哥？</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2007年11月13日 10:09
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=23111275&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=62031"><b>hdde</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=62031" target="_blank">发表文章: 1</a>/
+            注册时间: 2007年07月05日 18:18
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	我也想知道这样的联合主键的关系表是什么策略?<br>[该贴被hdde于2007-11-13 10:10修改过]
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="23113222"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>re:我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2008年03月16日 17:14
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=23113222&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=64115"><b>cljspn</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=64115" target="_blank">发表文章: 4</a>/
+            注册时间: 2008年03月16日 16:57
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	好呀，本人正在研究<a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank" title="??"><b>Hibernate</b></a>呢，受益了．
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="23113847"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>re:我的O/R MAPPING (HIBERNATE)方法小结</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2008年04月10日 08:44
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=23113847&amp;forum.forumId=16">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=63242"><b>763691</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=63242" target="_blank">发表文章: 1</a>/
+            注册时间: 2007年11月18日 22:59
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	- -!  刚学几天  还看不懂  
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+
+
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+    <td>
+<table width="100%" align="center" bgcolor="#ffffcc" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//300x250, 创建于 07-11-18
+google_ad_slot = "5308192209";
+google_ad_width = 300;
+google_ad_height = 250;
+//--></script>
+<script type="text/javascript" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" frameborder="0" height="250"></iframe>
+
+
+
+
+
+
+
+  
+
+    </td><td></td><td>
+    </td>
+</tr>
+</tbody></table>
+    </td>
+</tr>
+</tbody></table>       
+
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+    <td>
+<table width="100%" align="center" bgcolor="#ffffcc" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td class="smallgray">
+ 这个主题共有 <b>13</b> 回复 ／ <b>1</b> 页 [
+
+
+
+
+
+     ]
+    </td><td></td><td>
+
+    </td>
+</tr>
+</tbody></table>
+    </td>
+</tr>
+</tbody></table>
+<!--  上下主题 start -->
+
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="2">
+<tbody><tr>
+    <td valign="top" width="1%" nowrap="nowrap">
+  &nbsp;
+    </td>
+    <td width="98%" align="center">
+
+<table width="100%" border="0" cellpadding="0" cellspacing="2">
+
+
+    <tbody><tr>
+	<td>上一篇:
+        
+   
+     <a href="http://www.jdon.com/jivejdon/thread/33193.html" title="我是初学者，请老师指点我该怎么学JAVA，谢谢啦" class="forum">
+        我是初学者，请老师指点我该怎么学JAVA..
+        </a>
+             
+    </td>      
+
+
+ 
+	<td align="right">下一篇:
+   
+  
+     <a href="http://www.jdon.com/jivejdon/thread/33796.html" title="Servlet的Filter能否Mappinp到不同的路径上" class="forum">
+        Servlet的Filter能否Mapp..
+    </a>       
+       
+    </td>  
+</tr>
+    
+
+</tbody></table>
+
+    </td>
+    <td valign="top" width="1%" nowrap="nowrap">
+    &nbsp;
+    </td>
+</tr>
+</tbody></table>
+<!--  上下主题 结束  -->
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/hotlist.htm" scrolling="no" width="500" frameborder="0" height="290"></iframe>
+</center>
+
+<form name="queryForm" method="post" action="/jivejdon/query/threadViewQuery.shtml">
+<input name="queryType" value="HOT1" type="hidden">
+<input name="forumId" value="16" type="hidden"> 
+  <table id="Table2" width="90%" align="center" bgcolor="#999999" border="0" cellpadding="0" cellspacing="1">
+    <tbody><tr>
+      <td bgcolor="#ffffff">
+          <table id="table1" width="100%" align="center" bgcolor="#e6e6e6" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>            
+              <td align="middle">              
+              查询本论坛
+                        <select name="dateRange"><option value="1">近一天</option>
+<option value="3">近三天</option>
+<option value="5">近一周</option>
+<option value="30">近一月</option>
+<option value="90">近三月</option>
+<option value="190">近半年</option>
+<option value="365">近一年</option>
+<option value="3650">所有</option></select>
+           最热门帖子                           
+              <input name="btnsearch" value=" 查询 " style="width: 60px;" type="submit">
+            </td>
+          </tr>         
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+</form> 
+
+<a name="reply"></a>
+<form name="messageReplyForm" method="post" action="/jivejdon/message/messageReplySaveAction.shtml" onsubmit="return checkPost(this);">
+<input name="action" value="create" type="hidden">
+<input name="parentMessage.messageId" value="13011700" type="hidden">
+<input name="messageId" value="" type="hidden">
+快速发表回复:
+<!-- create another name "messageForm", so in messageFormBody.jsp it can be used -->
+
+
+
+
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function tag(theTag) {
+    var el = document.forms[0].body;
+    if (el == null)
+        el = document.forms[1].body;
+    if (el == null)
+        el = document.forms[2].body;
+        
+    if (theTag == 'b') {
+        el.value += "[b][/b]";
+    } else if (theTag == 'i') {
+        el.value += "[i][/i]";
+    } else if (theTag == 'u') {
+        el.value += "[u][/u]";
+    } else if (theTag == 'code') {
+        el.value += "\n[code]\n// 在此输入java代码\n[/code]";
+    } else if (theTag == 'image') {
+        var url = prompt("请输入一个图片的URL","http://");
+        if (url != null) {
+            el.value += "[img]" + url + "[/img]";
+        }
+    } else if (theTag == 'url') {
+        var url = prompt("请输入链接的URL","http://");
+        var text = prompt("请输入链接文本");
+        if (url != null) {
+            if (text != null) {
+                el.value += "[url=" + url + "]" + text + "[/url]";
+            } else {
+                el.value += "[url]" + url + "[/url]";
+            }
+        }
+    }
+}
+function MM_openBrWindow(theURL,features) { //v2.0
+   window.open(theURL,"adwin",features);
+
+}
+
+//-->
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+
+function checkPost(theForm) {
+     var check = false;
+      if ((theForm.body.value  != "")
+          && (theForm.subject.value  != "")){
+          check = true;
+          return check;
+      }else{
+          alert("请输入发言标题和发言内容！");
+          return check;
+      }
+      if ((theForm.body.value.length  < 4096)){
+          check = true;
+          return check;
+      }else{
+          alert("请发言内容长度必须小于" + 4096);
+          return check;          
+      }
+}
+//-->
+</script>
+
+<table border="0" cellpadding="2" cellspacing="0">
+
+<tbody><tr>
+	<td align="right">标题</td>
+	<td><input name="subject" maxlength="75" size="40" tabindex="1" value="" type="text"></td>
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+	<td>
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tbody><tr><td>
+    	<a href="#" onclick="tag('b');return false;"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/b.gif" alt="粗体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('i');return false;"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/i.gif" alt="斜体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('u');return false;"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/u.gif" alt="下划线" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/image.gif" alt="插入图片" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/blank.gif" width="5" border="0" height="1"></td>
+      
+        <td>
+    	<a href="#" onclick="tag('code');return false;"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/code.gif" alt="插入代码" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('url');return false;"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/link.gif" alt="插入url链接" width="23" border="0" height="22"></a>
+        </td>        
+		 <td><ihtml:img page="/images/blank.gif" width="5" height="1" border="0"></ihtml:img></td>
+       <td>
+        <a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/file.gif" alt="插入附件" width="23" border="0" height="22"></a>
+            <input readonly="readonly" size="10" name="attachsize" id="attachsize" value="" style="border: 0px solid Black; background: transparent none repeat scroll 0% 0%; width: 120px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"> 
+        </td>
+       <td><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/blank.gif" width="5" border="0" height="1"></td>
+    </tr>
+    </tbody></table>
+	</td>
+</tr>
+<tr>
+	<td valign="top" align="right">
+	内容
+	</td>
+
+	<td>
+	<textarea name="body" tabindex="2" cols="85" rows="25"></textarea>	
+	</td>
+</tr>
+
+</tbody></table>
+
+<table border="0" cellpadding="4" cellspacing="0">
+<tbody><tr>
+ <td width="20">&nbsp;</td>
+ <td>
+    <input value="发 表" name="formButton" tabindex="3" type="submit"> 
+ </td>
+</tr>
+</tbody></table>
+
+ <script>
+document.messageReplyForm.subject.value='re:我的O/R MAPPING (HIBERNATE)方法小结';
+
+</script>
+</form>
+
+ <center>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   </center>
+
+
+
+
+
+   </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/software.htm" scrolling="no" width="760" frameborder="0" height="200"></iframe>
+</center>
+
+
+
+
+
+  
+ 
+
+<table width="778" align="center" border="0" cellpadding="5" cellspacing="0">
+  <tbody>
+  <tr><td align="center">
+       <table><tbody><tr><td>
+        <a href="http://www.jdon.com/jivejdon/rss" target="_blank"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/rss_button.gif" width="36" border="0" height="14"></a>        
+        </td>
+        <td><a href="http://wap.feedsky.com/jdon" target="_blank"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/phone.gif" alt="手机阅读" width="18" border="0" height="18"></a>
+        </td>
+        <td>
+        <a href="http://www.google.com/ig/add?feedurl=http://www.jdon.com/jivejdon/rss"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/add-to-google.gif" alt="add to google" width="104" border="0" height="17"></a>
+         </td>
+          <td>
+        <a href="http://add.my.yahoo.com/rss?url=http://www.jdon.com/jivejdon/rss"><img src="%E6%88%91%E7%9A%84O-R%20MAPPING%20%28HIBERNATE%29%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93_files/add-to-myyahoo.gif" alt="add to yahoo" width="91" border="0" height="17"></a>
+         </td></tr></tbody></table>
+  </td></tr>
+  <tr>
+    <td align="center">
+      <span class="white"><a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">联系我们 </a> | 
+      <a href="http://www.jdon.com/aboutsite.htm" target="_blank" class="a03">关于我们 </a>| <a href="http://www.jdon.com/jivejdon/rss" target="_blank" class="a03">RSS订阅</a> |
+         <a href="http://www.jdon.com/advert.htm" target="_blank" class="a03">广告联系</a> | <a href="http://www.jdon.com/sitemap.html" target="_blank" class="a03">网站地图</a> 
+      <br>
+        <span class="a03">Copyright (C) 2002-2008 Jdon.com, All 
+      Rights Reserved 版权所有 上海解道计算机技术有限公司</span><span class="nava"><br>
+      <a href="http://www.miibeian.gov.cn/" target="_blank" class="a03">沪ICP备05018152号</a> <a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">如有意见请与我们联系</a> <a href="http://www.jdon.com/jdonframework/index.htm" class="a03">Powered by JdonFramework </a></span></span></td>
+</tr>
+  </tbody></table>
+  
+</body></html>

@@ -1,0 +1,591 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0034)http://www.javaeye.com/topic/70414 -->
+<HTML dir=ltr xml:lang="zh-CN" 
+xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>为什么双向关联的配置老是用Set 而不用 List? - Hibernate - Java - JavaEye论坛</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<META 
+content=hibernate的双向关联给我们获得关联的对象提供了很大的方便，但是Set对象却不如List对象用的那么多。hibernate本来就支持list配置的双向关联，可是为什么，资料上老是介绍set呢？ 
+name=description>
+<META content="配置 Hibernate Java" name=keywords><LINK href="/images/favicon.ico" 
+type=image/x-icon rel="shortcut icon"><LINK title=JavaEye论坛 
+href="/rss/board/Java" type=application/rss+xml rel=alternate><LINK media=screen 
+href="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/forum.css" 
+type=text/css rel=stylesheet>
+<SCRIPT 
+src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/application.js" 
+type=text/javascript></SCRIPT>
+<LINK media=screen 
+href="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/SyntaxHighlighter.css" 
+type=text/css rel=stylesheet>
+<SCRIPT 
+src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/shCoreCommon.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT 
+src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/hotkey.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT 
+src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/dragdrop.js" 
+type=text/javascript></SCRIPT>
+
+<META content="MSHTML 6.00.2900.3395" name=GENERATOR></HEAD>
+<BODY>
+<DIV id=page>
+<DIV class=clearfix id=header>
+<UL id=user_nav>
+  <LI class=last><A href="http://www.javaeye.com/index/help">帮助</A> </LI>
+  <LI><A href="http://www.javaeye.com/signup">注册</A> </LI>
+  <LI><A href="http://www.javaeye.com/login">登录</A> </LI>
+  <LI class=highlight><SPAN>您还没有登录 !</SPAN> </LI></UL>
+<DIV id=branding><A href="http://www.javaeye.com/"><IMG 
+title=JavaEye-最棒的软件开发交流社区 alt=JavaEye3.0 
+src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/logo.gif"></A> 
+</DIV>
+<DIV id=ad><EMBED pluginspage=http://www.macromedia.com/go/getflashplayer 
+src=http://ftp.javaeye.com/public/ibm/bbs2.swf width=720 height=60 
+type=application/x-shockwave-flash menu="true" loop="true" play="true"></EMBED> 
+</DIV></DIV>
+<DIV class=clearfix id=content>
+<DIV id=main>
+<DIV class=clearfix>
+<DIV class=crumbs><A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN 
+class=arrow>→</SPAN> <A 
+href="http://www.javaeye.com/forums/board/Java">Java版</A> <SPAN 
+class=arrow>→</SPAN> <A 
+href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</A> <SPAN 
+class=arrow>→</SPAN> 
+<H1>为什么双向关联的配置老是用Set 而不用 List?</H1></DIV></DIV>
+<DIV id=forum_tag_list><A href="http://www.javaeye.com/forums/board/Java">全部</A> 
+<A href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</A> <A 
+href="http://www.javaeye.com/forums/tag/Spring">Spring</A> <A 
+href="http://www.javaeye.com/forums/tag/Struts">Struts</A> <A 
+href="http://www.javaeye.com/forums/tag/Webwork">Webwork</A> <A 
+href="http://www.javaeye.com/forums/tag/iBATIS">iBATIS</A> <A 
+href="http://www.javaeye.com/forums/tag/J2EE">企业应用</A> <A 
+href="http://www.javaeye.com/forums/tag/Design-Pattern">设计模式</A> <A 
+href="http://www.javaeye.com/forums/tag/DAO">DAO</A> <A 
+href="http://www.javaeye.com/forums/tag/Object-Domain">领域模型</A> <A 
+href="http://www.javaeye.com/forums/tag/OO">OO</A> <A 
+href="http://www.javaeye.com/forums/tag/Tomcat">Tomcat</A> <A 
+href="http://www.javaeye.com/forums/tag/SOA">SOA</A> <A 
+href="http://www.javaeye.com/forums/tag/JBoss">JBoss</A> <A 
+href="http://www.javaeye.com/forums/tag/J2ME">J2ME</A> </DIV>
+<DIV class=actions>
+<DIV class=buttons></DIV>
+<DIV class=wrapper>
+<DIV id=forum_advert_b0></DIV>
+<DIV class=pagination><SPAN class="disabled prev_page">« 上一页</SPAN> <SPAN 
+class=current>1</SPAN> <A href="http://www.javaeye.com/topic/70414?page=2" 
+rel=next>2</A> <A href="http://www.javaeye.com/topic/70414?page=3">3</A> <A 
+class=next_page href="http://www.javaeye.com/topic/70414?page=2" rel=next>下一页 
+»</A></DIV>
+<DIV class=info>浏览 12534 次</DIV></DIV></DIV>
+<TABLE id=forum_main cellSpacing=1>
+  <THEAD>
+  <TR>
+    <TH class=topic_title colSpan=2>
+      <DIV class=wrapper><SPAN class=locked>锁定老贴子</SPAN> <A 
+      href="http://www.javaeye.com/topic/70414">主题：为什么双向关联的配置老是用Set 而不用 
+      List?</A></DIV>
+      <DIV id=topic_rate_box>精华帖 (0) :: 良好帖 (0) :: 新手帖 (0) :: 隐藏帖 
+(0)</DIV></TH></TR>
+  <TR>
+    <TD class=first_col>作者</TD>
+    <TD class=last_col>正文</TD></TR></THEAD>
+  <TBODY id=posts>
+  <TR id=p_261295>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>hanfengmvp 
+        <LI>等级: 初级会员 
+        <LI><A href="http://hanfengmvp.javaeye.com/" target=_blank><IMG 
+        title="hanfengmvp的博客: hanfengmvp" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/user-logo.gif"></A> 
+
+        <LI>文章: 15 
+        <LI>积分: 15 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-12 关键字: <STRONG>配置</STRONG></DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">
+      <DIV id=related_topics>相关文章: <SPAN class=close><A title=关闭 
+      onclick="$('related_topics').hide();return false;" 
+      href="http://www.javaeye.com/topic/70414#">&nbsp;</A></SPAN> 
+      <UL>
+        <LI><A href="http://www.javaeye.com/topic/47946" 
+        target=_blank>实体模型包含关联对象</A> 
+        <LI><A href="http://www.javaeye.com/topic/1528" 
+        target=_blank>inverse是什么意思？</A> </LI></UL><BR><SPAN>推荐圈子: <A 
+      href="http://onlypython.group.javaeye.com/" 
+      target=_blank>Python</A></SPAN> <BR><A 
+      href="http://www.javaeye.com/wiki/topic/70414" target=_blank>更多相关推荐</A> 
+      </DIV>
+      <SCRIPT type=text/javascript>
+            new Draggable("related_topics");
+          </SCRIPT>
+      hibernate的双向关联给我们获得关联的对象提供了很大的方便，但是Set对象却不如List对象用的那么多。hibernate本来就支持list配置的双向关联，可是为什么，资料上老是介绍set呢？ 
+      </DIV>
+      <DIV id=topic_copyright>声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </DIV>
+      <DIV id=forum_advert_b3><SPAN>推荐链接</SPAN> 
+      <UL class=adverts>
+        <LI><A href="http://www.javaeye.com/adverts/111" target=_blank><SPAN 
+        style="FONT-WEIGHT: bold; COLOR: red">IBM 
+Rational开发者大会9月盛大揭幕！</SPAN></A>
+        <LI><A href="http://www.javaeye.com/adverts/79" target=_blank>全新 IBM SOA 
+        数据服务开发工具</A></LI></UL></DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://hanfengmvp.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://hanfengmvp.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261408>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>zingers 
+        <LI>等级: <IMG title=五星会员 alt=五星会员 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/star5.gif"> 
+
+        <LI><A href="http://zingers.javaeye.com/" target=_blank><IMG 
+        title="zingers的博客: zingers" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/b5be434d-6633-4f63-82f2-6bbd74a759cb.jpg"></A> 
+
+        <LI>文章: 425 
+        <LI>积分: 645 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">先入为主，一开始某些例子是用Set的 </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://zingers.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://zingers.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261408><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261416>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>programmer 
+        <LI>等级: 初级会员 
+        <LI><A href="http://programmer.javaeye.com/" target=_blank><IMG 
+        title="programmer的博客: programmer" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/user-logo.gif"></A> 
+
+        <LI>性别: <IMG title=男 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/icon_minigender_1.gif"> 
+
+        <LI>文章: 44 
+        <LI>积分: 41 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">我在开发中也有这个疑问，set在使用中确实不好用。如果能用list就比较好用了。 
+      </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://programmer.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://programmer.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261416><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261435>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>乡村里的一条土狗 
+        <LI>等级: 初级会员 
+        <LI><A href="http://lifeside.javaeye.com/" target=_blank><IMG 
+        title="乡村里的一条土狗的博客: 奇文共赏" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/a7608af1-fabf-3282-8740-c8e040a5c690.gif"></A> 
+
+        <LI>性别: <IMG title=男 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/icon_minigender_1.gif"> 
+
+        <LI>文章: 7 
+        <LI>积分: 2 
+        <LI>来自: docman.cn 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">顶一下 </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://lifeside.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://lifeside.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261435><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261483>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>pinetree_xia 
+        <LI>等级: 初级会员 
+        <LI><A href="http://pinetree-xia.javaeye.com/" target=_blank><IMG 
+        title="pinetree_xia的博客: pinetree_xia" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/3e594553-bfc6-44a3-85f3-66c45e9fbdbe.jpg"></A> 
+
+        <LI>文章: 6 
+        <LI>积分: 2 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">也是我想问的问题. </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://pinetree-xia.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 
+      href="http://pinetree-xia.javaeye.com/blog/profile">&nbsp;</A> </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261483><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261517>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>ahuaxuan 
+        <LI>等级: <IMG title=四钻会员 alt=四钻会员 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/dimd4.gif"> 
+
+        <LI><A href="http://ahuaxuan.javaeye.com/" target=_blank><IMG 
+        title="ahuaxuan的博客: ahuaxuan" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg"></A> 
+
+        <LI>性别: <IMG title=男 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/icon_minigender_1.gif"> 
+
+        <LI>文章: 623 
+        <LI>积分: 1756 
+        <LI>来自: 上海 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">
+      <DIV class=quote_title>programmer 写道</DIV>
+      <DIV 
+      class=quote_div>我在开发中也有这个疑问，set在使用中确实不好用。如果能用list就比较好用了。</DIV>list就是bag类型，但从来没有听说过set确实不好用，而且bag和set是适用在不同场景下的，bag适合关联的集合类中有排序需求，而set没有排序，而且要override 
+      equals和hashcode方法，但是更常用的应该是set，用set的优点就是用Set的优点，用list就是用List的优点，搞清楚两者的区别和适用场景就没有什么疑惑的了 
+      </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://ahuaxuan.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://ahuaxuan.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261517><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261522>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>hgq0011 
+        <LI>等级: <IMG title=五星会员 alt=五星会员 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/star5.gif"> 
+
+        <LI><A href="http://hgq0011.javaeye.com/" target=_blank><IMG 
+        title="hgq0011的博客: Rami" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/caa26295-4ee1-432b-837b-2deca588d1cf.gif"></A> 
+
+        <LI>性别: <IMG title=男 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/icon_minigender_1.gif"> 
+
+        <LI>文章: 656 
+        <LI>积分: 797 
+        <LI>来自: 广州 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">set配置比list简单。 <BR>set没有顺序，list有顺序。 
+      <BR>配置list的时候要指定list-index，也就要在数据库中对应创建一个字段表示顺序。 </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://hgq0011.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://hgq0011.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261522><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261581>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>Lucas Lee 
+        <LI>等级: <IMG title=二钻会员 alt=二钻会员 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/dimd2.gif"> 
+
+        <LI><A href="http://lucaslee.javaeye.com/" target=_blank><IMG 
+        title="Lucas Lee的博客: Lucas Lee" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/e8ea4baf-a9d7-4ab9-8f77-ad8c242ddbce.jpg"></A> 
+
+        <LI>性别: <IMG title=男 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/icon_minigender_1.gif"> 
+
+        <LI>文章: 1027 
+        <LI>积分: 1263 
+        <LI>来自: 上海 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV 
+      class="postbody clearfix">用Set能保证集合内的元素是唯一，不重复的。<BR>至少看上去清楚些。<BR>我想这是主要原因吧。 
+      </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://lucaslee.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://lucaslee.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261581><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261616>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>daquan198163 
+        <LI>等级: <IMG title=一钻会员 alt=一钻会员 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/dimd1.gif"> 
+
+        <LI><A href="http://daquan198163.javaeye.com/" target=_blank><IMG 
+        title="daquan198163的博客: daquan198163" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/1394bca6-c440-448a-b4ae-4fadf00bc64d.jpg"></A> 
+
+        <LI>性别: <IMG title=男 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/icon_minigender_1.gif"> 
+
+        <LI>文章: 904 
+        <LI>积分: 1061 
+        <LI>来自: 吉林-&gt;北京-&gt;上海 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV 
+      class="postbody clearfix">有什么明显的区别么<BR>估计大多数人都是受自己看的第一本hibernate书影响来选择的，呵呵 
+      </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://daquan198163.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 
+      href="http://daquan198163.javaeye.com/blog/profile">&nbsp;</A> </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261616><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR>
+  <TR id=p_261910>
+    <TD class=postauthor>
+      <UL>
+        <LI class=name>xly_971223 
+        <LI>等级: <IMG title=五星会员 alt=五星会员 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/star5.gif"> 
+
+        <LI><A href="http://xuliangyong.javaeye.com/" target=_blank><IMG 
+        title="xly_971223的博客: 一生一火花" alt=用户头像 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/56a6baa9-87b3-313c-a559-fe0f01157cd0.jpg"></A> 
+
+        <LI>性别: <IMG title=男 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/icon_minigender_1.gif"> 
+
+        <LI>文章: 621 
+        <LI>积分: 601 
+        <LI>来自: 北京 
+        <LI><IMG 
+        src="为什么双向关联的配置老是用Set 而不用 List - Hibernate - Java - JavaEye论坛.files/offline.gif"> 
+        </LI></UL></TD>
+    <TD class=postcontent>
+      <DIV class=postactions>
+      <DIV class=description>时间：2007-04-13 </DIV>
+      <DIV class=links></DIV></DIV>
+      <DIV class="postbody clearfix">主要还是防止有重复记录吧 如果存在重复记录 set可以透明的合并 
+      <BR>如果使用list操作起来可能要麻烦些 </DIV></TD></TR>
+  <TR>
+    <TD class=postauthor><A 
+    href="http://www.javaeye.com/topic/70414#">返回顶楼</A></TD>
+    <TD class=postcontent>
+      <DIV class=icons><A class=icon_www title=浏览作者的博客 
+      href="http://xuliangyong.javaeye.com/">&nbsp;</A> <A class=icon_profile 
+      title=浏览作者资料 href="http://xuliangyong.javaeye.com/blog/profile">&nbsp;</A> 
+      </DIV>
+      <DIV class=post_rate_box id=post_rate_box_261910><A class=good title=好 
+      onclick="return false;" href="http://www.javaeye.com/topic/70414#">0</A> 
+      <A class=hidden title=差 onclick="return false;" 
+      href="http://www.javaeye.com/topic/70414#">0</A> 请登录后投票</DIV></TD></TR>
+  <TR class=sep2>
+    <TD colSpan=2></TD></TR></TBODY></TABLE>
+<DIV class=actions>
+<DIV class=buttons></DIV>
+<DIV class=wrapper>
+<DIV class=pagination><SPAN class="disabled prev_page">« 上一页</SPAN> <SPAN 
+class=current>1</SPAN> <A href="http://www.javaeye.com/topic/70414?page=2" 
+rel=next>2</A> <A href="http://www.javaeye.com/topic/70414?page=3">3</A> <A 
+class=next_page href="http://www.javaeye.com/topic/70414?page=2" rel=next>下一页 
+»</A></DIV></DIV></DIV>
+<DIV>
+<DIV class=crumbs><A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN 
+class=arrow>→</SPAN> <A 
+href="http://www.javaeye.com/forums/board/Java">Java版</A> <SPAN 
+class=arrow>→</SPAN> <A 
+href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</A> 
+<BR><BR>跳转论坛:<SELECT id=forum_urlname 
+onchange="window.location='/forums/board/'+this.value" 
+  name=forum[urlname]><OPTION value=Java selected>Java</OPTION> <OPTION 
+  value=Ruby>Ruby</OPTION> <OPTION value=AJAX>AJAX</OPTION> <OPTION 
+  value=dotnet>Microsoft .Net</OPTION> <OPTION value=Tech>综合技术</OPTION> <OPTION 
+  value=New>入门讨论</OPTION> <OPTION value=Agile>软件开发和项目管理</OPTION> <OPTION 
+  value=Industry>行业解决方案</OPTION> <OPTION value=company>厂商论坛</OPTION> <OPTION 
+  value=Job>招聘求职</OPTION> <OPTION value=Life>海阔天空</OPTION></SELECT> 
+<DIV id=forum_advert_b2><SPAN>JavaEye推荐</SPAN>
+<UL class=adverts></UL></DIV></DIV></DIV>
+<DIV style="DISPLAY: none">
+<FORM id=post_rate_form 
+onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;" 
+action=/posts/rate method=post><INPUT id=post_rate_id type=hidden name=id> 
+<INPUT id=post_rate_type type=hidden name=type> </FORM></DIV>
+<SCRIPT type=text/javascript>
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":70414, "type":type}});
+    }
+
+</SCRIPT>
+</DIV>
+<DIV id=nav>
+<DIV class=wrapper>
+<UL>
+  <LI><A href="http://www.javaeye.com/">首页</A> </LI>
+  <LI><A href="http://www.javaeye.com/news">新闻</A> </LI>
+  <LI><A class=selected href="http://www.javaeye.com/forums">论坛</A> </LI>
+  <LI><A href="http://www.javaeye.com/ask">问答</A> </LI>
+  <LI><A href="http://www.javaeye.com/wiki">知识库</A> </LI>
+  <LI><A href="http://www.javaeye.com/blogs">博客</A> </LI>
+  <LI><A href="http://www.javaeye.com/groups">圈子</A> </LI>
+  <LI><A href="http://www.javaeye.com/jobs">招聘</A> </LI>
+  <LI><A href="http://www.javaeye.com/index/service">服务</A> </LI>
+  <LI class=last><A href="http://www.javaeye.com/search">搜索</A> 
+</LI></UL></DIV></DIV>
+<DIV id=channel_nav>
+<UL>
+  <LI><A href="http://java.javaeye.com/">Java</A> </LI>
+  <LI><A href="http://ruby.javaeye.com/">Ruby</A> </LI>
+  <LI><A href="http://ajax.javaeye.com/">AJAX</A> </LI>
+  <LI><A href="http://agile.javaeye.com/">敏捷</A> </LI>
+  <LI><A href="http://book.javaeye.com/">图书</A> </LI>
+  <LI><A href="http://oracle.javaeye.com/">Oracle</A> </LI>
+  <LI class=last><A href="http://primeton.javaeye.com/">普元</A> 
+</LI></UL></DIV></DIV>
+<DIV id=footer>
+<DIV id=site_nav>
+<UL>
+  <LI><A href="http://www.javaeye.com/index/service">广告服务</A> 
+  <LI><A href="http://webmaster.javaeye.com/">JavaEye黑板报</A> 
+  <LI><A href="http://www.javaeye.com/index/sitemap">网站地图</A> 
+  <LI><A href="http://www.javaeye.com/index/aboutus">关于我们</A> 
+  <LI><A href="http://www.javaeye.com/index/contactus">联系我们</A> 
+  <LI class=last><A href="http://www.javaeye.com/index/friend_links">友情链接</A> 
+  </LI></UL></DIV>
+<DIV id=copyright>© 2003-2008 JavaEye.com. All rights reserved. 上海炯耐计算机软件有限公司 [ 
+沪ICP备05023328号 ] </DIV></DIV></DIV>
+<SCRIPT type=text/javascript>
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+var pageTracker = _gat._getTracker("UA-535605-1");
+pageTracker._trackPageview();
+</SCRIPT>
+</BODY></HTML>
