@@ -1,0 +1,381 @@
+<html><head><!-- InstanceBegin template="/Templates/module.dwt" codeOutsideHTMLIsLocked="false" -->
+
+<!-- #BeginEditable "doctitle" -->
+<title>表现层框架Struts/Tapestry/JSF架构比较</title>  
+<!-- #EndEditable --> 
+<script language="javascript" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/imagetool.js"></script><style>
+.pictools {position:absolute;border:1px solid;border-left-color:#dddddd;border-top-color:#dddddd;border-right-color:#333333;border-bottom-color:#333333;background:#dddddd;}
+.pictools1 {border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt {padding:3 4 4 4;}
+.pt_bt_up {padding:2 3 3 3;border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt_down {padding:2 2 3 4;border:1px solid;border-left-color:#999999;border-top-color:#999999;border-right-color:#ffffff;border-bottom-color:#ffffff;}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312"><meta http-equiv="refresh" content="900"><meta name="keywords" content="java software,database, software,software developer ,software development,software engineering,software solution,software support,software utility,software testing,software trainning, erp, mis,CRM"><meta name="keywords" content="java software,database, software,software developer ,software development,software engineering,software solution,software support,software utility,software testing,software training, java training"><meta name="keywords" content="computer component, computer consultant,computer education,computer jobs,computer programming, computer software ,computer technology,computer training, computer company"><meta name="keywords" content="javascript,ajax,RIA,Point of sale software,webmaster,linux hosting, web hosting, java hosting,call center software ,linux hosting,medical billing software,email marketing software,intranet software,cheap software "><meta name="keywords" content="survey software,crm software,medical software ,payroll software,network monitoring software ,ecommerce software ,online teaching degree,tax software,accounting software,shopping cart software, marketing software,academic software,project management software ,security software,maintenance software,real estate software,legal software,erp software   "><meta name="keywords" content="education degree online,free online legal advice,online master degree,online computer science degree,online teaching degree, online degree program "></head><body topmargin="2" leftmargin="0" text="#000000" bgcolor="#ffffff" marginwidth="0"><table class="pictools" id="pictools" style="left: 307px; top: 571px; display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_restore()"><img src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/bt_img_full_size.gif" title="原大小" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_fit()"><img src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/bt_img_fit.gif" title="刚好" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomin()"><img src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/bt_img_zoom_in.gif" title="变大" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomout()"><img src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/bt_img_zoom_out.gif" title="变小" width="15" height="15"></td></tr></tbody></table></td></tr></tbody></table>
+<table class="pictools" id="pictools1" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr></tr></tbody></table></td></tr></tbody></table>
+
+
+<link href="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/jdon.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="http://www.jdon.com/favicon.ico">
+
+
+
+
+
+   
+
+<table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+          <tbody><tr> 
+            <td rowspan="3" valign="bottom" width="129" align="center" bgcolor="#ffffff"> 
+            
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                  <tbody><tr>
+                    <td align="center">
+                    <img src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/jdon.gif" width="120" height="60"></td>
+                  </tr>
+				  <tr>
+				    <td height="9"></td>
+				  </tr>
+                </tbody></table>
+                
+            </td>
+            <td valign="bottom">
+			 <table width="100%" cellpadding="0" cellspacing="0" height="100%">
+              <tbody><tr bgcolor="#cac9bb">
+                  <td valign="bottom" align="right" bgcolor="#cac9bb">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tbody><tr bgcolor="#cac9bb">
+                <td valign="bottom" width="43%" align="left" bgcolor="#cabfa8"><img src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/00.gif" alt="jdon" width="107" height="55"></td>
+                <td class="smallgray" valign="bottom" width="57%" align="right" bgcolor="#cabfa8" height="55"><em>解惑授道，企业信息化解决之道 </em></td>
+              </tr>
+            </tbody></table></td>
+              </tr>
+            </tbody></table></td>
+          </tr>
+          <tr> 
+		    <td>
+			<table bgcolor="#cccccc" cellpadding="0" cellspacing="1">
+                <tbody><tr>
+			            <td width="222" bgcolor="#707070" height="26">&nbsp;</td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/index.html" class="a03">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/design.htm" class="a03">设计研究</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/product.htm" class="a03">构件产品</a></div></td>			
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/trainning.htm" class="a03">培训咨询</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jdonframework/" class="a03">Jdon框架</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jivejdon/" class="a03">论坛</a></div></td>
+
+			</tr></tbody></table>
+			</td>
+          </tr>
+</tbody></table>
+
+ <table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+
+  <tbody><tr> 
+    <td colspan="7" class="bianxian" bgcolor="#ffffff" height="11"> 
+      <table width="100%" border="0" bordercolor="#000000" cellpadding="0" cellspacing="0" height="1">
+        <tbody><tr> 
+          <td> 
+            <table width="100%" bgcolor="#000000" border="0" cellpadding="0" cellspacing="0" height="2">
+              <tbody><tr> 
+                <td></td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr> 
+    
+    <td valign="top" bgcolor="#ffffff">
+    
+    
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr> 
+          <td valign="top" width="130" bgcolor="#ffffd7"><table width="100%" align="center" border="0" cellpadding="3" cellspacing="0" height="200">
+            <tbody><tr>
+			<td valign="top" align="right"> 
+			<iframe marginheight="0" marginwidth="0" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/search2.htm" scrolling="no" width="120" frameborder="0" height="120"></iframe>
+			
+			</td>
+			</tr><tr>
+              <td valign="top" align="left">
+			  
+			  <!-- InstanceBeginEditable name="Menu" --> <!-- InstanceEndEditable --> </td>
+            </tr>
+            <tr>
+              <td align="right">
+			 
+						<p><a href="http://www.jdon.com/jdonframework/app.htm" target="_blank"><font color="#ff3333"><strong>Jdon框架演示</strong></font></a></p>
+				 
+                  <p><a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"><font color="#ff3333"><strong>JiveJdon3.0<br>
+   源码下载</strong></font></a>
+     </p>
+ <p><a href="http://www.jdon.com/designpatterns/index.htm" target="_blank"><font color="#ff3333"><strong>GoF设计模式</strong></font></a></p>
+ <p><a href="http://www.jdon.com/trainning/jiaocheng.htm" target="_blank"><font color="#ff3333"><strong>在线教程</strong></font></a></p>
+ <p><a href="http://www.jdon.com/communication.htm" target="_blank"><strong><font color="#ff3333">社区精彩讨论</font></strong></a></p>
+ <p>&nbsp;</p>
+
+<iframe marginheight="0" marginwidth="0" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/120x600.htm" scrolling="no" width="120" frameborder="0" height="2000"></iframe>
+<div id="vgad"></div>
+
+<br>
+<br>
+<br>
+<br>
+
+
+ <!-- InstanceBeginEditable name="Menu2" --> <!-- InstanceEndEditable -->
+			  
+              </td>
+            </tr>
+          </tbody></table> 
+           
+          </td>
+		  <td width="1" height="100%">
+<table background="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/blackpoint.gif" cellpadding="0" cellspacing="0" height="100%">
+              <tbody><tr><td> <img name="" src="" alt="" width="1" height="1"></td></tr></tbody></table>
+		  </td> 
+          <td valign="top"> 
+		 
+            <table width="100%" border="0" cellpadding="2" cellspacing="13">
+              <tbody><tr>
+                <td class="article">
+				
+				<!-- #BeginEditable "main" -->
+                  <h3 align="center">表现层框架Struts/Tapestry/JSF架构比较 </h3>
+                  <p align="center"><a href="http://www.jdon.com/aboutme.htm">板桥里人</a> http://www.jdon.com 2005/09/12</p>
+				  <table width="1%" align="left" border="0" cellpadding="0" cellspacing="5"> <tbody><tr> <td><div id="vgad336x280">
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//336x280, 创建于 07-11-18
+google_ad_slot = "5125356208";
+google_ad_width = 336;
+google_ad_height = 280;
+//--></script>
+<script type="text/javascript" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/ads_003.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="336" frameborder="0" height="280"></iframe>
+</div> </td>
+              </tr>
+            </tbody></table>
+                  <p align="left">　
+　Struts/Tapestry/JSF是目前J2EE表现层新老组合的框架技术。从诞生时间上看，Struts应该比较早，使用得非常广
+泛，Tapestry
+3.0逐渐引起广泛的重视，正当Tapestry即将大显身手时期，SUN推出JSF标准技术，虽然JSF一开始推出尚不成熟，留出了一段空白期，但是随
+着JSF1.1标准推出，JSF开始正面出击，粉面隆重登场了。</p>
+                  <p align="left">　　其实，JSF和Tapestry也并不是那种头碰头的相同竞争性技术，两者还是各有侧重点的，不过比较细微，但是这种细微点在实现一个大工程时可能带来不同的感受和变化。</p>
+                  <p align="left">　　首先，我们从一个高度来抽象一下表现层框架应有的技术架构，下图可以说所有表现层框架技术都必须实现的功能架构图：</p>
+                  <p align="center"><img src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/jsf-struts-tapestry.jpg" width="315" height="339"></p>
+                  <p align="left">　　当然，我们不必废话罗嗦MVC模式，MVC模式是基准模式，现在框架技术已经不必再拼是否是MVC模式了。
+                    在上图MVC模式基础上，一个表现层框架无外乎要实现图中的三个功能：</p>
+                  <p align="left">1.在当前页面能够显示一个组件对象的内容；而不是象纯JSP那样，需要在Jsp页面写入“调用对象方法”的Java代码。</p>
+                  <p align="left">2.当用户按下页面的提交按扭或链接后，事件发生，这时应该触发服务器端并将当前页面的参数提交给服务器。这种机制表现在Form表单提交和有参数的链接&lt;a
+                  href=""&gt;&lt;/a&gt;</p>
+                  <p align="left">3.从一个页面视图直接跳转到另外一个页面视图，单纯的导航作用。</p>
+                  <p align="left">我们通过下表来比较这 三种框架在实现上图各个功能时技术细节，从而得出他们的异同点和偏重点。</p>
+                  <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                    <tbody><tr>
+                      <td bgcolor="#cccccc"><table width="100%" border="0">
+                        <tbody><tr>
+                          <td width="16%">&nbsp;</td>
+                          <td width="29%">Struts</td>
+                          <td width="33%">Tapestry3.0</td>
+                          <td width="22%">JSF</td>
+                        </tr>
+                        <tr bgcolor="#ffffff">
+                          <td bgcolor="#999999">在View显示的组件要求</td>
+                          <td><p>组件必须继承ActionForm</p></td>
+                          <td>分显式调用和隐式调用<br>
+      组件必须继承BaseComponent</td>
+                          <td>普通POJO<br>
+      无需继承<br>
+      Managed Bean</td>
+                        </tr>
+                        <tr bgcolor="#ffffff">
+                          <td bgcolor="#999999">组件在View显示粒度</td>
+                          <td>View页面只能显示与表单对应的ActionForm，配置中Action ActionForm 页面一般只能1:1:1关系。</td>
+                          <td>可将组件嵌入页面任何一行，对使用组件数量无限制。</td>
+                          <td>同Tapestry</td>
+                        </tr>
+                        <tr bgcolor="#ffffff">
+                          <td bgcolor="#999999">页面分区tiles</td>
+                          <td>使用Tiles标签库实现，需要另外tiles-def.xml配置文件</td>
+                          <td>组件有自己的视图页面，通过调用组件即直接实现多个页面组合。强大自然的页面组合是其特点。</td>
+                          <td>通过组件+标签库实现Subview,但如需重用Layout,还要结合Tiles.</td>
+                        </tr>
+                        <tr bgcolor="#ffffff">
+                          <td bgcolor="#999999">页面跳转</td>
+                          <td>使用标签库html:link中写明目标URL，URL名称需要对照配置文件的path命名,与组件Action耦合。</td>
+                          <td>URL名称是目标的组件名称，不涉及URL和路径等操作，方便稳固。</td>
+                          <td>类似Struts，也需要在配置文件中查找,与组件分离。</td>
+                        </tr>
+                        <tr bgcolor="#ffffff">
+                          <td bgcolor="#999999">参数传递</td>
+                          <td>使用html:link时传递参数超过一个以上处理麻烦。</td>
+                          <td>直接调用组件，直接赋予参数，没有参数个数限制</td>
+                          <td>参数分离传递给组件</td>
+                        </tr>
+                        <tr bgcolor="#ffffff">
+                          <td bgcolor="#999999">事件触发</td>
+                          <td>通过表单提交submit激活，不能细化到表单里字段。</td>
+                          <td>能够给于表单每个字段贴一个事件，事件组件必须实现PageListener接口</td>
+                          <td><span id="intelliTxt"><code>同Tapestry，事件组件必须实习ActionListener 接口</code></span></td>
+                        </tr>
+                      </tbody></table></td>
+                    </tr>
+                  </tbody></table>
+                  <p><strong>Struts组件编程模型</strong></p>
+                  <p>　　Struts实现组件编程时有一些复杂：经常为一个页面中需要引入多个组件而头疼，因为Struts中无法直接引入多个组件，必须绕一些圈子:</p>
+                  <p>　　一般分两种情况：如果同一个Action就可以对付这些组件，那么在这种情况下有两个办法：</p>
+                  <p>1.将这多个组件装入一个ActionForm中，如使用<span class="unnamed3">MapForm</span>等机制；</p>
+                  <p>2.手工将多个组件装入request/session等scope中，然后根据其名称在jsp中获得。</p>
+                  <p>　　这两个方法都有缺点：
+                  第一种办法经常一个ActionForm弄得面目全非，变成一个大杂烩，违反了OO分派封装的原则；第2种办法其实又回到jsp编程；</p>
+                  <p>　　第二种情况，如果这些组件必须有预先由不同的Action来处理，每个组件必须经过Action --&gt;ActionForm流程，在这种情况下有两种办法：</p>
+                  <p>1.使用Tiles,
+
+
+不同流程输出到同一个页面的不同区域。是一种并行处理方式。</p>
+                  <p>2.
+
+
+对多个流程首尾相连，第一Action forward结果是第二个Action，最后输出一个Jsp，在这个jsp中就可以使用前面多个流程的多个ActionForm了，这属于串行方式。</p>
+                  <p><strong>Struts组件模型缺点</strong></p>
+                  <p>　　Struts组件编程必须限定在Action/ActionForm/JSP这三个框框中做文章，难度相对比较大，而Tapestry/JSF则没有太多这些技术框框限制，两者在组件编程方面更让编程者自由一些，方便一些，这也是组件型框架的优势吧。</p>
+                  <p><strong>Struts标签库</strong></p>
+                  <p>　　在Struts中，经常需要使用标签库来显示组件ActionForm中内容，这就涉及到一个结合的问题，标签库是别人写的，参考Struts的标签库用法，而组件是自己的，难度和麻烦就体现在这个结合点上。</p>
+                  <p>　　JSF基本思路和Struts差不多，只不过换了不同标签库，也需要标签库+组件的结合思考，不过因为组件这里是通用组件，没有什么限制，所以这样比Struts要轻松一些。</p>
+                  <p>　　Tapestry使用了组件库概念替代了标签库，没有标签库概念，这样就没有标签库和自己的组件需要结合的问题，都是组件的使用，组件中分Tapestry标准组件和自己定义的组件，这也是接触了Jsp体系的人学习Tapestry面临的一个思路转换。</p>
+                  <p>　　具体以页面跳转为例子，页面跳转是靠链接&lt;a href="目标"&gt;&lt;/a&gt; 实现，链接是页面经常使用的元素。</p>
+                  <p>　
+　Struts提供的html:link在频繁使用就特别不方便，尤其在传递多个参数时：其中html:link的page值，是跳转对方页面或
+Action的path，这个path一般需要到struts-config.xml查找Action的相应path,一旦配置文件path值修改，涉及
+到这个所有相关页面都要修改。</p>
+                  <p>　　JSF将链接概念划分两个方面：导航性质和事件激活，在导航方面还是需要到配置faces-config查询Navigation的from-outcome的值。</p>
+                  <p>　　由于Tapestry没有标签库概念，只有组件或页面两个概念，因此，链接跳转目标要么是组件，要么是页面，简洁简单，它没有多余的path概念，就是组件名，也就是对象名称，组件名称和path名称合二为一。</p>
+                  <p><strong>总结</strong></p>
+                  <p>　
+　JSF在很大程度上类似Struts，而不是类似Tapestry，可以说是一种Struts
+2.0，都是采取标签库+组件的形式，只是JSF的组件概念没有象Struts那样必须继承ActionForm的限制；JSF在事件粒度上要细腻，不象
+Struts那样，一个表单一个事件，JSF可以细化到表单中的每个字段上。</p>
+                  <p>　　JSF只有在组件和事件机制这个概念上类似Tapestry，但是不似Tapestry那样是一个完全组件的框架，所以，如果你做一个对页面要求灵活度相当高的系统，选用Tapestry是第一考虑。</p>
+                  <p>　　Struts/JSF则适合在一般的数据页面录入的系统中，对于Struts和JSF的选用，我目前个人观点是：如果你是一个新的系统，可以直接从JSF开始；如果你已经使用Struts，不必转换，如果需要切换，可以将JSF和Tapestry一起考虑。</p>
+                  <p>　　另外，JSF/Tapestry不只是支持Html，也支持多种客户端语言如WML或XUI等。</p>
+                  <p>　　这三者之间关系：如果说Struts是左派；那Tapestry则是右派；而JSF则是中间派，中庸主义是SUN联盟的一贯策略。</p>
+                  <p>　　当然，你也可以发表你在实践中这三者任何一个的使用感受，以使得后来者有一个比较。</p>
+                  <p>相关：</p>
+                  <p><a href="http://www.jdon.com/jive/article.jsp?forum=91&amp;thread=21482" target="_blank">组件框架技术tapestry及简单对比</a></p>
+                  <p><a href="http://www.jdon.com/idea/jsf-struts.htm" target="_blank">JSF与Struts的异同</a></p>
+                  <p><a href="http://www.jdon.com/jive/thread.jsp?forum=91&amp;thread=17127" target="_blank">用了Struts的体会</a></p>
+                  <p><a href="http://www.jdon.com/artichect/artichect/java_ee_architecture.htm" target="_blank">Java企业系统架构选择考量</a></p>
+                  <p><a href="http://www.jdon.com/jivejdon/key/struts" target="_blank">更多关于struts讨论</a></p>
+                  <p><a href="http://www.jdon.com/jive/thread.jsp?forum=91&amp;thread=22608" target="_blank">讨论</a>　</p>
+                  <p>&nbsp;</p>
+                  <!-- #EndEditable -->					
+                  <div id="vgad2">
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036"; 
+/* 文章结束用300x250, 创建于 07-11-17 */
+google_ad_slot = "6004413113";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/ads_004.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" frameborder="0" height="250"></iframe>
+</div>
+				
+				<br><br>
+				
+				 <br>
+<table><tbody><tr><td>
+<iframe marginheight="0" marginwidth="0" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/hotlist.htm" scrolling="no" width="300" frameborder="0" height="290"></iframe></td><td valign="top">
+
+ <div id="vgad300x250"></div> 
+</td></tr></tbody></table>
+	 
+	<br>
+	 <center><div id="vgad3"></div></center>
+	 
+			    </td>
+              </tr>
+            </tbody></table>			
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+
+
+<table width="778" align="center" bgcolor="#000000" border="0" cellpadding="0" cellspacing="0" height="2">
+              <tbody><tr>
+                <td></td>
+              </tr>
+</tbody></table>
+<table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td align="center" background="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/homebottombg.gif" bgcolor="#cac9bb" height="20">
+
+  </td>
+</tr>
+</tbody></table>
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/software.htm" scrolling="no" width="730" frameborder="0" height="200"></iframe>
+</center>
+<table width="600" align="center" border="0" cellpadding="5" cellspacing="0">
+  <tbody>
+  <tr>
+   
+    <td align="center"><span class="white"><a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">联系我们 </a> | <a href="http://www.jdon.com/aboutsite.htm" target="_blank" class="a03">关于我们 </a>| <a href="http://www.jdon.com/jivejdon/rss" target="_blank" class="a03">RSS订阅</a> |
+        <a href="http://www.jdon.com/advert.htm" target="_blank" class="a03">广告联系</a> | <a href="http://www.jdon.com/sitemap.html" target="_blank" class="a03">网站地图</a> | <a class="a03" onclick="window.external.AddFavorite('http://www.jdon.com/','J道'); " href="#">加入收藏夹</a> </span><span class="nava"><br>
+        </span><span class="a03">Copyright (C) 2006 Jdon.com, All 
+      Rights Reserved 版权所有 上海解道计算机技术有限公司</span><span class="nava"><br>
+      <a href="http://www.miibeian.gov.cn/" target="_blank" class="a03">沪ICP备05018152号</a> <a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">如有意见请与我们联系</a> <a href="http://www.jdon.com/jdonframework/index.htm" class="a03">Powered by JdonFramework </a></span></td>
+</tr>
+  </tbody></table>
+
+<!-- InstanceBeginEditable name="EditRegion3" --><!-- InstanceEndEditable -->
+
+
+<div id="gad4" style="display: none;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//336x280, 创建于 07-11-18
+google_ad_slot = "5125356208";
+google_ad_width = 336;
+google_ad_height = 280;
+//--></script>
+<script type="text/javascript" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/ads_003.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="336" frameborder="0" height="280"></iframe>
+</div>
+<script language="javascript">
+
+if( document.all.item("vgad336x280") != null )
+{
+  vgad336x280.innerHTML = gad4.innerHTML;
+}
+</script>
+
+<div id="gad" style="display: none;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036"; 
+/* 文章结束用300x250, 创建于 07-11-17 */
+google_ad_slot = "6004413113";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E8%A1%A8%E7%8E%B0%E5%B1%82%E6%A1%86%E6%9E%B6Struts.Tapestry.JSF%E6%9E%B6%E6%9E%84%E6%AF%94%E8%BE%83_files/ads_004.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" frameborder="0" height="250"></iframe>
+</div>
+<script language="javascript">
+if( document.all.item("vgad300x250") != null )
+{
+  vgad2.innerHTML = gad.innerHTML;
+}
+</script>
+
+
+
+<!-- InstanceEnd --></body></html>
