@@ -1,0 +1,764 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"><head>
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>搜索篇：lucene简单实例&lt;二&gt; -  - Java - JavaEye论坛</title>
+    <meta name="description" content="写文章的时候,感觉比较难写的就是标题,有时候不知道起什么名字好,反正这里写的都是关于lucene的一些简单的实例,就随便起啦.  Lucene 其实很简单的,它最主要就是做两件事:建立索引和进行搜索 来看一些在lucene中使用的术语,这里并不打算作详细的介绍,只是点一下而已----因为这一个世界有一种好东西，叫搜索。  IndexWriter:lucene中最重要的的类之一，它主要是用来将文档加 ...">
+    <meta name="keywords" content="lucene  Java">
+    <link rel="shortcut icon" href="http://www.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <link href="http://www.javaeye.com/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml">
+    <link href="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/forum.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/application.js" type="text/javascript"></script>
+      <link href="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/hotkey.js" type="text/javascript"></script>
+<script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/se_hilite.js" type="text/javascript"></script>            <script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dragdrop.js" type="text/javascript"></script>
+  <style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style></head><body>
+    <div id="page">
+      <div id="header" class="clearfix">
+        <ul id="user_nav">
+  <li class="last"><a href="http://www.javaeye.com/index/help">帮助</a></li>
+    <li><a href="http://www.javaeye.com/signup">注册</a></li>
+    <li><a href="http://www.javaeye.com/login">登录</a></li>
+    <li class="highlight"><span>您还没有登录 !</span></li>  
+</ul>
+
+        
+        <div id="branding">
+          <a href="http://www.javaeye.com/"><img alt="JavaEye3.0" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/logo.gif" title="JavaEye-最棒的软件开发交流社区"></a>
+        </div>  
+        <div id="ad">
+          <embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/bbs2.swf" play="true" loop="true" menu="true" width="720" height="60">
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+  <link href="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/hotkey.js" type="text/javascript"></script>
+<script src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/se_hilite.js" type="text/javascript"></script>
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a> <span class="arrow">→</span>
+    
+    <h1>搜索篇：<span class="hilite1"><span class="hilite1">lucene</span></span>简单实例&lt;二&gt;</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href="http://www.javaeye.com/forums/board/Java">全部</a>
+    <a href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</a>
+    <a href="http://www.javaeye.com/forums/tag/Spring">Spring</a>
+    <a href="http://www.javaeye.com/forums/tag/Struts">Struts</a>
+    <a href="http://www.javaeye.com/forums/tag/Webwork">Webwork</a>
+    <a href="http://www.javaeye.com/forums/tag/iBATIS">iBATIS</a>
+    <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a>
+    <a href="http://www.javaeye.com/forums/tag/Design-Pattern">设计模式</a>
+    <a href="http://www.javaeye.com/forums/tag/DAO">DAO</a>
+    <a href="http://www.javaeye.com/forums/tag/Object-Domain">领域模型</a>
+    <a href="http://www.javaeye.com/forums/tag/OO">OO</a>
+    <a href="http://www.javaeye.com/forums/tag/Tomcat">Tomcat</a>
+    <a href="http://www.javaeye.com/forums/tag/SOA">SOA</a>
+    <a href="http://www.javaeye.com/forums/tag/JBoss">JBoss</a>
+    <a href="http://www.javaeye.com/forums/tag/J2ME">J2ME</a>
+</div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">« 上一页</span> <span class="current">1</span> <a href="http://www.javaeye.com/topic/39866?page=2" rel="next">2</a> <a href="http://www.javaeye.com/topic/39866?page=2" class="next_page" rel="next">下一页 »</a></div>
+    <div class="info">浏览 12779 次</div>
+  </div>
+</div>
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class="locked">锁定老贴子</span> <a href="http://www.javaeye.com/topic/39866">主题：搜索篇：<span class="hilite1"><span class="hilite1">lucene</span></span>简单实例&lt;二&gt;</a></div>
+        <div id="topic_rate_box">精华帖 (0) :: 良好帖 (0) :: 新手帖 (0) :: 隐藏帖 (0)</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_190319">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-20 关键字: <strong><span class="hilite1"><span class="hilite1">lucene</span></span></strong></div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+          <div style="position: relative;" id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+            <ul>
+                <li><a href="http://www.javaeye.com/topic/39597" target="_blank">搜索篇:<span class="hilite1"><span class="hilite1">lucene</span></span>的简单实例&lt;一&gt;</a></li>
+                <li><a href="http://www.javaeye.com/topic/139665" target="_blank">关于BooleanQuery的问题</a></li>
+            </ul>
+            <br><span>推荐圈子: <a href="http://analysis.group.javaeye.com/" target="_blank">中文分词</a></span>
+            <br><a href="http://www.javaeye.com/wiki/topic/39866" target="_blank">更多相关推荐</a>
+          </div>
+          <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+      写文章的时候,感觉比较难写的就是标题,有时候不知道起什么名字好,反正这里写的都是关于<span class="hilite1"><span class="hilite1">lucene</span></span>的一些简单的实例,就随便起啦.
+<br>
+<br><span class="hilite1"><span class="hilite1">Lucene</span></span> 其实很简单的,它最主要就是做两件事:建立索引和进行搜索
+<br>来看一些在<span class="hilite1"><span class="hilite1">lucene</span></span>中使用的术语,这里并不打算作详细的介绍,只是点一下而已----因为这一个世界有一种好东西，叫搜索。
+<br>
+<br><span style="color: blue;">IndexWriter</span>:<span class="hilite1"><span class="hilite1">lucene</span></span>中最重要的的类之一，它主要是用来将文档加入索引，同时控制索引过程中的一些参数使用。
+<br>
+<br><span style="color: blue;">Analyzer</span>:分析器,主要用于分析搜索引擎遇到的各种文本。常用的有StandardAnalyzer分析器,StopAnalyzer分析器,WhitespaceAnalyzer分析器等。
+<br>
+<br><span style="color: blue;">Directory</span>:索引存放的位置;<span class="hilite1"><span class="hilite1">lucene</span></span>提供了两种索引存放的位置，一种是磁盘，一种是内存。一般情况将索引放在磁盘上；相应地<span class="hilite1"><span class="hilite1">lucene</span></span>提供了FSDirectory和RAMDirectory两个类。
+<br>
+<br><span style="color: blue;">Document</span>:文档;Document相当于一个要进行索引的单元，任何可以想要被索引的文件都必须转化为Document对象才能进行索引。
+<br>
+<br><span style="color: blue;">Field</span>：字段。
+<br>
+<br><span style="color: blue;">IndexSearcher</span>:是<span class="hilite1"><span class="hilite1">lucene</span></span>中最基本的检索工具，所有的检索都会用到IndexSearcher工具;
+<br>
+<br><span style="color: blue;">Query</span>:查询，<span class="hilite1"><span class="hilite1">lucene</span></span>中支持模糊查询，语义查询，短语查询，组合查询等等,如有TermQuery,BooleanQuery,RangeQuery,WildcardQuery等一些类。
+<br>
+<br><span style="color: blue;">QueryParser</span>: 是一个解析用户输入的工具，可以通过扫描用户输入的字符串，生成Query对象。
+<br>
+<br><span style="color: blue;">Hits</span>:在搜索完成之后，需要把搜索结果返回并显示给用户，只有这样才算是完成搜索的目的。在<span class="hilite1"><span class="hilite1">lucene</span></span>中，搜索的结果的集合是用Hits类的实例来表示的。
+<br>
+<br>上面作了一大堆名词解释，下面就看几个简单的实例吧:
+<br>1、简单的的StandardAnalyzer测试例子
+<br><div class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" title="复制代码"><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_copy.gif" alt="复制代码"></a></div></div><ol class="dp-j" start="1"><li><span><span class="keyword">package</span><span>&nbsp;lighter.javaeye.com;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">import</span><span>&nbsp;java.io.IOException;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;java.io.StringReader;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.Analyzer;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.Token;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.TokenStream;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.standard.StandardAnalyzer;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;StandardAnalyzerTest&nbsp;&nbsp;&nbsp;</span></span></li><li><span>{&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//构造函数，</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;StandardAnalyzerTest()&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;main(String[]&nbsp;args)&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//生成一个StandardAnalyzer对象</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Analyzer&nbsp;aAnalyzer&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;StandardAnalyzer();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//测试字符串</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringReader&nbsp;sr&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;StringReader(</span><span class="string">"lighter&nbsp;javaeye&nbsp;com&nbsp;is&nbsp;the&nbsp;are&nbsp;on"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//生成TokenStream对象</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TokenStream&nbsp;ts&nbsp;=&nbsp;aAnalyzer.tokenStream(<span class="string">"name"</span><span>,&nbsp;sr);&nbsp;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span><span>&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span><span>&nbsp;i=</span><span class="number">0</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token&nbsp;t&nbsp;=&nbsp;ts.next();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span><span>(t!=</span><span class="keyword">null</span><span>)&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//辅助输出时显示行号</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//输出处理后的字符</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"第"</span><span>+i+</span><span class="string">"行:"</span><span>+t.termText());&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//取得下一个字符</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t=ts.next();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="keyword">catch</span><span>&nbsp;(IOException&nbsp;e)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="java">package lighter.javaeye.com;
+
+import java.io.IOException;
+import java.io.StringReader;
+
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.Analyzer;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.Token;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.TokenStream;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.standard.StandardAnalyzer;
+
+public class StandardAnalyzerTest 
+{
+	//构造函数，
+	public StandardAnalyzerTest()
+	{
+	}
+	public static void main(String[] args) 
+	{
+		//生成一个StandardAnalyzer对象
+		Analyzer aAnalyzer = new StandardAnalyzer();
+		//测试字符串
+		StringReader sr = new StringReader("lighter javaeye com is the are on");
+		//生成TokenStream对象
+		TokenStream ts = aAnalyzer.tokenStream("name", sr);	
+		try {
+			int i=0;
+			Token t = ts.next();
+			while(t!=null)
+			{
+				//辅助输出时显示行号
+				i++;
+				//输出处理后的字符
+				System.out.println("第"+i+"行:"+t.termText());
+				//取得下一个字符
+				t=ts.next();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+</pre>
+<br>显示结果：
+<br><div class="quote_title">引用</div><div class="quote_div">第1行:lighter
+<br>第2行:javaeye
+<br>第3行:com</div>
+<br>提示一下：
+<br>StandardAnalyzer是<span class="hilite1"><span class="hilite1">lucene</span></span>中内置的"标准分析器",可以做如下功能: 
+<br>1、对原有句子按照空格进行了分词 
+<br>2、所有的大写字母都可以能转换为小写的字母 
+<br>3、可以去掉一些没有用处的单词，例如"is","the","are"等单词，也删除了所有的标点
+<br>查看一下结果与"new StringReader("lighter javaeye com is the are on")"作一个比较就清楚明了。
+<br>这里不对其API进行解释了，具体见<span class="hilite1"><span class="hilite1">lucene</span></span>的官方文档。需要注意一点，这里的代码使用的是<span class="hilite1"><span class="hilite1">lucene</span></span>2的API，与1.43版有一些明显的差别。
+<br>
+<br>2、看另一个实例,简单地建立索引，进行搜索
+<br><div class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" title="复制代码"><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_copy.gif" alt="复制代码"></a></div></div><ol class="dp-j" start="1"><li><span><span class="keyword">package</span><span>&nbsp;lighter.javaeye.com;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.standard.StandardAnalyzer;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.document.Document;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.document.Field;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.index.IndexWriter;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.queryParser.QueryParser;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.search.Hits;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.search.IndexSearcher;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.search.Query;&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">import</span><span>&nbsp;org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.store.FSDirectory;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">class</span><span>&nbsp;FSDirectoryTest&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//建立索引的路径</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">final</span><span>&nbsp;String&nbsp;path&nbsp;=&nbsp;</span><span class="string">"c:\\index2"</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;main(String[]&nbsp;args)&nbsp;</span><span class="keyword">throws</span><span>&nbsp;Exception&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Document&nbsp;doc1&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;Document();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc1.add(&nbsp;<span class="keyword">new</span><span>&nbsp;Field(</span><span class="string">"name"</span><span>,&nbsp;</span><span class="string">"lighter&nbsp;javaeye&nbsp;com"</span><span>,Field.Store.YES,Field.Index.TOKENIZED));&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Document&nbsp;doc2&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;Document();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc2.add(<span class="keyword">new</span><span>&nbsp;Field(</span><span class="string">"name"</span><span>,&nbsp;</span><span class="string">"lighter&nbsp;blog"</span><span>,Field.Store.YES,Field.Index.TOKENIZED));&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndexWriter&nbsp;writer&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;IndexWriter(FSDirectory.getDirectory(path,&nbsp;</span><span class="keyword">true</span><span>),&nbsp;</span><span class="keyword">new</span><span>&nbsp;StandardAnalyzer(),&nbsp;</span><span class="keyword">true</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.setMaxFieldLength(<span class="number">3</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.addDocument(doc1);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.setMaxFieldLength(<span class="number">3</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.addDocument(doc2);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.close();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndexSearcher&nbsp;searcher&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;IndexSearcher(path);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hits&nbsp;hits&nbsp;=&nbsp;<span class="keyword">null</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query&nbsp;query&nbsp;=&nbsp;<span class="keyword">null</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QueryParser&nbsp;qp&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;QueryParser(</span><span class="string">"name"</span><span>,</span><span class="keyword">new</span><span>&nbsp;StandardAnalyzer());&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query&nbsp;=&nbsp;qp.parse(<span class="string">"lighter"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hits&nbsp;=&nbsp;searcher.search(query);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"查找\"lighter\"&nbsp;共"</span><span>&nbsp;+&nbsp;hits.length()&nbsp;+&nbsp;</span><span class="string">"个结果"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query&nbsp;=&nbsp;qp.parse(<span class="string">"javaeye"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hits&nbsp;=&nbsp;searcher.search(query);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"查找\"javaeye\"&nbsp;共"</span><span>&nbsp;+&nbsp;hits.length()&nbsp;+&nbsp;</span><span class="string">"个结果"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="java">package lighter.javaeye.com;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.analysis.standard.StandardAnalyzer;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.document.Document;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.document.Field;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.index.IndexWriter;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.queryParser.QueryParser;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.search.Hits;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.search.IndexSearcher;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.search.Query;
+import org.apache.<span class="hilite1"><span class="hilite1">lucene</span></span>.store.FSDirectory;
+
+public class FSDirectoryTest {
+
+	//建立索引的路径
+	public static final String path = "c:\\index2";
+
+	public static void main(String[] args) throws Exception {
+		Document doc1 = new Document();
+		doc1.add( new Field("name", "lighter javaeye com",Field.Store.YES,Field.Index.TOKENIZED));
+
+		Document doc2 = new Document();
+		doc2.add(new Field("name", "lighter blog",Field.Store.YES,Field.Index.TOKENIZED));
+
+		IndexWriter writer = new IndexWriter(FSDirectory.getDirectory(path, true), new StandardAnalyzer(), true);
+		writer.setMaxFieldLength(3);
+		writer.addDocument(doc1);
+		writer.setMaxFieldLength(3);
+		writer.addDocument(doc2);
+		writer.close();
+
+		IndexSearcher searcher = new IndexSearcher(path);
+		Hits hits = null;
+		Query query = null;
+		QueryParser qp = new QueryParser("name",new StandardAnalyzer());
+		
+		query = qp.parse("lighter");
+		hits = searcher.search(query);
+		System.out.println("查找\"lighter\" 共" + hits.length() + "个结果");
+
+		query = qp.parse("javaeye");
+		hits = searcher.search(query);
+		System.out.println("查找\"javaeye\" 共" + hits.length() + "个结果");
+
+	}
+
+}</pre>
+<br>运行结果：
+<br><div class="dp-highlighter"><div class="bar"><div class="tools">Java代码 <a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;" title="复制代码"><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_copy.gif" alt="复制代码"></a></div></div><ol class="dp-j" start="1"><li><span><span>查找</span><span class="string">"lighter"</span><span>&nbsp;共</span><span class="number">2</span><span>个结果&nbsp;&nbsp;</span></span></li><li><span>查找<span class="string">"javaeye"</span><span>&nbsp;共</span><span class="number">1</span><span>个结果&nbsp;&nbsp;</span></span></li></ol></div><pre style="display: none;" name="code" class="java">查找"lighter" 共2个结果
+查找"javaeye" 共1个结果</pre>
+<br>
+<br>很久没有看<span class="hilite1"><span class="hilite1">lucene</span></span>了，这两三天又复习了一下,上一些代码都是前几个月写的，只是改动了一些字符串和包名显示。转载时请说明，文章来自:http://lighter.javaeye.com。
+<br>如有什么错误的地方，恳请指出，谢谢。
+    </div>
+    
+      <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+      <div id="forum_advert_b3">
+        <span>推荐链接</span>
+        <ul class="adverts"><li><a href="http://www.javaeye.com/adverts/79" target="_blank">全新 IBM SOA 数据服务开发工具</a></li><li><a href="http://www.javaeye.com/adverts/111" target="_blank"><span style="color: red; font-weight: bold;">IBM Rational开发者大会9月盛大揭幕！</span></a></li></ul>
+      </div>
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+                        
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_190405">
+  <td class="postauthor">
+    <ul>
+      <li class="name">wen19851025</li>
+      <li>等级: 初级会员</li>
+      <li><a href="http://wen19851025.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/ae4bb0fd-c29a-40f3-8e41-b61c28187ce1.jpg" title="wen19851025的博客: wen19851025"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 62</li>
+      <li>积分: 42</li>
+      <li>来自: 上海</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-21 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      //测试字符串   
+<br>        StringReader sr = new StringReader("lighter javaeye com");   
+<br>        //生成TokenStream对象   
+<br>        TokenStream ts = aAnalyzer.tokenStream("name", sr);   
+<br>请问:以上的解析是按什么来解析,为什么他会自动的按空格或者","进行字符分割,再一个当SR里输入是中文字符时,他将会对每个字进行分割,请问这是为什么,同时这功能的实现又意为着什么呢.....????
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://wen19851025.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://wen19851025.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_190405" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_190412">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-21 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">wen19851025 写道</div><div class="quote_div">        //测试字符串   
+<br>        StringReader sr = new StringReader("lighter javaeye com");   
+<br>        //生成TokenStream对象   
+<br>        TokenStream ts = aAnalyzer.tokenStream("name", sr);   
+<br>请问:以上的解析是按什么来解析,为什么他会自动的按空格或者","进行字符分割,再一个当SR里输入是中文字符时,他将会对每个字进行分割,请问这是为什么,同时这功能的实现又意为着什么呢.....????</div>
+<br>StandardAnalyzer是<span class="hilite1"><span class="hilite1">lucene</span></span>中内置的"标准分析器",可以做如下功能:
+<br>1、对原有句子按照空格进行了分词
+<br>2、所有的大写字母都可以能转换为小写的字母
+<br>3、可以去掉一些没有用处的单词，例如"is","the","are"等单词，也删除了所有的标点
+<br>同时也可以对中文进行分词(效果不好),现在有很多的中文分词包可以采用
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_190412" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_190494">
+  <td class="postauthor">
+    <ul>
+      <li class="name">wen19851025</li>
+      <li>等级: 初级会员</li>
+      <li><a href="http://wen19851025.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/ae4bb0fd-c29a-40f3-8e41-b61c28187ce1.jpg" title="wen19851025的博客: wen19851025"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 62</li>
+      <li>积分: 42</li>
+      <li>来自: 上海</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-21 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      呵呵....这么说来这东东还是挺不错的....但不知道这在东东一般会应于什么样的项中.....我做了这么久还没遇见过这种需求....我是做教育软件地....
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://wen19851025.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://wen19851025.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_190494" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_190576">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-21 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">wen19851025 写道</div><div class="quote_div">不知道这在东东一般会应于什么样的项中.....我做了这么久还没遇见过这种需求....我是做教育软件地....</div>
+<br>举一段网上的话:
+<br><div class="quote_title">引用</div><div class="quote_div">基于<span class="hilite1"><span class="hilite1">Lucene</span></span>的全文检索产品（<span class="hilite1"><span class="hilite1">Lucene</span></span>本身只是一个组件，而非一个完整的应用）和应用<span class="hilite1"><span class="hilite1">Lucene</span></span>的项目在世界各地已经非常之多，比较知名的有：
+<br>       Eclipse：主流Java开发工具，其帮助文档采用<span class="hilite1"><span class="hilite1">Lucene</span></span>作为检索引擎
+<br>       Jive：知名论坛系统，其检索功能基于<span class="hilite1"><span class="hilite1">Lucene</span></span>
+<br>      Ifinder：出自德国的网站检索系统，基于<span class="hilite1"><span class="hilite1">Lucene</span></span>（http://ifinder.intrafind.org/）
+<br>       MIT DSpace Federation：一个文档管理系统（http://www.dspace.org/）
+<br>国内外采用<span class="hilite1"><span class="hilite1">Lucene</span></span>作为网站全文检索引擎的也很多，比较知名的有：
+<br>        http://www.blogchina.com/web<span class="hilite1"><span class="hilite1">lucene</span></span>/
+<br>       http://www.ioffer.com/
+<br>       http://search.soufun.com/
+<br></div>
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_190576" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191376">
+  <td class="postauthor">
+    <ul>
+      <li class="name">just4you</li>
+      <li>等级: 初级会员</li>
+      <li><a href="http://just4you.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/user-logo.gif" title="just4you的博客: just4you"></a></li>
+      
+      <li>文章: 23</li>
+      <li>积分: 0</li>
+      
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      呵呵，你引用的这段话看上去很眼熟，让我想起了一本书(买了之后比较后悔的一本书)。
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://just4you.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://just4you.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191376" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_191642">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-22 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">just4you 写道</div><div class="quote_div">呵呵，你引用的这段话看上去很眼熟，让我想起了一本书(买了之后比较后悔的一本书)。</div>
+<br>我也不知道谁说的,只是引用网的文章的一小段话.
+<br>买了后悔的书???<img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_cry.gif">
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_191642" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_192099">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ahuaxuan</li>
+      <li>等级: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dimd3.gif" alt="三钻会员" title="三钻会员"></li>
+      <li><a href="http://ahuaxuan.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg" title="ahuaxuan的博客: ahuaxuan"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 605</li>
+      <li>积分: 1696</li>
+      <li>来自: 上海</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-24 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      敢问楼主：<span class="hilite1"><span class="hilite1">lucene</span></span>只是用来搜索文档中的内容的吗，任何文档都能搜吗，还能搜索其他东西吗？能否用一小段话来概括它的作用，和适用场景
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://ahuaxuan.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://ahuaxuan.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_192099" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_192160">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lighter</li>
+      <li>等级: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dimd2.gif" alt="二钻会员" title="二钻会员"></li>
+      <li><a href="http://lighter.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/5a2720f9-fef4-484e-9846-aa7992de3115.jpg" title="lighter的博客: 编程.读书.思考"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 646</li>
+      <li>积分: 1205</li>
+      <li>来自: 广州</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-24 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      回楼上的:
+<br><span class="hilite1"><span class="hilite1">lucene</span></span>不管数据来源是什么格式,只要它能被转化为文字的形式,就可以被<span class="hilite1"><span class="hilite1">lucene</span></span>分析利用,对其进行索引和搜索.简单地说,<span class="hilite1"><span class="hilite1">lucene</span></span>可以对任何的数据做索引和搜索,不管文件是Word,pdf格式,只要可以从中抽取文字形式的内容就可以被<span class="hilite1"><span class="hilite1">lucene</span></span>利用啦.
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lighter.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lighter.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_192160" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_192686">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ahuaxuan</li>
+      <li>等级: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/dimd3.gif" alt="三钻会员" title="三钻会员"></li>
+      <li><a href="http://ahuaxuan.javaeye.com/" target="_blank"><img alt="用户头像" src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg" title="ahuaxuan的博客: ahuaxuan"></a></li>
+      <li>性别: <img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 605</li>
+      <li>积分: 1696</li>
+      <li>来自: 上海</li>
+      <li><img src="lucene%E7%AE%80%E5%8D%95%E5%AE%9E%E4%BE%8B%E4%BA%8C_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2006-12-25 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">lighter 写道</div><div class="quote_div">回楼上的:
+<br><span class="hilite1"><span class="hilite1">lucene</span></span>不管数据来源是什么格式,只要它能被转化为文字的形式,就可以被<span class="hilite1"><span class="hilite1">lucene</span></span>分析利用,对其进行索引和搜索.简单地说,<span class="hilite1"><span class="hilite1">lucene</span></span>可以对任何的数据做索引和搜索,不管文件是Word,pdf格式,只要可以从中抽取文字形式的内容就可以被<span class="hilite1"><span class="hilite1">lucene</span></span>利用啦.</div>
+<br>哦，谢谢，明白多了
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://ahuaxuan.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://ahuaxuan.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_192686" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr>
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">« 上一页</span> <span class="current">1</span> <a href="http://www.javaeye.com/topic/39866?page=2" rel="next">2</a> <a href="http://www.javaeye.com/topic/39866?page=2" class="next_page" rel="next">下一页 »</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a>
+    
+    <br><br>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2"><span>JavaEye推荐</span><ul class="adverts"></ul></div>
+  </div>
+  
+</div>
+
+<div style="display: none;">
+<form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">    <input id="post_rate_id" name="id" type="hidden">
+    <input id="post_rate_type" name="type" type="hidden">
+</form></div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":39866, "type":type}});
+    }
+
+</script>
+        </div>
+        <div id="nav">
+<div class="wrapper">
+<ul>
+<li><a href="http://www.javaeye.com/">首页</a></li>
+<li><a href="http://www.javaeye.com/news">新闻</a></li>
+<li><a href="http://www.javaeye.com/forums" class="selected">论坛</a></li>
+<li><a href="http://www.javaeye.com/ask">问答</a></li>
+<li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+<li><a href="http://www.javaeye.com/blogs">博客</a></li>
+<li><a href="http://www.javaeye.com/groups">圈子</a></li>
+<li><a href="http://www.javaeye.com/jobs">招聘</a></li>
+<li><a href="http://www.javaeye.com/index/service">服务</a></li>
+<li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+</ul>
+</div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com/">Java</a></li>
+    <li><a href="http://ruby.javaeye.com/">Ruby</a></li>
+    <li><a href="http://ajax.javaeye.com/">AJAX</a></li>
+    <li><a href="http://agile.javaeye.com/">敏捷</a></li>
+    <li><a href="http://book.javaeye.com/">图书</a></li>
+    <li><a href="http://oracle.javaeye.com/">Oracle</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com/">普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="http://www.javaeye.com/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com/">JavaEye黑板报</a></li>
+      <li><a href="http://www.javaeye.com/index/sitemap">网站地图</a></li>
+      <li><a href="http://www.javaeye.com/index/aboutus">关于我们</a></li>
+      <li><a href="http://www.javaeye.com/index/contactus">联系我们</a></li>
+      <li class="last"><a href="http://www.javaeye.com/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    © 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>      
+    </div>
+  </body></html>

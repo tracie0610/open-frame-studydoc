@@ -1,0 +1,557 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"><head>
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>从Lucene 2.0升级到2.1.0之路 -  - Java - JavaEye论坛</title>
+    <meta name="description" content="  作者：caocao（网络隐士），转载请注明来源：http://caocao.javaeye.com/blog/70305  &nbsp;  随着Lucene 2.1.0在2007年情人节的问世，隐士遂将本来基于的2.0的应用升级到了2.1.0，升级日志如下：（2.1.0新功能请参见http://svn.apache.org/repos/asf/lucene/java/tags/lucene_2 ...">
+    <meta name="keywords" content="Lucene  Java">
+    <link rel="shortcut icon" href="http://www.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <link href="http://www.javaeye.com/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml">
+    <link href="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/forum.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/application.js" type="text/javascript"></script>
+      <link href="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/hotkey.js" type="text/javascript"></script>
+<script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/se_hilite.js" type="text/javascript"></script>            <script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/dragdrop.js" type="text/javascript"></script>
+  </head><body>
+    <div id="page">
+      <div id="header" class="clearfix">
+        <ul id="user_nav">
+  <li class="last"><a href="http://www.javaeye.com/index/help">帮助</a></li>
+    <li><a href="http://www.javaeye.com/signup">注册</a></li>
+    <li><a href="http://www.javaeye.com/login">登录</a></li>
+    <li class="highlight"><span>您还没有登录 !</span></li>  
+</ul>
+
+        
+        <div id="branding">
+          <a href="http://www.javaeye.com/"><img alt="JavaEye3.0" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/logo.gif" title="JavaEye-最棒的软件开发交流社区"></a>
+        </div>  
+        <div id="ad">
+          <embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/bbs2.swf" play="true" loop="true" menu="true" width="720" height="60">
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+  <link href="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/hotkey.js" type="text/javascript"></script>
+<script src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/se_hilite.js" type="text/javascript"></script>
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a> <span class="arrow">→</span>
+    
+    <h1>从<span class="hilite1"><span class="hilite1">Lucene</span></span> 2.0升级到2.1.0之路</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href="http://www.javaeye.com/forums/board/Java">全部</a>
+    <a href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</a>
+    <a href="http://www.javaeye.com/forums/tag/Spring">Spring</a>
+    <a href="http://www.javaeye.com/forums/tag/Struts">Struts</a>
+    <a href="http://www.javaeye.com/forums/tag/Webwork">Webwork</a>
+    <a href="http://www.javaeye.com/forums/tag/iBATIS">iBATIS</a>
+    <a href="http://www.javaeye.com/forums/tag/J2EE">企业应用</a>
+    <a href="http://www.javaeye.com/forums/tag/Design-Pattern">设计模式</a>
+    <a href="http://www.javaeye.com/forums/tag/DAO">DAO</a>
+    <a href="http://www.javaeye.com/forums/tag/Object-Domain">领域模型</a>
+    <a href="http://www.javaeye.com/forums/tag/OO">OO</a>
+    <a href="http://www.javaeye.com/forums/tag/Tomcat">Tomcat</a>
+    <a href="http://www.javaeye.com/forums/tag/SOA">SOA</a>
+    <a href="http://www.javaeye.com/forums/tag/JBoss">JBoss</a>
+    <a href="http://www.javaeye.com/forums/tag/J2ME">J2ME</a>
+</div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    
+    <div class="info">浏览 10115 次</div>
+  </div>
+</div>
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class="locked">锁定老贴子</span> <a href="http://www.javaeye.com/topic/70305">主题：从<span class="hilite1"><span class="hilite1">Lucene</span></span> 2.0升级到2.1.0之路</a></div>
+        <div id="topic_rate_box">精华帖 (0) :: 良好帖 (0) :: 新手帖 (0) :: 隐藏帖 (0)</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_261013">
+  <td class="postauthor">
+    <ul>
+      <li class="name">caocao</li>
+      <li>等级: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/star2.gif" alt="二星会员" title="二星会员"></li>
+      <li><a href="http://caocao.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/c2233344-c8e0-40c7-b3de-8410af0a8463.jpg" title="caocao的博客: 网络隐士八卦坛"></a></li>
+      
+      <li>文章: 127</li>
+      <li>积分: 285</li>
+      <li>来自: 上海</li>
+      <li><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-12 关键字: <strong><span class="hilite1"><span class="hilite1">Lucene</span></span></strong></div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+          <div style="position: relative;" id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+            <ul>
+                <li><a href="http://www.javaeye.com/topic/80073" target="_blank"><span class="hilite1"><span class="hilite1">Lucene</span></span> Hack之通过缩小搜索结果集来提升性能 (2)</a></li>
+                <li><a href="http://www.javaeye.com/topic/39866" target="_blank">搜索篇：<span class="hilite1"><span class="hilite1">lucene</span></span>简单实例&lt;二&gt;</a></li>
+            </ul>
+            <br><span>推荐圈子: <a href="http://lucene-group.group.javaeye.com/" target="_blank"><span class="hilite1"><span class="hilite1">lucene</span></span>爱好者</a></span>
+            <br><a href="http://www.javaeye.com/wiki/topic/70305" target="_blank">更多相关推荐</a>
+          </div>
+          <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+      <div>
+<div>作者：caocao（网络隐士），转载请注明来源：<font face="Arial"><a href="http://caocao.javaeye.com/blog/70305">http://caocao.javaeye.com/blog/70305</a></font></div>
+<div>&nbsp;</div>
+<div>随着<span class="hilite1"><span class="hilite1">Lucene</span></span> 2.1.0在2007年情人节的问世，隐士遂将本来基于的2.0的应用升级到了2.1.0，升级日志如下：（2.1.0新功能请参见<a href="http://svn.apache.org/repos/asf/lucene/java/tags/lucene_2_1_0/CHANGES.txt">http://svn.apache.org/repos/asf/<span class="hilite1"><span class="hilite1">lucene</span></span>/java/tags/<span class="hilite1"><span class="hilite1">lucene</span></span>_2_1_0/CHANGES.txt</a>）</div>
+<div>&nbsp;</div>
+<div>1. <span class="hilite1"><span class="hilite1">LUCENE</span></span>-478：新版在StandardAnalyzer将CJK分割为CJ, K，对于中文分词基本没用，隐士自创的中文分词基本没有修改直接使用，没有问题。</div>
+<div>&nbsp;</div>
+<div>2.&nbsp;<span class="hilite1"><span class="hilite1">LUCENE</span></span>-438：Token
+的final终于被砍了，大快人心。当初为了实现中文分词，隐士本想继承Token，加入一些中文相关的metadata，无奈Token被阉，隐士只好
+另起炉灶重写了好多代码，这次算是迟来的正义吧，将代码重构一下是正道，无奈项目催得紧，以后再重构了，暂时不会负面影响。</div>
+<div>&nbsp;</div>
+<div>3. 好些deprecated的玩意都被砍了，好在隐士实现的所有应用都没有调用过deprecated的东西，所以没有修改过一行代码。</div>
+<div>&nbsp;</div>
+<div>4. 经过试验验证：2.1.0可以兼容读取2.0的索引文件，2.1.0可以增量索引2.0的索引文件，optimize后索引文件是2.1.0的格式。这个相当方便，可以平稳过渡至新版本，相当于无痛分娩。</div>
+<div>&nbsp;</div>
+<div>5. <span class="hilite1"><span class="hilite1">LUCENE</span></span>-771：lock文件现在移到了索引目录，很简洁，一目了然。</div>
+<div>&nbsp;</div>
+<div>6. <span class="hilite1"><span class="hilite1">LUCENE</span></span>-565：重量级的功能，IndexWriter.updateDocument闪亮登场，隐士赶紧把delete/add替换成updateDocument。至于到底能提高多少性能，有待观察。</div>
+<div>&nbsp;</div>
+<div>7. <span class="hilite1"><span class="hilite1">LUCENE</span></span>-701：Lockless commits挺诱人的，看了一下IndexReader，deleteDocuments还在，没深入研究和IndexWriter的deleteDocuments有什么区别。</div>
+<div>&nbsp;</div>
+<div>8. <span class="hilite1"><span class="hilite1">LUCENE</span></span>-544：这个也是好东西哦，MultiFieldQueryParser可以允许为Field指定boost了。</div>
+<div>&nbsp;</div>
+<div>9. <span class="hilite1"><span class="hilite1">LUCENE</span></span>-723: 可以接受*:*哦，比较危险，一定要过滤这样的玩意，不然整个数据库就裸奔了。</div>
+<div>&nbsp;</div>
+<div>总结下来，隐士除了用<span class="hilite1"><span class="hilite1">lucene</span></span>-core-2.1.0.jar代替<span class="hilite1"><span class="hilite1">lucene</span></span>-core-2.0.0.jar和把delete/add替换为updateDocument外什么都没做就顺利切换到2.1.0了。</div>
+</div>
+    </div>
+    
+      <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+      <div id="forum_advert_b3">
+        <span>推荐链接</span>
+        <ul class="adverts"><li><a href="http://www.javaeye.com/adverts/111" target="_blank"><span style="color: red; font-weight: bold;">IBM Rational开发者大会9月盛大揭幕！</span></a></li><li><a href="http://www.javaeye.com/adverts/79" target="_blank">全新 IBM SOA 数据服务开发工具</a></li></ul>
+      </div>
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://caocao.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://caocao.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+                        
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_261305">
+  <td class="postauthor">
+    <ul>
+      <li class="name">codeutil</li>
+      <li>等级: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/star5.gif" alt="五星会员" title="五星会员"></li>
+      <li><a href="http://codeutil.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/user-logo.gif" title="codeutil的博客: codeutil"></a></li>
+      
+      <li>文章: 560</li>
+      <li>积分: 712</li>
+      
+      <li><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-12 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      compass还不支持 <span class="hilite1"><span class="hilite1">lucene</span></span>2.1.0<img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/icon_sad.gif">
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://codeutil.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://codeutil.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_261305" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_263320">
+  <td class="postauthor">
+    <ul>
+      <li class="name">江南白衣</li>
+      <li>等级: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/dimd4.gif" alt="四钻会员" title="四钻会员"></li>
+      <li><a href="http://calvin.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/83725cdb-e7c6-4c6c-bcf4-0f2eb55c231d.jpg" title="江南白衣的博客: 花钱的年华"></a></li>
+      
+      <li>文章: 492</li>
+      <li>积分: 1962</li>
+      <li>来自: 广州</li>
+      <li><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-16 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      hibernate是用<span class="hilite1"><span class="hilite1">Lucene</span></span>2.1的。相比compass，现在更关注hibernate对<span class="hilite1"><span class="hilite1">lucene</span></span>的集成进展。
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://calvin.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://calvin.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_263320" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_263487">
+  <td class="postauthor">
+    <ul>
+      <li class="name">yuanetking</li>
+      <li>等级: 初级会员</li>
+      <li><a href="http://yuanetking.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/140b1858-dd4e-4232-88df-409a1d8c3dd8.jpg" title="yuanetking的博客: yuanetking"></a></li>
+      
+      <li>文章: 4</li>
+      <li>积分: 29</li>
+      
+      <li><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-16 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">江南白衣 写道</div><div class="quote_div">hibernate是用<span class="hilite1"><span class="hilite1">Lucene</span></span>2.1的。相比compass，现在更关注hibernate对<span class="hilite1"><span class="hilite1">lucene</span></span>的集成进展。</div>
+<br>
+<br>请问hibernate对<span class="hilite1"><span class="hilite1">lucene</span></span>的集成进展如何?在哪里可以查到？我同样很关注。
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://yuanetking.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://yuanetking.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_263487" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_263541">
+  <td class="postauthor">
+    <ul>
+      <li class="name">netfishx</li>
+      <li>等级: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/star5.gif" alt="五星会员" title="五星会员"></li>
+      <li><a href="http://netfishx.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/119525fc-5af3-49b7-b0a3-f743e7bc7fa9.jpg" title="netfishx的博客: netfishx's matrix"></a></li>
+      
+      <li>文章: 847</li>
+      <li>积分: 569</li>
+      <li>来自: 北京</li>
+      <li><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-16 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      <div class="quote_title">yuanetking 写道</div><div class="quote_div"><div class="quote_title">江南白衣 写道</div><div class="quote_div">hibernate是用<span class="hilite1"><span class="hilite1">Lucene</span></span>2.1的。相比compass，现在更关注hibernate对<span class="hilite1"><span class="hilite1">lucene</span></span>的集成进展。</div>
+<br>
+<br>请问hibernate对<span class="hilite1"><span class="hilite1">lucene</span></span>的集成进展如何?在哪里可以查到？我同样很关注。</div>
+<br>http://search.hibernate.org/
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://netfishx.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://netfishx.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_263541" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_263599">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lix23</li>
+      <li>等级: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/star2.gif" alt="二星会员" title="二星会员"></li>
+      <li><a href="http://lixin.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/8e78957d-0109-4565-86b5-421a4a888b08.gif" title="lix23的博客: lixin的生活感悟"></a></li>
+      <li>性别: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 229</li>
+      <li>积分: 239</li>
+      
+      <li><a href="http://www.javaeye.com/forums/board/Life" target="_blank"><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/forums.gif"></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-16 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      IndexWriter.updateDocument<br><br>可以更新而不是 delete/add了？？<br><br>这个可要好好研究一下，太重要了！！
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lixin.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lixin.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_263599" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_263746">
+  <td class="postauthor">
+    <ul>
+      <li class="name">wuhua</li>
+      <li>等级: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/dimd3.gif" alt="三钻会员" title="三钻会员"></li>
+      <li><a href="http://wuhua.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/55ce4c8e-fbc1-387d-9c21-4d6c3132ce4a.bmp" title="wuhua的博客: 无花的空间-- 3Geye.net"></a></li>
+      <li>性别: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 549</li>
+      <li>积分: 1467</li>
+      <li>来自: 广州</li>
+      <li><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-16 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      我现在就在学习这方面的知识。<br>期待有这方面的高人出现
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://wuhua.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://wuhua.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_263746" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr><tr id="p_274301">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lanhuai</li>
+      <li>等级: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/star1.gif" alt="一星会员" title="一星会员"></li>
+      <li><a href="http://lanhuai.javaeye.com/" target="_blank"><img alt="用户头像" src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/4bc51c14-fccd-4822-80f4-623ada567bc3.jpg" title="lanhuai的博客: 蓝槐"></a></li>
+      <li>性别: <img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/icon_minigender_1.gif" title="男"></li>
+      <li>文章: 17</li>
+      <li>积分: 112</li>
+      <li>来自: 北京</li>
+      <li><img src="%E4%BB%8ELucene%202.0%E5%8D%87%E7%BA%A7%E5%88%B02.1.0%E4%B9%8B%E8%B7%AF_files/offline.gif"></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">时间：2007-04-27 </div>
+      <div class="links">
+        
+          
+          
+      </div>
+    </div>
+    <div class="postbody clearfix"> 
+      从2.0到2.1.0的 变化还有segments文件名变成了segments.gen
+    </div>
+    
+  </td>
+</tr>
+<tr>
+  <td class="postauthor"><a href="#">返回顶楼</a></td>
+  <td class="postcontent">
+    <div class="icons">
+      <a href="http://lanhuai.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</a>
+      <a href="http://lanhuai.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</a>
+      
+    </div>
+    <div id="post_rate_box_274301" class="post_rate_box"><a href="#" onclick="return false;" class="good" title="好">0</a> <a href="#" onclick="return false;" class="hidden" title="差">0</a> 请登录后投票</div>                    
+  </td>
+</tr>
+<tr class="sep2"><td colspan="2"></td></tr>
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="http://www.javaeye.com/forums">论坛首页</a> <span class="arrow">→</span>
+    <a href="http://www.javaeye.com/forums/board/Java">Java版</a>
+    
+    <br><br>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2"><span>JavaEye推荐</span><ul class="adverts"></ul></div>
+  </div>
+  
+</div>
+
+<div style="display: none;">
+<form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">    <input id="post_rate_id" name="id" type="hidden">
+    <input id="post_rate_type" name="type" type="hidden">
+</form></div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":70305, "type":type}});
+    }
+
+</script>
+        </div>
+        <div id="nav">
+<div class="wrapper">
+<ul>
+<li><a href="http://www.javaeye.com/">首页</a></li>
+<li><a href="http://www.javaeye.com/news">新闻</a></li>
+<li><a href="http://www.javaeye.com/forums" class="selected">论坛</a></li>
+<li><a href="http://www.javaeye.com/ask">问答</a></li>
+<li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+<li><a href="http://www.javaeye.com/blogs">博客</a></li>
+<li><a href="http://www.javaeye.com/groups">圈子</a></li>
+<li><a href="http://www.javaeye.com/jobs">招聘</a></li>
+<li><a href="http://www.javaeye.com/index/service">服务</a></li>
+<li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+</ul>
+</div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com/">Java</a></li>
+    <li><a href="http://ruby.javaeye.com/">Ruby</a></li>
+    <li><a href="http://ajax.javaeye.com/">AJAX</a></li>
+    <li><a href="http://agile.javaeye.com/">敏捷</a></li>
+    <li><a href="http://book.javaeye.com/">图书</a></li>
+    <li><a href="http://oracle.javaeye.com/">Oracle</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com/">普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="http://www.javaeye.com/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com/">JavaEye黑板报</a></li>
+      <li><a href="http://www.javaeye.com/index/sitemap">网站地图</a></li>
+      <li><a href="http://www.javaeye.com/index/aboutus">关于我们</a></li>
+      <li><a href="http://www.javaeye.com/index/contactus">联系我们</a></li>
+      <li class="last"><a href="http://www.javaeye.com/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    © 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>      
+    </div>
+  </body></html>
