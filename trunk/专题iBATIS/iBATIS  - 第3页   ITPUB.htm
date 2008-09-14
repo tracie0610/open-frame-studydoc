@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0058)http://tech.it168.com/j/2007-10-31/200710311438234_2.shtml -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"><HEAD><META http-equiv="Content-Type" content="text/html; charset=GB2312">
+
+<META http-equiv="content-language" content="gb2312">
+<META name="description" content="">
+<META name="keywords" content="使用ORM工具进行数据访问 - 第3页 | IT168">
+
+
+<TITLE>使用ORM工具进行数据访问 - 
+第3页
+| ITPUB | </TITLE>
+<LINK rel="StyleSheet" href="./iBATIS  - 第3页   ITPUB_files/style.css" type="text/css" media="screen">
+<SCRIPT language="javascript" src="./iBATIS  - 第3页   ITPUB_files/ycncommon.js"></SCRIPT>
+<SCRIPT language="javascript" src="./iBATIS  - 第3页   ITPUB_files/ycnevent.js"></SCRIPT>
+<SCRIPT language="javascript" src="./iBATIS  - 第3页   ITPUB_files/loginAndEmail.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="http://adshow.it168.com/files/chkFrom.asp?From=publish"></SCRIPT>
+<SCRIPT language="javascript" src="./iBATIS  - 第3页   ITPUB_files/nav.js"></SCRIPT>
+<SCRIPT language="javascript" src="./iBATIS  - 第3页   ITPUB_files/resize.js"></SCRIPT> 
+<STYLE>
+/* 头部 */
+#header{ width:980px; margin:0px auto 0px; }
+#header .right{ width:812px; height:75px; padding:3px 5px 0 15px; background:url(/images2007/bg01.gif) no-repeat; }
+.logon{ width:100%; clear:both; height:23px; }
+.logon li{ float:left; }
+.logon li.one{ background:url(/images2007/icon03.gif) no-repeat left; padding-left:14px; padding-top:6px; margin-right:10px;  }
+.logon li.two{ background:url(/images2007/icon04.gif) no-repeat left; padding-left:19px; padding-top:6px;}
+.logon li a{ color:#0010e6; }
+.logon li.three{ float:right; background:url(/images2007/it-04.jpg) no-repeat left; padding-left:15px; padding-top:5px;  }
+.logon li.three a{ color:#195381; }
+.nav{ color:#000; padding-top:4px; word-spacing:6px; height:18px;  }
+.nav a{ color:#000; }
+.nav a.here{ color:#f00; }
+.subNav{ padding-top:6px;  color:#f4f8fc; word-spacing:6px;  }
+.subNav a{ color:#f4f8fc; }
+</STYLE></HEAD><BODY>
+
+<!-- 信箱 -->
+
+<DIV id="emailf" class="emailf">
+	<DIV class="t14">商讯信箱</DIV>	 
+	<FORM action="http://mail.it168.com/mail/login.csp" method="post" target="_blank">
+		<DIV>用户名：<INPUT name="user" type="text" class="inp11" size="6"> @ 
+			<SELECT name="host" style="width:100px">
+                              <OPTION selected="">vip.it168.com</OPTION>
+                              <OPTION>free.it168.com</OPTION>
+                              <OPTION>udc.it168.com</OPTION>
+                              <OPTION>staff.it168.com</OPTION>
+                              <OPTION>it168.com</OPTION>
+                            </SELECT>
+		   <IMG id="emailfClose" src="./iBATIS  - 第3页   ITPUB_files/close.gif">
+		</DIV>
+		
+		
+		<DIV>密&nbsp;&nbsp;码：<INPUT name="pass" type="password" class="inp11" size="10">&nbsp;&nbsp;&nbsp;<A href="http://register.it168.com/xieyi.asp" target="_blank">注册</A>|<A href="http://register.it168.com/backpwd.asp" target="_blank">忘记密码</A></DIV>
+		<DIV style="width:100&percnt;;text-align:center"><INPUT type="image" src="./iBATIS  - 第3页   ITPUB_files/dlbut2.gif" align="absmiddle"></DIV>
+	</FORM>
+</DIV>
+
+
+<DIV id="loginf" class="loginf" style="z-index:2000">
+	<DIV class="t15">登录</DIV>
+	<DIV class="loginb"><A href="javascript:void(0);" id="personT" class="dl1">个人用户</A><A href="javascript:void(0);" id="corpT" class="dl01">经销商</A><IMG id="loginfClose" src="./iBATIS  - 第3页   ITPUB_files/close.gif" style="float:right"></DIV>
+	<DIV class="lbg" id="login_con">
+	</DIV>
+	<DIV id="person_login_con" style="display:none;">
+		<FORM action="http://sso.it168.com/sso/login.do?cmd=0" target="_blank" method="post">
+			<DIV>用户名：<INPUT name="login_name" type="text" class="inp11" size="10"> <INPUT type="image" alt="登录" src="./iBATIS  - 第3页   ITPUB_files/dlbut2.gif" align="absmiddle"></DIV>
+			<DIV>密&nbsp;&nbsp;码：<INPUT name="password" type="password" class="inp11" size="10">&nbsp;<A href="http://sso.it168.com/sso/reg_term.jsp">注册</A>|<A href="http://sso.it168.com/sso/forgetPassword.jsp">忘记密码</A></DIV>
+			<DIV>验证码：<INPUT name="rand" type="text" class="inp11" size="6"><SPAN id="yanzhenImg"><IMG border="0" id="yzimg" src="./iBATIS  - 第3页   ITPUB_files/Image" align="absmiddle"></SPAN><INPUT type="hidden" name="return_url" value=""> <A href="javascript:ReloadCheckCode();">看不清？</A></DIV>
+			<IFRAME id="zxj4" src="javascript:void(0)" frameborder="0" style="position:absolute; visibility:inherit; top:35px; left:10px;width:254px;height:110px; z-index:-1; filter=&#39;progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)&#39;;"></IFRAME>
+<!-- 登陆 -->
+		</FORM>
+	</DIV>
+	<DIV id="corp_login_con" style="display:none">
+		<FORM action="http://business.it168.com/loginFromOther.aspx" target="_blank" method="post">
+			<BR>
+			<DIV>用户名：<INPUT name="username" type="text" class="inp11" size="10"> <INPUT type="image" alt="登录" src="./iBATIS  - 第3页   ITPUB_files/dlbut2.gif" align="absmiddle"></DIV>
+			<DIV>密&nbsp;&nbsp;码：<INPUT name="pwd" type="password" class="inp11" size="10">&nbsp;<A href="http://business.it168.com/register.asp">注册</A>|<A href="http://business.it168.com/getpwd.asp">忘记密码</A></DIV>
+			<BR>
+			<IFRAME id="zxj4" src="javascript:void(0)" frameborder="0" style="position:absolute; visibility:inherit; top:35px; left:10px;width:254px;height:110px; z-index:-1; filter=&#39;progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)&#39;;"></IFRAME>
+		</FORM>
+	</DIV>
+</DIV>
+
+
+<SCRIPT language="JavaScript">
+            function ReloadCheckCode(){ 
+                var CodeArea=document.getElementById("yanzhenImg"); 
+                var rnum=RndNum(10); 
+                CodeArea.innerHTML="<IMG id=\"yzimg\" alt=\"\" align=\"absmiddle\" src=\"http://sso.it168.com/sso/Image?random="+ rnum +"\" />"; 
+             } 
+		
+            function RndNum(n){ 
+                var rnd=""; 
+                for(var i=0;i<n;i++)
+                     rnd+=Math.floor(Math.random()*10);
+                return rnd;
+            }
+
+init_loginTab();
+</SCRIPT>
+
+
+
+<DIV id="tl"><!--ADV|顶通--><SPAN id="ADV_TOPTL"></SPAN><!--ADV|顶通-->
+<!--ADV|通栏--><DIV id="ADV_TL"><DIV class="divad_clear"></DIV></DIV><!--ADV|通栏-->
+</DIV>
+<DIV class="c_rim2">
+<!-- 导航 -->
+
+<DIV id="header">
+	<A href="http://www.itpub.net/" target="_blank"><IMG class="left" border="0" src="./iBATIS  - 第3页   ITPUB_files/logo.gif" width="148" height="78"></A>
+	<DIV class="right">
+		<UL class="logon">
+			<LI class="one"><A href="http://sso.itpub.net/Login?return_url=http://www.itpub.net/list.html">登录</A></LI>
+			<LI class="two"><A href="http://sso.itpub.net/Register">注册</A></LI>
+			<LI class="three"><A href="http://publish.itpub.net/">返回首页</A></LI>
+		</UL>
+		<DIV class="clear"></DIV>
+		
+		<DIV class="nav">
+			<A href="http://publish.itpub.net/" target="_blank">门户</A>  |  <A href="http://www.itpub.net/list.html">论坛</A>  |  <A href="http://weblog.itpub.net/" target="_blank">Blog</A>  |<A href="http://publish.itpub.net/more/1211_1.shtml" target="_blank">新闻</A>  |  <A href="http://publish.itpub.net/more/1214_1.shtml" target="_blank">文档</A>  |  <A href="http://publish.itpub.net/tagsearch.aspx" target="_blank">Tag</A>  |  <A href="http://tech.it168.com/j/2007-10-31/resource.shtml" target="_blank">下载</A>  |  <A href="http://publish.itpub.net/KnowledgeBase/default.aspx" target="_blank">搜索</A>  |  <A href="http://edu.itpub.net/" target="_blank">培训</A>  |  <A href="http://wiki.itpub.net/" target="_blank">WiKi</A>  |  <A href="http://www.ixpub.net/" target="_blank">IXPUB</A>  |  <A href="http://publish.itpub.net/tougao/" target="_blank">投稿</A>  |  <A href="http://publish.itpub.net/zt/tech-zt/index.html" target="_blank">专题</A> 
+		</DIV>
+		
+		<DIV class="subNav">
+			频道: <A href="http://publish.itpub.net/oracle.shtm" target="_blank">Oracle</A> | <A href="http://publish.itpub.net/DB2.shtm" target="_blank">DB2</A> | <A href="http://publish.itpub.net/database/sqlserver.shtml" target="_blank">SQL Server</A> | <A href="http://publish.itpub.net/erp.aspx" target="_blank">ERP</A> | <A href="http://publish.itpub.net/scm.aspx" target="_blank">SCM</A> | <A href="http://publish.itpub.net/java.shtm" target="_blank">Java</A> | <A href="http://publish.itpub.net/Microsoft.shtm" target="_blank">微软技术</A> | <A href="http://publish.itpub.net/opensource.shtm" target="_blank">开源</A> | <A href="http://publish.itpub.net/manage.shtm" target="_blank">项目管理</A> | <A href="http://publish.itpub.net/soa.shtm" target="_blank">SOA</A> | <A href="http://publish.itpub.net/bi.shtm" target="_blank">商业智能</A> |<A href="http://www.itpub.net/ibm/" target="_blank">IBM软件技术</A> 
+		</DIV>
+	
+	</DIV>
+	<DIV class="clear"></DIV>
+</DIV>
+
+<!-- 当前位置 -->
+<DIV class="top02">
+	<DIV class="dqwz">您的位置：<A href="http://www.it168.com/">首页</A> &gt; <A href="http://tech.it168.com/">技术频道</A> &gt; 正文</DIV>
+</DIV>
+</DIV>
+<!-- 内容开始 -->
+<DIV class="w_rim">
+	<!-- left -->
+	<DIV class="l1">
+	<!-- 广告 -->
+	<!--ADV|标题通栏--><DIV id="ADV_BTTL"><DIV class="divad_clear"></DIV></DIV><!--ADV|标题通栏-->
+	<!--ADV|文字链接--><DIV id="ADVTXT"><SPAN id="ADV_TXT1"></SPAN><SPAN id="ADV_TXT2"></SPAN><DIV class="divad_clear"></DIV></DIV><!--ADV|文字链接-->
+	<DIV class="w_c1">
+			<DIV class="w_t1">
+				<DIV class="w_c2">
+					<DIV class="l2 f16"><H1>使用ORM工具进行数据访问</H1></DIV>
+					<DIV class="r2 top8">[<A href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();">收藏此页</A>] [<A href="javascript:window.print();">打印</A>]</DIV>
+				</DIV>
+				<DIV class="top11">
+								</DIV>
+
+				<DIV class="w_c2">
+					<DIV class="l2">
+				
+					作者：<B class="red">pioneer</B>&nbsp;&nbsp;2007-10-31
+					<B id="AbortBBS"></B>
+					</DIV>
+				
+					<DIV class="r2">
+						<DIV><B>内容导航：</B></DIV>
+						<A id="Nav1" href="javascript:;" class="sel">
+																																								iBATIS
+																											</A>
+
+
+<DIV class="pp">
+  <DIV id="Nav1Menu" class="p" style="visibility: hidden; ">
+			<A href="http://tech.it168.com/j/2007-10-31/200710311438234.shtml" title="简介">第1页：<SPAN>
+		简介
+		
+		</SPAN></A>
+			<A href="http://tech.it168.com/j/2007-10-31/200710311438234_1.shtml" title="Hibernate">第2页：<SPAN>
+		Hibernate
+		
+		</SPAN></A>
+			<A href="./iBATIS  - 第3页   ITPUB_files/iBATIS  - 第3页   ITPUB.htm" title="iBATIS" class="hov1">第3页：<SPAN>
+		iBATIS
+		
+		</SPAN></A>
+	  </DIV>
+</DIV>
+
+					</DIV>
+					<SCRIPT>init_Nav();</SCRIPT>		
+				
+				
+				</DIV>
+			</DIV>
+			
+			<DIV class="memo"><DIV id="1"><P>
+<P>JDO <BR>ToDo <BR><BR>iBATIS <BR>Spring通过org.springframework.orm.ibatis包来支持iBATIS SqlMaps 1.3.x和2.0。 iBATIS的支持非常类似于Hibernate的支持，它支持同样的template样式的编程， 而且同Hibernate一样，iBatis的支持也是和Spring的异常体系一起工作，他会让你喜欢上Spring所有的IoC特性。&nbsp;<BR><BR>1.3.x和2.0的概览和区别 <BR>Spring对iBATIS SqlMaps1.3和2.0都提供了支持。首先让我们来看一看两个之间的区别。 <BR><BR>表 11.1. iBATIS SqlMaps supporting classes for 1.3 and 2.0 <BR><BR>Feature 1.3.x 2.0 <BR>Creation of SqlMap SqlMapFactoryBean SqlMapClientFactoryBean <BR>Template-style helper class SqlMapTemplate SqlMapClientTemplate <BR>Callback to use MappedStatement SqlMapCallback SqlMapClientCallback <BR>Super class for DAOs SqlMapDaoSupport SqlMapClientDaoSupport <BR><BR><BR>创建SqlMap <BR>使用iBATIS SqlMaps涉及创建包含语句和结果对应关系的配置文件。 Spring会负责使用SqlMapFactoryBean或SqlMapClientFactoryBean来读取这些配置文件， 其中后一个类是同SqlMaps2.0联合使用的。</P>
+<DIV style="scrollbar-highlight-color :threedhighlight; overflow:auto; width: 500px;"><PRE style="BORDER-RIGHT: black 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; BORDER-LEFT: black 1px solid; PADDING-TOP: 4px; BORDER-BOTTOM: black 1px solid; BACKGROUND-COLOR: #ededed"><DIV><!--
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+--><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">class</SPAN><SPAN style="COLOR: #000000"> Account {
+</SPAN><SPAN style="COLOR: #0000ff">private</SPAN><SPAN style="COLOR: #000000"> String name;
+</SPAN><SPAN style="COLOR: #0000ff">private</SPAN><SPAN style="COLOR: #000000"> String email;
+</SPAN><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> String getName() {
+</SPAN><SPAN style="COLOR: #0000ff">return</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">this</SPAN><SPAN style="COLOR: #000000">.name;
+}
+</SPAN><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">void</SPAN><SPAN style="COLOR: #000000"> setName(String name) {
+</SPAN><SPAN style="COLOR: #0000ff">this</SPAN><SPAN style="COLOR: #000000">.name </SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000"> name;
+}
+</SPAN><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> String getEmail() {
+</SPAN><SPAN style="COLOR: #0000ff">return</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">this</SPAN><SPAN style="COLOR: #000000">.email;
+}
+</SPAN><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">void</SPAN><SPAN style="COLOR: #000000"> setEmail(String email) {
+</SPAN><SPAN style="COLOR: #0000ff">this</SPAN><SPAN style="COLOR: #000000">.email </SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000"> email;
+}
+}
+假设我们要映射这个类，我们就要创建如下的SqlMap。通过使用查询，我们稍后可以用email addersses来取得users. Account.xml:
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">sql</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">Account</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">result</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">result</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">class</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">examples.Account</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">name</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> column</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">NAME</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> columnIndex</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">1</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">/&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">email</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> column</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">EMAIL</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> columnIndex</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">2</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">/&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">result</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">mapped</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">statement name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">getAccountByEmail</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> result</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">result</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+select
+ACCOUNT.NAME,
+ACCOUNT.EMAIL
+from ACCOUNT
+where ACCOUNT.EMAIL </SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000"> #value#
+</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">mapped</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">statement</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">mapped</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">statement name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">insertAccount</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+insert into ACCOUNT (NAME, EMAIL) values (#name#, #email#)
+</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">mapped</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">statement</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">sql</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+在定义完SqlMap之后，我们必须为iBATIS创建一个配置文件 (sqlmap</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">config.xml):
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">sql</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">config</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">sql</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map resource</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">example/Account.xml</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">/&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">sql</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">map</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">config</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000"> </SPAN></DIV>
+</PRE></DIV>
+<P>&nbsp;iBATIS会从classpath读取资源，所以要确保Account.xml文件在classpath上面。 <BR><BR>用Spring，我们现在能够很容易地通过 SqlMapFactoryBean创建SqlMap: <BR><BR>&lt;bean id=&quot;sqlMap&quot; class=&quot;org.springframework.orm.ibatis.SqlMapFactoryBean&quot;&gt; <BR>&lt;property name=&quot;configLocation&quot;&gt;&lt;value&gt;WEB-INF/sqlmap-config.xml&lt;/value&gt;&lt;/property&gt; <BR>&lt;/bean&gt; <BR><BR><BR>使用 SqlMapDaoSupport </P>
+<DIV style="scrollbar-highlight-color :threedhighlight; overflow:auto; width: 500px;"><PRE style="BORDER-RIGHT: black 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; BORDER-LEFT: black 1px solid; PADDING-TOP: 4px; BORDER-BOTTOM: black 1px solid; BACKGROUND-COLOR: #ededed"><DIV><!--
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+--><SPAN style="COLOR: #000000">SqlMapDaoSupport类是类似于HibernateDaoSupport 和JdbcDaoSupport的支持类。让我们实现一个DAO:
+</SPAN><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">class</SPAN><SPAN style="COLOR: #000000"> SqlMapAccountDao extends SqlMapDaoSupport implements AccountDao {
+</SPAN><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> Account getAccount(String email) throws DataAccessException {
+Account acc </SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">new</SPAN><SPAN style="COLOR: #000000"> Account();
+acc.setEmail();
+</SPAN><SPAN style="COLOR: #0000ff">return</SPAN><SPAN style="COLOR: #000000"> (Account)getSqlMapTemplate().executeQueryForObject(</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">getAccountByEmail</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">, email);
+}
+</SPAN><SPAN style="COLOR: #0000ff">public</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">void</SPAN><SPAN style="COLOR: #000000"> insertAccount(Account account) throws DataAccessException {
+getSqlMapTemplate().executeUpdate(</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">insertAccount</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">, account);
+}
+} </SPAN></DIV>
+</PRE></DIV>
+<P>正如你所看到的，我们使用SqlMapTemplate来执行查询。Spring会在创建如下所示的SqlMapAccountDao的时候已经使用SqlMapFactoryBean为我们初始化了SqlMap。一切都准备就绪了: </P>
+<DIV style="scrollbar-highlight-color :threedhighlight; overflow:auto; width: 500px;"><PRE style="BORDER-RIGHT: black 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: black 1px solid; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; BORDER-LEFT: black 1px solid; PADDING-TOP: 4px; BORDER-BOTTOM: black 1px solid; BACKGROUND-COLOR: #ededed"><DIV><!--
+
+Code highlighting produced by Actipro CodeHighlighter (freeware)
+http://www.CodeHighlighter.com/
+
+--><SPAN style="COLOR: #000000">&lt;!--</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">for</SPAN><SPAN style="COLOR: #000000"> more information about </SPAN><SPAN style="COLOR: #0000ff">using</SPAN><SPAN style="COLOR: #000000"> datasource, have a look at the JDBC chapter </SPAN><SPAN style="COLOR: #000000">--&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">bean id</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">dataSource</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">class</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">org.apache.commons.dbcp.BasicDataSource</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> destroy</SPAN><SPAN style="COLOR: #000000">-</SPAN><SPAN style="COLOR: #000000">method</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">close</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">driverClassName</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;&lt;</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">${jdbc.driverClassName}</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;&lt;/</SPAN><SPAN style="COLOR: #000000">property</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">url</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;&lt;</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">${jdbc.url}</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;&lt;/</SPAN><SPAN style="COLOR: #000000">property</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">username</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;&lt;</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">${jdbc.username}</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;&lt;/</SPAN><SPAN style="COLOR: #000000">property</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">password</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;&lt;</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">${jdbc.password}</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">value</SPAN><SPAN style="COLOR: #000000">&gt;&lt;/</SPAN><SPAN style="COLOR: #000000">property</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">bean</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">bean id</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">accountDao</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000"> </SPAN><SPAN style="COLOR: #0000ff">class</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">example.SqlMapAccountDao</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">dataSource</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;&lt;</SPAN><SPAN style="COLOR: #0000ff">ref</SPAN><SPAN style="COLOR: #000000"> local</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">dataSource</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">/&gt;&lt;/</SPAN><SPAN style="COLOR: #000000">property</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;</SPAN><SPAN style="COLOR: #000000">property name</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">sqlMap</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">&gt;&lt;</SPAN><SPAN style="COLOR: #0000ff">ref</SPAN><SPAN style="COLOR: #000000"> local</SPAN><SPAN style="COLOR: #000000">=</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">sqlMap</SPAN><SPAN style="COLOR: #000000">&quot;</SPAN><SPAN style="COLOR: #000000">/&gt;&lt;/</SPAN><SPAN style="COLOR: #000000">property</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000">
+</SPAN><SPAN style="COLOR: #000000">&lt;/</SPAN><SPAN style="COLOR: #000000">bean</SPAN><SPAN style="COLOR: #000000">&gt;</SPAN><SPAN style="COLOR: #000000"> </SPAN></DIV>
+</PRE></DIV>
+<P><BR>&nbsp;事务管理 <BR>在使用iBATIS的应用程序中增加声明式事务管理是相当的简单。 基本上你所需要做的唯一事情是： 在你的application context中增加一个transaction manager并且使用诸如 TransactionProxyFactoryBean声明式地设定你的事务界限。 关于这方面的更多情况可以在第 7 章 事务管理中找到。 <BR><BR></P></DIV><DIV style="display: none; " id="ParagraphCount">1</DIV></DIV>
+
+
+			<DIV class="w_c2 top12">
+				<DIV class="l2 r" style="float:right;">
+
+									<A href="http://tech.it168.com/j/2007-10-31/200710311438234_1.shtml"><IMG src="./iBATIS  - 第3页   ITPUB_files/new_54.gif" width="63" height="23" alt="" align="absmiddle"></A>
+				
+
+				<SPAN class="f14">
+        					<A href="http://tech.it168.com/j/2007-10-31/200710311438234.shtml">1</A>
+								<A href="http://tech.it168.com/j/2007-10-31/200710311438234_1.shtml">2</A>
+								<A href="./iBATIS  - 第3页   ITPUB_files/iBATIS  - 第3页   ITPUB.htm"><B>3</B></A>
+			
+				</SPAN>
+									<IMG src="./iBATIS  - 第3页   ITPUB_files/new_56.gif" width="63" height="23" alt="" align="absmiddle">
+				
+				
+				</DIV>
+
+			</DIV>
+			<DIV class="contdh">
+				<DIV class="c2">
+					【内容导航】
+					<TABLE>
+					<TBODY><TR>
+																							<TD>第1页：<A href="http://tech.it168.com/j/2007-10-31/200710311438234.shtml" title="简介">
+												简介
+												</A></TD>
+																													<TD>第2页：<A href="http://tech.it168.com/j/2007-10-31/200710311438234_1.shtml" title="Hibernate">
+												Hibernate
+												</A></TD>
+																						</TR>
+					<TR>
+																		<TD>第3页：<B>
+						<A href="./iBATIS  - 第3页   ITPUB_files/iBATIS  - 第3页   ITPUB.htm" title="iBATIS">
+												iBATIS
+												</A>
+						
+						</B></TD>
+																</TR>
+					</TBODY></TABLE>
+				</DIV>
+			</DIV>
+
+
+
+
+
+
+			<DIV class="w_c2 top12">
+				<DIV class="l2">&copy;版权所有。未经许可，不得转载。</DIV>
+				<DIV class="r2 r">
+					[责任编辑：<B class="bl"><A href="http://paimai.it168.com/gzmailbox/input.asp?sendto=JavaWorker" target="_blank">JavaWorker</A></B>]
+				</DIV>
+			</DIV>
+
+			
+			<!-- 网友点评 -->
+
+			<DIV id="iframetd1">
+			<IFRAME src="./iBATIS  - 第3页   ITPUB_files/Article_new.htm" frameborder="no" border="0" marginwidth="0" marginheight="0" align="center" width="100&percnt;" scrolling="no" noresize="" height="100&percnt;" id="myiframe1"></IFRAME>
+			</DIV>
+<SCRIPT language="javascript">
+function resetIframeHeight(){
+try{
+var str=window.clipboardData.getData('text');
+var obj=document.getElementById('iframetd1');
+if(str.match(/^frameHeight=\d+$/)){
+obj.style.height=parseInt(str.match(/\d+/))+'px';
+window.clipboardData.setData('text','null');
+}
+}catch(e){}
+setTimeout(resetIframeHeight,100);
+}
+resetIframeHeight();
+</SCRIPT>
+			<!--ADV|底通栏--><DIV id="ADV_DTL"><DIV id="47226"><DIV style="position:absolute; z-index:2; width:670; height: 120"><A href="http://adshow.it168.com/manager/files/icount.asp?cid=47226&cUrl=http://ad.cn.doubleclick.net/clk;202117953;26633996;n?http://dellstorecn.sg.dell.com/public/default.jsp?c=cn&s=dhs&l=cn&rflag=AP&aflag=A&siteid=it168vostroDT" target="_blank"><IMG border="0" width="670" height="120" src="./iBATIS  - 第3页   ITPUB_files/23.gif"></A></DIV><OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0" width="670" height="120"> <PARAM name="movie" value="http://adshow.it168.com/newImage/20080714/47226_124622.swf"> <PARAM name="quality" value="high"> <PARAM name="wmode" value="transparent">  <EMBED src="http://adshow.it168.com/newImage/20080714/47226_124622.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwavFlash" wmode="transparent" width="670" height="120"></OBJECT></DIV></DIV><!--ADV|底通栏-->
+			<DIV class="bai">
+				<!-- 相关文章 -->
+				<!-- 相关论坛贴 -->
+				[an error occurred while processing this directive]
+				
+
+				<!-- 精彩友情推荐 -->
+				
+			</DIV>
+		</DIV>
+	</DIV>
+	<!-- right -->
+	<DIV class="r1">
+		<!--ADV|画中画--><DIV id="ADV_HZH"><DIV id="46838"><DIV style="position:absolute; z-index:2; width:300; height: 250"><A href="http://adshow.it168.com/manager/files/icount.asp?cid=46838&cUrl=http://211.94.190.80/html.ng/params.styles=clickcmd&adspec=Flash&adtype=crazyAD&affiliate=it168&campaignid=1504&channel=cai_jing&log=0?" target="_blank"><IMG border="0" width="300" height="250" src="./iBATIS  - 第3页   ITPUB_files/23.gif"></A></DIV><OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0" width="300" height="250"> <PARAM name="movie" value="http://adshow.it168.com/newImage/20080618/ad_115256.swf"> <PARAM name="quality" value="high"> <PARAM name="wmode" value="transparent">  <EMBED src="http://adshow.it168.com/newImage/20080618/ad_115256.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwavFlash" wmode="transparent" width="300" height="250"></OBJECT></DIV></DIV><!--ADV|画中画-->
+		<!--#include file="../positions/1028.txt"-->
+		<!--ADV|立柱1--><DIV id="ADV_LZ1"><DIV id="43514"><DIV style="position:absolute; z-index:2; width:300; height: 240"><A href="http://adshow.it168.com/manager/files/icount.asp?cid=43514&cUrl=http://mccannafa7.allyes.com/main/adfclick?user=MccannAfa7|fy08sql_it168|it168_TechnologyArticle_PIP_bonus&db=mccannafa7&log=on&ip=59.151.56.230&bid=17755&cid=855555&sid=17095&kv=&exp1=-278766978&exp2=6213872680&cache=627411&url=http://www.microsoft.com/china/sql/default.mspx" target="_blank"><IMG border="0" width="300" height="240" src="./iBATIS  - 第3页   ITPUB_files/23.gif"></A></DIV><OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0" width="300" height="240"> <PARAM name="movie" value="http://adshow.it168.com/newImage/20080409/ad_154413.swf"> <PARAM name="quality" value="high"> <PARAM name="wmode" value="transparent">  <EMBED src="http://adshow.it168.com/newImage/20080409/ad_154413.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwavFlash" wmode="transparent" width="300" height="240"></OBJECT></DIV></DIV><!--ADV|立柱1-->		
+		<!-- 热点文章排行 -->
+		<!--#include file="../positions/1029.txt"-->
+		<!--ADV|立柱2--><DIV id="ADV_LZ2"><DIV class="divad_clear"></DIV></DIV><!--ADV|立柱2-->
+		<!--ADV|供应商--><DIV id="ADV_GYS"><DIV class="divad_clear"></DIV></DIV><!--ADV|供应商-->
+		<!--ADV|立柱3--><DIV id="ADV_LZ3"><TABLE border="0" cellspacing="0" cellpadding="0"><TBODY><TR><TD><A href="http://adshow.it168.com/manager/files/icount.asp?cid=35780&cUrl=http://solmigprc.bizcom.com.cn/software/solaris/index.jsp?source=SOL07_IT168_BUTT7" target="_blank"><IMG src="./iBATIS  - 第3页   ITPUB_files/ad_1603.gif" border="0" width="300" height="120"></A></TD></TR></TBODY></TABLE></DIV><!--ADV|立柱3-->
+		<!-- 近期热评文章 -->
+		<DIV id="iframetd2">
+		<IFRAME src="./iBATIS  - 第3页   ITPUB_files/tech_article_new.htm" frameborder="no" border="0" marginwidth="0" marginheight="0" align="center" width="100&percnt;" scrolling="no" noresize="" id="myiframe2" height="280"></IFRAME>		
+		</DIV>
+		<!--ADV|立柱4--><DIV id="ADV_LZ4"><TABLE border="0" cellspacing="0" cellpadding="0"><TBODY><TR><TD><A href="http://adshow.it168.com/manager/files/icount.asp?cid=47907&cUrl=http://ad.cn.doubleclick.net/clk;205701376;28352587;k?http://www.dell.com.cn/virtual" target="_blank"><IMG src="./iBATIS  - 第3页   ITPUB_files/ad_104210.jpg" border="0" width="300" height="240"></A></TD></TR></TBODY></TABLE></DIV><!--ADV|立柱4-->
+		<!--ADV|立柱5--><DIV id="ADV_LZ5"><DIV class="divad_clear"></DIV></DIV><!--ADV|立柱5-->
+
+		
+		</DIV>
+	</DIV>
+
+<!-- 内容结束 -->
+<DIV class="line1"></DIV>
+<!-- foot -->
+<DIV class="top8"></DIV>
+<DIV class="btm">
+<UL class="btmlink">
+  <LI class="copytxt">CopyRight 1999-2006 itpub.net All Right Reserved.&nbsp;&nbsp;&nbsp;&nbsp;E-mail:Webmaster@itpub.net</LI>
+  <LI class="copytxt">北京皓辰广域网络信息技术有限公司.&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;<A href="http://www.miibeian.gov.cn/" target="_blank">京ICP证:010037号</A>&nbsp;&nbsp;&nbsp;<A href="http://www.itpub.net/contactus.php" target="_blank">联系我们</A>&nbsp;&nbsp;&nbsp;<A href="http://www.itpub.net/flgw.php" target="_blank">法律顾问</A><IMG width="1" height="1" src="http://logcount.itpub.net/itpub.gif?publish" border="0"><IMG width="1" height="1" src="http://log.tigerbar.net/itpub.gif?publish" border="0"></LI>
+</UL>
+<A class="border1" href="http://www.bj.cyberpolice.cn/alarm/alarm.htm" target="_blank">
+<IMG height="47" src="./iBATIS  - 第3页   ITPUB_files/police.jpg" width="118" border="0"></A> <A class="border1" href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202006092100005" target="_blank"><IMG height="48" src="./iBATIS  - 第3页   ITPUB_files/hd315.gif" width="40" border="0"></A></DIV>
+<!--Publish AD START-->
+<SCRIPT type="text/javascript" src="./iBATIS  - 第3页   ITPUB_files/advs_publish_v3.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./iBATIS  - 第3页   ITPUB_files/advtmp_v1.js"></SCRIPT>
+<SCRIPT type="text/javascript">
+var adv_c="publish"//信息化专区文章页
+var adv_date="2007-03-19"
+var adv_debug="0";
+//$import("/cad/v07_adv_js_idlist.js","js")
+//$import("/cad/v07_adv_js_public.js","js")
+//$import("/cad/v07_adv_js_gys.js","js")
+</SCRIPT>
+
+<INPUT name="revurl" id="revurl" type="hidden" value="http://www.google.cn/search?rlz=1C1GGLD_enCN291&amp;sourceid=chrome&amp;ie=UTF-8&amp;q=SqlMapDaoSupport">
+<SCRIPT type="text/javascript">
+firsturl=document.referrer;
+//firsturl="ublish.itpub.net/";
+var objxx=document.getElementById("revurl");
+objxx.value=firsturl;
+
+//暂时广告添加
+document.getElementById('ADV_HZH').innerHTML="<div id=46838><div style='position:absolute; z-index:2; width:300; height: 250'><a href='http://adshow.it168.com/manager/files/icount.asp?cid=46838&cUrl=http://211.94.190.80/html.ng/params.styles=clickcmd&adspec=Flash&adtype=crazyAD&affiliate=it168&campaignid=1504&channel=cai_jing&log=0?' target=_blank><img border=0 width=300 height=250  src='http://adshow.it168.com/newImage/23.gif'></a></div><OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0' WIDTH=300 HEIGHT=250> <PARAM NAME=movie VALUE='http://adshow.it168.com/newImage/20080618/ad_115256.swf'> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent>  <EMBED src='http://adshow.it168.com/newImage/20080618/ad_115256.swf' TYPE='application/x-shockwave-flash'  PLUGINSPAGE='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwavFlash' wmode='transparent'  WIDTH=300 HEIGHT=250></EMBED></OBJECT></div>"
+
+document.getElementById('ADV_LZ1').innerHTML="<div id=43514><div style='position:absolute; z-index:2; width:300; height: 240'><a href='http://adshow.it168.com/manager/files/icount.asp?cid=43514&cUrl=http://mccannafa7.allyes.com/main/adfclick?user=MccannAfa7|fy08sql_it168|it168_TechnologyArticle_PIP_bonus&db=mccannafa7&log=on&ip=59.151.56.230&bid=17755&cid=855555&sid=17095&kv=&exp1=-278766978&exp2=6213872680&cache=627411&url=http://www.microsoft.com/china/sql/default.mspx' target=_blank><img border=0 width=300 height=240  src='http://adshow.it168.com/newImage/23.gif'></a></div><OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0' WIDTH=300 HEIGHT=240> <PARAM NAME=movie VALUE='http://adshow.it168.com/newImage/20080409/ad_154413.swf'> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent>  <EMBED src='http://adshow.it168.com/newImage/20080409/ad_154413.swf' TYPE='application/x-shockwave-flash'  PLUGINSPAGE='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwavFlash' wmode='transparent'  WIDTH=300 HEIGHT=240></EMBED></OBJECT></div>"
+
+document.getElementById('ADV_DTL').innerHTML="<div id=47226><div style='position:absolute; z-index:2; width:670; height: 120'><a href='http://adshow.it168.com/manager/files/icount.asp?cid=47226&cUrl=http://ad.cn.doubleclick.net/clk;202117953;26633996;n?http://dellstorecn.sg.dell.com/public/default.jsp?c=cn&s=dhs&l=cn&rflag=AP&aflag=A&siteid=it168vostroDT' target=_blank><img border=0 width=670 height=120  src='http://adshow.it168.com/newImage/23.gif'></a></div><OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0' WIDTH=670 HEIGHT=120> <PARAM NAME=movie VALUE='http://adshow.it168.com/newImage/20080714/47226_124622.swf'> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent>  <EMBED src='http://adshow.it168.com/newImage/20080714/47226_124622.swf' TYPE='application/x-shockwave-flash'  PLUGINSPAGE='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwavFlash' wmode='transparent'  WIDTH=670 HEIGHT=120></EMBED></OBJECT></div>"
+
+document.getElementById('ADV_LZ3').innerHTML="<table border='0' cellspacing='0' cellpadding='0'><tr><td><a href='http://adshow.it168.com/manager/files/icount.asp?cid=35780&cUrl=http://solmigprc.bizcom.com.cn/software/solaris/index.jsp?source=SOL07_IT168_BUTT7' target=_blank><img src='http://adshow.it168.com/newImage/20070926/ad_1603.gif' border=0 width=300 height=120></a></td></tr></table>"
+
+document.getElementById('ADV_LZ4').innerHTML="<table border='0' cellspacing='0' cellpadding='0'><tr><td><a href='http://adshow.it168.com/manager/files/icount.asp?cid=47907&cUrl=http://ad.cn.doubleclick.net/clk;205701376;28352587;k?http://www.dell.com.cn/virtual' target=_blank><img src='http://adshow.it168.com/newImage/20080714/ad_104210.jpg' border=0 width=300 height=240></a></td></tr></table>"
+
+//ADV_BTTL.innerHTML="<IFRAME MARGINHEIGHT=0 MARGINWIDTH=0 FRAMEBORDER=0 WIDTH=670 HEIGHT=120  SCROLLING=NO SRC=http://adshow.it168.com/corpImage/Intel/2008023/2008023_1417.html></IFRAME>"
+
+//ADV_TL.innerHTML="<div id=43165><div style='position:absolute; z-index:2; width:980; height: 90'><a href='http://adshow.it168.com/manager/files/icount.asp?cid=43165&cUrl=http://mccannafa7.allyes.com/main/adfclick?user=MccannAfa7|intel_ITopia_IT168|IT168_TechITPUBarticlepage_Leaderboard_980x90_53_Xeon&db=mccannafa7&log=on&ip=61.4.182.2&bid=20253&cid=1086964&sid=19417&kv=&exp1=-864941564&exp2=6961162167&cache=273810&url=http://prcappzone.intel.com/ITopia/xeon_2.htm?cid=CPXIto1H08cn_35' target=_blank><img border=0 width=980 height=90  src='http://adshow.it168.com/newImage/23.gif'></a></div><OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0' WIDTH=980 HEIGHT=90> <PARAM NAME=movie VALUE='http://adshow.it168.com/newImage/20080428/43165_11728.swf'> <PARAM NAME=quality VALUE=high> <PARAM NAME=wmode VALUE=transparent>  <EMBED src='http://adshow.it168.com/newImage/20080428/43165_11728.swf' TYPE='application/x-shockwave-flash'  PLUGINSPAGE='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwavFlash' wmode='transparent'  WIDTH=980 HEIGHT=90></EMBED></OBJECT></div>"
+</SCRIPT>
+<!--Publish AD END-->
+<SCRIPT type="text/javascript" src="./iBATIS  - 第3页   ITPUB_files/count.js"></SCRIPT><SCRIPT language="javascript">document.write('<img width=1 height=1 src=http://count.it168.com/count.dll?Type=Img2&add=1&id=92&refer='+escape(top.document.referrer)+' border=0>'); </SCRIPT><IMG width="1" height="1" src="./iBATIS  - 第3页   ITPUB_files/count.dll" border="0"><SCRIPT language="javascript">document.write('<img width=1 height=1 src=http://logcount.it168.com/counter.gif?id=92&url='+escape(top.document.URL)+'&refer='+escape(top.document.referrer)+' border=0>'); </SCRIPT><IMG width="1" height="1" src="http://logcount.it168.com/counter.gif?id=92&url=http%3A//tech.it168.com/j/2007-10-31/200710311438234_2.shtml&refer=http%3A//www.google.cn/search%3Frlz%3D1C1GGLD_enCN291%26sourceid%3Dchrome%26ie%3DUTF-8%26q%3DSqlMapDaoSupport" border="0">
+
+<SCRIPT>
+   document.write("<img width=1 height=1 src=http://count.it168.com/count.dll?Type=Img2&add=1&id=93&refer="+escape(top.document.referrer)+" border=0>");
+</SCRIPT><IMG width="1" height="1" src="./iBATIS  - 第3页   ITPUB_files/count(1).dll" border="0">
+
+ 
+
+</BODY></HTML>
