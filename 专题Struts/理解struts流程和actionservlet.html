@@ -1,0 +1,1644 @@
+<html><head>
+
+
+
+
+
+<!--  显示一个主题下所有帖子 -->
+
+
+
+
+
+
+
+
+
+
+
+
+<script language="javascript">
+var contextPath = '/jivejdon';
+</script>
+
+
+
+<title>理解struts流程和actionservlet</title>  
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/jivejdon.css" type="text/css">
+<link rel="shortcut icon" href="http://www.jdon.com/favicon.ico">
+<script language="javascript" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/imagetool.js"></script><style>
+.pictools {position:absolute;border:1px solid;border-left-color:#dddddd;border-top-color:#dddddd;border-right-color:#333333;border-bottom-color:#333333;background:#dddddd;}
+.pictools1 {border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt {padding:3 4 4 4;}
+.pt_bt_up {padding:2 3 3 3;border:1px solid;border-left-color:#ffffff;border-top-color:#ffffff;border-right-color:#999999;border-bottom-color:#999999;}
+.pt_bt_down {padding:2 2 3 4;border:1px solid;border-left-color:#999999;border-top-color:#999999;border-right-color:#ffffff;border-bottom-color:#ffffff;}
+</style>
+<meta http-equiv="refresh" content="900"></head><body topmargin="2" leftmargin="0" text="#000000" bgcolor="#ffffff" marginwidth="0"><table class="pictools" id="pictools" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_restore()"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/bt_img_full_size.gif" title="orign" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_fit()"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/bt_img_fit.gif" title="fit" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomin()"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/bt_img_zoom_in.gif" title="enlarge" width="15" height="15"></td><td class="pt_bt" onmouseover="this.className='pt_bt_up'" onmouseout="this.className='pt_bt'" onmouseup="this.className='pt_bt_up'" onmousedown="this.className='pt_bt_down'" onclick="pt_zoomout()"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/bt_img_zoom_out.gif" title="ensmall" width="15" height="15"></td></tr></tbody></table></td></tr></tbody></table>
+<table class="pictools" id="pictools1" style="display: none;" cellpadding="1" cellspacing="0"><tbody><tr><td class="pictools1"><table cellpadding="0" cellspacing="0"><tbody><tr></tr></tbody></table></td></tr></tbody></table>
+
+
+
+ <table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+          <tbody><tr> 
+            <td rowspan="3" valign="bottom" width="129" align="center" bgcolor="#ffffff"> 
+            
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                  <tbody><tr>
+                    <td align="center">
+                    <img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/jdon.gif" width="120" height="60"></td>
+                  </tr>
+				  <tr>
+				    <td height="9"></td>
+				  </tr>
+                </tbody></table>
+                
+            </td>
+            <td valign="bottom">
+			<table width="100%" cellpadding="0" cellspacing="0">
+              <tbody><tr bgcolor="#cac9bb">
+                <td valign="bottom" width="43%" align="left" bgcolor="#cabfa8"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/00.gif" alt="jdon" width="107" height="55"></td>
+                <td class="smallgray" valign="bottom" width="57%" align="right" bgcolor="#cabfa8" height="55"><em>解惑授道，企业信息化解决之道 </em></td>
+              </tr>
+            </tbody></table></td>
+          </tr>
+          <tr> 
+		    <td>
+			<table bgcolor="#cccccc" cellpadding="0" cellspacing="1">
+                <tbody><tr>
+			            <td width="222" bgcolor="#707070" height="26">&nbsp;</td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/index.html" target="_blank" class="a03">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/design.htm" target="_blank" class="a03">设计研究</a></div></td>
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/product.htm" target="_blank" class="a03">构件产品</a></div></td>			
+            <td class="unnamed2" width="70" bgcolor="#707070" height="26"> <div align="center"><a href="http://www.jdon.com/trainning.htm" target="_blank" class="a03">培训咨询</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jdonframework/" target="_blank" class="a03">开源框架</a></div></td>
+            <td width="70" bgcolor="#707070" height="26"> <div class="unnamed2" align="center"><a href="http://www.jdon.com/jive/index.jsp" target="_blank" class="a03">论坛</a></div></td>
+
+			</tr></tbody></table>
+			</td>
+          </tr>
+</tbody></table>
+
+<table width="778" align="center" border="0" cellpadding="0" cellspacing="0">
+
+  <tbody><tr> 
+    <td colspan="7" class="bianxian" bgcolor="#ffffff" height="11"> 
+      <table width="100%" border="0" bordercolor="#000000" cellpadding="0" cellspacing="0" height="1">
+        <tbody><tr> 
+          <td> 
+            <table width="100%" bgcolor="#000000" border="0" cellpadding="0" cellspacing="0" height="2">
+              <tbody><tr> 
+                <td></td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr> 
+    
+    <td valign="top" bgcolor="#ffffff">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" height="100%">
+        <tbody><tr> 
+          <td valign="top" width="122" bgcolor="#ffffd7">
+          	
+
+   <table width="100%" align="center" border="0" cellpadding="3" cellspacing="0" height="1000">
+            <tbody><tr>
+              <td valign="top" align="left"></td>
+            </tr>
+            <tr>
+              <td valign="top" align="right">
+<form name="messageListForm" method="get" action="/jivejdon/query/searchAction.shtml">
+<input name="query" size="13" type="text">
+<input value=" 搜索 " type="submit">
+<br>热点Tag:
+
+
+
+
+<cetner>
+
+  <a href="http://www.jdon.com/jivejdon/key/aop" target="_blank"> AOP</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/cache" target="_blank"> cache</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ddd" target="_blank"> DDD</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ejb" target="_blank"> EJB</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9B%86%E7%BE%A4" target="_blank"> 集群</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E6%A8%A1%E5%BC%8F" target="_blank"> 设计模式</a>
+
+  <a href="http://www.jdon.com/dl/best/hibernate.htm" target="_blank"> Hibernate</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/ioc" target="_blank"> IOC</a>
+
+  <a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"> JiveJdon</a>
+
+  <a href="http://www.jdon.com/jivejdon/query/searchThreadAction.shtml?query=%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1&amp;view=on" target="_blank"> OO</a>
+
+  <a href="http://www.jdon.com/jivejdon/key/rbac" target="_blank"> RBAC</a>
+
+  <a href="http://www.jdon.com/dl/best/spring.htm" target="_blank"> Spring</a>
+
+  <a href="http://www.jdon.com/dl/best/struts.htm" target="_blank"> Struts</a>
+
+
+
+
+
+
+              
+ <p><a href="http://www.jdon.com/jdonframework/app.htm" target="_blank"><font color="#ff3333"><strong>Jdon框架演示</strong></font></a></p>
+ <p><a href="http://www.jdon.com/jdonframework/jivejdon3/index.html" target="_blank"><font color="#ff3333"><strong>JiveJdon3.0<br>
+   源码下载</strong></font></a>
+     </p>
+ <p><a href="http://www.jdon.com/designpatterns/index.htm" target="_blank"><font color="#ff3333"><strong>GoF设计模式</strong></font></a></p>
+ <p><a href="http://www.jdon.com/trainning/jiaocheng.htm" target="_blank"><font color="#ff3333"><strong>在线教程</strong></font></a></p>
+ <p><a href="http://www.jdon.com/communication.htm" target="_blank"><strong><font color="#ff3333">社区精彩讨论</font></strong></a></p>
+            
+
+
+<p>
+<br>
+<br>
+<br>
+
+
+<a href="javascript:location.href='http://www.google.com/bookmarks/mark?op=add&amp;bkmk='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title)">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/google.gif" alt="google" width="16" border="0" height="16"></a>
+
+<a href="javascript:location.href='http://myweb2.search.yahoo.com/myresults/bookmarklet?u='+encodeURIComponent(location.href)+'&amp;t='+encodeURIComponent(document.title)">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/yahoo.gif" alt="yahoo" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(vivi=window.open('http://vivi.sina.com.cn/collect/icollect.php?pid=28&amp;title='+escape(d.title)+'&amp;url='+escape(d.location.href)+'&amp;desc='+escape(t),'vivi','scrollbars=no,width=480,height=480,left=75,top=20,status=no,resizable=yes'));vivi.focus();">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/vivi.gif" alt="新浪ViVi" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/365key.gif" alt="365Key网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(yesky=window.open('http://hot.yesky.com/dp.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;st=2','yesky','scrollbars=no,width=400,height=480,left=75,top=20,status=no,resizable=yes'));yesky.focus();">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/yesky.gif" alt="天极网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" title="功能强大的网络收藏夹，一秒钟操作就可以轻松实现保存带来的价值、分享带来的快乐">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/cn3.gif" alt="CSDN网摘" width="16" border="0" height="16"></a>
+
+<a href='javascript:u=location.href;t=document.title;c%20=%20""%20+%20(window.getSelection%20?%20window.getSelection()%20:%20document.getSelection%20?%20document.getSelection()%20:%20document.selection.createRange().text);var%20url="http://cang.baidu.com/do/add?it="+encodeURIComponent(t)+"&amp;iu="+encodeURIComponent(u)+"&amp;dc="+encodeURIComponent(c)+"&amp;fr=ien#nw=1";window.open(url,"_blank","scrollbars=no,width=600,height=450,left=75,top=20,status=no,resizable=yes");%20void%200'>
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/baidu.gif" alt="添加到百度搜藏" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://my.poco.cn/fav/storeIt.php?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;img=http://www.h-strong.com/blog/logo.gif','keyit','scrollbars=no,width=475,height=575,status=no,resizable=yes'));keyit.focus();">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/poco.gif" alt="POCO网摘" width="16" border="0" height="16"></a>
+
+<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://blogmark.bokee.com/jsp/key/quickaddkey.jsp?k='+encodeURI(d.title)+'&amp;u='+encodeURI(d.location.href)+'&amp;c='+encodeURI(t),'keyit','scrollbars=no,width=500,height=430,status=no,resizable=yes'));keyit.focus();">
+<img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/bokee.gif" alt="博采网摘" width="16" border="0" height="16"></a>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</p>
+   
+				  
+
+              </cetner></form></td>
+            </tr>
+            <tr><td valign="bottom">
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<iframe marginheight="0" marginwidth="0" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/120x600.htm" scrolling="no" width="120" frameborder="0" height="2000"></iframe>
+
+
+
+
+
+              
+
+            	</td></tr>
+          </tbody></table>            
+          </td>
+		  <td width="1" height="100%">
+<table background="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/blackpoint.gif" cellpadding="0" cellspacing="0" height="100%">
+              <tbody><tr><td> <img name="" src="" alt="" width="1" height="1"></td></tr></tbody></table>
+		  </td> 
+          <td valign="top"> 
+            <table width="100%" border="0" cellpadding="3" cellspacing="8">
+              <tbody><tr>
+                <td>
+                	
+	
+
+<!--  get the first message, regard it as article -->
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td>
+  
+     <h3 align="center">理解struts流程和actionservlet</h3>
+         <p align="center">
+            作者：<a href="http://www.jdon.com/jivejdon/profile.jsp?user=33"><b>lion222</b></a>
+            发表时间：2002年08月07日 14:02
+            <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=123&amp;forum.forumId=62"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/reply.gif" alt="回复此消息" width="17" border="0" height="17" hspace="3">回复</a>
+            <br>
+</p><center>
+原贴网址：<a href="http://www.jdon.com/jivejdon/thread/91.html">
+http://www.jdon.com/jivejdon/thread/91.html</a>
+</center>   
+           <p></p>
+         
+  <!-- advert -->
+  
+         <table width="1%" align="left" border="0" cellpadding="0" cellspacing="5"> <tbody><tr> <td>
+         <div style="margin-top: 0px; margin-left: 5px;" id="vgad300x250">
+                
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//article用336x280, 创建于 07-11-18
+google_ad_slot = "7823422663";
+google_ad_width = 336;
+google_ad_height = 280;
+//--></script>
+<script type="text/javascript" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="336" frameborder="0" height="280"></iframe>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+           </div>
+          </td></tr>
+            </tbody></table>
+                    
+          <p class="article">对<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>的流程和actionservlet的理解如下，若有不对的地方，请指正。<br>actionservlet是<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>的灵魂。<br>它为到来的请求url映射到相应的actionmapping，创建或找到其实例；<br>actionservlet调用在actionmapping中声明的action类，创建并生成相应的actionform bean实例。然后把actionform bean传到action类；<br>actionservlet对action类实例调用适当的perform方法，给它传递actionform bean,actionmapping,request和response对象；<br>action在其perform方法里将产生处理好的业务逻辑的结果；<br>actionservlet接受从perform方法返回的actionforward,转发response到由actionforward指定的源（可以是一个jsp或另一个action或另一个servlet)</p>    
+                
+</td></tr></tbody></table>
+
+
+
+
+ 
+<a name="129"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月07日 20:01
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=129&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=82"><b>EchoD</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=82" target="_blank">发表文章: 3</a>/
+            注册时间: 2002年08月07日 19:33
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	请问到哪里可以弄到<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>的源代码？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="130"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月07日 22:27
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=130&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	整个流程比较容易让人理解，就是actionform bean是做什么用，能讲仔细点吗？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="409"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月18日 22:26
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=409&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=272"><b>tyrones</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=272" target="_blank">发表文章: 59</a>/
+            注册时间: 2002年08月18日 22:16
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	ActionServlet使用ActionForm bean来保存请求的参数，这些bean的属性名称与HTTP请求参数的名称相对应，控制器将请求参数传递到ActionForm bean的实例，然后将这个实例传送到Action类。<br>典
+型的ActionFrom
+bean只有属性的设置与读取方法（getXXX）,而没有实现事务逻辑的方法。只有简单的输入检查逻辑，使用的目的是为了存储用户在相关表单中输入的最
+新数据，以便可以将同一网页进行再生，同时提供一组错误信息，这样就可以让用户修改不正确的输入数据。而真正对数据有效性进行检查的是ACTION类或适
+当的事务逻辑bean。<br><br>最近我会写一些关于<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>的文章，希望到时给指教一二。
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="421"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月19日 09:32
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=421&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	太好了，能不能请你专门来作一个structs版？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="426"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月19日 10:10
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=426&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=83"><b>cc</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=83" target="_blank">发表文章: 279</a>/
+            注册时间: 2002年08月07日 23:47
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	楼上的同志对于ActionForm bean的讲解非常精彩！！！我的项目在refactoring的时候，就遇到了这个问题！现在感觉这种方法实在不错！<br><br>再问问，是不是每个form都有单独的ActionForm Bean，那样会不会很浪费，能不能几个form共享同一个Bean，或者利用工厂法，得到自己的FormBean？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="456"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月19日 17:35
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=456&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=293"><b>numiddle</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=293" target="_blank">发表文章: 13</a>/
+            注册时间: 2002年08月19日 17:33
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	可以，比如向导型页面，可以有多个Form，但是只使用一个ActionForm，把scope设置为session。但是需要在reset和validate函数中作一些处理<br><br>大家到serverside网站上，有一本<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>的书可以预览
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="457"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月19日 17:41
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=457&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=293"><b>numiddle</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=293" target="_blank">发表文章: 13</a>/
+            注册时间: 2002年08月19日 17:33
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	Struts controller基本功能是<br>1.	截获用户的Http请求<br>2.	把这个请求映射到一个定义好的业务操作上<br>3.	获取业务操作结果，提供给客户端<br>4.	决定下一步应该显示哪一个页面<br><br>有几个部分共同组成了<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>
+的Controller，用户的请求发送到ActionServlet中，ActionServlet调用RequestProssor开始处理用户请求
+的流程，在这个流程中，会查找ApplicationConfig，得到用户请求对应的Action，调用相应的Action来具体执行用户的请求，最后
+返回ActionForward，转向相应的流程。<br>================<br>org.apache.struts.action.ActionServlet 是<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a> Controller中最主要的部分，所有用户请求都会被发送到这里，所有的其它处理也必须从这里经过。ActionServlet是从HttpServlet中继承过来的。<br>当ActionServlet接收到HTTP request的时候，不管是doGet()或者doPost()方法，都会调用process()方法。<br><br>protected
+void process(HttpServletRequest request,HttpServletResponse response)
+throws IOException, ServletException { RequestUtils.selectApplication(
+request, getServletContext() );
+getApplicationConfig(request).getProcessor().process( request, response
+);}<br><br>一般情况下，我们不需要自己实现或者修改ActionServlet类，仅仅使用就可以了。某些情况下，我们可以自己扩展
+ActionServlet类，从ActionServlet继承，实现自己的MyActionServlet类。覆盖其中的一些方法来达到你的特殊处理
+的需要。ActionServlet继承自javax.servlet.http.HttpServlet，所以在本质上它和一个普通的servlet没
+有区别，你完全可以把它当做一个servlet来看待，只是在其中完成的功能不同罢了。<br>================<br><br>RequestProssor具体处理用户的request，作为一个request handler存在。同样，处理request的时候，会执行RequestProcessor类中的process（execute）方法。<br><br>process
+中调用的方法都是可以重载的，
+如果有需要，可以实现为自己特定的方法。比如，对于Locale问题，通常都是在系统最一开始加载的时候读取的，如果用户想在任何时刻都可以切换或者选择
+自己的Locale，我们就可以重载processLocale()方法。然后只需要在配置文件中加入&lt;controller&gt;段就可以了<br><br>================<br>Action
+类是实现整个体系的核心部分，它在客户请求、界面表示和业务逻辑之间起到一个桥梁的作用。每一个Action都用来处理某一项任务，或者进行一个业务操
+作。当然了，我们说一项任务不是说Action只实现一个业务操作方法，而是集中实现某一个功能单元。比如登录用的LogonAction、查找用的
+SearchAction等等。Action是在RequestProcessor中，由processActionPerform方法调用的<br><br>非
+常重要的一点：不要在Action中包含任何业务逻辑操作，而是应该调用一个Model层的JavaBean来实现你的业务逻辑操作。在某些情况下，可能
+包含少许表现逻辑。这样，就可以充分进行代码重用，比如上例中调用的IStorefrontService接口，这个接口在实现时完全可以不用考虑客户端
+的事情，所以它可以被其它部分或者其它系统所使用。否则的话，Action会变得非常难于理解，难于维护，代码也不能重用。<br><br>struts-example工程的设计就是一个bug，它把业务逻辑封装到了Action类中<br>===================<br><br>在
+Action的execute方法中，返回一个ActionForward类。ActionForward把配置文件中forward部分的信息包装起
+来，减少了应用程序和物理资源信息之间的耦合性。通过ActionMapping类，可以在配置文件中查找相应的forward信息。例如，对于一个
+LoginAction，它的配置信息可能是这样的：<br><br>&lt;action
+input="/security/signin.jsp" name="loginForm" path="/signin"
+scope="request"
+type="com.oreilly.struts.storefront.security.LoginAction"
+validate="true"&gt; &lt;forward name="Success" path="/index.jsp"
+redirect="true"/&gt; &lt;forward name="Failure"
+path="/security/signin.jsp" redirect="true"/&gt; &lt;/action&gt;<br>返回的
+ActionForward就会包含&lt;forward&gt;段中的信息。在ActionMapping类的findForward方法中，首先会
+根据查找forward的name查找是否有相应的forward段，如果没有，则在配置文件中的&lt;global-forwards&gt;段中进
+行查找，如果还没有就会抛出一个例外。<br><br>=====================<br><br>以前，页面上的输入数据都通过HTTP request提交，服务方检索出输入的数据，进行验证，然后将这些数据传递给其它组件进行业务处理。一切基本都需要手工编写代码进行操作，比较麻烦，也使代码变得复杂。<br>ActionForm[org.apache.struts.action.ActionForm]用来收集用户的输入，并且把这些信息传递给Action对象，然后，在Action对象中，ActionForm中的数据被取出来传递给业务逻辑层进行处理。<br>ActionForm一方面作为一个缓冲区，临时存储用户输入的数据；另一方面，可以把ActionForm当成是HTTP和Action之间的一个防火墙，它可以验证输入数据的正确性，如果验证不通过，这个request是不会发送给Action进行处理的。<br>ActionForm可以有两种Scope，request或者session。request就是只能在rquest到response，之后ActionForm就不可见了；session可以保存时间长一点。<br><br>==================<br><br>在ActionForm的Validate方法中返回的是ActionErrors对象。这个对象可以将错误信息都封装起来，并且自动把它们显示给用户。<br>在
+相应JSP页面上添加&lt;html:error/&gt;，可以自动将ActionErrors中的错误信息显示出来。包括，每一个具体的，通过
+add添加的错误信息，和一个ErrorHeader和一个ErrorFooter，这些都可以通过配置文件指定，并且可以包含HTML语法。<br><br>==========================<br><br>Struts提供了四种自定义Tag库：<br>bean：struts-bean taglib包含在访问bean和bean属性时使用的tag，也包含一些消息显示的tag。<br>html：struts-html taglib包含用来创建<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>输入表单的tag，和其它通常用来创建基于HTML用户界面的tag。<br>logic：struts-logic taglib包含的tag用来管理根据条件生成输出文本，和其它一些用来控制的信息。<br>template：struts-template taglib包含的tag用来定义模板机制。<br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="460"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月19日 18:24
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=460&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=83"><b>cc</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=83" target="_blank">发表文章: 279</a>/
+            注册时间: 2002年08月07日 23:47
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	谁来调用ActionForm？是control吧，可是谁给ActionForm赋值呢？
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="461"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月19日 20:19
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=461&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=293"><b>numiddle</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=293" target="_blank">发表文章: 13</a>/
+            注册时间: 2002年08月19日 17:33
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	在1.1中，过程是：<br>ActionServlet的process，调用RequestProcessor的process<br>其
+中，调用processPopulate函数，这个函数调用RequestUtils的populate方法将Form中的属性按照（名字，值）防止到一
+个HashMap类型的变量中(properties)，然后调用commons中的BeanUtils的populate方法按照名字到定义的
+ActionForm中去赋值<br>BeanUtils在1.1中被抽出来，单独存在，在1.02中是作为<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>的一部分存在<br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="495"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月20日 18:15
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=495&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=33"><b>lion222</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=33" target="_blank">发表文章: 2</a>/
+            注册时间: 2002年08月05日 13:38
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	to cc:<br>actionServlet根据actionMapping在xml里的配置<br>而找到相应actionForm，actionForm
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="500"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月20日 19:19
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=500&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=272"><b>tyrones</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=272" target="_blank">发表文章: 59</a>/
+            注册时间: 2002年08月18日 22:16
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	典型的<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>-config.xml可以定义：全局转发，<br>ActionMapping类,ActionForm Bean,JDBC数据源，例如<br>-----------------------------------------<br>&lt;action-mappings&gt;<br>  &lt;action /*映射所匹配的路径*/<br>          path="/saveRegistration"<br>          /*使用的Action类型*/<br>          type="SaveRegistrationAction"<br>          /*与起关联的表单bean的逻辑名称*/<br>          name="registrationForm"<br>          /*定义为request*/<br>          scope="request"<br>          /*当bean发生了输入检查错误是必须返回的控制*/<br>          input="/registration.jsp"<br>          /*在调用Action对象方法前，ActionServlet将调<br>            用ActionFrom bean的validate()方法进行检查*/<br>          validate="true"&gt;<br>    &lt;forward name="failure" path="/registration.jsp"/&gt;<br>    &lt;forward name="cancel" path="/index.jsp"/&gt;<br>  &lt;/action&gt;<br>&lt;/action-mappings&gt;<br>------------------------------------------<br>&lt;forms-beans&gt;<br>  &lt;form-bean /*相关作用域使用的名称*/<br>             name="registrationForm"<br>             /*使用的类型*/<br>             type="RegistrationForm"&gt;<br>&lt;/form-beans&gt;<br>------------------------------------------<br>当请求到达ActionServlet，它将寻找相应的Action类的实例。<br>mapping可以将请求的uri映射到Action类，并且通过name将<br>Action类与ActionFrom bean相关联<br>----------------------------------------<br>ActionForm的值么，当然是在里面用getXXX,setXXX了
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="501"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月20日 19:38
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=501&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=272"><b>tyrones</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=272" target="_blank">发表文章: 59</a>/
+            注册时间: 2002年08月18日 22:16
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	Struts controller基本功能是<br>1. 截获用户的Http请求<br>2. 把这个请求映射到相应的Action类，如果这是此类收到的第一<br>   个请求，将初始化实例并缓寸。<br>3. 创建或发现一个ActionForm bean实例（看配置文件是否定<br>   义），然后将请求过程移植到bean.<br>4. 调用Action实例的perform（）方法并将ActioForm bean,<br>   Action Mapping对象,request和response对象传给它。<br>如：public ActionForword perform(ActionMapping mapping,<br>                        ActionForm form,<br>                        HttpServletRequest request,<br>                        HttpServletResponse response)<br>5.perform返回一个ActionForword对象，此对象连接到相应的jsp<br>  页面.<br>banq，本人自知能力还不行，单开论坛还是算了，只能多多捧场了。<br>不过我现在除了看看java就是<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>了，希望大家的讨论能给这里多聚集些人吧。我写了点东东，放在chinajavaunion,不过是入门级的，改天写完一并放在这里，到时给别给我删了啊<br><br>
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="536"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#ffffec">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月21日 13:31
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=536&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#ffffec">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=2"><b>banq</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=2" target="_blank">发表文章: 9185</a>/
+            注册时间: 2002年08月03日 17:08
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#ffffec">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	哪里哪里 你太谦虚，怎么敢删除你东东，对论坛我认为删除功能是多余的。<br><br>Struts我看你解释后，才明白.Pet store也是使用基于<a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>一样的原理来处理的。特别是perform方法是关键，比如我写的文章"解剖Petstore用户资料修改流程"http://www.jdon.com:81/jive/thread.jsp?forum=16&amp;thread=273<br>中就剃刀用户资料修改的CustomerHTMLAction这个servlet就是提供一个perform()方法的具体实现。
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+ 
+<a name="571"></a>
+ 
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td>
+    <table width="100%" bgcolor="#cccccc" border="0" cellpadding="4" cellspacing="1">
+    
+    <tbody><tr bgcolor="#eae9ea">
+        <td>
+		<table width="100%" cellpadding="1" cellspacing="1"><tbody><tr>
+        <td width="97%">
+
+        <b>Re: 理解struts流程和actionservlet</b>
+
+		</td>
+        <td width="1%" nowrap="nowrap">
+        发表: 2002年08月22日 09:31
+        </td>
+         
+       <td width="1%" align="center" nowrap="nowrap">
+        <a href="http://www.jdon.com/jivejdon/message/messageReplyAction.shtml?parentMessage.messageId=571&amp;forum.forumId=62">回复</a>
+          </td>
+		 </tr>
+		 </tbody></table>
+         </td>
+    </tr>
+     <tr bgcolor="#eae9ea">
+      <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>
+             <a href="http://www.jdon.com/jivejdon/profile.jsp?user=347"><b>feiyang</b></a>
+           <a href="http://www.jdon.com/jivejdon/query/threadViewQuery.shtml?queryType=userMessageQueryAction&amp;user=347" target="_blank">发表文章: 3</a>/
+            注册时间: 2002年08月22日 09:30
+            </td>
+        </tr>
+       </tbody></table>
+     </td>
+    </tr>
+    <tr bgcolor="#eae9ea">
+        <td colspan="4" valign="top" width="99%">
+        <table style="table-layout: fixed;" width="100%" border="0" cellpadding="2" cellspacing="2">
+          <tbody><tr>
+            <td style="">
+        <span class="tpc_content">
+     	建议大家去serverside站点download <a href="http://www.jdon.com/dl/best/struts.htm" target="_blank" title="??"><b>Struts</b></a>资料，大家多读几遍，将会受益匪浅！
+    	</span>
+		<p>
+        </p></td> </tr>
+        </tbody></table>
+        </td>
+    </tr>
+    </tbody></table>
+
+</td></tr>
+</tbody></table>
+
+
+
+
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+    <td>
+<table width="100%" align="center" bgcolor="#ffffcc" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2190557680964036";
+//300x250, 创建于 07-11-18
+google_ad_slot = "5308192209";
+google_ad_width = 300;
+google_ad_height = 250;
+//--></script>
+<script type="text/javascript" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/show_ads.js">
+</script><iframe name="google_ads_frame" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" frameborder="0" height="250"></iframe>
+
+
+
+
+
+
+
+  
+
+    </td><td></td><td>
+    </td>
+</tr>
+</tbody></table>
+    </td>
+</tr>
+</tbody></table>       
+
+<table width="100%" align="center" bgcolor="#cccccc" border="0" cellpadding="1" cellspacing="0">
+<tbody><tr>
+    <td>
+<table width="100%" align="center" bgcolor="#ffffcc" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr><td class="smallgray">
+ 这个主题共有 <b>54</b> 回复 ／ <b>4</b> 页 [
+
+
+<b><span class="paginator_currentPage">1</span></b>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=91&amp;count=15&amp;start=15" class="paginator_href"><b>2</b></a>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=91&amp;count=15&amp;start=30" class="paginator_href"><b>3</b></a>&nbsp;<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=91&amp;count=15&amp;start=45" class="paginator_href"><b>4</b></a>
+<a href="http://www.jdon.com/jivejdon/forum/messageList.shtml?thread=91&amp;count=15&amp;start=15">下一页</a>
+
+     ]
+    </td><td></td><td>
+
+    </td>
+</tr>
+</tbody></table>
+    </td>
+</tr>
+</tbody></table>
+<!--  上下主题 start -->
+
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="2">
+<tbody><tr>
+    <td valign="top" width="1%" nowrap="nowrap">
+  &nbsp;
+    </td>
+    <td width="98%" align="center">
+
+<table width="100%" border="0" cellpadding="0" cellspacing="2">
+
+
+    <tbody><tr>
+	<td>上一篇:
+        
+   
+     <a href="http://www.jdon.com/jivejdon/thread/16504.html" title="Hibernate查询DB2数据库,分页和distinct的冲突！" class="forum">
+        Hibernate查询DB2数据库,分页..
+        </a>
+             
+    </td>      
+
+
+ 
+	<td align="right">下一篇:
+   
+  
+     <a href="http://www.jdon.com/jivejdon/thread/16759.html" title="工作流之大局势" class="forum">
+        工作流之大局势
+    </a>       
+       
+    </td>  
+</tr>
+    
+
+</tbody></table>
+
+    </td>
+    <td valign="top" width="1%" nowrap="nowrap">
+    &nbsp;
+    </td>
+</tr>
+</tbody></table>
+<!--  上下主题 结束  -->
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/hotlist.htm" scrolling="no" width="500" frameborder="0" height="290"></iframe>
+</center>
+
+<form name="queryForm" method="post" action="/jivejdon/query/threadViewQuery.shtml">
+<input name="queryType" value="HOT1" type="hidden">
+<input name="forumId" value="62" type="hidden"> 
+  <table id="Table2" width="90%" align="center" bgcolor="#999999" border="0" cellpadding="0" cellspacing="1">
+    <tbody><tr>
+      <td bgcolor="#ffffff">
+          <table id="table1" width="100%" align="center" bgcolor="#e6e6e6" border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>            
+              <td align="middle">              
+              查询本论坛
+                        <select name="dateRange"><option value="1">近一天</option>
+<option value="3">近三天</option>
+<option value="5">近一周</option>
+<option value="30">近一月</option>
+<option value="90">近三月</option>
+<option value="190">近半年</option>
+<option value="365">近一年</option>
+<option value="3650">所有</option></select>
+           最热门帖子                           
+              <input name="btnsearch" value=" 查询 " style="width: 60px;" type="submit">
+            </td>
+          </tr>         
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+</form> 
+
+<a name="reply"></a>
+<form name="messageReplyForm" method="post" action="/jivejdon/message/messageReplySaveAction.shtml" onsubmit="return checkPost(this);">
+<input name="action" value="create" type="hidden">
+<input name="parentMessage.messageId" value="123" type="hidden">
+<input name="messageId" value="" type="hidden">
+快速发表回复:
+<!-- create another name "messageForm", so in messageFormBody.jsp it can be used -->
+
+
+
+
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function tag(theTag) {
+    var el = document.forms[0].body;
+    if (el == null)
+        el = document.forms[1].body;
+    if (el == null)
+        el = document.forms[2].body;
+        
+    if (theTag == 'b') {
+        el.value += "[b][/b]";
+    } else if (theTag == 'i') {
+        el.value += "[i][/i]";
+    } else if (theTag == 'u') {
+        el.value += "[u][/u]";
+    } else if (theTag == 'code') {
+        el.value += "\n[code]\n// 在此输入java代码\n[/code]";
+    } else if (theTag == 'image') {
+        var url = prompt("请输入一个图片的URL","http://");
+        if (url != null) {
+            el.value += "[img]" + url + "[/img]";
+        }
+    } else if (theTag == 'url') {
+        var url = prompt("请输入链接的URL","http://");
+        var text = prompt("请输入链接文本");
+        if (url != null) {
+            if (text != null) {
+                el.value += "[url=" + url + "]" + text + "[/url]";
+            } else {
+                el.value += "[url]" + url + "[/url]";
+            }
+        }
+    }
+}
+function MM_openBrWindow(theURL,features) { //v2.0
+   window.open(theURL,"adwin",features);
+
+}
+
+//-->
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+<!-- 
+
+function checkPost(theForm) {
+     var check = false;
+      if ((theForm.body.value  != "")
+          && (theForm.subject.value  != "")){
+          check = true;
+          return check;
+      }else{
+          alert("请输入发言标题和发言内容！");
+          return check;
+      }
+      if ((theForm.body.value.length  < 4096)){
+          check = true;
+          return check;
+      }else{
+          alert("请发言内容长度必须小于" + 4096);
+          return check;          
+      }
+}
+//-->
+</script>
+
+<table border="0" cellpadding="2" cellspacing="0">
+
+<tbody><tr>
+	<td align="right">标题</td>
+	<td><input name="subject" maxlength="75" size="40" tabindex="1" value="" type="text"></td>
+</tr>
+
+
+<tr>
+    <td>&nbsp;</td>
+	<td>
+    <table border="0" cellpadding="0" cellspacing="0">
+    <tbody><tr><td>
+    	<a href="#" onclick="tag('b');return false;"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/b.gif" alt="粗体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('i');return false;"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/i.gif" alt="斜体" width="23" border="0" height="22"></a>
+        </td>
+        <td><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('u');return false;"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/u.gif" alt="下划线" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/image.gif" alt="插入图片" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/blank.gif" width="5" border="0" height="1"></td>
+      
+        <td>
+    	<a href="#" onclick="tag('code');return false;"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/code.gif" alt="插入代码" width="23" border="0" height="22"></a>
+        </td>
+		 <td><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/blank.gif" width="5" border="0" height="1"></td>
+        <td>
+    	<a href="#" onclick="tag('url');return false;"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/link.gif" alt="插入url链接" width="23" border="0" height="22"></a>
+        </td>        
+		 <td><ihtml:img page="/images/blank.gif" width="5" height="1" border="0"></ihtml:img></td>
+       <td>
+        <a href="#" onclick="MM_openBrWindow('/jivejdon/message/upload/uploadAction.shtml','width=450,height=400,scrollbars=yes')"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/file.gif" alt="插入附件" width="23" border="0" height="22"></a>
+            <input readonly="readonly" size="10" name="attachsize" id="attachsize" value="" style="border: 0px solid Black; background: transparent none repeat scroll 0% 0%; width: 120px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;"> 
+        </td>
+       <td><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/blank.gif" width="5" border="0" height="1"></td>
+    </tr>
+    </tbody></table>
+	</td>
+</tr>
+<tr>
+	<td valign="top" align="right">
+	内容
+	</td>
+
+	<td>
+	<textarea name="body" tabindex="2" cols="85" rows="25"></textarea>	
+	</td>
+</tr>
+
+</tbody></table>
+
+<table border="0" cellpadding="4" cellspacing="0">
+<tbody><tr>
+ <td width="20">&nbsp;</td>
+ <td>
+    <input value="发 表" name="formButton" tabindex="3" type="submit"> 
+ </td>
+</tr>
+</tbody></table>
+
+ <script>
+document.messageReplyForm.subject.value='re:理解struts流程和actionservlet';
+
+</script>
+</form>
+
+ <center>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   </center>
+
+
+
+
+
+   </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+<iframe marginheight="0" marginwidth="0" src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/software.htm" scrolling="no" width="760" frameborder="0" height="200"></iframe>
+</center>
+
+
+
+
+
+  
+ 
+
+<table width="778" align="center" border="0" cellpadding="5" cellspacing="0">
+  <tbody>
+  <tr><td align="center">
+       <table><tbody><tr><td>
+        <a href="http://www.jdon.com/jivejdon/rss" target="_blank"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/rss_button.gif" width="36" border="0" height="14"></a>        
+        </td>
+        <td><a href="http://wap.feedsky.com/jdon" target="_blank"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/phone.gif" alt="手机阅读" width="18" border="0" height="18"></a>
+        </td>
+        <td>
+        <a href="http://www.google.com/ig/add?feedurl=http://www.jdon.com/jivejdon/rss"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/add-to-google.gif" alt="add to google" width="104" border="0" height="17"></a>
+         </td>
+          <td>
+        <a href="http://add.my.yahoo.com/rss?url=http://www.jdon.com/jivejdon/rss"><img src="%E7%90%86%E8%A7%A3struts%E6%B5%81%E7%A8%8B%E5%92%8Cactionservlet_files/add-to-myyahoo.gif" alt="add to yahoo" width="91" border="0" height="17"></a>
+         </td></tr></tbody></table>
+  </td></tr>
+  <tr>
+    <td align="center">
+      <span class="white"><a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">联系我们 </a> | 
+      <a href="http://www.jdon.com/aboutsite.htm" target="_blank" class="a03">关于我们 </a>| <a href="http://www.jdon.com/jivejdon/rss" target="_blank" class="a03">RSS订阅</a> |
+         <a href="http://www.jdon.com/advert.htm" target="_blank" class="a03">广告联系</a> | <a href="http://www.jdon.com/sitemap.html" target="_blank" class="a03">网站地图</a> 
+      <br>
+        <span class="a03">Copyright (C) 2002-2008 Jdon.com, All 
+      Rights Reserved 版权所有 上海解道计算机技术有限公司</span><span class="nava"><br>
+      <a href="http://www.miibeian.gov.cn/" target="_blank" class="a03">沪ICP备05018152号</a> <a href="http://www.jdon.com/my/feed/feedbackAction.do" target="_blank" class="a03">如有意见请与我们联系</a> <a href="http://www.jdon.com/jdonframework/index.htm" class="a03">Powered by JdonFramework </a></span></span></td>
+</tr>
+  </tbody></table>
+  
+ 
+
+
+</body></html>
