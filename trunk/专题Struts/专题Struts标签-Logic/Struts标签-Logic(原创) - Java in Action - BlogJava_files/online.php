@@ -1,0 +1,1 @@
+document.write('<a href=http://www.cnzz.com/stat/website.php?web_id=496487 target=_blank>站长统计</a><a href=http://www.cnzz.com/stat/website.php?web_id=496487 target=_blank> |  今日IP[85] | 今日PV[104] | 昨日IP[191] |  昨日PV[225] | <a href=http://www.cnzz.com/stat/website.php?web_id=496487&method=online target=_blank>当前在线[7]</a>');
