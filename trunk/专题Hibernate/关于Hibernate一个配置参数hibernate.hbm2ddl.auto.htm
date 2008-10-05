@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+
+
+    <meta name="author" content="MyJSF">
+    <meta name="Copyright" content="Csdn">
+    <meta name="description" content="jpa的数据库连接配置中hbm2ddl.auto的设置问题，如果测试是数据丢失请检查此参数！">
+    <meta name="keywords" content="MyJSF,jpa hibernate hbm2ddl.auto">
+    <link rel="Shortcut Icon" href="http://profile.csdn.net/MyJSF/picture/1.ico">
+    <link href="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/default_1.css" type="text/css" rel="stylesheet" media="all"><link href="http://blog.csdn.net/MyJSF/rss.aspx" title="RSS" type="application/rss+xml" rel="alternate">
+    <title>
+        关于Hibernate一个配置参数hibernate.hbm2ddl.auto - MyJSF的专栏 - CSDNBlog</title>
+<link type="text/css" rel="stylesheet" href="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/webimPopup.css"><script type="text/javascript" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/webimPopup.js"></script></head><body id="defaultuser">
+    <div id="csdnblog_allwrap">
+        <form name="Form1" method="post" action="1879467.aspx" language="javascript" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<input name="__EVENTTARGET" id="__EVENTTARGET" value="" type="hidden">
+<input name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" type="hidden">
+<input name="__VIEWSTATE" id="__VIEWSTATE" value="" type="hidden">
+
+<script type="text/javascript">
+<!--
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+// -->
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var Anthem_FormID = "Form1";
+//]]>
+</script>
+<script src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/WebResource.axd" type="text/javascript"></script>
+<script src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/WebResource.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+// -->
+</script>
+
+        
+<div id="csdnblog_midwrap">
+    <div id="csdnblog_header">
+        
+        <h1><a id="Header1_HeaderTitle" href="http://blog.csdn.net/MyJSF/">MyJSF的专栏</a></h1><h2>一个共同学习JSF的空间。期待每个人的贡献...</h2>
+        
+        <ul id="personalnav"><li><a href="http://passport.csdn.net/UserLogin.aspx">登录</a></li><li><a href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</a></li></ul>
+        
+        <ul id="blogsearchsty"><li><input id="inputSearch" class="bolgsearch" onkeydown="return keyb(event)" type="text"></li><li class="selectsty"><select name="Search:ddlSearchScope" id="Search_ddlSearchScope"><option value="all">全站</option><option value="MyJSF">当前博客</option></select></li><li><input onclick="checkNull()" value="搜索" class="bolggobtn" type="button"></li></ul>
+        
+        <ul id="menu"><li><a href="http://hi.csdn.net/MyJSF">空间</a></li><li><a href="http://blog.csdn.net/MyJSF" class="on">博客</a></li><li><a href="http://hi.csdn.net/MyJSF/profile/contactlist/1.html">好友</a></li><li><a href="http://album.hi.csdn.net/" target="_blank">相册</a></li><li><a href="http://hi.csdn.net/MyJSF/profile/notebook/1.html" class="last">留言</a></li></ul>
+    </div>
+    <div id="csdnblog_sidebar">
+        <div class="gutter">
+            <div class="aboutauthor">
+                <dl>
+                    
+                    <dt>用户操作</dt><dd class="middle"><a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/Messages/MyJSF.ashx" target="_blank">[即时聊天]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=MyJSF" target="_blank">[发私信]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/AddFriends/MyJSF.ashx" target="_blank">[加为好友]</a></dd><dt>    myjsf<span>ID：MyJSF</span></dt><dd class="middle">    <img src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/1_MyJSF.jpg" alt=""></dd><dd class="middle">    <a href="http://profile.csdn.net/8/E4/edit.html"></a></dd><dd>    共<em>7894</em>次访问，排名<em>13133(3)</em>好友<em>0</em>人，关注者<em>0</em>人<br></dd><dd>    </dd><dt>MyJSF的文章</dt><dd>原创 10 篇</dd><dd>翻译 0 篇</dd><dd>转载 7 篇</dd><dd>评论 2 篇</dd> 
+                    
+                    <dt>MyJSF的公告</dt><dd><h5>开始学习JSF!</h5>
+<hr>
+关注JSF,关注JAVA！</dd>
+
+                    <dt>最近评论</dt><dd>AMON4003：<a href="http://blog.csdn.net/MyJSF/archive/2007/12/01/1910491.aspx#823562" title="点击查看《回复:如何删除detached instance？》">学习，多谢！</a></dd><dd>david_123：<a href="http://blog.csdn.net/MyJSF/archive/2007/11/17/1890363.aspx#745714" title="点击查看《回复:MyEclipse Facelets教程》">博主，浏览该文章时图片都会出错，能否打包成文档供下载呢？</a></dd>
+                    
+                    <dt>文章分类</dt><dd><div class="publiclist_sidebar"><ul><li><a href="http://blog.csdn.net/MyJSF/category/348590.aspx">Facelets</a><a href="http://blog.csdn.net/MyJSF/category/348590.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/MyJSF/category/345830.aspx">Java 应用</a><a href="http://blog.csdn.net/MyJSF/category/345830.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/MyJSF/category/345829.aspx">JSF + JPA + Spring</a><a href="http://blog.csdn.net/MyJSF/category/345829.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/MyJSF/category/345827.aspx">JSF Basic</a><a href="http://blog.csdn.net/MyJSF/category/345827.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/MyJSF/category/345828.aspx">JSF Component</a><a href="http://blog.csdn.net/MyJSF/category/345828.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/MyJSF/category/345838.aspx">JSF Resource</a><a href="http://blog.csdn.net/MyJSF/category/345838.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/MyJSF/category/348592.aspx">XHTML</a><a href="http://blog.csdn.net/MyJSF/category/348592.aspx/rss">(RSS)</a></li></ul></div></dd><dt>收藏</dt><dd><div class="publiclist_sidebar"><ul></ul></div></dd><dt>相册</dt><dt>JSF 链接</dt><dd><a href="http://myfaces.apache.org/" target="_self">Apache的MyFaces Project</a></dd><dd><a href="http://www.jsfcentral.com/" target="_self">JSF专家的网站</a></dd><dd><a href="http://www.oracle.com/technology/global/cn/tech/java/jsf.html" target="_self">Oracle JSF 技术网站</a></dd><dt>存档</dt><dd><div class="publiclist_sidebar"><ul><li><a href="http://blog.csdn.net/MyJSF/archive/2008/06.aspx">2008年06月(2)</a></li><li><a href="http://blog.csdn.net/MyJSF/archive/2008/04.aspx">2008年04月(2)</a></li><li><a href="http://blog.csdn.net/MyJSF/archive/2007/12.aspx">2007年12月(3)</a></li><li><a href="http://blog.csdn.net/MyJSF/archive/2007/11.aspx">2007年11月(10)</a></li></ul></div></dd>
+
+                    <span id="RecentVisitors"></span>
+                    
+                    <dt>软件项目交易</dt><dd><iframe style="margin: 0pt; width: 180px; height: 32px;" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/CsdnBlogPage.htm" scrolling="no" frameborder="0"></iframe></dd>
+                    
+                    <span id="SubscriptionList"><dt>订阅我的博客</dt><dd><a href="http://blog.csdn.net/MyJSF/Rss.aspx"><img alt="XML聚合" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/xml.gif" border="0"></a>&nbsp;&nbsp;<a href="http://feeds.feedsky.com/csdn.net/MyJSF" target="_blank"><img alt="FeedSky" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/feedsky.gif" border="0"></a></dd><dd><a href="http://www.xianguo.com/subscribe.php?url=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到鲜果" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_xianguo.jpg" border="0"></a></dd><dd><a href="http://fusion.google.com/add?feedurl=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到Google" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_google.gif" border="0"></a></dd><dd><a href="http://www.zhuaxia.com/add_channel.php?url=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到抓虾" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_zhuaxia.gif" border="0"></a></dd><dd><a href="http://www.bloglines.com/sub/http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到BlogLines" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_bloglines.gif" border="0"></a></dd><dd><a href="http://add.my.yahoo.com/rss?url=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到Yahoo" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_yahoo.gif" border="0"></a></dd><dd><a href="http://rss.gougou.com/find_rss.jsp?url=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到GouGou" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_gougou.gif" border="0"></a></dd><dd><a href="http://www.pageflakes.com/subscribe.aspx?url=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到飞鸽" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_pageflakes.gif" border="0"></a></dd><dd><a href="http://www.rojo.com/add-subscription?resource=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到Rojo" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_rojo.gif" border="0"></a></dd><dd><a href="http://www.newsgator.com/ngs/subscriber/subfext.aspx?url=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到newsgator" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_newsgator.gif" border="0"></a></dd><dd><a href="http://www.netvibes.com/subscribe.php?url=http://blog.csdn.net/MyJSF/Rss.aspx" target="_blank"><img alt="订阅到netvibes" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/rss_netvibes.gif" border="0"></a></dd></span>
+                </dl>
+            </div>
+        </div>
+    </div>
+    
+    <div id="csdnblog_content">
+        <div class="gutter">
+            
+                    
+<div class="default_contents">
+    <div class="user_article">
+        <script type="text/javascript" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/LoadFeedbackCount.js"></script>
+        <h1><img src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/authorship.gif" alt="原创" width="15" border="0" height="16">&nbsp;<a href="http://blog.csdn.net/MyJSF/archive/2007/11/11/1879467.aspx">关于Hibernate一个配置参数hibernate.hbm2ddl.auto</a><cite class="fav_csdnstylebykimi"><a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a></cite></h1>
+<div class="blogstory">
+    <span id="Post.ascx_ViewPost_PreviousAndNextEntriesUp"><h3><a href="http://blog.csdn.net/MyJSF/archive/2007/11/12/1880466.aspx">新一篇:&nbsp;JSF Component 选择：ICEfaces or RichFaces？</a>&nbsp;|&nbsp;</h3></span>
+    <script>function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</script><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 这两天在整理Spring + JPA（Hibernate实现），从网上copy了一段Hibernate连接参数的配置。</p>
+<div style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95%;">
+<div><img alt="" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/None.gif" align="top"><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">properties</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br><img alt="" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/None.gif" align="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property&nbsp;</span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="hibernate.show_sql"</span><span style="color: rgb(255, 0, 0);">&nbsp;value</span><span style="color: rgb(0, 0, 255);">="true"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><img alt="" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/None.gif" align="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property&nbsp;</span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="hibernate.hbm2ddl.auto"</span><span style="color: rgb(255, 0, 0);">&nbsp;value</span><span style="color: rgb(0, 0, 255);">="create"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br><img alt="" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/None.gif" align="top"></span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">properties</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+</div>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 结果在测试时，老是发现数据库表数据丢失。这个参数以前没怎么用，查了一圈其它的东东，最后才定位到这个上面。赶紧查了一下Hibernate的参数配置，解释如下：</p>
+<p>hibernate.hbm2ddl.auto Automatically validate or export schema DDL
+to the database when the SessionFactory is created. With create-drop,
+the database schema will be dropped when the SessionFactory is closed
+explicitly.&nbsp; eg. validate | update | create | create-drop</p>
+<p>其实这个参数的作用主要用于：自动创建|更新|验证数据库表结构。如果不是此方面的需求建议set value="none".</p>
+<p>其它几个参数的意思，我解释一下：</p>
+<p>&nbsp;validate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 加载hibernate时，验证创建数据库表结构<br>&nbsp;create&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。<br>&nbsp;create-drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加载hibernate时创建，退出是删除表结构<br>&nbsp;update&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;加载hibernate自动更新数据库结构</p>
+<p>总结：</p>
+<p>1.请慎重使用此参数，没必要就不要随便用。</p>
+<p>2.如果发现数据库表丢失，请检查hibernate.hbm2ddl.auto的配置</p><p class="right articalinfo">发表于 @ <a href="http://blog.csdn.net/MyJSF/archive/2007/11/11/1879467.aspx" title="permalink">2007年11月11日 22:49:00</a>|<a href="http://blog.csdn.net/MyJSF/archive/2007/11/11/1879467.aspx#FeedBack" title="评论">评论(<span id="FeedbackCount_1879467">0</span><script type="text/javascript">AddFeedbackCountStack("1879467")</script>)</a>|<a href="http://writeblog.csdn.net/PostEdit.aspx?entryId=1879467" title="编辑">编辑</a></p>
+    <span id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><h3><a href="http://blog.csdn.net/MyJSF/archive/2007/11/12/1880466.aspx">新一篇:&nbsp;JSF Component 选择：ICEfaces or RichFaces？</a>&nbsp;|&nbsp;</h3></span>
+</div>
+
+        
+    </div>
+    <div class="commentslist">
+        <span id="Anthem_Post.ascx_Comments_ltlComments__"><span id="Post.ascx_Comments_ltlComments"><div id="commentslist"><h3>评论：没有评论。</h3></div></span></span>
+
+    </div>
+    <div class="spacecommment">
+        <div id="Anthem_Post.ascx_PostComment_CommentUpdatePanel__"><div id="Post.ascx_PostComment_CommentUpdatePanel">
+	
+    <fieldset>
+        <legend>发表评论</legend>
+        <ul>
+            <li>姓&nbsp;&nbsp;&nbsp;名：<input name="Post.ascx:PostComment:tbName" maxlength="32" id="Post.ascx_PostComment_tbName" disabled="disabled" size="40" type="text"><span controltovalidate="Post.ascx_PostComment_tbName" errormessage="请输入名字" id="Post.ascx_PostComment_RequiredFieldValidator2" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color: Red; visibility: hidden;">请输入名字</span></li>
+            <li>主&nbsp;&nbsp;&nbsp;页：<input name="Post.ascx:PostComment:tbUrl" maxlength="256" id="Post.ascx_PostComment_tbUrl" disabled="disabled" size="40" type="text"></li>
+            <li>
+                <div id="Post.ascx_PostComment_AntiBotImageRegion">
+		
+                    校验码：
+                    <input name="Post.ascx:PostComment:tbAntiBotImage" id="Post.ascx_PostComment_tbAntiBotImage" style="width: 75px;" type="text">
+                    <span display="Dynamic" id="Post.ascx_PostComment_valAntiBotImage" evaluationfunction="CustomValidatorEvaluateIsValid" style="color: Red; display: none;">检验码无效!</span>
+                    <span id="Anthem_Post.ascx_PostComment_imgAntiBotImage__"><img id="Post.ascx_PostComment_imgAntiBotImage" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/AntiBotImage.htm" alt="" align="absmiddle" border="0"></span>
+                    <span id="Anthem_Post.ascx_PostComment_lbCreateAntiBotImage__"><a onclick="javascript:Anthem_FireCallBackEvent(this,event,'Post.ascx:PostComment:lbCreateAntiBotImage','',false,'','','',true,null,null,null,true,true);return false;" id="Post.ascx_PostComment_lbCreateAntiBotImage" href="javascript:__doPostBack('Post.ascx$PostComment$lbCreateAntiBotImage','')">看不清,换一张</a></span>
+	</div>
+            </li>
+        </ul>
+        <span controltovalidate="Post.ascx_PostComment_tbComment" errormessage="请输入评论" id="Post.ascx_PostComment_RequiredFieldValidator3" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color: Red; visibility: hidden;">请输入评论</span><br>
+        <textarea name="Post.ascx:PostComment:tbComment" rows="10" cols="50" id="Post.ascx_PostComment_tbComment" disabled="disabled"></textarea><br>
+        <span id="Anthem_Post.ascx_PostComment_btnSubmit__"></span>
+        <br>
+        <span id="Post.ascx_PostComment_Message" style="color: Red;">当前用户设置只有注册用户才能发表评论。如果你没有登录，请点击<a href="http://passport.csdn.net/member/UserLogin.aspx?from=http://blog.csdn.net/MyJSF/archive/2007/11/11/1879467.aspx">登录</a></span>
+    </fieldset>
+
+</div></div>
+
+    </div>
+
+    <script type="text/javascript">
+    LoadFeedbackCount();//加载评论
+    document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");// 计数器
+    </script><img src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/pv_002.txt" width="0" border="0" height="0">
+
+    <script src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/HighLighter.js" type="text/javascript"></script>
+
+</div>
+ 
+                
+        </div>
+    </div>
+    
+    <div id="pubfooter">
+        
+<dl>
+    <dt></dt>
+    <dd>
+        Csdn Blog version 3.1a</dd>
+    <dd>
+        Copyright ©
+        MyJSF
+    </dd>
+</dl>
+
+    </div>
+</div>
+
+        
+<script type="text/javascript">
+<!--
+var Page_Validators =  new Array(document.getElementById("Post.ascx_PostComment_RequiredFieldValidator2"), document.getElementById("Post.ascx_PostComment_valAntiBotImage"), document.getElementById("Post.ascx_PostComment_RequiredFieldValidator3"));
+// -->
+</script>
+
+
+<script type="text/javascript">
+<!--
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+// -->
+</script>
+        </form>
+
+        <script type="text/javascript" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/counter.js"></script><img src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/visitlog.htm" alt="" width="1" border="0" height="1"><iframe id="myframe" name="myframe" border="0" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/dd333.htm" scrolling="no" width="0" frameborder="no" height="0"></iframe>
+
+    </div>
+<img style="display: none;" alt="" src="%E5%85%B3%E4%BA%8EHibernate%E4%B8%80%E4%B8%AA%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0hibernate.hbm2ddl.auto_files/pv.txt"></body></html>

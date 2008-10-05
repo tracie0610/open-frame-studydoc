@@ -1,0 +1,139 @@
+
+
+原创 配置Spring+hibernate使用ehcache作为second-level cache收藏
+新一篇: 使用ehcache[转载] | 旧一篇: 使用ehcache[转载]
+
+http://hi.baidu.com/eclipse256/blog/item/5443b35196623b1c367abebd.html
+配置Spring+hibernate使用ehcache作为second-level cache
+2008年03月10日 星期一 16:37
+
+大量数据流动是web应用性能问题常见的原因，而缓存被广泛的用于优化数据库应用。cache被设计为通过保存从数据库里load的数据来减少应用和数据库之间的数据流动。数据库访问只有当检索的数据不在cache里可用时才必要。hibernate可以用两种不同的对象缓存：first-level cache 和 second-level cache。first-level cache和Session对象关联，而second-level cache是和Session Factory对象关联。
+
+        缺省地，hibernate已经使用基于每个事务的first-level cache。 Hibernate用first-level cache主要是减少在一个事务内的sql查询数量。例如，如果一个对象在同一个事务内被修改多次，hibernate将只生成一个包括所有修改的 UPDATE SQL语句。为了减少数据流动，second-level cache在Session Factory级的不同事务之间保持load的对象，这些对象对整个应用可用，不只是对当前用户正在运行的查询。这样，每次查询将返回已经load在缓存里的对象，避免一个或更多潜在的数据库事务。
+
+下载ehcache，hibernate3.2必须要ehcache1.2以上才能支持。可以修改log4j配置文件log4j.logger.net.sf.hibernate.cache=debug查看日志
+
+1.在类路径上ehcache.xml：
+
+    <ehcache>
+
+         <!-- Sets the path to the directory where cache .data files are created.
+
+              If the path is a Java System Property it is replaced by
+              its value in the running VM.
+
+              The following properties are translated:
+              user.home - User's home directory
+              user.dir - User's current working directory
+              java.io.tmpdir - Default temp file path -->
+         <diskStore path="java.io.tmpdir"/>
+
+
+         <!--Default Cache configuration. These will applied to caches programmatically created through
+             the CacheManager.
+
+             The following attributes are required:
+
+             maxElementsInMemory             - Sets the maximum number of objects that will be created in memory
+             eternal                         - Sets whether elements are eternal. If eternal,   timeouts are ignored and the
+                                              element is never expired.
+             overflowToDisk                  - Sets whether elements can overflow to disk when the in-memory cache
+                                              has reached the maxInMemory limit.
+
+             The following attributes are optional:
+             timeToIdleSeconds               - Sets the time to idle for an element before it expires.
+                                              i.e. The maximum amount of time between accesses before an element expires
+                                              Is only used if the element is not eternal.
+                                              Optional attribute. A value of 0 means that an Element can idle for infinity.
+                                              The default value is 0.
+             timeToLiveSeconds               - Sets the time to live for an element before it expires.
+                                              i.e. The maximum time between creation time and when an element expires.
+                                              Is only used if the element is not eternal.
+                                              Optional attribute. A value of 0 means that and Element can live for infinity.
+                                              The default value is 0.
+             diskPersistent                  - Whether the disk store persists between restarts of the Virtual Machine.
+                                              The default value is false.
+             diskExpiryThreadIntervalSeconds- The number of seconds between runs of the disk expiry thread. The default value
+                                              is 120 seconds.
+             -->
+
+         <defaultCache
+             maxElementsInMemory="10000"
+             eternal="false"
+             overflowToDisk="true"
+             timeToIdleSeconds="120"
+             timeToLiveSeconds="120"
+             diskPersistent="false"
+             diskExpiryThreadIntervalSeconds="120"/>
+            
+         <!-- See http://ehcache.sourceforge.net/documentation/#mozTocId258426 for how to configure caching for your objects -->
+    </ehcache>
+
+2.applicationContext-hibernate.xml里Hibernate SessionFactory配置：
+
+         <!-- Hibernate SessionFactory -->
+         <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+             <property name="dataSource" ref="dataSource"/>
+             <property name="configLocation"><value>classpath:hibernate.cfg.xml</value></property>
+             <!-- The property below is commented out b/c it doesn't work when run via
+                  Ant in Eclipse.   It works fine for individual JUnit tests and in IDEA ??
+             <property name="mappingJarLocations">
+                 <list><value>file:dist/appfuse-dao.jar</value></list>
+             </property>
+             -->
+             <property name="hibernateProperties">
+                 <props>
+                     <prop key="hibernate.dialect">@HIBERNATE-DIALECT@</prop>
+                     <!--<prop key="hibernate.show_sql">true</prop>-->
+                     <prop key="hibernate.max_fetch_depth">3</prop>
+                     <prop key="hibernate.hibernate.use_outer_join">true</prop>
+                     <prop key="hibernate.jdbc.batch_size">10</prop>
+                     <prop key="hibernate.cache.use_query_cache">true</prop>
+                     <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                     <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                     <!--
+                     <prop key="hibernate.use_sql_comments">false</prop>
+                     -->
+                     <!-- Create/update the database tables automatically when the JVM starts up
+                     <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+                     <!-- Turn batching off for better error messages under PostgreSQL
+                     <prop key="hibernate.jdbc.batch_size">0</prop> -->
+                 </props>
+             </property>
+             <property name="entityInterceptor">
+                <ref local="auditLogInterceptor"/>
+             </property>
+         </bean>
+    说明：如果不设置“查询缓存”，那么hibernate只会缓存使用load()方法获得的单个持久化对象，如果想缓存使用findall()、 list()、Iterator()、createCriteria()、createQuery()等方法获得的数据结果集的话，就需要设置 hibernate.cache.use_query_cache true 才行
+
+3.model类里采用Xdoclet生成*.hbm.xml里的cache xml标签，即<cache usage="read-only"/>
+
+    /**
+    * @hibernate.class table="WF_WORKITEM_HIS"
+    * @hibernate.cache usage="read-write"
+    *
+    */
+
+4.对于"query cache"，需要在程序里编码：
+         getHibernateTemplate().setCacheQueries(true);
+         return getHibernateTemplate().find(hql);
+ 
+
+发表于 @ 2008年03月18日 18:20:00|评论(0)|编辑
+新一篇: 使用ehcache[转载] | 旧一篇: 使用ehcache[转载]
+评论：没有评论。
+发表评论
+
+    * 姓   名：请输入名字
+    * 主   页：
+    *
+      校验码： 检验码无效! 看不清,换一张
+
+请输入评论
+
+
+当前用户设置只有注册用户才能发表评论。如果你没有登录，请点击登录
+
+    Csdn Blog version 3.1a
+    Copyright ? qililhjcn 
+

@@ -1,0 +1,15 @@
+document.write("<DIV style='border:#8E96B4 1px solid;width:298px;margin-bottom:10px;'>");
+document.write("<DIV style='background:url(http://image2.yesky.com/TLimages/yesky/images/bt_c16.gif) repeat-x;padding-left:12px;width:286px;height:28px;line-height:28px;color:#204890;'><DIV style='font-size:14px;font-weight:bold;float:left;'>奥运嘉年华</DIV><a href=http://in.yesky.com/><img src='http://image2.yesky.com/TLimages/yesky/images/oykl.gif' style='float:right;margin-top:3px;margin-right:5px;' border=0 /></a></DIV>");
+document.write("<DIV style='padding:6px;line-height:21px;text-align:left;'>");
+document.write("·<a href='http://in.yesky.com/141/8309141.shtml'>三星打出财富梦游戏攻略</a><br>");
+document.write("·<a href='http://in.yesky.com/151/8265651.shtml'>运气碰 好礼相送幸运网友</a><br>");
+document.write("·<a href='http://in.yesky.com/381/8311881.shtml'>几组有趣的图片</a><br>");
+document.write("·<a href='http://in.yesky.com/333/8304833.shtml'>“三星眼力大比拼”第一期手机大奖已送出</a><br>");
+document.write("·<a href='http://in.yesky.com/blt8/'>取消十一长假，您同意吗？</a><br>");
+document.write("·<a href='http://in.yesky.com/426/8320426.shtml'>“三星眼力大比拼”第二部手机 花落成都</a><br>");
+document.write("·<a href='http://spec.52pk.com/jinling/'>为52PK投票赢取心动大奖</a><br>");
+document.write("·<a href='http://in.yesky.com/410/8302410.shtml'>2008年国庆节“十一”放假具体安排</a><br>");
+document.write("·<a href='http://in.yesky.com/hero/Samsung_dreams/'>三星体验活动“打出你的财富梦”大奖等你拿</a><br>");
+document.write("·<a href='http://in.yesky.com/blt9/'>今后您还会不会买三鹿奶粉？</a><br>");
+document.write("</DIV>");
+document.write("</DIV>");
