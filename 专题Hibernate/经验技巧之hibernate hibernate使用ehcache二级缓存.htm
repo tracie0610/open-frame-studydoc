@@ -1,0 +1,668 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml"><head>
+
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>经验技巧之hibernate hibernate使用ehcache二级缓存 - dodomail - JavaEye技术网站</title>
+    <meta name="description" content="Hibernate使用EHCache二级缓存&nbsp;&nbsp;&nbsp;&nbsp;  数据库结构：     create table teamEH (id varchar(32),teamname varchar(32)); create table studentEH (id varchar(32),name varchar(32),team_id varchar(32)); POJO ...">
+    <meta name="keywords" content="  经验技巧之hibernate hibernate使用ehcache二级缓存">
+    <link rel="shortcut icon" href="http://dodomail.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <link href="http://dodomail.javaeye.com/rss" rel="alternate" title="dodomail" type="application/rss+xml"> 
+    <link href="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/application.js" type="text/javascript"></script>
+      <link href="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/se_hilite.js" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/ui.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/compress.js" type="text/javascript"></script>
+  </head><body>
+    <div id="header">
+      <div id="site_logo"><a href="http://www.javaeye.com/blogs"><img alt="JavaEye3.0" src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/logo_small.gif" title="JavaEye-最棒的软件开发交流社区"></a></div>
+      <ul id="user_nav">
+  <li class="last"><a href="http://dodomail.javaeye.com/index/help">帮助</a></li>
+      <li><a href="http://dodomail.javaeye.com/signup">注册</a></li>
+    <li><a href="http://dodomail.javaeye.com/login">登录</a></li>
+    <li class="highlight"><span>您还没有登录 !</span></li>  
+    
+</ul>
+    </div>
+    
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="http://dodomail.javaeye.com/">dodomail</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="http://dodomail.javaeye.com/">http://dodomail.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="http://dodomail.javaeye.com/blog/148242" class="next">网络游戏中的货币系统</a>
+      |
+      <a href="http://dodomail.javaeye.com/blog/147780" class="pre">如何正确使用Java I/O输出和读入数据</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class="year">2007</span><span class="sep_year">-</span><span class="month">12</span><span class="sep_month">-</span><span class="day">14</span></div>
+    <h3 class="" title=""><a href="http://dodomail.javaeye.com/blog/148238">经验技巧之<span class="hilite2">hibernate</span> <span class="hilite2">hibernate</span>使用eh<span class="hilite3">cache</span>二级缓存</a></h3>
+        
+  </div>
+  
+  <div class="blog_content">
+    <span class="hilite2">Hibernate</span>使用EH<span class="hilite3">Cache</span>二级缓存&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>数据库结构：
+<br>
+<br> 
+<br>
+<br>create table teamEH (id varchar(32),teamname varchar(32));
+<br>create table studentEH (id varchar(32),name varchar(32),team_id varchar(32));
+<br>POJO：
+<br>
+<br> 
+<br>
+<br>package EH<span class="hilite3">Cache</span>;
+<br>
+<br>public class Student ...{
+<br>&nbsp;&nbsp;&nbsp; private String id; //标识id
+<br>&nbsp;&nbsp;&nbsp; private String name; //学生姓名
+<br>&nbsp;&nbsp;&nbsp; private Team team;//班级
+<br>
+<br>
+<br>
+<br>
+<br>&nbsp;&nbsp;&nbsp; public String getName() ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return name;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp; 
+<br>
+<br>&nbsp;&nbsp;&nbsp; public void setId(String id) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.id = id;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp; 
+<br>
+<br>&nbsp;&nbsp;&nbsp; public void setName(String stuName) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.name = stuName;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp; 
+<br>
+<br>&nbsp;&nbsp;&nbsp; public String getId() ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return id;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp;&nbsp; public Student() ...{ //无参的构造函数
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp; 
+<br>
+<br>&nbsp;&nbsp;&nbsp; public Team getTeam() ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return team;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp;&nbsp; public void setTeam(Team team) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.team = team;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>}
+<br>
+<br>
+<br>
+<br>
+<br>package EH<span class="hilite3">Cache</span>;
+<br>
+<br>import java.util.HashSet;
+<br>import java.util.Set;
+<br>
+<br>
+<br>public class Team ...{
+<br>&nbsp;&nbsp;&nbsp; private String id;
+<br>&nbsp;&nbsp;&nbsp; private Set students;
+<br>&nbsp;&nbsp;&nbsp; private String teamName;
+<br>&nbsp;&nbsp;&nbsp; public String getId() ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return id;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp;&nbsp; public void setId(String id) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.id = id;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp;&nbsp; public String getTeamName() ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return teamName;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp;&nbsp; public void setTeamName(String name) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.teamName = name;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp;&nbsp; public Set getStudents() ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return students;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>&nbsp;&nbsp;&nbsp; public void setStudents(Set students) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.students = students;
+<br>&nbsp;&nbsp;&nbsp; }
+<br>}
+<br>
+<br> Team.hbm.xml
+<br>
+<br>其中[<span class="hilite3">cache</span>]标签表示对student集合缓存，但只缓存id,如果需要缓存student实例，则需要在student.hbm.xml中的
+<br>class标签中配置[<span class="hilite3">cache</span>]
+<br>
+<br> 
+<br>
+<br>[?xml version="1.0" encoding="utf-8"?]
+<br>[!DOCTYPE <span class="hilite2">hibernate</span>-mapping PUBLIC "-//<span class="hilite2">Hibernate</span>/<span class="hilite2">Hibernate</span> Mapping DTD 3.0//EN"
+<br>"http://<span class="hilite2">hibernate</span>.sourceforge.net/<span class="hilite2">hibernate</span>-mapping-3.0.dtd"]
+<br>[!-- 
+<br>&nbsp;&nbsp;&nbsp; Mapping file autogenerated by MyEclipse - <span class="hilite2">Hibernate</span> Tools
+<br>--]
+<br>[<span class="hilite2">hibernate</span>-mapping package="EH<span class="hilite3">Cache</span>" ]
+<br>&nbsp;&nbsp;&nbsp; [class name="EH<span class="hilite3">Cache</span>.Team" table="teamEH" lazy="false"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [id name="id" column="id"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [generator class="uuid.hex"][/generator]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [/id]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [property name="teamName" column="teamName"][/property]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [set name="students" 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lazy="true" 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inverse="true" 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; outer-join="false"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; batch-size="2"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cascade="save-update"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [!-- 对students集合缓存，但只是缓存student-id如果要对整个对象缓存，
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 还需要在Student.hbm.xml的class标签中加入[<span class="hilite3">cache</span>]标签 --]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<span class="hilite3">cache</span> usage="read-write"/]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [key column="team_id"][/key]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [one-to-many class="EH<span class="hilite3">Cache</span>.Student"/]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [/set]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [/class]
+<br>[/<span class="hilite2">hibernate</span>-mapping]
+<br>
+<br> 
+<br>
+<br>Student.hbm.xml
+<br>
+<br> 
+<br>
+<br>[?xml version="1.0" encoding="utf-8"?]
+<br>[!DOCTYPE <span class="hilite2">hibernate</span>-mapping PUBLIC "-//<span class="hilite2">Hibernate</span>/<span class="hilite2">Hibernate</span> Mapping DTD 3.0//EN"
+<br>"http://<span class="hilite2">hibernate</span>.sourceforge.net/<span class="hilite2">hibernate</span>-mapping-3.0.dtd"]
+<br>[!-- 
+<br>&nbsp;&nbsp;&nbsp; Mapping file autogenerated by MyEclipse - <span class="hilite2">Hibernate</span> Tools
+<br>--]
+<br>[<span class="hilite2">hibernate</span>-mapping package="EH<span class="hilite3">Cache</span>" ]
+<br>&nbsp;&nbsp; 
+<br>&nbsp;&nbsp;&nbsp; [class name="EH<span class="hilite3">Cache</span>.Student" table="studentEH" lazy="false"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<span class="hilite3">cache</span> usage="read-write"/]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [id name="id" column="id" unsaved-value="null"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [generator class="uuid.hex"][/generator]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [/id]
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [property name="name" column="name"][/property]
+<br>&nbsp;&nbsp;&nbsp; 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [many-to-one name="team" 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+column="team_id"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+outer-join="true" <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cascade="save-update"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class="EH<span class="hilite3">Cache</span>.Team"][/many-to-one]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [/class]
+<br>[/<span class="hilite2">hibernate</span>-mapping]
+<br>
+<br> 
+<br>
+<br><span class="hilite2">Hibernate</span>.cfg.xml
+<br>
+<br>配置<span class="hilite2">hibernate</span>.<span class="hilite3">cache</span>.<span class="hilite4">provider_class</span>以启用EH<span class="hilite3">Cache</span>
+<br>
+<br>[?xml version='1.0' encoding='UTF-8'?]
+<br>[!DOCTYPE <span class="hilite2">hibernate</span>-configuration PUBLIC
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "-//<span class="hilite2">Hibernate</span>/<span class="hilite2">Hibernate</span> Configuration DTD 3.0//EN"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "http://<span class="hilite2">hibernate</span>.sourceforge.net/<span class="hilite2">hibernate</span>-configuration-3.0.dtd"]
+<br>
+<br>[!-- Generated by MyEclipse <span class="hilite2">Hibernate</span> Tools.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --]
+<br>[<span class="hilite2">hibernate</span>-configuration]
+<br>
+<br>[session-factory]
+<br>&nbsp;&nbsp;&nbsp; [property name="connection.username"]root[/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="connection.url"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+jdbc:mysql://localhost:3306/schoolproject?characterEncoding=gb2312&amp;useUnicode=true
+<br>&nbsp;&nbsp;&nbsp; [/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="dialect"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; org.<span class="hilite2">hibernate</span>.dialect.MySQLDialect
+<br>&nbsp;&nbsp;&nbsp; [/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="myeclipse.connection.profile"]mysql[/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="connection.password"]1234[/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="connection.driver_class"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; com.mysql.jdbc.Driver
+<br>&nbsp;&nbsp;&nbsp; [/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="<span class="hilite2">hibernate</span>.dialect"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; org.<span class="hilite2">hibernate</span>.dialect.MySQLDialect
+<br>&nbsp;&nbsp;&nbsp; [/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="<span class="hilite2">hibernate</span>.show_sql"]true[/property]
+<br>&nbsp;&nbsp;&nbsp; [property name="current_session_context_class"]thread[/property]
+<br>
+<br>&nbsp;&nbsp;&nbsp; [property name="<span class="hilite2">hibernate</span>.<span class="hilite3">cache</span>.<span class="hilite4">provider_class</span>"]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; org.<span class="hilite2">hibernate</span>.<span class="hilite3">cache</span>.Eh<span class="hilite3">Cache</span>Provider
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [/property]
+<br>&nbsp;&nbsp;&nbsp; [mapping resource="EH<span class="hilite3">Cache</span>/Student.hbm.xml" /]
+<br>&nbsp;&nbsp;&nbsp; [mapping resource="EH<span class="hilite3">Cache</span>/Team.hbm.xml" /]
+<br>
+<br>[/session-factory]
+<br>
+<br>[/<span class="hilite2">hibernate</span>-configuration]
+<br>EH<span class="hilite3">Cache</span>.xml(放在classpath下)
+<br>
+<br> 
+<br>
+<br>[eh<span class="hilite3">cache</span>]
+<br>
+<br> 
+<br>&nbsp;&nbsp;&nbsp; [diskStore path="c:\<span class="hilite3">cache</span>"/]&nbsp; [!--缓存文件存放位置--]
+<br>
+<br>&nbsp;&nbsp;&nbsp; [default<span class="hilite3">Cache</span>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maxElementsInMemory="10000"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eternal="false"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; timeToIdleSeconds="120"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; timeToLiveSeconds="120"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; overflowToDisk="true"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /]
+<br>
+<br>&nbsp;&nbsp;&nbsp; [<span class="hilite3">cache</span> name="EH<span class="hilite3">Cache</span>.Student"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maxElementsInMemory="500"&nbsp;&nbsp;&nbsp; [!---超过500实例，就将多出的部分放置缓存文件中-]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; eternal="false"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; timeToIdleSeconds="120"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; timeToLiveSeconds="120"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; overflowToDisk="true"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /] --]
+<br>
+<br>&nbsp;&nbsp;&nbsp; [!-- Place configuration for your <span class="hilite3">cache</span>s following --]
+<br>
+<br>[/eh<span class="hilite3">cache</span>]
+<br>
+<br> 
+<br>
+<br>测试代码（插入准备数据部分）
+<br>
+<br> 
+<br>
+<br>package EH<span class="hilite3">Cache</span>;
+<br>
+<br>import java.io.File;
+<br>import java.util.List;
+<br>
+<br>import org.<span class="hilite2">hibernate</span>.Session;
+<br>import org.<span class="hilite2">hibernate</span>.SessionFactory;
+<br>import org.<span class="hilite2">hibernate</span>.Transaction;
+<br>import org.<span class="hilite2">hibernate</span>.cfg.Configuration;
+<br>
+<br>public class Test ...{
+<br>
+<br>
+<br>&nbsp;&nbsp;&nbsp; public static void main(String[] args) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String filePath=System.getProperty("user.dir")+File.separator+"src/EH<span class="hilite3">Cache</span>"+File.separator+"<span class="hilite2">hibernate</span>.cfg.xml";
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File file=new File(filePath);
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SessionFactory
+sessionFactory=new
+Configuration().configure(file).buildSessionFactory();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Session session=sessionFactory.openSession();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transaction tx=session.beginTransaction();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Team team=new Team();
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; team.setTeamName("team1");
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int i=0;i[1000;i++){
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Student stu=new Student();
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stu.setName("tom"+i);
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stu.setTeam(team);
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session.save(stu);
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tx.commit();
+<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>}
+<br>
+<br> 
+<br>
+<br>测试成功后，运行以下代码
+<br>
+<br> 
+<br>
+<br>package EH<span class="hilite3">Cache</span>;
+<br>
+<br>import java.io.File;
+<br>import java.util.List;
+<br>
+<br>import org.<span class="hilite2">hibernate</span>.Session;
+<br>import org.<span class="hilite2">hibernate</span>.SessionFactory;
+<br>import org.<span class="hilite2">hibernate</span>.Transaction;
+<br>import org.<span class="hilite2">hibernate</span>.cfg.Configuration;
+<br>
+<br>public class Test ...{
+<br>
+<br>
+<br>&nbsp;&nbsp;&nbsp; public static void main(String[] args) ...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String filePath=System.getProperty("user.dir")+File.separator+"src/EH<span class="hilite3">Cache</span>"+File.separator+"<span class="hilite2">hibernate</span>.cfg.xml";
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File file=new File(filePath);
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SessionFactory
+sessionFactory=new
+Configuration().configure(file).buildSessionFactory();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Session session=sessionFactory.openSession();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transaction tx=session.beginTransaction();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<br>&nbsp;&nbsp;&nbsp; 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //模拟多用户访问数据
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Session session1=sessionFactory.openSession();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transaction tx1=session1.beginTransaction();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; List list=session1.createQuery("from Student").list();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int i=0;i[list.size();i++)...{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Student stu=(Student)list.get(i);
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(stu.getName());
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tx1.commit();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session1.close();&nbsp;&nbsp;&nbsp; 
+<br>&nbsp;&nbsp;&nbsp; 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Session session2=sessionFactory.openSession();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transaction tx2=session2.beginTransaction();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //这个uuid从刚才插入的数据中复制一个student的id
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Student stu=(Student)session2.get(Student.class, "4028818316d184820116d184900e0001");
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(stu.getName());
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tx2.commit();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session2.close();
+<br>&nbsp;&nbsp;&nbsp; }
+<br>
+<br>}
+<br>
+<br> 
+<br>
+<br>结果如下：
+<br>
+<br>log4j:WARN No appenders could be found for logger (org.<span class="hilite2">hibernate</span>.cfg.Environment).
+<br>log4j:WARN Please initialize the log4j system properly.
+<br><span class="hilite2">Hibernate</span>: select student0_.id as id0_, student0_.name as name0_, student0_.team_id as team3_0_ from studentEH student0_
+<br><span class="hilite2">Hibernate</span>: select team0_.id as id1_0_, team0_.teamName as teamName1_0_ from teamEH team0_ where team0_.id=?
+<br>tom0
+<br>tom1
+<br>tom2
+<br>tom3
+<br>tom4
+<br>tom5
+<br>tom6
+<br>tom7
+<br>tom8
+<br>tom9
+<br>tom10
+<br>........................................
+<br>
+<br>tom974
+<br>tom975
+<br>tom976
+<br>tom977
+<br>tom978
+<br>tom998
+<br>tom999
+<br><span class="hilite2">Hibernate</span>: select team0_.id as id1_0_, team0_.teamName as teamName1_0_ from teamEH team0_ where team0_.id=?
+<br>tom0
+<br>
+<br> 
+<br>
+<br>可以看到，第二次查询，已经不再访问数据库了，而且，查看c:\<span class="hilite3">cache</span>文件夹，也可以看到，数据已经缓存成功了
+  </div>
+  
+  
+              
+  <div class="blog_bottom">
+    <ul>
+      <li>09:36</li>
+      <li>浏览 (401)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      
+      
+      
+      
+      <li class="last"><a href="http://www.javaeye.com/wiki/topic/148238" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  
+              
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+     
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+      
+      <form action="/blog/148238" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <input value="true" id="editor_bbcode_flag" type="hidden">
+
+
+
+<div id="editor_main"><div class="clearfix" id="editor_wrapper"><div id="bbcode_emotions"><h5>表情图标</h5><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_biggrin.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_smile.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_sad.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_surprised.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_eek.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_confused.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_cool.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_lol.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_mad.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_razz.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_redface.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_cry.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_evil.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_twisted.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_rolleyes.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_wink.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_exclaim.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_question.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_idea.gif"><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_arrow.gif"></div><div id="bbcode_controllers"><div id="bbcode_toolbar"><input id="button_bold" value="B" type="button"><input id="button_italic" value="I" type="button"><input id="button_underline" value="U" type="button"><input value="Quote" type="button"><input value="Code" type="button"><input value="List" type="button"><input value="List=" type="button"><input value="Img" type="button"><input value="URL" type="button"><input value="Flash" type="button"><br>字体颜色: <select id="select_color"><option value="black" style="color: black;">标准</option><option value="darkred" style="color: darkred;">深红</option><option value="red" style="color: red;">红色</option><option value="orange" style="color: orange;">橙色</option><option value="brown" style="color: brown;">棕色</option><option value="yellow" style="color: yellow;">黄色</option><option value="green" style="color: green;">绿色</option><option value="olive" style="color: olive;">橄榄</option><option value="cyan" style="color: cyan;">青色</option><option value="blue" style="color: blue;">蓝色</option><option value="darkblue" style="color: darkblue;">深蓝</option><option value="indigo" style="color: indigo;">靛蓝</option><option value="violet" style="color: violet;">紫色</option><option value="gray" style="color: gray;">灰色</option><option value="white" style="color: white;">白色</option><option value="black" style="color: black;">黑色</option></select>&nbsp;字体大小: <select id="select_font"><option value="0">标准</option><option value="xx-small">1 (xx-small)</option><option value="x-small">2 (x-small)</option><option value="small">3 (small)</option><option value="medium">4 (medium)</option><option value="large">5 (large)</option><option value="x-large">6 (x-large)</option><option value="xx-large">7 (xx-large)</option></select>&nbsp;对齐: <select id="select_align"><option value="0">标准</option><option value="left">居左</option><option value="center">居中</option><option value="right">居右</option></select></div><div id="bbcode_tooltip">提示：选择您需要装饰的文字, 按上列按钮即可添加上相应的标签</div><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div></div></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+        <p style="text-align: right; padding-right: 30px;">您还没有登录，请<a href="http://dodomail.javaeye.com/login">登录</a>后发表评论 <input class="submit" id="submit_button" name="commit" value="提交" type="submit"></p>
+      <img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/spinner.gif" style="display: none;" id="_form_spinner_"></form>              
+      <script type="text/javascript">
+        new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+        if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+  
+    }});
+      </script> 
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+  quote_user = $(link).previous(0).innerHTML;
+  quote_body = $(link).up().next().innerHTML.stripTags();
+  editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href="http://dodomail.javaeye.com/"><img alt="用户头像" src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/b8ac7e17-2130-3cf7-a450-4758bd38b2a4.jpg" title="dodomail的博客: dodomail"></a></div>
+            <div id="blog_owner_name">dodomail</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 44462 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 北京</li>
+              <li><img src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/offline.gif"></li>              
+              <li><a href="http://dodomail.javaeye.com/blog/profile">详细资料</a> </li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px; width: 110px;" type="text">
+              <input class="submit" value="搜索" type="submit">
+            </form>          </div>
+          <div id="blog_menu">
+            <h5>博客分类</h5>				
+            <ul>
+              <li><a href="http://dodomail.javaeye.com/">全部博客 (194)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26455">java (2)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26456">spring (5)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26457">ajax (12)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26458">javascript (12)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26459">apache (1)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26460">php (14)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26878">性能优化 (9)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26881">hangame网站 (2)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/26882">css (2)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/38305">SQL (2)</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/category/40057">开发随笔 (10)</a></li>
+              
+            </ul>
+          </div>
+          
+          <div id="blog_others">
+            <h5>其他分类</h5>
+            <ul>
+              <li><a href="http://dodomail.javaeye.com/blog/favorite">我的收藏</a> (20)</li>
+                            <li><a href="http://dodomail.javaeye.com/blog/forum">我的论坛帖子</a> (14)</li>
+              <li><a href="http://dodomail.javaeye.com/blog/article">我的精华良好贴</a> (0)</li>
+                          </ul>
+          </div>
+          
+          <div id="recent_groups">
+            <h5>最近加入圈子</h5>
+            <ul>
+              
+                <li><a href="http://hzjavaeyer.group.javaeye.com/">javascript研究小组</a></li>
+              
+                <li><a href="http://english.group.javaeye.com/">英语学习</a></li>
+              
+            </ul>
+          </div>
+          
+          
+                      <div id="month_blogs">
+              <h5>存档</h5>
+              <ul>
+                
+                  <li><a href="http://dodomail.javaeye.com/blog/monthblog/2008-09">2008-09</a> (14)</li>
+                
+                  <li><a href="http://dodomail.javaeye.com/blog/monthblog/2008-08">2008-08</a> (8)</li>
+                
+                  <li><a href="http://dodomail.javaeye.com/blog/monthblog/2008-07">2008-07</a> (20)</li>
+                
+                <li><a href="http://dodomail.javaeye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+                    <div id="recent_comments">
+            <h5>最新评论</h5>
+            <ul>
+              
+                <li>
+                  <a href="http://dodomail.javaeye.com/blog/125097#comments" title="EHCache 初步使用指南 ">EH<span class="hilite3">Cache</span> 初步使用指南 </a><br>
+                  想请教下eh<span class="hilite3">cache</span>下缓存同步机制的问题。
+最近碰到这样一个问题，采用tomc ...<br>
+                  -- by <a href="http://nicolas-liu.javaeye.com/" target="_blank">nicolas_liu</a>
+                </li>
+              
+                <li>
+                  <a href="http://dodomail.javaeye.com/blog/98478#comments" title="浅谈JAVA数据缓存">浅谈JAVA数据缓存</a><br>
+                  受教了,非常感谢!<br>
+                  -- by <a href="http://freedom616.javaeye.com/" target="_blank">freedom616</a>
+                </li>
+              
+                <li>
+                  <a href="http://dodomail.javaeye.com/blog/122671#comments" title="基于Lucene/XML的站内全文检索解决方案：WebLucene">基于Lucene/XML的站内全文 ...</a><br>
+                  有些象solr<br>
+                  -- by <a href="http://tovegar.javaeye.com/" target="_blank">tovegar</a>
+                </li>
+              
+                <li>
+                  <a href="http://dodomail.javaeye.com/blog/132781#comments" title="java抓取天气预报数据">java抓取天气预报数据</a><br>
+                  Pattern p = Pattern.compile("
+&nbsp;&amp;nbs ...<br>
+                  -- by <a href="http://fang831016.javaeye.com/" target="_blank">fang831016</a>
+                </li>
+              
+                <li>
+                  <a href="http://dodomail.javaeye.com/blog/125997#comments" title="实战Mule:利用Mule调用XFire发布的Web服务 ">实战Mule:利用Mule调用XF ...</a><br>
+                  刚入门`问个简单的问题&nbsp; 为什么服务器启动的时候加载mule-echo ...<br>
+                  -- by <a href="http://javastart.javaeye.com/" target="_blank">JavaStart</a>
+                </li>
+              
+            </ul>
+          </div>
+          <div id="comments_top">
+            <h5>评论排行榜</h5>
+            <ul>
+              
+                <li><a href="http://dodomail.javaeye.com/blog/132781">java抓取天气预报数据</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/blog/144391">使用 PHP 将 SQL 转换为 XML</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/blog/148238">经验技巧之<span class="hilite2">hibernate</span> <span class="hilite2">hibernate</span>使用ehcach ...</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/blog/206607">事件处理</a></li>
+              
+                <li><a href="http://dodomail.javaeye.com/blog/144400">使用 Java 开源工具建立一个灵活的搜索引擎</a></li>
+              
+            </ul>
+          </div>
+          <div id="rss">
+            <ul>
+              <li><a href="http://dodomail.javaeye.com/rss" target="_blank"><img alt="Rss" src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/rss.png"></a></li>
+              <li><a href="http://fusion.google.com/add?feedurl=http://dodomail.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/rss_google.gif"></a></li>
+              <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://dodomail.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/rss_zhuaxia.gif"></a></li>
+              <li><a href="http://www.xianguo.com/subscribe.php?url=http://dodomail.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/rss_xianguo.jpg"></a></li>
+              <li><a href="http://www.google.com/search?hl=zh-CN&amp;q=RSS">[什么是RSS?]</a></li>
+            </ul>
+          </div>
+          <div class="local_bottom"></div>
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="%E7%BB%8F%E9%AA%8C%E6%8A%80%E5%B7%A7%E4%B9%8Bhibernate%20hibernate%E4%BD%BF%E7%94%A8ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-535605-1");
+pageTracker._setDomainName("javaeye.com");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+  </body></html>

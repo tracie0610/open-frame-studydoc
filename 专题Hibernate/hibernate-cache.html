@@ -1,0 +1,295 @@
+<html><head>
+
+
+<title>hibernate cache 缓存说明 - David Chen`s Blog</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="keywords" content="hibernate cache 缓存说明">
+<meta name="description" content="struts,hibernate,spring,jruby,axis,jasperreport,ireport,log4j,tomcat,regex,javascript,css,extjs,servlet,php,wordpress">
+<!-- base -->
+<!-- base href="http://cwq.jsp-tech.cn/images/" -->
+<link href="hibernate-cache_files/blogger0.css" rel="stylesheet" type="text/css">
+<script src="hibernate-cache_files/blogger0.js" type="text/javascript"></script>
+<!-- --><style type="text/css">@import url(http://www.blogger.com/css/navbar/classic.css);
+div.b-mobile {display:none;}
+</style>
+
+<noscript><BODY><iframe
+src="http://www.blogger.com/navbar.g?targetBlogID=8945590036978511308&amp;blogName=David+Chen%60s+Blog&amp;publishMode=PUBLISH_MODE_FTP&amp;navbarType=BLUE&amp;layoutType=CLASSIC&amp;homepageUrl=http%3A%2F%2Fcwq.jsp-tech.cn%2F&amp;searchRoot=http%3A%2F%2Fblogsearch.google.com%2F"
+marginwidth="0" marginheight="0" scrolling="no" frameborder="0"
+height="30px" width="100%" id="navbar-iframe" title="Blogger Navigation
+and Search"></iframe>
+<div id="space-for-ie"></div></noscript>
+<!-- top -->
+</head><body><div id="top_table">
+    <div>
+	    <div style="float: left;">
+		    <img src="hibernate-cache_files/logo.jpg" width="270" border="0" height="90">
+		</div>
+		<div id="top_center">
+<script type="text/JavaScript"> 
+alimama_pid="mm_11479571_1310293_2841582"; 
+alimama_titlecolor="0099FF"; 
+alimama_descolor ="009900"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="E6E6E6"; 
+alimama_linkcolor="0000ff"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="0"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="12"; 
+alimama_width=468; 
+alimama_height=60; 
+alimama_type=2; 
+</script> 
+<script src="hibernate-cache_files/inf.js" type="text/javascript"> 
+</script><img src="hibernate-cache_files/alimamal.htm" name="alimamatmpf0.37408232578567624" id="alimamatmpf0.37408232578567624" style="border: 0px none ; margin: 0px; padding: 0px; width: 0px; height: 0px; vertical-align: baseline;" border="0"><iframe name="alimamaf0.37408232578567624" id="alimamaf0.37408232578567624" border="0" marginwidth="0" marginheight="0" style="width: 468px; height: 60px;" src="hibernate-cache_files/alimama.htm" scrolling="no" frameborder="0"></iframe>
+</div>
+		<div id="top_right">
+		★ <a href="http://cwq.jsp-tech.cn/" onclick="javascript:document.body.innerHTML = StranText(document.body.innerHTML, 0); return false;">简 体</a>&nbsp;
+		<br>
+		★ <a href="http://cwq.jsp-tech.cn/" onclick="javascript:document.body.innerHTML = StranText(document.body.innerHTML, 1); return false;">繁 體</a>&nbsp;
+		</div>
+		<div id="top_right">
+		★ <a style="" href="http://cwq.jsp-tech.cn/" onclick="javascript:this.style.behavior='url(#default#homepage)';this.setHomePage('http://cwq.jsp-tech.cn/'); return false;" target="_self">Homepage</a>&nbsp;
+		<br>
+		★ <a href="#" onclick="window.external.AddFavorite('http://cwq.jsp-tech.cn/','hibernate cache 缓存说明 - David Chen`s Blog'); return false;" target="_self">Favorite</a>&nbsp;
+		</div>
+	</div>
+	<div id="topmenus">
+		    <div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/" title="Home">Home</a></div>
+		    <div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/labels/jee.html" title="java ee, j2ee, jsp, servlet">Java EE</a></div>
+		    <div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/labels/swing.html" title="swing,awt,swt">Java GUI</a></div>
+		    <div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/labels/framework.html" title="hibernate,spring,struts,webwork">Framework</a></div>
+			<div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/labels/jasperreport.html" title="jasperReport,ireport,jasperviewer">JasperReport</a></div>
+			<div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/labels/php.html" title="php,wordpress,apache">Php</a></div>
+			<div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/labels/dhtml.html" title="dhtml,xml,css,xhtml,javascript">DHtml</a></div>
+		    <div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+		    <div class="menu menu1"><a href="http://cwq.jsp-tech.cn/labels/projects.html" title="jasperreports,ireport,java calendar">Projects</a></div>
+		    <div><img src="hibernate-cache_files/spliter.jpg" width="3" height="19"></div>
+	</div>
+</div>
+<script>initMenu();</script>
+<!-- end top -->
+
+<!-- metadata -->
+<div id="metadata">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8208477753937814";
+google_ad_width = 728;
+google_ad_height = 15;
+google_ad_format = "728x15_0ads_al_s";
+//2007-06-17: adscontent_blogspot1
+google_ad_channel = "7320248269";
+google_color_border = "DEF4FF";
+google_color_bg = "DEF4FF";
+google_color_link = "0099ff";
+google_color_text = "000000";
+google_color_url = "008000";
+//-->
+</script>
+<script type="text/javascript" src="hibernate-cache_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="hibernate-cache_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="728" frameborder="0" height="15"></iframe>
+</div>
+<!-- end metadata -->
+
+<!-- main body -->
+<div id="mainbody">
+    <!-- left -->
+    <div style="float: left; width: 220px;">
+	    <!-- something0 -->
+        <div class="layout1 layout1_title"><div></div></div>
+        <div class="layout2">
+            <div id="div1"><img src="hibernate-cache_files/myface.jpg" style="border: 0px none ; width: 176px; height: 144px;"><br>
+			    
+				<img src="hibernate-cache_files/38.png" width="10" height="10">
+				<a target="_blank" href="http://cwq.jsp-tech.cn/atom.xml" title="Subscribe">Atom 2.0</a>&nbsp;&nbsp;
+				<img src="hibernate-cache_files/38.png" width="10" height="10">
+				<a target="_blank" href="http://cwq.jsp-tech.cn/rss.xml" title="Subscribe">RSS 2.0</a><br>
+				<a target="_blank" href="http://fusion.google.com/add?feedurl=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to iGoogle" src="hibernate-cache_files/google.gif"></a>
+				<a target="_blank" href="http://add.my.yahoo.com/rss?url=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to My Yahoo!" src="hibernate-cache_files/yahoo.gif"></a><br>
+				<a target="_blank" href="http://www.live.com/?add=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to Live.com" src="hibernate-cache_files/live.gif"></a>
+				<a target="_blank" href="http://www.bloglines.com/sub/http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to BlogLines" src="hibernate-cache_files/bloglines.gif"></a><br>
+				<a target="_blank" href="http://www.zhuaxia.com/add_channel.php?url=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to ZhuaXia" src="hibernate-cache_files/zhuaxia.gif"></a>
+				<a target="_blank" href="http://www.gougou.com/find_rss.jsp?url=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to GouGou" src="hibernate-cache_files/gougou.gif"></a><br>
+				<a target="_blank" href="http://www.newsgator.com/ngs/subscriber/subext.aspx?url=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to Newsgator" src="hibernate-cache_files/newsgator.gif"></a>
+				<a target="_blank" href="http://www.netvibes.com/subscribe.php?url=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to Netvibes" src="hibernate-cache_files/netvibes.gif"></a><br>
+				<a target="_blank" href="http://www.rojo.com/add-subscription?resource=http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to RoJo.com" src="hibernate-cache_files/rojo.gif"></a>
+				<a target="_blank" href="http://rss.hexun.com/sub.aspx?fromurl==http://cwq.jsp-tech.cn/atom.xml"><img alt="Add to HeXun.com" src="hibernate-cache_files/hexun.gif"></a>
+				
+	        </div>
+        </div>
+		<!-- end something0 -->
+	    <!-- something11 -->
+        <div class="layout1 layout1_title"><div>Previous Post</div></div>
+        <div class="layout2">
+            <div id="div1">
+			    
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/carnet4-reportservlet.html" title="carnet项目的报表制作4-ReportServlet">carnet项目的报表制作4-ReportServlet</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/carnet3-factory.html" title="carnet项目的报表制作3-工厂factory">carnet项目的报表制作3-工厂factory</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/carnet2.html" title="carnet项目的报表制作2-接口和超类">carnet项目的报表制作2-接口和超类</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/carnet1.html" title="carnet项目的报表制作1">carnet项目的报表制作1</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/javasnapshot.html" title="Java的屏幕拍照snapShot">Java的屏幕拍照snapShot</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/ireport-summary.html" title="ireport summary的用法">ireport summary的用法</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/technoratijsp-techcn.html" title="Technorati好像收录了jsp-tech.cn">Technorati好像收录了jsp-tech.cn</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/jsflash.html" title="js动态改变flash或声音文件的路径">js动态改变flash或声音文件的路径</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/css.html" title="CSS 基本语法">CSS 基本语法</a></div>
+				
+	            <div><a href="http://cwq.jsp-tech.cn/2007/05/css-dhtml.html" title="DHTML 事件">DHTML 事件</a></div>
+				
+	        </div>
+        </div>
+		<!-- end something11 -->
+	    <!-- something1 -->
+        <div class="layout2" style="margin-top: 2px;">
+            <div id="div1">
+	            <span id="links">
+<div><a href="http://cwq.jsp-tech.cn/2007/11/javascriptjavascript.html" title="javascript日期选择器,javascript日历控件">javascript日期选择器</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/05/java1.html" title="java日历控件,calendar,swing,jtable">java日历控件(Java Calendar)</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/05/carnet1.html" title="carnet项目的报表制作,jasperreport,ireport,applet,jasperviewer,子报表,summary">Carnet项目的报表制作(jasperreport+ireport)</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/05/jspcounter.html" title="jspcounter,phpcounter">JspCounter - 完全PhpCounter改写</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/06/java-1.html" title="java聊天室,applet,jtextpanel">java 聊天室</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/06/java-9.html" title="java聊天室,jtextpane,图片,icon,document">两个JTextPane中的文本和数据的发送</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/05/hibernate-one-to-many.html" title="Hibernate一对多,one-to-many">Hinetmate一对多</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/05/javascript-access-node-and-elements.html" title="Javascript,Node,Element,createElement,cloneNode,appendChild,applyElement,insertBefore,removeNode,swapNode">Javascript操控页面结点Node</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/04/ie-jasperview.html" title="jasperviewer,applet,jasperreport,客户端显示JasperViewer">在IE中使用jasperview这个applet(1)</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/04/jasperviewapplet.html" title="jasperview,jasperreport,ireport,客户端显示JasperViewer">在IE中使用jasperview这个applet(2)</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/06/jtableimage.html" title="jtable,image,icon,插入图片">在JTable内插入图片</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/06/ipipjformattedtextfield.html" title="ip输入控件,ip控件,JFormattedTextField">ip输入控件,ip控件</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/07/blogger-api-1blogger-api.html" title="blogger api,blogger客户端,blogger不登录发贴">Blogger客户端Api开发</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/07/jtextpanehtmljtextpanehtml.html" title="jtextpane,html,编辑器,超链接">JTextPane简单的html可视编辑器</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/08/appletjavaapplet.html" title="java群发邮件,邮件群发">applet形式的邮件群发工具</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/08/jspsmartuploadjspsmartuploadjspsmartsma.html" title="jspsmartupload,smartupload乱码,">smartupload乱码解决方法</a></div>
+<div><a href="http://cwq.jsp-tech.cn/2007/10/jtextpanejtextpane1jtextpanejtextpane.html" title="在JTextPane中显示另一个JTextPane中的内容,两个jtextpane">JTextPane中显示另一JTextPane的内容</a></div>
+	            </span>
+	        </div>
+        </div>
+		<!-- end something1 -->
+	</div>
+	<!-- end left -->
+	<!-- middle -->
+	<div class="middle">
+
+	    
+
+		
+	    
+	    <div class="layout1 layout1_title">
+		    <div id="itemtitle">
+			    
+				<a href="http://cwq.jsp-tech.cn/2007/05/hibernate-cache.html" title="hibernate cache 缓存说明">hibernate cache 缓存说明</a>
+				
+			</div>
+		</div>
+        <div class="layout3">
+			    <div>posted by David Chen at May 18, 2007 1:47 AM</div>
+<div>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8208477753937814";
+google_ad_width = 468;
+google_ad_height = 15;
+google_ad_format = "468x15_0ads_al_s";
+//2007-10-31: adscontent_blogspot1
+google_ad_channel = "7320248269";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "0099ff";
+google_color_text = "000000";
+google_color_url = "0099ff";
+//-->
+</script>
+<script type="text/javascript" src="hibernate-cache_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="hibernate-cache_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="468" frameborder="0" height="15"></iframe>
+</div>
+				<div></div>
+				<div id="itembody"><div style="clear: both;"></div><strong>hibernate</strong> <strong>cache</strong> <strong>缓存<br></strong><br>1. 关于hibernate缓存的问题：<br>1.1.1. 基本的缓存原理<br>Hibernate缓存分为二级，第一级存放于session中称为一级缓存，默认带有且不能卸载。<br><br><br><br>第
+二级是由sessionFactory控制的进程级缓存。是全局共享的缓存，凡是会调用二级缓存的查询方法
+都会从中受益。只有经正确的配置后二级缓存才会发挥作用。同时在进行条件查询时必须使用相应的方法才能从缓存中获取数据。比如
+Query.iterate()方法、load、get方法等。必须注意的是session.find方法永远是从数据库中获取数据，不会从二级缓存中获
+取数据，即便其中有其所需要的数据也是如此。<br><br><br><br>查询时使用缓存的实现过程为：首先查询一级缓存中是否具有需要的数据，如果没有，查询二级缓存，如果二级缓存中也没有，此时再执行查询数据库的工作。要注意的是：此3种方式的查询速度是依次降低的。<br><br>1.2. 存在的问题<br>1.2.1. 一级缓存的问题以及使用二级缓存的原因<br>因
+为Session的生命期往往很短，存在于Session内部的第一级最快缓存的生命期当然也很短，所以第一级缓存的命中率是很低的。其对系统性能的改善
+也是很有限的。当然，这个Session内部缓存的主要作用是保持Session内部数据状态同步。并非是hibernate为了大幅提高系统性能所提供
+的。<br><br>为了提高使用hibernate的性能，除了常规的一些需要注意的方法比如：<br><br>使用延迟加载、迫切外连接、查询过滤等以外，还需要配置hibernate的二级缓存。其对系统整体性能的改善往往具有立竿见影的效果！<br><br>（经过自己以前作项目的经验，一般会有3~4倍的性能提高）<br><br><br><br>1.2.2. N+1次查询的问题<br>执
+行条件查询时，iterate（）方法具有著名的
+“n+1”次查询的问题，也就是说在第一次查询时iterate方法会执行满足条件的查询结果数再加一次（n+1）的查询。但是此问题只存在于第一次查询
+时，在后面执行相同查询时性能会得到极大的改善。此方法适合于查询数据量较大的业务数据。<br><br>但是注意：当数据量特别大时（比如流水线数据等）需要针对此持久化对象配置其具体的缓存策略，比如设置其存在于缓存中的最大记录数、缓存存在的时间等参数，以避免系统将大量的数据同时装载入内存中引起内存资源的迅速耗尽，反而降低系统的性能！！！<br><br><br><br>1.3. 使用hibernate二级缓存的其他注意事项：<br>1.3.1. 关于数据的有效性<br>另
+外，hibernate会自行维护二级缓存中的数据，以保证缓存中的数据和数据库中的真实数据的一致性！无论何时，当你调用save()、
+update()或 saveOrUpdate()方法传递一个对象时，或使用load()、 get()、list()、iterate()
+或scroll()方法获得一个对象时, 该对象都将被加入到Session的内部缓存中。
+当随后flush()方法被调用时，对象的状态会和数据库取得同步。<br><br><br><br>也就是说删除、更新、增加数据的时候，同时更新缓存。当然这也包括二级缓存！<br><br><br><br>只要是调用hibernate API执行数据库相关的工作。hibernate都会为你自动保证 缓存数据的有效性！！<br><br><br><br>但是，如果你使用了JDBC绕过hibernate直接执行对数据库的操作。此时，Hibernate不会/也不可能自行感知到数据库被进行的变化改动，也就不能再保证缓存中数据的有效性！！<br><br><br><br>这也是所有的ORM产品共同具有的问题。幸运的是，Hibernate为我们暴露了Cache的清除方法，这给我们提供了一个手动保证数据有效性的机会！！<br><br>一级缓存，二级缓存都有相应的清除方法。<br><br><br><br>其中二级缓存提供的清除方法为：<br><br>按对象class清空缓存<br><br>按对象class和对象的主键id清空缓存<br><br>清空对象的集合中的缓存数据等。<br><br><br><br>1.3.2. 适合使用的情况<br>并非所有的情况都适合于使用二级缓存，需要根据具体情况来决定。同时可以针对某一个持久化对象配置其具体的缓存策略。<br><br><br><br>适合于使用二级缓存的情况：<br><br>1、数据不会被第三方修改；<br><br><br><br>一
+般情况下，会被hibernate以外修改的数据最好不要配置二级缓存，以免引起不一致的数据。但是如果此数据因为性能的原因需要被缓存，同时又有可能被
+第3方比如SQL修改，也可以为其配置二级缓存。只是此时需要在sql执行修改后手动调用cache的清除方法。以保证数据的一致性<br><br><br><br>2、数据大小在可接收范围之内；<br><br><br><br>如果数据表数据量特别巨大，此时不适合于二级缓存。原因是缓存的数据量过大可能会引起内存资源紧张，反而降低性能。<br><br><br><br>如果数据表数据量特别巨大，但是经常使用的往往只是较新的那部分数据。此时，也可为其配置二级缓存。但是必须单独配置其持久化类的缓存策略，比如最大缓存数、缓存过期时间等，将这些参数降低至一个合理的范围（太高会引起内存资源紧张，太低了缓存的意义不大）。<br><br><br><br>3、数据更新频率低；<br><br><br><br>对于数据更新频率过高的数据，频繁同步缓存中数据的代价可能和 查询缓存中的数据从中获得的好处相当，坏处益处相抵消。此时缓存的意义也不大。<br><br><br><br><br><br>4、非关键数据（不是财务数据等）<br><br><br><br>财务数据等是非常重要的数据，绝对不允许出现或使用无效的数据，所以此时为了安全起见最好不要使用二级缓存。<br><br>因为此时 “正确性”的重要性远远大于 “高性能”的重要性。<br><br><br><br>2. 目前系统中使用hibernate缓存的建议<br>1.4. 目前情况<br>一般系统中有三种情况会绕开hibernate执行数据库操作：<br><br>1、多个应用系统同时访问一个数据库<br><br>此种情况使用hibernate二级缓存会不可避免的造成数据不一致的问题，<br><br>此时要进行详细的设计。比如在设计上避免对同一数据表的同时的写入操作，<br><br>使用数据库各种级别的锁定机制等。<br><br><br><br>2、动态表相关<br><br>所谓“动态表”是指在系统运行时根据用户的操作系统自动建立的数据表。<br><br>比如“自定义表单”等属于用户自定义扩展开发性质的功能模块，因为此时数据表是运行时建立的，所以不能进行hibernate的映射。因此对它的操作只能是绕开hibernate的直接数据库JDBC操作。<br><br>如果此时动态表中的数据没有设计缓存，就不存在数据不一致的问题。<br><br>如果此时自行设计了缓存机制，则调用自己的缓存同步方法即可。<br><br>3、使用sql对hibernate持久化对象表进行批量删除时<br><br>此时执行批量删除后，缓存中会存在已被删除的数据。<br><br>分析：<br><br>当执行了第3条（sql批量删除）后，后续的查询只可能是以下三种方式：<br><br>a. session.find（）方法：<br><br>根据前面的总结，find方法不会查询二级缓存的数据，而是直接查询数据库。<br><br>所以不存在数据有效性的问题。<br><br>b. 调用iterate方法执行条件查询时：<br><br>根据iterate查询方法的执行方式，其每次都会到数据库中查询满足条件的id值，然后再根据此id 到缓存中获取数据，当缓存中没有此id的数据才会执行数据库查询；<br><br>如果此记录已被sql直接删除，则iterate在执行id查询时不会将此id查询出来。所以，即便缓存中有此条记录也不会被客户获得，也就不存在不一致的情况。（此情况经过测试验证）<br><br><br><br>c. 用get或load方法按id执行查询：<br><br><br><br>客观上此时会查询得到已过期的数据。但是又因为系统中执行sql批量删除一般是<br><br>针对中间关联数据表，对于<br><br>中间关联表的查询一般都是采用条件查询 ,按id来查询某一条关联关系的几率很低,所以此问题也不存在!<br><br><br><br>如果某个值对象确实需要按id查询一条关联关系,同时又因为数据量大使用 了sql执行批量删除。当满足此两个条件时,为了保证按id 的查询得到正确的结果,可以使用手动清楚二级缓存中此对象的数据的方法!!<br><br>(此种情况出现的可能性较小)<br><br><br><br>1.5. 建议<br>1、建议不要使用sql直接执行数据持久化对象的数据的更新，但是可以执行 批量删除。（系统中需要批量更新的地方也较少）<br><br><br><br>2、如果必须使用sql执行数据的更新，必须清空此对象的缓存数据。调用<br><br>SessionFactory.evict(class)<br><br>SessionFactory.evict(class,id)<br><br>等方法。<br><br><br><br>3、在批量删除数据量不大的时候可以直接采用hibernate的批量删除，这样就不存在绕开hibernate执行sql产生的缓存数据一致性的问题。<br><br><br><br>4、不推荐采用hibernate的批量删除方法来删除大批量的记录数据。<br><br>原因是hibernate的批量删除会执行1条查询语句外加 满足条件的n条删除语句。而不是一次执行一条条件删除语句！！<br><br>当待删除的数据很多时会有很大的性能瓶颈！！！如果批量删除数据量较大,比如超过50条,可以采用JDBC直接删除。这样作的好处是只执行一条sql删除语句,性能会有很大的改善。同时，缓存数据同步的问题,可以采用 hibernate清除二级缓存中的相关数据的方法。<br><br>调用 SessionFactory.evict(class) ；SessionFactory.evict(class,id)等方法。<br><br><br><br>所
+以说，对于一般的应用系统开发而言（不涉及到集群，分布式数据同步问题等），因为只在中间关联表执行批量删除时调用了sql执行，同时中间关联表一般是执
+行条件查询不太可能执行按id查询。所以，此时可以直接执行sql删除，甚至不需要调用缓存的清除方法。这样做不会导致以后配置了二级缓存引起数据有效性
+的问题。<br><br><br><br>退一步说，即使以后真的调用了按id查询中间表对象的方法，也可以通过调用清除缓存的方法来解决。<br><br><br><br>4、具体的配置方法<br>根
+据我了解的很多hibernate的使用者在调用其相应方法时都迷信的相信“hibernate会自行为我们处理性能的问题”，或者“hibernate
+会自动为我们的所有操作调用缓存”,实际的情况是hibernate虽然为我们提供了很好的缓存机制和扩展缓存框架的支持，但是必须经过正确的调用其才有
+可能发挥作用！！所以造成很多使用hibernate的系统的性能问题，实际上并不是hibernate不行或者不好，而是因为使用者没有正确的了解其使
+用方法造成的。相反，如果配置得当hibernate的性能表现会让你有相当“惊喜的”发现。下面我讲解具体的配置方法.<br><br>ibernate提供了二级缓存的接口：<br>net.sf.hibernate.cache.Provider,<br>同时提供了一个默认的 实现net.sf.hibernate.cache.HashtableCacheProvider，<br>也可以配置 其他的实现 比如ehcache,jbosscache等。<br><br>具体的配置位置位于hibernate.cfg.xml文件中<br>&lt;property name="hibernate.cache.use_query_cache"&gt;true&lt;/property&gt;<br>&lt;property name="hibernate.cache.provider_class"&gt;net.sf.hibernate.cache.HashtableCacheProvider&lt;/property&gt;<br><br>很多的hibernate使用者在 配置到 这一步 就以为 完事了，<br>注
+意：其实光这样配，根本
+就没有使用hibernate的二级缓存。同时因为他们在使用hibernate时大多时候是马上关闭session，所以，一级缓存也没有起到任何作
+用。结果就是没有使用任何缓存，所有的hibernate操作都是直接操作的数据库！！性能可以想见。<br><br>正确的办法是除了以上的配置外还应该配置每一个vo对象的具体缓存策略，在影射文件中配置。例如：<br><br>&lt;hibernate-mapping&gt;<br>&lt;class name="com.sobey.sbm.model.entitySystem.vo.DataTypeVO" table="dcm_datatype"&gt;<br>&lt;cache usage="read-write"/&gt;<br>&lt;id name="id" column="TYPEID" type="java.lang.Long"&gt;<br>&lt;generator class="sequence"/&gt;<br>&lt;/id&gt;<br><br>&lt;property name="name" column="NAME" type="java.lang.String"/&gt;<br>&lt;property name="dbType" column="DBTYPE" type="java.lang.String"/&gt;<br>&lt;/class&gt;<br>&lt;/hibernate-mapping&gt;<br><br><br>关键就是这个&lt;cache usage="read-write"/&gt;，其有几个选择<br>read-only,read-write,transactional,等<br>然后在执行查询时 注意了 ，如果是条件查询，或者返回所有结果的查询，此时session.find()方法 不会获取缓存中的数据。只有调用query.iterate()方法时才会调缓存的数据。<br><br>同时 get 和 load方法 是都会查询缓存中的数据 .<br><br>对于不同的缓存框架具体的配置方法会有不同，但是大体是以上的配置<br><br>（另外，对于支持事务型，以及支持集群的环境的配置我会争取在后续的文章中中发表出来）<br><br><br><br>3. 总结<br>总之是根据不同的业务情况和项目情况对hibernate进行有效的配置和正确的使用，扬长避短。不存在适合于任何情况的一个“万能”的方案。<br><br>以上结论及建议均建立在自己在对 Hibernate 2.1.2中的测试结果以及以前的项目经验的基础上。如有谬处，请打家提出指正:)!<div style="clear: both; padding-bottom: 0.25em;"></div><p class="blogger-labels">Labels: <a rel="tag" href="http://cwq.jsp-tech.cn/labels/framework.html">framework</a>, <a rel="tag" href="http://cwq.jsp-tech.cn/labels/hibernate.html">hibernate</a>, <a rel="tag" href="http://cwq.jsp-tech.cn/labels/java.html">java</a></p></div>
+				<div>
+<script type="text/JavaScript"> 
+alimama_pid="mm_11479571_1310293_2873409"; 
+alimama_titlecolor="0099ff"; 
+alimama_descolor ="0099ff"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="E6E6E6"; 
+alimama_linkcolor="008000"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="0"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="12"; 
+alimama_width=468; 
+alimama_height=60; 
+alimama_type=2; 
+</script> 
+<script src="hibernate-cache_files/inf.js" type="text/javascript"> 
+</script><img src="hibernate-cache_files/alimamal_002.htm" name="alimamatmpf0.7974059454468801" id="alimamatmpf0.7974059454468801" style="border: 0px none ; margin: 0px; padding: 0px; width: 0px; height: 0px; vertical-align: baseline;" border="0"><iframe name="alimamaf0.7974059454468801" id="alimamaf0.7974059454468801" border="0" marginwidth="0" marginheight="0" style="width: 468px; height: 60px;" src="hibernate-cache_files/alimama_002.htm" scrolling="no" frameborder="0"></iframe>			</div>
+				<div>Trackback: <a href="http://cwq.jsp-tech.cn/2007/05/hibernate-cache.html">http://cwq.jsp-tech.cn/2007/05/hibernate-cache.html</a></div>
+				    <div>
+					    
+					</div>
+					<div></div>
+        </div>
+		
+		
+		
+		<!-- copyright -->
+		<div class="copyright">
+		本站内的任何文章，如有版权声明，请尊重作者的劳动成果，在转载的时候请保留原始链接，并注明出处。多谢！<br>
+		<div id="bottom">© 2007 <a href="http://cwq.jsp-tech.cn/" target="_self">jsp-tech.cn</a> All Rights Reserved.  <a href="http://www.miibeian.gov.cn/" target="_blank">粤ICP备07031152</a></div>
+		<br>
+		</div>
+		<!-- end copyright -->
+	</div>
+	<!-- end middle -->
+</div>
+<!-- end main body -->
+<script>writeBottom();</script>
+<script src="hibernate-cache_files/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+_uacct = "UA-1742310-1";
+urchinTracker();
+-->
+</script>
+<script src="hibernate-cache_files/tcgate.js" type="text/javascript"></script>
+</body></html>

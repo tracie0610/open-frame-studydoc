@@ -1,0 +1,435 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html web:culture="zh-CN" class="ClientFramework Firefox Mozilla" xmlns:web="" xmlns:spaces=""><head>
+
+
+
+    
+        <script type="text/javascript">
+var C_STATIC_CONTENT_DEFAULT_INDEX = "2";
+var C_STATIC_CONTENT_URL_FORMAT = "http://cn{0}.sclive.net/13.0.1392.0724/";
+var C_STATIC_IMAGES_URL_FORMAT = "http://cn{0}.sclive.net/00.0.0000.0000/";
+var C_STATIC_CONTENT_SERVER_COUNT = "4";
+var C_FETCH_URL_SERVICE = "http://my.live.com/cfw/news.aspx?returnheadlines={0}&fetchurl={1}";
+var C_FRONTDOOR_HOSTNAME = "spaces.live.com";
+var C_DASHBOARD_HOSTNAME = "home.services.spaces.live.com";
+var C_WEB_HOSTNAME = "{0}.spaces.live.com";
+var C_UPDATEDSPACES_MAPVIEW = "True";
+var C_PHOTOUPLOADCLASSID = "7fc1b346-83e6-4774-8d20-1a6b09b0e737";
+var C_CANARY_COOKIE_NAME = "sc"
+</script><script>                  
+														if(null==window["$Config"])
+																window["$Config"] = {};
+														$Config.headerRenderTime = (new Date()).getTime();
+														if (typeof(SymRealWinOpen)!="undefined"){window.open = SymRealWinOpen;}
+
+														window.$Config.Themes = {
+																							baseUrl:"http://shared.live.com/4FK9aqzvrfkZYBIhDz9BxOxcw47o3MAYNS0zhuxDM8dJ!hUinoUm9phP4UW4P2B-ZtmDD0oAIUw/",current:"megan_autumnfoliage",version:"1.1347",url:"http://shared.live.com/4FK9aqzvrfkZYBIhDz9BxOxcw47o3MAYNS0zhuxDM8dJ!hUinoUm9phP4UW4P2B-ZtmDD0oAIUw/megan_autumnfoliage/1.1347/"};</script><link rel="StyleSheet" href="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/higspacescontrols.css" type="text/css"><title>小白的生活: Hibernate下各种Cache的缓存配置和特性</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="description" content="小白的生活: Hibernate下各种Cache的缓存配置和特性 博客"><meta name="keywords" content="照片、日志、社交网络、朋友、共享、列表、共享空间、Windows Live"><meta name="PageId" content="BlogPermalink"><link rel="alternate" type="application/rss+xml" title="小白的生活 — 所有内容 (RSS)" href="http://zhoujianguo.spaces.live.com/feed.rss"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://zhoujianguo.spaces.live.com/rsd.aspx?alias=zhoujianguo"><link rel="wlwmanifest" href="http://zhoujianguo.spaces.live.com/wlwmanifest.aspx"><!-- base href="http://zhoujianguo.spaces.live.com/mmm2008-07-24_12.50/" --><link rel="SHORTCUT ICON" href="http://cn2.sclive.net/00.0.0000.0000/Web/images/favicon.ico">
+ <link rel="stylesheet" href="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/parts.css" type="text/css">
+ 
+ <link rel="stylesheet" href="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spaces.css" type="text/css">
+ <link rel="StyleSheet" type="text/css" href="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spacesidentityctrl.css"><style type="text/css" id="icStyle2">
+
+</style><style type="text/css">
+.identctrl img.IcPh{-ms-interpolation-mode:bicubic;}
+</style><script type="text/javascript">
+//<![CDATA[
+var __LiveIdentityControlConfig={PartnerId:'Live.Spaces',Market:'zh-cn',ViewerCid:"0",SpcFD:"http://spaces.live.com/",IdentSvcHost:'http\x3a\x2f\x2fcc.services.spaces.live.com\x2f',IdentScptBase:'http\x3a\x2f\x2fcn3.sclive.net\x2f13.0.1392.0724\x2fContactControl\x2fscript\x2f',CanaryN:'sc',uxpLCB:'http\x3a\x2f\x2fshared.live.com\x2ftSHcRs7kLyAwwD19JHfX0A\x2f',uxpLS:'http\x3a\x2f\x2fshared.live.com\x2f9eo2BK0tXJfqLmVmtMlWQQ\x2f',SiteId:73625,WLThemeUrl:'http\x3a\x2f\x2fshared.live.com\x2f4FK9aqzvrfkZYBIhDz9BxOxcw47o3MAYKQ1ZlTRvwSR\x21XHtrB9q\x21-i2KcebLxqO5\x2fmegan_autumnfoliage\x2f1.1347\x2f'};
+//]]
+</script><script type="text/javascript">
+function ScaleImage(evt){try{var img = window.event ? window.event.srcElement : evt;if(img.icVisited==true){return;}img.icVisited=true;var unscaledImage = new Image();unscaledImage.src = img.src;var imgHeight = null;var imgWidth = null;if (img.currentStyle) {if (null == img.currentStyle.height || null == img.currentStyle.width) {return;} imgHeight = parseInt(img.currentStyle.height);imgWidth = parseInt(img.currentStyle.width);}else {if (null == img.height || null == img.width) {return;}imgHeight = img.height;imgWidth = img.width;}if (null == unscaledImage.width || null == unscaledImage.height ||0 == unscaledImage.width || 0 == unscaledImage.height || 0 == imgWidth || 0 == imgHeight) {return;}var scale = Math.min((imgWidth/unscaledImage.width),(imgHeight/unscaledImage.height));var newWidth = Math.round(scale*unscaledImage.width);var newHeight = Math.round(scale*unscaledImage.height);var widthPad = (imgWidth - newWidth)/2;var heightPad = (imgHeight - newHeight)/2;img.style.width = newWidth + "px";img.style.height = newHeight + "px";img.style.paddingLeft = (2 + Math.floor(widthPad)) + "px";img.style.paddingRight = (2 + Math.ceil(widthPad)) + "px";img.style.paddingTop = (2 + Math.floor(heightPad)) + "px";img.style.paddingBottom =  (2 + Math.ceil(heightPad)) + "px";}catch(e){}}
+
+</script><script>var vBlogPart = new Object();
+var BlogJSBlogEntryUrl = 'http\x3a\x2f\x2fspaces.live.com\x2fBlogIt.aspx';
+var BlogJSPersonalSpaceurl = 'http\x3a\x2f\x2fzhoujianguo.spaces.live.com\x2f';
+var BlogJSBlogPartParam = "_c=BlogPart";
+var BlogJSBlogPartBlogView = "BlogPart=blogview";
+</script><link href="http://zhoujianguo.spaces.live.com/blog/feed.rss" rel="alternate" type="application/rss+xml" title="日志：所有日志(RSS)"><link href="http://zhoujianguo.spaces.live.com/category/%E5%9B%BE%E4%B9%A6/feed.rss" rel="alternate" type="application/rss+xml" title="图书"><link href="http://zhoujianguo.spaces.live.com/category/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%8E%20Internet/feed.rss" rel="alternate" type="application/rss+xml" title="计算机与 Internet"><link href="http://zhoujianguo.spaces.live.com/category/%E5%B0%8F%E7%99%BD%E6%97%A5%E8%AE%B0/feed.rss" rel="alternate" type="application/rss+xml" title="小白日记"><link href="http://zhoujianguo.spaces.live.com/blog/cns%21E2E3EE0591E45A6F%211108/comments/feed.rss" rel="alternate" type="application/rss+xml" title="评论：Hibernate下各种Cache的缓存配置和特性 (RSS)"><script type="text/javascript" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spaces_002.js">
+</script><style id="CustomTheme">.ContainerPadding, .ContainerPadding td, .ContainerPadding th, ul.subnav, ul.List, .ContainerFullView, .ContainerFullView td, .ContainerFullView th {}
+.ContainerHeader, .ContainerHeader td, .ContainerHeader th {}
+</style><script type="text/javascript" language="javascript"> var gblSpaceTitle = '\u5c0f\u767d\u7684\u751f\u6d3b';</script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/identitycontrol.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/dap.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/RTE.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spaces_004.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spaces.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/CoreUI.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spaces_003.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/RichTextEditor.js"></script><link href="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/RichTextEditorBase.css" type="text/css" rel="stylesheet"><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/Live.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/Live_002.js"></script><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/strings.js"></script><link href="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/controls.css" type="text/css" rel="stylesheet"></head><body id="ctl00_Body"><input name="Web.moz-custom" content="enabled" type="hidden">
+
+
+
+
+<div id="SPACES_LOADMONITOR" style="display: none;">&nbsp;</div>
+
+        
+        
+ 
+ 
+    
+        <web:binding selector="div.adsframe" type="Live_Spaces_Ads" namespace="adparam"><web:references priority="Low"><web:add src="http://ads1.msn.com/library/dap.js" type="script"></web:add><web:add type="reference" src="#spfooter"></web:add></web:references><web:defaults></web:defaults></web:binding><div style="height: auto; min-width: 1000px;">
+ 
+ <div id="AdContainer" style="text-align: center; position: relative;">
+ <table cellpadding="0" cellspacing="0"><tbody><tr><td width="50%"><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/c.gif" width="100%" height="1"></td><td align="left"><div class="adsframe" id="dap_header" adparam:callstring="&amp;PG=SPAZ05&amp;AP=1390" adparam:width="728" adparam:height="90" adparam:refreshperiod="10" adparam:refreshstart="0"><iframe src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/a.htm" name="dapIfM0" id="dapIfM0" scrolling="no" width="728" frameborder="0" height="90"></iframe></div></td><td width="50%"><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/c.gif" width="100%" height="1"></td></tr></tbody></table>
+ </div>
+ 
+ <script type="text/javascript">
+ function search()
+ {
+ // If the page is dirty and we prompt the user to ok/cancel the navigation, and they
+ // select cancel, window.location.href assignment will throw. In this case, we want to
+ // simply ignore it.
+ try
+ { window.location.href = "http://home.services.spaces.live.com/search/?tp=1&pg=0&sc=0&form=SPDEPS" + "&q=" + encodeURIComponent(document.getElementById("uxp_hdr_searchInput").value);
+ } catch (e) {}
+ }
+ </script>
+ </div><div class="BodyBG" style="min-width: 1000px;">
+ <table id="uxp_hdr" cellspacing="0"><tbody><tr><td class="uxp_hdrInner"><table class="uxp_hdrInnerTable" cellspacing="0"><tbody><tr>
+
+    <td id="uxp_hdr_jewelParent" class="uxp_hdr_pointer" onmouseover="this.className+=' uxp_hdr_jewelSpanHover'" onmouseout="this.className=this.className.replace(' uxp_hdr_jewelSpanHover','')"><a id="uxp_hdr_jewelLink" href="#"><span id="uxp_hdr_jewelSpan"></span><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/jewel_24_hover.png" alt="更多服务" style="visibility: hidden;" width="39" height="37"><span class="uxp_hdr_windowsLiveText">Windows Live<span class="uxp_hdr_tm">™</span></span></a><br><div class="uxp_hdr_menuParent"><ul id="uxp_hdr_jewelMenu" class="uxp_hdr_menu" style="display: none;"><li><a href="#"><span class="uxp_hdr_rightArrow"></span>Windows Live 服务</a><ul class="uxp_hdr_submenu"><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl9">主页</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl10">联系人</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl18">家庭安全设置</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl11">日历</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl13">百宝箱</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl14">Hotmail</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl15">OneCare</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl16">Spaces</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl8">全部服务</a></li></ul></li><li><a href="#"><span class="uxp_hdr_rightArrow"></span>其他 Live 服务</a><ul class="uxp_hdr_submenu"><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl1">Live Search</a></li><li class="uxp_hdr_menuSeparator">&nbsp;</li><li><a target="_top" href="http://g.live.com/9uxp9msn/jwl-zh-cn">MSN</a></li></ul></li><li class="uxp_hdr_menuSeparator">&nbsp;</li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl5">帐户</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl6?productkey=WLSpaces">反馈</a></li><li><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_jwl7">帮助中心</a></li></ul></div></td><td><table id="uxp_hdr_middleArea"><tbody><tr><td style="padding-top: 10px; text-align: center;" id="uxp_hdr_tabsParent"><form id="uxp_hdr_search" onsubmit="document.getElementById('uxp_hdr_productSearchButton').click(); return false" action="http://cnweb.search.live.com/results.aspx" method="get">
+
+            <label for="uxp_hdr_searchInput" style="display: none;">搜索</label><span class="uxp_hdr_searchBorder"><span class="uxp_hdr_innerSearchBorder"><input id="uxp_hdr_searchInput" name="q"><span class="uxp_hdr_buttonBorder"><input id="uxp_hdr_productSearchButton" class="uxp_hdr_button" onclick="search();" value="Spaces" type="button"></span></span></span>&nbsp;<span class="uxp_hdr_searchBorder"><span class="uxp_hdr_innerSearchBorder"><span class="uxp_hdr_buttonBorder"><input id="uxp_hdr_webSearchButton" class="uxp_hdr_button" onclick="var s=document.getElementById('uxp_hdr_search').onsubmit; document.getElementById('uxp_hdr_search').onsubmit=null; document.getElementById('uxp_hdr_submitSearchButton').click(); document.getElementById('uxp_hdr_search').onsubmit = s;" value="网页" type="button"><input id="uxp_hdr_submitSearchButton" style="display: none;" type="submit"></span></span></span><input name="mkt" value="zh-CN" type="hidden"><input name="form" value="SPACEL" type="hidden"></form><table style="margin-right: auto; margin-left: auto;" id="uxp_hdr_tabs" class="uxp_hdr_pointer" cellspacing="0"><tbody><tr><td><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_nav1"><span>主页</span></a></td><td><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_nav2"><span>Hotmail</span></a></td><td><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_nav3" id="uxp_hdr_tabs_current"><span>Spaces</span></a></td><td><a target="_top" href="http://g.live.com/9uxp9zh-cn/hdr_nav5"><span>OneCare</span></a></td><td><div class="h_separator">&nbsp;</div></td><td><a target="_top" href="http://g.live.com/9uxp9msn/nav-zh-cn"><span>MSN</span></a></td></tr></tbody></table></td><td style="display: none;" id="uxp_hdr_searchParent"></td></tr></tbody></table></td><td id="uxp_hdr_meParent" class="uxp_hdr_pointer"><a id="uxp_hdr_signIn" target="_top" href="http://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=10&amp;ct=1223039072&amp;rver=5.5.4158.0&amp;wp=MBI&amp;wreply=http:%2F%2Fzhoujianguo.spaces.live.com%2Fblog%2Fcns%21E2E3EE0591E45A6F%211108.entry%3F&amp;lc=2052&amp;id=73625" onclick="event.cancelBubble=true">登录</a></td></tr></tbody></table></td></tr></tbody></table><script src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/header.js" type="text/javascript" defer="defer"></script>
+ 
+ <div class="sn_lbar_short">&nbsp;</div>
+ <div class="sn_lbar_short_shadow">&nbsp;</div>
+ 
+ <div id="pageFrame" class="PageBG">
+ <table class="sn_lbar"><tbody><tr><td colspan="2"><span><a id="navSecond" href="http://home.services.spaces.live.com/" onclick="return ShowNavMenu(this)" class="indented"><span>共享空间主页 <img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/showmenu_rest_ContainerHeaderTextLuminance.gif" alt="" class="caret"></span></a><div class="sn_lbar_menu" style="display: none;"><table><tbody><tr><td><ul><li><a id="navSignUp" href="http://home.services.spaces.live.com/" onclick="TrackNavigation('http\x3a\x2f\x2fg.live.com','zh_CN','Signup')"><nobr>注册</nobr></a></li><li><a id="navHome" href="http://spaces.live.com/?forcesignin=1" onclick="TrackNavigation('http\x3a\x2f\x2fg.live.com','zh_CN','Spaceshome')"><nobr>共享空间主页</nobr></a></li><li class="separator">&nbsp;</li><li><a id="navSpaces" href="http://spaces.live.com/PersonalSpaceSignup.aspx" onclick="TrackNavigation('http\x3a\x2f\x2fg.live.com','zh_CN','Yourspace')"><nobr>您的共享空间</nobr></a></li><li><a id="navFriends" href="http://home.services.spaces.live.com/friends/" onclick="TrackNavigation('http\x3a\x2f\x2fg.live.com','zh_CN','Friends')"><nobr>朋友</nobr></a></li><li><a id="navPhotos" href="http://home.services.spaces.live.com/photos/" onclick="TrackNavigation('http\x3a\x2f\x2fg.live.com','zh_CN','Photos')"><nobr>照片</nobr></a></li><li class="separator">&nbsp;</li><li><a id="navEvents" href="http://home.services.spaces.live.com/events/" onclick="TrackNavigation('http\x3a\x2f\x2fg.live.com','zh_CN','Events')"><nobr>活动</nobr></a></li></ul></td></tr></tbody></table></div></span><span class="separator">&nbsp;</span><span><a id="navTitle" href="http://zhoujianguo.spaces.live.com/default.aspx"><span>小白的生活</span></a></span><span><a id="navServicePhotos" href="http://zhoujianguo.spaces.live.com/photos/"><span>照片</span></a></span><span><a id="navServiceProfile" href="http://zhoujianguo.spaces.live.com/recent/"><span>个人资料</span></a></span><span><a id="navServiceFriends" href="http://zhoujianguo.spaces.live.com/friends/"><span>朋友</span></a></span><span class="sn_lbar_split"><span class="splitOff" onmouseover="ShowSplit(this)" onmouseout="HideSplit(this)"><a id="navServiceBlog" href="http://zhoujianguo.spaces.live.com/blog/" class="selected"><span><img class="spacer" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/showmenu_rest_ContainerHeaderTextLuminance.gif">日志</span></a><a id="navServiceBlog_split" href="http://zhoujianguo.spaces.live.com/blog/" onclick="return ShowNavMenu(this)" title="显示菜单" class="caret"><span><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/showmenu_rest_ContainerHeaderTextLuminance.gif" alt=""></span></a><div class="sn_lbar_menu" style="display: none;"><table><tbody><tr><td><ul><li><a id="navServiceLists" href="http://zhoujianguo.spaces.live.com/lists/"><nobr>列表</nobr></a></li><li><a id="navServiceMusic" href="http://zhoujianguo.spaces.live.com/music/"><nobr>音乐</nobr></a></li></ul></td></tr></tbody></table></div></span></span></td><td class="sn_lbar_utility" colspan="2"><span><a id="navTools" href="http://zhoujianguo.spaces.live.com/" onclick="return ShowNavMenu(this)"><span><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/toolsicon.png" alt=""> 工具 <img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/showmenu_rest_ContainerHeaderTextLuminance.gif" alt="" class="caret"></span></a><div class="sn_lbar_menu" style="display: none;"><table><tbody><tr><td><ul><li><a id="navToolMess" href="http://spaces.live.com/api.aspx?wx_action=sendMessage&amp;wxp_toCid=-2097571293734610321&amp;wx_ru=http%3a%2f%2fzhoujianguo.spaces.live.com%2fblog%2fcns%21E2E3EE0591E45A6F%211108.entry"><nobr>发送消息</nobr></a></li><li><a id="navToolRss" href="http://zhoujianguo.spaces.live.com/feed.rss"><nobr>订阅 RSS 源</nobr></a></li><li><a id="navToolFrnd" href="mailto:?subject=http%3a%2f%2fzhoujianguo.spaces.live.com%2f&amp;body=http%3a%2f%2fzhoujianguo.spaces.live.com%2f"><nobr>告诉朋友</nobr></a></li><li><a id="navToolLive" href="http://www.live.com/?add=http://zhoujianguo.spaces.live.com/feed.rss" target="_blank"><nobr>添加到 Live.com</nobr></a></li><li><a id="navToolInvFrnd" href="http://spaces.live.com/api.aspx?wx_action=addFriend&amp;mkt=zh-CN&amp;wx_targetSite=PersonalSpaces&amp;wxp_cid=-2097571293734610321&amp;wxp_name=Lucifer"><nobr>邀请成为朋友</nobr></a></li><li><a id="navToolAlrt" href="http://signup.alerts.live.com/alerts/userSignup.do?partner=spaces&amp;ut=http://zhoujianguo.spaces.live.com/feed.rss&amp;mkt=zh-cn&amp;returnURL=http%3a%2f%2fzhoujianguo.spaces.live.com%2fblog%2fcns%21E2E3EE0591E45A6F%211108.entry"><nobr>订阅通知</nobr></a></li><li><a id="navComm" href="http://home.services.spaces.live.com/community/"><nobr>浏览共享空间</nobr></a></li></ul></td></tr></tbody></table></div></span><span><a id="navComm" href="http://home.services.spaces.live.com/community/" title="浏览共享空间社区"><span><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spacesicon16.gif" alt="浏览共享空间社区"></span></a></span><span><script defer="defer" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/launchhelp.js"></script><a class="helplink" title="帮助" href="#" onclick="javascript:LaunchHelp('http://help.live.com/','WL_Spaces','zh-cn','','keyword','qaf',true,'b1','','','','');;return false;"><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/helpicon16.png" border="none"></a></span></td></tr></tbody></table>
+    
+        
+ <div id="bodyProxy" style="display: none;"></div>
+ <div id="innerBody">
+ <div id="ctl00_MainContentPlaceholder_ctl00_MainPanel">
+
+</div>
+ <div id="toppage" class="singlePart" name="SpaceTemplateRegion">
+ <table class="FullView" id="layoutManager" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td class="region" id="FullViewNav">
+ <table class="ContainerLeftNav fullPageOuter fixedTable" style="height: 100%; width: 100%;" cellpadding="0" cellspacing="0"><tbody><tr><td style="height: 100%; width: 100%; vertical-align: top;">
+ <div class="LeftNav">
+ 
+ <div class="sppPartTitle">
+ 
+ <div class="partHeader">
+ <div class="ContainerHeader">
+ <table style="table-layout: fixed; width: 100%;" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td width="100%">
+ <div class="partDetail" style="white-space: nowrap;">
+ <div class="Title2">
+ <h2 class="ellipse H2WithoutDefaultSpacing LineHeightStandard" style="font-size: 100%;">日志</h2>
+ </div>
+ </div>
+ </td>
+ 
+ </tr>
+ </tbody></table>
+ </div>
+ </div>
+ 
+ </div>
+ 
+ <div>
+ <script type="text/javascript">
+/*<![CDATA[*/
+function BlogLeftNavTypeChange()
+{
+ var v = event.srcElement.value;
+ var url = document.URL;
+ // Remove the hash and stuff that follows
+ if (url.indexOf("#") >= 0)
+ { url = url.substr(0, url.indexOf("#"));
+ }
+ url = url.replace(/[&/?]fl=[^&]*/g, "");
+ if (url.indexOf("?") == -1)
+ url += "?fl=" + v;
+ else
+ url += "&fl=" + v;
+ try
+ { document.location = url;
+ } catch (ex) {}
+}
+/* ]]> */
+</script><label style="display: none;" for="sortby">选择如何对日志分组：</label><select id="sortby" onchange="BlogLeftNavTypeChange()">
+ <option value="a" selected="selected">按日期列出</option>
+ <option value="cat">按类别列出</option></select><ul class="List"><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart" id="LN_blogView"><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/blogdetails.gif" alt="" class="spLNIcon"><div class="spLNIconText">日志</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=summary&amp;_c=BlogPart" id="LN_blogSumm"><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/blogsummary.gif" alt="" class="spLNIcon"><div class="spLNIconText">摘要</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d10%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_200810"><div class="">2008年10月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d9%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20089"><div class="">2008年9月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d8%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20088"><div class="">2008年8月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d7%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20087"><div class="">2008年7月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d6%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20086"><div class="">2008年6月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d5%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20085"></a><div class=""><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d5%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20085">2008年5月</a></div></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d4%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20084"><div class="">2008年4月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d3%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20083"><div class="">2008年3月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d2%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20082"><div class="">2008年2月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d1%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20081"></a><div class=""><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d1%26ayear%3d2008" title="查看在此期间发布的所有日志。" id="LN_20081">2008年1月</a></div></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d12%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_200712"><div class="">2007年12月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d11%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_200711"><div class="">2007年11月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d10%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_200710"><div class="">2007年10月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d9%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20079"><div class="">2007年9月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d8%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20078"><div class="">2007年8月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d7%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20077"><div class="">2007年7月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d6%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20076"><div class="">2007年6月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d5%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20075"><div class="">2007年5月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d4%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20074"><div class="">2007年4月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d3%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20073"><div class="">2007年3月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d2%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20072"><div class="">2007年2月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d1%26ayear%3d2007" title="查看在此期间发布的所有日志。" id="LN_20071"><div class="">2007年1月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d12%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_200612"><div class="">2006年12月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d11%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_200611"><div class="">2006年11月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d10%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_200610"><div class="">2006年10月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d9%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20069"><div class="">2006年9月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d8%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20068"><div class="">2006年8月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d7%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20067"><div class="">2006年7月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d6%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20066"><div class="">2006年6月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d5%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20065"><div class="">2006年5月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d4%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20064"><div class="">2006年4月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d3%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20063"><div class="">2006年3月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d2%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20062"><div class="">2006年2月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d1%26ayear%3d2006" title="查看在此期间发布的所有日志。" id="LN_20061"><div class="">2006年1月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d12%26ayear%3d2005" title="查看在此期间发布的所有日志。" id="LN_200512"><div class="">2005年12月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d11%26ayear%3d2005" title="查看在此期间发布的所有日志。" id="LN_200511"><div class="">2005年11月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d10%26ayear%3d2005" title="查看在此期间发布的所有日志。" id="LN_200510"><div class="">2005年10月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d9%26ayear%3d2005" title="查看在此期间发布的所有日志。" id="LN_20059"><div class="">2005年9月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d8%26ayear%3d2005" title="查看在此期间发布的所有日志。" id="LN_20058"><div class="">2005年8月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d7%26ayear%3d2005" title="查看在此期间发布的所有日志。" id="LN_20057"><div class="">2005年7月</div></a></li><li><a class="" href="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=amonth%3d6%26ayear%3d2005" title="查看在此期间发布的所有日志。" id="LN_20056"><div class="">2005年6月</div></a></li></ul>
+ </div>
+ </div></td></tr></tbody></table>
+ </td>
+ <td class="region" id="MainFocus">
+ <div class="ContainerFullView fullPageOuter SPTransparency">
+ <div class="spAToolbar" style="width: 100%;">
+ <table class="spAToolbarTable" style="width: 100%;" cellspacing="0">
+ <tbody><tr>
+ <td><ul id="ctl00_MainContentPlaceholder_ctl01_Toolbar_Internal_LeftToolbarList" class="LeftToolBarItems"></ul></td>
+ <td align="right"><ul id="ctl00_MainContentPlaceholder_ctl01_Toolbar_Internal_RightToolbarList" class="RightToolBarItems"><li class="sppLast"><a href="http://zhoujianguo.spaces.live.com/blog/cns%21E2E3EE0591E45A6F%211102.entry?_c=BlogPart" title="转到：枫泾古镇自驾游手册"><img style="border: 0px none ;" class="HoverButton Spaces_Controls_HoverButton" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/backnext_Left_rest_ContainerHeaderTextLuminance.gif" hb:hoversrc="http://shared.live.com/4FK9aqzvrfkZYBIhDz9BxOxcw47o3MAYNS0zhuxDM8dJ!hUinoUm9phP4UW4P2B-ZtmDD0oAIUw/megan_autumnfoliage/1.1347/hig/img/glyph/backnext_~Left~_hover_~ContainerHeaderTextLuminance~.gif"></a><a href="http://zhoujianguo.spaces.live.com/blog/cns%21E2E3EE0591E45A6F%211118.entry?_c=BlogPart" title="转到：SWT Designer6.4.1 Eclipse插件 注册破解(可是最新的额)"><img style="border: 0px none ;" class="HoverButton Spaces_Controls_HoverButton" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/backnext_Right_rest_ContainerHeaderTextLuminance.gif" hb:hoversrc="http://shared.live.com/4FK9aqzvrfkZYBIhDz9BxOxcw47o3MAYNS0zhuxDM8dJ!hUinoUm9phP4UW4P2B-ZtmDD0oAIUw/megan_autumnfoliage/1.1347/hig/img/glyph/backnext_~Right~_hover_~ContainerHeaderTextLuminance~.gif"></a></li>
+</ul></td>
+ </tr>
+ </tbody></table></div>
+ 
+ <div>
+ <div id="BPErr" class="notify Spaces_Controls_NotificationBar ErrorMed Spaces_Controls_NotificationBar" style="border-left: medium none; border-right: medium none; display: none;" nb:importance="Med"><table><tbody><tr><td class="Icon"><img class="Icon" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/annotation_warning.gif"></td><td class="NBContent ContentWithDetails">很抱歉，当前无法删除此日志，请稍后再试。</td><td class="DetailExpand"><a class="DetailExpand" href="#" style="display: none;"><img class="Spaces_Controls_HoverButton" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/expand2_rest_Dark.gif"></a></td></tr><tr><td></td><td><div class="NBContent NBDetailContent ContentWithDetails"></div></td><td></td></tr></tbody></table></div><script type="text/javascript">
+/*<![CDATA[*/
+ var g_spLastMTime = "2008/9/23 5:14:38zh-CN2008-07-24_12.50";
+ if (Spaces.LoadMonitor)
+ { Spaces.LoadMonitor.RegisterComponent("BlogPermalink", "sp_pct_blogpermalink");
+ }
+ var gblBlogPage = 'http\x3a\x2f\x2fzhoujianguo.spaces.live.com\x2fblog\x2f';
+ function Delete()
+ {
+ if((typeof(Spaces) != "undefined") && Spaces.Blog && Spaces.Blog.Entry)
+ {
+ Spaces.Blog.Entry.DeletePermalink('cns\x21E2E3EE0591E45A6F\x211108');
+ }
+ }
+/* ]]> */
+</script><div class="ContainerPadding"><span id="ctl00_MainContentPlaceholder_ctl01_ctl00_lblEntry"><div id="entrycns!E2E3EE0591E45A6F!1108" class="bvEntry" bv:cns="cns!E2E3EE0591E45A6F!1108" bv:ca="true" bv:cat="小白日记"><div id="LastMDatecns!E2E3EE0591E45A6F!1108">9月4日</div><h4 style="margin-bottom: 0px;" id="subjcns!E2E3EE0591E45A6F!1108">Hibernate下各种Cache的缓存配置和特性</h4><div id="msgcns!E2E3EE0591E45A6F!1108" class="bvMsg">You have the option to tell Hibernate which caching implementation to use by specifying the name of a class that implements <tt>org.hibernate.cache.CacheProvider</tt> using the property <tt>hibernate.cache.provider_class</tt>.
+<div>&nbsp;我整理了下，具体看下面的表格</div>
+<div>
+<table summary="Cache Providers" border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+<col align="left">
+<col align="left">
+<col align="left">
+</colgroup><thead>
+<tr>
+<th align="left">Cache
+</th><th align="left">Provider class
+</th><th align="left">Type
+</th><th align="left">Cluster Safe
+</th><th align="left">Query Cache Supported
+</th></tr></thead><tbody>
+<tr>
+<td align="left">Hashtable (not intended for production use)
+</td><td align="left"><tt>org.hibernate.cache.HashtableCacheProvider</tt>
+</td><td align="left">memory
+</td><td align="left">&nbsp;
+</td><td align="left">yes
+</td></tr><tr>
+<td align="left">EHCache
+</td><td align="left"><tt>org.hibernate.cache.EhCacheProvider</tt>
+</td><td align="left">memory, disk
+</td><td align="left">&nbsp;
+</td><td align="left">yes
+</td></tr><tr>
+<td align="left">OSCache
+</td><td align="left"><tt>org.hibernate.cache.OSCacheProvider</tt>
+</td><td align="left">memory, disk
+</td><td align="left">&nbsp;
+</td><td align="left">yes
+</td></tr><tr>
+<td align="left">SwarmCache
+</td><td align="left"><tt>org.hibernate.cache.SwarmCacheProvider</tt>
+</td><td align="left">clustered (ip multicast)
+</td><td align="left">yes (clustered invalidation)
+</td><td align="left">&nbsp;
+</td></tr><tr>
+<td align="left">JBoss TreeCache
+</td><td align="left"><tt>org.hibernate.cache.TreeCacheProvider</tt>
+</td><td align="left">clustered (ip multicast), transactional
+</td><td align="left">yes (replication)
+</td><td align="left">yes (clock sync req.)</td></tr></tbody></table>
+<div lang="en">
+<div>
+<div>
+<div>
+<h3><a></a>&nbsp;</h3></div></div>
+<div></div></div></div></div></div><div class="footerLinks"><nobr id="blogDT">11:18</nobr>&nbsp;| <nobr dir="ltr"><a bvitemtype="post" href="http://zhoujianguo.spaces.live.com/blog/cns%21E2E3EE0591E45A6F%211108.entry#post" id="blogAddComment0">添加评论</a></nobr>&nbsp;| <nobr dir="ltr"><a bvitemtype="comment" href="http://zhoujianguo.spaces.live.com/blog/cns%21E2E3EE0591E45A6F%211108.entry#comment" id="blogComments0">阅读评论 (2)</a></nobr>&nbsp;| <nobr dir="ltr"><a title="给作者发送消息" href="http://spaces.live.com/api.aspx?wx_action=sendMessage&amp;wxp_toCid=-2097571293734610321&amp;wx_ru=http%3a%2f%2fzhoujianguo.spaces.live.com%2fblog%2fcns%21E2E3EE0591E45A6F%211108.entry&amp;wxp_subject=%e7%ad%94%e5%a4%8d%ef%bc%9a%e6%82%a8%e7%9a%84%e6%97%a5%e5%bf%97%e2%80%9cHibernate%e4%b8%8b%e5%90%84%e7%a7%8dCache%e7%9a%84%e7%bc%93%e5%ad%98%e9%85%8d%e7%bd%ae%e5%92%8c%e7%89%b9%e6%80%a7%e2%80%9d&amp;wxp_body=%3cdiv%3e%3cbr+%2f%3e%3cbr+%2f%3e%3chr+%2f%3e%e6%9f%a5%e7%9c%8b%e6%97%a5%e5%bf%97%ef%bc%9a%3ca+href%3d%22http%26%2358%3b%26%2347%3b%26%2347%3bzhoujianguo.spaces.live.com%26%2347%3bblog%26%2347%3bcns%26%2333%3bE2E3EE0591E45A6F%26%2333%3b1108.entry%22%3ehttp%26%2358%3b%26%2347%3b%26%2347%3bzhoujianguo.spaces.live.com%26%2347%3bblog%26%2347%3bcns%26%2333%3bE2E3EE0591E45A6F%26%2333%3b1108.entry%3c%2fa%3e%3c%2fdiv%3e" id="blogSendMessage0">发送消息</a></nobr>&nbsp;| <nobr dir="ltr"><a bvitemtype="trackback" href="http://zhoujianguo.spaces.live.com/blog/cns%21E2E3EE0591E45A6F%211108.entry#trackback" id="blogTrackbacks0"> 查看引用通告 (0)</a></nobr>&nbsp;| <nobr dir="ltr"><a title="写入您的共享空间日志" href="javascript:BlogIt('cns!E2E3EE0591E45A6F!1108');" id="blogThis0">写入日志</a></nobr>&nbsp;| <nobr dir="ltr"><a bvitemtype="category" title="显示此类别的所有日志" href="http://zhoujianguo.spaces.live.com/blog/cns%21E2E3EE0591E45A6F%211108.entry#category" id="blogCategory0">小白日记</a></nobr></div><div class="footer"></div></div></span><div style="padding: 0pt 10px;"><script type="text/javascript">
+/*<![CDATA[*/
+ var g_spLastMTime = "2008/9/23 5:14:38zh-CN2008-07-24_12.50";
+ if (typeof(Spaces) != "undefined" && Spaces.LoadMonitor)
+ {
+ Spaces.LoadMonitor.RegisterComponent("CommonCommentControl", "sp_pct_common_comment");
+ }
+/* ]]> */
+</script>
+ <div class="ccsection ContainerBorder BlogCommentPane SubContainer bvPostComment" style="display: none;" id="__addComment" bv:cns="cns!E2E3EE0591E45A6F!1108" bv:closebox="1">
+ <div class="ContainerPadding TitleBar">
+ <h5>添加评论</h5>
+ <span class="ControlBox"><a title="隐藏添加评论" href="#"><img class="Spaces_Controls_HoverButton" alt="隐藏添加评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/close_rest_BodyTextLuminance.gif"></a></span>
+ </div>
+ <div class="Content" style="padding: 0px;">
+ </div>
+ </div><div class="ccsection ContainerBorder BlogCommentPane SubContainer bvEntryComments bvCommentsPane" bv:cns="cns!E2E3EE0591E45A6F!1108" bv:closebox="0" bv:firsttooltip="最初 20 条评论" bv:prevtooltip="前 20 条评论" bv:nexttooltip="后 20 条评论" bv:lasttooltip="最后 20 条评论" bv:nexthandle="" bv:prevhandle="" bv:commentcount="2">
+ <div id="ErrMessageBar" class="notify Spaces_Controls_NotificationBar ErrorHigh Spaces_Controls_NotificationBar" style="display: none;"><table><tbody><tr><td class="Icon"><img class="Icon" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/annotation_error.gif"></td><td class="NBContent ContentWithDetails"></td><td class="DetailExpand"><a class="DetailExpand" href="#" style="display: none;"><img class="Spaces_Controls_HoverButton" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/expand2_rest_Dark.gif"></a></td></tr><tr><td></td><td><div class="NBContent NBDetailContent ContentWithDetails"></div></td><td></td></tr></tbody></table></div>
+ 
+ <div id="ccTitleBarcns!E2E3EE0591E45A6F!1108" class="ContainerPadding TitleBar">
+ <h5>评论 (<span id="ccCount">2</span>)</h5>
+ <span class="ControlBox"><span style="padding-right: 3px;" id="ctl00_MainContentPlaceholder_ctl01_ctl00_Comments_ccTopPageControl" class="PagingControlBox"><a id="commentsFirstPageTop" action="First" style="display: none;" title="最初 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="最初 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/beginningend_Left_rest_BodyTextLuminance.gif"></a><a id="commentsPrevPageTop" action="Prev" style="display: none;" title="前 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="前 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/backnext_Left_rest_BodyTextLuminance.gif"></a><a id="commentsNextPageTop" action="Next" style="display: none;" title="后 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="后 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/backnext_Right_rest_BodyTextLuminance.gif"></a><a id="commentsLastPageTop" action="Last" style="display: none;" title="最后 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="最后 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/beginningend_Right_rest_BodyTextLuminance.gif"></a></span></span>
+ </div>
+ 
+ <div class="Content" style="padding: 0px; overflow: hidden;">
+ <span id="ctl00_MainContentPlaceholder_ctl01_ctl00_Comments_CommentsView"><ul class="bvCommentUL"><li class="bvComment" id="_cicns!E2E3EE0591E45A6F!1116"><table class="blogCommentEntryTable" cellpadding="0" cellspacing="0"><tbody><tr><td class="ccViewContactControlWide"><div class="ccViewContactControl" id="ccTilecns!E2E3EE0591E45A6F!1116"><span><div id="ICcbfe09d6afeefd6c90" class="identctrl identctrltm" ic:ids="tm" ic:idt="c" ic:idv="-4620520134812903735" ic:nm="毛毛" ic:ca1t="发送消息" ic:ca1u="http://spaces.live.com/api.aspx?wx_action=sendMessage&amp;wxp_toCid=-4620520134812903735" ic:ca1un="1"><table cellpadding="0"><tbody><tr><td><a title="查看共享空间" href="http://spaces.live.com/api.aspx?wx_action=IdentityRedir&amp;wxp_targetsite=PersonalSpace&amp;wxp_type=default&amp;wxp_cid=-4620520134812903735&amp;wx_partner=Live.Spaces&amp;mkt=zh-CN" class="ca"><img class="IcPh" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/y1pwAvt6wMuLDTunTGaUWo_LWsGywhI6cuoE5r0WS1IN9zpP5l9x4vkEBhe76LVq" alt="查看共享空间" onload="ScaleImage(this)"></a><div class="uxp_ep_dots"><a id="live__id0_dots" class="uxp_ep_dotsA" href="#" onclick="return false"><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/ep_dots_collage.gif" class="uxp_ep_dotsI" alt="更多信息"></a><div id="live__id0_parent" class="uxp_ep_parent uxp_ep_loadingParent"><div id="live__id0_ghost" class="uxp_ep_ep uxp_ep_ghost" style="display: block;">&nbsp;</div></div></div></td><td class="ci"></td></tr></tbody></table></div></span></div></td><td class="blogCommentText"><div class="bvCommentText"><div class="TextBold" id="ccNamecns!E2E3EE0591E45A6F!1116">毛毛</div><span id="ccDatecns!E2E3EE0591E45A6F!1116">9月14日 12:47</span><br> <div class="ccViewAuthorUrl ltrText" id="ccUrlcns!E2E3EE0591E45A6F!1116"><a href="http://19990625.spaces.live.com/" target="_blank" rel="nofollow"><nobr>(http://19990625.spaces.live.com/)</nobr></a></div><div id="ccMsgcns!E2E3EE0591E45A6F!1116" class="ccViewComment"><div>晕&nbsp;</div></div></div></td></tr></tbody></table></li><li class="bvComment" id="_cicns!E2E3EE0591E45A6F!1111"><table class="blogCommentEntryTable" cellpadding="0" cellspacing="0"><tbody><tr><td class="ccViewContactControlWide"><div class="ccViewContactControl" id="ccTilecns!E2E3EE0591E45A6F!1111"><span><div id="ICc1543e306aec354670" class="identctrl identctrltm" ic:ids="tm" ic:idt="c" ic:idv="1532317916077446247" ic:nm="远方相聚" ic:ca1t="发送消息" ic:ca1u="http://spaces.live.com/api.aspx?wx_action=sendMessage&amp;wxp_toCid=1532317916077446247" ic:ca1un="1"><table cellpadding="0"><tbody><tr><td><a title="查看共享空间" href="http://spaces.live.com/api.aspx?wx_action=IdentityRedir&amp;wxp_targetsite=PersonalSpace&amp;wxp_type=default&amp;wxp_cid=1532317916077446247&amp;wx_partner=Live.Spaces&amp;mkt=zh-CN" class="ca"><img class="IcPh" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/y1pKsdufmYvDEDCWmAlBAhTA0XqkmlIkey3sjUG412_Y4p48YYlxQsjkQqleW9fu" alt="查看共享空间" onload="ScaleImage(this)"></a><div class="uxp_ep_dots"><a id="live__id1_dots" class="uxp_ep_dotsA" href="#" onclick="return false"><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/ep_dots_collage.gif" class="uxp_ep_dotsI" alt="更多信息"></a><div id="live__id1_parent" class="uxp_ep_parent uxp_ep_loadingParent"><div id="live__id1_ghost" class="uxp_ep_ep uxp_ep_ghost" style="display: block;">&nbsp;</div></div></div></td><td class="ci"></td></tr></tbody></table></div></span></div></td><td class="blogCommentText"><div class="bvCommentText"><div class="TextBold" id="ccNamecns!E2E3EE0591E45A6F!1111">远方相聚</div><span id="ccDatecns!E2E3EE0591E45A6F!1111">9月7日 13:18</span><br> <div class="ccViewAuthorUrl ltrText" id="ccUrlcns!E2E3EE0591E45A6F!1111"><a href="http://ifihavetime.spaces.live.com/" target="_blank" rel="nofollow"><nobr>(http://ifihavetime.spaces.live.com/)</nobr></a></div><div id="ccMsgcns!E2E3EE0591E45A6F!1111" class="ccViewComment">前段时间做项目用了Nhibernate,但是还不太熟，学习学习<br></div></div></td></tr></tbody></table></li></ul></span>
+ </div>
+ <span id="ctl00_MainContentPlaceholder_ctl01_ctl00_Comments_ccBottomPageControl" style="display: block; padding-right: 9px;" class="ContainerPadding PagingControlBox"><a id="commentsFirstPageBottom" action="First" style="display: none;" title="最初 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="最初 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/beginningend_Left_rest_BodyTextLuminance.gif"></a><a id="commentsPrevPageBottom" action="Prev" style="display: none;" title="前 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="前 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/backnext_Left_rest_BodyTextLuminance.gif"></a><a id="commentsNextPageBottom" action="Next" style="display: none;" title="后 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="后 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/backnext_Right_rest_BodyTextLuminance.gif"></a><a id="commentsLastPageBottom" action="Last" style="display: none;" title="最后 20 条评论" href="#"><img class="Spaces_Controls_HoverButton" alt="最后 20 条评论" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/beginningend_Right_rest_BodyTextLuminance.gif"></a></span></div>
+    <web:binding selector="textarea.rtecomment" type="$UI.Editor" namespace="">
+      <web:references priority="Low">
+		<web:add src="http://shared.live.com/HjKMzTS-xzcms40%21CabizA/RichTextEditorBase.css" type="CSS"></web:add>
+        <web:add src="http://shared.live.com/ud5Y3Bz00Y6ttXMfL8FvHDSOcYRWfPtEPIZVCsQsTfK5zu2fcCcaokrywliXbzLg-X52InhbelBcC3O3l%21Z9xSO6Hm7W42UmCKlphgi80s08RmsXBV4UNQyrCzVauHEvrqMAcpOdeAA/RTE.js" type="Script"></web:add>
+        <web:add src="http://shared.live.com/HjKMzTS-xzcms40%21CabizA/RichTextEditor.js" type="Script"></web:add>
+      </web:references>
+      <web:defaults>
+        <web:param name="name" value=""></web:param>
+        <web:param name="height" value=""></web:param>
+        <web:param name="width" value=""></web:param>
+        <web:param name="mini" value="true"></web:param>
+        <web:param name="showbtns" value=""></web:param>
+        <web:param name="hidebtns" value=""></web:param>
+        <web:param name="notoolbar" value="false"></web:param>
+        <web:param name="nofollow" value="false"></web:param>
+        <web:param name="striptags" value="form|input|select|textarea|button"></web:param>
+        <web:param name="stripattribs" value="id|class"></web:param>
+        <web:param name="basepath" value="http://shared.live.com/HjKMzTS-xzcms40!CabizA/"></web:param>
+        <web:param name="singlespacing" value="true"></web:param>
+        <web:param name="spacing" value="single"></web:param>
+        
+      </web:defaults>
+    </web:binding>
+
+ <web:binding selector="div.bvPostComment" type="Spaces.Comments.AddComment" namespace="bv">
+ <web:references priority="low">
+ <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/script/spaces.controls.js"></web:add>
+ <web:add src="http://cn4.sclive.net/13.0.1392.0724/Web/parts/CommentControl/script/zh-cn/spaces.comments.js"></web:add>
+ <web:add src="http://js.shared.live.com/2EGC9CgiideKzgDVwrdAdQ/CoreUI.js"></web:add>
+ </web:references>
+ <web:defaults>
+ <web:param name="cid" value="0"></web:param>
+ <web:param name="viewmode" value="Wide"></web:param>
+ <web:param name="isauthenticated" value="False"></web:param>
+ <web:param name="getonetoday" value="http://get.live.com/spaces/overview?wreply=http%3a%2f%2fzhoujianguo.spaces.live.com%2fblog%2fcns!E2E3EE0591E45A6F!1108.entry%3faction%3dpost"></web:param>
+ <web:param name="signin" value="http://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=10&amp;ct=1223039072&amp;rver=5.5.4158.0&amp;wp=MBI&amp;wreply=http:%2F%2Fzhoujianguo.spaces.live.com%2Fblog%2Fcns!E2E3EE0591E45A6F!1108.entry%3Faction%3Dpost&amp;lc=2052&amp;id=73625"></web:param>
+ <web:param name="returnurl" value="http://zhoujianguo.spaces.live.com/blog/cns!E2E3EE0591E45A6F!1108.entry?action=post"></web:param>
+ <web:param name="visitorurl" value=""></web:param>
+ <web:param name="visitorcchtml" value="&lt;span&gt;&lt;div id=&quot;ICc00&quot; class=&quot;identctrl&amp;#32;identctrltm&quot; ic:ids=&quot;tm&quot; ic:idt=&quot;c&quot; ic:idv=&quot;0&quot; ic:odnw=&quot;1&quot; ic:nm=&quot;&amp;#65288;&amp;#27809;&amp;#26377;&amp;#21517;&amp;#31216;&amp;#65289;&quot; ic:ca1t=&quot;&amp;#21457;&amp;#36865;&amp;#28040;&amp;#24687;&quot; ic:ca1u=&quot;http&amp;#58;&amp;#47;&amp;#47;spaces.live.com&amp;#47;api.aspx&amp;#63;wx_action&amp;#61;sendMessage&amp;#38;wxp_toCid&amp;#61;0&quot; ic:ca1un=&quot;1&quot;&gt;&lt;table cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;img class=&quot;IcPh&quot; src=&quot;http&amp;#58;&amp;#47;&amp;#47;shared.live.com&amp;#47;4FK9aqzvrfkZYBIhDz9BxOxcw47o3MAYKQ1ZlTRvwSR&amp;#33;XHtrB9q&amp;#33;-i2KcebLxqO5&amp;#47;megan_autumnfoliage&amp;#47;1.1347&amp;#47;spacesidentityctrl&amp;#47;img&amp;#47;WLMedium_default.gif&quot; alt=&quot;&quot; onload=&quot;ScaleImage(this)&quot; /&gt;&lt;/td&gt;&lt;td class=&quot;ci&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;&lt;/span&gt;"></web:param>
+ <web:param name="userdisplayname" value="（没有名字）"></web:param>
+ <web:param name="closeboxtooltip" value="隐藏添加评论"></web:param>
+ <web:param name="c_name" value="32"></web:param>
+ <web:param name="c_url" value="1024"></web:param>
+ <web:param name="c_email" value="128"></web:param>
+ <web:param name="c_comment" value="10240"></web:param>
+ </web:defaults></web:binding><web:binding selector="div.bvEntryComments" type="Spaces.Comments.CommentsView" namespace="bv">
+ <web:references priority="low">
+ <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/script/spaces.controls.js"></web:add>
+ <web:add src="http://cn4.sclive.net/13.0.1392.0724/Web/parts/CommentControl/script/zh-cn/spaces.comments.js"></web:add>
+ <web:add src="http://js.shared.live.com/2EGC9CgiideKzgDVwrdAdQ/CoreUI.js"></web:add>
+ </web:references>
+ <web:defaults>
+ <web:param name="viewmode" value="Wide"></web:param>
+ <web:param name="moduletype" value="Blogs"></web:param>
+ <web:param name="photoalbumhandle" value=""></web:param>
+ <web:param name="pagesize" value="20"></web:param>
+ <web:param name="sortorder" value="Descending"></web:param>
+ <web:param name="closeboxtooltip" value="隐藏评论"></web:param>
+ <web:param name="pagetype" value="first"></web:param>
+ <web:param name="allowdeletecomment" value="False"></web:param>
+ <web:param name="multidelete" value="False"></web:param>
+ </web:defaults></web:binding><div class="bvSection ContainerBorder SubContainer bvEntryTrackbacks Spaces_Blog_EntryTrackbacks" style="display: none; margin-top: 5px;" bv:cns="cns!E2E3EE0591E45A6F!1108" bv:closebox="1" bv:closeboxtooltip="隐藏此日志的引用通告">
+ <div class="ContainerPadding TitleBar" id="tbTitlecns!E2E3EE0591E45A6F!1108">
+ <h5>引用通告</h5>
+ <span class="ControlBox"><a title="隐藏此日志的引用通告" href="#"><img class="Spaces_Controls_HoverButton" alt="隐藏此日志的引用通告" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/close_rest_ContainerHeaderTextLuminance.gif"></a></span>
+ </div>
+ <div class="Content">
+ <span id="ctl00_MainContentPlaceholder_ctl01_ctl00_lblTrackbacks"><div>此日志的引用通告 URL 是：</div><div>http://zhoujianguo.spaces.live.com/blog/cns!E2E3EE0591E45A6F!1108.trak</div><div>引用此项的网络日志</div><ul class="bvTrackbacks"><li>
+无</li></ul></span>
+ </div></div></div></div><web:binding selector="div.bvEntry" type="Spaces.Blog.PermalinkEntry" namespace="bv">
+ <web:references priority="low">
+ <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/parts/blog/script/zh-cn/spaces.blog.js"></web:add>
+ <web:add src="http://cn4.sclive.net/13.0.1392.0724/Web/parts/CommentControl/script/zh-cn/spaces.comments.js"></web:add>
+ </web:references>
+ <web:defaults>
+ <web:param name="catbaseurl" value="http://zhoujianguo.spaces.live.com/?_c11_BlogPart_BlogPart=blogview&amp;_c=BlogPart&amp;partqs=cat%3d{0}"></web:param>
+ </web:defaults></web:binding><web:binding selector="div.bvEntryTrackbacks" type="Spaces.Blog.EntryTrackbacks" namespace="bv">
+ <web:references priority="low">
+ <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/script/spaces.controls.js%20"></web:add>
+ <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/parts/blog/script/zh-cn/spaces.blog.js"></web:add>
+ <web:add src="http://js.shared.live.com/2EGC9CgiideKzgDVwrdAdQ/CoreUI.js"></web:add>
+ </web:references>
+ <web:defaults>
+ <web:param name="viewmode" value="Public"></web:param>
+ <web:param name="pagesize" value="20"></web:param>
+ </web:defaults></web:binding>
+ </div>
+ </div>
+ 
+ </td>
+ </tr>
+ </tbody></table>
+ </div>
+ </div>
+        
+        </div>
+
+<table id="uxp_ftr_control" cellpadding="0" cellspacing="0">
+<tbody><tr>
+	<td id="uxp_ftr_left">
+		<ul>
+
+			<li><a id="uxp_ftr_link_trademark" target="_top" href="http://g.live.com/9uxp9zh-cn/ftr1">© 2008 Microsoft</a></li>
+
+			<li><a id="uxp_ftr_link_privacy" target="_top" href="http://go.microsoft.com/fwlink/?LinkId=74170">隐私声明</a></li>
+
+			<li class="uxp_ftr_item_last"><a id="uxp_ftr_link_legal" target="_top" href="http://g.msn.com/0TO_/zhcn">使用条款</a></li>
+
+		</ul>
+	</td>
+	<td id="uxp_ftr_right">
+		<table id="uxp_ftr_right_nest" cellpadding="0" cellspacing="0">
+		<tbody><tr>
+			<td>		
+				<ul>
+
+					<li><a id="uxp_ftr_link_custom1" target="_top" href="http://help.live.com/help.aspx?mkt=zh-cn&amp;project=tou&amp;querytype=keyword&amp;query=coc">行为准则</a></li>
+
+					<li><a id="uxp_ftr_link_custom2" target="_top" href="http://support.live.com/default.aspx?productKey=wlspacesabuse&amp;mkt=zh-cn">举报不良信息</a></li>
+
+					<li><a id="uxp_ftr_link_custom3" target="_top" href="http://help.live.com/help.aspx?mkt=zh-cn&amp;project=WL_Spaces&amp;querytype=keyword&amp;query=spitpot&amp;format=b1">安全</a></li>
+
+					<li><a id="uxp_ftr_link_helpcentral" target="_top" href="http://g.live.com/9uxp9zh-cn/ftr2">帮助中心</a></li>
+					<li><a id="uxp_ftr_link_account" target="_top" href="http://g.live.com/9uxp9zh-cn/ftr3">帐户</a></li>
+					<li class="uxp_ftr_item_last"><a id="uxp_ftr_link_feedback" target="_top" href="http://g.live.com/9uxp9zh-cn/ftr4?productkey=WLSpaces">反馈</a></li>
+				</ul>
+			</td>
+		</tr>
+		</tbody></table>
+	</td>
+</tr>
+</tbody></table>
+<web:binding selector="button" type="Live.Controls.Button">
+                    <web:references priority="Low">
+                        <web:add src="%7Btheme.url%7Dcontrols.css" type="CSS"></web:add>
+                        <web:add src="http://shared.live.com/tSHcRs7kLyAwwD19JHfX0A/js/Live.Controls.js" type="Script"></web:add>
+                    </web:references>
+                    <web:defaults>
+                        <web:param name="baseurl" value="http://shared.live.com/tSHcRs7kLyAwwD19JHfX0A/"></web:param>
+                    </web:defaults>
+                </web:binding>
+
+ <web:binding type="Spaces.Controls.Popover.BindingInit"> <web:references priority="Low">   <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/script/spaces.controls.js" type="Script"></web:add>   <web:add src="http://js.shared.live.com/2EGC9CgiideKzgDVwrdAdQ/CoreUI.js" type="Script"></web:add> </web:references></web:binding>
+ <web:binding selector="img.HoverButton" type="Spaces.Controls.HoverButton" namespace="hb">  <web:references priority="Low">    <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/script/spaces.controls.js" type="Script"></web:add>  </web:references></web:binding>
+ <web:binding selector="div.notify" type="Spaces.Controls.NotificationBar" namespace="nb"> <web:references priority="Low">   <web:add src="http://cn2.sclive.net/13.0.1392.0724/Web/script/spaces.controls.js" type="Script"></web:add> </web:references></web:binding>
+ 
+ <web:binding type="Live.Spaces.IdentityControl.IdentityUI" selector=".identctrl" namespace="ic"><web:references priority="Medium"><web:add src="http://cn3.sclive.net/13.0.1392.0724/ContactControl/script/zh-cn/identitycontrol.js" type="script"></web:add></web:references></web:binding>
+ <web:references id="spfooter">
+ <web:add type="script" src="http://cn3.sclive.net/13.0.1392.0724/Web/script/zh-cn/spaces.footer.js"></web:add>
+ </web:references><script type="text/javascript">if(!window["$Config"]) $Config={}; $Config.TraceData={PLTRate:"1",target:"http://watson.live.com/trace.aspx?rt=633586106729983167&mkt=zh-CN&pv=PROD-13.0&pn=Live.Spaces&pd=&sc=0",skipInitPLT:"0",traceLevel:"4",disable:"",renderPLT:"0"};</script>
+    <script type="text/javascript" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/liveframeworkex.js"></script>
+    <script type="text/javascript">if(typeof($Runtime)=="undefined"){document.write('\<script type="text/javascript" src="http://js.shared.live.com/2EGC9CgiideKzgDVwrdAdQ/liveframeworkex.js"\>\</script\>')}</script>
+    <script type="text/javascript">if(typeof($Runtime)=="undefined"){try{var ti=new Image();ti.src=$Config.TraceData.target+"&ec=54";}catch(e){}}
+    $Config.baseUrl='http://js.shared.live.com/2EGC9CgiideKzgDVwrdAdQ/';
+    </script><script type="text/javascript" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/shim.js"></script><script type="text/javascript" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/fireant.js"></script>
+
+<!--EFP ver 12.2.2189 -->
+<script type="text/javascript" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/spaces_005.js">
+</script>
+</div>
+        
+    <script type="text/javascript">var s_account="msnspacescn";</script><script type="text/javascript" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/s_code.js"></script><img src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/s42274007539951.gif" name="s_i_msnspacescn" alt="" width="1" border="0" height="1"><script type="text/javascript">s.pageName="blog-blogvisitor";s.server="live.com";s.channel="Spaces";s.pageType="";s.prop1="blog";s.prop2="zh-CN";s.prop3="blogvisitor";s.prop4="";s.prop5="zhoujianguo";s.prop22='False';s.prop6='visitor';s.prop7='SinglePart';s.prop9='megan_autumnfoliage';s.campaign="";s.state="";s.zip="";s.events="";s.products="";s.purchaseID="";s.charSet="UTF-8";s.eVar1="";s.eVar2="";s.eVar3="";s.eVar4="";s.eVar5="";var s_code=s.t();if(s_code)document.write(s_code);</script><img alt="" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/c_003.gif" width="1" height="1"><img alt="" src="Hibernate%E4%B8%8B%E5%90%84%E7%A7%8DCache%E7%9A%84%E7%BC%93%E5%AD%98%E9%85%8D%E7%BD%AE%E5%92%8C%E7%89%B9%E6%80%A7_files/c_002.gif" width="1" height="1"><script type="text/javascript" language="javascript">
+ /* <![CDATA[ */
+ Web.Runtime.init();
+ 
+ var fppEventPlayer = new Spaces.Tracing.ServerEventPlayer();
+ Web.Network.onprofile.attach(fppEventPlayer.Play);
+ 
+ if (Spaces.LoadMonitor)
+ {
+ Spaces.LoadMonitor.CompleteComponent(Spaces.LoadMonitor.strPltId);
+ }
+ /* ]]> */
+ </script><!--Microsoft.Spaces.Web, Version=13.0.0.0, Culture=neutral, PublicKeyToken=null 207.46.123.40 zhoujianguo.spaces.live.com
+-->
+</body></html>

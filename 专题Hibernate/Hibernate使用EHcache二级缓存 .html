@@ -1,0 +1,803 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head id="Head">
+
+<title>
+	Hibernate使用EHcache二级缓存  - blue@cnblogs - 博客园
+</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta id="metaKeywords" name="keywords" content="Hibernate使用EHcache二级缓存"><meta name="description" content="hibernate的session提供了一级缓存，每个session，对同一个id进行两次load，不会发送两条sql给数据库，但是session关闭的时候，一级缓存就失效了。　　二级缓存是SessionFactory级别的全局缓存，它底下可以使用不同的缓存类库，比如ehcache、oscach"><link id="CommondCss" type="text/css" rel="stylesheet" href="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/common.css"><link id="MainCss" type="text/css" rel="stylesheet" href="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/style.css"><link id="CommondCss2" type="text/css" rel="stylesheet" href="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/common2.css"><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/jianxh/rss">
+    <script src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/common.js" type="text/javascript"></script>
+</head><body>
+    <form name="Form1" method="post" action="696399.html" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input name="__EVENTTARGET" id="__EVENTTARGET" value="" type="hidden">
+<input name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" type="hidden">
+<input name="__VIEWSTATE" id="__VIEWSTATE" value="" type="hidden">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/WebResource.js" type="text/javascript"></script>
+
+<script language="JavaScript">
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language="JavaScript">function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/ScriptResource_002.js" type="text/javascript"></script>
+<script src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/ScriptResource_003.js" type="text/javascript"></script>
+<script src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/ScriptResource.js" type="text/javascript"></script>
+<script src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/js.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+        
+<table class="Framework" width="100%" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td>
+			
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/jianxh/">blue@cnblogs</a></h1>
+<div id="subtitle">-------我心飞扬,因为有爱,因为有你--------</div>
+</div>
+<div id="sub">
+<div class="BlogStats">随笔 - 2, 文章 - 34, 评论 - 20, 引用 - 0</div>
+</div>
+
+
+</td>
+	</tr>
+</tbody></table>
+<table class="Framework" width="100%" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td rowspan="2" class="LeftCell">
+			<div id="leftmenu">
+
+					
+<h3>导航</h3>
+<ul>
+	<li>
+		<a id="MyLinks1_HomeLink" href="http://www.cnblogs.com/">博客园</a>
+	</li><li>
+		<a id="MyLinks1_MyHomeLink" href="http://www.cnblogs.com/jianxh/">首页</a>
+	</li><li>
+		<a id="MyLinks1_NewPostLink" href="http://www.cnblogs.com/jianxh/admin/EditPosts.aspx?opt=1">新随笔</a>
+	</li><li>
+		<a id="MyLinks1_ContactLink" accesskey="9" href="http://www.cnblogs.com/jianxh/contact.aspx?id=1">联系</a>
+	</li><li>
+		<a id="MyLinks1_XMLLink" href="http://www.cnblogs.com/jianxh/rss"><img src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/xml.gif" alt="订阅" style="border-width: 0px;"></a><a id="MyLinks1_Syndication" href="http://www.cnblogs.com/jianxh/rss">订阅</a>
+	</li><li>
+		<a id="MyLinks1_Admin" href="http://www.cnblogs.com/jianxh/admin/EditPosts.aspx">管理</a></li>
+
+</ul>
+
+					<table id="Calendar1_entryCal" class="Cal" title="Calendar" style="border-style: solid; border-width: 1px; border-collapse: collapse;" border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr><td colspan="7" style="background-color: Silver;"><table class="CalTitle" style="width: 100%; border-collapse: collapse;" border="0" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev" style="width: 15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3166')" style="color: Black;" title="Go to the previous month">&lt;</a></td><td style="width: 70%;" align="center">2008年10月</td><td class="CalNextPrev" style="width: 15%;" align="right"><a href="javascript:__doPostBack('Calendar1$entryCal','V3227')" style="color: Black;" title="Go to the next month">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" style="width: 14%;" align="center">28</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">29</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">30</td><td style="width: 14%;" align="center">1</td><td style="width: 14%;" align="center">2</td><td class="CalTodayDay" style="width: 14%;" align="center">3</td><td class="CalWeekendDay" style="width: 14%;" align="center">4</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">5</td><td style="width: 14%;" align="center">6</td><td style="width: 14%;" align="center">7</td><td style="width: 14%;" align="center">8</td><td style="width: 14%;" align="center">9</td><td style="width: 14%;" align="center">10</td><td class="CalWeekendDay" style="width: 14%;" align="center">11</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">12</td><td style="width: 14%;" align="center">13</td><td style="width: 14%;" align="center">14</td><td style="width: 14%;" align="center">15</td><td style="width: 14%;" align="center">16</td><td style="width: 14%;" align="center">17</td><td class="CalWeekendDay" style="width: 14%;" align="center">18</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">19</td><td style="width: 14%;" align="center">20</td><td style="width: 14%;" align="center">21</td><td style="width: 14%;" align="center">22</td><td style="width: 14%;" align="center">23</td><td style="width: 14%;" align="center">24</td><td class="CalWeekendDay" style="width: 14%;" align="center">25</td></tr><tr><td class="CalWeekendDay" style="width: 14%;" align="center">26</td><td style="width: 14%;" align="center">27</td><td style="width: 14%;" align="center">28</td><td style="width: 14%;" align="center">29</td><td style="width: 14%;" align="center">30</td><td style="width: 14%;" align="center">31</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">1</td></tr><tr><td class="CalOtherMonthDay" style="width: 14%;" align="center">2</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">3</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">4</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">5</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">6</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">7</td><td class="CalOtherMonthDay" style="width: 14%;" align="center">8</td></tr>
+</tbody></table>
+
+					
+					
+<div class="catListInteraction">
+<h3 class="catListTitle">与我联系</h3>
+<ul>
+ <li>
+     <a id="SingleColumn1_ctl00_lnkSendMsg" class="sendMsg" href="http://space.cnblogs.com/msg/send/blue">发短消息</a>
+ </li>
+</ul>
+</div>
+<script type="text/javascript">
+function zzk_go()
+{
+	var blogapp = 'jianxh';
+	var keystr = encodeURIComponent("blog:"+blogapp+" "+document.getElementById('q').value);
+    window.location = "http://zzk.cnblogs.com/s?w="+keystr;
+}
+function zzk_go_enter(event)
+{
+	if(event.keyCode == 13)
+	{
+	    zzk_go();
+	    return false;
+	}
+}
+</script>
+<div class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+</div>
+<ul><li>
+<div>
+<script type="text/javascript"><!--
+google_ad_client = "pub-4210569241504288";
+/* cnblogs_博客侧边栏_180x150 */
+google_ad_slot = "0808384890";
+google_ad_width = 180;
+google_ad_height = 150;
+//-->
+</script>
+<script type="text/javascript" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="180" frameborder="0" height="150"></iframe>
+</div>
+</li></ul>
+<h3>常用链接</h3>
+<ul>
+
+		<li><a id="SingleColumn1_ctl03_rptMainLinks_ctl00_lnkLinkItem" href="http://www.cnblogs.com/jianxh/MyPosts.html">我的随笔</a></li>
+	
+		<li><a id="SingleColumn1_ctl03_rptMainLinks_ctl01_lnkLinkItem" href="http://space.cnblogs.com/jianxh">我的空间</a></li>
+	
+		<li><a id="SingleColumn1_ctl03_rptMainLinks_ctl02_lnkLinkItem" href="http://space.cnblogs.com/msg/recent">我的短信</a></li>
+	
+		<li><a id="SingleColumn1_ctl03_rptMainLinks_ctl03_lnkLinkItem" href="http://www.cnblogs.com/jianxh/MyComments.html">我的评论</a></li>
+	
+<li><a id="itemListLink" onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" href="#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display: none;">
+<ul>
+		<li><a id="SingleColumn1_ctl03_repeaterLinks_ctl01_lnkLinkItem" title="我发表过评论的随笔" href="http://www.cnblogs.com/jianxh/OtherPosts.html">我的参与</a></li>
+	
+		<li><a id="SingleColumn1_ctl03_repeaterLinks_ctl02_lnkLinkItem" href="http://www.cnblogs.com/jianxh/MyNews.html">我的新闻</a></li>
+	
+		<li><a id="SingleColumn1_ctl03_repeaterLinks_ctl03_lnkLinkItem" href="http://www.cnblogs.com/jianxh/RecentComments.html">最新评论</a></li>
+	
+		<li><a id="SingleColumn1_ctl03_repeaterLinks_ctl04_lnkLinkItem" href="http://www.cnblogs.com/jianxh/tag/">我的标签</a></li>
+	</ul>
+</div>
+<h3>留言簿<span style="font-size: 11px; font-weight: normal;">(3)</span></h3>
+<ul>
+	<li><a id="SingleColumn1_ctl04_lnkMessages" href="http://www.cnblogs.com/jianxh/Contact.aspx?id=1">给我留言</a></li>
+	<!--<li><a id="SingleColumn1_ctl04_lnkPublicMsgView" href="http://www.cnblogs.com/jianxh/default.aspx?opt=msg">查看公开留言</a></li>-->
+	<li><a id="SingleColumn1_ctl04_lnkPrivateMsgView" href="http://www.cnblogs.com/jianxh/admin/MyMessages.aspx">查看留言</a></li>
+</ul>
+
+
+
+		<h3>随笔档案</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" href="http://www.cnblogs.com/jianxh/archive/2006/02.html">2006年2月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" href="http://www.cnblogs.com/jianxh/archive/2006/01.html">2006年1月 (1)</a></li>
+			
+				</ul>
+			
+	
+		<h3>文章分类</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" href="http://www.cnblogs.com/jianxh/category/12129.html">网文(8)</a><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_RssLink" title="Subscribe to 网文(8)" href="http://www.cnblogs.com/jianxh/category/12129.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" href="http://www.cnblogs.com/jianxh/category/12131.html">心情故事</a><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_RssLink" title="Subscribe to 心情故事" href="http://www.cnblogs.com/jianxh/category/12131.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" href="http://www.cnblogs.com/jianxh/category/12128.html">专业知识(25)</a><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_RssLink" title="Subscribe to 专业知识(25)" href="http://www.cnblogs.com/jianxh/category/12128.html/rss">(rss)</a></li>
+			
+				</ul>
+			
+	
+		<h3>文章档案</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_Link" href="http://www.cnblogs.com/jianxh/archives/2007/06.html">2007年6月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl02_Link" href="http://www.cnblogs.com/jianxh/archives/2007/05.html">2007年5月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl03_Link" href="http://www.cnblogs.com/jianxh/archives/2007/04.html">2007年4月 (3)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl04_Link" href="http://www.cnblogs.com/jianxh/archives/2007/03.html">2007年3月 (4)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl05_Link" href="http://www.cnblogs.com/jianxh/archives/2006/10.html">2006年10月 (2)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl06_Link" href="http://www.cnblogs.com/jianxh/archives/2006/02.html">2006年2月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl07_Link" href="http://www.cnblogs.com/jianxh/archives/2005/12.html">2005年12月 (5)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl08_Link" href="http://www.cnblogs.com/jianxh/archives/2005/11.html">2005年11月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl09_Link" href="http://www.cnblogs.com/jianxh/archives/2005/07.html">2005年7月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl10_Link" href="http://www.cnblogs.com/jianxh/archives/2005/06.html">2005年6月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl11_Link" href="http://www.cnblogs.com/jianxh/archives/2005/05.html">2005年5月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl12_Link" href="http://www.cnblogs.com/jianxh/archives/2005/04.html">2005年4月 (2)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl13_Link" href="http://www.cnblogs.com/jianxh/archives/2005/02.html">2005年2月 (1)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl14_Link" href="http://www.cnblogs.com/jianxh/archives/2005/01.html">2005年1月 (2)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl15_Link" href="http://www.cnblogs.com/jianxh/archives/2004/12.html">2004年12月 (4)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl16_Link" href="http://www.cnblogs.com/jianxh/archives/2004/11.html">2004年11月 (3)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl17_Link" href="http://www.cnblogs.com/jianxh/archives/2004/10.html">2004年10月 (1)</a></li>
+			
+				</ul>
+			
+	
+		<h3>我的链接</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl01_Link" href="http://alumni.chinaren.com/class/class_index.jsp?classuuid=2817034544998764768" target="_blank">00622@chinaren</a><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl01_RssLink" title="Subscribe to 00622@chinaren" href="http://alumni.chinaren.com/class/class_index.jsp?classuuid=2817034544998764768">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl02_Link" href="http://alumni.chinaren.com/class/class_index.jsp?classuuid=2815032345912942936" target="_blank">3(8)@chinaren</a><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl02_RssLink" title="Subscribe to 3(8)@chinaren" href="http://alumni.chinaren.com/class/class_index.jsp?classuuid=2815032345912942936">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl03_Link" href="http://alumni.chinaren.com/class/class_index.jsp?classuuid=2815032345917863249" target="_blank">高中3班@chinaren</a><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl03_RssLink" title="Subscribe to 高中3班@chinaren" href="http://alumni.chinaren.com/class/class_index.jsp?classuuid=2815032345917863249">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl04_Link" href="https://mybank.icbc.com.cn/icbc/perbank/index.jsp" target="_blank">工商银行个人银行</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl05_Link" href="http://www.95599.cn/" target="_blank">农业银行网上银行</a></li>
+			
+				</ul>
+			
+	
+
+<h3>最新评论
+	<a id="SingleColumn1__16474da_RSSHyperlink1" href="http://www.cnblogs.com/jianxh/CommentsRSS.aspx"><img src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/xml.gif" style="border-width: 0px;"></a></h3>
+<div class="RecentComment" id="RecentComments">
+	
+</div>
+
+<h3>阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	
+			<ul style="">
+		
+			<li>
+				<a id="SingleColumn1__23ddd86_TopList_ctl01_Hyperlink1" href="http://www.cnblogs.com/jianxh/archive/2006/01/13/316704.html">1.&nbsp;银行收费标准(4613)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__23ddd86_TopList_ctl02_Hyperlink1" href="http://www.cnblogs.com/jianxh/archive/2006/02/17/332648.html">2.&nbsp;笑话(62)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	
+			<ul style="">
+		
+			<li>
+				<a id="SingleColumn1__6285fc_TopList_ctl01_Hyperlink1" href="http://www.cnblogs.com/jianxh/archive/2006/01/13/316704.html">1.&nbsp;银行收费标准(14)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__6285fc_TopList_ctl02_Hyperlink1" href="http://www.cnblogs.com/jianxh/archive/2006/02/17/332648.html">2.&nbsp;笑话(0)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+</div>
+		</td>
+		<td class="MainCell">
+			<div id="main">
+				
+					<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+	<div class="post">
+		<h2>
+			<a id="AjaxHolder_ctl01_TitleUrl" href="http://www.cnblogs.com/jianxh/articles/696399.html">Hibernate使用EHcache二级缓存 </a>
+		</h2>
+		<div class="postbody">
+		<p>hibernate的session提供了一级缓存，每个session，对同一个id进行两次load，不会发送两条sql给数据库，但是session关闭的时候，一级缓存就失效了。</p>
+<p>　　二级缓存是SessionFactory级别的全局缓存，它底下可以使用不同的缓存类库，比如ehcache、oscache等，需要设置hibernate.cache.provider_class，我们用ehcache。 <br>　　缓存可以简单的看成一个Map，通过key在缓存里面找value。</p>
+<p>配置： <br>Ehcache.xml <br>＜?xml version="1.0" encoding="UTF-8"?＞ <br>＜ehcache＞ <br>　＜diskStore path="硬盘目录"/＞ <br>　　＜defaultCache <br>　　　maxElementsInMemory="10000" ＜!-- 缓存最大数目 --＞ <br>　　　eternal="false" ＜!-- 缓存是否持久 --＞ <br>　　　overflowToDisk="true" ＜!-- 是否保存到磁盘，当系统当机时--＞ <br>　　　timeToIdleSeconds="300" ＜!-- 当缓存闲置n秒后销毁 --＞ <br>　　　timeToLiveSeconds="180" ＜!-- 当缓存存活n秒后销毁--＞ <br>　　　diskPersistent="false" <br>　　　diskExpiryThreadIntervalSeconds= "120"/＞ <br>＜/ehcache＞</p>
+<p>defaultCache为默认的缓存策略，可以根据各个不同的实例单独制订缓存策略 <br>如： <br>&lt;cache name="org.hibernate.cache.UpdateTimestampsCache" <br>maxElementsInMemory="5000" <br>eternal="true" <br>overflowToDisk="true"/&gt;</p>
+<p>Hibernate配置文件中设置 <br>如果不设置“查询缓存”，那么hibernate只会缓存使用load()方法获得的单个持久化对象，
+如果想缓存使用findall()、list()、Iterator()、createCriteria()、createQuery()等方法获得的数
+据结果集的话，就需要设置 <br>hibernate.cache.use_query_cache true 才行 <br>&lt;prop key="hibernate.cache.use_query_cache"&gt;true&lt;/prop&gt;</p>
+<p>＜!-- 设置Hibernate的缓存接口类，这个类在Hibernate包中 --＞ <br>&lt;prop key="hibernate.cache.provider_class"&gt; <br>org.hibernat.cache.EhCacheProvider <br>&lt;/prop&gt;</p>
+<p>&lt;bean id="hibernateTemplate" <br>class="org.springframework.orm.hibernate3.HibernateTemplate"&gt; <br>&lt;property name="sessionFactory"&gt; <br>&lt;ref bean="sessionFactory" /&gt; <br>&lt;/property&gt; <br>&lt;property name="cacheQueries"&gt; <br>&lt;value&gt;true&lt;/value&gt; <br>&lt;/property&gt; <br>&lt;/bean&gt; <br><br>Hbm <br>&lt;cache <br>usage="transactional|read-write|nonstrict-read-write|read-only" (1) /&gt;</p>
+<p>ehcache不支持transactional，其他三种可以支持。 <br>read-only：无需修改， 那么就可以对其进行只读
+缓存，注意，在此策略下，如果直接修改数据库，即使能够看到前台显示效果，但是将对象修改至cache中会报error，cache不会发生作用。另：删
+除记录会报错，因为不能在read-only模式的对象从cache中删除。 <br>read-write：需要更新数据，那么使用读/写缓存 比较合适，前提：数据库不可以为serializable transaction isolation level（序列化事务隔离级别） <br>nonstrict-read-write：只偶尔需要更新数据（也就是说，两个事务同时更新同一记录的情况很不常见），也不需要十分严格的事务隔离，那么比较适合使用非严格读/写缓存策略。</p>
+<p>调试信息查看 <br>调试时候使用log4j的log4j.logger.org.hibernate.cache=debug，更方便看到ehcache的操作过程，主要用于调试过程,实际应用发布时候，请注释掉，以免影响性能。 <br>在log4j.properties里加上这句log4j.logger.org.hibernate.cache=debug <br>Log信息如： <br>2007-03-01 17:58:23,718 http-8080-Processor23 DEBUG NonstrictReadWriteCache:71 - Caching: com.maf.family.entity.Family#62</p>
+<p>Criteria查询 <br>Session s=HibernateSessionFactory.getSession(); <br>Criteria c=s.createCriteria(Resources.class); <br>c.setCacheable(true); //添加</p>
+<p>SessionFactory也提供了移除缓存的方法 <br>void evict(Class persistentClass) <br>Evict all entries from the second-level cache. <br>void evict(Class persistentClass, Serializable id) <br>Evict an entry from the second-level cache. <br>void evictCollection(String roleName) <br>Evict all entries from the second-level cache. <br>void evictCollection(String roleName, Serializable id) <br>Evict an entry from the second-level cache. <br>void evictQueries() <br>Evict any query result sets cached in the default query cache region. <br>void evictQueries(String cacheRegion) <br>Evict any query result sets cached in the named query cache region.</p>
+<p>但这样做很难维护</p>
+
+		</div>
+		<p class="postfoot">
+			posted on 2007-04-02 00:11 <a href="http://www.cnblogs.com/jianxh/">blue</a> 阅读(403) <a href="#Post">评论(0)</a> &nbsp;<a href="http://www.cnblogs.com/jianxh/admin/EditArticles.aspx?postid=696399">编辑</a> <a href="#" onclick="PutInWz();return false;">收藏</a>  所属分类: <a href="http://www.cnblogs.com/jianxh/category/12128.html">专业知识</a> 
+		</p>
+	</div>
+	<img src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/696399.jpeg" width="1" height="1">
+	
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.cnblogs.com/jianxh/articles/696399.html"
+dc:identifier="http://www.cnblogs.com/jianxh/articles/696399.html"
+dc:title="Hibernate使用EHcache二级缓存 "
+trackback:ping="http://www.cnblogs.com/jianxh/services/trackbacks/696399.aspx" />
+</rdf:RDF>
+-->
+
+	
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+ 
+a.blue:visited,
+a.blue:active,
+a.blue:link,
+a.blue:hover
+{
+	color:blue;
+	
+}
+</style>
+<!--Beging Temp Save-->
+<style>.userData { BEHAVIOR: url(#default#userdata) }
+	</style>
+<div class="userData" id="CommentsPersistDiv"></div>
+
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    /*if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else */
+    if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+<div id="divRefreshComments" style="text-align: right; margin-right: 10px; margin-bottom: 5px; font-size: 12px;"><a href="http://www.cnblogs.com/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</a>&nbsp;&nbsp;</div>
+<div class="commentform">
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color: Red;"></span>
+<br>
+<a name="Feedback"></a>
+	<table style="width: 600px;" border="0" cellpadding="1" cellspacing="1">
+		<tbody><tr>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td width="55">标题</td>
+			<td colspan="2"><input name="AjaxHolder$PostComment$tbTitle" value="re: Hibernate使用EHcache二级缓存 " id="AjaxHolder_PostComment_tbTitle" class="commenttb" type="text"><span id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color: Red; visibility: hidden;">请输入标题</span></td>
+		</tr>
+		<tr>
+			<td>姓名</td>
+			<td colspan="2"><input name="AjaxHolder$PostComment$tbName" id="AjaxHolder_PostComment_tbName" class="commenttb" type="text"><span id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color: Red; visibility: hidden;">请输入你的姓名</span></td>
+		</tr>
+		<tr>
+			<td>主页</td>
+			<td><input name="AjaxHolder$PostComment$tbUrl" id="AjaxHolder_PostComment_tbUrl" class="commenttb" type="text"></td>
+			<td></td>
+		</tr>
+		<tr id="AjaxHolder_PostComment_trEmail">
+		<td>Email</td>
+		<td colspan="2"><input name="AjaxHolder$PostComment$tbEmail" id="AjaxHolder_PostComment_tbEmail" class="commenttb" type="text">(博主才能看到)<span id="AjaxHolder_PostComment_revContactMail" style="color: Red; visibility: hidden;">邮件地址无效</span></td>
+	</tr>
+	
+		<tr>
+			<td colspan="3" align="left">
+				<table id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" border="0" cellpadding="0" cellspacing="0">
+		<tbody><tr>
+			<td colspan="3">
+							<span id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color: Red; display: none;">请输入验证码</span>
+							<span id="AjaxHolder_PostComment_lblImage" style="color: Red; font-weight: bold;"></span>
+						</td>
+		</tr>
+		<tr>
+			<td width="78">验证码</td>
+			<td><input name="AjaxHolder$PostComment$CodeNumberTextBox" id="AjaxHolder_PostComment_CodeNumberTextBox" type="text">*&nbsp;&nbsp;<img src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/JpegImage.jpeg"><a id="AjaxHolder_PostComment_lkbChangeCode" href="javascript:__doPostBack('AjaxHolder$PostComment$lkbChangeCode','')">看不清,换一张</a> [<a href="http://www.cnblogs.com/login.aspx">登录</a>][<a href="http://www.cnblogs.com/RequireRegister.aspx">注册</a>]</td>
+			<td align="left"></td>
+		</tr>
+	</tbody></table>
+	
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="text-align: left;">
+			<div style="width: 600px;">
+			    <div class="divPostCommentBox">
+			    内容(请不要发表任何与政治相关的内容)	    
+				    <span id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color: Red; visibility: hidden;">请输入评论内容</span><br>
+				    <textarea name="AjaxHolder$PostComment$tbComment" rows="2" cols="20" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')"></textarea>
+			    </div>
+				<div class="CommentBoxNav">
+				<a href="http://www.cnblogs.com/" target="_blank" tabindex="-1">网站首页</a><br><br>
+				<a href="http://news.cnblogs.com/" target="_blank" tabindex="-1">新闻频道</a><br><br>
+				<a href="http://space.cnblogs.com/" target="_blank" tabindex="-1">社区</a><br><br>
+				<a href="http://space.cnblogs.com/group.htm" target="_blank" tabindex="-1">小组</a><br><br>
+				<a href="http://space.cnblogs.com/q" target="_blank" tabindex="-1">博问</a><br><br>
+				<a href="http://wz.cnblogs.com/" target="_blank" tabindex="-1">网摘</a><br><br>
+				<a href="http://space.cnblogs.com/ing" target="_blank" tabindex="-1">闪存</a><br><br>
+				<a href="http://zzk.cnblogs.com/" target="_blank" tabindex="-1">找找看</a><br><br>
+				</div>
+			</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+		<span id="AjaxHolder_PostComment_Message" style="color: Red;"></span>
+		</td>
+		</tr><tr>
+			<td colspan="3"><input id="AjaxHolder_PostComment_chkRemember" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1" type="checkbox"><label for="AjaxHolder_PostComment_chkRemember">Remember Me?</label></td>
+		</tr>
+		<tr>
+			<td height="23"><input name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" class="commentButton" type="submit">
+				</td>
+			<td colspan="2" height="23">&nbsp;
+				<a id="AjaxHolder_PostComment_lnkLogin" href="http://www.cnblogs.com/login.aspx?ReturnURL=http://www.cnblogs.com/jianxh/articles/696399.html&amp;SourceURL=/jianxh/articles/696399.html">登录</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_linkLoginComment" onclick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" href="http://www.cnblogs.com/jianxh/articles/696399.html?login=1#Post">使用高级评论</a>&nbsp;&nbsp;<a href="http://www.cnblogs.com/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a href="#Top">返回页首</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_lbRestore" onclick="Restore('AjaxHolder_PostComment_tbComment'); return false;" href="http://www.cnblogs.com/jianxh/articles/696399.html#Post">恢复上次提交</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+		</tr>
+		<tr>
+			<td colspan="3"><label class="CtrlEnter">[使用Ctrl+Enter键可以直接提交]</label></td>
+		</tr>
+		<tr>
+			<td colspan="3"></td>
+		</tr>
+		<tr>
+			<td colspan="3"></td>
+		</tr>
+		<tr>
+			<td colspan="3"></td>
+		</tr>
+		<tr>
+			<td colspan="3"><br><div id="relative_posts"><b>相关文章:</b><br><a href="http://kb.cnblogs.com/page/42200/">前进路上，我们都曾经迷失</a><br><a href="http://www.cnblogs.com/thcjp/articles/489491.html">使用Visual Studio2005入门.Net2.0系列视频教程</a><br><a href="http://www.cnblogs.com/bjzhanghao/articles/28072.html">[Hibernate]使用XDoclet生成hbm.xml</a><br><a href="http://space.cnblogs.com/group/topic/2455/">李嘉诚的自我管理(强烈推荐)</a><br><a href="http://space.cnblogs.com/group/topic/3404/">图书简介</a><br></div></td>
+		</tr>	
+		<tr>
+			<td colspan="3"><div id="div_a4_ads"><br><b>相关链接:</b><script type="text/javascript">
+	var title = document.title;
+	document.write("<div id=\"a4_ads_output\">");
+	document.write("<script type='text/javascript' src='http://a4.yeshj.com/adwords/EN017?num=7&title="+ encodeURIComponent(title) +"&tag="+ encodeURIComponent(GetMeta("keywords")) +"'></scri"+"pt>");
+	document.write("</div>");
+	</script><div id="a4_ads_output"><script type="text/javascript" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/EN017.htm"></script><a href="http://a4.yeshj.com/rd?aid=16571&amp;zid=0&amp;url=http%3a%2f%2fwww.cnblogs.com%2fheroman%2farticles%2f331581.html" target="_blank">Nhibernate学习之路</a><br><a href="http://a4.yeshj.com/rd?aid=16924&amp;zid=0&amp;url=http%3a%2f%2fwww.cnblogs.com%2frenrenqq%2farticles%2f283757.html" target="_blank">NHibernate翻译文档提供下载（chm和html格式）</a><br><a href="http://a4.yeshj.com/rd?aid=16925&amp;zid=0&amp;url=http%3a%2f%2fwww.cnblogs.com%2fabluedog%2fcategory%2f54900.html" target="_blank">NHibernate Step by Step系列</a><br><a href="http://a4.yeshj.com/rd?aid=15050&amp;zid=0&amp;url=http%3a%2f%2fwww.hjbook.net%2fproduct%2f2289%2f" target="_blank">cnblogs T恤正式发布，盛夏热销中</a><br><a href="http://a4.yeshj.com/rd?aid=15219&amp;zid=0&amp;url=http%3a%2f%2fwww.hjbook.net%2fproduct%2f2289" target="_blank">08年博客园纪念T恤珍藏版</a><br><a href="http://a4.yeshj.com/rd?aid=17053&amp;zid=0&amp;url=http%3a%2f%2fspace.cnblogs.com%2fvote.aspx%3fid%3d1" target="_blank">欢迎参加博客园用户调查</a><br><a href="http://a4.yeshj.com/rd?aid=17077&amp;zid=0&amp;url=http%3a%2f%2fwww.cnblogs.com%2fwayfarer%2farchive%2f2006%2f11%2f01%2f547060.html" target="_blank">PetShop之ASP.NET缓存</a><br></div></div></td>
+		</tr>	
+		<tr>
+			<td colspan="3"></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+<div id="AjaxHolder_PostComment_RelativePosts1_divRelativePosts" style="margin-top: 2px;">
+<br><b>所属分类的其他文章:</b><br>
+
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/780214.html">谈谈几种触发器</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/733357.html">web程序的初始化问题——ServletContextListener</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside; display: none;">
+			<a href="http://www.cnblogs.com/jianxh/articles/696399.html">Hibernate使用EHcache二级缓存 </a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/695599.html">各种排序算法java实现</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/693799.html">struts表单校验</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/691695.html">数据库分页</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/690633.html">hibernate二级缓存攻略(转载)</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/690620.html">Hibernate的缓存机制介绍</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/522408.html">ORACLE的锁机制</a><br>
+		</span>
+	
+		<span style="list-style-type: none; list-style-image: none; list-style-position: outside;">
+			<a href="http://www.cnblogs.com/jianxh/articles/522405.html">何时使用StdErr</a><br>
+		</span>
+	
+</div>
+<div class="itnews">
+<br><b>最新IT新闻:</b><br>
+
+            <a href="http://news.cnblogs.com/n/42774/" target="_blank">Friendster正式兼容Facebook开放平台插件</a><br>
+	
+            <a href="http://news.cnblogs.com/n/42773/" target="_blank">2008年10月3日科技博客精选</a><br>
+	
+            <a href="http://news.cnblogs.com/n/42772/" target="_blank">诺基亚首款触摸屏手机亮相</a><br>
+	
+            <a href="http://news.cnblogs.com/n/42771/" target="_blank">微软在欧开三个搜索技术中心 将招数百工程师</a><br>
+	
+            <a href="http://news.cnblogs.com/n/42770/" target="_blank">诺基亚CEO向苹果致敬 称谷歌仍是“新手”</a><br>
+	
+</div></td>
+		</tr>		
+		<tr>
+			<td colspan="3" height="5">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+<script type="text/javascript"><!--
+google_ad_client = "pub-4210569241504288";
+google_ad_slot = "1397853083";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="468" frameborder="0" height="60"></iframe>
+<br>
+<br></td>
+		</tr>
+		<tr>
+		<td colspan="3"></td>
+		</tr>
+	</tbody></table>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color: Red; display: none;">
+
+	</div>
+
+</div>
+<script language="javascript">
+
+function GetQuote(id)
+{
+    //www.cnblogs.com.ICommentService.GetCommentText(id,SetQuote);
+    BlogServer.WebService.AjaxWS.GetComment(id,SetQuote);
+}
+
+ function SetQuote(result)
+{
+    document.getElementById('AjaxHolder_PostComment_tbComment').value+= ("--引用--------------------------------------------------\n"+result+"\n--------------------------------------------------------\n");
+    document.getElementById('AjaxHolder_PostComment_tbComment').focus(); 
+}
+
+function Favorite(entryID,title,url,element)
+{
+    document.getElementById(element.id).innerHTML = "<span style='color:red'>正在收藏...</span>";
+    BlogServer.WebService.AjaxWS.AddToFavorites(entryID,title,url,OnFavoriteSuccess);
+    document.getElementById(element.id).removeAttribute("href");
+    document.getElementById(element.id).removeAttribute("onclick");
+}
+
+function OnFavoriteSuccess(result)
+{
+    if(result == "请先登录")
+    {
+        window.location.href = "../../../../../login.aspx?ReturnUrl=" + window.location.href;
+    }
+    else
+    {
+        var returnstr = result.split(",");
+        var id = "lnkFavorite"+returnstr[0];
+        document.getElementById(id).innerHTML = "<span style='color:red'>" + returnstr[1] + "</span>";
+    }
+}
+
+function DelComment(id,element)
+{
+    if(confirm("确认要删除该评论吗?"))
+    {
+        document.getElementById(element.id).innerHTML = "<span style='color:red'>正在删除...</span>";
+        BlogServer.WebService.AjaxWS.DelComment(id,del_comment_callback);
+    }
+    return false;
+}
+
+function del_comment_callback(response)
+{
+    __doPostBack('AjaxHolder$PostComment$refreshList','');
+}
+</script>
+
+				
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="FooterCell">
+			
+<p id="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="http://www.cnblogs.com/" style="font-family: Verdana; font-size: 12px;">博客园</a>
+	<br>
+	Copyright © blue
+</p>
+		</td>
+	</tr>
+</tbody></table>
+<div id="lefttemp" style="display: none;"></div>
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_revContactMail"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_revContactMail = document.all ? document.all["AjaxHolder_PostComment_revContactMail"] : document.getElementById("AjaxHolder_PostComment_revContactMail");
+AjaxHolder_PostComment_revContactMail.controltovalidate = "AjaxHolder_PostComment_tbEmail";
+AjaxHolder_PostComment_revContactMail.errormessage = "邮件地址无效";
+AjaxHolder_PostComment_revContactMail.evaluationfunction = "RegularExpressionValidatorEvaluateIsValid";
+AjaxHolder_PostComment_revContactMail.validationexpression = "^([0-9a-zA-Z+-._]([+-._\\w]*[0-9a-zA-Z+-._])*@([0-9a-zA-Z][-\\w]*\\.)+[a-zA-Z]{2,9})$";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+<!--
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+// -->
+</script>
+        
+<script type="text/javascript">
+//<![CDATA[
+
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_revContactMail').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_revContactMail'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/ShowHidden.js"></script>
+	<span style="display: none;"><script language="javascript" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/click.htm"></script><a href="http://count.51yes.com/index.aspx?id=47631097" target="_blank"><img src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/count1.gif" alt="51YES网站统计系统" vspace="0" width="20" border="0" height="20" hspace="0"></a><iframe marginwidth="0" marginheight="0" hspace="0" vspace="0" src="Hibernate%E4%BD%BF%E7%94%A8EHcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%20_files/sa.htm" scrolling="no" width="0" frameborder="0" height="0"></iframe></span> 
+</body></html>

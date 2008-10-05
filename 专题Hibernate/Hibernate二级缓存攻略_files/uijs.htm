@@ -1,0 +1,172 @@
+<html><head><!-- 0|1;1;4; -->
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312">
+<title>百度联盟会员管理系统</title>
+
+<style>
+body{padding:0;margin:0}
+body,div{word-break:break-all;word-wrap:break-word;}
+td{vertical-align:top;padding-left:2px}
+#main{width:300px;height:250px}
+#box{font-family:Arial;font-size:12px;width:100%;heigth:100%}
+.tit{color:#000000;font-size:12px;line-height:18px;width:100%;}
+.tit:hover{text-decoration:none;}
+.cnt,.cnt a{color:#494949;text-decoration:none;width:100%;line-height:16px;}
+.url,.url a{font-size:10px;text-decoration:none;width:100%;line-height:11px;}
+.urldiv{margin-top:3px;}
+.room{padding:2px 0 2px 2px;}
+.room div{margin:0 5px 0 5px;}
+.cprogongyi{height:16px;display:none}
+.cpronormal{height:14px;}
+.cpro{height:16px;line-height:16px;margin-top:auto;vertical-align:bottom;float:right;}
+.cprologo{float:right;width:79px;height:12px;line-height:12px;display:block;text-decoration:none;cursor:pointer;text-align:right;margin:1px 5px 0 0;word-spacing:80px;}
+
+.main0 .titdiv,.main1 .titdiv{margin-bottom:5px}
+.main0 .tit,.main1 .tit{font-size:24px;line-height:24px;font-weight:normal;text-decoration:none;}
+.main0 .cnt,.main1 .cnt{line-height:18px;}
+
+
+.main2 .room div{margin-bottom:2px}
+.main3 .room div{margin-bottom:2px}
+.main4 .room div{margin-bottom:2px}
+
+.main0 .cprogongyi{display:block;line-height:16px}
+.main0 .cprogongyi td{text-align:right}
+.main0 .cprogongyi .cpro{float:right;}
+.main0 .cprogongyi .cprologo{width:85px;margin-top:3px}
+.main0 .cpronormal{display:none}
+
+.main0 .urldiv{margin-bottom:5px}
+.main0 #room1,.main0 #room2,.main0 #room3,.main0 #room4{display:none}
+.main1 #room1,.main1 #room2,.main1 #room3,.main1 #room4{display:none}
+.main2 #room2,.main2 #room3,.main2 #room4{display:none}
+.main3 #room3,.main3 #room4{display:none}
+.main4 #room4{display:none}
+
+.main0 .room,.main1 .room{padding-top:65px;}
+.main2 .room{padding-top:15px;}
+</style>
+
+
+<script>
+var
+path="http://cpro.baidu.com/img/",
+_ct='#000000',
+_cd='#1A1A1A',
+_cu='#008000',
+_cb='#798DBF',
+_bg='#FFFFFF',
+_cl='#FFFFFF',
+adType = '1';
+var _bold=1;try{if(1!=null)_bold=1;}catch(ex){}
+function dynamicLogo(isGY){
+var w=path+"cpro_wh.png";
+var b=path+"cpro_bk.png";
+if(isGY){
+	w=path+"cpro_gy_wh.png";
+	b=path+"cpro_gy_bk.png";
+}
+if(adType == 4096){
+	w=path+"cpro_cpa_wh.png";
+	b=path+"cpro_cpa_bk.png";
+}
+if(_bg=="#trans" || _bg == "#") return b;
+var str=new Array();
+str.push(_bg.charAt(1));
+str.push(_bg.charAt(3));
+str=str.toString();
+if(str.match(/[d-f]/ig)) return b;
+return w;
+}
+
+function ss(w){
+w=w.replace(/http:\/\//ig,"");
+var wi = w.indexOf("/"); 
+if(wi != -1)  w=w.substring(0,wi);
+if(w != "") w = "链接至 " + w;
+window.top.status=w;
+return true;
+}
+function colorMatch(color){
+	if(color.toLowerCase() == _bg.toLowerCase()){
+		var str=new Array();
+		str.push(color.charAt(1));
+		str.push(color.charAt(3));
+		str=str.toString();
+		if(str.match(/[d-f]/ig))return "#000000";
+		return "#FFFFFF";
+	}else 
+		return color;
+}
+_ct = colorMatch(_ct);
+_cu = colorMatch(_cu);
+_cd = colorMatch(_cd);
+var cs='<style type="text/css">#main .tit{color:'+_ct+';}';
+if(_bold>0)cs+='a.tit{font-weight:bold;}';
+cs+='.cnt,.cnt a{color:'+_cd+';}.url,.url a{color:'+_cu+';}#cpro{color:'+_cl+';}#cpro a{color:'+_cl+';}';
+if(_cb.toLowerCase() != "#trans") {
+cs+='#box{border-top:1px solid '+_cb+';border-bottom:1px solid '+_cb+';}';
+}
+if(_bg.toLowerCase() != "#trans") {
+cs+='#main{background:'+_bg+'; }';
+}
+cs+='.cpronormal .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="'+dynamicLogo()+'");background:url('+dynamicLogo()+') no-repeat left top;_background:none;}';
+cs+='.cprogongyi .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="'+dynamicLogo(true)+'");background:url('+dynamicLogo(true)+') no-repeat left top;_background:none;}';
+cs+='</style>';
+document.write(cs); 
+function gongyi(){
+	return false;
+}
+function stateBarUrl(){
+	var url = document.body.getElementsByTagName("td");
+	for (var i = 0;i<url.length;i++){
+		if(url[i].getAttribute("url")){
+			url[i].onmouseover=function (){return ss(this.getAttribute("url"));}
+		}
+		url[i].onmouseout=function() {return ss('');}
+	}
+}
+if(adType == 3 || adType == 1024){
+	gongyi = function(){document.getElementById("main").className="main0";}
+}
+window.onload = function (){
+	stateBarUrl();
+	gongyi();
+	
+} 
+</script><style type="text/css">#main .tit{color:#000000;}a.tit{font-weight:bold;}.cnt,.cnt a{color:#1A1A1A;}.url,.url a{color:#008000;}#cpro{color:#FFFFFF;}#cpro a{color:#FFFFFF;}#box{border-top:1px solid #798DBF;border-bottom:1px solid #798DBF;}#main{background:#FFFFFF; }.cpronormal .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="http://cpro.baidu.com/img/cpro_bk.png");background:url(http://cpro.baidu.com/img/cpro_bk.png) no-repeat left top;_background:none;}.cprogongyi .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="http://cpro.baidu.com/img/cpro_gy_bk.png");background:url(http://cpro.baidu.com/img/cpro_gy_bk.png) no-repeat left top;_background:none;}</style>
+
+</head><body style="background-color: transparent;">
+<div class="main3" id="main">
+    <table id="box" border="0" cellpadding="0" cellspacing="0" height="100%">
+                <tbody><tr class="cprogongyi" id="cprogongyi" valign="top">
+                    <td colspan="3">
+                         		<a class="cprologo" href="http://cpro.baidu.com/" target="_blank">&nbsp;</a>
+                    </td>
+                </tr>
+                 <tr>
+     <td id="room0" class="room" url="www.jh0101.com">
+     	<div class="titdiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00jb_GmmH_ipO9nlEVz47Ef8dEX9tEjTZFRO6_wrYBAZugTImgBlKttuaaBHWD87QeYjj3BEbkssxqB0qoMBb1QYlIRC6Ii5dl_.DD_jQNuguy9mhPamSLwb__tXgfh5VYT_rrm" class="tit" id="tit0">金和OA,一流的协同管理软件</a></div>
+	 	<div class="cntdiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00jb_GmmH_ipO9nlEVz47Ef8dEX9tEjTZFRO6_wrYBAZugTImgBlKttuaaBHWD87QeYjj3BEbkssxqB0qoMBb1QYlIRC6Ii5dl_.DD_jQNuguy9mhPamSLwb__tXgfh5VYT_rrm" class="cnt" id="cnt0">金和软件,专业为集团企业提供协同管理平台C6,协同软件第一品牌.现又与IBM,微软合作将高端产品</a></div>
+	 	<div class="urldiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00jb_GmmH_ipO9nlEVz47Ef8dEX9tEjTZFRO6_wrYBAZugTImgBlKttuaaBHWD87QeYjj3BEbkssxqB0qoMBb1QYlIRC6Ii5dl_.DD_jQNuguy9mhPamSLwb__tXgfh5VYT_rrm" class="url" id="url0">www.jh0101.com</a></div>
+	 </td>
+</tr><tr>
+     <td id="room1" class="room" url="cn.top20.travelzoo.com">
+     	<div class="titdiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00KsWrY-x0UwNfB6_Rl0zhGOW9zIlvkNUtFfwzuh4L45cq8W9mOtoSE0ndK71QxAsrNZKMffEixjLwLvc9HEheNroLpU9KJgpnT.DD_ifkXNKv5Fu4RFhxCHw3grwKS5MOD6ek8sHfGmE894mdBmYFWeIAiz1k4IamSLwzs346" class="tit" id="tit1">想了解春季出游信息吗?</a></div>
+	 	<div class="cntdiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00KsWrY-x0UwNfB6_Rl0zhGOW9zIlvkNUtFfwzuh4L45cq8W9mOtoSE0ndK71QxAsrNZKMffEixjLwLvc9HEheNroLpU9KJgpnT.DD_ifkXNKv5Fu4RFhxCHw3grwKS5MOD6ek8sHfGmE894mdBmYFWeIAiz1k4IamSLwzs346" class="cnt" id="cnt1">上Travelzoo旅游咨讯网,看专家人工挑选,推荐当季最超值旅游线路. </a></div>
+	 	<div class="urldiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00KsWrY-x0UwNfB6_Rl0zhGOW9zIlvkNUtFfwzuh4L45cq8W9mOtoSE0ndK71QxAsrNZKMffEixjLwLvc9HEheNroLpU9KJgpnT.DD_ifkXNKv5Fu4RFhxCHw3grwKS5MOD6ek8sHfGmE894mdBmYFWeIAiz1k4IamSLwzs346" class="url" id="url1">cn.top20.travelzoo.com</a></div>
+	 </td>
+</tr><tr>
+     <td id="room2" class="room" url="www.shhwgg.com">
+     	<div class="titdiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00a23PbY0CWmmBpVBESija7vfDJl9OONF14WBOAmNuS2I1Mrk_1hW2ANUMYxddCW1Hiwic8YAJd32tHMaOAf2SMPCOI4eht0GMm.7b_arJo6dpbfpoLreuNBmYFWeIAiz1k4IamSLwzs346" class="tit" id="tit2">招牌制作-上海赛伊加广告</a></div>
+	 	<div class="cntdiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00a23PbY0CWmmBpVBESija7vfDJl9OONF14WBOAmNuS2I1Mrk_1hW2ANUMYxddCW1Hiwic8YAJd32tHMaOAf2SMPCOI4eht0GMm.7b_arJo6dpbfpoLreuNBmYFWeIAiz1k4IamSLwzs346" class="cnt" id="cnt2">专业LED发光字,高档金属字,楼顶广告大字等广告招牌制作安装.价格优惠,工艺精良. </a></div>
+	 	<div class="urldiv"><a target="_blank" href="http://www.baidu.com/cpro.php?mD_K00a23PbY0CWmmBpVBESija7vfDJl9OONF14WBOAmNuS2I1Mrk_1hW2ANUMYxddCW1Hiwic8YAJd32tHMaOAf2SMPCOI4eht0GMm.7b_arJo6dpbfpoLreuNBmYFWeIAiz1k4IamSLwzs346" class="url" id="url2">www.shhwgg.com</a></div>
+	 </td>
+</tr>
+                <tr class="cpronormal" id="cpronormal">
+                        <td colspan="3">
+                         		<a class="cprologo" href="http://cpro.baidu.com/" target="_blank">&nbsp;</a>
+                    </td>
+                </tr>
+</tbody></table>
+    </div>
+</body></html>

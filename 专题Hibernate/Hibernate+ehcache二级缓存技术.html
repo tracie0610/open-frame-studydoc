@@ -1,0 +1,383 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Hibernate+ehcache二级缓存技术 : Java文档-新技术新闻-互联网最新动态</title>
+<meta name="Robots" content="all">
+<meta name="author" content="yntsky@gmail.com">
+<meta name="Copyright" content="www.ntsky.com">
+<meta name="description" content="Hibernate+ehcache二级缓存技术,Java新手学习Java好地方,本站提供优质文章">
+<meta name="MSSmartTagsPreventParsing" content="true">
+<meta name="keywords" content="Hibernate+ehcache二级缓存技术,J2EE免费文档,web标准化,互联网最新动态,网赚,java原创文章">
+<link rev="made" href="mailto:yntsky@gmail.com">
+<link rel="Shortcut Icon" type="image/x-icon" href="http://www.ntsky.com/favicon.ico">
+<link rel="stylesheet" href="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/content.css" type="text/css" media="all">
+<script type="text/javascript" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/prototype.js"></script>
+<script type="text/javascript" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/validator.js"></script>
+<script type="text/javascript" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/fckeditor.js"></script>
+<script type="text/javascript" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/global.js"></script>
+<script type="text/javascript">
+	window.onload = function(){
+		replaceMyTextarea("text","Basic","","200") ;
+	}
+	
+	// 创建评论
+	function doCreateComment(){
+		// 检查回复信息
+		if(!Validator.validate($("commentForm"),'content')){
+			return false;
+		}
+		var oEditor = FCKeditorAPI.GetInstance('text') ;
+		$("text").value = oEditor.GetXHTML( true );
+		// 添加评论
+		var pars = Form.serialize($("commentForm"));
+		//alert("pars" + pars);
+		new Ajax.Updater('c_list', "/createContentComment.action" , { method:'post', parameters: pars, onComplete:completeCreateComment, evalScripts:true } );
+		return false;
+	}
+	
+	function completeCreateComment(originalRequest){
+		alert("回复成功");
+		$("c_list").innerHTML = originalRequest.responseText;
+		
+		// reset form
+		$("commentForm").reset();
+		var oEditor = FCKeditorAPI.GetInstance('text') ;
+		oEditor.SetHTML("");
+	}
+	
+	// change font size.
+	function doZoom(size){
+		$("c_text").style.fontSize=size+'px';
+	}
+</script>
+</head><body>
+<div id="wrapper">
+  <!-- navigation begin -->
+  <div id="navigation" class="b">
+    <ul>
+      <li><a href="http://www.ntsky.com/index.html" title="首页">首页</a></li>
+      <li><a href="http://www.ntsky.com/tech/index.html" title="技术文档">技术文档</a></li>
+      <li><a href="http://www.ntsky.com/special-index.action" title="技术专题">技术专题</a></li>
+      <li><a href="http://www.ntsky.com/download/index.html" title="免费文档下载">免费下载</a></li>
+      <li><a href="http://bbs.ntsky.com/" title="技术论坛" style="color: red;">技术论坛</a></li>
+      <li><a href="http://www.ntsky.com/search-content.action" title="站内搜索">搜索</a></li>
+      <li><a href="http://www.ntsky.com/photo/index.html" title="开源相册">开源相册</a></li>
+      <li><a href="http://www.ntsky.com/docs/index.html" title="在线技术手册" rel="target">在线技术手册</a></li>
+      <li><a href="http://cs.ntsky.com/" title="博客" rel="target" style="color: red;">博客</a></li>
+	  <li><a href="http://www.ntsky.com/word/index.html" title="开源系统介绍&lt;" rel="target" style="color: blue;">开源系统介绍</a></li>
+      <li><a href="http://www.ntsky.com/createContent-page.action" title="发表您的技术文章" rel="target" style="color: blue;">发表文章</a></li>
+    </ul>
+  </div>
+  <!-- end #navigation -->  <!-- header begin -->
+  <div id="header">
+    <!-- logo -->
+    <div id="logo"><img src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/logo.gif" alt="新技术天空"></div>
+    <!-- /logo -->
+    <!-- banner -->
+    <div id="banner">
+        <div style="height: 60px; width: 600px;">
+		  <div style="margin: 7px 0px 6px;">
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-4719823006842312";
+			/* 468x15, 创建于 08-5-2 ntsky top */
+			google_ad_slot = "2286010993";
+			google_ad_width = 468;
+			google_ad_height = 15;
+			//-->
+			</script>
+			<script type="text/javascript" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/show_ads.js">
+			</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="468" frameborder="0" height="15"></iframe>
+		  </div>
+          <form id="searchForm" method="post" action="/search-content.action" target="_blank">
+				<span style="padding-left: 20px; font-size: 14.8px;" class="b">站内搜索 : </span>
+				<input name="keyword" value="" style="width: 380px; font-size: 16px;" class="t" type="text">
+				<input name="start" value="0" id="start" type="hidden">
+				<input name="search" value="搜 索" style="font-size: 14px; height: 20px;" class="b" type="submit">
+		  </form>
+        </div>
+    </div>
+    <!-- /banner -->
+  </div>
+  <!-- end #header -->  <div id="top_cat">
+	<div style="padding: 4px;">
+	<span><a href="http://www.ntsky.com/tech/java/j2se/index.html" title="J2SE" target="_blank">J2SE</a></span>  
+	<span><a href="http://www.ntsky.com/tech/java/j2se/basicjava/index.html" title="Java基础" target="_blank">Java基础</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/j2ee/index.html" title="J2EE" target="_blank">J2EE</a></span>  
+	<span><a href="http://www.ntsky.com/tech/java/designpattern/index.html" title="设计模式" target="_blank">设计模式</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/opensource/struts/index.html" title="struts" target="_blank">struts</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/opensource/hibernate/index.html" title="hibernate" target="_blank">hibernate</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/opensource/spring/index.html" title="spring" target="_blank">spring</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/opensource/template/index.html" title="freemarker" target="_blank">freemarker</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/opensource/ibatis/index.html" title="ibatis" target="_blank">ibatis</a></span> 
+	<span><a href="http://www.ntsky.com/tech/web/xml/index.html" title="xml xslt" target="_blank">xml xslt</a></span> 
+	<span><a href="http://www.ntsky.com/tech/web/javascript/index.html" title="Javascript" target="_blank">Javascript</a></span> 
+	<span><a href="http://www.ntsky.com/tech/database/mysql/index.html" title="mysql" target="_blank">mysql</a></span> 
+	<span><a href="http://www.ntsky.com/tech/linux/index.html" title="Linux" target="_blank">Linux</a></span> 
+	<span><a href="http://www.ntsky.com/tech/project/design/index.html" title="系统架构" target="_blank">系统架构</a></span> 
+	</div>
+	<div style="padding: 4px;">
+	<span><a href="http://www.ntsky.com/tech/java/j2se/advancedjava/index.html" title="Java高级" target="_blank">Java高级</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/opensource/webwork/index.html" title="webwork" target="_blank">webwork</a></span> 
+	<span><a href="http://www.ntsky.com/tech/java/webservice/index.html" title="webservice" target="_blank">webservice</a></span> 
+	<span><a href="http://www.ntsky.com/tech/web/index.html" title="网页制作" target="_blank">网页制作</a></span> 
+	<span><a href="http://www.ntsky.com/tech/database/oracle/index.html" title="oracle" target="_blank">oracle</a></span> 
+	<span><a href="http://www.ntsky.com/tech/database/sqlserver/index.html" title="sql server" target="_blank">sql server</a></span> 
+	<span><a href="http://www.ntsky.com/tech/database/base/index.html" title="数据库基础" target="_blank">数据库基础</a></span> 
+	<span><a href="http://www.ntsky.com/tech/project/index.html" title="软件工程" target="_blank">软件工程</a></span> 
+	<span><a href="http://www.ntsky.com/tech/website/index.html" title="网站建设" target="_blank">网站建设</a></span> 
+	<span><a href="http://www.ntsky.com/tech/website/seo/index.html" title="SEO" target="_blank">SEO</a></span> 
+	<span><a href="http://www.ntsky.com/tech/hacker/base/index.html" title="黑客基础" target="_blank">黑客基础</a></span> 
+	<span><a href="http://www.ntsky.com/tech/itlife/person/index.html" title="名人堂" target="_blank">名人堂</a></span> 
+	<span><a href="http://www.ntsky.com/tech/ruby/index.html" title="Ruby" target="_blank">Ruby</a></span> 
+	</div>
+  </div>
+  <!-- location begin -->
+  <div id="location"> <div id="l_more"><a href="http://bbs.ntsky.com/index.action" style="color: red;" target="_blank">去论坛参与讨论</a></div> <a href="http://www.ntsky.com/index.html" title="新技术天空">首页</a> &gt; <a href="http://www.ntsky.com/tech/index.html" title="技术文档">技术文档</a> &gt;  <a href="http://www.ntsky.com/tech/java/index.html?Java" title="Java">Java</a> &gt; <a href="http://www.ntsky.com/tech/java/opensource/index.html?%E5%BC%80%E6%BA%90%E7%9B%B8%E5%85%B3" title="开源相关">开源相关</a> &gt; <a href="http://www.ntsky.com/tech/java/opensource/hibernate/index.html?hibernate" title="hibernate">hibernate</a> &gt; Hibernate+ehcache二级缓存技术 </div>
+  <!-- end #location -->
+  <div id="m2_left">
+    <div style="margin-left: 274px; margin-right: 12px;">
+      <div id="l_content">
+        <h1 style="margin: 8px; text-align: center;" class="c390">Hibernate+ehcache二级缓存技术</h1>
+        <div id="c_info">  作者: 　来源: <a href="http://www.csdn.net/" title="Csdn">Csdn</a> 　标签:<a href="http://www.ntsky.com/search-content.action?keyword=Java" title="关键字 : Java">Java</a> <a href="http://www.ntsky.com/search-content.action?keyword=hibernate" title="关键字 : hibernate">hibernate</a> <a href="http://www.ntsky.com/search-content.action?keyword=ehcache" title="关键字 : ehcache">ehcache</a> <a href="http://www.ntsky.com/search-content.action?keyword=%E7%BC%93%E5%AD%98" title="关键字 : 缓存">缓存</a>  
+        <span style="padding-left: 16px;">(<a href="http://translate.google.com/translate?u=http://www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/6aa729eada833031.html%3Fid%3D445&amp;langpair=zh-CN%7Cen&amp;hl=zh-CN&amp;newwindow=1&amp;ie=UTF-8&amp;oe=UTF-8&amp;prev=%2Flanguage_tools" title="Translate this aritcle into English Version" target="_blank">English</a>)</span>
+        <span style="margin-left: 20px;">【<a href="javascript:doZoom(16);" title="放大文字">大</a> <a href="javascript:doZoom(14);" title="中等文字">中</a> <a href="javascript:doZoom(12);" title="缩小文字">小</a>】</span>
+        </div>
+        <div class="f14" id="c_text"> 
+			<p>&nbsp;</p>
+<p>1、首先设置EhCache，建立配置文件ehcache.XML，默认的位置在class-path，可以放到你的src目录下：</p>
+<p>
+</p><table bordercolordark="#ffffff" bordercolorlight="#000000" width="400" align="center" border="1" cellpadding="2" cellspacing="0">
+    <tbody>
+        <tr>
+            <td class="code" bgcolor="#e6e6e6">
+            <pre><p>＜?xml version="1.0" encoding="UTF-8"?＞<br><br>＜ehcache＞<br><br>　＜diskStore path="Java.io.tmpdir"/＞ <br><br>＜defaultCache<br><br>　maxElementsInMemory="10000" ＜!-- 缓存最大数目 --＞<br><br>　eternal="false" ＜!-- 缓存是否持久 --＞<br><br>　overflowToDisk="true" ＜!-- 是否保存到磁盘，当系统当机时--＞<br><br>　timeToIdleSeconds="300" ＜!-- 当缓存闲置n秒后销毁 --＞<br><br>　timeToLiveSeconds="180" ＜!-- 当缓存存活n秒后销毁--＞<br><br>　diskPersistent="false"<br><br>　diskExpiryThreadIntervalSeconds= "120"/＞ <br><br>＜/ehcache＞ </p></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>2、在Hibernate配置文件中设置：</p>
+<p>
+</p><table bordercolordark="#ffffff" bordercolorlight="#000000" width="400" align="center" border="1" cellpadding="2" cellspacing="0">
+    <tbody>
+        <tr>
+            <td class="code" bgcolor="#e6e6e6">
+            <pre><p>＜!-- 设置Hibernate的缓存接口类，这个类在Hibernate包中 --＞<br><br>＜property name="cache.provider_class"＞org.hibernate.cache.EhCacheProvider＜/property＞ <br><br>　＜!-- 是否使用查询缓存 --＞<br><br>　＜property name="hibernate.cache.use_query_cache"＞true＜/property＞<br><br>如果使用spring调用Hibernate的sessionFactory的话，这样设置：<br><br>＜!--HibernateSession工厂管理 --＞<br><br>　＜bean id="sessionFactory" </p><p>class="org.springFramework.orm.hibernate3.LocalSessionFactoryBean"＞<br><br>　＜property name="dataSource"＞<br><br>＜ref bean="datasource" /＞<br><br>　＜/property＞<br><br>　＜property name="hibernateProperties"＞<br><br>　＜props＞<br><br>＜prop key="hibernate.dialect"＞org.hibernate.dialect.Oracle9Dialect＜/prop＞<br><br>＜prop key="connection.provider_class"＞</p><p>org.hibernate.connection.C3P0ConnectionProvider</p><p>＜/prop＞<br><br>＜prop key="hibernate.show_sql"＞true＜/prop＞<br><br>＜prop key="hibernate.cache.use_query_cache"＞true＜/prop＞<br><br>＜prop key="hibernate.cache.provider_class"＞</p><p>org.hibernate.cache.EhCacheProvider</p><p>＜/prop＞<br><br>　＜/props＞<br><br>　＜/property＞<br><br>　＜property name="mappingDirectoryLocations"＞<br><br>＜list＞<br><br>　＜value＞/Web-INF/classes/cn/rmic/manager/hibernate/＜/value＞<br><br>＜/list＞<br><br>　＜/property＞ <br><br>＜/bean＞ </p></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>说明一下：如果不设置“查询缓存”，那么hibernate只会缓存使用load()方法获得的单个持久化对象，如果想缓存使用
+findall()、list()、Iterator()、createCriteria()、createQuery()等方法获得的数据结果集的话，
+就需要设置hibernate.cache.use_query_cache true才行。</p>
+<p>3、在Hbm文件中添加＜cache usage="read-only"/＞</p>
+<p>4、如果需要“查询缓存”，还需要在使用Query或Criteria()时设置其setCacheable(true);属性</p>
+<p>5、实践出真知，给一段测试程序，如果成功的话第二次查询时不会读取数据库</p>
+<p>
+</p><table bordercolordark="#ffffff" bordercolorlight="#000000" width="400" align="center" border="1" cellpadding="2" cellspacing="0">
+    <tbody>
+        <tr>
+            <td class="code" bgcolor="#e6e6e6">
+            <pre><p>package cn.rmic.hibernatesample;</p><p>import java.util.List;</p><p>import org.hibernate.CacheMode;<br><br>import org.hibernate.Criteria;<br><br>import org.hibernate.Query;<br><br>import org.hibernate.Session;</p><p>import cn.rmic.hibernatesample.hibernate.HibernateSessionFactory;<br><br>import cn.rmic.manager.po.Resources;</p><p>public class testCacheSelectList ...{</p><p>　/** *//**<br><br>　* @param args<br><br>　*/<br><br>　public static void main(String[] args) ...{<br><br>// TODO Auto-generated method stub</p><p>Session s=HibernateSessionFactory.getSession();<br><br>Criteria c=s.createCriteria(Resources.class);<br><br>c.setCacheable(true);<br><br>List l=c.list();<br><br>// Query q=s.createQuery("From Resources r")<br><br>// .setCacheable(true) <br><br>// .setCacheRegion("frontpages") ;<br><br>// List l=q.list();<br><br>Resources resources=(Resources)l.get(0);<br><br>System.out.println("-1-"+resources.getName());<br><br>HibernateSessionFactory.closeSession();<br><br>try ...{<br><br>　Thread.sleep(5000);<br><br>} catch (InterruptedException e) ...{<br><br>　// TODO Auto-generated catch block<br><br>　e.printStackTrace();<br><br>}<br><br>s=HibernateSessionFactory.getSession();<br><br>c=s.createCriteria(Resources.class);<br><br>c.setCacheable(true);<br><br>l=c.list();<br><br>// q=s.createQuery("From Resources r").setCacheable(true) <br><br>// .setCacheRegion("frontpages");<br><br>// l=q.list();<br><br>resources=(Resources)l.get(0);<br><br>System.out.println("-2-"+resources.getName());<br><br>HibernateSessionFactory.closeSession();<br><br>　}<br><br>} </p></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+	
+			<div id="googleAds">		
+	      <script type="text/javascript"><!--
+google_ad_client = "pub-4719823006842312";
+google_ad_slot = "7316259153";
+google_ad_width = 650;
+google_ad_height = 15;
+//--></script>
+<script type="text/javascript" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="650" frameborder="0" height="15"></iframe>	
+</div>	
+        </div>
+	      <div id="l_operator">
+			<a href="#createComment" title="发表评论">发表评论</a>
+			<a href="#comments" title="发表评论">查看评论</a>
+			<a href="mailto:?subject=%E3%80%90%E6%96%B0%E6%8A%80%E6%9C%AF%E5%A4%A9%E7%A9%BA%E3%80%91hibernate%E6%96%87%E7%AB%A0%EF%BC%9AHibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF&amp;body=%E6%88%91%E5%9C%A8%E3%80%90%E6%96%B0%E6%8A%80%E6%9C%AF%E5%A4%A9%E7%A9%BA%E3%80%91%E4%B8%8A%E7%9C%8B%E5%88%B0hibernate%E6%95%99%E7%A8%8B%EF%BC%9AHibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%EF%BC%8C%E7%89%B9%E5%90%91%E6%82%A8%E6%8E%A8%E8%8D%90%20%20%20%20%20%20%20%20%20%20%20%20%20http://www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/6aa729eada833031.html" title="发送给好友">发送给好友
+			</a><a href="javascript:window.external.AddFavorite(window.location,document.title);" title="收藏本页">收藏本页</a>
+			<a href="javascript:window.print();" title="打印文章">打印</a>
+			<a href="javascript:window.opener=null;window.close();" title="关闭">关闭</a>			
+			<span style="padding-left: 12px;">收藏到: 
+			<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();" title="功能强大的网络收藏夹，一秒钟操作就可以轻松实现保存带来的价值、分享带来的快乐"><font color="DarkOrchid">365K<font color="#57c200">e</font>y</font></a> 
+			<a href="#" onclick="window.open('http://myweb.cn.yahoo.com/popadd.html?url='+encodeURIComponent(document.location.href)+'&amp;title='+encodeURIComponent(document.title), 'Yahoo','scrollbars=yes,width=780,height=455,left=80,top=80,status=yes,resizable=yes');">雅虎收藏</a> 
+			<a href="javascript:location.href='http://digg.com/submit?phase=2&amp;url='+location.href+'&amp;title='+document.title;">digg</a>
+			</span>
+	      </div>		
+      </div>
+      <br>
+      <div id="about_contents" class="mt12">
+        <dl class="lb">
+          <dt style="border-bottom: 2px solid rgb(102, 102, 102);">相关文章</dt>
+          <dd><span class="time">(2007年03月28日)</span><a href="http://www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/d5e337b28007e275.html" title="关于hibernate的缓存使用">关于hibernate的缓存使用</a></dd>
+          <dd><span class="time">(2007年03月28日)</span><a href="http://www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/9768a6beb5fc74b6.html" title="Hibernate缓存讨论与研究">Hibernate缓存讨论与研究</a></dd>
+          <dd><span class="time">(2007年08月29日)</span><a href="http://www.ntsky.com/tech/java/opensource/hibernate/2007-08-29/e94e6b0f834d6290.html" title="使用Hibernate和Spring AOP购建一个范型类型安全的DAO">使用Hibernate和Spring AOP购建一个范型类型安全的DAO</a></dd>
+          <dd><span class="time">(2007年08月26日)</span><a href="http://www.ntsky.com/tech/java/opensource/hibernate/2007-08-26/84af33e00fa05310.html" title="Hibernate性能调优">Hibernate性能调优</a></dd>
+          <dd><span class="time">(2007年03月28日)</span><a href="http://www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/cd3b288daa2155d9.html" title="Hibernate的缓存机制介绍">Hibernate的缓存机制介绍</a></dd>
+        </dl>
+      </div>
+      <a name="comments"></a>
+      <div id="comments">
+        <div id="c_list">
+          <h3>评论列表</h3>
+		  <!-- comments list -->
+          <ul>
+          </ul>
+        </div>
+        <!-- publish comments -->
+        <a name="createComment"></a>
+        <fieldset>
+        <legend> 发表评论</legend>
+        <form id="commentForm" method="post" onsubmit="return doCreateComment();">
+          <input name="contentId" value="95" type="hidden">
+          <p>
+            <label for="name">用户名 <span>*</span> : </label>
+            <input id="name" tabindex="1" maxlength="30" value="" name="username" class="t">
+          </p>
+          <p>
+            <label for="email">Email <span>*</span> : </label>
+            <input id="email" tabindex="2" value="" name="email" class="t" size="40">
+          </p>
+          <p>
+            <label for="website">网 站 : </label>
+            <input id="website" tabindex="3" value="http://" name="website" class="t" size="40">
+          </p>
+          <p>
+            <label for="title">标题 <span>*</span> : </label>
+            <input id="title" tabindex="4" value="" name="title" class="t" size="40">
+          </p>          
+          <p>
+            <label for="text">内 容 : </label>
+            </p><div style="width: 420px;"><input id="text___Config" value="" style="display: none;" type="hidden"><iframe id="text___Frame" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/fckeditor.htm" scrolling="no" width="100%" frameborder="0" height="200"></iframe><textarea style="display: none;" id="text" tabindex="5" name="text" rows="8" cols="50"></textarea></div>
+          
+          <p>
+            <input name="createComment" value="发表评论" class="b" type="submit">
+          </p>
+        </form>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+  <!-- right begin -->
+  <div id="m2_right">
+  
+  	<script src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/69588_87337_p7_.js"></script><script src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/liveuni.js" charset="UTF-8"></script><a id="mute" target="_blank"></a><div id="FrameWinLayer" style="margin: 0px; float: left; width: 255px; height: 235px; z-index: 10000; text-align: left;"><div id="BackImgLayer" style="margin: 0px; position: absolute; z-index: 10000; display: block;"></div><div id="FlashPlayerDiv" style="position: absolute; z-index: 10003; margin-top: 0px; margin-left: 0px; display: block;"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" id="FPVodone" style="" width="255" align="bottom" height="235"><param name="allowScriptAccess" value="always"><param name="FlashVars" value="urls=http://u3.vodone.com/webunion/flvdispatch2&amp;channelId=1&amp;ad_other=69588|87337|20202,20205|0|&amp;phref=http%3A//www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/6aa729eada833031.html&amp;rNum=95"><param name="Movie" value="http://busjs.vodone.cn/liveuni/flv/flv_n.swf"><param name="src" value="http://busjs.vodone.cn/liveuni/flv/flv_n.swf"><param name="wmode" value="Opaque"><param name="allowFullScreen" value="true"><param name="quality" value="high"><param name="bgcolor" value="#000000"><embed src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/flv_n.swf" wmode="Opaque" flashvars="urls=http://u3.vodone.com/webunion/flvdispatch2&amp;channelId=1&amp;ad_other=69588|87337|20202,20205|0|&amp;phref=http%3A//www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/6aa729eada833031.html&amp;rNum=95" quality="high" bgcolor="#00000" swliveconnect="true" id="FPVodone" name="FPVodone" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="255" align="bottom" height="235"></object></div><div id="MainPlayerDiv" style="position: absolute; z-index: 10004; margin-top: 0px; margin-left: 1px; display: none; background-color: rgb(255, 255, 255);"></div><div id="BottomDiv" style="position: absolute; z-index: 10005; width: 255px; margin-top: 235px; margin-left: 0px; display: block;"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" style="background-color: transparent;" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" id="drawerSwf" width="255" align="bottom" height="237"><param name="allowScriptAccess" value="always"><param name="FlashVars" value="urls=http://u3.vodone.com/webunion/flvdispatch2&amp;channelId=1&amp;ad_other=69588|87337|20202,20205|0|&amp;phref=http%3A//www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/6aa729eada833031.html"><param name="src" value="http://busjs.vodone.cn/liveuni/flv/drawer_n.swf"><param name="wmode" value="transparent"><param name="quality" value="high"><embed style="height: 5px;" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/drawer_n.swf" wmode="transparent" flashvars="urls=http://u3.vodone.com/webunion/flvdispatch2&amp;channelId=1&amp;ad_other=69588|87337|20202,20205|0|&amp;phref=http%3A//www.ntsky.com/tech/java/opensource/hibernate/2007-03-28/6aa729eada833031.html" quality="high" swliveconnect="true" name="drawerSwf" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="255" align="bottom" height="237"></object></div></div>
+
+
+ 
+    <div id="commend_contents" class="mt12">
+      <dl class="lb">
+        <dt class="bbb">推荐文章</dt>
+<dd>· <a href="http://www.ntsky.com/tech/web/html/2008-05-05/5036f9448295fa48.html?script-web%E6%A0%87%E5%87%86-div-css" title="web标准概念入门">web标准概念入门</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/linux/setup/2008-05-04/e7e418ac7c927c2c.html?script-sendmail" title="Sendmail配置指南">Sendmail配置指南</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/linux/setup/2008-05-03/c84ac42617a8106d.html?script-linux-ftp" title="Linux FTP命令详解及使用技巧">Linux FTP命令详解及使用...</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/java/webserver/2008-05-03/63bfd701bfd37f3e.html?script-tomcat-ssl" title="tomcat中实现https安全连接的方法">tomcat中实现https安全...</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/linux/setup/2008-05-03/348809dc66d68df5.html?script-linux" title="学习Linux的七点忠告">学习Linux的七点忠告</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/linux/setup/2008-05-03/a35c539b4e7731ec.html?script-linux" title="shell入门基础必备">shell入门基础必备</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/linux/setup/2008-05-03/bf11447f9c38ff28.html?script-linux" title="linux下软件的基本安装和卸载">linux下软件的基本安装和卸载</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/web/2008-04-16/887b3c49300aea00.html?script-jsp-php-asp-perl" title="Perl、PHP、ASP、JSP技术比较">Perl、PHP、ASP、JSP...</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/web/javascript/2008-04-01/8b5954e0ef0fb3e4.html?script-document-javascript" title="document 文挡对象">document 文挡对象</a></dd>
+<dd>· <a href="http://www.ntsky.com/tech/web/javascript/2008-04-01/3279de6aa6440320.html?script-javascript-%E4%BA%8B%E4%BB%B6" title="javascript事件列表">javascript事件列表</a></dd>
+	  </dl>
+    </div>
+    
+    <div id="google_ad" class="mt12">
+      <dl class="lb">
+        <dt class="bbb">赞助商</dt>
+		<dd style="text-align: center;">
+			<script type="text/javascript"><!--
+			google_ad_client = "pub-4719823006842312";
+			/* 200x200, 创建于 08-5-2 */
+			google_ad_slot = "4146911490";
+			google_ad_width = 200;
+			google_ad_height = 200;
+			//-->
+			</script>
+			<script type="text/javascript" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/show_ads.js">
+			</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/ads_003.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="200" frameborder="0" height="200"></iframe>
+		</dd>
+		</dl>
+    </div>     
+    
+    <div id="weekhot_contents" class="mt12">
+      <dl class="lb">
+        <dt class="bbb">本月热门文章</dt>
+		
+		<dd>· <a href="http://www.ntsky.com/tech/web/javascript/2008-04-15/1ede7250b1626bbe.html?script-jquery-prototype" title="240多个jQuery插件">240多个jQuery插件</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/web/2008-04-16/887b3c49300aea00.html?script-jsp-php-asp-perl" title="Perl、PHP、ASP、JSP技术比较">Perl、PHP、ASP、JSP...</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/up-technology/2008-04-30/b0da9f62a26dc7d8.html?script-%E9%BB%91%E5%AE%A2-%E6%8A%80%E6%9C%AF" title="开源将成SaaS开发平台过渡关键要素">开源将成SaaS开发平台过渡关键...</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/web/javascript/2008-04-15/3ff86ab86f33405a.html?script-jquery-dom-javascript" title="jQuery入门简介 ">jQuery入门简介 </a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/website/2008-04-22/ee52dffe49a29c16.html?script-%E6%9A%B4%E5%88%A9%E7%BD%91%E7%AB%99" title="暴利行业的暴利小网站">暴利行业的暴利小网站</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/project/design/2008-04-09/9eb082a696618c5f.html?script-facebook-cache-apc" title="Facebook 的 PHP 性能与扩展性">Facebook 的 PHP 性...</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/website/generalize/2008-04-24/001a7a1a5c5f4cea.html?script-google" title="Google员工新潮流：凑齐3人就离职自创公司">Google员工新潮流：凑齐3人...</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/up-technology/2008-05-03/c4c4dc775208ef72.html?script-Flash-Silverlight" title="互联网之父：当前互联网仍处于起步阶段">互联网之父：当前互联网仍处于起步...</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/itlife/person/2008-04-15/8f09894d51015107.html?script-%E5%94%90%E9%AA%8F-%E7%9B%9B%E5%A4%A7" title="唐骏的聪明">唐骏的聪明</a></dd>
+
+		<dd>· <a href="http://www.ntsky.com/tech/website/generalize/2008-05-05/cdb8850399b96944.html?script-vista-mac%20os-%E5%BE%AE%E8%BD%AF" title="Vista成为全球公敌">Vista成为全球公敌</a></dd>
+      </dl>
+    </div>
+    
+    <div id="alimama_ad" class="mt12">
+     <dl class="lb">
+        <dt class="bbb">赞助商</dt>
+		<dd style="text-align: center;">
+		<script type="text/JavaScript"> 
+		var alimama_pid="mm_10327618_363267_821192"; 
+		var alimama_titlecolor="0000FF"; 
+		var alimama_descolor ="000000"; 
+		var alimama_bgcolor="FFFFFF"; 
+		var alimama_bordercolor="E6E6E6"; 
+		var alimama_linkcolor="008000"; 
+		var alimama_bottomcolor="FFFFFF"; 
+		var alimama_anglesize="0"; 
+		var alimama_bgpic="0"; 
+		var alimama_icon="0"; 
+		var alimama_sizecode="35"; 
+		var alimama_width=200; 
+		var alimama_height=200; 
+		var alimama_type=2; 
+		</script> 
+		<script src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/inf.js" type="text/javascript"> 
+		</script><img src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/alimamal.htm" name="alimamatmpf0.17438909711051975" id="alimamatmpf0.17438909711051975" style="border: 0px none ; margin: 0px; padding: 0px; width: 0px; height: 0px; vertical-align: baseline;" border="0"><iframe name="alimamaf0.17438909711051975" id="alimamaf0.17438909711051975" border="0" marginwidth="0" marginheight="0" style="width: 200px; height: 200px;" src="Hibernate+ehcache%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF_files/alimama.htm" scrolling="no" frameborder="0"></iframe>
+		</dd>
+	</dl>
+    </div>       
+    
+  </div>
+  <!-- right end -->
+  <!-- footer begin -->
+  <div id="footer">
+    <div id="about" class="l150"><span style="font-size: 12px;">备案序号:粤ICP备05065304号</span> 
+    <br> <a href="http://www.ntsky.com/joinTeam.html" title="加盟团队" rel="target">加盟团队</a>　-　<a href="http://www.ntsky.com/about/index.html" title="关于站点">关于站点</a>　-　<a href="http://www.ntsky.com/about/contactus.html" title="联系我们">联系我们</a>　-　<a href="http://www.ntsky.com/about/copyright.html" title="版权申明">版权申明</a>　-　<a href="http://www.ntsky.com/about/group.html" title="开发团队">开发团队</a>　-　<a href="http://www.ntsky.com/about/siteMap.html" title="网站地图">网站地图</a>　-　<a href="#">返回顶部</a> 
+    </div>
+    <div id="copyleft">Copyright © 2001-2005, www.ntsky.com. <span class="red">QQ群: 37013893</span>  
+       Connect Author : <a href="mailto:yntsky@gmail.com">yntsky@gmail.com</a></div>  </div>
+  <!-- end #footer -->
+</div>
+<!-- end #warpper -->
+<script type="text/javascript">
+document.body.oncopy = function () { setTimeout( function () { var text = clipboardData.getData("text"); if (text) { text = text + "\r\n本篇文章来源于 新技术天空 原文链接："+location.href; clipboardData.setData("text", text); } }, 100 ) }
+</script>
+<script language="javascript">
+	<!--
+		var url = "/count!readContent.action";
+		var pars = "contentId="+95;
+		new Ajax.Request( url, { method:'get', parameters: pars } );		
+	-->
+</script>
+<iframe style="position: absolute; z-index: 10000;" src="javascript:void(0)" scrolling="no" width="0" frameborder="0" height="0"></iframe><iframe style="position: absolute; z-index: 10000;" src="javascript:void(0)" scrolling="no" width="0" frameborder="0" height="0"></iframe><iframe style="position: absolute; z-index: 10000;" src="javascript:void(0)" scrolling="no" width="0" frameborder="0" height="0"></iframe><iframe style="position: absolute; z-index: 10000;" src="javascript:void(0)" scrolling="no" width="0" frameborder="0" height="0"></iframe></body></html>

@@ -1,0 +1,799 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head>
+
+
+<title>Hibernate二级缓存攻略-开发频道-Hibernate-天极网</title>
+<meta name="description" content="Hibernate二级缓存攻略,开发者网络瞄准中国程序员群体，涵盖软件开发的各个技术层面，从Windows下的应用程序开发，到Java、Web开发、游戏开发和移动开发领域，均有相关教程和实例、技巧。 ">
+<meta name="keywords" content="Hibernate二级缓存攻略,Java,.NET,WEB开发,C#,C++,PHP,ORACLE,DB2,MySQL,SQL Server,Sybase,移动开发,开源技术,软件测试,SOA,信息化,软件工程,程序员,微软,雅虎,IBM,数据库,Html,新闻,技巧,Rational,">
+<meta name="author" content="天极网 | 全球中文IT第一门户">
+<meta name="Copyright" content="天极网 | 全球中文IT第一门户">
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312">
+<meta http-equiv="Content-Language" content="zh-CN">
+<meta http-equiv="X-UA-Compatible" content="IE=7">
+<link rel="stylesheet" href="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/y_mobile_content.css" type="text/css" media="all">
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/showlay.js"></script>
+<!-- base -->
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/asyncCall.js"></script><script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/post.js"></script></head><body>
+<!--页面头部-->
+
+<!--头部-->
+<div>
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/kingsoft-kuanban-071105.js"></script><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/impressions.gif" width="0" border="0" height="0">
+</div>
+<div id="topmenu"><a href="http://www.yesky.com/">Yesky首页</a>| <a href="http://product.yesky.com/">产品报价</a>| <a href="http://cseek.yesky.com/">行情</a>| <a href="http://mobile.yesky.com/">手机</a> | <a href="http://digital.yesky.com/">数码</a> | <a href="http://notebook.yesky.com/">笔记本</a> | <a href="http://pc.yesky.com/">台式机</a> | <a href="http://diy.yesky.com/">DIY硬件</a> | <a href="http://oa.yesky.com/">外设</a> | <a href="http://net.yesky.com/">网络</a> | <a href="http://dh.yesky.com/">数字家庭</a> | <a href="http://lab.yesky.com/">评测</a> | <a href="http://soft.yesky.com/">软件</a> | <a href="http://fashion.yesky.com/">e时代</a> | <a href="http://game.yesky.com/">游戏</a> | <a href="http://pic.yesky.com/">图片</a> | <a href="http://desktop.yesky.com/">壁纸</a> | <a href="http://q.yesky.com/">群乐</a> | <a href="http://my.yesky.com/">社区</a> | <a href="http://blog.yesky.com/">博客</a> | <a href="http://www.mydown.com/">下载</a></div>
+<div id="topbox">
+<div class="tleft"><a href="http://www.yesky.com/" id="pagelogo"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/logo.gif" alt="天极Yesky_全球中文IT第一门户" border="0"></a></div>
+<div class="tad"><span id="ad1">
+<script type="text/javascript">
+document.write('<iframe marginheight="0" marginwidth="0" frameborder="0" width="500" height="90" scrolling="no" src="http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_'+ad_cid+'|yesky_'+ad_cid+'_inner_scolumn&db=yeskyafp&border=0&local=yes"><noscript><a href="http://yeskyafp.allyes.com/main/adfclick?user=YESKYAFP|yesky_'+ad_cid+'|yesky_'+ad_cid+'_inner_scolumn&db=yeskyafp"><img src="http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_'+ad_cid+'|yesky_'+ad_cid+'_inner_scolumn&db=yeskyafp" width="500" height="90" border="0"></a></noscript></iframe>');
+</script><iframe marginheight="0" marginwidth="0" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow.htm" scrolling="no" width="500" frameborder="0" height="90">&amp;lt;noscript&amp;gt;&amp;lt;a
+href="http://yeskyafp.allyes.com/main/adfclick?user=YESKYAFP|yesky_412|yesky_412_inner_scolumn&amp;amp;db=yeskyafp"&amp;gt;&amp;lt;img
+src="http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_412|yesky_412_inner_scolumn&amp;amp;db=yeskyafp"
+width="500" height="90"
+border="0"&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/noscript&amp;gt;</iframe>
+</span></div>
+<div id="search"><div><form name="searchform" method="get" action="http://search.chinabyte.com/search" target="_blank">
+<input id="searchzz" name="q" onmouseover="this.focus()" onfocus="this.select()" type="text"><input value="GB2312" name="encoding" type="hidden"><input value="connect" name="dir" type="hidden"><input value="20002" name="cid" type="hidden"><input id="search_btn" value="天极搜索" type="submit">
+</form>
+</div>
+<div class="tdq">
+<div class="rightarea">
+<a href="http://bj.yesky.com/">北京</a>    <a href="http://hd.yesky.com/">上海</a>    <a href="http://gd.yesky.com/">广州</a>   <a href="http://sz.yesky.com/">深圳</a><br><a href="http://nj.it365.com/">南京</a>
+<a href="http://ty.it365.com/">太原</a>    <a href="http://sy.it365.com/">沈阳</a>    <a href="http://xa.it365.com/">西安</a>
+</div>
+<div class="rightarea_right"><a href="http://my.yesky.com/">用户<br>登录</a></div>
+</div>
+</div>
+<div class="tright">
+	<div class="box1">
+		<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/content_text_ad.js"></script><li>·<a href="http://www.yesky.com/photokina2008">2008年世界影像博览会</a></li><li>·<a href="http://notebook.yesky.com/480/8320980.shtml">十一市售5000下笔记本</a></li><li>·<a href="http://diy.yesky.com/monitor/251/8326251.shtml">五款22吋宽屏液晶1299元</a></li><li>·<a href="http://dc.yesky.com/428/8324928.shtml">轻装渡假五款精巧DC推荐</a></li> 
+	</div>
+</div>
+</div>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/flash.js"></script>
+
+<div id="childmenu" twffan="done"><a href="http://soft.yesky.com/" target="_self">软件频道&gt;</a><a href="http://dev.yesky.com/" target="_self">程序开发&gt;</a><a href="http://dev.yesky.com/devjava/" target="_self">Java</a><a href="http://dev.yesky.com/ysdevvb" target="_self">VB</a><a href="http://dev.yesky.com/ysdevvc" target="_self">VC</a><a href="http://dev.yesky.com/ysdevdelphi" target="_self">Delphi</a><a href="http://dev.yesky.com/ysdevc" target="_self">C/C++</a><a href="http://dev.yesky.com/web/" target="_self">Web开发</a><a href="http://dev.yesky.com/msdn/" target="_self">微软专栏</a><a href="http://dev.yesky.com/devydkf/" target="_self">移动</a><a href="http://dev.yesky.com/devsjk/" target="_self">数据库</a><a href="http://dev.yesky.com/ysdevcxrs" target="_self">程序人生</a><a href="http://dev.yesky.com/ysdevrjgc" target="_self">软件工程</a>|<a href="http://www.ibm.com/developerworks/cn/web/wa-lo-w2fpak-comet/index.html?S_TACT=105AGX52&amp;S_CMP=tec-yesky" target="_self">Comet程序开发</a></div>
+<!--导航条-->
+<div id="location">
+  <div class="loleft">您现在的位置：<span id="lo_links"> <a href="http://www.yesky.com/" target="_self">天极网</a> &gt; <a href="http://dev.yesky.com/" target="_self">开发频道</a>
+</span> &gt; Hibernate二级缓存攻略</div>
+  <div class="adright"><span id="ad2"> 
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_text_1&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_016.htm"></script><script language="Javascript">
+ADFHOST4623="http://yeskyafp.allyes.com";
+ADFCID4623=5391;
+ADFBID4623=4623;
+ADFUSER4623="http://yeskyafp.allyes.com/main/adfclick?user=YESKYAFP|yesky_412|yesky_412_inner_text_1&db=yeskyafp&log=on&ip=58.24.106.222&bid=4623&cid=413131&sid=16790&kv=&exp1=-725890468&exp2=6955550852&cache=277564&url=http://www.abc.com";
+</script>
+<!--AdForward Begin:-->
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_014.htm"></script><script language="Javascript">
+ADFHOST711="http://yeskyafp.allyes.com";
+ADFCID711=5002;
+ADFBID711=711;
+ADFUSER711="http://yeskyafp.allyes.com/main/adfclick?user=YESKYAFP|ad_cpn|clk6&db=yeskyafp&log=on&ip=58.24.106.222&bid=711&cid=0&sid=0&kv=&exp1=-626820365&exp2=6759590057&cache=446647&url=http://www.abc.com";
+</script>
+<imp src="http://media.yesky.com/button/impressions.gif"><!--AdForward End-->
+
+</imp></span></div></div>
+
+
+<!--内容块开始-->
+<div id="conbox">
+<!--左边开始-->
+<div id="conleft">
+<div id="contopla1"><div id="__001"><div class="qkong"></div><div class="qw1">全文</div><div class="zkong"><div class="kl"></div><div class="bj"><a href="#pls" target="_self">评论</a></div><div class="kr"></div><script type="text/javascript">
+var titiepic ="#";
+if (titiepic!="#")
+{
+document.write("<div class=\"kl\"></div><div class=\"bj\"><a href=\"#\" target=\"_blank\">图片</a></div><div class=\"kr\"></div>");
+}
+</script>
+      </div></div></div>
+	  <div class="topadbg" style="padding-bottom: 10px;"><span id="ad10"> 
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_banner_1_1&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_banner_1_2&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_012.htm"></script><script language="Javascript">
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_013.htm"></script><script language="Javascript">
+</script>
+
+</span></div>
+<a name="top"></a><div id="contitle"><h1 id="artibodyTitle">Hibernate二级缓存攻略</h1></div>
+    <div id="conauthor"><span>
+      2006-10-11 16:14
+      </span><span>作者：
+      AreYouOK
+      </span><span>出处：
+      JAVAEYE
+      </span><span>责任编辑：&gt;方舟</span></div>
+<div class="topadbg"><span id="ad9">
+<div id="ad9ad">
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_banner_2_1&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_banner_2_2&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_017.htm"></script><script language="Javascript">
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_011.htm"></script><script language="Javascript">
+</script>
+
+</div>
+</span></div>
+<div id="conneirong"><span id="ad3"></span>
+<div id="artibody">
+ <!-- Error --> 
+ <div class="clear"></div>
+<div class="guanggao"><span id="contentAdv"> 
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_pip&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_015.htm"></script><script language="Javascript">
+</script>
+
+</span></div>　　很多人对二级缓存都不太了解，或者是有错误的认识，我一直想写一篇文章介绍一下hibernate的二级缓存的，今天终于忍不住了。 <br><br>　　我的经验主要来自hibernate2.1版本，基本原理和3.0、3.1是一样的，请原谅我的顽固不化。 <br><br>　　hibernate的session提供了一级缓存，每个session，对同一个id进行两次load，不会发送两条sql给数据库，但是session关闭的时候，一级缓存就失效了。<br><br>　
+　二级缓存是SessionFactory级别的全局缓存，它底下可以使用不同的缓存类库，比如ehcache、oscache等，需要设置
+hibernate.cache.provider_class，我们这里用ehcache，在2.1中就是
+hibernate.cache.provider_class=net.sf.hibernate.cache.EhCacheProvider如果使
+用查询缓存，加上hibernate.cache.use_query_cache=true<br><br>　　缓存可以简单的看成一个Map，通过key在缓存里面找value。<br><br>　　<b>Class的缓存</b> <br><br>　
+　对于一条记录，也就是一个PO来说，是根据ID来找的，缓存的key就是ID，value是POJO。无论list，load还是iterate，只要
+读出一个对象，都会填充缓存。但是list不会使用缓存，而iterate会先取数据库select
+id出来，然后一个id一个id的load，如果在缓存里面有，就从缓存取，没有的话就去数据库load。假设是读写缓存，需要设置： <br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>＜cache usage="read-write"/＞ </td></tr></tbody></table><br>　　如果你使用的二级缓存实现是ehcache的话，需要配置ehcache.xml <br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>＜cache name="com.xxx.pojo.Foo" maxElementsInMemory="500"
+eternal="false" timeToLiveSeconds="7200" timeToIdleSeconds="3600"
+overflowToDisk="true" /＞ </td></tr></tbody></table><br>　　其中eternal表示缓存是
+不是永远不超时，timeToLiveSeconds是缓存中每个元素（这里也就是一个POJO）的超时时间，如果eternal="false"，超过
+指定的时间，这个元素就被移走了。timeToIdleSeconds是发呆时间，是可选的。当往缓存里面put的元素超过500个时，如果
+overflowToDisk="true"，就会把缓存中的部分数据保存在硬盘上的临时文件里面。 <br><br>　　每个需要缓存的class都要这样配置。如果你没有配置，hibernate会在启动的时候警告你，然后使用defaultCache的配置，这样多个class会共享一个配置。 <br><br>　　当某个ID通过hibernate修改时，hibernate会知道，于是移除缓存。 <br><br>　
+　这样大家可能会想，同样的查询条件，第一次先list，第二次再iterate，就可以使用到缓存了。实际上这是很难的，因为你无法判断什么时候是第一
+次，而且每次查询的条件通常是不一样的，假如数据库里面有100条记录，id从1到100，第一次list的时候出了前50个id，第二次iterate
+的时候却查询到30至70号id，那么30-50是从缓存里面取的，51到70是从数据库取的，共发送1+20条sql。所以我一直认为iterate没
+有什么用，总是会有1+N的问题。 <br><br>　　（题外话：有说法说大型查询用list会把整个结果集装入内存，很慢，而iterate只
+select
+id比较好，但是大型查询总是要分页查的，谁也不会真的把整个结果集装进来，假如一页20条的话，iterate共需要执行21条语句，list虽然选择
+若干字段，比iterate第一条select
+id语句慢一些，但只有一条语句，不装入整个结果集hibernate还会根据数据库方言做优化，比如使用mysql的limit，整体看来应该还是
+list快。） <br><br>　　如果想要对list或者iterate查询的结果缓存，就要用到查询缓存了<br><br>　　<b>查询缓存 </b><br><br>　　首先需要配置hibernate.cache.use_query_cache=true <br><br>　　如果用ehcache，配置ehcache.xml，注意hibernate3.0以后不是net.sf的包名了：<br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>＜cache name="net.sf.hibernate.cache.StandardQueryCache" <br>maxElementsInMemory="50" eternal="false" timeToIdleSeconds="3600" <br>timeToLiveSeconds="7200" overflowToDisk="true"/＞ <br>＜cache name="net.sf.hibernate.cache.UpdateTimestampsCache" <br>maxElementsInMemory="5000" eternal="true" overflowToDisk="true"/＞ </td></tr></tbody></table><br>　　然后 <br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>query.setCacheable(true);//激活查询缓存 <br>query.setCacheRegion("myCacheRegion");//指定要使用的cacheRegion，可选 </td></tr></tbody></table><br>　　第二行指定要使用的cacheRegion是myCacheRegion，即你可以给每个查询缓存做一个单独的配置，使用setCacheRegion来做这个指定，需要在ehcache.xml里面配置它： <br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>＜cache name="myCacheRegion" maxElementsInMemory="10"
+eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="7200"
+overflowToDisk="true" /＞ </td></tr></tbody></table><br>　　如果省略第二行，不设置cacheRegion的话，那么会使用上面提到的标准查询缓存的配置，也就是：net.sf.hibernate.cache.StandardQueryCache<br><br>　　对于查询缓存来说，缓存的key是根据hql生成的sql，再加上参数，分页等信息（可以通过日志输出看到，不过它的输出不是很可读，最好改一下它的代码）。 <br><br>　　比如hql： <br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>from Cat c where c.name like ? </td></tr></tbody></table><br>　　生成大致如下的sql： <br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>select * from cat c where c.name like ? </td></tr></tbody></table><br>　　参数是"tiger%"，那么查询缓存的key*大约*是这样的字符串（我是凭记忆写的，并不精确，不过看了也该明白了）： <br><br>
+<table width="90%" align="center" bgcolor="#e7e9e9" border="1" bordercolor="#cccccc">
+<tbody>
+<tr>
+<td>select * from cat c where c.name like ? , parameter:tiger% </td></tr></tbody></table><br>　　这样，保证了同样的查询、同样的参数等条件下具有一样的key。 <br><br>　
+　现在说说缓存的value，如果是list方式的话，value在这里并不是整个结果集，而是查询出来的这一串ID。也就是说，不管是list方法还是
+iterate方法，第一次查询的时候，它们的查询方式很它们平时的方式是一样的，list执行一条sql，iterate执行1+N条，多出来的行为是
+它们填充了缓存。但是到同样条件第二次查询的时候，就都和iterate的行为一样了，根据缓存的key去缓存里面查到了value，value是一串
+id，然后在到class的缓存里面去一个一个的load出来。这样做是为了节约内存。 <br><br>　　可以看出来，查询缓存需要打开相关类的class缓存。list和iterate方法第一次执行的时候，都是既填充查询缓存又填充class缓存的。 <br>这
+里还有一个很容易被忽视的重要问题，即打开查询缓存以后，即使是list方法也可能遇到1+N的问题！相同条件第一次list的时候，因为查询缓存中找不
+到，不管class缓存是否存在数据，总是发送一条sql语句到数据库获取全部数据，然后填充查询缓存和class缓存。但是第二次执行的时候，问题就来
+了，如果你的class缓存的超时时间比较短，现在class缓存都超时了，但是查询缓存还在，那么list方法在获取id串以后，将会一个一个去数据库
+load！因此，class缓存的超时时间一定不能短于查询缓存设置的超时时间！如果还设置了发呆时间的话，保证class缓存的发呆时间也大于查询的缓
+存的生存时间。这里还有其他情况，比如class缓存被程序强制evict了，这种情况就请自己注意了。<br><br>　　另外，如果hql查询包含select字句，那么查询缓存里面的value就是整个结果集了。<br><br>　　当hibernate更新数据库的时候，它怎么知道更新哪些查询缓存呢？ <br><br>　　hibernate在一个地方维护每个表的最后更新时间，其实也就是放在上面net.sf.hibernate.cache.UpdateTimestampsCache所指定的缓存配置里面。 <br><br>　
+　当通过hibernate更新的时候，hibernate会知道这次更新影响了哪些表。然后它更新这些表的最后更新时间。每个缓存都有一个生成时间和这
+个缓存所查询的表，当hibernate查询一个缓存是否存在的时候，如果缓存存在，它还要取出缓存的生成时间和这个缓存所查询的表，然后去查找这些表的
+最后更新时间，如果有一个表在生成时间后更新过了，那么这个缓存是无效的。 <br><br>　　可以看出，只要更新过一个表，那么凡是涉及到这个表的查询缓存就失效了，因此查询缓存的命中率可能会比较低。<br><br>
+<div class="clear"></div>
+ <div id="textpage1"> 
+          <!-- Error --> 
+        </div>
+		<div class="guanggao"><span id="advTailValue">
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_text_3&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_010.htm"></script><script language="Javascript">
+ADFHOST113="http://yeskyafp.allyes.com";
+ADFCID113=5394;
+ADFBID113=113;
+ADFUSER113="http://yeskyafp.allyes.com/main/adfclick?user=YESKYAFP|yesky_412|yesky_412_inner_text_3&db=yeskyafp&log=on&ip=58.24.106.222&bid=113&cid=22030&sid=384&kv=&exp1=-726869520&exp2=6354489611&cache=59669&url=http://www.abc.com";
+</script>
+<table width="400" align="center" border="0" cellpadding="5" cellspacing="0">
+  <tbody><tr> 
+    <td>
+      <div align="center"><a href="http://www.yesky.com/kpzhuanti/376/8091876.shtml" target="_blank"><b>引领多核主流化 AMD新一代弈龙处理器解析</b></a></div>
+    </td>
+    <td>
+      <div align="center"><a href="http://ju.atpanel.com/?url=http://www.taobao.com/vertical/digital/index.php?ad_id=&amp;am_id=&amp;cm_id=&amp;pm_id=15000681571769b45e18" target="_blank"><b><font color="red">淘宝网购买</font></b></a></div>
+    </td>
+  </tr>
+</tbody></table>
+
+<div align="center">
+
+<iframe src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/google-yesky-under.htm" scrolling="no" width="500" frameborder="0" height="90"></iframe><br>
+
+</div>
+
+</span></div><div id="numpage"><div id="numpage">共2页。 <a href="http://dev.yesky.com/396/2612396.shtml" target="_self"><span>1</span></a> <a href="http://dev.yesky.com/396/2612396_1.shtml" target="_self">2</a> <a href="http://dev.yesky.com/396/2612396_1.shtml" target="_self"><font face="Webdings">:</font></a></div></div>
+</div>
+</div>
+
+<!--广告代码开始-->
+<script>
+var ad_cid;
+if (window.location.search.substring(1) != "")
+{
+ad_cid = window.location.search.substring(1);
+} else {
+ad_cid = 412;
+}
+</script>
+<!--小通栏：c-scolumn顶部500*90-->
+<span id="span_ad1"></span> 
+<script language="JavaScript">
+document.getElementById("ad1").innerHTML=document.getElementById("span_ad1").innerHTML;
+document.getElementById("span_ad1").innerHTML="";
+</script> 
+<!--c-pip文章正文中间240*200-->
+<span id="span_ad3"></span> 
+<script>
+if(document.getElementById("contentAdv")) {
+document.getElementById("contentAdv").innerHTML=document.getElementById("span_ad3").innerHTML;
+document.getElementById("span_ad3").innerHTML="";
+} else {
+document.getElementById("ad3").innerHTML=document.getElementById("span_ad3").innerHTML;
+document.getElementById("span_ad3").innerHTML="";
+}</script>
+<!--c-text-1“您现在的位置”右侧文字-->
+<span id="span_ad2"></span> 
+<script language="JavaScript">
+document.getElementById("ad2").innerHTML=document.getElementById("span_ad2").innerHTML;
+document.getElementById("span_ad2").innerHTML="";
+</script> 
+<!--c-column-2“标题”上面的广告-->
+<span id="span_ad10"></span> 
+  <script language="JavaScript">
+document.getElementById("ad10").innerHTML=document.getElementById("span_ad10").innerHTML;
+document.getElementById("span_ad10").innerHTML="";
+</script> 
+<!--c-column-1“摘要”下面的广告-->
+<span id="span_ad9"></span> 
+  <script language="JavaScript">
+document.getElementById("ad9").innerHTML=document.getElementById("span_ad9").innerHTML;
+document.getElementById("span_ad9").innerHTML="";
+</script>
+<div class="clear"></div>
+<!--广告代码结束-->
+<div class="clear"></div>
+    <!--产品图片开始-->
+    
+    <!--产品图片结束-->
+<div class="clear"></div>
+<a name="contentpl"></a>
+<!--评论开始-->
+ <script language="JavaScript">
+<!--
+var site = 'yesky';//站点名称
+ var type = "article";//评论类型
+var referId = 2612396;
+var channelId = 324;
+if (channelId==0) channelId=22;
+//-->
+</script>
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/comment080515.js"></script>  <input name="site" id="site" value="yesky" type="hidden"> 
+	<input name="referId" id="referId" value="2612396" type="hidden">
+	<input name="type" id="type" value="article" type="hidden"> 
+	<input name="channelId" id="channelId" value="324" type="hidden"> 
+<style style="">#wordNum{font-size:12px;float:right;padding-right:10px}.noteBoxStyle {line-height:30px;background:#C1D3FB;border:1px solid #999;text-align:center;font-size:16px;color:#000;filter:Alpha(opacity=100);-moz-opacity:1;opacity:1;}#comments {width:99%}#comments .viewmore {padding-top:16px;margin-bottom:16px;text-align:right}#comments .viewmore a{color:#000;text-decoration:underline;font-size:12px}#comments .titleRow {width:100%;background:#C1D3FB;height:30px;line-height:30px;margin-bottom:10px}#comments .titleRow b{font-size:14px;padding-left:10px;float:left}#comments .titleRow a:link , .titleRow a:visited{float:right;font-size:12px;padding-right:10px;text-decoration:underline;color:#000}#comments .titleRow a:hover {text-decoration:none}#comments #commentList ,#comments #commentList dt ,#comments #commentList dd {margin:0;padding:0}#comments #commentList {width:97%;padding:10px 0 15px 0;font-size:12px;background:url(http://image.yesky.com/TLimages/images/loading.gif) no-repeat center center}#comments #commentList dt {height:28px;line-height:28px}#comments #commentList dt span {float:left}#comments #commentList dt b {float:right;font-weight:normal;color:#999;font-size:11px;font-family:Arial,Verdana}#comments #commentList dd {overflow:hidden;clear:both;text-align:left;width:100%;padding-bottom:5px;border-bottom:1px dashed #ccc;line-height:20px;text-indent:2em;margin-bottom:5px;word-break:break-all;word-wrap:break-word}#comments #postForm {margin-top:-5px}#comments #postForm textarea#content {cursor:text;padding:2px 1px;width:99%;height:75px;vertical-align:top;font-size:14px;border:1px solid #A3B9CD;background:url(http://image.yesky.com/TLimages/yesky/images/notebook_640.jpg) no-repeat center center #fff;font-size:13px;white-space:pre}#comments #postForm .fTtile {float:left;font-size:12px;margin-top:13px;font-weight:bold;height:18px;line-height:18px;}#comments #postForm .nickName {float:left;margin-top:10px;width:112px;height:18px;border:1px solid #A3B9CD;line-height:18px;font-size:12px}#comments #postForm .submit {float:left;border:1px solid #A3B9CD;height:22px;padding:1px 2px;margin:10px 0 0 10px;font-size:12px;background:#C8D8FB;color:#000}</style>		<div id="comments">        	<div class="titleRow"><a href="#pls" id="pls" name="pls"> </a>              	<b>网友评论</b>           <a target="_blank" href="http://comment.yesky.com/more.htm?site=yesky&amp;referId=2612396&amp;type=article&amp;channelId=324">共有 <span id="postFloor">0</span>&nbsp;条评论</a>            </div>                        <center>            <dl style="background: transparent none repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" id="commentList"><center id="no_comment" style="display: block;">欢迎评论！</center></dl>            </center>            <div id="moreLink"></div>            <div class="titleRow">            	<b>发表评论</b><span id="wordNum">您还能输入300字</span>            </div>                        <form id="postForm" name="postForm" action="javascript:void(0)" method="post">            	<textarea id="content" name="content" onkeyup="countCommentsContWord()"></textarea>                                <div style="float: left;">                	<div class="fTtile">昵称：</div><input id="nickName" name="nickName" value="天极网友" class="nickName" onfocus="this.value=''" type="text"><input id="submitButton" onclick="handleSubmit('postForm')" value="发表评论" class="submit" type="button">                </div>            </form></div><div id="noteBox" class="noteBoxStyle" onclick="closeNote()" style="opacity: 0.9; width: 230px; height: 60px; line-height: 60px; font-weight: bold; z-index: 1001; position: absolute; left: 600px; top: 300px; display: none;">恭喜，信息提交成功！</div>
+
+    <script language="javascript">
+                         <!--
+                         if(typeof(referId) != "undefined") { 
+document.write("<script language=\"JavaScript\" charset=\"gb2312\"  src=\"http://comment.yesky.com/commentjs/"+site+"/"+type+"/"+(referId%5000)+"/"+referId+".js\"><\/script>");                          }
+                         //-->
+       </script><script language="JavaScript" charset="gb2312" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/2612396.htm"></script>
+<div class="clear"></div>
+<!--评论结束-->
+
+
+
+<script>
+var key="Hibernate";
+</script>
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/product_search.js"></script><style>
+.searchbox{width:635px;height:80px;border:1px #c6c6c6 solid;margin:auto;background:#fff;}
+.searchbox2{width:605px;float:left;padding:7px 15px 0px 15px;}
+.searchbox2 dl{width:605px;float:left;height:37px;}
+.searchbox2 dt{width:120px;font-size:14px;float:left;height:37px;line-height:25px;text-align:left;}
+.searchbox2 .dd1{background:url(http://image.yesky.com/TLimages/yesky/images/yesview.gif);float:left;width:63px;height:30px;margin-left:6px;text-align:center;color:#982E00;font-size:14px; font-weight:bold; line-height:27px; cursor:pointer;TEXT-DECORATION: none}
+.searchbox2 .dd2{background:url(http://image.yesky.com/TLimages/yesky/images/noview.gif);float:left;width:63px;height:30px;margin-left:6px;text-align:center;font-size:14px;line-height:27px;cursor:pointer;TEXT-DECORATION: none}
+.searchbox3{width:605px;float:left;padding:0px 15px 0px 15px;}
+.searchbox3 dl{width:340px;float:left;text-align:left;}
+.searchbox3 dt{width:260px;float:left;text-align:left;margin-left:10px;white-space:nowrap;overflow:hidden;line-height:30px;}
+.search_input{width:248px;padding:6px 5px 6px 5px; border:1px #c6c6c6 solid;}
+.searchbox3 A:link {COLOR: #009; TEXT-DECORATION: none}
+.searchbox3 A:active {COLOR: #009;  TEXT-DECORATION: none}
+.searchbox3 A:visited {COLOR: #009;TEXT-DECORATION: none}
+.searchbox3 A:hover {COLOR: #CA0816;  TEXT-DECORATION: underline}
+.searchbox2 A:link { TEXT-DECORATION: none}
+.searchbox2 A:active {  TEXT-DECORATION: none}
+.searchbox2 A:visited {TEXT-DECORATION: none}
+.searchbox2 A:hover {TEXT-DECORATION: none}
+.ydp{display:block;}
+.ndp{display:none}
+</style>
+<script>
+var actionList = ["main.do","search.do","searchproduct.do","picsearch.do","searchdownload.do","commusearch.do"];
+function so(a,b,c,d,e,f,dd)
+{
+act = actionList[parseInt(dd.id.substr(3))-1];
+document.f1.action = "http://search.yesky.com/"+act;
+eval("document.getElementById('so_"+a+"').className='dd1'");
+eval("document.getElementById('so_"+b+"').className='dd2'");
+eval("document.getElementById('so_"+c+"').className='dd2'");
+eval("document.getElementById('so_"+d+"').className='dd2'");
+eval("document.getElementById('so_"+e+"').className='dd2'");
+eval("document.getElementById('so_"+f+"').className='dd2'");
+
+eval("document.getElementById('vso_"+a+"').style.display='block'");
+eval("document.getElementById('vso_"+b+"').style.display='none'");
+eval("document.getElementById('vso_"+c+"').style.display='none'");
+eval("document.getElementById('vso_"+d+"').style.display='none'");
+eval("document.getElementById('vso_"+e+"').style.display='none'");
+eval("document.getElementById('vso_"+f+"').style.display='none'");
+}
+</script>
+<form name="f1" action="http://search.yesky.com/main.do" target="_blank" method="get" onsubmit="return _checkProductSearch()">
+<div class="searchbox">
+<div class="searchbox2">
+<dl>
+<dt><b>天极IT搜索</b></dt>
+<dd class="dd1" id="so_1" onmousedown="so(1,2,3,4,5,6,this)"><a onclick="_checkProductSearch();">综合</a></dd>
+<dd class="dd2" id="so_2" onmousedown="so(2,1,3,4,5,6,this)"><a onclick="_checkProductSearch();">网页</a></dd>
+<dd class="dd2" id="so_3" onmousedown="so(3,1,2,4,5,6,this)"><a onclick="_checkProductSearch();">产品</a></dd>
+<dd class="dd2" id="so_4" onmousedown="so(4,1,2,3,5,6,this)"><a onclick="_checkProductSearch();">图片</a></dd>
+<dd class="dd2" id="so_5" onmousedown="so(5,1,2,3,4,6,this)"><a onclick="_checkProductSearch();">下载</a></dd>
+<dd class="dd2" id="so_6" onmousedown="so(6,1,2,3,4,5,this)"><a onclick="_checkProductSearch();">社区</a></dd>
+</dl>
+</div>
+<div class="searchbox3">
+<dl><input name="wd" id="wd" class="search_input" type="text">　<input name="login" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/bottom.gif" type="image" align="absmiddle"></dl>
+<dt><div id="vso_1">热门搜索：<a href="http://search.chinabyte.com/main/thinkpad%20t60.shtml" target="_blank">ThinkPad t60</a>　<a href="http://search.chinabyte.com/main/%E8%AF%BA%E5%9F%BA%E4%BA%9A.shtml" target="_blank">诺基亚</a>　<a href="http://search.chinabyte.com/main/%E8%BF%85%E9%9B%B7.shtml" target="_blank">迅雷</a>　<a href="http://search.chinabyte.com/main/%E6%9A%B4%E9%A3%8E%E5%BD%B1%E9%9F%B3.shtml" target="_blank">暴风影音</a></div>
+<div id="vso_2" style="display: none;">热门搜索：<a href="http://search.chinabyte.com/main/thinkpad%20t60.shtml" target="_blank">ThinkPad t60</a>　<a href="http://search.chinabyte.com/main/%E8%AF%BA%E5%9F%BA%E4%BA%9A.shtml" target="_blank">诺基亚</a>　<a href="http://search.chinabyte.com/main/%E8%BF%85%E9%9B%B7.shtml" target="_blank">迅雷</a>　<a href="http://search.chinabyte.com/main/%E6%9A%B4%E9%A3%8E%E5%BD%B1%E9%9F%B3.shtml" target="_blank">暴风影音</a></div>
+<div id="vso_3" style="display: none;">热门搜索：<a href="http://search.chinabyte.com/main/thinkpad%20t60.shtml">ThinkPad t60</a>　<a href="http://search.chinabyte.com/main/%E8%AF%BA%E5%9F%BA%E4%BA%9A.shtml" target="_blank">诺基亚</a>　<a href="http://search.chinabyte.com/main/%E8%BF%85%E9%9B%B7.shtml" target="_blank">迅雷</a>　<a href="http://search.chinabyte.com/main/%E6%9A%B4%E9%A3%8E%E5%BD%B1%E9%9F%B3.shtml" target="_blank">暴风影音</a></div>
+<div id="vso_4" style="display: none;">热门搜索：<a href="http://search.chinabyte.com/main/thinkpad%20t60.shtml">ThinkPad t60</a>　<a href="http://search.chinabyte.com/main/%E8%AF%BA%E5%9F%BA%E4%BA%9A.shtml" target="_blank">诺基亚</a>　<a href="http://search.chinabyte.com/main/%E8%BF%85%E9%9B%B7.shtml" target="_blank">迅雷</a>　<a href="http://search.chinabyte.com/main/%E6%9A%B4%E9%A3%8E%E5%BD%B1%E9%9F%B3.shtml" target="_blank">暴风影音</a></div>
+<div id="vso_5" style="display: none;">热门搜索：<a href="http://search.chinabyte.com/main/thinkpad%20t60.shtml" target="_blank">ThinkPad t60</a>　<a href="http://search.chinabyte.com/main/%E8%AF%BA%E5%9F%BA%E4%BA%9A.shtml" target="_blank">诺基亚</a>　<a href="http://search.chinabyte.com/main/%E8%BF%85%E9%9B%B7.shtml" target="_blank">迅雷</a>　<a href="http://search.chinabyte.com/main/%E6%9A%B4%E9%A3%8E%E5%BD%B1%E9%9F%B3.shtml" target="_blank">暴风影音</a></div>
+<div id="vso_6" style="display: none;">热门搜索：<a href="http://search.chinabyte.com/main/thinkpad%20t60.shtml" target="_blank">ThinkPad t60</a>　<a href="http://search.chinabyte.com/main/%E8%AF%BA%E5%9F%BA%E4%BA%9A.shtml" target="_blank">诺基亚</a>　<a href="http://search.chinabyte.com/main/%E8%BF%85%E9%9B%B7.shtml" target="_blank">迅雷</a>　<a href="http://search.chinabyte.com/main/%E6%9A%B4%E9%A3%8E%E5%BD%B1%E9%9F%B3.shtml" target="_blank">暴风影音</a></div>
+</dt></div>	
+</div>
+</form>
+
+<!--广告代码结束-->
+<div id="ad7ad"><span id="ad7"></span></div>
+<div class="clear"></div>
+<div id="conlink"><script type="text/javascript">
+var clipBoardContent = document.URL;
+  function copyUserHomeToClipBoard()
+  {  
+  window.clipboardData.setData("Text",clipBoardContent);
+  alert("复制成功，请粘贴到你的QQ/MSN上推荐给你的好友！\r\n\r\n内容如下：\r\n" + clipBoardContent);
+  }
+</script>
+<form action="http://feedback.yesky.com/reader/user/doWelcome.view" name="feedbackForm" id="feedbackForm" target="_blank">
+	<input name="refurl" value="" id="refurl" type="hidden">
+	<input name="reftitle" value="" id="reftitle" type="hidden">
+</form>
+<script type="text/javascript">
+document.write("<a href=\"http://u.link.yesky.com\" target=\"_blank\">天极流量联盟免费换</a>&nbsp;&nbsp;<a href=\"http:\/\/dig.yesky.com\" id=\'yeskyDig\'  onclick=\"javascript:this.href=\'http:\/\/dig.yesky.com\/ding.php?t=\'+encodeURIComponent(document.title)+\'&u=\'+escape(document.location.href)+\'&ac=ding\';\" target=_blank title=\"此文不错，我顶！\"><b>我顶一下<\/b><\/a>　<a onclick='javascript:submitFeedback();' style='cursor:hand;'><font color='#FF0000'><b>我要挑错</b></font></a>　<a href=\"javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(yesky=window.open('http://hot.yesky.com/dp.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t)+'&st=2','_blank','scrollbars=no,width=400,height=480,left=75,top=20,status=no,resizable=yes'));yesky.focus();\"title=\"推荐到天极网摘 http://hot.yesky.com [鼠标划选本文摘要，然后点击本图片]\" target=\"_self\">收藏到天极收藏夹</a> <a href=\"JavaScript: copyUserHomeToClipBoard()\" target=\"_self\">复制链接发给好友</a>　<a href=\"javascript:window.external.AddFavorite('"+clipBoardContent+"')\" target=\"_self\">加入收藏</a>　<a href=\"javascript:LoadPrintJs()\" target=\"_self\">打印</a>　<a href=\"javascript:window.close()\" target=\"_self\">关闭</a>　<a href=\"#top\" target=\"_self\"><img src=\"http://image.yesky.com/TLimages/newmobile/titlebg19.gif\" title=\"返回顶部\"/></a>");
+function submitFeedback() {
+	document.getElementById("refurl").value=document.location.href;
+	document.getElementById("reftitle").value=document.title;
+	document.getElementById("feedbackForm").submit();
+}
+</script><a href="http://u.link.yesky.com/" target="_blank">天极流量联盟免费换</a>&nbsp;&nbsp;<a href="http://dig.yesky.com/" id="yeskyDig" onclick="javascript:this.href='http://dig.yesky.com/ding.php?t='+encodeURIComponent(document.title)+'&amp;u='+escape(document.location.href)+'&amp;ac=ding';" target="_blank" title="此文不错，我顶！"><b>我顶一下</b></a>　<a onclick="javascript:submitFeedback();" style=""><font color="#ff0000"><b>我要挑错</b></font></a>　<a href="javascript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(yesky=window.open('http://hot.yesky.com/dp.aspx?t='+escape(d.title)+'&amp;u='+escape(d.location.href)+'&amp;c='+escape(t)+'&amp;st=2','_blank','scrollbars=no,width=400,height=480,left=75,top=20,status=no,resizable=yes'));yesky.focus();" title="推荐到天极网摘 http://hot.yesky.com [鼠标划选本文摘要，然后点击本图片]" target="_self">收藏到天极收藏夹</a> <a href="javascript:%20copyUserHomeToClipBoard()" target="_self">复制链接发给好友</a>　<a href="javascript:window.external.AddFavorite('http://dev.yesky.com/396/2612396.shtml')" target="_self">加入收藏</a>　<a href="javascript:LoadPrintJs()" target="_self">打印</a>　<a href="javascript:window.close()" target="_self">关闭</a>　<a href="#top" target="_self"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/titlebg19.gif" title="返回顶部"></a>
+</div>
+<div class="clear"></div>
+
+
+<div class="clear"></div>
+<!--相关文章等-->
+<div id="conrele">
+<div class="xgleft" id="__002"><div class="xgmenus">相关文章</div>
+<dt> 
+</dt><dd>·<a href="http://dev.yesky.com/327/3500327.shtml">Hibernate+Struts的J2EE应用开发</a></dd><dd>·<a href="http://dev.yesky.com/62/3494062.shtml">Hibernate的检索策略小结</a></dd><dd>·<a href="http://dev.yesky.com/29/3479529.shtml">基于Hibernate和Struts的J2EE应用开发</a></dd><dd>·<a href="http://dev.yesky.com/75/2675075.shtml">使用hibernate实现树形结构无限级分类</a></dd><dd>·<a href="http://dev.yesky.com/336/2653336.shtml">另类查询 Hibernate HQL 深度历险</a></dd><dd>·<a href="http://dev.yesky.com/91/2635091.shtml">基于Struts和Hibenate的发布系统研究</a></dd> 
+
+</div>
+<div class="xgright" id="__003"><div class="xgmenus">最新更新</div>
+<dt> 
+</dt><dd>·<a href="http://dev.yesky.com/147/8330647.shtml">CSS 视频教程：链接 2</a></dd><dd>·<a href="http://dev.yesky.com/144/8330644.shtml">CSS 视频教程：链接 1</a></dd><dd>·<a href="http://dev.yesky.com/137/8330637.shtml">CSS 视频教程：字体变量</a></dd><dd>·<a href="http://dev.yesky.com/138/8330638.shtml">CSS 视频教程：文本缩进</a></dd><dd>·<a href="http://dev.yesky.com/142/8330642.shtml">CSS 视频教程：文本装饰</a></dd><dd>·<a href="http://dev.yesky.com/139/8330639.shtml">CSS 视频教程：文本对齐</a></dd> 
+
+</div>
+</div>
+
+<div class="clear"></div>
+<!--天极无线-->
+<div><div>
+<object type="application/x-shockwave-flash" data="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/mobile_ad.swf" id="templink" width="640" height="100">
+<param name="movie" value="http://image.yesky.com/TLimages/include/other/mobile_ad.swf">
+</object>
+</div></div>
+</div>
+<!--右边开始-->
+<div id="conright">
+<div id="adgg5">
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_bigbutton_1_1&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_bigbutton_1_2&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_bigbutton_1_3&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_bigbutton_1_4&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_bigbutton_1_5&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_009.htm"></script><script language="Javascript">
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_008.htm"></script><script language="Javascript">
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_004.htm"></script><script language="Javascript">
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_002.htm"></script><script language="Javascript">
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_006.htm"></script><script language="Javascript">
+</script>
+
+</div>
+<div class="clear"></div>
+<div id="adgg5">
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_text_2_1&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_text_2_2&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_003.htm"></script><script language="Javascript">
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_007.htm"></script><script language="Javascript">
+ADFHOST5469="http://yeskyafp.allyes.com";
+ADFCID5469=5393;
+ADFBID5469=5469;
+ADFUSER5469="http://yeskyafp.allyes.com/main/adfclick?user=YESKYAFP|yesky_412|yesky_412_inner_text_2_2&db=yeskyafp&log=on&ip=58.24.106.222&bid=5469&cid=464363&sid=20099&kv=&exp1=-225859476&exp2=6158429423&cache=814119&url=http://www.abc.com";
+</script>
+<script type="text/javascript">
+<!--
+google_ad_client = "pub-5823370817932966";
+/* 300x250, &#21019;&#24314;&#20110; 08-4-11 */
+google_ad_slot = "0527999940";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="google-yesky-under_data/show_ads.js"></script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" frameborder="0" height="250"></iframe>
+
+
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/samsung_product.js" type="text/javascript"></script><iframe id="product_iFrmEventClickImg" width="0" height="0"></iframe><div id="product_Div_EventClickImg" style="position: absolute; display: none; left: 5px; line-height: 60px; top: 494px;"><table width="105" border="0" cellpadding="0" cellspacing="0" height="76"><tbody><tr><td><div id="Layer1" style="background: transparent url(http://image.yesky.com/TLimages/yesky/images/tmbg.gif) repeat scroll 0% 0%; position: absolute; width: 334px; top: 0px; left: 0px; height: 10px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; z-index: 1000;" onclick="close_product();"></div><div id="Layer1" style="background: transparent url(http://image.yesky.com/TLimages/yesky/images/tmbg.gif) repeat scroll 0% 0%; position: absolute; width: 334px; top: 70px; left: 0px; height: 50px; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; z-index: 1000;" onclick="panduan();"></div><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" id="myFlash" width="334" height="225"><param name="movie" value="http://market2.yesky.com/currentplay/view/currentplayProduct/images/4.swf "><param name="wmode" value="transparent"><param name="quality" value="high"><param name="SCALE" value="exactfit"><embed wmode="transparent" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/4.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></object></td></tr></tbody></table></div>
+
+
+</div>
+<div class="clear"></div>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/ayxc-yesky-inner-text.js"></script><div style="border: 1px solid rgb(142, 150, 180); width: 298px; margin-bottom: 10px;"><div style="background: transparent url(http://image2.yesky.com/TLimages/yesky/images/bt_c16.gif) repeat-x scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; padding-left: 12px; width: 286px; height: 28px; line-height: 28px; color: rgb(32, 72, 144);"><div style="font-size: 14px; font-weight: bold; float: left;">奥运嘉年华</div><a href="http://in.yesky.com/"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/oykl.gif" style="float: right; margin-top: 3px; margin-right: 5px;" border="0"></a></div><div style="padding: 6px; line-height: 21px; text-align: left;">·<a href="http://in.yesky.com/141/8309141.shtml">三星打出财富梦游戏攻略</a><br>·<a href="http://in.yesky.com/151/8265651.shtml">运气碰 好礼相送幸运网友</a><br>·<a href="http://in.yesky.com/381/8311881.shtml">几组有趣的图片</a><br>·<a href="http://in.yesky.com/333/8304833.shtml">“三星眼力大比拼”第一期手机大奖已送出</a><br>·<a href="http://in.yesky.com/blt8/">取消十一长假，您同意吗？</a><br>·<a href="http://in.yesky.com/426/8320426.shtml">“三星眼力大比拼”第二部手机 花落成都</a><br>·<a href="http://spec.52pk.com/jinling/">为52PK投票赢取心动大奖</a><br>·<a href="http://in.yesky.com/410/8302410.shtml">2008年国庆节“十一”放假具体安排</a><br>·<a href="http://in.yesky.com/hero/Samsung_dreams/">三星体验活动“打出你的财富梦”大奖等你拿</a><br>·<a href="http://in.yesky.com/blt9/">今后您还会不会买三鹿奶粉？</a><br></div></div>
+<!--地区经销商-->
+<script language="JavaScript">
+<!--
+	var catalogid=-1;
+	//else if(pid > 0){catalogid=pid;}
+	//else if(regionid>0){catalogid=regionid;} 
+if(typeof(catalogid) != "undefined" &&catalogid!=-1) {   
+	document.write("<script language=\"JavaScript\" charset=\"gb2312\" src=\"http://www.yesky.com/productjs/specdealer/"+catalogid+"_specdealer.js\"><\/script>");	
+ }
+//-->
+</script>
+<script language="JavaScript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/mobile_cojxs.js"></script>
+<div class="clear"></div>
+
+<!--此文读者又读了以下内容-->
+          <div id="__004">
+          <div class="conrtbox"><div class="menu">关注此文读者还看过</div><div class="conqldq"><dt></dt><dd>·<a href="http://dev.yesky.com/14/7517014.shtml">垃圾清理势在必行——java垃圾收集算法</a></dd><dd>·<a href="http://dev.yesky.com/236/7516736.shtml">程序员听爵士 架构师指挥交响乐</a></dd><dd>·<a href="http://dev.yesky.com/438/7516438.shtml">UML之精粹——学习笔记（一）</a></dd><dd>·<a href="http://dev.yesky.com/60/7516560.shtml">程序员的处世哲学：好酒不怕巷子深</a></dd><dd>·<a href="http://dev.yesky.com/web/279/7516279.shtml">利用PHP制作简单的内容采集器</a></dd><dd>·<a href="http://dev.yesky.com/msdn/135/7516135.shtml">在Visual C#中定义和使用自己的特性</a></dd><dd>·<a href="http://dev.yesky.com/333/7515833.shtml">基于HOOK和MMF的Windows密码渗透技术</a></dd><dd>·<a href="http://soft.yesky.com/228/7515728.shtml">VS2005视频教程之母版页创建使用[视频]</a></dd><dd>·<a href="http://dev.yesky.com/469/7514969.shtml">Vista后,C++ Builder 2007托管还是原生?</a></dd></div><div class="clear"></div></div> 
+</div>
+
+<!--群乐-->
+<div class="clear"></div>
+<div id="__sjqlrtph" class="wrap_houln">
+<div class="qlrt_sj">
+<!-- Error -->
+</div>
+</div>
+
+<!--手机群乐热帖排行-->
+<div id="__rpsjcpph" class="wrap_houln">
+<div class="rpcp_sj">
+<!-- Error -->
+</div>
+</div>
+<!--热评手机产品排行-->
+<div class="clear"></div>
+
+<!--相关产品-->
+<div id="__006">
+
+</div>
+<!--相关产品-->
+<div class="clear"></div>
+<div id="__007">
+<!--同价位产品-->
+<script type="text/javascript">
+if (typeof(tongpro)!='undefined'){
+document.write("<script src=\"http://product1.yesky.com/partner/product/productcompare.do?productid="+tongpro+"\"><\/script>");
+}
+</script>
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/mobile_cotjwcp.js"></script>
+<!--同价位产品-->
+</div>
+<div class="clear"></div>
+<!--相关下载列表-->          
+    <div id="__004"> 
+       
+    </div>	
+<div class="clear"></div>
+<style>
+.yview{display:block;}
+.nview{display:none;}
+</style>
+<div id="__008">
+<div class="conpdbox">
+<div>
+<div class="conphdqbg" id="clayer4_1" onmouseover="showlayer3(1,2,3)">网友关注</div>
+<div class="conmibg"></div>
+<div class="conphycbg" id="clayer4_2" onmouseover="showlayer3(2,1,3)">最新上市</div>
+<div class="conmibg"></div>
+<div class="conphycbg" id="clayer4_3" onmouseover="showlayer3(3,1,2)">编辑推荐</div></div>
+<div class="clear"></div>
+<div class="conrphbox"><!--日排行-->
+<div id="clay4_1" class="yview">
+<div class="conrrphbox2">
+ <!-- Error -->
+ </div>
+ </div><!--周排行-->
+<div class="clear"></div>
+<div id="clay4_2" class="nview">
+<div class="conrrphbox2">
+<!-- Error -->
+ </div>
+ </div><!--月排行-->
+<div class="clear"></div>
+<div id="clay4_3" class="nview">
+<div class="conrrphbox2">
+<li><a href="http://product.yesky.com/catalog/2331/"><strong><font color="#ff0000">综合布线</font></strong></a></li>
+<li><a href="http://product.yesky.com/catalog/1423/">条码设备</a></li>
+<li><a href="http://product.yesky.com/catalog/14325/">证卡打印机</a></li>
+<li><a href="http://product.yesky.com/catalog/1421/">条码打印机</a></li>
+<li><a href="http://product.yesky.com/catalog/4847/">录音电话</a></li>
+</div>
+ </div>
+<div class="clear"></div></div></div></div>
+<!--排行榜-->
+<div id="__008">
+<div class="conpdbox"><div><div id="clayer3_1" onmouseover="showlayer2(1,2,3)" class="conphdqbg">文章阅读排行</div><div class="conmibg"></div><div id="clayer3_2" onmouseover="showlayer2(2,1,3)" class="conphycbg">周排行</div><div class="conmibg"></div><div id="clayer3_3" onmouseover="showlayer2(3,1,2)" class="conphycbg">月排行</div></div><div class="clear"></div>
+<div class="conrphbox">
+<!--日排行-->
+<div class="conrrphbox" id="clay3_1">
+<ul>
+<li><a href="http://dev.yesky.com/50/8316050.shtml">IBM Sametime 3D为即时通讯虚拟现实</a></li>
+</ul>
+</div>
+<!--周排行-->
+<div class="clear"></div>
+<div class="conrrphbox" id="clay3_2" style="display: none;">
+<ul>
+<li><a href="http://dev.yesky.com/50/8316050.shtml">IBM Sametime 3D为即时通讯虚拟现实</a></li>
+</ul>
+</div>
+<!--月排行-->
+<div class="clear"></div>
+<div class="conrrphbox" id="clay3_3" style="display: none;">
+<ul>
+<li><a href="http://dev.yesky.com/225/8294725.shtml">看你需要练级否 程序员的十种级别</a></li><li><a href="http://dev.yesky.com/470/8299470.shtml">一个真正合格的程序员 程序员工作是干吗的?</a></li><li><a href="http://dev.yesky.com/125/8297125.shtml">程序员所应具备的素质</a></li><li><a href="http://dev.yesky.com/310/8297310.shtml">甲骨文与微软拳脚相加 IBM坐山观虎斗</a></li><li><a href="http://dev.yesky.com/434/8308434.shtml">软件测试，软件开发后的又一个朝阳岗位</a></li><li><a href="http://dev.yesky.com/topic/192/8316692.shtml">虚拟化 Tech Ed 2008新技术展望与剖析专题</a></li><li><a href="http://dev.yesky.com/348/8286848.shtml">MVP张洪举讲述SQL Server 2008安装概述</a></li><li><a href="http://dev.yesky.com/499/8308999.shtml">微软Enterprise Library宣布开源</a></li><li><a href="http://dev.yesky.com/469/8301469.shtml">互相兼容 Sun和微软在虚拟化达成共识</a></li><li><a href="http://dev.yesky.com/242/8303742.shtml">任你一家独大？ IBM联合盟友向微软正式发难</a></li>
+</ul>
+</div>
+<div class="clear"></div>
+</div>
+</div>
+</div>
+<!--排行榜结束-->
+<div class="clear"></div>
+<div id="adgg5">
+<script language="JavaScript">
+document.write("<script type='text/javascript' src='http://yeskyafp.allyes.com/main/adfshow?user=YESKYAFP|yesky_"+ad_cid+"|yesky_"+ad_cid+"_inner_text_4&db=yeskyafp&border=0&local=yes&js=ie'><\/script>");
+</script><script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/adfshow_005.htm"></script><script language="Javascript">
+ADFHOST114="http://yeskyafp.allyes.com";
+ADFCID114=5395;
+ADFBID114=114;
+ADFUSER114="http://yeskyafp.allyes.com/main/adfclick?user=YESKYAFP|yesky_412|yesky_412_inner_text_4&db=yeskyafp&log=on&ip=58.24.106.222&bid=114&cid=22684&sid=386&kv=&exp1=-325829960&exp2=6054409103&cache=843997&url=http://www.abc.com";
+</script>
+
+<script>
+cpro_client='yesky2007_yesky_cpr';
+cpro_cbd='#798DBF'; 
+cpro_cbg='#FFFFFF'; 
+cpro_ctitle='#000000'; 
+cpro_cdesc='#1A1A1A'; 
+cpro_curl='#008000';    
+cpro_clink='#FFFFFF'; 
+cpro_flush=4; 
+cpro_w=300; 
+cpro_h=250; 
+cpro_template='text_default_300_250'; 
+</script>
+<script language="JavaScript" type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/cp.js"></script><div style="display: none;">-</div><iframe marginwidth="0" marginheight="0" allowtransparency="" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/uijs.htm" scrolling="no" width="300" align="center,center" frameborder="0" height="250"></iframe>
+
+
+</div>
+<div class="clear"></div>
+<!--热点推荐-->
+<div id="__009">
+          <div class="conrtbox"><div class="menu">热点推荐</div><div id="conhottj"><ul><li><a href="http://dev.yesky.com/topic/260/8080260.shtml" title="SQL Server 2008新特性新感觉技术专题"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/jn4452o4i9c1.jpg" alt="SQL Server 2008新特性新感觉技术专题"></a><br><a href="http://dev.yesky.com/topic/260/8080260.shtml" title="SQL Server 2008新特性新感觉技术专题">SQL Server 2008新特性新感觉技术专题</a></li><li><a href="http://soft.yesky.com/458/7588458.shtml" title="珊瑚虫QQ侵权事件追踪专题报道"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/ebp80q5p4o6k.jpg" alt="珊瑚虫QQ侵权事件追踪专题报道"></a><br><a href="http://soft.yesky.com/458/7588458.shtml" title="珊瑚虫QQ侵权事件追踪专题报道">珊瑚虫QQ侵权事件追踪专题报道</a></li><li><a href="http://dev.yesky.com/topic/115/7818615.shtml" title="王者之战 解析2008 IBM SOA市场攻略"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/29c57oovg8s4.jpg" alt="王者之战 解析2008 IBM SOA市场攻略"></a><br><a href="http://dev.yesky.com/topic/115/7818615.shtml" title="王者之战 解析2008 IBM SOA市场攻略">王者之战 解析2008 IBM SOA市场攻略</a></li><li><a href="http://soft.yesky.com/info/274/7692274.shtml" title="2007第二届中国共享软件英雄榜隆重揭榜"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/82q69pe6ztpy.jpg" alt="2007第二届中国共享软件英雄榜隆重揭榜"></a><br><a href="http://soft.yesky.com/info/274/7692274.shtml" title="2007第二届中国共享软件英雄榜隆重揭榜">2007第二届中国共享软件英雄榜隆重揭榜</a></li></ul></div><div class="clear"></div></div> 
+<!--热点推荐结束-->
+</div>
+<div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="conbottom"><div class="clear"></div></div>
+<div class="clear"></div>
+<!--尾文件开始-->
+<div id="conrssbg">欢迎订阅天极网RSS聚合资讯：<a href="http://www.yesky.com/index.xml">http://www.yesky.com/index.xml</a>　　<a href="http://www.yesky.com/index.xml"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/y_newcontent23.gif" border="0"></a>　　<a href="http://gogo.yesky.com/html/index.shtml"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/y_newcontent24.gif" border="0"></a></div>
+<div class="floor1003"><script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/mobile_cyfloor.js"></script><style>
+body{font-size:12px;}
+form{border:0px;padding:0px;margin:0px;}
+.floorbody{width:981px;height:126px;background:#FAFAFD;padding:1px 0px 1px 0px;margin:auto;}
+.floorleft{width:135px;height:126px;float:left;background:#F5F5FE;text-align:center;}
+.floorright{width:800px;height:126px;float:right;text-align:left;padding-left:18px;}
+.floorselect{height:40px;font-size:14px;font-weight:bold;padding-top:6px;}
+.floorleft1{float:left;width:210px;padding-top:7px;font-size:14px;}
+.floorright1{float:left;}
+.floordan{margin-top:1px;height:27px;width:85px;color:#545454;font-size:14px;font-weight:bold;padding-top:2px;border-bottom:#969696 1px solid;border-right:#969696 1px solid;}
+.floortext{width:300px;height:21px;}
+.floorlinks{width:100%;height:20px;}
+.floorlinks a:link,.floorlinks a:visited{text-decoration:none;color:#222222;}
+.floorlinks a:active,.floorlinks a:hover{text-decoration:underline;color:red;}
+.floordownlink{width:100%;height:26px;background:#E2E2F0;color:#000000;text-align:left;line-height:26px;}
+.floordownlink a:link,.floordownlink a:visited{text-decoration:none;color:#000000;}
+.floordownlink a:active,.floordownlink a:hover{text-decoration:underline;color:red;}
+.floorleft2{float:left;padding-top:3px;padding-left:10px;text-align:left;}
+.floorright2{float:right;text-align:right;padding-top:3px;padding-right:10px;}
+.floorright2 a:link,.floorright2 a:visited{text-decoration:underline;color:#000000;}
+.floorright2 a:active,.floorright2 a:hover{text-decoration:underline;color:#000000;}
+.floorbottom{text-align:center;width:776px;float:left;margin:auto}
+.floorbottomleft{float:left;text-align:right;width:110px;padding-right:10px;}
+.floorbottomright{float:right;text-align:left;padding-top:5px;line-height:20px;}
+.floorbottom a:link,.floorbottom a:visited{text-decoration:none;color:#222222;}
+.floorbottom a:active,.floorbottom a:hover{text-decoration:underline;color:red;}
+.floor776{width:776px;text-align:center;margin:auto}
+.floor1003{width:981px;text-align:center;margin:auto}
+</style>
+<div class="floorbody">
+<div class="floorleft"><a href="http://www.tianjimedia.com/" target="_blank"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/ylogo.gif" border="0"></a></div>
+<div class="floorright">
+<div class="floorselect">
+<div class="floorleft1">更多精彩资讯尽在天极IT搜索</div>
+<div class="floorright1">
+<form name="search" action="http://search.yesky.com/search.do">
+<input name="wd" class="floortext" type="text">　<input value="天极搜索" name="btnsearch" class="floordan" type="submit">
+</form>
+</div>
+</div>
+<div class="floorlinks">
+<b><a href="http://www.chinabyte.com/">比特网</a>:</b> 
+<a href="http://news.chinabyte.com/">新闻</a> <a href="http://column.chinabyte.com/">评论</a> 
+<a href="http://telecom.chinabyte.com/">通信</a> <a href="http://net.chinabyte.com/">互联网</a>
+<a href="http://my.chinabyte.com/">CB博客</a> <a href="http://com.chinabyte.com/">企业博客</a>
+<a href="http://e.chinabyte.com/">信息化</a> <a href="http://soft.chinabyte.com/">企业软件</a> 
+<a href="http://solution.chinabyte.com/">解决方案</a> <a href="http://biz.chinabyte.com/">商用系统</a> 
+<a href="http://server.chinabyte.com/">服务器</a> <a href="http://data.chinabyte.com//">数据调查</a> 
+</div>
+<div class="floorlinks">
+<b><a href="http://www.yesky.com/">天极网</a>: </b>
+<a href="http://product.yesky.com/">产品库</a> <a href="http://www.yesky.com/jxs/">经销商</a>
+<a href="http://cseek.yesky.com/">商情</a> <a href="http://mobile.yesky.com/">手机</a> 
+<a href="http://digital.yesky.com/">数码</a> <a href="http://notebook.yesky.com/">笔记本</a>
+<a href="http://pc.yesky.com/">台式机</a> <a href="http://diy.yesky.com/">硬件</a>
+<a href="http://oa.yesky.com/">外设</a> <a href="http://net.yesky.com/">网络</a>
+<a href="http://dh.yesky.com/">数字家庭</a> <a href="http://lab.yesky.com/">评测</a>
+<a href="http://e.yesky.com/">E时代</a> <a href="http://soft.yesky.com/">软件</a>
+<a href="http://game.yesky.com/">游戏</a> <a href="http://www.mydown.com/">下载</a>
+</div>
+<div class="floorlinks">
+<b><a href="http://www.ctocio.com.cn/">IT专家网</a>:</b> 
+<a href="http://database.ctocio.com.cn/">数据库</a> <a href="http://mobilecomputing.ctocio.com.cn/">移动计算</a> 
+<a href="http://networking.ctocio.com.cn/">网络</a> <a href="http://security.ctocio.com.cn/">安全</a> 
+<a href="http://storage.ctocio.com.cn/">存储</a> <a href="http://webservices.ctocio.com.cn/">Web服务</a>
+<a href="http://cio.ctocio.com.cn/">CIO</a> <a href="http://smallbizit.ctocio.com.cn/">中小企业IT</a>
+<a href="http://askexpert.ctocio.com.cn/">IT专家库</a> <a href="http://whitepaper.ctocio.com.cn/">白皮书</a>
+<a href="http://bbs.ctocio.com.cn/">IT专家网论坛</a> <a href="http://blog.ctocio.com.cn/">IT专家网博客</a>
+</div>
+<div class="floorlinks">
+<b><a href="http://www.impresswatch.com.cn/">Impress中文站</a>: </b>
+<a href="http://td.impresswatch.com.cn/">IT技术库</a> <a href="http://www.impresswatch.com.cn/itwatch/">个人电脑</a> <a href="http://www.impresswatch.com.cn/digi/">数码影像</a>
+<a href="http://www.impresswatch.com.cn/radio/">音频视频</a> <a href="http://www.impresswatch.com.cn/mobile/">手机·通讯</a> 
+<a href="http://www.impresswatch.com.cn/game/">游戏先锋</a> <a href="http://www.impresswatch.com.cn/elec/">新潮家电</a>
+<a href="http://www.impresswatch.com.cn/xchj/">西川和久专栏</a> <a href="http://www.impresswatch.com.cn/xsxl/">小寺信良周刊</a>
+</div>
+</div>
+</div>
+<div class="floordownlink">
+<div class="floorleft2">
+<a href="http://www.tianjimedia.com/ar/">天极服务</a> |
+<a href="http://www.tianjimedia.com/yesky/">关于我们</a> |
+<a href="http://www.tianjimedia.com/attorney/">网站律师</a> |
+<a href="http://maillist.yesky.com/">电子杂志</a> |
+<a href="http://rss.yesky.com/">RSS订阅</a> |
+<a href="http://link.yesky.com/">友情合作</a> |
+<a href="http://www.tianjimedia.com/invitation/">加入我们</a> |
+<a href="http://www.yesky.com/web/website.htm">网站地图</a> |
+<a href="http://image.yesky.com/TLimages/yeskyonim/index.shtml">MSN/QQ上看天极</a>
+</div>
+<div class="floorright2">
+<a href="#" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.yesky.com/');">设定天极网为首页</a>
+</div>
+</div>
+<div class="floorbottom">
+<div class="floorbottomleft"><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=0402000103000001"><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/biaoshi.gif" border="0"></a></div>
+<div class="floorbottomright">
+Copyright (C) 1999-2008 Chinabyte.com, All Rights Reserved 版权所有 天极网络
+<br> 
+商务联系、网站内容、合作建议：010-82657868 
+<a href="http://feedback.yesky.com/advice/yjb.htm">在线提交意见反馈</a> 
+Powered by 天极内容管理平台CMS4i 
+</div>
+</div>
+</div>
+<script type="" language="JavaScript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/f.js"></script>
+
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/yesky-richmedia.js"></script>
+<!--记数器-->
+  <script language="Javascript">
+  var now = new Date(); 
+document.write("<img src='http://counter.yesky.com/counter.shtml?CID=412&amp;AID=2612396&amp;refer="+escape(document.referrer)+"&amp;rand="+ now.getTime()  + "&amp;cur="+escape(document.URL)+"' border='0' alt='' width='0' height='0'>");
+</script><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/counter.txt" alt="" width="0" border="0" height="0">
+<noscript>
+<img
+src="http://counter.yesky.com/counter.shtml?CID=412&amp;AID=2612396&amp;refer=noscriptcounter&amp;cur=noscriptcounter"
+border='0' width='0' height='0'/>
+</noscript>
+<!--后显Google提取的广告-->
+<!--c-text-2正文结尾处文字-->
+<span id="span_ad7"></span> 
+  <script language="JavaScript">
+document.getElementById("advTailValue").innerHTML=document.getElementById("span_ad7").innerHTML;
+document.getElementById("span_ad7").innerHTML="";
+</script> 
+<!--后显Google提取的广告-->
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/412-yesky-inner-text.htm"></script>
+<!-- print -->
+<script src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/integrated.js"></script>
+<!--监控代码-->
+<!-- START Nielsen//NetRatings SiteCensus V5.2 -->
+<!-- COPYRIGHT 2006 Nielsen//NetRatings -->
+<script type="text/javascript">
+	var _rsCI="cn-yesky";	 
+	var _rsCG="0";	
+	var _rsDN="//secure-cn.imrworldwide.com/";	
+	var _rsCC=0;	
+	var _rsSE=1;	
+	var _rsSM=0.01;	 
+	var _rsSS=1500;	 
+</script>
+<script type="text/javascript" src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/v52.js"></script><img src="Hibernate%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98%E6%94%BB%E7%95%A5_files/m.gif" alt="" width="1" height="1">
+<noscript>
+	<img src="//secure-cn.imrworldwide.com/cgi-bin/m?ci=cn-yesky&amp;cg=0" alt=""/>
+</noscript>
+<!-- END Nielsen//NetRatings SiteCensus V5.2 -->
+
+</body></html>
