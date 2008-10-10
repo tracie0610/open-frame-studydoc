@@ -1,0 +1,75 @@
+var expireDate = new Date();
+    var hours = expireDate.getHours();
+    var minutes = expireDate.getMinutes();
+    var seconds = expireDate.getSeconds();
+    var now = expireDate.getTime();
+function getCookieVal_w08 (offset)
+  {
+  var endstr = document.cookie.indexOf (";", offset);
+  if (endstr == -1)
+    endstr = document.cookie.length;
+  return unescape(document.cookie.substring(offset, endstr));
+  }
+ function GetCookie_w08 (name)
+  {
+  var arg = name + "=";
+  var alen = arg.length;
+  var clen = document.cookie.length;
+  var i = 0;
+  while (i < clen) {
+    var j = i + alen;
+    if (document.cookie.substring(i, j) == arg)
+      return getCookieVal_w08 (j);
+    i = document.cookie.indexOf(" ", i) + 1;
+    if (i == 0) break;
+  }
+  return null;
+  }
+
+var agt=navigator.userAgent.toLowerCase();
+data = '&agt=' + escape(agt) + '&r=' + escape(document.referrer) +  '&aN=' + escape(navigator.appName) + '&lg=' + escape(navigator.systemLanguage) + '&OS=' + escape(navigator.platform) + '&aV=' + escape(navigator.appVersion) + '&ntime=0.86198400 1223540795';
+a=GetCookie_w08("w0802");
+if (a != null)
+{
+	a=parseInt(a);
+	a=a+1;
+}
+else	
+	a=0;
+data=data + '&repeatip=' + a;
+
+rtime=GetCookie_w08("rtime");
+ltime=GetCookie_w08("ltime");
+w08_eid=GetCookie_w08("w08_eid");
+if (w08_eid == null)
+{
+	w08_eid=Math.floor(Math.random()*100000000) + "-" + document.referrer;
+}
+if (ltime<1000000)
+{
+rtime=0;
+ltime=0;
+}
+else rtime=parseInt(rtime);
+if (rtime<1) rtime=0;
+ltime=parseInt(ltime);
+now=parseInt(now);
+if (((now-ltime)>43200*1000) && (ltime>0))
+        rtime =rtime + 1 ;
+data=data + '&rtime='+ rtime + '&w08_eid=' + escape(w08_eid);
+data=data + '&showp=' + escape(screen.width+ 'x'+screen.height) ;
+document.write('<a href="http://vip7.1tong.com.cn/link/pview.php?id=91" target=_blank title="一统天下">[一统天下]<img border=0  hspace=0 vspace=0 src="http://vip7.1tong.com.cn/link/count.htm?id=91'+ data +'" height=0 width=0></a>');
+
+ var lefttime = 1000 * ( 86400 - hours*3600 - minutes*60 - seconds);
+ expireDate.setTime (expireDate.getTime() + 500*86400);
+document.cookie = "w0802=" + a + "; expires=" + expireDate.toGMTString() +  "; path=/";
+var lefttime=1000*86400*182;
+expireDate.setTime (now + lefttime);
+document.cookie = "rtime=" + rtime + "; expires=" + expireDate.toGMTString() +  "; path=/";
+document.cookie = "ltime=" + now + "; expires=" + expireDate.toGMTString() +  "; path=/";
+document.cookie = "w08_eid=" + escape(w08_eid) + "; expires=" + expireDate.toGMTString() +  "; path=/";
+
+
+
+
+

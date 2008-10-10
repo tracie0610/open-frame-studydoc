@@ -1,0 +1,1 @@
+document.write("<a href='http://www.21itjob.com/' target=_blank style='padding-left:4px'><font color=#ff0000>10大城市2万个热门IT职位 注册有奖</font></a><br>")

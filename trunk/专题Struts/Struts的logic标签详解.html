@@ -1,0 +1,977 @@
+<html><head><!--STATUS OK-->
+<meta http-equiv="content-type" content="text/html; charset=GB2312"><title>Struts的logic标签详解_框架的心</title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/global.js"></script>
+<script language="javascript" src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/popup.js"></script>
+<script language="JavaScript" src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=1;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='Struts的logic标签详解'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=Struts%B5%C4logic%B1%EA%C7%A9%CF%EA%BD%E2&item=46fad8f863c7b80dd8f9fd29&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head><body onload="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURI("http://hi.baidu.com/banseon/blog/item/46fad8f863c7b80dd8f9fd29%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/mods.css">
+
+<link rel="stylesheet" type="text/css" href="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/1c7a62da2f1578dbb7fd48f9.css">
+
+<link rel="stylesheet" type="text/css" href="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/space.css">
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com/" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURI('/banseon/blog/item/46fad8f863c7b80dd8f9fd29%2Ehtml') + '">登录</a>');
+		</script>| <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http://hi.baidu.com/banseon/blog/item/46fad8f863c7b80dd8f9fd29%252Ehtml">登录</a>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="http://hi.baidu.com/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="http://hi.baidu.com/banseon">主页</a><a href="http://hi.baidu.com/banseon/blog" class="on">博客</a><a href="http://hi.baidu.com/banseon/album">相册</a><span>|</span><a href="http://hi.baidu.com/banseon/profile">个人档案</a>
+	<span>|</span><a href="http://hi.baidu.com/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width: 100%;">
+
+	<table class="modth" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap="nowrap"><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" align="right" nowrap="nowrap"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></tbody></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">Struts的logic标签详解</div>
+<div class="date">2007-08-26  21:37</div>
+<table style="table-layout: fixed;"><tbody><tr><td><div id="blog_text" class="cnt"><font size="3">(1)<strong>empty标签</strong><br>
+类名：org.apache.struts.taglib.logic.EmptyTag<br>
+标签体：bodycontent=JSP<br>
+引用logic:empty<br>
+属性 attribute:name,property,scope<br>
+功能：判断对象的值是否为空<br>
+<br>
+(2)<strong>equal</strong><br>
+类名：org.apache.struts.taglib.logic.EqualTag<br>
+标签体：bodycontent=JSP<br>
+引用logic:equal<br>
+属性 attribute:cookie,header,name,parameter,property,scope,value<br>
+功能：等于比较符<br>
+<br>
+(3) <strong>forward</strong><br>
+org.apache.struts.taglib.logic.ForwardTag<br>
+标签体：bodycontent=empty<br>
+引用logic:forward<br>
+属性 attribute:name<br>
+功能：页面导向，查找配置文件的全局forward<br>
+<br>
+(4) <strong>greaterEqual</strong><br>
+类名：org.apache.struts.taglib.logic.GreaterEqualTag<br>
+标签体：bodycontent=JSP<br>
+引用logic:greaterEqual<br>
+属性 attribute:cookie,header,name,parameter,property,scope,value<br>
+功能：大于等于比较符<br>
+<br>
+(5)<strong>greaterThan</strong><br>
+类名：org.apache.struts.taglib.logic.GreaterThanTag<br>
+标签体：bodycontent=JSP<br>
+引用logic:greaterThan<br>
+属性 attribute:cookie,header,name,parameter,property,scope,value<br>
+功能：大于比较符<br>
+<br>
+(6) <strong>iterator</strong><br>
+类名：org.apache.struts.taglib.logic.IterateTag<br>
+标签体：bodycontent=JSP<br>
+引用logic:iterator<br>
+属性 attribute:collection,id,indexId,length,name,offset,property,scope,type<br>
+功能：显示列表为collection的值（List ,ArrayList,HashMap等）<br>
+<br>
+(7)<strong>lessEqual</strong><br>
+类名org.apache.struts.taglib.logic.LessEqualTag<br>
+标签体：bodycontent=JSP<br>
+logic:lessEqual<br>
+属性 attribute:cookie,header,name,parameter,property,scope,value<br>
+功能：小于等于比较符<br>
+<br>
+(8)<strong>lessThan</strong><br>
+类名：org.apache.struts.taglib.logic.LessThanTag<br>
+标签体：bodycontent=JSP<br>
+logic:lessThan<br>
+属性 attribute:cookie,header,name,parameter,property,scope,value<br>
+功能：小于比较符<br>
+<br>
+(9)<strong>match</strong><br>
+类名：org.apache.struts.taglib.logic.MatchTag<br>
+标签体：bodycontent=JSP<br>
+引用logic:match<br>
+属性 attribute:cookie,header,location,name,parameter,property,scope,value<br>
+功能：比较对象<br>
+<br>
+(10)<strong>messagesNotPresent</strong><br>
+类名：org.apache.struts.taglib.logic.MessagesNotPresentTag<br>
+标签：bodycontent=JSP<br>
+引用logic:messagesNotPresent<br>
+属性 attribute:name,property,message<br>
+功能：ActionMessages/ActionErrors对象是否不存在<br>
+<br>
+(11)<strong>messagePresent</strong><br>
+类名：org.apache.struts.taglib.logic.MessagesPresentTag<br>
+标签：bodycontent=JSP<br>
+引用logic:messagePresent<br>
+属性 attribute:name,property,message<br>
+功能：ActionMessages/ActionErrors对象是否不存在<br>
+<br>
+(12)<strong>notEmpty</strong><br>
+类名：org.apache.struts.taglib.logic.NotEmptyTag<br>
+标签：bodycontent=JSP<br>
+引用logic:notEmpty<br>
+属性 attribute:name,property,scope<br>
+功能：比较对象是否不为空<br>
+<br>
+(13)<strong>notEqual</strong><br>
+类名：org.apache.struts.taglib.logic.NotEqualTag<br>
+标签：bodycontent=JSP<br>
+引用logic:notEqual<br>
+属性 attribute:cookie,header,name,parameter,property,scope,value<br>
+<br>
+(14)<strong>notMatch</strong><br>
+类名：org.apache.struts.taglib.logic.NotMatchTag<br>
+标签：bodycontent=JSP<br>
+引用logic:notMatch<br>
+属性 attribute:cookie,header,location,name,parameter,property,scope,value<br>
+功能：比较对象是否不相等<br>
+<br>
+(15)<strong>notPresent</strong><br>
+类名：org.apache.struts.taglib.logic.NotPresentTag<br>
+标签：bodycontent=JSP<br>
+引用logic:notPresent<br>
+属性 attribute:cookie,header,name,parameter,property,role,scope,user<br>
+功能：request对象传递参数是否不存在<br>
+<br>
+(16)<strong>present</strong><br>
+类名:org.apache.struts.taglib.logic.PresentTag<br>
+标签：bodycontent=JSP<br>
+引用logic:present<br>
+属性 attribute:cookie,header,name,parameter,property,role,scope,user<br>
+功能：request对象传递参数是否存在<br>
+<br>
+(17)<strong>redirect</strong><br>
+类名：org.apache.struts.taglib.logic.RedirectTag<br>
+标签：bodycontent=JSP<br>
+引用logic:redirect<br>
+属性 attribute:anchor,forward,href,name,page,paramId,paramName,paramProperty,paramScope,property,scope,transaction<br>
+功能；页面转向，可传递参数<br>
+<br>
+例子：<br>
+<br>
+1、&lt;logic:iterate id="row" name="formBean" property="list" indexId="index"&gt;<br>
+&lt;logic:equal name="row" property="unit" value="defaultValue"&gt;<br>
+...<br>
+&lt;/logic:equal&gt;<br>
+&lt;/logic:iterate&gt;<br>
+<br>
+&lt;logic:notEmpty name="info"&gt;<br>
+&lt;logic:iterate id="list" name="info"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &lt;bean:define id="curId" name="list" property="id" /&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;logic:equal
+parameter="id" value="&lt;%= curId.toString() %&gt;"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     abcde<br>
+&lt;/logic:equal&gt;<br>
+&lt;/logic:iterate&gt;<br>
+&lt;/logic:notEmpty&gt;<br>
+parameter要进行比较的HTTP请求参数的名称<br>
+name如果要进行比较的是bean或bean的属性，则这个属性代表bean的名称<br>
+property要进行比较的bean属性的名称<br>
+<br>
+logic使用<br>
+<br>
+<br>
+使用struts中的&lt;logic:iterate&gt;标记,可以完成一些复杂的循环。<br>
+下面用了一个小例子说明这一点：<br>
+<br>
+IterateBean.java:<br>
+<br>
+package beantest;<br>
+<br>
+import org.apache.struts.action.ActionForm;<br>
+<br>
+public class IterateBean extends ActionForm {<br>
+private String[] name_coll = null;<br>
+public void setName_coll(String[] name_coll) {<br>
+this.name_coll = name_coll;<br>
+}<br>
+public String[] getName_coll() {<br>
+return this.name_coll;<br>
+}<br>
+<br>
+private String[] name_new = null;<br>
+public void setName_new(String[] name_new) {<br>
+System.out.println("IterateBean:setName_new(String[])");<br>
+this.name_new = name_new;<br>
+}<br>
+public String[] getName_new() {<br>
+return this.name_new;<br>
+}<br>
+}<br>
+<br>
+IterateAction.java<br>
+<br>
+package beantest;<br>
+<br>
+import javax.servlet.http.HttpServletRequest;<br>
+import javax.servlet.http.HttpServletResponse;<br>
+<br>
+import org.apache.struts.action.Action;<br>
+import org.apache.struts.action.ActionForm;<br>
+import org.apache.struts.action.ActionForward;<br>
+import org.apache.struts.action.ActionMapping;<br>
+<br>
+public class IterateAction extends Action {<br>
+public ActionForward execute(<br>
+ActionMapping mapping,<br>
+ActionForm form,<br>
+HttpServletRequest request,<br>
+HttpServletResponse response) throws Exception {<br>
+IterateBean ibean = (IterateBean) form;<br>
+String[] temp = {"bitan", "helen"};<br>
+ibean.setName_coll(temp);<br>
+temp = new String[] {"aaaaa", "bbbbb"};<br>
+ibean.setName_new(temp);<br>
+return mapping.findForward("iterate-view");<br>
+}<br>
+}<br>
+<br>
+iterate-view.jsp:<br>
+<br>
+&lt;%@ page contentType="text/html;charset=gb2312" %&gt;<br>
+<br>
+&lt;%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %&gt;<br>
+&lt;%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %&gt;<br>
+&lt;logic:iterate id="iterate" name="ibean" property="name_coll" scope="request" offset="0" &gt;<br>
+<br>
+&lt;logic:iterate id="iterate_new" name="ibean" property="name_new" scope="request" offset="0" &gt;<br>
+name: &lt;font color=red&gt;&lt;%=iterate%&gt;&lt;/font&gt; ; code:
+&lt;font color=red&gt;&lt;%=iterate_new%&gt;&lt;/font&gt;&lt;br&gt;<br>
+&lt;/logic:iterate&gt;<br>
+<br>
+★〓〓〓〓〓〓〓〓★&lt;br&gt;<br>
+&lt;bean:include id="lower" page="/test/lower.jsp" /&gt;<br>
+&lt;bean:write name="lower" filter="false"/&gt;&lt;br&gt;<br>
+&lt;/logic:iterate&gt;<br>
+<br>
+lower.jsp:<br>
+<br>
+&lt;font color=blue&gt;hello, iterate!&lt;/font&gt;<br>
+<br>
+struts-config.xml:<br>
+<br>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;<br>
+&lt;!DOCTYPE struts-config PUBLIC<br>
+"-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"<br>
+"http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd"&gt;<br>
+&lt;struts-config&gt;<br>
+&lt;form-beans&gt;<br>
+&lt;form-bean type="beantest.IterateBean" name="ibean" /&gt;<br>
+&lt;/form-beans&gt;<br>
+&lt;action-mappings&gt;<br>
+&lt;action path="/iterate-test" type="beantest.IterateAction" name="ibean" scope="request" &gt;<br>
+&lt;forward path="/test/iterate-view.jsp" name="iterate-view" /&gt;<br>
+&lt;/action&gt;<br>
+&lt;/action-mappings&gt;<br>
+&lt;/struts-config&gt;<br>
+<br>
+web.xml:<br>
+<br>
+&lt;?xml version="1.0" ?&gt;<br>
+&lt;!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web
+Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd"&gt;<br>
+&lt;web-app&gt;<br>
+<br>
+&lt;servlet&gt;<br>
+&lt;servlet-name&gt;action&lt;/servlet-name&gt;<br>
+&lt;servlet-class&gt;org.apache.struts.action.ActionServlet&lt;/servlet-class&gt;<br>
+&lt;init-param&gt;<br>
+&lt;param-name&gt;config&lt;/param-name&gt;<br>
+&lt;param-value&gt;/WEB-INF/struts-config.xml&lt;/param-value&gt;<br>
+&lt;/init-param&gt;<br>
+&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;<br>
+&lt;/servlet&gt;<br>
+&lt;servlet-mapping&gt;<br>
+&lt;servlet-name&gt;action&lt;/servlet-name&gt;<br>
+&lt;url-pattern&gt;/eye/*&lt;/url-pattern&gt;<br>
+&lt;/servlet-mapping&gt;<br>
+<br>
+&lt;/web-app&gt;<br>
+<br>
+输出效果：<br>
+<br>
+name: bitan ; code: aaaaa<br>
+name: bitan ; code: bbbbb<br>
+★〓〓〓〓〓〓〓〓★<br>
+hello, iterate!<br>
+name: helen ; code: aaaaa<br>
+name: helen ; code: bbbbb<br>
+★〓〓〓〓〓〓〓〓★<br>
+hello, iterate!<br>
+<br>
+如上所示，一个循环中不能直接将多个变量同时输出；但在循环中嵌套循环可以实现一种复杂效果。<br>
+<br>
+要实现在一个循环中将多个变量同时输出，可以引用&lt;bean:include&gt;、&lt;bean:write&gt;标记。</font></div></td></tr></tbody></table>
+<br>
+<div class="opt">
+<a href="http://hi.baidu.com/banseon/blog/category/%BF%F2%BC%DC%20%2D%20%BF%D8%D6%C6%B2%E3" title="查看该分类中所有文章">类别：框架 - 控制层</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onclick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result">462</span>)
+	| <a href="#send">评论</a>&nbsp;(1)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'Struts之Bean标签库详解', 'Struts之Bean标签库详解','/banseon/blog/item/5aee7cc266e86c37e4dd3b28.html'];
+var post = [true,'Hibernate 二级缓存 (转载)','Hibernate 二级缓存 (转载)', '/banseon/blog/item/4bad502731351801908f9dc3.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script><div style="height: 5px; line-height: 5px;">&nbsp;</div><div id="in_nav">上一篇：<a href="http://hi.baidu.com/banseon/blog/item/5aee7cc266e86c37e4dd3b28.html" title="Struts之Bean标签库详解">Struts之Bean标签库详解</a>&nbsp;&nbsp;&nbsp;&nbsp;下一篇：<a href="http://hi.baidu.com/banseon/blog/item/4bad502731351801908f9dc3.html" title="Hibernate 二级缓存 (转载)">Hibernate 二级缓存 (转载)</a></div>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_doc"><div class="tit">相关文章：</div><table border="0" cellpadding="0" cellspacing="3"><tbody><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/linux%5Fzss/blog/item/dd6f0130992e1a9da9018e03.html" target="_blank" title="[推荐]struts标签中的多层logic:iterator详解">[推荐]struts标签中的多层logic:...</a>　　　　　　　　　</td><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/kaisep/blog/item/d6eacf1699441e1e972b4397.html" target="_blank" title="Struts的逻辑标签 logic">Struts的逻辑标签 logic</a></td></tr><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/lihua5052/blog/item/b75927317646a11febc4afd0.html" target="_blank" title="struts中logic标签说明">struts中logic标签说明</a>　　　　　　　　　</td><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/mnsch/blog/item/a69b62a9b0356af91e17a293.html" target="_blank" title="struts tag之Logic标签">struts tag之Logic标签</a></td></tr><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/xiao1dian/blog/item/a73a1338fef78121b9998f64.html" target="_blank" title="struts的logic标签">struts的logic标签</a>　　　　　　　　　</td><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/wangguoqua/blog/item/b67d272a8207a53c5343c1e9.html" target="_blank" title="struts框架之logic:iterate">struts框架之logic:iterate</a></td></tr><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/quiteuniverse/blog/item/4ddc23996f3a6e0c6f068c5d.html" target="_blank" title="Struts的Logic标签二重循环(一)">Struts的Logic标签二重循环(一)</a>　　　　　　　　　</td><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/55842223/blog/item/8ebeeffcc1cd8a86b801a013.html" target="_blank" title="Struts之Logic标签库">Struts之Logic标签库</a></td></tr><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/eckel/blog/item/3593b0529af5980d0df3e35b.html" target="_blank" title="Struts  --  logic:iterate">Struts  --  logic:iterate</a>　　　　　　　　　</td><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/python811022/blog/item/16f231dbc9af9565d0164eeb.html" target="_blank" title="J2EE学习笔记(3) Struts Logic Tags-j2ee">J2EE学习笔记(3) Struts Logic T...</a></td></tr><tr><td colspan="4"><a target="_blank" href="http://hi.baidu.com/sys/search?pageno=1&amp;type=7&amp;sort=1&amp;word=Struts%B5%C4logic%B1%EA%C7%A9%CF%EA%BD%E2&amp;item=46fad8f863c7b80dd8f9fd29">更多&gt;&gt;</a></td></tr></tbody></table></div><div class="line">&nbsp;</div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=Struts%B5%C4logic%B1%EA%C7%A9%CF%EA%BD%E2&item=46fad8f863c7b80dd8f9fd29">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=Struts%B5%C4logic%B1%EA%C7%A9%CF%EA%BD%E2&item=46fad8f863c7b80dd8f9fd29&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["411703478","4e983431313730333437387d03","411703478"],
+	
+["yykk601","1ab979796b6b3630312803","yykk601"],
+	
+["welcome%5Fni","410d77656c636f6d655f6e69d203","welcome_ni"],
+	
+["fiolvivi","d0c1b3b1c2e5c3c53e03","潮洛门"],
+	
+["ligd%5F85","26916c6967645f38356203","ligd_85"],
+	
+["jt88","0c5768617070796c6a744c00","happyljt"],
+	
+["cugedu123","f5c56375676564753132333003","cugedu123"],
+	
+["tirone","2d827469726f6e651601","tirone"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+="<a href='http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u="+myref+"' target='_self'>登录</a>后，您就出现在这里。</td>";
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script><table width="100%"><tbody><tr><td align="center" width="10%"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/portraitn.jpg" border="0" width="55" height="55"></td><td align="left" width="12%"><a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http://hi.baidu.com/banseon/blog/item/46fad8f863c7b80dd8f9fd29%252Ehtml" target="_self">登录</a>后，您就出现在这里。</td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/411703478" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/4e983431313730333437387d03.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/yykk601" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/1ab979796b6b3630312803.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/welcome%5Fni" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/410d77656c636f6d655f6e69d203.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/fiolvivi" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/d0c1b3b1c2e5c3c53e03.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/ligd%5F85" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/26916c6967645f38356203.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/jt88" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/0c5768617070796c6a744c00.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/cugedu123" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/f5c56375676564753132333003.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/tirone" target="_blank"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/2d827469726f6e651601.jpg" border="0"></a></td><td width="100%"></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/411703478" target="_blank">411703478</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/yykk601" target="_blank">yykk601</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/welcome%5Fni" target="_blank">welcome_ni</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/fiolvivi" target="_blank">潮洛门</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/ligd%5F85" target="_blank">ligd_85</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/jt88" target="_blank">happyljt</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/cugedu123" target="_blank">cugedu123</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/tirone" target="_blank">tirone</a></td><td></td></tr></tbody></table>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_46fad8f863c7b80dd8f9fd29_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+<a name="a4863fd7fc3984dea144dfb8"></a>
+<table class="item" style="overflow: hidden; table-layout: fixed;" ;="" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="index" valign="top" width="5%">2</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow: hidden;">
+
+<script>
+writecmt(1,"a4863fd7fc3984dea144dfb8","tirone","http://hi.baidu.com/tirone","2d827469726f6e651601");
+</script><a href="http://hi.baidu.com/tirone" target="_blank" title="http://hi.baidu.com/tirone"><img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/2d827469726f6e651601.jpg" border="0"><br>tirone</a>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left: 20px;"><span class="date">2007-08-27  08:04
+
+
+</span><div class="desc" style="overflow: hidden;">快点把占位帖补上。</div></td></tr>
+</tbody></table>
+<div class="line">&nbsp;</div>
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onsubmit="return checkcmtform()">
+<input name="ct" value="8" type="hidden">
+<input name="cm" value="1" type="hidden">
+<input name="spBlogID" value="46fad8f863c7b80dd8f9fd29" type="hidden">
+<script language="JavaScript">
+	document.write("<input type='hidden' name='spRefURL' value='"+encodeURI(window.location.href)+"'>");
+</script><input name="spRefURL" value="http://hi.baidu.com/banseon/blog/item/46fad8f863c7b80dd8f9fd29.html" type="hidden">
+<div class="tit">发表评论：</div>
+<table border="0" cellpadding="0" cellspacing="5" width="620">
+<tbody><tr>
+
+<td class="f14">姓　名：</td>
+<td><input name="spBlogCmtor" id="spBlogCmtor" style="width: 220px;" onchange="checkname('spBlogCmtor')" maxlength="49" onfocus="hidErr(1);" tabindex="1" type="text">
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(" | <a href='http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u="+myref+"'>登录</a>");
+
+</script> &nbsp;&nbsp; <a href="http://passport.baidu.com/?reg&amp;tpl=sp&amp;return_method=get&amp;skip_ok=1&amp;u=http://hi.baidu.com/sys/reg/" target="_blank">注册</a> | <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http://hi.baidu.com/banseon/blog/item/46fad8f863c7b80dd8f9fd29%252Ehtml">登录</a>
+
+<div style="display: none;" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input name="spBlogCmtURL" id="spBlogCmtURL" style="width: 360px;" maxlength="128" onchange="checkeandu('spBlogCmtURL')" onfocus="hidErr(2);" tabindex="2" type="text"> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14" valign="top">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width: 520px; height: 155px;" onfocus="hidErr(3);" tabindex="3"></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td class="f14" valign="top">验证码：</td>
+<td valign="top"><input name="spVcode" value="303573706163653336323231313337333030303030303030303030303030313232333533393937331198A12DEAB547862BE76EC6585A7F0A" type="hidden">
+<input onfocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6" maxlength="4" autocomplete="off" tabindex="4" type="text"><br>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?303573706163653336323231313337333030303030303030303030303030313232333533393937331198A12DEAB547862BE76EC6585A7F0A";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display: none;">
+<img id="verifypic" width="120" height="40"><wbr><a onfocus="this.blur();" href="#" onclick="return newverifypic();" title="看不清左边的字符">看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td class="f14" valign="top">&nbsp;</td>
+<td class="f14" valign="top"><input id="btn_ok" name="btn_ok" value="发表评论" tabindex="5" type="submit"></td>
+</tr>
+</tbody></table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" height="8">
+<tbody><tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></tbody></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script><script src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/brwstat.htm"></script>
+<br><center><div id="ft">&#169;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="Struts%E7%9A%84logic%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3_files/c.htm" style="display: none;">
+</body></html>

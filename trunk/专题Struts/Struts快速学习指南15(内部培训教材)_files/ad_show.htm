@@ -1,0 +1,71 @@
+document.write('<script src="http://cache.lianmeng.com/a.php"></script>');var setPopTime = 12;var stype="";                   //-------------
+var setupClickSuccess = false;  //-------------
+var poped = false;              //-------------
+
+var expDays_265 = 1;
+var exp_265 = new Date();
+exp_265.setTime(exp_265.getTime() + (expDays_265*setPopTime*60*60*1000));
+document.cookie = "is_use_cookie=yes" + "; expires=" + exp_265.toGMTString() +  "; path=/";
+//---------------------------
+function setupClick() {
+    if (!poped && !setupClickSuccess){
+        if (window.Event)
+        {
+            top.document.captureEvents(Event.CLICK);
+            document.captureEvents(Event.CLICK);
+        }
+        prePaypopOnclick = document.onclick;
+        top.document.onclick = gopop;
+        document.onclick = gopop;
+        self.focus();
+        setupClickSuccess=true;
+    }
+}
+function gopop() {
+    if (!poped) {
+        popwin = window.open(pop_ad_url,'abcdefg',stype);
+        if (popwin) {
+            poped = true;
+        }
+        self.focus();
+    }
+    if (typeof(prePaypopOnclick) == "function") {
+        prePaypopOnclick();
+    }
+}
+//---------------------------
+function check_domain() {
+    var referer = top.document.domain;
+    var url = "21tx.com";
+    if (referer == null)    return 0;
+    referer = referer.replace(/^\s+|\s+$/g,"");
+    if (referer == "")    return 0;
+    thelen = referer.length - url.length - 1;
+    if (referer != url && "."+url != referer.substring(thelen)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+var domain = check_domain();
+
+var pop_ad_url = "http://cache.lianmeng.com/click?bAZkAZu1y8tmO7KuIBI_qgsfFQVbGB44GVBwFhRVOBdFTC0JCwIDAxULDg0QbnQHAQFTUUYJHw4Hax0VQ0FmUwk3SgsQd0pHTSdTVhxQWFcUBVcfbGkQRAdWVVhQWFVYV39QBQNvSRVnHRIZSgsSF0oUCwAdAQIVCBYadWo8AD9YVl5XYQAFa0VrBgFtTxBtEi8S";
+//var ad_url = "http://cache.lianmeng.com/click?bAZkAZu1y8tmO7KuIBI_qgsfFQVbGB44GVBwFhRVOBdFTC0JCwIDAxULDg0QbnQHAQFTUUYJHw4Hax0VQ0FmUwk3SgsQd0pHTSdTVhxQWFcUBVcfbGkQRAdWVVhQWFVYV39QBQNvSRVnHRIZSgsSF0oUCwAdAQIVCBYadWo8AD9YVl5XYQAFa0VrBgFtTxBtEi8S&t=" + escape(top.location.href);
+if(document.cookie.indexOf('adunion1013636') == -1){
+	gopop();
+}
+if(poped == true){
+	document.cookie = "adunion1013636=yes" + "; expires=" + exp_265.toGMTString() +  "; path=/; domain=21tx.com";
+}
+
+if(document.cookie.indexOf('is_use_cookie') == -1 || domain == 0) {
+    window.open('http://online4.lianmeng.com/error_open.htm','','width=300,height=300,top=0,left=0');
+} else {
+    if(document.cookie.indexOf('adunion1013636') == -1)
+    {
+        document.cookie = "adunion1013636=yes" + "; expires=" + exp_265.toGMTString() +  "; path=/; domain=21tx.com";
+        setupClick();
+        //window.showModalDialog(pop_ad_url,'','scroll:0;status:0;help:0;resizable:0;dialogWidth:0px;dialogHeight:0px');
+    }
+}
+

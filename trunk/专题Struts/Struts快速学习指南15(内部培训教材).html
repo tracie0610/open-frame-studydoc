@@ -1,0 +1,591 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+<title>Struts快速学习指南15(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书_Java文摘_开发文摘_软件开发_天新网</title>
+<meta name="keywords" content="Struts快速学习指南15(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书">
+<meta name="description" content="1.1.1           form标签  Struts的form标签是最重要 ...">
+<script language="JavaScript">
+var txsite_pagekey = 'TX-2-2-20040425-10485';
+var txsite_pageurl = 'http://dev.21tx.com/2004/04/25/10485.html';
+var txsite_pagetitle = 'Struts快速学习指南15(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书';
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312">
+<meta http-equiv="Content-Language" content="zh-CN">
+<meta http-equiv="pragma" content="no-cache">
+<meta content="all" name="robots">
+<meta name="generator" content="TXSite.net 2005">
+<script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/tx.js"></script>
+<link href="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/c.css" rel="stylesheet" type="text/css">
+<style>
+*{margin:0;padding:0;}
+body {margin:0 auto;padding:0;color:black;background-color:white;font-size:12px;line-height:150%;text-align:center;}
+div,form,img,ul,ol,li,dl,dt,dd {margin:0;padding:0;border:0;}
+dt,dd{clear:both;}
+textarea,input{font-size:12px;margin:0;padding:0;}
+table,td,tr,th{font-size:12px;}
+
+a:link {color:black;text-decoration:none;}
+a:visited{color:black;text-decoration:none;}
+a:hover{color:#C2130E;text-decoration:underline;}
+a:active{color:#C2130E;}
+
+#txp_homemanu {width:962px;margin:0 auto;height:22px;background:#f8f8f8;color:#a1a0a0;text-align:center;line-height:18px;}
+#txp_homemanu div{width:950px;margin:0 auto;text-align:right;padding-top:3px;font-size:12px; font-family:宋体;}
+#txp_homemanu a{color:#a1a0a0;margin:0 3px;font-size:12px;text-decoration:none;padding:1px 3px 1px 3px;}
+#txp_homemanu a:hover{color:#fff;background:#929292;}
+
+#txp_mainmanu {width:962px;margin:0 auto;padding:6px 0 4px 0;height:39px;line-height:19px;background:#fff;font-family:宋体;}
+#txp_mainmanulogo {float:left;width:130px;}
+#txp_mainmanutext {float:left;width:832px;font-size:13px;padding-top:4px;}
+#txp_mainmanutext a{color:#000;text-decoration:none;padding:2px 6px 0 6px;font-size:13px;}
+#txp_mainmanutext a:hover{color:#f00;}
+#txp_mainmanutext a.letter_l{padding:2px 0 0 6px;}
+#txp_mainmanutext a.letter_r{padding:2px 6px 0 0;}
+
+#txp_chanmanu {width:962px;margin:0 auto;}
+#txp_chanmanulogo {width:195px;float:left;}
+#txp_chanmanutext {float:right;width:767px;}
+#txp_chanmanu #txp_chanmanutext #txp_chanmanutexta {text-align:left;color:#ffffff;padding-left:20px;padding-top:6px;}
+#txp_chanmanu #txp_chanmanutext #txp_chanmanutexta a{color:#ffffff;text-decoration:none;}
+#txp_chanmanu #txp_chanmanutext #txp_chanmanutexta a:hover{text-decoration:underline;}
+#txp_chanmanu #txp_chanmanutext #txp_chanmanutextb {text-align:left;padding-left:10px;padding-top:6px;}
+#txp_chanmanu #txp_chanmanutext #txp_chanmanutextb p{position:absolute;filter:dropshadow(color=#ffffff,offx=1,offy=1,positive=1);}
+
+#txa_top {margin:5px auto 5px auto;width:962px;height:90px;clear:both;}
+#txa_top a{color:#666666;text-decoration:underline;}
+#txa_top a:hover{color:red;text-decoration:none;}
+#txa_top #txa_top728{float:left;width:728px;height:90px;}
+#txa_top #txa_topnews{float:left;width:233px;height:88px;border:1px solid #CDC9CA;border-left:0;}
+#txa_top #txa_topnews #txa_topnewstext{float:none;width:154px;margin:5px auto 0 24px;text-align:left;line-height:20px;}
+
+#txp_main {width:962px;margin:0 auto;background:url(http://www.21tx.com/images/bg_main.gif) repeat-y;}
+#txp_left {width:660px;float:left;}
+#txp_right {float:right;width:302px;}
+#txp_mainend {width:962px;margin:0 auto;height:1px;line-height:1px;font-size:1px;clear:both;}
+#txp_mainend div{width:660px;border-bottom:1px solid #B7B7B7;float:left;height:1px;} 
+
+
+</style>
+<link href="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/css.css" type="text/css" rel="stylesheet"></head><body><div id="clickeye" style="position: absolute; display: none; z-index: 100000;"></div><div style=""></div>
+
+<div id="txp_homemanu">
+<div>·<a href="http://www.21tx.com/" target="_top">天新网首页</a>·<a href="javascript:void(0)" onclick="txAddBookmark(document.title)" target="_top">加入收藏</a>·<a href="javascript:void(0)" onclick="txSetHome(this,window.location)" target="_top">设为首页</a></div>
+</div>
+
+<div id="txp_mainmanu">
+<div id="txp_mainmanulogo"><a href="http://www.21tx.com/" target="_top"><img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/logo130.gif" alt="天新网" border="0" width="130"></a></div>
+<div id="txp_mainmanutext">
+<a href="http://www.21tx.com/" target="_top">首页</a>|<a href="http://www.21tx.com/notebook/" target="_top">笔记本</a>|<a href="http://mobile.21tx.com/" target="_top">手机</a>|<a href="http://www.21tx.com/dc/" target="_top">数码相机</a>|<a href="http://www.21tx.com/dv/" target="_top">摄像机</a>|<a class="letter_l" href="http://www.21tx.com/mp3/" target="_top">MP3</a>/<a class="letter_r" href="http://digi.21tx.com/mp4/" target="_top">MP4</a>|<a href="http://diy.21tx.com/mainboard/" target="_top">主板</a>|<a href="http://diy.21tx.com/memory/" target="_top">内存</a>|<a href="http://diy.21tx.com/vga/" target="_top">显示器</a>|<a href="http://www.21tx.com/oa/" target="_top">办公</a>|<a href="http://www.21tx.com/oa/print/" target="_top">打印机</a>|<a href="http://dl.21tx.com/" target="_top">下载</a>|<a href="http://dev.21tx.com/" target="_top">开发</a>|<a href="http://auto.21tx.com/" target="_top">汽车</a>|<a href="http://school.21tx.com/" target="_top">学院</a>|<a href="http://news.21tx.com/" target="_top">业界</a><br>
+<a href="http://diy.21tx.com/" target="_top">硬件</a>|<a href="http://www.21tx.com/deskpc/" target="_top">台式机</a>|<a href="http://digi.21tx.com/" target="_top">数码</a>|<a href="http://www.21tx.com/digihome/" target="_top">数字家庭</a>|<a href="http://www.21tx.com/oa/projector/" target="_top">投影仪</a>|<a class="letter_l" href="http://digi.21tx.com/gps/" target="_top">GPS</a>/<a class="letter_r" href="http://diy.21tx.com/cpu/" target="_top">CPU</a>|<a href="http://diy.21tx.com/display/" target="_top">显卡</a>|<a href="http://diy.21tx.com/hdd/" target="_top">硬盘</a>|<a href="http://www.21tx.com/server/" target="_top">服务器</a>|<a href="http://diy.21tx.com/net/" target="_top">网络</a>|<a href="http://www.21tx.com/oa/ytj/" target="_top">一体机</a>|<a href="http://drivers.21tx.com/" target="_top">驱动</a>|<a href="http://codes.21tx.com/" target="_top">源码</a>|<a href="http://games.21tx.com/" target="_top">游戏</a>|<a href="http://exam.21tx.com/" target="_top">考试</a>|<a href="http://prod.21tx.com/" target="_blank">报价</a>
+</div>
+</div>
+
+<div id="txa_top">
+<div id="txa_top728">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8537598168120506";
+google_alternate_color = "FFFFFF";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "image";
+//2007-11-18: 首页图片横幅
+google_ad_channel = "0979501092";
+//-->
+</script>
+<script type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ads.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="728" frameborder="0" height="90"></iframe>
+</div>
+<div id="txa_topnews">
+<div id="txa_topnewstext"><script>txShowMenuNews();</script><a href="http://exam.21tx.com/gwy/" target="_blank">2009全国公务员考试启动</a><br><a href="http://exam.21tx.com/it/djks/" target="_blank">2009年9月等级考试试题详解</a><br><a href="http://www.21tx.com/about/job.html" target="_blank">天新网招聘网站编辑美工</a><br><a href="http://drivers.21tx.com/" target="_blank">最新最全电脑驱动下载</a></div>
+</div>
+</div>
+
+<div id="txp_chanmanu" style="background: transparent url(http://www.21tx.com/images/chan/dev_manubg.gif) repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+<div id="txp_chanmanulogo"><img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/dev_manu.gif" border="0" width="195" height="55"></div>
+<div id="txp_chanmanutext" style="background: transparent url(http://www.21tx.com/images/chan/dev_manubg.gif) repeat scroll 0% 0%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+<div id="txp_chanmanutexta"><a href="http://dev.21tx.com/">开发首页</a> | <a href="http://dev.21tx.com/language/">开发语言</a> | <a href="http://dev.21tx.com/dotnet/">.Net开发</a> | <a href="http://dev.21tx.com/java/">Java开发</a> | <a href="http://dev.21tx.com/web/">Web开发</a> | <a href="http://dev.21tx.com/database/">数据库开发</a> | <a href="http://dev.21tx.com/mobile/">移动开发</a> | <a href="http://dev.21tx.com/game/">游戏开发</a> | <a href="http://dev.21tx.com/corp/">企业开发</a> | <a href="http://dev.21tx.com/os/">操作系统</a> | <a href="http://dev.21tx.com/softengine/">软件工程</a></div>
+<div id="txp_chanmanutextb"><p><a href="http://dev.21tx.com/language/vb/">VB</a> <a href="http://dev.21tx.com/language/vc/">VC</a> <a href="http://dev.21tx.com/language/delphi/">Delphi</a> <a href="http://dev.21tx.com/language/pb/">PB</a> <a href="http://dev.21tx.com/language/bcb/">BCB</a> <a href="http://dev.21tx.com/language/c/">C++</a> - 
+<a href="http://dev.21tx.com/dotnet/aspnet/">ASP.net</a> <a href="http://dev.21tx.com/dotnet/csharp/">C#</a> <a href="http://dev.21tx.com/dotnet/vbnet/">VB.net</a> - 
+<a href="http://dev.21tx.com/java/j2ee/">J2EE</a> <a href="http://dev.21tx.com/java/j2se/">J2SE</a> <a href="http://dev.21tx.com/java/j2me/">J2ME</a> <a href="http://dev.21tx.com/java/ejb/">EJB</a> - 
+<a href="http://dev.21tx.com/web/asp/">ASP</a> <a href="http://dev.21tx.com/web/php/">PHP</a> <a href="http://dev.21tx.com/java/jsp/">JSP</a> <a href="http://dev.21tx.com/web/cgi/">CGI</a> - 
+<a href="http://dev.21tx.com/database/mssql/">MSSQL</a> <a href="http://dev.21tx.com/database/oracle/">Oracle</a> <a href="http://dev.21tx.com/database/db2/">DB2</a> <a href="http://dev.21tx.com/database/mysql/">MySQL</a> - <a href="http://dev.21tx.com/codinglife/">CodingLife</a></p></div>
+</div>
+</div>
+
+<div style="border-left: 1px solid rgb(205, 201, 202); border-right: 1px solid rgb(205, 201, 202); border-bottom: 1px solid rgb(205, 201, 202); margin: 0pt auto; width: 960px;">
+<script type="text/javascript"> 
+cpro_client='txadcpr';
+cpro_at='text_image'; 
+cpro_161=4; 
+cpro_flush=2; 
+cpro_w=960; 
+cpro_h=90; 
+cpro_template='text_default_960_90'; 
+cpro_cbd='#FFFFFF'; 
+cpro_cbg='#FFFFFF'; 
+cpro_ctitle='#0000ff'; 
+cpro_cdesc='#444444'; 
+cpro_curl='#008000'; 
+cpro_cflush='#e10900'; 
+cpro_uap=1;
+cpro_cad=1;
+</script>
+<script language="JavaScript" type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/cp.js"></script><div style="display: none;">-</div><iframe marginwidth="0" marginheight="0" allowtransparency="" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/uijs.htm" align="center,center" scrolling="no" width="960" frameborder="0" height="90"></iframe>
+</div>
+
+<div id="txp_main">
+<div id="txp_left">
+<div id="txp_location">您现在的位置：<a href="http://www.21tx.com/">天新网</a> &gt; <a href="http://dev.21tx.com/">软件开发</a> &gt; <a href="http://dev.21tx.com/wz/">开发文摘</a> &gt; <a href="http://dev.21tx.com/java/adv/wz/">Java文摘</a></div>
+<div id="txp_title">Struts快速学习指南15(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</div>
+<div id="txp_from">http://dev.21tx.com 2004年04月25日 <font>Blog lzasp800</font></div>
+<p style="padding-top: 20px; padding-bottom: 10px;" align="center">
+<script type="text/javascript"><!--
+google_ad_client = "pub-8537598168120506";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_type = "text_image";
+//2007-11-15: 文章内容上部
+google_ad_channel = "8051432807";
+google_color_border = "336699";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_text = "000000";
+google_color_url = "008000";
+google_ui_features = "rc:10";
+//-->
+</script>
+<script type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ads_002.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="468" frameborder="0" height="60"></iframe>
+</p>
+<div id="txp_content"><div id="clickeye_content"><span id="txsite_ad_cnt_start"></span><h3 style="margin: 6pt 0cm 3pt; text-indent: 0cm;"><a name="_Toc70351667"><span style="" lang="EN-US"><span style=""><em><font size="2" face="宋体">1.1.1</font></em><span style="font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span lang="EN-US"><em><font size="2" face="宋体">form标签</font></em></span></a></h3>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 18pt;"><font size="2"><font face="宋体"><span style="" lang="DA"><a href="http://dev.21tx.com/java/struts/" target="_blank">Struts</a></span><span style="">的</span></font></font><tt><span style="font-size: 12pt;" lang="EN-US"><font color="#354278">form</font></span></tt><span style=""><font size="2" face="宋体">标签是最重要的标签之一，他包装了<span lang="DA">HTML</span>的标准</font></span><tt><span style="font-size: 12pt;" lang="EN-US"><font color="#354278">form</font></span></tt><span style=""><font size="2"><font face="宋体">标签，提供了将<span lang="DA">HTML </span></font></font></span><tt><span style="font-size: 12pt;" lang="EN-US"><font color="#354278">form</font></span></tt><span style=""><font size="2" face="宋体">和</font></span><tt><span style="font-size: 12pt;" lang="DA"><font color="#354278">ActionForm</font></span></tt><font size="2"><font face="宋体"><span style="" lang="DA"> </span><span style="">连接起来的功能。<span lang="DA"><o:p></o:p></span></span></font></font></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 18pt;"><font size="2"><font face="宋体"><span style="" lang="DA">HTML form</span><span style="">中的每一个域对应</span></font></font><tt><span style="font-size: 12pt;" lang="DA"><font color="#354278">ActionForm</font></span></tt><span style=""><font size="2"><font face="宋体">的一个属性，当提交<span lang="DA">HTML from</span>后，<span lang="DA">Struts</span>根据匹配关系，将<span lang="DA">HTML </span></font></font></span><tt><span style="font-size: 12pt;" lang="DA"><font color="#354278">from</font></span></tt><span style=""><font size="2" face="宋体">域的值赋给</font></span><tt><span style="font-size: 12pt;" lang="DA"><font color="#354278">ActionForm</font></span></tt><span style=""><font size="2"><font face="宋体">的同名属性。下表列举了<span lang="DA">form</span>标签的属性，并且针对每一个属性加以详细说明：<span lang="DA"><o:p></o:p></span></font></font></span></p>
+<table class="MsoNormalTable" style="width: 100%;" border="1" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;" colspan="2">
+<h5 style="margin: 12pt 0cm 3pt; text-align: center;" align="center"><a name="_Toc70351668"></a><a name="jakarta-CHP-8-TABLE-2"></a><span style=""><span style="font-size: 10pt; font-family: Arial;" lang="EN-US">Struts form</span></span><font face="宋体"><span style=""><span style="font-size: 10pt;">标签属性列表</span></span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></h5></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm; text-align: center;" align="center"><span><strong>Name<o:p></o:p></strong></span></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm; text-align: center;" align="center"><b><span style="font-size: 10pt;" lang="EN-US">Description</span></b><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">action</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 18pt;"><span lang="EN-US"><font size="2" face="宋体">form提交的目标地址，action用来选择一个Struts </font></span><tt><span style="font-size: 12pt;" lang="DA"><font color="#354278">Action</font></span></tt><font size="2"><font face="宋体">对提交后的客户请求进行处理。通过和<span lang="EN-US">action的path属性进行匹配来选择Struts </span></font></font><font color="#354278"><tt><span style="font-size: 12pt;" lang="DA">Action</span></tt><tt><span style="font-size: 12pt; font-family: 宋体;">。</span></tt><tt><span style="font-size: 12pt;" lang="DA"><o:p></o:p></span></tt></font></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 21.6pt;"><font color="#354278"><tt><span style="font-size: 12pt; font-family: 宋体;">如果在</span></tt><tt><span style="font-size: 12pt;" lang="DA"><a href="http://dev.21tx.com/web/" target="_blank">Web</a>.<a href="http://dev.21tx.com/web/xml/" target="_blank">XML</a></span></tt><tt><span style="font-size: 12pt; font-family: 宋体;">中设置的</span></tt><tt><span style="font-size: 12pt;" lang="DA"><a href="http://dev.21tx.com/java/jsp/" target="_blank">Servlet</a></span></tt><tt><span style="font-size: 12pt; font-family: 宋体;">映射是扩展名映射，则可以用以下方式进行</span></tt><tt><span style="font-size: 12pt;" lang="DA">Action</span></tt><tt><span style="font-size: 12pt; font-family: 宋体;">匹配</span></tt><tt><span style="font-size: 12pt;" lang="DA">(</span></tt><tt><span style="font-size: 12pt; font-family: 宋体;">扩展名可以不作为匹配内容</span></tt><tt><span style="font-size: 12pt;" lang="DA">)</span></tt><tt><span style="font-size: 12pt; font-family: 宋体;">：</span></tt><tt><span style="font-size: 12pt;" lang="DA"><o:p></o:p></span></tt></font></p>
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">&lt;html:form action="login.do" focus="<a href="http://dev.21tx.com/database/access/" target="_blank">Access</a>Number"&gt;<o:p></o:p></font></span></tt></p>
+<p class="doctext" style="margin: auto 0cm;"><span style="font-family: 宋体;">上面的语句表示</span><span style="" lang="DA">form</span><span style="font-family: 宋体;">提交后，交给</span><span style="" lang="DA">path</span><span style="font-family: 宋体;">属性值为</span><span style="" lang="DA">login</span><span style="font-family: 宋体;">的</span><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">Action</font></span></tt><span style="font-family: 宋体;">进行处理</span><span style="" lang="DA"><o:p></o:p></span></p>
+<p class="doctext" style="margin: auto 0cm;"><span style="font-family: 宋体;">如果在</span><span style="" lang="DA">web.xml</span><span style="font-family: 宋体;">中设置的</span><tt><span style="font-size: 10pt; color: windowtext;" lang="DA">servlet</span></tt><tt><span style="font-size: 10pt; color: windowtext; font-family: 宋体;">映射是路径映射，则</span></tt><tt><span style="font-size: 10pt; color: windowtext;" lang="DA">action</span></tt><tt><span style="font-size: 10pt; color: windowtext; font-family: 宋体;">的值必须完全匹配</span></tt><tt><span style="font-size: 10pt; color: windowtext;" lang="DA">Struts </span></tt><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">Action</font></span></tt><tt><span style="font-size: 10pt; color: windowtext; font-family: 宋体;">的</span></tt><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">path</font></span></tt><tt><span style="font-size: 10pt; color: windowtext; font-family: 宋体;">属性值，例如：</span></tt><tt><span style="font-size: 10pt; color: windowtext;" lang="DA"><o:p></o:p></span></tt></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><font color="#354278"><tt><span style="font-size: 12pt;" lang="EN-US">&lt;html:form action="login" focus="accessNumber"&gt;</span></tt><span style="" lang="DA"><o:p></o:p></span></font></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">enctype</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">提交</span><span style="font-size: 10pt;" lang="EN-US">form</span><span style="font-size: 10pt; font-family: 宋体;">使用的编码方式</span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">focus</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">页面初始化时光标定位的输入控件名</span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">method</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">提交请求的</span><span style="font-size: 10pt;" lang="EN-US">HTTP</span><span style="font-size: 10pt; font-family: 宋体;">方式</span><span style="font-size: 10pt;" lang="EN-US">(‘POST’ or ‘GET’)<o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">name</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">对应的</span><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">ActionForm</font></span></tt><span style="font-size: 10pt; font-family: 宋体;">的名字</span><span style="font-size: 10pt;"> </span><span style="font-size: 10pt; font-family: 宋体;">，如果不指定，则使用</span><span style="font-size: 10pt;" lang="EN-US">Struts </span><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">Action</font></span></tt><span style="font-size: 10pt; font-family: 宋体;">在配置文件中</span><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">name</font></span></tt><span style="font-size: 10pt; font-family: 宋体;">属性所指定的</span><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">ActionForm</font></span></tt><span style="font-size: 10pt; font-family: 宋体;">。</span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">onreset</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">当</span><span style="font-size: 10pt;" lang="EN-US">form</span><span style="font-size: 10pt; font-family: 宋体;">重置时执行的</span><span style="font-size: 10pt;" lang="EN-US"><a href="http://dev.21tx.com/web/javascript/" target="_blank">JavaScript</a><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">onsubmit</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">当</span><span style="font-size: 10pt;" lang="EN-US">form</span><span style="font-size: 10pt; font-family: 宋体;">提交时执行的</span><span style="font-size: 10pt;" lang="EN-US"><a href="http://dev.21tx.com/java/" target="_blank">Java</a>script<o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">scope</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 10pt; color: windowtext; font-family: 宋体;">与</span></tt><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">form</font></span></tt><tt><span style="font-size: 10pt; color: windowtext; font-family: 宋体;">对应的</span></tt><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">ActionForm</font></span></tt><span style="font-size: 10pt; font-family: 宋体;">的有效区域，可以为</span><tt><span style="font-size: 10pt;" lang="DA"><font color="#354278">request</font></span></tt><span style="font-size: 10pt;" lang="DA"> </span><span style="font-size: 10pt; font-family: 宋体;">或</span><font color="#354278"><tt><span style="font-size: 10pt;" lang="DA">session</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">style</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">CSS</span><span style="font-size: 10pt; font-family: 宋体;">样式表</span><span style="font-size: 10pt;" lang="EN-US">The CSS styles to be applied to this HTML element.<o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">styleClass</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">CSS</span><span style="font-size: 10pt; font-family: 宋体;">样式类别</span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">styleId</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">HTML</span><span style="font-size: 10pt; font-family: 宋体;">元素的</span><span style="font-size: 10pt;" lang="EN-US">ID<o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">target</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">form</span><span style="font-size: 10pt; font-family: 宋体;">提交的目标</span><span style="font-size: 10pt;" lang="EN-US">frame <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">type</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">form</span><span style="font-size: 10pt; font-family: 宋体;">对应的</span><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">ActionForm</font></span></tt><span style="font-size: 10pt; font-family: 宋体;">的类名</span><span style="font-size: 10pt;" lang="EN-US"> <o:p></o:p></span></p></td></tr></tbody></table>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 18pt;"><a name="jakarta-CHP-8-SECT-4.3.1"></a><span style="" lang="DA"><o:p><font size="2" face="宋体">&nbsp;</font></o:p></span></p>
+<h2 style="margin: 6pt 0cm 3pt; text-indent: 0cm;"><a name="_Toc70351669"></a><a name="_Toc69320884"><span style=""><span style="" lang="EN-US"><span style=""><font size="2" face="宋体">1.2</font><span style="font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp; </span></span></span><span lang="EN-US"><font size="2" face="宋体">Struts Logic标签</font></span></span></a><span style=""><font size="2" face="宋体">库</font></span></h2>
+<table class="MsoNormalTable" style="width: 100%;" border="1" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;" colspan="2">
+<h5 style="margin: 12pt 0cm 3pt; text-align: center;" align="center"><a name="_Toc70351670"></a><a name="jakarta-CHP-8-TABLE-5"></a><span style=""><span style="font-size: 10pt; font-family: Arial;" lang="EN-US">Struts Logic</span></span><font face="宋体"><span style=""><span style="font-size: 10pt;">标签库中包含的标签列表</span></span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></h5></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm; text-align: center;" align="center"><span><strong>Tag name<o:p></o:p></strong></span></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm; text-align: center;" align="center"><b><span style="font-size: 10pt;" lang="EN-US">Description</span></b><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">empty</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">如果标签</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">parameter</span><span style="font-family: 宋体;">，</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">propertie</span><span style="font-size: 10pt; color: red; font-family: 宋体;">等</span><span style="font-size: 10pt; font-family: 宋体;">属性所指定的变量值为</span><span style="font-size: 10pt;" lang="EN-US">null</span><span style="font-size: 10pt; font-family: 宋体;">或空字符串，则处理标签包含的内容</span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">equal</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">如果标签</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">parameter</span><span style="font-family: 宋体;">，</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">propertie</span><span style="font-size: 10pt; color: red; font-family: 宋体;">等</span><span style="font-size: 10pt; font-family: 宋体;">属性所指定的变量的值等于标签</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">value</span><span style="font-size: 10pt; font-family: 宋体;">属性所指定的值，则处理标签所包含的内容，如：</span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 9pt; font-family: Verdana;" lang="EN-US">&lt;logic:equal value="<span style="color: rgb(51, 102, 255);">modify</span>" property="<span style="color: rgb(51, 102, 255);">action</span>"<span style="">&nbsp; </span>name="<span style="color: rgb(51, 102, 255);">projectForm</span>"&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 9pt; font-family: Verdana;" lang="EN-US"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;bean:message key="project.project_modify"/&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 9pt; font-family: Verdana;" lang="EN-US">&lt;/logic:equal&gt;<o:p></o:p></span></p>
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt; font-family: 宋体;">上面的示例表示，如果</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">projectForm</span><span style="font-size: 10pt; font-family: 宋体;">的</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">action</span><span style="font-size: 10pt; font-family: 宋体;">属性等于</span><span style="font-size: 9pt; color: rgb(51, 102, 255); font-family: Verdana;" lang="EN-US">modify</span><span style="font-size: 10pt; font-family: 宋体;">，则处理</span><span style="font-size: 9pt; font-family: Verdana;" lang="EN-US">&lt;bean:message key="project.project_modify"/&gt;</span><span style="font-size: 9pt; font-family: 宋体;">语句。</span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">forward</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Forward control to the page specified by the </span><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">ActionForward</font></span></tt><span style="font-size: 10pt;" lang="EN-US"> entry. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">greaterEqual</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the requested variable is greater than or equal to the specified value. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">greaterThan</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the requested variable is greater than the specified value. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">iterate</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Repeat the nested body content of this tag over a specified collection. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">lessEqual</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the requested variable is less than or equal to the specified value. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">lessThan</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the requested variable is less than the specified value. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">match</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the specified value is an appropriate substring of the requested variable. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 10pt;" lang="EN-US"><font color="#354278">messagesNotPresent</font></span></tt><span style="font-size: 10pt;" lang="EN-US"> <o:p></o:p></span></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Generate the nested body content of this tag if the specified message is not present in this request. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">messagesPresent</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Generate the nested body content of this tag if the specified message is present in this request. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">notEmpty</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the requested variable is neither null nor an empty string. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">notEqual</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the requested variable is not equal to the specified value. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">notMatch</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Evaluate the nested body content of this tag if the specified value is not an appropriate substring of the requested variable. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">notPresent</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Generate the nested body content of this tag if the specified value is not present in this request. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">present</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Generate the nested body content of this tag if the specified value is present in this request. <o:p></o:p></span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><font color="#354278"><tt><span style="font-size: 10pt;" lang="EN-US">redirect</span></tt><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span style="font-size: 10pt;" lang="EN-US">Render an HTTP redirect.<o:p></o:p></span></p></td></tr></tbody></table>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><o:p><font size="2" face="宋体">&nbsp;</font></o:p></span></p>
+<table class="MsoNormalTable" style="width: 109.3%;" border="1" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; width: 100%; background-color: transparent;" colspan="2" width="100%">
+<h5 style="margin: 12pt 0cm 3pt; text-align: center;" align="center"><a name="_Toc70351671"></a><a name="jakarta-CHP-8-TABLE-6"></a><font face="宋体"><span style=""><span style="font-size: 10pt;">执行比较功能的标签通用属性表</span></span><span style="font-size: 10pt;" lang="EN-US"><o:p></o:p></span></font></h5></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; width: 21.2%; background-color: transparent;" width="21%">
+<p class="doctext" style="margin: auto 0cm; text-align: center;" align="center"><span lang="EN-US"><strong>Name</strong></span></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm; text-align: center;" align="center"><b><span lang="EN-US">Description</span></b></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; width: 21.2%; background-color: transparent;" width="21%">
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">name</font></span></tt></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span lang="EN-US">The name of a bean to use to compare against the </span><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">value</font></span></tt><span lang="EN-US"> attribute. If the </span><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">property</font></span></tt><span lang="EN-US"> attribute is used, the value is compared against the property of the bean, instead of the bean itself. </span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; width: 21.2%; background-color: transparent;" width="21%">
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">parameter</font></span></tt></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span lang="EN-US">The name of a request parameter to compare the </span><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">value</font></span></tt><span lang="EN-US"> attribute against. </span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; width: 21.2%; background-color: transparent;" width="21%">
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">property</font></span></tt></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span lang="EN-US">The variable to be compared is the property (of the bean specified by the </span><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">name</font></span></tt><span lang="EN-US"> attribute) specified by this attribute. The property reference can be simple, nested, and/or indexed. </span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; width: 21.2%; background-color: transparent;" width="21%">
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">scope</font></span></tt></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span lang="EN-US">The scope within which to search for the bean named by the </span><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">name</font></span></tt><span lang="EN-US"> attribute. All scopes will be searched if not specified. </span></p></td></tr>
+<tr style="">
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; width: 21.2%; background-color: transparent;" width="21%">
+<p class="doctext" style="margin: auto 0cm;"><tt><span style="font-size: 11.5pt;" lang="EN-US"><font color="#354278">value</font></span></tt></p></td>
+<td style="border: medium none rgb(224, 223, 227); padding: 0.75pt; background-color: transparent;">
+<p class="doctext" style="margin: auto 0cm;"><span lang="EN-US">The constant value to which the variable, specified by another attribute(s) of this tag, will be compared. </span></p></td></tr></tbody></table>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><o:p><font size="2" face="宋体">&nbsp;</font></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><font size="2" face="宋体">示例：</font></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 10.5pt; color: black; font-family: 'Times New Roman';" lang="DA">To check whether a particular request parameter is present, you can use the Logic </span><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">present</span><span style="font-size: 10.5pt; color: black; font-family: 'Times New Roman';" lang="DA"> tag: <o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&lt;logic:present parameter="id"&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&nbsp; &lt;!-- Print out the request parameter id value --&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&lt;/logic:present&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 10.5pt; color: black; font-family: 'Times New Roman';" lang="DA">To check whether a collection is empty before iterating over it, you can use the </span><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">notEmpty</span><span style="font-size: 10.5pt; color: black; font-family: 'Times New Roman';" lang="DA"> tag: <o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&lt;logic:notEmpty name="userSummary" property="addresses"&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&nbsp; &lt;!-- Iterate and print out the user's addresses --&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&lt;/logic:notEmpty&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 10.5pt; color: black; font-family: 'Times New Roman';" lang="DA">Finally, here's how to compare a number value against a property within an </span><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">ActionForm</span><span style="font-size: 10.5pt; color: black; font-family: 'Times New Roman';" lang="DA">: <o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&lt;logic:lessThan property="age" value="21"&gt;&nbsp; <o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&nbsp;&nbsp;&lt;!-- Display a message about the user's age --&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; line-height: normal;"><span style="font-size: 11.5pt; color: rgb(53, 66, 120); font-family: 'Courier New';" lang="DA">&lt;/logic:lessThan&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><o:p><font size="2" face="宋体">&nbsp;</font></o:p></span></p><p><a href="http://dev.21tx.com/2004/04/25/10479.html">上一篇： Struts快速学习指南17(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a><br>
+<a href="http://dev.21tx.com/2004/04/25/10448.html">下一篇： Struts快速学习指南22(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a></p>
+</div></div>
+
+<div style="padding-left: 20px; padding-top: 20px; padding-bottom: 20px;" align="left">
+<script type="text/javascript"> 
+cpro_client='txadcpr';
+cpro_cbd='#trans'; 
+cpro_cbg='#trans'; 
+cpro_ctitle='#0000ff'; 
+cpro_cdesc='#444444'; 
+cpro_curl='#008000'; 
+cpro_cflush='#e10900'; 
+cpro_at='text_image'; 
+cpro_161=4; 
+cpro_flush=2; 
+cpro_uap=1; 
+cpro_w=500; 
+cpro_h=200; 
+cpro_template='text_default_500_200'; 
+cpro_channel=919;
+</script>
+<script language="JavaScript" type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/cp.js"></script><div style="display: none;">-</div><iframe marginwidth="0" marginheight="0" allowtransparency="" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/uijs_002.htm" align="center,center" scrolling="no" width="500" frameborder="0" height="200"></iframe>
+</div>
+
+<script language="JavaScript">
+txShowCopyText()
+txShowPageBtmBtn();
+</script><div style="padding: 20px; font-size: 14px; line-height: 150%; text-align: left;"><b>【重要声明】：</b>天新网刊载此文仅为提供更多信息目的，并不代表天新网同意文章的说法或描述，也不构成任何建议，对本文有任何异议，请<a href="http://txsite.21tx.com/script/contact.aspx?subject=%CE%C4%D5%C2%B0%E6%C8%A8%C1%AA%CF%B5:Struts%BF%EC%CB%D9%D1%A7%CF%B0%D6%B8%C4%CF15%28%C4%DA%B2%BF%C5%E0%D1%B5%BD%CC%B2%C4%29-%B4%F3%B2%BF%B7%D6%CB%D8%B2%C4%C0%B4%D7%D4%D3%DA%A1%B6Programming%20Jakarta%20Struts%A1%B7%D2%BB%CA%E9%28TX-2-2-20040425-10485%29" target="_blank">联系我们</a>。</div>  <table style="border-top: 1px solid rgb(183, 183, 183); border-bottom: 1px solid rgb(183, 183, 183); margin: auto;" align="center" border="0" cellpadding="0" cellspacing="0" width="620" height="30">  <tbody><tr align="middle"><td width="9%"></td>  <td width="18%" nowrap="nowrap"><img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/data_cmd2.gif" nowrap="" align="absmiddle" width="17" height="17">  <a href="http://txsite.21tx.com/script/contact.aspx?subject=%CE%C4%D5%C2%B4%ED%CE%F3:Struts%BF%EC%CB%D9%D1%A7%CF%B0%D6%B8%C4%CF15%28%C4%DA%B2%BF%C5%E0%D1%B5%BD%CC%B2%C4%29-%B4%F3%B2%BF%B7%D6%CB%D8%B2%C4%C0%B4%D7%D4%D3%DA%A1%B6Programming%20Jakarta%20Struts%A1%B7%D2%BB%CA%E9%28TX-2-2-20040425-10485%29" target="_blank">文章揪错</a></td>  <td width="19%" nowrap="nowrap"><img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/data_cmd3.gif" nowrap="" align="absmiddle" width="17" height="17">  <a href="http://txsite.21tx.com/script/contact.aspx?subject=%CE%D2%D2%AA%CD%B6%B8%E5" target="_blank">我要投稿</a></td>  <td width="14%" nowrap="nowrap"><img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/data_cmd4.gif" nowrap="" align="absmiddle" width="17" height="17">  <a href="javascript:window.external.AddFavorite('http://dev.21tx.com/2004/04/25/10485.html',%20'Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715(%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90)-%E5%A4%A7%E9%83%A8%E5%88%86%E7%B4%A0%E6%9D%90%E6%9D%A5%E8%87%AA%E4%BA%8E%E3%80%8AProgramming%20Jakarta%20Struts%E3%80%8B%E4%B8%80%E4%B9%A6')">加入收藏</a></td>  <td width="14%" height="24"><img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/data_cmd5.gif" align="absmiddle" width="17" height="17">  <a href="#pagetop">返回顶部</a></td>  <td width="11%" height="24"></td></tr></tbody></table> 
+
+<div id="txp_relating">
+<dl>
+<dt>相关内容</dt>
+<dd><ul> 
+<li><a href="http://dev.21tx.com/2004/04/25/10479.html" target="_blank">Struts快速学习指南17(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+<li><a href="http://dev.21tx.com/2004/04/25/10448.html" target="_blank">Struts快速学习指南22(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+<li><a href="http://dev.21tx.com/2004/04/25/10472.html" target="_blank">Struts快速学习指南18(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+<li><a href="http://dev.21tx.com/2004/04/25/10463.html" target="_blank">Struts快速学习指南19(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+<li><a href="http://dev.21tx.com/2004/04/25/10482.html" target="_blank">Struts快速学习指南16(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+<li><a href="http://dev.21tx.com/2004/04/25/10488.html" target="_blank">Struts快速学习指南14(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+<li><a href="http://dev.21tx.com/2004/04/25/10460.html" target="_blank">Struts快速学习指南20(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+<li><a href="http://dev.21tx.com/2004/04/25/10456.html" target="_blank">Struts快速学习指南21(内部培训教材)-大部分素材来自于《Programming Jakarta Struts》一书</a> 2004-04-25</li>
+</ul></dd>
+</dl>
+</div>
+
+</div>
+<!-- left end -->
+<div id="txp_right">
+
+<div style="background-color: white;"><!-- SiteSearch Google -->
+<form method="get" action="http://www.google.cn/custom" target="google_window">
+<table bgcolor="#ffffff" border="0">
+<tbody><tr><td align="left" valign="top" height="32" nowrap="nowrap">
+<a href="http://www.google.com/">
+<img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/Logo_25wht.gif" alt="Google" align="middle" border="0"></a>
+</td>
+<td nowrap="nowrap">
+<input name="domains" value="21tx.com" type="hidden">
+<label for="sbi" style="display: none;">输入您的搜索字词</label>
+<input name="q" size="25" maxlength="255" value="" id="sbi" type="text">
+<label for="sbb" style="display: none;">提交搜索表单</label>
+<input name="sa" value="搜索" id="sbb" type="submit">
+</td></tr>
+<tr>
+<td>&nbsp;</td>
+<td nowrap="nowrap">
+<table>
+<tbody><tr>
+<td>
+<input name="sitesearch" value="" id="ss0" type="radio">
+<label for="ss0" title="搜索网络"><font color="#000000" size="-1">Web</font></label></td>
+<td>
+<input name="sitesearch" value="21tx.com" checked="checked" id="ss1" type="radio">
+<label for="ss1" title="搜索 21tx.com"><font color="#000000" size="-1">21tx.com</font></label></td>
+</tr>
+</tbody></table>
+<input name="client" value="pub-8537598168120506" type="hidden">
+<input name="forid" value="1" type="hidden">
+<input name="channel" value="1615414527" type="hidden">
+<input name="ie" value="GB2312" type="hidden">
+<input name="oe" value="GB2312" type="hidden">
+<input name="safe" value="active" type="hidden">
+<input name="flav" value="0000" type="hidden">
+<input name="sig" value="-gbpdg8GId8jEMsv" type="hidden">
+<input name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;LH:32;LW:100;L:http://www.21tx.com/images/logo130.gif;S:http://www.21tx.com;LP:1;FORID:1" type="hidden">
+<input name="hl" value="zh-CN" type="hidden">
+</td></tr></tbody></table>
+</form>
+<!-- SiteSearch Google --></div>
+<div><script type="text/javascript"><!--
+google_ad_client = "pub-8537598168120506";
+/* 300x250, 创建于 08-7-27 */
+google_ad_slot = "7227379078";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/show_ads.js">
+</script><script> window.google_render_ad(); </script><iframe name="google_ads_frame" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ads_003.htm" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" width="300" frameborder="0" height="250"></iframe></div>
+
+
+<div><script type="text/JavaScript"> 
+alimama_pid="mm_10109056_191162_2563151"; 
+alimama_titlecolor="0000FF"; 
+alimama_descolor ="000000"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="E6E6E6"; 
+alimama_linkcolor="008000"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="0"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="37"; 
+alimama_width=300; 
+alimama_height=250; 
+alimama_type=2; 
+</script> 
+<script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/inf.js" type="text/javascript"> 
+</script><img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/alimamal.htm" name="alimamatmpf0.4782730643698492" id="alimamatmpf0.4782730643698492" style="border: 0px none ; margin: 0px; padding: 0px; width: 0px; height: 0px; vertical-align: baseline;" border="0"><iframe name="alimamaf0.4782730643698492" id="alimamaf0.4782730643698492" border="0" marginwidth="0" marginheight="0" style="width: 300px; height: 250px;" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/alimama.txt" scrolling="no" frameborder="0"></iframe></div>
+
+<div class="txc_list_title1">热点文章</div>
+<div id="txp_chanclicktop">
+<p><b class="txc_topnum1">1</b><a href="http://dev.21tx.com/2004/04/02/10678.html" target="_blank">我这IT十年</a></p>
+<p><b class="txc_topnum1">2</b><a href="http://dev.21tx.com/2004/04/05/10298.html" target="_blank">《编程高手箴言》读后感(1)</a></p>
+<p><b class="txc_topnum1">3</b><a href="http://dev.21tx.com/2002/08/28/10060.html" target="_blank">充分利用.NET 框架的PropertyGrid 控件</a></p>
+<p><b class="txc_topnum1">4</b><a href="http://dev.21tx.com/2004/12/10/10083.html" target="_blank">深入剖析C#继承机制</a></p>
+<p><b class="txc_topnum1">5</b><a href="http://dev.21tx.com/2003/08/14/10083.html" target="_blank">Win32编程基础知识</a></p>
+<p><b class="txc_topnum1">6</b><a href="http://dev.21tx.com/2006/05/10/12042.html" target="_blank">VS2005为Windows移动程序创建安装文件</a></p>
+<p><b class="txc_topnum1">7</b><a href="http://dev.21tx.com/2007/05/05/10538.html" target="_blank">Oracle 数据库 10g 下载</a></p>
+<p><b class="txc_topnum1">8</b><a href="http://dev.21tx.com/2006/05/23/12055.html" target="_blank">Visual C#使用DirectX实现视频播放</a></p>
+<p><b class="txc_topnum1">9</b><a href="http://dev.21tx.com/2004/02/26/10374.html" target="_blank">Win2k驱动程序设计之硬件</a></p>
+<p><b class="txc_topnum1">10</b><a href="http://dev.21tx.com/2007/09/24/11985.html" target="_blank">C#中的委托和事件</a></p>
+</div>
+
+</div>
+<!-- right end -->
+<div id="txp_mainend"><div></div></div>
+</div>
+<!-- main end -->
+
+<div id="txp_bottom" style="margin: 0pt auto; width: 962px; text-align: center;">
+<div style="padding-top: 20px; padding-bottom: 5px;">
+<a href="http://www.21tx.com/about/aboutus.html" target="_blank">关于我们</a> | <a href="http://txsite.21tx.com/script/contact.aspx" target="_blank">联系我们</a> | <a href="http://www.21tx.com/ad/" target="_blank">广告服务</a> | <a href="http://www.21tx.com/about/job.html" target="_blank">工作机会</a> | <a href="http://www.21tx.com/about/copyright.html" target="_blank">版权声明</a> | <a href="http://txsite.21tx.com/script/contact.aspx?subject=%CD%B6%B8%E5:" target="_blank">欢迎投稿</a> | <a id="txsite_count_text" href="http://www.21tx.com/about/sitemap.html" target="_blank">网站地图</a>
+</div>
+<div>
+Copyright &#169; 2000-2008 , <font color="#cc0000"><b>www.21tx.com</b></font> , All Rights Reserved .
+</div>
+<div style="padding-top: 5px; padding-bottom: 50px;">
+晨新科技 版权所有 Created by TXSite.net
+</div>
+</div>
+
+<span id="txsite_ad_hzh_a" style="display: none;">
+<div id="txsite_ad_hzh_a1" style="width: 300px; height: 250px; float: left; padding-right: 8px; padding-bottom: 8px;">
+<script type="text/javascript"> 
+cpro_client='txadcpr';
+cpro_cbd='#trans'; 
+cpro_cbg='#trans'; 
+cpro_ctitle='#0000ff'; 
+cpro_cdesc='#444444'; 
+cpro_curl='#008000'; 
+cpro_cflush='#e10900'; 
+cpro_at='text_image'; 
+cpro_161=9; 
+cpro_flush=2; 
+cpro_81=0; 
+cpro_uap=1; 
+cpro_w=300; 
+cpro_h=250; 
+cpro_template='text_pages_300_250'; 
+cpro_channel=915;
+</script>
+<script language="JavaScript" type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/cp.js"></script><div style="display: none;">-</div><iframe marginwidth="0" marginheight="0" allowtransparency="" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/uijs_003.htm" align="center,center" scrolling="no" width="300" frameborder="0" height="250"></iframe>
+</div>
+</span>
+<script language="JavaScript">
+if (typeof(txsite_ad_cnt_start) != 'undefined') {
+  txsite_ad_cnt_start.innerHTML = txsite_ad_hzh_a.innerHTML;
+}
+</script>
+
+<div id="Count" style="display: none;">
+<script type="text/javascript"><!--
+tx_page_key = txsite_pagekey;
+tx_page_location = escape(document.location);
+tx_page_referrer = escape(document.referrer);
+//--></script>
+<script type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/Count.js">
+</script><script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/Count.htm"></script><script type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ystat.js"></script><script language="JavaScript" type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ystat.htm"></script><a href="http://tongji.cn.yahoo.com/report.html?unit_id=88031" target="_blank">雅虎统计</a><script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/count_002.htm"></script><a href="http://vip7.1tong.com.cn/link/pview.php?id=91" target="_blank" title="一统天下">[一统天下]<img src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/count.htm" border="0" vspace="0" width="0" height="0" hspace="0"></a><script type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ystat_002.js"></script><script language="JavaScript" type="text/javascript" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ystat_003.js"></script><a href="http://tongji.cn.yahoo.com/report.html?unit_id=147424" target="_blank">雅虎统计</a>
+</div>
+
+<script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/clickeye.js"></script><script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/eye.js" charset="utf-8"></script><script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/core.htm" charset="utf-8"></script><script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/tag.js" charset="utf-8"></script>
+<script type="text/javascript" charset="gb2312" src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/ad_show.htm"></script><script src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/a.htm"></script><embed src="Struts%E5%BF%AB%E9%80%9F%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%9715%28%E5%86%85%E9%83%A8%E5%9F%B9%E8%AE%AD%E6%95%99%E6%9D%90%29_files/p.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="0" height="0">
+<!-- TXSiteTag:tOv7yKA2Bn+hbKPnAeW7wJLc5cuwsP+EMKh4ranbCOl3CsRs6qFHWIFNxu+KVKd/YbSMjPI8qMLXdAwnbjTcx/UHT3RyWe54jO5YKz9vAUwVADyCwUdYlw== --></body></html>
