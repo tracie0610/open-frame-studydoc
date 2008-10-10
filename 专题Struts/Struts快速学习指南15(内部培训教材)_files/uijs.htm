@@ -1,0 +1,191 @@
+<html><head><!-- 0|1;8;8;8; -->
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312">
+<title>百度联盟会员管理系统</title>
+
+<style>
+body{padding:0;margin:0}
+body,div{word-break:break-all;word-wrap:break-word;}
+td{vertical-align:top}
+#main{width:960px;height:90px}
+#box{font-family:Arial;font-size:12px;width:100%;height:100%}
+.tit,.tit a{color:#0033cc;font-size:12px;line-height:18px;width:100%;}
+.tit:hover{text-decoration:none;}
+.cnt,.cnt a{color:#494949;text-decoration:none;width:100%;line-height:16px;}
+.url,.url a{font-size:10px;text-decoration:none;width:100%;line-height:11px;}
+.room{height:100%;padding:5px 10px 0px 5px;}
+.cprogongyi{display:none}
+.cpro{text-align:right;height:16px;line-height:16px;float:right;margin-top:auto;vertical-align:bottom}
+.cprologo{float:right;width:79px;height:12px;line-height:12px;display:block;text-decoration:none;cursor:pointer;text-align:right;margin:0 5px 4px 0;word-spacing:80px;}
+
+.main2 .room{width:50%}
+.main3 .room{width:33%}
+.main4 .room{width:25%}
+
+.main0 td,.main1 td{text-align:center}
+.main0 .cprogongyi{display:block;line-height:16px}
+.main0 .cprogongyi .cprologo{margin-top:3px;width:85px;margin-top:3px}
+.main0 .cpronormal{display:none}
+.main0 .cprogongyi td{text-align:right}
+.main0 .room{padding:0px 250px 0px 250px;}
+.main1 .room{padding:5px 250px 0px 250px;}
+.main0 .urldiv{margin-bottom:5px}
+.main0 #room1,.main0 #room2,.main0 #room3{display:none}
+.main1 #room1,.main1 #room2,.main1 #room3{display:none}
+.main2 #room2,.main2 #room3{display:none}
+.main0 .tit,.main1 .tit,.main2 .tit,.main3 .tit,.main4 .tit{font-size:14px;width:100%;height:18px;width:100%;}
+.main2 .cnt{font-size:12px;text-decoration:none;width:100%;line-height:16px;}
+.main3 #room3{display:none}
+</style>
+
+
+<script>
+var
+path="http://cpro.baidu.com/img/",
+_ct='#0000ff',
+_cd='#444444',
+_cu='#008000',
+_cb='#FFFFFF',
+_bg='#FFFFFF',
+_cl='#000000',
+adType = '1';
+var _bold=1;try{if(1!=null)_bold=1;}catch(ex){}
+function dynamicLogo(isGY){
+var w=path+"cpro_wh.png";
+var b=path+"cpro_bk.png";
+if(isGY){
+	w=path+"cpro_gy_wh.png";
+	b=path+"cpro_gy_bk.png";
+}
+if(adType == 4096){
+	w=path+"cpro_cpa_wh.png";
+	b=path+"cpro_cpa_bk.png";
+}
+if(_bg=="#trans" || _bg == "#") return b;
+var str=new Array();
+str.push(_bg.charAt(1));
+str.push(_bg.charAt(3));
+str=str.toString();
+if(str.match(/[d-f]/ig)) return b;
+return w;
+}
+
+function ss(w){
+w=w.replace(/http:\/\//ig,"");
+var wi = w.indexOf("/"); 
+if(wi != -1)  w=w.substring(0,wi);
+if(w != "") w = "链接至 " + w;
+window.top.status=w;
+return true;
+}
+function colorMatch(color){
+	if(color.toLowerCase() == _bg.toLowerCase()){
+		var str=new Array();
+		str.push(color.charAt(1));
+		str.push(color.charAt(3));
+		str=str.toString();
+		if(str.match(/[d-f]/ig))return "#000000";
+		return "#FFFFFF";
+	}else 
+		return color;
+}
+_ct = colorMatch(_ct);
+_cu = colorMatch(_cu);
+_cd = colorMatch(_cd);
+var cs='<style type="text/css">#main .tit{color:'+_ct+';}';
+if(_bold>0)cs+='a.tit{font-weight:bold;}';
+cs+='.cnt,.cnt a{color:'+_cd+';}.url,.url a{color:'+_cu+';}#cpro{color:'+_cl+';}#cpro a{color:'+_cl+';}';
+if(_cb.toLowerCase() != "#trans") {
+cs+='#box{border-top:1px solid '+_cb+';border-bottom:1px solid '+_cb+';}';
+}
+if(_bg.toLowerCase() != "#trans") {
+cs+='#main{background:'+_bg+'; }';
+}
+cs+='.cpronormal .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="'+dynamicLogo()+'");background:url('+dynamicLogo()+') no-repeat left top;_background:none;}';
+cs+='.cprogongyi .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="'+dynamicLogo(true)+'");background:url('+dynamicLogo(true)+') no-repeat left top;_background:none;}';
+cs+='</style>';
+document.write(cs); 
+function gongyi(){
+	return false;
+}
+function stateBarUrl(){
+	var url = document.body.getElementsByTagName("td");
+	for (var i = 0;i<url.length;i++){
+		if(url[i].getAttribute("url")){
+			url[i].onmouseover=function (){return ss(this.getAttribute("url"));}
+		}
+		url[i].onmouseout=function() {return ss('');}
+	}
+}
+if(adType == 3 || adType == 1024){
+	gongyi = function(){document.getElementById("main").className="main0";}
+}
+window.onload = function (){
+	stateBarUrl();
+	gongyi();
+	
+} 
+</script><style type="text/css">#main .tit{color:#0000ff;}a.tit{font-weight:bold;}.cnt,.cnt a{color:#444444;}.url,.url a{color:#008000;}#cpro{color:#000000;}#cpro a{color:#000000;}#box{border-top:1px solid #FFFFFF;border-bottom:1px solid #FFFFFF;}#main{background:#FFFFFF; }.cpronormal .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="http://cpro.baidu.com/img/cpro_bk.png");background:url(http://cpro.baidu.com/img/cpro_bk.png) no-repeat left top;_background:none;}.cprogongyi .cprologo{filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src="http://cpro.baidu.com/img/cpro_gy_bk.png");background:url(http://cpro.baidu.com/img/cpro_gy_bk.png) no-repeat left top;_background:none;}</style>
+
+</head><body style="background-color: transparent;">
+<div class="main4" id="main">
+    <table id="box" border="0" cellpadding="0" cellspacing="0" height="100%">
+                <tbody><tr class="cprogongyi" id="cprogongyi" valign="top">
+                    <td colspan="4" width="960">
+                         		<a class="cprologo" href="http://cpro.baidu.com/" target="_blank">&nbsp;</a>
+                    </td>
+                </tr>
+                <tr valign="top">
+                 <td id="room0" class="room" url="www.intel.com">
+    <div>
+    	<a id="tit0" class="tit" href="http://www.baidu.com/cpro.php?lY_K00aLif5yBtP9-1yoAtoD1csnum_3LsZwkNiwow0bxDBdMYxZGfhiVA3rA1BnyDtvSWYVwGN6DrrPeQFlq4JESTpVsrtbzV19DU3.7D_KtNKP7DDPY7_TDpuECxahrKMA1jKsdr69H7fhxDeFKqZG63eqLWbluStrFWZPjOlL_EOOOecUVPjl5HzskTVt1nNLOOOmO3ILde5OOSzPmh2Zf1IjWh0" target="_blank">英特尔迅驰pro pc ...</a>
+    </div>
+    <div>
+    	<a id="cnt0" class="cnt" href="http://www.baidu.com/cpro.php?lY_K00aLif5yBtP9-1yoAtoD1csnum_3LsZwkNiwow0bxDBdMYxZGfhiVA3rA1BnyDtvSWYVwGN6DrrPeQFlq4JESTpVsrtbzV19DU3.7D_KtNKP7DDPY7_TDpuECxahrKMA1jKsdr69H7fhxDeFKqZG63eqLWbluStrFWZPjOlL_EOOOecUVPjl5HzskTVt1nNLOOOmO3ILde5OOSzPmh2Zf1IjWh0" target="_blank">使用迅驰2博锐充分调动您的工作能力,工作效率大增.访问英特尔官方</a>
+    </div>
+    <div class="urldiv">
+    	<a id="url0" class="url" href="http://www.baidu.com/cpro.php?lY_K00aLif5yBtP9-1yoAtoD1csnum_3LsZwkNiwow0bxDBdMYxZGfhiVA3rA1BnyDtvSWYVwGN6DrrPeQFlq4JESTpVsrtbzV19DU3.7D_KtNKP7DDPY7_TDpuECxahrKMA1jKsdr69H7fhxDeFKqZG63eqLWbluStrFWZPjOlL_EOOOecUVPjl5HzskTVt1nNLOOOmO3ILde5OOSzPmh2Zf1IjWh0" target="_blank">www.intel.com</a>
+    </div>
+</td>
+<td id="room1" class="room" url="www.ksxinkang.com">
+    <div>
+    	<a id="tit1" class="tit" href="http://www.baidu.com/cpro.php?lY_K00Kp3Hxn0lVt1POVhGVKoQD44aAi04RmAzhndtYWDuANqCKHuEuh20oEWhU9E-h_Fmg4LXdYokIF7Ot6cri3_IyuhLvXobaWX10.7Y_jVWlZkIoruaknRr9hlZZn" target="_blank">昆山鑫康印刷有限公司 苏...</a>
+    </div>
+    <div>
+    	<a id="cnt1" class="cnt" href="http://www.baidu.com/cpro.php?lY_K00Kp3Hxn0lVt1POVhGVKoQD44aAi04RmAzhndtYWDuANqCKHuEuh20oEWhU9E-h_Fmg4LXdYokIF7Ot6cri3_IyuhLvXobaWX10.7Y_jVWlZkIoruaknRr9hlZZn" target="_blank">各类标签,电脑打印纸,货运单证,无碳联单,信封信纸,产品说明书,</a>
+    </div>
+    <div class="urldiv">
+    	<a id="url1" class="url" href="http://www.baidu.com/cpro.php?lY_K00Kp3Hxn0lVt1POVhGVKoQD44aAi04RmAzhndtYWDuANqCKHuEuh20oEWhU9E-h_Fmg4LXdYokIF7Ot6cri3_IyuhLvXobaWX10.7Y_jVWlZkIoruaknRr9hlZZn" target="_blank">www.ksxinkang.com</a>
+    </div>
+</td>
+<td id="room2" class="room" url="www.qunzheng.com">
+    <div>
+    	<a id="tit2" class="tit" href="http://www.baidu.com/cpro.php?lY_K00jJ-dYuSKrCKWeyVKWWVJO47fjlISYYKre6NzgtEyn9G0x-tKJkceTCaDPZZ-Ajcehf3gYBmlQgaxTOTElv1sbQ8_O5H1Dvbus.7b_jvmc8AGruDDIiUYEMyFB9YnLf346" target="_blank"><span style="color: rgb(225, 9, 0);">标签</span>-上海群正包装材料有...</a>
+    </div>
+    <div>
+    	<a id="cnt2" class="cnt" href="http://www.baidu.com/cpro.php?lY_K00jJ-dYuSKrCKWeyVKWWVJO47fjlISYYKre6NzgtEyn9G0x-tKJkceTCaDPZZ-Ajcehf3gYBmlQgaxTOTElv1sbQ8_O5H1Dvbus.7b_jvmc8AGruDDIiUYEMyFB9YnLf346" target="_blank">上海群正包装材料有限公司提供标签,生产各种胶带,耐高温普通胶带和</a>
+    </div>
+    <div class="urldiv">
+    	<a id="url2" class="url" href="http://www.baidu.com/cpro.php?lY_K00jJ-dYuSKrCKWeyVKWWVJO47fjlISYYKre6NzgtEyn9G0x-tKJkceTCaDPZZ-Ajcehf3gYBmlQgaxTOTElv1sbQ8_O5H1Dvbus.7b_jvmc8AGruDDIiUYEMyFB9YnLf346" target="_blank">www.qunzheng.com</a>
+    </div>
+</td>
+<td id="room3" class="room" url="www.globalsources.com.cn">
+    <div>
+    	<a id="tit3" class="tit" href="http://www.baidu.com/cpro.php?lY_K00akR7z8saaWRffi_NJWOWpbpL2Vad3H9sAfeEvhC1bFu3JNl8fvonKvlMBkvK5OctzhhtrUIwphqAwaSaV8uXb3dU82_s4VEHm.7D_jNwIX1wWI6h9HZHKGuBspvmpAaunYTAZdosSxVsOj33xUE4q4blY1HFhmu83ZHgwqmLmFCR_g_3_ZobqXy7YNKnNKmh2Zf1IjWh0" target="_blank">做内贸,上环球资源</a>
+    </div>
+    <div>
+    	<a id="cnt3" class="cnt" href="http://www.baidu.com/cpro.php?lY_K00akR7z8saaWRffi_NJWOWpbpL2Vad3H9sAfeEvhC1bFu3JNl8fvonKvlMBkvK5OctzhhtrUIwphqAwaSaV8uXb3dU82_s4VEHm.7D_jNwIX1wWI6h9HZHKGuBspvmpAaunYTAZdosSxVsOj33xUE4q4blY1HFhmu83ZHgwqmLmFCR_g_3_ZobqXy7YNKnNKmh2Zf1IjWh0" target="_blank">环球资源,优质的生产商,让您安心采购 </a>
+    </div>
+    <div class="urldiv">
+    	<a id="url3" class="url" href="http://www.baidu.com/cpro.php?lY_K00akR7z8saaWRffi_NJWOWpbpL2Vad3H9sAfeEvhC1bFu3JNl8fvonKvlMBkvK5OctzhhtrUIwphqAwaSaV8uXb3dU82_s4VEHm.7D_jNwIX1wWI6h9HZHKGuBspvmpAaunYTAZdosSxVsOj33xUE4q4blY1HFhmu83ZHgwqmLmFCR_g_3_ZobqXy7YNKnNKmh2Zf1IjWh0" target="_blank">www.globalsources.com.cn</a>
+    </div>
+</td>
+
+                </tr>
+                <tr class="cpronormal" id="cpronormal">
+                        <td colspan="4">
+                         		<a class="cprologo" href="http://cpro.baidu.com/" target="_blank">&nbsp;</a>
+                    </td>
+                </tr>
+</tbody></table>
+    </div>
+</body></html>

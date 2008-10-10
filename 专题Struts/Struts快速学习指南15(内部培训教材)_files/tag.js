@@ -1,0 +1,1 @@
+var s={exp:"P{align:'center'}",tag:"p"};$cE.setSite(s);
