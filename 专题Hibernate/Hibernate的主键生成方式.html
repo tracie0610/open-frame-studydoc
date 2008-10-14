@@ -1,0 +1,416 @@
+<html>
+<head>
+<meta http-equiv=Content-Language content=zh-cn>
+<meta http-equiv='Content-Type' content='text/html; charset=gb2312'>
+<title>Hibernate的主键生成方式 - 中国自学编程网</title>
+<meta name="keywords" content="Hibernate的主键生成方式">
+<meta name="description" content="&nbsp;Hibernate中,&lt;id&gt;标签下的可选&lt;generator&gt;子元素是一个Java类的名字，用来为该持久化类的实例生成惟一标示，所有的生成器都实现net.sf.hibernate.id.IdentifierGenerator接口。这是一个非常简单的接口，某些应用程序可以选择提供它们自己的特定实现。">
+<LINK href="/images/cnt.css" type=text/css rel=stylesheet>
+<body>
+<script language="javascript" src="/include/dedeajax2.js"></script>
+<script language="javascript">
+function Digg(divId,aid){
+   var taget_obj = document.getElementById(divId+''+aid);
+   var myajax = new DedeAjax(taget_obj,false,false,"","","");
+   myajax.SendGet2("/digg.php?action=digg&aid="+aid);
+   DedeXHTTP = null;
+}
+</script>
+<style>
+.context{	clear:both;}
+.diggArea{ padding:0px;margin:0px;background-image:url('/plus/img/diggbg2.gif');width:60px; height:58px;line-height:23px;float:left; }
+.diggNum{ margin:0px; text-align:center; padding:0px;  font-size:12px; font-weight:bold; color:#CC0000;width:58px; height:23px; margin-top:8px; }
+.diggLink{ margin:0px; text-align:center; padding-top:5px; padding-left:3px; font-size:14px; font-weight:bold;width:58px;  height:18px;  }
+.diggLink a{ font-size:14px; font-weight:bold; }
+.topx{ border-bottom:1px #CBD7EC solid;}
+</style>
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0"  class="topx">
+  <tr>
+    <td>&nbsp;&nbsp;我们致力于帮助编程爱好者在各自领域取得成功！</td>
+    <td>&nbsp;</td>
+    <td width="288" height="28"><a href="http://blog.zxbc.cn">博客</a> | <a href="http://down.zxbc.cn">下载</a> | <a href="/html/study/">学院</a> | <a href="http://sp.zxbc.cn">视频</a> | <a href="http://forums.zxbc.cn">论坛</a> | <a href="/html/wzdh/">地图</a> | <a href="/plus/rssmap.html"><img src="/images/rss.gif" alt="RSS订阅" border="0"></a> </td>
+  </tr>
+</table>
+<TABLE width="950" height="20" border="0" align="center" cellPadding="0" cellSpacing="0"  class="sx5">
+  <TBODY>
+    <TR>
+      <TD width="18" rowspan="2" align="center" vAlign="center"><img src="/images/zdlogo.gif" width="160" height="60"></TD>
+      <TD vAlign="center" align="center">
+	  <TABLE width="100%" height="25" border="0" align="center" cellPadding="0" cellSpacing="0" >
+        <TBODY>
+          <TR>
+            <TD vAlign="center" align="center" width="45"><A href="/html/kfyy/" target="_blank"><STRONG>语言</STRONG></A></TD>
+            <TD width="270" align="left" vAlign="center" ><A href="/html/Csutdy/" target="_blank">C语言</A> | <A href="/html/cjj/" target="_blank">C++</A> | <A href="/html/vb/" target="_blank">VB</A> | <A href="/html/dnet/" target="_blank">.NET</A> | <A href="/html/java/" target="_blank">JAVA</A> | <A href="/html/cshorp/" target="_blank">C#</A> | <A href="/html/DELPHI/" target="_blank">DELPHI</A></TD>
+            <TD vAlign="center" align="center" width="45"><a href="/html/rjkf/" target="_blank"><strong>开发</strong></a></TD>
+            <TD width="230" align="left" vAlign="center"><a href="/html/erp/" target="_blank">ERP</a> | <a href="/html/rjgc/" target="_blank">软件工程</a> | <a href="/html/yyzh/" target="_blank">软件测试</a> | <a href="/html/pm/" target="_blank">项目管理</a></TD>
+            <TD width="45" align="left" vAlign="center"><a href="/html/webkaifa/" target="_blank"><strong>WEB</strong></a></TD>
+            <TD vAlign="center" align="left"><a href="/html/article/" target="_blank">ASP</a> | <a href="/html/PHP/" target="_blank">PHP</a> | <a href="/html/aspnet/" target="_blank">ASP.NET</a> | <a href="/html/jsp2/" target="_blank">JSP</a></TD>
+          </TR>
+        </TBODY>
+      </TABLE></TD>
+    </TR>
+    <TR>
+      <TD align="center" vAlign="center">
+	  <TABLE width="100%" height="25" border="0" align="center" cellPadding="0" cellSpacing="0" >
+        <TBODY>
+          <TR>
+            <TD width="45" align="center" vAlign="center"><a href="/html/news/" target="_blank"><strong>资讯</strong></a></TD>
+            <TD width="160" align="left" vAlign="center" ><a href="/html/news/cmsnews/" target="_blank">动态</a> | <a href="/html/ITnews/" target="_blank">业界</a> | <a href="/html/renwu/" target="_blank">人物</a> | <a href="/html/sydt/" target="_blank">商业</a></TD>
+            <TD width="45" align="center" vAlign="center"><A href="/html/sjk/" target="_blank"><STRONG>DATA</STRONG></A></TD>
+            <TD width="215" align="left" vAlign="center"><A href="/html/SQLServer/" target="_blank">SQL   Server</A> | <A href="/html/Oracle/" target="_blank">Oracle</A> | <A href="/html/MySQL/" target="_blank">Mysql</A> | <a href="/html/DB2/" target="_blank">DB2</a></TD>
+            <TD width="45" align="left" vAlign="center"><STRONG>综合</STRONG></TD>
+            <TD vAlign="center" align="left"><A href="/html/itrz/" target="_blank">IT认证</A> | <a href="/html/sf/" target="_blank">算法</a> | <a href="/html/network/" target="_blank">网络技术</a> | <a href="/html/Windows/" target="_blank">Windows</a> | <a href="/Linux/" target="_blank">Linux</a></TD>
+          </TR>
+        </TBODY>
+      </TABLE></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0" class="bk2">
+  <tr>
+    <td class="topgg"><script src=/js/top.js language="javascript"></script></td>
+    <td ><script src=/js/top2.js></script></td>
+  </tr>
+</table>
+
+<table width="950" border="0" align="center" cellpadding="0" cellspacing="0"  class="mag5">
+      <tr>
+        <td valign="top" class="bk"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          
+          <tr>
+            <td class="dqwz">您现在的位置：| 
+				<a href='http://www.zxbc.cn/'>主页</a> > <a href='/html/kfyy/'>开发语言</a> > <a href='/html/java/'>JAVA</a> > <a href='/html/javajq/index_1.html'>JAVA技巧</a> >  浏览文章</td>
+          </tr>
+          <tr>
+            <td align="center" valign="bottom" bgcolor="#F7FCFF" class="title"><strong>Hibernate的主键生成方式</strong></td>
+          </tr>
+          <tr>
+            <td align="center" bgcolor="#F7FCFF" class="fbrq">中国自学编程网收集整理 &nbsp;发布日期：2008-05-04 &nbsp;<a href="http://forums.zxbc.cn" target="_blank"><span class="color">进入论坛</span></a></td>
+          </tr>
+          <tr>
+            <td align="center" bgcolor="#F7FCFF" ><script type="text/javascript"><!--
+google_ad_client = "pub-0660578626274101";
+/* 468x60, ZD */
+google_ad_slot = "8420375254";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></td>
+          </tr>
+          <tr>
+            <td bgcolor="#F7FCFF" class="comment">
+            <div style="BACKGROUND: white; WORD-BREAK: break-all; TEXT-INDENT: 24pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 10pt; COLOR: black">&nbsp;Hibernate</span><span style="FONT-SIZE: 10pt; COLOR: black">中,&lt;id&gt;标签下的可选&lt;generator&gt;子元素是一个Java类的名字，用来为该持久化类的实例生成惟一标示，所有的生成器都实现net.sf.hibernate.id.IdentifierGenerator接口。这是一个非常简单的接口，某些应用程序可以选择提供它们自己的特定实现。当然，Hibernate提供了很多内置的实现。下面是一些内置主键生成器(Key Generator)的意义。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">1) assigned</span></strong><span style="FONT-SIZE: 10pt; COLOR: black"><br /></span><span style="FONT-SIZE: 10pt; COLOR: black">主键由外部程序负责生成，无需Hibernate参与。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">2) hilo</span></strong><span style="COLOR: black">（高低位）<br />使用一个高/低位算法来高效的生成long,&nbsp;short或者&nbsp;int类型的标识符。给定一个表和字段（默认分别是是 hibernate_unique_key&nbsp;和next）作为高位值得来源。高/低位算法生成的标识符只在一个特定的数据库中是唯一的。在使用JTA获得 的连接或者用户自行提供的连接中，不要使用这种生成器。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">3) seqhilo</span></strong><span style="COLOR: black">（使用序列的高低位）<br /></span><span style="FONT-SIZE: 10pt; COLOR: black">与hilo 类似，通过hi/lo 算法</span><span style="COLOR: black">来高效的生成long,&nbsp;short或者&nbsp;int类型的标识符</span><span style="FONT-SIZE: 10pt; COLOR: black">实现的主键生成机制，只是主键历史状态保存在Sequence中，适用于支持Sequence的数据库，如Oracle。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">4) increment</span></strong><span style="COLOR: black">（递增）</span><span style="FONT-SIZE: 10pt; COLOR: black"><br /></span><span style="FONT-SIZE: 10pt; COLOR: black">主键按数值顺序递增。此方式的实现机制为在当前应用实例中维持一个变量，以保存着当前的最大值，之后每次需要生成主键的时候将此值加1作为主键。这种方式可能产生的问题是：如果当前有多个实例访问同一个数据库，那么由于各个实例各自维护主键状态，不同实例可能生成同样的主键，从而造成主键重复异常。因此，如果同一数据库有多个实例访问，此方式必须避免使用。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">5) identity</span></strong><span style="FONT-SIZE: 10pt; COLOR: black"><br /></span><span style="FONT-SIZE: 10pt; COLOR: black">采用数据库提供的主键生成机制。如DB2、SQL Server、MySQL中的主键生成机制。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">6) sequence</span></strong><span style="COLOR: black">（序列）<br /></span><span style="FONT-SIZE: 10pt; COLOR: black">采用数据库提供的sequence 机制生成主键。如Oralce 中的Sequence。</span><span style="COLOR: black">返回的标识符是long,&nbsp;short或者&nbsp;int类型的。 </span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">7) native</span></strong><strong><span style="FONT-SIZE: 10pt; COLOR: black"><br /></span></strong><span style="FONT-SIZE: 10pt; COLOR: black">由Hibernate根据底层数据库自行判断采用identity、hilo、sequence其中一种作为主键生成方式。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">8) uuid.hex</span></strong><strong><span style="FONT-SIZE: 10pt; COLOR: black"><br /></span></strong><span style="FONT-SIZE: 10pt; COLOR: black">由Hibernate基于128 位唯一值产生算法生成16 进制数值（编码后以长度32 的字符串表示）作为主键。例如：&ldquo;5abefd3890cat33llsica3ee43bk222&rdquo;。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">9) uuid.string</span></strong><span style="FONT-SIZE: 10pt; COLOR: black"><br /></span><span style="FONT-SIZE: 10pt; COLOR: black">与uuid.hex 类似，只是生成的主键未进行编码（长度16）。在某些数据库中可能出现问题（如PostgreSQL）。</span></div>
+<div style="BACKGROUND: white; MARGIN: 0cm 0cm 12pt 27pt; WORD-BREAK: break-all; TEXT-INDENT: -21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 7pt; COLOR: black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="FONT-SIZE: 10pt; COLOR: black">10) foreign</span></strong><span style="FONT-SIZE: 10pt; COLOR: black"><br /></span><span style="FONT-SIZE: 10pt; COLOR: black">使用外部表的字段作为主键。</span></div>
+<div style="BACKGROUND: white; WORD-BREAK: break-all; TEXT-INDENT: 21pt; LINE-HEIGHT: 16.5pt" align="left"><span style="FONT-SIZE: 10pt; COLOR: black">一般而言，利用uuid.hex方式生成主键将提供最好的性能和数据库平台适应性。另外由于常用的数据库，如Oracle、DB2、SQLServer、MySql 等，都提供了易用的主键生成机制（Auto-Increase 字段或者Sequence）。我们可以在数据库提供的主键生成机制上，采用generator-class=native的主键生成方式。不过值得注意的是，一些数据库提供的主键生成机制在效率上未必最佳，大量并发insert数据时可能会引起表之间的互锁。</span></div>
+<div><span style="FONT-SIZE: 10pt; COLOR: black">数据库提供的主键生成机制，往往是通过在一个内部表中保存当前主键状态（如对于自增型主键而言，此内部表中就维护着当前的最大值和递增量），之后每次插入数据会读取这个最大值，然后加上递增量作为新记录的主键，之后再把这个新的最大值更新回内部表中，这样，一次</span><span style="FONT-SIZE: 10pt; COLOR: black">Insert</span><span style="FONT-SIZE: 10pt; COLOR: black">操作可能导致数据库内部多次表读写操作，同时伴随的还有数据的加锁解锁操作，这对性能产生了较大影响。因此，对于并发</span><span style="FONT-SIZE: 10pt; COLOR: black">Insert</span><span style="FONT-SIZE: 10pt; COLOR: black">要求较高的系统，推荐采用</span><span style="FONT-SIZE: 10pt; COLOR: black">uuid.hex </span><span style="FONT-SIZE: 10pt; COLOR: black">作为主键生成机制。</span></div></td>
+          </tr>
+          
+          <tr>
+            <td height="90" align="center" valign="middle" bgcolor="#F7FCFF">
+			<table width="80%" border="0" align="center" cellpadding="0" cellspacing="2">
+              <tr>
+                <td width="58" rowspan="2"><div id='digg33935' class='diggArea'>
+                  <div class='diggNum'>0</div>
+                <div class="diggLink"><a href="javascript:Digg('digg',33935);">顶一下</a></div></td>
+                <td align="right" valign="bottom"><span class="fy"></span></td>
+              </tr>
+              <tr>
+                <td height="25" valign="bottom"><script type="text/javascript"><!--
+google_ad_client = "pub-0660578626274101";
+/* 468x15, 创建于 08-4-19 */
+google_ad_slot = "4428290809";
+google_ad_width = 468;
+google_ad_height = 15;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></td>
+              </tr>
+            </table>			</td>
+          </tr>
+          <tr>
+            <td align="center" bgcolor="#F7FCFF" class="bkx"><table width="95%" border="0" cellspacing="5" cellpadding="0">
+              <tr>
+                <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="20" align="center" class="bkx"><img src="/images/endxg.gif" width="11" height="9"></td>
+                    <td width="70" align="center" class="gd">相关文章</td>
+                    <td class="bkx">&nbsp;关于 <strong class="co2">Hibernate的主键生成方式</strong></td>
+                  </tr>
+                  
+                </table></td>
+              </tr>
+              <tr>
+                <td class="TNLv2">·<a href='/html/20071030/28603.html'>JAVA调用ORACLE和MYSQL返回结果集 </a><br>·<a href='/html/20070731/25558.html'>JTree用法及JTree使用经验总结</a><br>·<a href='/html/20070419/3047.html'>定义Connection Pool</a><br>·<a href='/html/20070419/3006.html'>关于集合框架的思考</a><br>·<a href='/html/20080504/33935.html'>Hibernate的主键生成方式</a><br>·<a href='/html/20070419/3013.html'>一个简单的对话系统（JAVA编写）</a><br></td>
+                <td width="180" height="150" bgcolor="#F7FCFF" class="xad"><script src=/js/yx.js></script></td>
+              </tr>
+            </table></td>
+          </tr>
+          
+          <tr>
+            <td align="center">
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+              <tr>
+                <td align="left" ><img src="/images/tn.gif" hspace="8" vspace="8"></td>
+                <td width="80" align="left" class="zbj"></td>
+                <td width="424" align="left"> &nbsp;共有 <strong>0</strong> 位对此文章感兴趣的网友发表了看法 &nbsp;&nbsp;&nbsp;&nbsp;<a href="/plus/feedback.php?arcID=33935"><span class="color">查看所有评论</span></a></td>
+              </tr>
+              <tr>
+                <td colspan="3" align="center">
+				<form action="/plus/feedback.php?action=send" method="post" name="feedback">
+				<input type="hidden" name="arcID" value="33935">
+			<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center"><strong>评论内容：</strong>不能超过250字，需审核，请自觉遵守互联网相关政策法规。<br>
+	<textarea name="msg" cols="68" rows="8" n style="background:url(/images/lybj.gif) no-repeat;background-position:50% 50%;"></textarea>    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>用户名：</strong><input name="username" type="text" class="username" size="12" />
+							<strong>密码：</strong><input name="pwd" type="password" class="password" size="12" />
+	<input name="notuser" type="checkbox" value="1" /> <strong>匿名</strong>
+	
+	<input name="sb" type="button" class="submit" value="发表评论" onClick='javascript:if(document.feedback.msg.value!="") document.feedback.submit(); else alert("评论内容不能为空！");'/>
+					  
+					  <a href="/member/index_do.php?fmdo=user&dopost=regnew" target="_blank">注册</a>  </tr>
+</table>
+</form>			</td>
+              </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td align="center" class="lyx"><script src=/js/lyx.js></script></td>
+          </tr>
+          <tr>
+            <td align="center"><table width="95%" border="0" cellspacing="5" cellpadding="0">
+              <tr>
+                <td><img src="/images/endxg.gif" width="11" height="9"><strong> 新闻动态</strong></td>
+              </tr>
+              <tr>
+                <td class="TNLv2"><table width='100%' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+	<td width='50%'>
+·<a href='/html/20080524/50660.html'>海信网络科技与IBM科博会结盟</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20080522/44213.html'>微软“改进当前在搜索市场困境局面”</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20080522/43734.html'>微软将加强Office与开放源代码间兼容性</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20080521/43224.html'>10万中文网页被安放了恶意链接</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20080526/51135.html'>Google Maps发布Flash平台开放接口(API</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20080521/40784.html'>中国互联网近日遭受大范围SQL注入攻击</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20080522/43733.html'>苹果iTunes成网上钓鱼者攻击目标</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20080521/40779.html'>云计算挑起两个时代战争</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20080521/43223.html'>鲍尔默匈牙利大学演讲被扔鸡蛋</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20080524/51091.html'>AMD计划在Computex上推出代号为“Puma</a><br>	</td>
+	</tr>
+	</table></td>
+              </tr>
+              <tr>
+                <td><script src=/js/db.js></script></td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+        <td width="26" valign="top"><img src="/images/zdhf.gif" width="26" height="500"></td>
+        <td width="338" valign="top" class="bk"><table width="100%" border="0" cellspacing="1" cellpadding="0">
+          <tr>
+            <td><script src=/js/zs.js></script></td>
+          </tr>
+          <tr>
+            <td><table width="100%" border="0"cellpadding="0" cellspacing="0" class="mag10">
+        <tr>
+          <td width="70" valign="middle" ><img src="/images/tttp.gif" width="70" height="35" hspace="6"></td>
+          <td>·<a href='/html/20070731/25558.html'>JTree用法及JTree使用经验总结</a><br>·<a href='/html/20070724/24695.html'>使用Eclipse进行平台调试介绍</a><br>
+		  </td>
+        </tr>
+      </table></td>
+          </tr>
+          <tr>
+            <td><table width="98%" border="0"cellpadding="0" cellspacing="0" class="mag10">
+              <tr>
+                <td width="60" height="25" align="center">栏目推荐</td>
+                <td  class="zbj" width="240">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center"><table width='100%' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+	<td width='50%'>
+<table border="0" align="center" cellpadding="0" cellspacing="5">
+          <tr>
+            <td><a href="/html/20080501/33864.html" ><img src='/uploads/allimg/080501/1834250_lit.jpg' border='0' width='120' height='90' alt='Jacob处理Word文档的方法'></a></td>
+          </tr>
+          <tr>
+            <td height="28" align="center"><a href='/html/20080501/33864.html'>Jacob处理Word文档的</a></td>
+          </tr>
+        </table>	</td>
+	<td width='50%'>
+<table border="0" align="center" cellpadding="0" cellspacing="5">
+          <tr>
+            <td><a href="/html/20080501/33862.html" ><img src='/uploads/allimg/080501/1830540_lit.jpg' border='0' width='120' height='90' alt='hibernate反向工程时jdbc问题'></a></td>
+          </tr>
+          <tr>
+            <td height="28" align="center"><a href='/html/20080501/33862.html'>hibernate反向工程时j</a></td>
+          </tr>
+        </table>	</td>
+	</tr>
+	</table></td>
+              </tr>
+              <tr>
+                <td colspan="2" class="TNLv2"><table width='100%' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+	<td width='50%'>
+·<a href='/html/20080104/30979.html'>java.text.DecimalFormat(</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20080324/32767.html'>jxl操作excel文件的方法</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20071006/27675.html'>Equals方法测试代码</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20071215/30425.html'>java 文件目录操作方法</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20070419/3016.html'>java编简单的计算器的代码</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20070426/7588.html'>拒绝JAVA内存泄漏</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20070722/24649.html'>自动更新表格控件JTable中</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20070419/3007.html'>在java中使用相对路径</a><br>	</td>
+	</tr>
+	</table></td>
+              </tr>
+            </table></td>
+          </tr>
+          
+          <tr>
+            <td><table width="98%" border="0" align="center"cellpadding="0" cellspacing="0" class="mag10">
+              <tr>
+                <td width="70" height="25" align="center">热点文章</td>
+                <td  class="zbj" width="220">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2"><script src=/JS/zt.js></script></td>
+              </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td class="pdt10" align="center"><script src=/js/zx.js></script></td>
+          </tr>
+          <tr>
+            <td class="pdt10" align="center"><table width="98%" border="0"cellpadding="0" cellspacing="0" class="mag10">
+              <tr>
+                <td width="60" height="25" align="center">程序人生</td>
+                <td  class="zbj" width="240">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="2"><table width='100%' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+	<td width='50%'>
+<table border="0" align="center" cellpadding="0" cellspacing="5">
+          <tr>
+            <td><a href="/html/20080519/34602.html" ><img src='/uploads/litimg/080519/13313514023.jpg' border='0' width='120' height='90' alt='微软没人比我更勤奋'></a></td>
+          </tr>
+          <tr>
+            <td height="28" align="center"><a href='/html/20080519/34602.html'>微软没人比我更勤奋</a></td>
+          </tr>
+        </table>	</td>
+	<td width='50%'>
+<table border="0" align="center" cellpadding="0" cellspacing="5">
+          <tr>
+            <td><a href="/html/20080421/33514.html" ><img src='/uploads/080428/_1FH2N5.gif' border='0' width='120' height='90' alt='什么造就了杰出的程序开发者？'></a></td>
+          </tr>
+          <tr>
+            <td height="28" align="center"><a href='/html/20080421/33514.html'>什么造就了杰出的程序</a></td>
+          </tr>
+        </table>	</td>
+	</tr>
+	</table></td>
+              </tr>
+              <tr>
+                <td colspan="2" class="TNLv2"><table width='100%' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+	<td width='50%'>
+·<a href='/html/20071210/30259.html'>SD2会中的简短体会</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20070716/24498.html'>从微软亚洲工程院开发工程</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20070504/9848.html'>综观2006Web技术及前景</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20070605/21060.html'>程序人生-路在何方</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20070824/26416.html'>IT人坚持不懈的十件蠢事</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20070512/18824.html'>为别人编织快乐 自己人生</a><br>	</td>
+	</tr>
+<tr>
+	<td width='50%'>
+·<a href='/html/20070607/21135.html'>我是一名普通的程序员</a><br>	</td>
+	<td width='50%'>
+·<a href='/html/20080227/31965.html'>编程水平决定软件质量</a><br>	</td>
+	</tr>
+	</table></td>
+              </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td class="pdt10" align="center"><script src=/js/zd.js></script></td>
+          </tr>
+        </table></td>
+      </tr>
+      
+</table>
+<table width="720" border="0" align="center" cellpadding="0" cellspacing="0" class="mag10">
+  <tr>
+    <td height="23" align="center"><A href="/html/gyzd/">关于站点</A> - <A href="/html/gywm/">联系我们</A> - <A href="/html/bqys/">版权隐私</A> - <A href="/html/mzsm/">免责声明</A> - 
+      <script src="http://s66.cnzz.com/stat.php?id=770864&web_id=770864" language="JavaScript" charset="gb2312"></script> - <A href="#top">返回顶部 </A></td>
+  </tr>
+  <tr>
+    <td height="1" align="center" bgcolor="#CCCCCC"></td>
+  </tr>
+  <tr>
+    <td height="23" align="center">Copyright  2003-2008 www.Zxbc.cn All Rights Reserved</td>
+  </tr>
+  <tr>
+    <td height="23" align="center">湘ICP备07001293号 E-mail:520it@163.com</td>
+  </tr>
+  <tr>
+    <td height="23" align="center">中国自学编程网版权所有，禁止转载！</td>
+  </tr>
+</table>
+</body>
+</html>
