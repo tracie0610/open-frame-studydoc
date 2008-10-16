@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/><title>Spring 的优秀工具类盘点，第 2 部分: 特殊字符转义和方法入参检测工具类</title><!-- s-header-meta  for china -->
+<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
+<link rel="schema.DC" href="http://purl.org/DC/elements/1.0/" />
+<link rel="SHORTCUT ICON" href="http://www.ibm.com/favicon.ico" />
+<meta name="Owner" content="dw@cn.ibm.com" />
+<meta name="DC.Language" scheme="rfc1766" content="zh-CN" />
+<meta name="IBM.Country" content="CN" />
+<meta name="Security" content="Public" />
+<!-- 5.8 0421 egd: Added IBM.Special.Purpose meta tag and the meta tag to suppress the WI login in the masthead -->
+<meta name="IBM.SpecialPurpose" content="SP001" />
+<meta name="IBM.PageAttributes" content="sid=1003"/><meta name="Abstract" content="Spring 不但提供了一个功能全面的应用开发框架，本身还拥有众多可以在程序编写时直接使用的工具类，您不但可以在 Spring 应用中使用这些工具类，也可以在其它的应用中使用，这些工具类中的大部分是可以在脱离 Spring 框架时使用的。了解 Spring 中有哪些好用的工具类并在程序编写时适当使用，将有助于提高开发效率、增强代码质量。在这个分为两部分的文章中，我们将从众多的 Spring 工具类中遴选出那些好用的工具类介绍给大家。第 2 部分将介绍特殊字符转义和方法入参检测工具类。" /><meta name="Description" content="Spring 不但提供了一个功能全面的应用开发框架，本身还拥有众多可以在程序编写时直接使用的工具类，您不但可以在 Spring 应用中使用这些工具类，也可以在其它的应用中使用，这些工具类中的大部分是可以在脱离 Spring 框架时使用的。了解 Spring 中有哪些好用的工具类并在程序编写时适当使用，将有助于提高开发效率、增强代码质量。在这个分为两部分的文章中，我们将从众多的 Spring 工具类中遴选出那些好用的工具类介绍给大家。第 2 部分将介绍特殊字符转义和方法入参检测工具类。" /><meta name="Keywords" content="Spring, 工具类, tttjca, tttosca, tttwaca" /><meta name="DC.Date" scheme="iso8601" content="2007-08-31" /><meta name="DC.Type" scheme="IBM_ContentClassTaxonomy" content="CT316" /><meta name="DC.Subject" scheme="IBM_SubjectTaxonomy" content="TT300" /><meta name="DC.Rights" content="Copyright (c) 2007 by IBM Corporation" /> <meta name="Robots" content="index,follow" /><meta name="IBM.Effective" scheme="W3CDTF" content="2007-08-31" /><meta name="Last update" content="28022008zoucl@cn.ibm.com" /><!-- STYLESHEETS/SCRIPTS -->
+<!-- for tables -->
+<link rel="stylesheet" type="text/css" media="screen,print" href="//www.ibm.com/common/v14/table.css" /> 
+<!-- end for tables -->
+<script language="JavaScript" src="/developerworks/js/dwcss14.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="//www.ibm.com/common/v14/main.css" />
+<link rel="stylesheet" type="text/css" media="all" href="//www.ibm.com/common/v14/cn/zh/screen.css" />
+<link rel="stylesheet" type="text/css" media="print" href="//www.ibm.com/common/v14/cn/zh/print.css" />
+<script language="JavaScript" src="//www.ibm.com/common/v14/cn/zh/detection.js" type="text/javascript"></script>
+<script language="JavaScript" src="/developerworks/js/dropdown.js" type="text/javascript"></script>
+<script language="JavaScript" src="/developerworks/email/grabtitle.js" type="text/javascript"></script>
+<script language="JavaScript" src="/developerworks/email/emailfriend2.js" type="text/javascript"></script><script language="JavaScript" src="/developerworks/js/urltactic.js" type="text/javascript"></script><script language="JavaScript" type="text/javascript">
+ <!--
+ setDefaultQuery('dwchina');
+ //-->
+</script>
+<!--START RESERVED FOR FUTURE USE INCLUDE FILES--><script language="javascript" src="/developerworks/js/ajax1.js" type="text/javascript"></script><script language="javascript" src="/developerworks/js/searchcount.js" type="text/javascript"></script><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><script language="JavaScript" type="text/javascript">var emailAbstract = "Spring 不但提供了一个功能全面的应用开发框架，本身还拥有众多可以在程序编写时直接使用的工具类，您不但可以在 Spring 应用中使用这些工具类，也可以在其它的应用中使用，这些工具类中的大部分是可以在脱离 Spring 框架时使用的。了解 Spring 中有哪些好用的工具类并在程序编写时适当使用，将有助于提高开发效率、增强代码质量。在这个分为两部分的文章中，我们将从众多的 Spring 工具类中遴选出那些好用的工具类介绍给大家。第 2 部分将介绍特殊字符转义和方法入参检测工具类。"; </script></head><body><!--MASTHEAD_BEGIN--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td class="bbg" width="110"><a href="http://www.ibm.com/cn/"><img alt="IBM&reg;" border="0" height="52" src="//www.ibm.com/i/v14/t/ibm-logo.gif" width="110"/></a></td><td class="bbg"><img src="//www.ibm.com/i/c.gif" width="1" height="1" border="0" alt=""/></td><td align="right" class="mbbg" width="650"><table border="0" cellpadding="0" cellspacing="0" align="right"><tr class="cty-tou"><td rowspan="2" width="17" class="upper-masthead-corner"><a href="#main"><img src="//www.ibm.com/i/c.gif" border="0" width="1" height="1" alt="跳转到主要内容"/></a></td><td align="left"><table border="0" cellpadding="0" cellspacing="0" align="left"><tr><td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span><b class="country">中国</b><span class="spacer">&nbsp;[</span><a class="ur-link" href="http://www.ibm.com/developerworks/cn/country/">选择</a><span class="spacer">]</span></td><td width="29" class="upper-masthead-divider">&nbsp;&nbsp;&nbsp;&nbsp;</td><td align="left"><a class="ur-link" href="http://www.ibm.com/legal/cn/">使用条款</a></td></tr></table></td><td width="40">&nbsp;</td></tr><tr><td class="cty-tou-border" height="1" colspan="2"><img src="//www.ibm.com/i/c.gif" alt="" height="1" width="1"/></td></tr><tr><td colspan="3"><img alt="" height="8" src="//www.ibm.com/i/c.gif" width="1"/></td></tr><tr><td>&nbsp;</td><td align="center" colspan="2"><form method="get" action="http://www-128.ibm.com/developerworks/search/searchResults.jsp" id="form1" name="form1"><input type="hidden" name="searchType" value="1"/><input type="hidden" name="searchSite" value="dWChina"/><input type="hidden" name="pageLang" value="zh"/><input type="hidden" name="langEncoding" value="UTF8"/><table border="0" cellpadding="0" cellspacing="0"><tr><td width="1"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt="Select a scope:"/></td><td align="right">
+
+<label for="sq">
+<select id="sq" name="searchScope" class="input-scope">
+<option value="dW" selected="selected">dW 全部内容</option>
+<option value="dW">-----------------</option>
+<option value="aixunix">&nbsp;&nbsp;AIX and UNIX</option>
+<option value="dmdd">&nbsp;&nbsp;Information management</option>
+<option value="lotusdd">&nbsp;&nbsp;Lotus</option>
+<option value="rdd">&nbsp;&nbsp;Rational</option>
+<option value="wsdd">&nbsp;&nbsp;WebSphere</option>
+<option value="dW">-----------------</option>
+<option value="archZ">&nbsp;&nbsp;Architecture</option>
+<option value="gridZ">&nbsp;&nbsp;Grid computing</option>
+<option value="javaZ">&nbsp;&nbsp;Java 技术</option>
+<option value="linuxZ">&nbsp;&nbsp;Linux</option>
+<option value="paZ">&nbsp;&nbsp;Multicore acceleration</option>
+<option value="opensrcZ">&nbsp;&nbsp;Open source</option>
+<option value="securityZ">&nbsp;&nbsp;Security</option>
+<option value="webservZ">&nbsp;&nbsp;SOA &amp; Web services</option>
+<option value="webarchZ">&nbsp;&nbsp;Web development</option>
+<option value="xmlZ">&nbsp;&nbsp;XML</option>
+<option value="dW">-----------------</option>
+<option value="all">IBM 全部内容</option>
+</select>
+</label></td><td width="1" align="right"><img src="//www.ibm.com/i/c.gif" width="1" height="1" alt="Search for:"/>&nbsp;&nbsp;</td><td align="right"><input class="input" id="q" maxlength="100" name="query" size="15" type="text" value=""/></td><td width="7">&nbsp;</td><td><label for="q"><input alt="搜索" name="Search" src="//www.ibm.com/i/v14/t/cn/zh/search.gif" type="image" value="搜索"/></label></td><td width="20">&nbsp;</td></tr></table></form></td></tr></table></td></tr><tr><td class="blbg" colspan="3"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><table border="0" cellpadding="0" cellspacing="0"><tr><td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td><a class="masthead-mainlink" href="http://www.ibm.com/cn/">首页</a></td><td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/products/cn/">产品</a></td><td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/servicessolutions/cn/">服务与解决方案</a></td>	<td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/support/cn/">支持与下载</a></td><td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/account/cn/">个性化服务</a></td><td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr></table></td></tr></table></td></tr></table><!--
+<script src="//www.ibm.com/common/v14/pmh.js" language="JavaScript" type="text/javascript"></script>
+-->
+<!-- end masthead dw liquid -->
+<!--MASTHEAD_END--><!-- CMA ID: 252488 --> <!-- Site ID: 10 --><table id="v14-body-table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><!--LEFTNAV_BEGIN--><td id="navigation" width="150"><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td class="left-nav-spacer"><a href="http://www.ibm.com/developerworks/cn/" class="left-nav-overview"> </a></td></tr></table><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="2" class="left-nav-overview"><a href="http://www.ibm.com/developerworks/cn/" class="left-nav-overview">developerWorks<br />中国</a></td></tr></table><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="2" class="left-nav-highlight"><a href="#" class="left-nav">本文内容包括：</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N1005D" class="left-nav-child">特殊字符转义</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N10163" class="left-nav-child">方法入参检测工具类</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N101ED" class="left-nav-child">小结</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#resources" class="left-nav-child">参考资料 </a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#author" class="left-nav-child">关于作者</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#rate" class="left-nav-child">对本文的评价</a></td></tr><tr class="left-nav-last"><td width="14"><img class="display-img" alt="" height="1" width="14" src="//www.ibm.com/i/c.gif"/></td><td width="136"><img class="display-img" alt="" height="19" width="136" src="//www.ibm.com/i/v14/t/left-nav-corner.gif"/></td></tr></table><br /><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td class="related" colspan="2"><b class="related">相关链接：</b></td></tr><tr class="rlinks"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/rl-bullet.gif"/></td><td><a class="rlinks" href="http://www.ibm.com/developerworks/cn/views/java/articles.jsp">Java technology 技术文档库</a></td></tr><tr class="rlinks"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/rl-bullet.gif"/></td><td><a class="rlinks" href="http://www.ibm.com/developerworks/cn/views/opensource/articles.jsp">Open source 技术文档库</a></td></tr><tr class="rlinks"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/rl-bullet.gif"/></td><td><a class="rlinks" href="http://www.ibm.com/developerworks/cn/views/web/articles.jsp">Web development 技术文档库</a></td></tr><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- No content currently --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><tr><td width="14"><img class="display-img" alt="" height="1" width="14" src="//www.ibm.com/i/c.gif"/></td><td width="136"><img class="display-img" alt="" height="19" width="136" src="//www.ibm.com/i/c.gif"/></td></tr></table><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- Next Steps Area:  Start -->
+<!-- Commented out the include call in the dwmaster version of this file to prevent ajax calls
+     being made during article previews and testing.  Live site has uncommented copy of this file (jpp) -->
+<!-- Call Next Steps Servlet -->
+<script language="JavaScript" type="text/javascript">
+<!--
+/*
+ * ajaxInclude makes a call to the url and render the results in the div tag specified in divId
+ */
+function ajaxInclude(url, divId) { 
+ var req = newXMLHttpRequest(); 
+ if (req) { 
+   req.onreadystatechange = getReadyStateHandler(req, 
+	function (result) {  
+           var contents = document.getElementById(divId);  
+           if (result != null && result.length > 0 && contents != null) {
+	     contents.innerHTML = result;  
+           }
+        }); 
+   req.open("GET", url, true);
+   req.send("");
+ }
+}
+//-->
+</script>
+
+<!-- Display Next Steps Result -->
+<div id="nextsteps"></div>
+
+<!-- Initiate Next Steps Call -->
+<script language="JavaScript" type="text/javascript">
+<!-- 
+ ajaxInclude("/developerworks/niagara/jsp/getNiagaraContent.jsp?url="+window.location.href,"nextsteps");
+//-->
+</script>
+<!-- Next Steps Area:  End --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--></td><!--LEFTNAV_END--><td width="100%"><table id="content-table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td width="100%"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><a name="main"><img border="0" alt="跳转到主要内容" height="1" width="592" src="//www.ibm.com/i/c.gif"/></a></td></tr></table><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td height="18" width="10"><img alt="" height="18" width="10" src="//www.ibm.com/i/c.gif"/></td><td width="100%"><img alt="" height="6" width="1" src="//www.ibm.com/i/c.gif"/><br /><a href="http://www.ibm.com/developerworks/cn/" class="bctl">developerWorks 中国</a><span class="bct">  &gt;  </span><a class="bctl" href="http://www.ibm.com/developerworks/cn/java/">Java technology</a><span class="bct"> | </span><a href="http://www.ibm.com/developerworks/cn/opensource/" class="bctl">Open source</a><span class="bct"> | </span><a href="http://www.ibm.com/developerworks/cn/web/" class="bctl">Web development</a><span class="bct">  &gt;</span><img alt="" height="1" width="1" src="//www.ibm.com/i/c.gif"/><br /><h1><span style="color: #999999">Spring 的优秀工具类盘点，第 2 部分: </span>特殊字符转义和方法入参检测工具类</h1><img alt="" height="6" width="1" src="//www.ibm.com/i/c.gif" class="display-img"/></td><td class="no-print" width="192"><img alt="developerWorks" height="18" width="192" src="/developerworks/i/dw.gif"/></td></tr></table></td></tr></table><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td width="10"><img alt="" height="1" width="10" src="//www.ibm.com/i/c.gif"/></td><td width="100%"><table class="no-print" border="0" width="160" cellspacing="0" cellpadding="0" align="right"><tr><td width="10"><img alt="" height="1" width="10" src="//www.ibm.com/i/c.gif"/></td><td><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td class="v14-header-1-small">文档选项</td></tr></table><table class="v14-gray-table-border" cellspacing="0" cellpadding="0" border="0"><tr><td class="no-padding" width="150"><table width="143" cellspacing="0" cellpadding="0" border="0"><script language="JavaScript" type="text/javascript">
+<!--
+document.write('<tr valign="top"><td width="8"><img src="//www.ibm.com/i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img alt="将打印机的版面设置成横向打印模式" height="16" src="//www.ibm.com/i/v14/icons/printer.gif" width="16" vspace="3" /></td><td width="122"><p><b><a class="smallplainlink" href="javascript:print()">打印本页</a></b></p></td></tr>');
+//-->
+</script>
+<noscript></noscript><form action="https://www.ibm.com/developerworks/secure/email-it.jsp" name="email"><input value="Spring 不但提供了一个功能全面的应用开发框架，本身还拥有众多可以在程序编写时直接使用的工具类，您不但可以在 Spring 应用中使用这些工具类，也可以在其它的应用中使用，这些工具类中的大部分是可以在脱离 Spring 框架时使用的。了解 Spring 中有哪些好用的工具类并在程序编写时适当使用，将有助于提高开发效率、增强代码质量。在这个分为两部分的文章中，我们将从众多的 Spring 工具类中遴选出那些好用的工具类介绍给大家。第 2 部分将介绍特殊字符转义和方法入参检测工具类。" name="body" type="hidden"/><input value="Spring 的优秀工具类盘点，第 2 部分: 特殊字符转义和方法入参检测工具类" name="subject" type="hidden"/><input value="cn" name="lang" type="hidden"/><script language="JavaScript" type="text/javascript">
+<!--
+document.write('<tr valign="top"><td width="8"><img src="//www.ibm.com/i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img src="//www.ibm.com/i/v14/icons/em.gif" height="16" width="16" vspace="3" alt="将此页作为电子邮件发送" /></td><td width="122"><p><a class="smallplainlink" href="javascript:document.email.submit();"><b>将此页作为电子邮件发送</b></a></p></td></tr>');
+//-->
+</script><noscript><tr valign="top"><td width="8"><img alt="" height="1" width="8" src="//www.ibm.com/i/c.gif"/></td><td width="16"><img alt="" width="16" height="16" src="//www.ibm.com/i/c.gif"/></td><td class="small" width="122"><p><span class="ast">未显示需要 JavaScript 的文档选项</span></p></td></tr></noscript></form></table></td></tr></table><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- this content will be automatically generated across all content areas --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><br /></td></tr></table><p>级别： 初级</p><p><a href="#author">陈 雄华</a> (<a href="mailto:quickselect@163.com?subject=特殊字符转义和方法入参检测工具类">quickselect@163.com</a>), 技术总监, 宝宝淘网络科技有限公司<br /></p><p>2007 年  8 月  31 日</p><blockquote>
+            <p>Spring 不但提供了一个功能全面的应用开发框架，本身还拥有众多可以在程序编写时直接使用的工具类，您不但可以在 Spring 应用中使用这些工具类，也可以在其它的应用中使用，这些工具类中的大部分是可以在脱离 Spring 框架时使用的。了解 Spring 中有哪些好用的工具类并在程序编写时适当使用，将有助于提高开发效率、增强代码质量。</p>
+            <p>在这个分为两部分的文章中，我们将从众多的 Spring 工具类中遴选出那些好用的工具类介绍给大家。<a href="http://www.ibm.com/developerworks/cn/java/j-lo-spring-utils1/">第 1 部分</a> 介绍了与文件资源操作和 Web 相关的工具类。在第 2 部分中将介绍特殊字符转义和方法入参检测工具类。</p>
+        </blockquote><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- include java script once we verify teams wants to use this and it will work on dbcs and cyrillic characters -->
+
+<!--END RESERVED FOR FUTURE USE INCLUDE FILES-->
+            <p><a name="N1005D"><span class="atitle">特殊字符转义</span></a></p>
+            <p>由于 Web 应用程序需要联合使用到多种语言，每种语言都包含一些特殊的字符，对于动态语言或标签式的语言而言，如果需要动态构造语言的内容时，一个我们经常会碰到的问题就是特殊字符转义的问题。下面是 Web 开发者最常面对需要转义的特殊字符类型：</p>
+            <ul>
+                <li>HTML 特殊字符；</li>
+                <li>JavaScript 特殊字符；</li>
+                <li>SQL 特殊字符；</li>
+            </ul>
+            <p>如果不对这些特殊字符进行转义处理，则不但可能破坏文档结构，还可以引发潜在的安全问题。Spring 为 HTML 和 JavaScript 特殊字符提供了转义操作工具类，它们分别是 HtmlUtils 和 JavaScriptUtils。</p>
+            <p><a name="N10075"><span class="smalltitle">HTML 特殊字符转义</span></a></p>
+            <p>HTML 中 &lt;，&gt;，&amp; 等字符有特殊含义，它们是 HTML 语言的保留字，因此不能直接使用。使用这些个字符时，应使用它们的转义序列：</p>
+            <ul>
+                <li>&amp;：&amp;amp;</li>
+                <li>" ：&amp;quot;</li>
+                <li>&lt; ：&amp;lt;</li>
+                <li>&gt; ：&amp;gt;</li>
+            </ul>
+            <p>由于 HTML 网页本身就是一个文本型结构化文档，如果直接将这些包含了 HTML 特殊字符的内容输出到网页中，极有可能破坏整个 HTML 文档的结构。所以，一般情况下需要对动态数据进行转义处理，使用转义序列表示 HTML 特殊字符。下面的 JSP 网页将一些变量动态输出到 HTML 网页中：</p>
+            <br /><a name="list1"><b>清单 1. 未进行 HTML 特殊字符转义处理网页</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+&lt;%@ page language="java" contentType="text/html; charset=utf-8"%&gt;
+&lt;%!
+   String userName = "&lt;/td&gt;&lt;tr&gt;&lt;/table&gt;";
+   String address = " \" type=\"button";
+ %&gt;
+&lt;table border="1"&gt;
+   &lt;tr&gt;
+     &lt;td&gt;姓名：&lt;/td&gt;&lt;td&gt;&lt;%=userName%&gt;&lt;/td&gt; ①
+   &lt;/tr&gt;
+   &lt;tr&gt;
+     &lt;td&gt;年龄：&lt;/td&gt;&lt;td&gt;28&lt;/td&gt;
+   &lt;/tr&gt;
+&lt;/table&gt;
+ &lt;input value="&lt;%=address%&gt;"  type="text" /&gt; ②
+</pre></td></tr></table><br />
+            <p>在 ① 和 ② 处，我们未经任何转义处理就直接将变量输出到 HTML 网页中，由于这些变量可能包含一些特殊的 HTML 的字符，它们将可能破坏整个 HTML 文档的结构。我们可以从以上 JSP 页面的一个具体输出中了解这一问题：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+&lt;table border="1"&gt;
+   &lt;tr&gt;
+     &lt;td&gt;姓名：&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;tr&gt;&lt;/table&gt;&lt;/td&gt; 
+     ① 破坏了 &lt;table&gt; 的结构
+   &lt;/tr&gt;
+   &lt;tr&gt;
+     &lt;td&gt;年龄：&lt;/td&gt;&lt;td&gt;28&lt;/td&gt;
+   &lt;/tr&gt;
+&lt;/table&gt;
+ &lt;input value=" " type="button"  type="text" /&gt; 
+ ② 将本来是输入框组件偷梁换柱为按钮组件
+</pre></td></tr></table><br />
+            <p>融合动态数据后的 HTML 网页已经面目全非，首先 ① 处的 &lt;table&gt; 结构被包含 HTML 特殊字符的 userName 变量截断了，造成其后的 &lt;table&gt; 代码变成无效的内容；其次，② 处 &lt;input&gt; 被动态数据改换为按钮类型的组件（type="button"）。为了避免这一问题，我们需要事先对可能破坏 HTML 文档结构的动态数据进行转义处理。Spring 为我们提供了一个简单适用的 HTML 特殊字符转义工具类，它就是 HtmlUtils。下面，我们通过一个简单的例子了解 HtmlUtils 的具体用法：</p>
+            <br /><a name="list2"><b>清单 2. HtmpEscapeExample</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao.escape;
+import org.springframework.web.util.HtmlUtils;
+public class HtmpEscapeExample {
+    public static void main(String[] args) {
+        String specialStr = "&lt;div id=\"testDiv\"&gt;test1;test2&lt;/div&gt;";
+        String str1 = HtmlUtils.htmlEscape(specialStr); ①转换为HTML转义字符表示
+        System.out.println(str1);
+       
+        String str2 = HtmlUtils.htmlEscapeDecimal(specialStr); ②转换为数据转义表示
+        System.out.println(str2);
+       
+        String str3 = HtmlUtils.htmlEscapeHex(specialStr); ③转换为十六进制数据转义表示
+        System.out.println(str3);
+       
+        ④下面对转义后字符串进行反向操作
+        System.out.println(HtmlUtils.htmlUnescape(str1));
+        System.out.println(HtmlUtils.htmlUnescape(str2));
+        System.out.println(HtmlUtils.htmlUnescape(str3));
+    }
+}
+</pre></td></tr></table><br />
+            <p>HTML 不但可以使用通用的转义序列表示 HTML 特殊字符，还可以使用以 # 为前缀的数字序列表示 HTML 特殊字符，它们在最终的显示效果上是一样的。HtmlUtils 提供了三个转义方法：</p>
+            <table border="0" cellpadding="0" cellspacing="0" class="data-table-1" summary="" width="100%"><tr><th>方法</th><th>说明</th></tr><tr><td>
+                        <code>static String htmlEscape(String input)</code>
+                    </td><td>将 HTML 特殊字符转义为 HTML 通用转义序列；</td></tr><tr><td>
+                        <code>static String htmlEscapeDecimal(String input)</code>
+                    </td><td>将 HTML 特殊字符转义为带 # 的十进制数据转义序列；</td></tr><tr><td>
+                        <code>static String htmlEscapeHex(String input)</code>
+                    </td><td>将 HTML 特殊字符转义为带 # 的十六进制数据转义序列；</td></tr></table>
+            <p>此外，HtmlUtils 还提供了一个能够将经过转义内容还原的方法：htmlUnescape(String input)，它可以还原以上三种转义序列的内容。运行以上代码，您将可以看到以下的输出：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+str1:&amp;lt;div id=&amp;quot;testDiv&amp;quot;&amp;gt;test1;test2&amp;lt;/div&amp;gt;
+str2:&amp;#60;div id=&amp;#34;testDiv&amp;#34;&amp;#62;test1;test2&amp;#60;/div&amp;#62;
+str3:&amp;#x3c;div id=&amp;#x22;testDiv&amp;#x22;&amp;#x3e;test1;test2&amp;#x3c;/div&amp;#x3e;
+&lt;div id="testDiv"&gt;test1;test2&lt;/div&gt;
+&lt;div id="testDiv"&gt;test1;test2&lt;/div&gt;
+&lt;div id="testDiv"&gt;test1;test2&lt;/div&gt;
+</pre></td></tr></table><br />
+            <p>您只要使用 HtmlUtils 对代码 <a href="#list1">清单 1</a> 的 userName 和 address 进行转义处理，最终输出的 HTML 页面就不会遭受破坏了。</p>
+            <p><a name="N100F5"><span class="smalltitle">JavaScript 特殊字符转义</span></a></p>
+            <p>JavaScript 中也有一些需要特殊处理的字符，如果直接将它们嵌入 JavaScript 代码中，JavaScript 程序结构将会遭受破坏，甚至被嵌入一些恶意的程序。下面列出了需要转义的特殊 JavaScript 字符：</p>
+            <ul>
+                <li>' ：\'</li>
+                <li>" ：\"</li>
+                <li>\ ：\\</li>
+                <li>走纸换页： \f</li>
+                <li>换行：\n</li>
+                <li>换栏符：\t</li>
+                <li>回车：\r</li>
+                <li>回退符：\b</li>
+            </ul>
+	
+
+<p>我们通过一个具体例子演示动态变量是如何对 JavaScript 程序进行破坏的。假设我们有一个 JavaScript 数组变量，其元素值通过一个 Java List 对象提供，下面是完成这一操作的 JSP 代码片断：</p>
+            <br /><a name="list3"><b>清单 3. jsTest.jsp：未对 JavaScript 特殊字符进行处理</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+&lt;%@ page language="java" contentType="text/html; charset=utf-8"%&gt;
+&lt;jsp:directive.page import="java.util.*"/&gt;
+&lt;%
+  List textList = new ArrayList();
+  textList.add("\";alert();j=\"");
+%&gt;
+&lt;script&gt;
+  var txtList = new Array();
+   &lt;% for ( int i = 0 ; i &lt; textList.size() ; i++) { %&gt;
+     txtList[&lt;%=i%&gt;] = "&lt;%=textList.get(i)%&gt;"; 
+	 ① 未对可能包含特殊 JavaScript 字符的变量进行处理
+   &lt;% } %&gt;
+&lt;/script&gt;
+</pre></td></tr></table><br />
+            <p>当客户端调用这个 JSP 页面后，将得到以下的 HTML 输出页面：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+&lt;script&gt;
+  var txtList = new Array();
+   txtList[0] = ""<span class="boldcode">;alert();j=</span>""; ① 本来是希望接受一个字符串，结果被植入了一段JavaScript代码
+&lt;/script&gt;
+</pre></td></tr></table><br />
+            <p>由于包含 JavaScript 特殊字符的 Java 变量直接合并到 JavaScript 代码中，我们本来期望 ① 处所示部分是一个普通的字符串，但结果变成了一段 JavaScript 代码，网页将弹出一个 alert 窗口。想像一下如果粗体部分的字符串是“";while(true)alert();j="”时会产生什么后果呢？</p>
+            <p>因此，如果网页中的 JavaScript 代码需要通过拼接 Java 变量动态产生时，一般需要对变量的内容进行转义处理，可以通过 Spring 的 JavaScriptUtils 完成这件工作。下面，我们使用 JavaScriptUtils 对以上代码进行改造：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+&lt;%@ page language="java" contentType="text/html; charset=utf-8"%&gt;
+&lt;jsp:directive.page import="java.util.*"/&gt;
+&lt;jsp:directive.page import="org.springframework.web.util.JavaScriptUtils"/&gt;
+&lt;%
+  List textList = new ArrayList();
+  textList.add("\";alert();j=\"");
+%&gt;
+&lt;script&gt;
+   var txtList = new Array();
+   &lt;% for ( int i = 0 ; i &lt; textList.size() ; i++) { %&gt;
+   ① 在输出动态内容前事先进行转义处理
+   txtList[&lt;%=i%&gt;] = "&lt;%=JavaScriptUtils.javaScriptEscape(""+textList.get(i))%&gt;";
+   &lt;% } %&gt;
+&lt;/script&gt;
+</pre></td></tr></table><br />
+            <p>通过转义处理后，这个 JSP 页面输出的结果网页的 JavaScript 代码就不会产生问题了：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+&lt;script&gt;
+   var txtList = new Array();
+   txtList[0] = "<span class="boldcode">\";alert();j=\"</span>";
+   ① 粗体部分仅是一个普通的字符串，而非一段 JavaScript 的语句了
+&lt;/script&gt;
+</pre></td></tr></table><br />
+            <p><a name="N10142"><span class="smalltitle">SQL特殊字符转义</span></a></p>
+            <p>应该说，您即使没有处理 HTML 或 JavaScript 的特殊字符，也不会带来灾难性的后果，但是如果不在动态构造 SQL 语句时对变量中特殊字符进行处理，将可能导致程序漏洞、数据盗取、数据破坏等严重的安全问题。网络中有大量讲解 SQL 注入的文章，感兴趣的读者可以搜索相关的资料深入研究。</p>
+            <p>虽然 SQL 注入的后果很严重，但是只要对动态构造的 SQL 语句的变量进行特殊字符转义处理，就可以避免这一问题的发生了。来看一个存在安全漏洞的经典例子：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+SELECT COUNT(userId) 
+FROM t_user 
+WHERE userName='"+userName+"' AND password ='"+password+"';
+</pre></td></tr></table><br />
+            <p>以上 SQL 语句根据返回的结果数判断用户提供的登录信息是否正确，如果 userName 变量不经过特殊字符转义处理就直接合并到 SQL 语句中，黑客就可以通过将 userName 设置为 “1' or '1'='1”绕过用户名/密码的检查直接进入系统了。</p>
+            <p>所以除非必要，一般建议通过 PreparedStatement 参数绑定的方式构造动态 SQL 语句，因为这种方式可以避免 SQL 注入的潜在安全问题。但是往往很难在应用中完全避免通过拼接字符串构造动态 SQL 语句的方式。为了防止他人使用特殊 SQL 字符破坏 SQL 的语句结构或植入恶意操作，必须在变量拼接到 SQL 语句之前对其中的特殊字符进行转义处理。Spring 并没有提供相应的工具类，您可以通过 jakarta commons lang 通用类包中（spring/lib/jakarta-commons/commons-lang.jar）的 StringEscapeUtils 完成这一工作：</p>
+            <br /><a name="list4"><b>清单 4. SqlEscapeExample</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao.escape;
+import org.apache.commons.lang.StringEscapeUtils;
+public class SqlEscapeExample {
+    public static void main(String[] args) {
+        String userName = "1' or '1'='1";
+        String password = "123456";
+        userName = StringEscapeUtils.escapeSql(userName);
+        password = StringEscapeUtils.escapeSql(password);
+        String sql = "SELECT COUNT(userId) FROM t_user WHERE userName='"
+            + userName + "' AND password ='" + password + "'";
+        System.out.println(sql);
+    }
+}
+</pre></td></tr></table><br />
+            <p>事实上，StringEscapeUtils 不但提供了 SQL 特殊字符转义处理的功能，还提供了 HTML、XML、JavaScript、Java 特殊字符的转义和还原的方法。如果您不介意引入 jakarta commons lang 类包，我们更推荐您使用 StringEscapeUtils 工具类完成特殊字符转义处理的工作。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N10163"><span class="atitle">方法入参检测工具类</span></a></p>
+            <p>Web 应用在接受表单提交的数据后都需要对其进行合法性检查，如果表单数据不合法，请求将被驳回。类似的，当我们在编写类的方法时，也常常需要对方法入参进行合法性检查，如果入参不符合要求，方法将通过抛出异常的方式拒绝后续处理。举一个例子：有一个根据文件名获取输入流的方法：InputStream getData(String file)，为了使方法能够成功执行，必须保证 file 入参不能为 null 或空白字符，否则根本无须进行后继的处理。这时方法的编写者通常会在方法体的最前面编写一段对入参进行检测的代码，如下所示：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+public InputStream getData(String file) {
+    if (file == null || file.length() == 0|| file.replaceAll("\\s", "").length() == 0) {
+        throw new IllegalArgumentException("file入参不是有效的文件地址");
+    }
+…
+}
+</pre></td></tr></table><br />
+            <p>类似以上检测方法入参的代码是非常常见，但是在每个方法中都使用手工编写检测逻辑的方式并不是一个好主意。阅读 Spring 源码，您会发现 Spring 采用一个 org.springframework.util.Assert 通用类完成这一任务。</p>
+            <p>Assert 翻译为中文为“断言”，使用过 JUnit 的读者都熟知这个概念，它断定某一个实际的运行值和预期想一样，否则就抛出异常。Spring 对方法入参的检测借用了这个概念，其提供的 Assert 类拥有众多按规则对方法入参进行断言的方法，可以满足大部分方法入参检测的要求。这些断言方法在入参不满足要求时就会抛出 IllegalArgumentException。下面，我们来认识一下 Assert 类中的常用断言方法：</p>
+            <table border="0" cellpadding="0" cellspacing="0" class="data-table-1" summary="" width="100%"><tr><th>断言方法</th><th>说明</th></tr><tr><td>
+                        <code>notNull(Object object)</code>
+                    </td><td>当 object 不为 null 时抛出异常，notNull(Object object, String message) 方法允许您通过 message 定制异常信息。和 notNull() 方法断言规则相反的方法是 isNull(Object object)/isNull(Object object, String message)，它要求入参一定是 null；</td></tr><tr><td>
+                        <code>isTrue(boolean expression) / isTrue(boolean expression, String message)</code>
+                    </td><td>当 expression 不为 true 抛出异常；</td></tr><tr><td>
+                        <code>notEmpty(Collection collection) / notEmpty(Collection collection, String message)</code>
+                    </td><td>当集合未包含元素时抛出异常。notEmpty(Map map) / notEmpty(Map map, String message) 和 notEmpty(Object[] array, String message) / notEmpty(Object[] array, String message) 分别对 Map 和 Object[] 类型的入参进行判断；</td></tr><tr><td>
+                        <code>hasLength(String text) / hasLength(String text, String message)</code>
+                    </td><td>当 text 为 null 或长度为 0 时抛出异常；</td></tr><tr><td>
+                        <code>hasText(String text) / hasText(String text, String message)</code>
+                    </td><td>text 不能为 null 且必须至少包含一个非空格的字符，否则抛出异常；</td></tr><tr><td>
+                        <code>isInstanceOf(Class clazz, Object obj) / isInstanceOf(Class type, Object obj, String message)</code>
+                    </td><td>如果 obj 不能被正确造型为 clazz 指定的类将抛出异常；</td></tr><tr><td>
+                        <code>isAssignable(Class superType, Class subType) / isAssignable(Class superType, Class subType, String message)</code>
+                    </td><td>subType 必须可以按类型匹配于 superType，否则将抛出异常；</td></tr></table>
+            <p>使用 Assert 断言类可以简化方法入参检测的代码，如 InputStream getData(String file) 在应用 Assert 断言类后，其代码可以简化为以下的形式：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+public InputStream getData(String file){
+    Assert.hasText(file,"file入参不是有效的文件地址"); 
+    ① 使用 Spring 断言类进行方法入参检测
+…
+}
+</pre></td></tr></table><br />
+            <p>可见使用 Spring 的 Assert 替代自编码实现的入参检测逻辑后，方法的简洁性得到了不少的提高。Assert 不依赖于 Spring 容器，您可以大胆地在自己的应用中使用这个工具类。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N101ED"><span class="atitle">小结</span></a></p>
+            <p>本文介绍了一些常用的 Spring 工具类，其中大部分 Spring 工具类不但可以在基于 Spring 的应用中使用，还可以在其它的应用中使用。</p>
+            <p>对于 Web 应用来说，由于有很多关联的脚本代码，如果这些代码通过拼接字符串的方式动态产生，就需要对动态内容中特殊的字符进行转义处理，否则就有可能产生意想不到的后果。Spring 为此提供了 HtmlUtils 和 JavaScriptUtils 工具类，只要将动态内容在拼接之前使用工具类进行转义处理，就可以避免类似问题的发生了。如果您不介意引入一个第三方类包，那么 jakarta commons lang 通用类包中的 StringEscapeUtils 工具类可能更加适合，因为它提供了更加全面的转义功能。</p>
+            <p>最后我们还介绍了 Spring 的 Assert 工具类，Assert 工具类是通用性很强的工具类，它使用面向对象的方式解决方法入参检测的问题，您可以在自己的应用中使用 Assert 对方法入参进行检查。</p>
+        <br /><br /><p><a name="resources"><span class="atitle">参考资料 </span></a></p><b>学习</b><br /><ul><li>
+				阅读本文的 <a href="http://www.ibm.com/developerworks/cn/java/j-lo-spring-utils1/">第 1 部分</a>：介绍了与文件资源操作和 Web 相关的工具类。<br /><br /></li><li>
+                <a href="http://www.ibm.com/developerworks/cn/java/wa-spring1/">Spring 系列：Spring 框架简介</a>：优秀的 Spring 框架入门系列，了解 Spring 框架的基本概念。<br /><br /></li><li>
+                <a href="http://www.ibm.com/developerworks/cn/java/j-lo-spring-lob/index.html">Spring 让 LOB 数据操作变得简单易行</a>：讲解了在 Spring 中处理 LOB 数据的原理和方法。<br /><br /></li></ul><br /><b>获得产品和技术</b><br /><ul><li>
+                <a href="http://www.springframework.org/download">Springframework 网站</a>：下载 Spring 框架。</li></ul><br /><br /><p><a name="author"><span class="atitle">关于作者</span></a></p><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td colspan="3"><img alt="" width="100%" height="5" src="//www.ibm.com/i/c.gif"/></td></tr><tr align="left" valign="top"><td><p><img align="left" alt="陈雄华照片" src="chenxh.jpg" valign="top"/></p></td><td><img alt="" width="4" height="5" src="//www.ibm.com/i/c.gif"/></td><td width="100%"><p>陈雄华，2002 年毕业于厦门大学计算机与信息工程学院，获硕士学位。是宝宝淘科技有限公司的创始人之一（<a href="http://www.baobaotao.com" target="_blank">http://www.baobaotao.com</a>），这是一个服务于全国母婴用户的综合性网站，作者负责网站整体框架设计以及核心代码开发的工作。技术开发之余，常将经验所得行诸于文字，作者是国内多个著名技术网站的专栏作者，在各大技术网站、报刊杂志发表过数十篇技术文章，广受读者好评。于 2005 年出版《精通 JBuilder 2005》，于2007年出版《精通 Spring 2.x--企业应用开发详解》，其新作《EXT 2.x开发详解――AJAX和Web页面布局王者至尊》即将出版。</p></td></tr></table><br /><br /><br /><p class="no-print"><span class="atitle"><a name="rate">对本文的评价</a></span></p><span class="no-print"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td><form action="https://www.ibm.com/developerworks/secure/cnratings.jsp" method="GET"><input value="Spring 的优秀工具类盘点，第 2 部分: 特殊字符转义和方法入参检测工具类" name="ArticleTitle" type="hidden"/><input value="Java technology, Open source, Web development" name="Zone" type="hidden"/><input value="http://www.ibm.com/developerworks/cn/thankyou/" name="RedirectURL" type="hidden"/><input value="china" name="localsite" type="hidden"/><script language="javascript">document.write('<input type="hidden" name="url" value="'+location.href+'" />');</script><table cellspacing="0" cellpadding="0" border="0"><tr><td><img alt="" border="0" height="8" width="100" src="//www.ibm.com/i/c.gif"/></td></tr><tr valign="top"><td><input value="1" name="Rating" type="RADIO"/>太差！ (1)</td></tr><tr valign="top"><td><input value="2" name="Rating" type="RADIO"/>需提高 (2)</td></tr><tr valign="top"><td><input value="3" name="Rating" type="RADIO"/>一般；尚可 (3)</td></tr><tr valign="top"><td><input value="4" name="Rating" type="RADIO"/>好文章 (4)</td></tr><tr valign="top"><td><input value="5" name="Rating" type="RADIO"/>真棒！(5)</td></tr></table><br /><b>建议？</b><br /><textarea cols="60" rows="5" wrap="virtual" id="Comments" name="Comments"> </textarea><br /><br /><input value="反馈意见" type="SUBMIT"/></form></td></tr><tr valign="top"><td bgcolor="#FFFFFF"><img alt="" border="0" height="8" width="100" src="//www.ibm.com/i/c.gif"/></td></tr></table></span><br /><p><!-- --></p><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><br /><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><br /><span class="no-print"><table cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="8" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /></span></td><td width="10"><img alt="" height="1" width="10" src="//www.ibm.com/i/c.gif"/></td></tr></table><span class="small">IBM 公司保留在 developerWorks 网站上发表的内容的著作权。未经IBM公司或原始作者的书面明确许可，请勿转载。如果您希望转载，请通过 <a href="https://www.ibm.com/developerworks/secure/reprintreq.jsp?domain=dwchina">提交转载请求表单</a> 联系我们的编辑团队。</span></td></tr></table><!--FOOTER_BEGIN--><!-- IBM FOOTER -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+<tr>
+<td class="bbg" height="19">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span><a class="mainlink" href="http://www.ibm.com/cn/ibm/index.shtml">关于 IBM</a></td>
+<td class="footer-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><a class="mainlink" href="http://www.ibm.com/cn/ibm/privacy/index.shtml">隐私条约</a></td>
+<td class="footer-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><a class="mainlink" href="http://www.ibm.com/contact/cn/">联系 IBM</a></td>
+<td class="footer-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><a class="mainlink" href="http://www.ibm.com/legal/cn/zh/">使用条款</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- end footer -->
+<script type="text/javascript" language="JavaScript1.2" src="//www.ibm.com/common/stats/stats.js"></script>
+<noscript><img src="//stats.www.ibm.com/rc/images/uc.GIF?R=noscript" width="1" height="1" alt="" border="0" /></noscript><!--FOOTER_END--><!--XSLT stylesheet used to transform this file:  dw-document-html-5.10.xsl--></body></html>
