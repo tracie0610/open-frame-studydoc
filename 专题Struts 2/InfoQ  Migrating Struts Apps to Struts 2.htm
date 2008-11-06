@@ -1,0 +1,1766 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<!-- saved from url=(0055)http://www.infoq.com/articles/converting-struts-2-part1 -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<TITLE>
+		InfoQ: Migrating Struts Apps to Struts 2
+	</TITLE>
+    
+	
+	<META http-equiv="pragma" content="no-cache">
+<META http-equiv="cache-control" content="no-cache">
+<META http-equiv="expires" content="0">
+
+<META name="copyright" content="&copy; 2006 C4Media">
+<META name="author" content="alex[at]c4media[dot]com">
+
+	
+	
+    <LINK rel="stylesheet" type="text/css" media="screen" href="./InfoQ  Migrating Struts Apps to Struts 2_files/style.css">
+    <LINK rel="stylesheet" type="text/css" media="print" href="./InfoQ  Migrating Struts Apps to Struts 2_files/print.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles/style-ie.css" />
+    <![endif]-->
+    <LINK rel="shortcut icon" href="http://www.infoq.com/favicon.ico" type="image/x-icon">
+    <SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/JSResource_en.js" type="text/javascript"></SCRIPT>    
+	<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/commons.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/ContentSummary.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/CategoryManagement.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/engine.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/util.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/UserCategoryUtil.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/DWRRewriteAction.js" type="text/javascript"></SCRIPT>
+	
+
+	
+	<META name="keywords" content="converting struts 2 part1,Java,Web Frameworks,Change,Struts,migration,">
+	<META name="description" content="Struts committer Ian Roughely explains, from the perspective of a Struts developer, the high level architecture, basic request workflow, configuration semantics and differences in the action framework in the new Struts 2 (formerly WebWork). Armed with this knowledge, migrating an application of any size from Struts to Struts 2 should be simplified. ">
+
+
+</HEAD><BODY> 
+
+
+
+
+
+<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/prototype.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/login.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+var loginLanguage='en';
+var loginURL='/login.action';
+var registerURL='/reginit.action';
+var reactivateURL='/reactivate.action';
+var reserpasswordURL='/resetpassword.action';
+var loggedIn=false;
+var logoutURL='/logout.action';
+var editUserURL='/edituser.action';
+var aboutURL='/about.jsp';
+var homeURL='/';
+</SCRIPT>
+<DIV id="tooltip" style="display:none;"></DIV>
+<DIV id="loginWindow" style="display:none;"></DIV>
+<DIV id="tagPopup" style="display:none;"></DIV>
+<DIV id="container">
+	<H1 class="logo"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">InfoQ</A></H1>
+
+	
+
+
+
+
+
+
+
+<DIV id="header">
+	<P class="skip"><A href="http://www.infoq.com/articles/converting-struts-2-part1#content">Skip to Content</A></P>
+
+	<DIV id="quote"><P>Tracking change and innovation in the enterprise software development community</P></DIV>
+
+	<DIV style="float: left;width: 29&percnt;;position: relative;margin: 0 0 2px 0;padding: 0;">
+		<P style="margin:0;padding: 6px 37px 0 0;margin: 0;float: right;">		
+			
+
+
+
+
+
+
+En | <A href="http://www.infoq.com/cn/">中文</A> | <A href="http://www.infoq.com/jp/">日本語</A>
+		
+		</P>
+		<P style="margin: 0;padding: 6px 9px;text-align:left;">
+            <A href="http://www.infoq.com/articles/InfoQ-Changelog" style="text-decoration: none; color: black;">Version 1.4</A>
+		</P>
+	</DIV>
+</DIV>
+
+
+
+	
+	<DIV id="sidebar">
+	<DIV id="sidebar-wrapper">
+		
+
+
+
+
+<DIV class="s-logo">
+	
+	<P class="r-logo"><A href="http://www.infoq.com/">InfoQ</A></P>
+</DIV>
+
+
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+<SPAN style="font-size: x-small;#font-size: xx-small;">
+
+    
+    
+332,438 Sep unique visitors
+</SPAN>
+<DIV style="margin-top:5px; height:60px">	
+	<A href="http://qconsf.com/sf2008/conference/" target="_blank">
+	   <IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/qcon4_image_11.jpg" style="width:100&percnt;; height:60px">
+	</A>
+</DIV>
+
+
+		    
+		
+		
+
+
+
+
+
+
+	<DIV class="box-simple">
+		<DIV class="box-simple-top"></DIV>
+		<DIV id="mainLoginArea" class="box-simple-content">
+			
+			
+			<UL>
+	            <LI><A href="http://www.infoq.com/reginit.action">Register</A></LI>
+			    <LI><A href="javascript:void(0)" onclick="javascript:showLoginWindow(this,ALIGN_LEFT,new Function(&#39;void(0);&#39;));">Login</A></LI>
+	            <LI><A href="http://www.infoq.com/about.jsp">About us</A></LI>
+	            
+	            
+		        	
+		        		
+		        	
+	   	            <LI><A href="http://www.infoq.com/rss/rss.action?token=K9p1oux1HuzCGM0Y0QhOWD1iqg9oFx3e">Personal feed <IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/btn-rss-blue.gif" alt="RSS Feed"></A></LI>
+				
+			    <LI><A href="http://www.infoq.com/">Home</A></LI>
+			</UL>
+			
+		</DIV>
+		<DIV class="box-simple-bottom"></DIV>
+	</DIV>
+
+
+		
+
+
+
+
+
+
+<DIV id="mainCommunitiesArea" class="box">
+    <H2>Your Communities</H2>
+    <DIV class="top-corners"><DIV></DIV></DIV>
+    <DIV class="box-content">
+    <DIV class="box-content-2">
+    	
+
+
+
+
+<SCRIPT language="JavaScript">
+var communityChangeMessage = 'Your new preferences will be used starting with the next refresh.';
+</SCRIPT>	
+
+<DIV id="communities">
+    <UL>
+	
+		<LI><INPUT type="checkbox" name="java" value="true" checked="checked" id="community1" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/java/">Java</A></LI>
+	
+		<LI><INPUT type="checkbox" name="dotnet" value="true" checked="checked" id="community4" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/dotnet/">.NET</A></LI>
+	
+		<LI><INPUT type="checkbox" name="ruby" value="true" checked="checked" id="community5" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/ruby/">Ruby</A></LI>
+	
+		<LI><INPUT type="checkbox" name="soa" value="true" checked="checked" id="community2" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/soa/">SOA</A></LI>
+	
+		<LI><INPUT type="checkbox" name="agile" value="true" checked="checked" id="community3" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/agile/">Agile</A></LI>
+	
+		<LI><INPUT type="checkbox" name="architecture" value="true" checked="checked" id="community1389" onclick="includeExcludeCommunity(this);">
+ <A href="http://www.infoq.com/architecture/">Architecture</A></LI>
+	
+    </UL>
+</DIV>
+<DIV id="communitiesMessage"></DIV>
+    </DIV></DIV>
+    <DIV class="bottom-corners"><DIV></DIV></DIV>
+</DIV>
+
+
+
+
+		
+
+
+
+
+
+<SCRIPT type="text/javascript">
+	function doSearch(){
+		var searchString = document.getElementById("searchId").value;
+		document.getElementById("searchTerm").value =  searchString + " site:www.infoq.com";		
+		document.getElementById("submitForm").submit();
+	}
+	
+	function clearSearchText(){	
+		var searchtext =  document.getElementById("searchId").value
+		if(searchtext==JSResource.search){
+			document.getElementById("searchId").value="";
+		}
+	}
+</SCRIPT>
+<FORM action="http://www.google.com/search" method="GET" id="submitForm" target="_blank">
+	<INPUT type="hidden" name="q" id="searchTerm">
+</FORM>
+
+	<DIV style="background: url(&#39;/images/bg-search.gif&#39;) no-repeat 0 4px;">	
+			<INPUT type="text" name="search" id="searchId" value="Search" style="width: 85&percnt;; border: 0px none; background-color: transparent; height: 19px; padding-left:9px; padding-right:9px; padding-top:0; padding-bottom:0" onclick="clearSearchText();" onkeypress="if ((event.which &amp;&amp; event.which == 13)||(event.keyCode &amp;&amp; event.keyCode == 13)){doSearch();}" onblur="if(this.value==&#39;&#39;) this.value=JSResource.search">	
+			<A href="http://www.infoq.com/articles/converting-struts-2-part1#" onclick="doSearch();return false;"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/btn-search.gif" alt="Search"></A> 
+	</DIV>
+
+		
+
+
+
+
+<DIV class="box-simple">
+<DIV class="box-simple-top"></DIV>
+<DIV id="featuredTopics" class="box-simple-content">
+	
+
+
+
+
+
+    <H2>Featured Topics</H2>
+    <DIV>
+		<UL>            
+            <LI><A href="http://www.infoq.com/performance-scalability/">Performance &amp; Scalability</A></LI>
+            <LI><HR style="width: 100&percnt;; height: 1px; border: 0; color: #C8C8C8; background-color: #C8C8C8;"></LI>
+            <LI><A href="http://www.infoq.com/collaboration/">Team Collaboration</A></LI>
+            <LI><HR style="width: 100&percnt;; height: 1px; border: 0; color: #C8C8C8; background-color: #C8C8C8;"></LI>
+            <LI><A href="http://www.infoq.com/governance/">SOA Governance</A></LI>
+            
+        </UL>
+	</DIV>
+		
+	
+</DIV>
+<DIV class="box-simple-bottom"></DIV>
+</DIV>
+		
+		
+
+
+
+
+
+
+
+
+
+
+<DIV class="box-simple">
+	<DIV class="box-simple-top"></DIV>
+	<DIV class="box-simple-content">
+		<P class="banner" id="bannerparagraph">
+			
+
+
+
+
+
+	<A class="towerAdLeft" id="sk-82" href="http://www.intersystems.com/infoqcache21_120x600/index.html" onclick="Ads.clickSkyscraper(this, 82 );" target="_blank"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/cache-java-mismatch_120x600.gif"></A>
+
+
+
+		</P>
+	</DIV>
+	<DIV class="box-simple-bottom"></DIV>
+</DIV>
+
+
+	<DIV class="box-simple">
+		<DIV class="box-simple-top"></DIV>
+		<DIV class="box-simple-content adsTower2" id="leftbartextlinks">
+			<DIV style="width:120px;background:white;">
+				
+
+
+
+
+
+<H3>Sponsored Links</H3>
+
+
+<P>Defy all<BR>Challenges.<BR><A id="tl-100" onclick="Ads.clickTextLink(this, 100);" href="http://clk.atdmt.com/MRT/go/115172472/direct/01/" target="_blank">Microsoft&reg;<BR>Visual Studio<BR>2008</A></P>
+
+<P>Terracotta:<BR>Scale your<BR>Apps w/ease<BR>Offload the DB:<BR><A id="tl-79" onclick="Ads.clickTextLink(this, 79);" href="http://www.terracotta.org/web/display/orgsite/Download" target="_blank">Learn More!</A></P>
+
+<P>Testing Tools to<BR>Support Agile<BR>Software Delivery<BR><A id="tl-99" onclick="Ads.clickTextLink(this, 99);" href="http://www.infoq.com/vendorcontent/show.action?vcr=399" target="_blank">Whitepaper</A></P>
+
+
+			</DIV>
+		</DIV>
+		<DIV class="box-simple-bottom"></DIV>
+	</DIV>
+
+
+<DIV class="box-simple">
+	<DIV class="box-simple-top"></DIV>
+	<DIV class="box-simple-content">
+		<P class="banner">
+			<IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/books.gif" usemap="#booksmap" alt="">
+			<MAP name="booksmap">
+				<AREA href="http://www.infoq.com/minibooks/scrum-xp-from-the-trenches" alt="Scrum and XP from the Trenches" title="Scrum and XP from the Trenches" shape="rect" coords="0,75,120,100">
+				<AREA href="http://www.infoq.com/minibooks/starting-struts2" alt="Starting Struts 2" title="Starting Struts 2" shape="rect" coords="0,110,120,125">		     	
+				<AREA href="http://www.infoq.com/minibooks/agile-patterns" alt="Agile Patterns: The Technical Cluster" title="Agile Patterns: The Technical Cluster" shape="rect" coords="0,130,120,160">
+				<AREA href="http://www.infoq.com/minibooks/ruby" alt="Mr. Neighborly&#39;s Humble Little Ruby Book" title="Mr. Neighborly&#39;s Humble Little Ruby Book" shape="rect" coords="0,165,120,205">
+				<AREA href="http://www.infoq.com/minibooks/grails" alt="Getting Started with Grails" title="Getting Started with Grails" shape="rect" coords="0,210,120,235">
+				<AREA href="http://www.infoq.com/minibooks/domain-driven-design-quickly" alt="Domain Driven Design Quickly" title="Domain Driven Design Quickly" shape="rect" coords="0,245,120,270">
+				<AREA href="http://www.infoq.com/minibooks/scrum-checklists" alt="Scrum Checklists" title="Scrum Checklists" shape="rect" coords="0,275,120,290">
+				<AREA href="http://www.infoq.com/minibooks/enterprise-soa" alt="Enterprise SOA Adoption Strategies" title="Enterprise SOA Adoption Strategies" shape="rect" coords="0,300,120,323">
+				<AREA href="http://www.infoq.com/minibooks/vsnettt" alt="Visual Studio .NET Tips and Tricks" title="Visual Studio .NET Tips and Tricks" shape="rect" coords="0,330,120,355">
+				<AREA href="http://www.infoq.com/minibooks/JTDS" alt="Java Transaction Design Strategies" title="Java Transaction Design Strategies" shape="rect" coords="0,365,120,390">
+			</MAP>
+		</P>
+	</DIV>
+    <DIV class="box-simple-bottom"></DIV>
+</DIV>
+
+
+		
+		<DIV class="sidebar-bottom"></DIV>
+	</DIV>
+	</DIV>
+	
+
+	<DIV id="clearer"></DIV>
+
+	
+	<DIV id="content">
+	<DIV id="content-wrapper">
+		
+		<DIV class="box">
+			
+			
+
+	<DIV class="contribute contribute-print">
+		<UL>
+			<LI class="c-news"><LI class="c-print"><A href="javascript:print()">Print</A></LI>
+		</UL>		        
+	</DIV>			
+	<H2>Article</H2>
+    <DIV class="top-corners"><DIV></DIV></DIV>
+    
+    <DIV class="box-content">
+    <DIV class="box-content-2">
+    <DIV class="box-content-5">
+	
+    	
+    		<P class="h1-r"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/image_struts3.jpg" alt=""></P>
+    	
+	
+	    <H1>Migrating Struts Apps to Struts 2</H1>
+	
+		<P class="info">
+			Posted by
+			<STRONG>Ian Roughley</STRONG>
+			on
+			Sep 19, 2006 12:00 AM
+		</P>
+		
+    	<DL class="tags2">
+			<DT class="community">Community</DT>
+			
+				<DD><A href="http://www.infoq.com/java" name="java" id="1" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Java</A></DD>
+			
+			
+	     	
+	       		
+
+
+
+
+
+
+
+
+
+
+
+<DT class="topics">Topics</DT>
+
+   	<DD>
+   		
+   			
+   			<A href="http://www.infoq.com/change" name="change" id="39" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Change</A>
+    
+   		,
+   	</DD>
+
+   	<DD>
+   		
+   			
+   			<A href="http://www.infoq.com/webframework" name="webframework" id="6" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Web Frameworks</A>
+    
+   		
+   	</DD>
+
+
+	<DT class="topics">Tags</DT>
+	
+		<DD>
+			
+				
+				<A href="http://www.infoq.com/migration" name="migration" id="429" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">migration</A>
+    
+			,
+		</DD>
+	
+		<DD>
+			
+				
+				<A href="http://www.infoq.com/Struts" name="Struts" id="103" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Struts</A>
+    
+			
+		</DD>
+	
+
+	       		
+			
+
+		</DL>
+   	    
+       	<P>Most people are familiar with Struts, whether it is from direct experience or from reading articles or books.  In this series of articles we will cover the features of Struts2 from a Struts perspective - by migrating a simple application.</P>
+
+		
+
+
+
+
+
+
+<DIV class="vendor-content-box-float">
+	<H3>Related<SPAN class="vendor">Vendor</SPAN>Content</H3>
+	
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=429">
+				How to use Open Source SOA Safely in the Enterprise
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=399">
+				Testing Tools to Support Agile Software Delivery
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=413">
+				Architectural Quality: Design, Development and Testing Rules
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrypdf">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=262">
+				Hibernate without Database Bottlenecks
+			</A>
+		</P>
+	
+		
+			
+		
+		<P class="entrydownload">
+			<A href="http://www.infoq.com/vendorcontent/show.action?vcr=389">
+				Evolutionary Design through Agile Development Podcast
+			</A>
+		</P>
+	
+	
+	
+	
+	
+	
+</DIV>
+
+
+
+       	
+<P>Before we start the migration process, a little background to Struts2 is needed.  The first part of this article will introduce Struts2, along with some of the core architectural differences that will help to conceptually put everything together.  The second part will cover migrating the back-end - an in-depth look at the differences between actions; action related framework features; and action configuration.  The final part of this article will address the user interface.  We&#39;ll cover the architecture; talk about UI components, themes and tags; and put a new face on our application.</P>
+<P>It is not my intent to cover every migration scenario available, but rather to introduce the concepts and new features available in Struts2 by starting from a common starting point.  Armed with this knowledge, migrating an application of any size should be a piece of cake!</P>
+<H2>Introduction / History</H2>
+<P>The first version of Struts was released in June 2001.  It was born out of the idea that JSPs and servlets could be used together to provide a clean separation between the view and the business or application logic of a web application.  Before Struts, the most common options were to add business and application logic to the JSP, or to render the view from servlets using <STRONG>println()</STRONG> statements.</P>
+<P>Since its release, Struts has become the de-facto standard for web application.  With this popularity have come enhancements and changes - both to keep up with the ever-changing requirements for a web application framework, but also to match features with the ever-increasing number of competing frameworks available.</P>
+<P>To that end, there have been several proposals for the next generation of Struts.  The two alternatives that have become the most cohesive in the past year are Shale and Struts Ti.  Shale is a component based framework, and just recently has become its own top-level Apache project, where Struts Ti continues the front controller or model-view-controller pattern that has made Struts so successful.</P>
+<P>The WebWork project was started as a Struts revolution - as a fork of the Struts code to introduce new ideas, concepts and functionality that may not be compatible with the original Struts code - and it was first released in March 2002.  WebWork is a mature framework, having undergone several minor and major releases.</P>
+<P>In December 2005 it was announced that WebWork and the Struts Ti would join forces.  Since that time, Struts Ti has become Struts Action Framework 2.0, and the successor to Struts.</P>
+<P>Finally, it should be noted that neither the Struts nor WebWork projects are going away.  While interest is high, and willing developers are available, both of these projects will continue - all the while having bugs fixed, and adding enhancements and new features.</P>
+<H2>A Request Walk-through</H2>
+<P>Before we start looking at the low level details of how to convert an application from Struts to Struts2, let&#39;s take a look at what the new architecture looks like by walking through the request processing.</P>
+<P>As we walk through the request lifecycle you should notice one important fact - Struts2 is still a front controller framework.  All of the concepts that you are familiar with will still apply.</P>
+<P>This means:</P>
+<UL>
+    <LI> Actions will still be invoked via URL&#39;s</LI>
+    Data is still sent to the server via the URL request parameters and form parameters
+    <LI>&nbsp;</LI>
+    All those Servlet objects (request, response, session, etc.) are all still available to the Action</UL>
+    <P>From a high-level overview, this is how the request is processed:</P>
+    <P class="image-wide"><IMG alt="" _href="img://image1.jpg" src="./InfoQ  Migrating Struts Apps to Struts 2_files/image1.jpg"></P>
+    <P>The processing of a request can be broken into these 6 steps:</P>
+    <OL>
+        <LI> <EM><STRONG>A request is made and processed by the framework</STRONG></EM> - the framework matches the request to a configuration so that the interceptors, action class and results to use are known.</LI>
+        <LI> <EM><STRONG>The request passes through a series of interceptors</STRONG></EM> - interceptors, and interceptor stacks, can be configured at a number of different levels for the request.  They provide pre-processing for the request as well as cross-cutting application features. This is similar to the Struts RequestProcessor class which uses the Jakarta Commons Chain component.</LI>
+        <LI> <EM><STRONG>The Action is invoked</STRONG></EM> - a new instance of the action class is created and the method that is providing the logic for this request is invoked.  We will discuss this in more detail in the second part of this series; however, in Struts2 the configuration of the action can specify the method of the action class to be invoked for this request.</LI>
+        <LI> <EM><STRONG>The Result is invoked</STRONG></EM> - the result class that matches the return from processing the actions&#39; method is obtained, a new instance created and invoked.  One possible outcome of the result being processed is rendering of a UI template (but not the only one) to produce HTML.  If this is the case, then Struts2 tags in the template can reach back into the action to obtain values to be rendered.</LI>
+        <LI> <EM><STRONG>The request returns through the Interceptors</STRONG></EM> - the request passes back through the interceptors in reverse order, allowing any clean-up or additional processing to be performed.</LI>
+        <LI> <EM><STRONG>The response is returned to the user </STRONG></EM>- the last step is to return control back to the servlet engine.  The most common outcome is that HTML is rendered to the user, but it may also be that specific HTTP headers are returned or a HTTP redirect is invoked.</LI>
+    </OL>
+    <P>As you may have noticed, there are some differences.  The most obvious one is that Struts2 is a pull-MVC architecture.  What does this mean?  From a developers perspective it means that data that needs to be displayed to the user can be pulled from the Action.  This differs from Struts, where data is expected to be present in beans in either the HTTP page, request or session scopes.  There are other places that data can be pulled from, and we&#39;ll talk about those as the scenarios come up.</P>
+    <H2>Configuring the framework</H2>
+    <P>The first, and most important configuration, is the one that enables the web application framework within the servlet containers web.xml file.</P>
+    <P>The configuration that everyone should be familiar with for Struts is:</P>
+    <PRE>    &lt;servlet&gt;<BR>	&lt;servlet-name&gt;action&lt;/servlet-name&gt;<BR>	&lt;servlet-class&gt;org.apache.struts.action.ActionServlet&lt;/servlet-class&gt;<BR>	&lt;init-param&gt;<BR>	    &lt;param-name&gt;config&lt;/param-name&gt;<BR>	    &lt;param-value&gt;/WEB-INF/struts-config.xml&lt;/param-value&gt;<BR>	&lt;/init-param&gt;<BR>	&lt;load-on-startup&gt;2&lt;/load-on-startup&gt;<BR>    &lt;/servlet&gt;<BR><BR>    &lt;servlet-mapping&gt;<BR>	&lt;servlet-name&gt;action&lt;/servlet-name&gt;<BR>	&lt;url-pattern&gt;*.do&lt;/url-pattern&gt;<BR>    &lt;/servlet-mapping&gt;<SERVLET-MAPPING><BR><SERVLET-MAPPING></SERVLET-MAPPING></SERVLET-MAPPING></PRE>
+    <P>For Struts2 there are very few changes.  The most significant is that the dispatcher has been changed from a servlet to a servlet filter.  The configuration is just as easy as for a servlet, and shown here:</P>
+    <PRE>    &lt;filter&gt;<BR>	&lt;filter-name&gt;webwork&lt;/filter-name&gt;<BR>	&lt;filter-class&gt;<BR>	    org.apache.struts.action2.dispatcher.FilterDispatcher<BR>	&lt;/filter-class&gt;<BR>    &lt;/filter&gt;<BR><BR>    &lt;filter-mapping&gt;<BR>	&lt;filter-name&gt;webwork&lt;/filter-name&gt;<BR>	&lt;url-pattern&gt;/*&lt;/url-pattern&gt;<BR>    &lt;/filter-mapping&gt;<FILTER-MAPPING><URL-PATTERN><FILTER-MAPPING><BR><FILTER-MAPPING></FILTER-MAPPING></FILTER-MAPPING></URL-PATTERN></FILTER-MAPPING></PRE>
+    <P>Similar to the servlet configuration, the filter configuration defines a name (for reference) and the class of the filter.  A filter mapping links the name with the URI pattern that will invoke the filter.  By default, the extension is &quot;.action&quot;.  This is defined in the default.properties file (within the Struts2 JAR file) as the &quot;struts.action.extension&quot; property.</P>
+    <BLOCKQUOTE><STRONG>SIDEBAR</STRONG>:  The &quot;default.properties&quot; file is the place that many configuration options are defined.   By including a file with the name &quot;struts.properties&quot; in the classpath of your web application, with different values for the properties, you can override the default configuration.</BLOCKQUOTE>
+    <P>For Struts, the servlet configuration provides an init-param tag that defines the names of the files used to configure Struts.  Struts2 does not have such a configuration parameter.  Instead, the default configuration file for Struts2 has the name &quot;struts.xml&quot; and needs to be on the classpath of the web application.</P>
+    <BLOCKQUOTE><STRONG>SIDEBAR/TIP</STRONG>: Since there is a namespace separation between the Struts actions (with a &quot;.do&quot; extension) and the Struts2 actions (with a &quot;.action&quot;) extension, there is no reason why they cannot co-exist within the same web application.  This is a great way to start the migration process - add the necessary configuration, and start developing all new functionality in Struts2.  As time and resources permit, the remaining actions can be converted.  Or, the two frameworks can co-exist peacefully forever, since there is no reason that the existing action ever needs to be migrated. Another migration strategy is to update only the actions by changing the Struts2 extension to &quot;.do&quot;.  This allows the existing JSP&#39;s to remain the same and be re-used.</BLOCKQUOTE>
+    <H2>Deconstructing the Actions</H2>
+    <P>In the request walk-through we spoke about some of the differences between Struts and Struts2 from a high level.  Let&#39;s take it a step deeper now, and look at the differences between the structures of the actions in each framework.</P>
+    <P>Let&#39;s first review the general structure of the Struts action.  The general form of the Struts action looks like this:</P>
+    <PRE>public class MyAction extends Action {<BR>    public ActionForward execute(ActionMapping mapping,<BR>                                 ActionForm form,<BR>                                 HttpServletRequest request,<BR>                                 HttpServletResponse response)<BR>            throws Exception {<BR>        // do the work<BR>        return (mapping.findForward(&quot;success&quot;));<BR>    }<BR>}<BR></PRE>
+    <P>When implementing a Struts action, you need to be aware of the following items:</P>
+    <OL>
+        <LI> All actions have to extend the Action base class.</LI>
+        <LI> All actions have to be thread-safe, as only a single action instance is created.</LI>
+        <LI> Because the actions have to be thread-safe, all the objects that may be needed in the processing of the action are passed in the method signature.</LI>
+        <LI> The name of the method that is invoked for the processing of the action is &quot;execute&quot; (there is a DispatchAction class available in Struts which can re-route the method to be executed to another method in the same action, however the initial entry point from the framework into the action is still the &quot;execute&quot; method).</LI>
+        <LI> An ActionForward result is returned using a method from the ActionMapping class, most commonly via the &quot;findForward&quot; method call.</LI>
+    </OL>
+    <P>In contrast, the Struts2 action provides a much simpler implementation.  Here&#39;s what it looks like:</P>
+    <PRE>public class MyAction {<BR>   public String execute() throws Exception {<BR>        // do the work<BR>        return &quot;success&quot;;<BR>   }<BR>}<BR></PRE>
+    <P>The first thing you may have noticed is that the action doesn&#39;t extend any classes or interfaces.  In fact, it goes further than this.  By convention, the method invoked in the processing of an action is the &quot;execute&quot; method - but it doesn&#39;t have to be.  Any method that follows the method signature public String methodName() can be invoked through configuration.</P>
+    <P>Next, the return object is a String.  If you don&#39;t like the idea of string literals in your code, there is a helper interface Action available that provides the common results of &quot;success&quot;, &quot;none&quot;, &quot;error&quot;, &quot;input&quot; and &quot;login&quot; as constants.</P>
+    <P>Finally, and perhaps the most revolutionary difference from the original Struts implementation, is that the method invoked in the processing of an action (the &quot;execute&quot; method) has no parameter.  So how do you get access to the objects that you need to work with?  The answer lies in the &quot;inversion of control&quot; or &quot;dependency injection&quot; pattern (for more information Martin Fowler has an informative article at <A href="http://www.martinfowler.com/articles/injection.html">http://www.martinfowler.com/articles/injection.html</A>). The Spring Framework has popularized this pattern, however, the predecessor to Struts2 (WebWork) started using the pattern around the same time.</P>
+    <P>To understand the inversion of control better, let&#39;s look at an example where the processing of the action requires access to the current requests HttpServerRequest object.</P>
+    <P>The dependency injection mechanism used in this example is interface injection.  As the name implies, with interface injection there is an interface that needs to be implemented.  This interface contains setters, which in turn are used to provide data to the action. In our example we are using the ServletRequestAware interface, here it is:</P>
+    <PRE>public interface ServletRequestAware {<BR>    public void setServletRequest(HttpServletRequest request);<BR>}<BR></PRE>
+    <P>When we implement this interface, our simple action from above becomes a little more complex - but now we have a HttpServerRequest object to use.</P>
+    <PRE>public class MyAction implements ServletRequestAware {<BR>   private HttpServletRequest request;<BR>   public void setServletRequest(HttpServletRequest request) {<BR>        this.request = request;<BR>   }<BR>   public String execute() throws Exception {<BR>        // do the work using the request<BR>        return Action.SUCCESS;<BR>   }<BR>}<BR></PRE>
+    <P>At this point, some alarm bells are probably going off.  There are now class level attributes in the action - which, although not thread-safe, is actually okay.  In Struts2, an action instance is created for each request.  It&#39;s not shared and it&#39;s discarded after the request has been completed.</P>
+    <P>There is one last step left, and that is to associate the <STRONG>ServletConfigInterceptor</STRONG> interceptor with this action.  This interceptor provides the functionality to obtain the HttpServletRequest and inject it into actions that implement the <STRONG>ServletRequestAware</STRONG> interface.  For the moment, don&#39;t worry about the details of the configuration - we&#39;ll go into much more detail in the next article.  The important thing at the moment is to understand that the interceptor and the interface work hand-in-hand to provide the dependency injection to the action.</P>
+    <P>The benefit to this design is that the action is completely de-coupled from the framework.  The action becomes a simple POJO that can also be used outside of the framework.  And for those that encourage unit testing, testing a Struts2 action is going to be significantly easier than wrestling to get a Struts action into a StrutsTestCase or a MockStrutsTestCase unit test.</P>
+    <H2>Conclusion / Wrap-Up</H2>
+    <P>By now you should be familiar with the basics of Struts2 - the high level architecture and basic request workflow.  You should be able to configure Struts2 in a servlet container, and know the differences between the action for Struts and Struts2.</P>
+    <P>In the next article we will introduce the example application that will be migrated, as well as building on the knowledge attained here to migrate the example applications&#39; actions from Struts to Struts2.  What we&#39;ll end up with is a working application using JSTL, JSP and Struts2.  We&#39;ll also further investigate the differences between actions; configuration of actions and other framework elements; and talk more about the action related framework features.</P>
+    <H2>About the author</H2>
+    <P><A href="mailto:ian@fdar.com">Ian Roughley</A> is a speaker, writer and independent consultant based out of Boston, MA. For over 10 years he has been providing architecture, development, process improvement and mentoring services to clients ranging in size from fortune 10 companies to start-ups. Focused on a pragmatic and results-based approach, he is a proponent for open source, as well as process and quality improvements through agile development techniques.</P>
+       	
+   		<DIV style="display:block;margin-top:15px;">
+            <DIV align="right" style="display: inline; margin-right: 0px;">
+                
+	            
+
+
+
+
+<DL class="tags3">
+<DT>Bookmark</DT>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://digg.com/submit?phase=2&amp;url=&#39; + escape(window.location)" rel="nofollow">digg+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://reddit.com/submit?url=&#39; + escape(window.location) + &#39;&amp;title=&#39; + escape(&#39;Migrating Struts Apps to Struts 2&#39;)" rel="nofollow">reddit+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://del.icio.us/post?url=&#39; + escape(window.location) + &#39;&amp;title=&#39; + escape(&#39;Migrating Struts Apps to Struts 2&#39;)" rel="nofollow">del.icio.us+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://www.dzone.com/links/add.html?url=&#39; + escape(window.location) + &#39;&amp;title=&#39; + escape(&#39;Migrating Struts Apps to Struts 2&#39;)" rel="nofollow">dzone+</A>,
+</DD>
+<DD>
+<A target="_blank" href="" onclick="this.href=&#39;http://www.facebook.com/share.php?u=&#39; + escape(window.location)" rel="nofollow">facebook+</A>
+</DD>
+</DL>
+
+            </DIV>
+   		 	
+		</DIV>
+		
+		
+
+
+
+
+
+
+		
+        
+        
+        	
+        
+
+
+
+
+<SCRIPT type="text/javascript">
+var replyEnabled=true;
+var forumID=1;
+var threadID=764;
+var previewText='Preview';
+var pleaseWait='Please Wait ...';	
+var reply='Reply';
+var postMessage='Post Message';	
+var errorSubject='Please enter a subject.';	
+var errorBody='You can not post a blank message. Please type your message and try again.';
+var cancel='Cancel';
+var goBackOrEdit='Go Back/Edit';
+var re='Re:';
+var lastMessage=0;
+var stopWatchText='Stop Watching Thread';
+var startWatchText='Watch Thread';
+var descending='false';
+var ctxPath= '';
+var postAddress= ctxPath + '/forum/post!post.action?language=' + 'en';
+var postAddWatches= ctxPath + '/forum/watches!add.action';
+var postRemoveWatches= ctxPath + '/forum/watches!remove.action';
+var loggedIn=false;	
+</SCRIPT>
+
+<SCRIPT src="./InfoQ  Migrating Struts Apps to Struts 2_files/forum.js" type="text/javascript"></SCRIPT>
+
+	<DIV class="comments-header">
+	    <H3><SPAN id="comments-number">16</SPAN> comments</H3>
+	    <P>
+				
+			<A href="javascript:void(0)" class="comment-reply" onclick="javascript:loggedIn?replyFromTooltip(2639,true):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromTooltip(2639,true)&#39;));">Reply</A>
+		</P>
+	</DIV>
+	
+	<SPAN id="newMessage" style="display:none;"></SPAN>
+	
+	<SPAN id="replyTree_2639"></SPAN>	  	
+	<SPAN id="replyMessage_2639"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_2742" style="cursor:pointer; cursor:hand;">One typo?</SPAN>		
+			</A>
+			by 
+			Wendong Li 
+			Posted
+	        Sep 19, 2006 11:03 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_2742', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_2742', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_2742"></SPAN>
+		<SPAN id="replyMessage_2742"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_2791" style="cursor:pointer; cursor:hand;">Re: One typo?</SPAN>		
+			</A>
+			by 
+			Ian Roughley 
+			Posted
+	        Sep 21, 2006 7:30 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_2791', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_2791', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_2791"></SPAN>
+		<SPAN id="replyMessage_2791"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_2793" style="cursor:pointer; cursor:hand;">Re: One typo?</SPAN>		
+			</A>
+			by 
+			Ian Roughley 
+			Posted
+	        Sep 21, 2006 10:13 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_2793', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_2793', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_2793"></SPAN>
+		<SPAN id="replyMessage_2793"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_2747" style="cursor:pointer; cursor:hand;">I dont like the idea of Action helper interface</SPAN>		
+			</A>
+			by 
+			karan malhi 
+			Posted
+	        Sep 20, 2006 6:25 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_2747', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_2747', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_2747"></SPAN>
+		<SPAN id="replyMessage_2747"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_2792" style="cursor:pointer; cursor:hand;">Re: I dont like the idea of Action helper interface</SPAN>		
+			</A>
+			by 
+			Ian Roughley 
+			Posted
+	        Sep 21, 2006 7:36 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_2792', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_2792', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_2792"></SPAN>
+		<SPAN id="replyMessage_2792"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 30px; margin-right: 30px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_2794" style="cursor:pointer; cursor:hand;">Re: I dont like the idea of Action helper interface</SPAN>		
+			</A>
+			by 
+			karan malhi 
+			Posted
+	        Sep 21, 2006 10:35 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_2794', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_2794', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_2794"></SPAN>
+		<SPAN id="replyMessage_2794"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 45px; margin-right: 45px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_2929" style="cursor:pointer; cursor:hand;">Re: I dont like the idea of Action helper interface</SPAN>		
+			</A>
+			by 
+			Pete the Wheat 
+			Posted
+	        Sep 30, 2006 6:40 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_2929', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_2929', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_2929"></SPAN>
+		<SPAN id="replyMessage_2929"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 45px; margin-right: 45px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_3281" style="cursor:pointer; cursor:hand;">Re: I dont like the idea of Action helper interface</SPAN>		
+			</A>
+			by 
+			Nathan Hughes 
+			Posted
+	        Oct 24, 2006 1:46 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_3281', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_3281', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_3281"></SPAN>
+		<SPAN id="replyMessage_3281"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 60px; margin-right: 60px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_3331" style="cursor:pointer; cursor:hand;">Re: I dont like the idea of Action helper interface</SPAN>		
+			</A>
+			by 
+			Mikel Masquefa 
+			Posted
+	        Oct 28, 2006 4:16 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_3331', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_3331', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_3331"></SPAN>
+		<SPAN id="replyMessage_3331"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 75px; margin-right: 75px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_29029" style="cursor:pointer; cursor:hand;">Re: I dont like the idea of Action helper interface</SPAN>		
+			</A>
+			by 
+			Edward Song 
+			Posted
+	        Jul 14, 2008 1:30 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_29029', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_29029', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_29029"></SPAN>
+		<SPAN id="replyMessage_29029"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_3139" style="cursor:pointer; cursor:hand;">Example</SPAN>		
+			</A>
+			by 
+			Sudip Kundu 
+			Posted
+	        Oct 12, 2006 2:31 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_3139', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_3139', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_3139"></SPAN>
+		<SPAN id="replyMessage_3139"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_4135" style="cursor:pointer; cursor:hand;">Inject things into actions</SPAN>		
+			</A>
+			by 
+			Thai Dang Vu 
+			Posted
+	        Dec 14, 2006 3:40 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_4135', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_4135', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_4135"></SPAN>
+		<SPAN id="replyMessage_4135"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 15px; margin-right: 15px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_5152" style="cursor:pointer; cursor:hand;">Re: Inject things into actions</SPAN>		
+			</A>
+			by 
+			Ian Roughley 
+			Posted
+	        Feb 26, 2007 7:45 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_5152', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_5152', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_5152"></SPAN>
+		<SPAN id="replyMessage_5152"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 30px; margin-right: 30px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_10819" style="cursor:pointer; cursor:hand;">How to Send form data to DAO Layer.</SPAN>		
+			</A>
+			by 
+			Rajagopal Y 
+			Posted
+	        Sep 27, 2007 3:24 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_10819', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_10819', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_10819"></SPAN>
+		<SPAN id="replyMessage_10819"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_15330" style="cursor:pointer; cursor:hand;">some doubts</SPAN>		
+			</A>
+			by 
+			K Sathya Narayanan 
+			Posted
+	        Dec 11, 2007 6:22 AM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_15330', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_15330', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_15330"></SPAN>
+		<SPAN id="replyMessage_15330"></SPAN>
+		
+		<DIV class="forum-list-tree" style="position: relative; left: 0px; margin-right: 0px;">		
+			<A class="forum-list">
+			<SPAN id="tooltip_31603" style="cursor:pointer; cursor:hand;">iste bunu seviyorum</SPAN>		
+			</A>
+			by 
+			ilkerjan turhanjan 
+			Posted
+	        Aug 30, 2008 3:41 PM
+			<SCRIPT type="text/javascript" language="javascript">
+		    	Event.observe('tooltip_31603', 'mouseover', initializeTooltip);
+		    	Event.observe('tooltip_31603', 'mouseout', deintializeTooltip);	    	
+		  	</SCRIPT>  	
+	  	</DIV>
+		<SPAN id="replyTree_31603"></SPAN>
+		<SPAN id="replyMessage_31603"></SPAN>
+	
+	
+	<DIV class="comments-sort">
+		<SPAN id="comments-sort">
+			
+			
+				<A class="comment-sort-desc" href="javascript:changeOrder(2);">Sort by date descending</A>
+			
+		</SPAN>
+	</DIV>
+	
+	<OL class="comments">
+	
+	
+	
+		<LI id="comment-2742">
+			<A name="view_2742"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_2742">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_2742" name="2742" onclick="javascript:hideTooltip();return true;">One typo?</A></H4>
+	                <P class="comment-author">
+	                    Sep 19, 2006 11:03 PM
+	                    by
+	                    <STRONG>
+	                        Wendong Li 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_2742">
+			<P>
+				<SPAN id="quote_2742">
+					December 2002 -&gt; December 2005
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(2742):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(2742);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_2742"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_2742"></SPAN>	
+	
+		<LI id="comment-2747">
+			<A name="view_2747"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_2747">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_2747" name="2747" onclick="javascript:hideTooltip();return true;">I dont like the idea of Action helper interface</A></H4>
+	                <P class="comment-author">
+	                    Sep 20, 2006 6:25 AM
+	                    by
+	                    <STRONG>
+	                        karan malhi 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_2747">
+			<P>
+				<SPAN id="quote_2747">
+					<BLOCKQUOTE>If you don&#39;t like the idea of string literals in your code, there is a helper interface Action available that provides the common results of &quot;success&quot;, &quot;none&quot;, &quot;error&quot;, &quot;input&quot; and &quot;login&quot; as constants.</BLOCKQUOTE><BR><BR>If I dont like the idea of string literals, then I would create my own helper interface. In fact, I dont like the idea of getting a helper interface just for some constants, which I may not even use. This is a domain specific thing and its place is in a domain specific model , rather than a framework.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(2747):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(2747);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_2747"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_2747"></SPAN>	
+	
+		<LI id="comment-2791">
+			<A name="view_2791"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_2791">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_2791" name="2791" onclick="javascript:hideTooltip();return true;">Re: One typo?</A></H4>
+	                <P class="comment-author">
+	                    Sep 21, 2006 7:30 AM
+	                    by
+	                    <STRONG>
+	                        Ian Roughley 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_2791">
+			<P>
+				<SPAN id="quote_2791">
+					yes - you&#39;re right.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(2791):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(2791);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_2791"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_2791"></SPAN>	
+	
+		<LI id="comment-2792">
+			<A name="view_2792"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_2792">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_2792" name="2792" onclick="javascript:hideTooltip();return true;">Re: I dont like the idea of Action helper interface</A></H4>
+	                <P class="comment-author">
+	                    Sep 21, 2006 7:36 AM
+	                    by
+	                    <STRONG>
+	                        Ian Roughley 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_2792">
+			<P>
+				<SPAN id="quote_2792">
+					I tend to disagree, but this is your choice.  I would never place the results for an action call in a domain object, it just doesn&#39;t belong there.  It has nothing to do with the domain in question, but rather what happened during the processing of an action, and what is the next step in the flow of processing actions / views.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(2792):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(2792);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_2792"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_2792"></SPAN>	
+	
+		<LI id="comment-2793">
+			<A name="view_2793"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_2793">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_2793" name="2793" onclick="javascript:hideTooltip();return true;">Re: One typo?</A></H4>
+	                <P class="comment-author">
+	                    Sep 21, 2006 10:13 AM
+	                    by
+	                    <STRONG>
+	                        Ian Roughley 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_2793">
+			<P>
+				<SPAN id="quote_2793">
+					Actually, I was wrong in my comment, and the article is correct.  WebWork was forked in March 2002 and in December 2005 is was announced that Struts and WebWork would join forces.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(2793):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(2793);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_2793"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_2793"></SPAN>	
+	
+		<LI id="comment-2794">
+			<A name="view_2794"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_2794">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_2794" name="2794" onclick="javascript:hideTooltip();return true;">Re: I dont like the idea of Action helper interface</A></H4>
+	                <P class="comment-author">
+	                    Sep 21, 2006 10:35 AM
+	                    by
+	                    <STRONG>
+	                        karan malhi 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_2794">
+			<P>
+				<SPAN id="quote_2794">
+					What I meant was, that in my application, I may not have the notion of success or login etc. These terms are more application specific rather than framework specific. Just choosing a bunch of terms and adding them to the framework doesnt make sense to me. I think the choice of terminology and its interpretation is totally related to the domain/application in question
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(2794):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(2794);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_2794"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_2794"></SPAN>	
+	
+		<LI id="comment-2929">
+			<A name="view_2929"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_2929">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_2929" name="2929" onclick="javascript:hideTooltip();return true;">Re: I dont like the idea of Action helper interface</A></H4>
+	                <P class="comment-author">
+	                    Sep 30, 2006 6:40 AM
+	                    by
+	                    <STRONG>
+	                        Pete the Wheat 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_2929">
+			<P>
+				<SPAN id="quote_2929">
+					Shouldn&#39;t &quot;org.apache.struts.action2.dispatcher.FilterDispatcher&quot; be &quot;org.apache.struts2.dispatcher.FilterDispatcher&quot;?
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(2929):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(2929);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_2929"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_2929"></SPAN>	
+	
+		<LI id="comment-3139">
+			<A name="view_3139"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_3139">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_3139" name="3139" onclick="javascript:hideTooltip();return true;">Example</A></H4>
+	                <P class="comment-author">
+	                    Oct 12, 2006 2:31 AM
+	                    by
+	                    <STRONG>
+	                        Sudip Kundu 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_3139">
+			<P>
+				<SPAN id="quote_3139">
+					Can Anyone send a simple application developed with struts 2 ?
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(3139):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(3139);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_3139"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_3139"></SPAN>	
+	
+		<LI id="comment-3281">
+			<A name="view_3281"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_3281">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_3281" name="3281" onclick="javascript:hideTooltip();return true;">Re: I dont like the idea of Action helper interface</A></H4>
+	                <P class="comment-author">
+	                    Oct 24, 2006 1:46 PM
+	                    by
+	                    <STRONG>
+	                        Nathan Hughes 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_3281">
+			<P>
+				<SPAN id="quote_3281">
+					so where you work, &#39;success&#39; is not an option?
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(3281):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(3281);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_3281"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_3281"></SPAN>	
+	
+		<LI id="comment-3331">
+			<A name="view_3331"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_3331">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_3331" name="3331" onclick="javascript:hideTooltip();return true;">Re: I dont like the idea of Action helper interface</A></H4>
+	                <P class="comment-author">
+	                    Oct 28, 2006 4:16 AM
+	                    by
+	                    <STRONG>
+	                        Mikel Masquefa 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_3331">
+			<P>
+				<SPAN id="quote_3331">
+					I agree with Karan&#39;s comment: the choice of terminology and its interpretation is totally related to the domain/application. <BR><BR>My reason is very simple: many applications are developed by teams from countries who speak languages different from English and that don&#39;t want use english&#39;s words to determine webflow concepts.<BR><BR>For example, instead of using the word &#39;success&#39; I could want to use the word &#39;exito&#39;, spanish, or &#39;sucesso&#39;, portuguesse.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(3331):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(3331);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_3331"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_3331"></SPAN>	
+	
+		<LI id="comment-4135">
+			<A name="view_4135"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_4135">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_4135" name="4135" onclick="javascript:hideTooltip();return true;">Inject things into actions</A></H4>
+	                <P class="comment-author">
+	                    Dec 14, 2006 3:40 PM
+	                    by
+	                    <STRONG>
+	                        Thai Dang Vu 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_4135">
+			<P>
+				<SPAN id="quote_4135">
+					If we can inject the HttpServletRequest into an action, can we inject other things (e.g. a Spring bean)? The reason I ask this question is that I&#39;m thinking of declaring a service bean in Spring which is bounded in a transaction (this feature is provided by Spring), then I have this service when I am in this action (no need to use &lt;code&gt;applicationContext.getBean(&quot;my service&quot;);&lt;/code&gt;)
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(4135):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(4135);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_4135"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_4135"></SPAN>	
+	
+		<LI id="comment-5152">
+			<A name="view_5152"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_5152">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_5152" name="5152" onclick="javascript:hideTooltip();return true;">Re: Inject things into actions</A></H4>
+	                <P class="comment-author">
+	                    Feb 26, 2007 7:45 PM
+	                    by
+	                    <STRONG>
+	                        Ian Roughley 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_5152">
+			<P>
+				<SPAN id="quote_5152">
+					yes - in fact spring injection come as a plugin to the framework.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(5152):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(5152);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_5152"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_5152"></SPAN>	
+	
+		<LI id="comment-10819">
+			<A name="view_10819"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_10819">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_10819" name="10819" onclick="javascript:hideTooltip();return true;">How to Send form data to DAO Layer.</A></H4>
+	                <P class="comment-author">
+	                    Sep 27, 2007 3:24 AM
+	                    by
+	                    <STRONG>
+	                        Rajagopal Y 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_10819">
+			<P>
+				<SPAN id="quote_10819">
+					Hi,<BR> I Just started workign with Struts2.<BR>Here is my doubt.<BR><BR>Assume that i am developing a loing application where user enters username and password, i have the setter/getter methods in my action for username&amp; password.<BR><BR>Form action i have to invoke the Service/DAO method, which takes a Value Object as paramater, which contains username&amp; password.<BR><BR>Here is few Questions:<BR><BR>=&gt; Why can&#39;t we have a seperate bean for form properties and map it to the action class.<BR>=&gt; If the properties are defined in Action class, what is the right place to create the Value object (in my example with username&amp; password).<BR><BR>Any Suggestions....
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(10819):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(10819);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_10819"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_10819"></SPAN>	
+	
+		<LI id="comment-15330">
+			<A name="view_15330"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_15330">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_15330" name="15330" onclick="javascript:hideTooltip();return true;">some doubts</A></H4>
+	                <P class="comment-author">
+	                    Dec 11, 2007 6:22 AM
+	                    by
+	                    <STRONG>
+	                        K Sathya Narayanan 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_15330">
+			<P>
+				<SPAN id="quote_15330">
+					hi<BR>  i have a jsp named &quot;displayEmployeeRecords.jsp&quot;<BR><BR>which should display the list of employee details like name , empid , salary<BR><BR>i have implemeted this in struts1.2.<BR><BR>i have implemented the action class and other xml files .<BR><BR><BR>i have a Arraylist object which contains a list of EmployeeModel object<BR><BR>1)if Arraylist is empty then the action class should be called <BR>to populate the ArrayList <BR>else the ArrayList should be iterated to display its content<BR>2)tell me how to display this using struts2.0<BR><BR>i have done this in struts 1.2 but i dont know how to call a Action class<BR><BR>in Struts1.2-&gt; /EmployeeData.do -&gt; will call the Action class<BR>in Strut22.0-&gt;?<BR><BR>in struts 1.2 -&gt; logic:iterate to iterate the ArrayList and display the data<BR>in strut2.0-&gt;?
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(15330):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(15330);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_15330"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_15330"></SPAN>	
+	
+		<LI id="comment-29029">
+			<A name="view_29029"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_29029">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_29029" name="29029" onclick="javascript:hideTooltip();return true;">Re: I dont like the idea of Action helper interface</A></H4>
+	                <P class="comment-author">
+	                    Jul 14, 2008 1:30 PM
+	                    by
+	                    <STRONG>
+	                        Edward Song 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_29029">
+			<P>
+				<SPAN id="quote_29029">
+					The idea of convention over configuration, I think is what is to be interpreted here, rather than the exact choice of string literals chosen for success and forward.  In most conventions, actions have one of two results, success or failure. Providing &quot;success&quot; and &quot;failure&quot; as conventional string literal forwarding terms is just a convention over configuration feature, and can be overrided anyway by your choice of terminology.
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(29029):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(29029);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_29029"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_29029"></SPAN>	
+	
+		<LI id="comment-31603">
+			<A name="view_31603"></A>
+			<DIV class="comment-header">
+				<P class="comment-top"><A href="http://www.infoq.com/articles/converting-struts-2-part1#">Back to top</A></P>
+				<DIV id="header_31603">
+	                <H4><A href="http://www.infoq.com/articles/converting-struts-2-part1#view_31603" name="31603" onclick="javascript:hideTooltip();return true;">iste bunu seviyorum</A></H4>
+	                <P class="comment-author">
+	                    Aug 30, 2008 3:41 PM
+	                    by
+	                    <STRONG>
+	                        ilkerjan turhanjan 
+	                    </STRONG>
+	                </P>
+				</DIV>
+			</DIV>				
+			<DIV id="body_31603">
+			<P>
+				<SPAN id="quote_31603">
+					client for Windows that can be used to communicate, share, play or work with others on Web Designers around the world, either in multi-user group conferences or in one-to-one private discussions. It has a clean, practical interface that is highly configurable and supports features such as buddy lists <A rel="nofollow" href="http://crea.web.tr/">web tasarım</A>   <A rel="nofollow" href="http://ciniturk.com/">cini</A>
+				</SPAN>
+			</P>
+			</DIV>
+			<P class="comment-footer"><A class="comment-reply" href="javascript:void(0)" onclick="javascript:loggedIn?replyFromFlat(31603):showLoginWindow(this,ALIGN_RIGHT,new Function(&#39;replyFromFlat(31603);&#39;));">Reply</A></P>			
+		<SPAN id="replyFlat_31603"></SPAN>
+		</LI>
+		<SPAN id="replyFlatMessage_31603"></SPAN>	
+	
+	
+	<SPAN id="lastMessages"></SPAN>
+	<SPAN id="replyFlatMessage_2639"></SPAN>
+	
+	</OL>
+
+
+
+    <DIV class="box-bottom"></DIV>
+    </DIV>
+    </DIV> 
+    <DIV class="bottom-corners"><DIV></DIV></DIV>
+    </DIV> 
+  
+
+			
+		</DIV>
+		
+	</DIV></DIV>
+	
+		
+	
+
+
+
+
+
+<!-- right side start -->
+
+	<DIV id="rightbar">
+	<DIV id="right-wrapper">
+	    <!-- box start -->
+	    <DIV class="box">
+	        <H2>Exclusive Content</H2>
+	        <UL class="menu" id="tabsmenu">
+	   			<LI id="tab_ALL_EXCEPT_NEWS" class="m-ALL_EXCEPT_NEWS-on"><A href="http://www.infoq.com/articles/converting-struts-2-part1#" onclick="ContentSummary.switchTab(&#39;ALL_EXCEPT_NEWS&#39;);return false;">All</A></LI>
+	            <LI id="tab_ARTICLE" class="m-ARTICLE-off"><A href="http://www.infoq.com/articles/converting-struts-2-part1#" onclick="ContentSummary.switchTab(&#39;ARTICLE&#39;);return false;">Articles</A></LI>
+	            <LI id="tab_PRESENTATION" class="m-PRESENTATION-off"><A href="http://www.infoq.com/articles/converting-struts-2-part1#" onclick="JSResource.presentationsTab();return false;">Presentations</A></LI>
+	            <LI id="tab_INTERVIEW" class="m-INTERVIEW-off"><A href="http://www.infoq.com/articles/converting-struts-2-part1#" onclick="JSResource.interviewsTab();return false;">Interviews</A></LI>
+	            <LI id="tab_MINIBOOK" class="m-MINIBOOK-off"><A href="http://www.infoq.com/articles/converting-struts-2-part1#" onclick="JSResource.minibooksTab();return false;">Minibooks</A></LI>
+	        </UL>
+		    <DIV class="top-corners"><DIV></DIV></DIV>
+		    
+		    <DIV class="box-content">
+			    <DIV class="box-content-2">
+			    <DIV id="rightbarcontentbox" class="box-content-3">
+					
+						
+					
+
+
+
+
+
+<FORM id="tabstateform" action="">
+	<INPUT id="startIndex" type="hidden" name="startIndex" value="0">
+	<INPUT id="selectedTab" type="hidden" name="selectedTab" value="ALL_EXCEPT_NEWS">
+	<INPUT id="rightBarLanguage" type="hidden" name="language" value="en">
+</FORM>
+
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-presentations"><A href="http://www.infoq.com/presentations/webber-rest-vs-ws">A couple of ways to skin an Internet-scale cat</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/presentations/webber-rest-vs-ws"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/JWebber.jpg" alt=""></A></P>
+        
+        <P>Jim Webber explains the core concepts of message-oriented and resource-oriented web services, expresses his thorough dislike of WSDL, and shows an example of a RESTful workflow.</P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/soa" name="soa" id="2" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">SOA</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 29, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/presentations/webber-rest-vs-ws"><SPAN>&nbsp;</SPAN>
+	    	    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-presentations"><A href="http://www.infoq.com/presentations/lutke-rockstar-memcaching">Rockstar Memcaching</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/presentations/lutke-rockstar-memcaching"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/TLutke.jpg" alt=""></A></P>
+        
+        <P>In this presentation from RubyFringe, Tobias L&uuml;tke talks about memcached, the widely used caching solution. Tobias explains how to use it and gives some practical tips on what not to do.
+</P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/architecture" name="architecture" id="1,389" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Architecture</A>,
+			
+				<A href="http://www.infoq.com/ruby" name="ruby" id="5" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Ruby</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 28, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/presentations/lutke-rockstar-memcaching"><SPAN>&nbsp;</SPAN>
+	    	    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-articles"><A href="http://www.infoq.com/articles/smalltalk-comeback-schwartz">Ruby&#39;s Roots: Smalltalk Comeback and Randal Schwartz on Smalltalk</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/articles/smalltalk-comeback-schwartz"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/image_ruby_balloon.jpg" alt=""></A></P>
+        
+        <P>Smalltalk, a language that has had a big influence on Ruby, is making a comeback. We take a look at the current situation and talk to Randal L. Schwartz about Smalltalk.</P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/ruby" name="ruby" id="5" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Ruby</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 27, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/articles/smalltalk-comeback-schwartz"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			2
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-interviews"><A href="http://www.infoq.com/interviews/Prejudices-Linda-Rising">Linda Rising: Prejudices Can Alter Team Work</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/interviews/Prejudices-Linda-Rising"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/LindaRising.jpg" alt=""></A></P>
+        
+        <P>Linda Rising shows how prejudices can affect the relationships between team members. </P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/agile" name="agile" id="3" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Agile</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 25, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/interviews/Prejudices-Linda-Rising"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			1
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-interviews"><A href="http://www.infoq.com/interviews/11-Commitments-Jim-McCarthy">Jim McCarthy and 11 Commitments For a Shared Vision</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/interviews/11-Commitments-Jim-McCarthy"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/JMcCarthy.jpg" alt=""></A></P>
+        
+        <P>Jim talks about 11 commitments team members should adhere to if they want to achieve a state of shared vision which empowers them to reach their full potential and ultimately attain greatness.</P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/agile" name="agile" id="3" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Agile</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 24, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/interviews/11-Commitments-Jim-McCarthy"><SPAN>&nbsp;</SPAN>
+	    	    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-presentations"><A href="http://www.infoq.com/presentations/gosling-jvm-lang-summit-keynote">How The JVM Spec Came To Be</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/presentations/gosling-jvm-lang-summit-keynote"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/JGosling.jpg" alt=""></A></P>
+        
+        <P>James Gosling discusses Java&#39;s creation, how users use a product in very unusual ways, Java as a compromise between C and scripting languages, the Java object model, primitives and optimization tricks</P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/java" name="java" id="1" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Java</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 23, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/presentations/gosling-jvm-lang-summit-keynote"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			4
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-interviews"><A href="http://www.infoq.com/interviews/Languages-Ted-Neward">Ted Neward on Present and Past Languages</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/interviews/Languages-Ted-Neward"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/TedNeward.jpg" alt=""></A></P>
+        
+        <P>Ted Neward talks about Java, C#, C++, Haskell, Scala, VB, and Lisp, to name some of the languages, comparing the benefits and disadvantages of using one or another. </P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/dotnet" name="dotnet" id="4" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">.NET</A>,
+			
+				<A href="http://www.infoq.com/ruby" name="ruby" id="5" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Ruby</A>,
+			
+				<A href="http://www.infoq.com/java" name="java" id="1" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Java</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 23, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/interviews/Languages-Ted-Neward"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			1
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+	
+		
+	
+	<DIV class="entry">
+    	<H1 class="ex-presentations"><A href="http://www.infoq.com/presentations/delsart-real-time-java">Real-Time Java for Latency Critical Banking Applications</A></H1>
+    	
+        	<P class="image"><A href="http://www.infoq.com/presentations/delsart-real-time-java"><IMG src="./InfoQ  Migrating Struts Apps to Struts 2_files/BDelsart.jpg" alt=""></A></P>
+        
+        <P>Bertrand Delsart discusses real-time (RT) computing requirements in banking, RT Java history, priority semantics, RT APIs, RT Garbage Collection, soft vs. hard RT, and benefits of RT Java.</P>
+        <UL class="info link-col">
+            <LI>
+			
+				<A href="http://www.infoq.com/java" name="java" id="1" onclick="try {CategoryPopup.showPopup(this);} catch(e) {}; return false;">Java</A>,
+			
+			</LI>
+	        <LI class="author"><SPAN>&nbsp;</SPAN>Oct 22, 2008,</LI>
+    	    
+    	    	<LI class="comments">
+    	    		<A href="http://www.infoq.com/presentations/delsart-real-time-java"><SPAN>&nbsp;</SPAN>
+	    	    		
+    		    			2
+    		    		    		    		
+    		    	</A>
+    		    </LI>
+    		 
+        </UL>
+    </DIV>
+        
+    <DIV class="clearer"></DIV>
+
+
+
+<UL class="newsnav link-col">
+
+
+
+
+    <LI><A href="http://www.infoq.com/articles/converting-struts-2-part1#" onclick="ContentSummary.setStartIndex(&#39;8&#39;);return false;">Older &gt;</A></LI>
+
+
+
+</UL>
+
+	
+				    <DIV class="box-bottom"></DIV>
+				</DIV>
+				</DIV>
+				<DIV class="bottom-corners"><DIV></DIV></DIV>
+			</DIV>
+		</DIV>
+		<!-- box end -->
+		<SCRIPT type="text/javascript">
+			ContentSummary.setSelectedTab('en');
+		</SCRIPT>
+	</DIV>
+	</DIV>
+
+<!-- right side end -->
+
+
+	<DIV class="clearer"></DIV>
+
+	
+
+
+
+
+
+
+	<DIV id="footer">
+		<P>
+			InfoQ.com and all content copyright &copy; 2006-2007 C4Media Inc.
+			InfoQ.com hosted at <A href="http://www.contegix.com/">Contegix</A>, the best ISP we&#39;ve ever worked with.
+			<A href="http://www.infoq.com/PrivacyPolicy.jsp">Privacy policy</A>
+		</P>
+	</DIV>
+
+
+</DIV>
+
+
+
+
+
+
+<SCRIPT type="text/javascript">
+	var includeName = 'Include';
+	var excludeName = 'Exclude';
+	var includeHint = 'You can include this category.';
+	var excludeHint = 'You can exclude this category.';
+	var excludeCategoryMessage = 'You can re-include from your profile personalization, or right now.<BR />';
+	var viewallCategoryMessage = 'You can view all items that belong to this category.';
+	var busyMessage = 'Please wait...';
+	var contextPath = '' + '/';
+	var viewallCategoryPath= 'en';
+	var includeExcludeLink= true;
+</SCRIPT>
+
+
+
+
+</BODY></HTML>
