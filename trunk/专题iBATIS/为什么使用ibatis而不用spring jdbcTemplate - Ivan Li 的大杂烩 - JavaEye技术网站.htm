@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>为什么使用ibatis而不用spring jdbcTemplate - Ivan Li 的大杂烩 - JavaEye技术网站</title>
+    <meta name="description" content="第一：ibatis仅仅是对jdbc薄薄的一层封装，完全不丧失sql的灵活性  第二：ibatis所有的sql都可以放在配置文件中，这样有利于sql的集中管理，特别是在sql tuning是很容易把得到所有的sql,如果使用spring jdbctemplate,那么难免要在sql adv上调试好了sql，然后在粘贴到java代码中，会有一大堆的StringObj+=和 StringBufferOb ..." />
+    <meta name="keywords" content="ibatis iBATIS 为什么使用ibatis而不用spring jdbcTemplate" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="Ivan Li 的大杂烩" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1225335232" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1200451876" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="site_logo"><a href="http://www.javaeye.com/blogs"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo_small.gif?1192372128" title="JavaEye-最棒的软件开发交流社区" /></a></div>
+      <ul id="user_nav">
+  <li class="last"><a href="/index/help">帮助</a></li>
+      <li><a href="/signup">注册</a></li>
+    <li><a href="/login">登录</a></li>
+    <li class='highlight'><span>您还没有登录 !</span></li>  
+    
+</ul>
+    </div>
+    
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">Ivan Li 的大杂烩</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://ivanl.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/24739" class="next">ibatis分页源码分析</a>
+      |
+      <a href="/blog/24708" class="pre">用apache代理weblogic的请求</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2006</span><span class='sep_year'>-</span><span class='month'>09</span><span class='sep_month'>-</span><span class='day'>21</span></div>
+    <h3 class='' title=''><a href="/blog/24738">为什么使用ibatis而不用spring jdbcTemplate</a></h3>
+        <strong>关键字: ibatis</strong>
+  </div>
+  
+  <div class="blog_content">
+    第一：ibatis仅仅是对jdbc薄薄的一层封装，完全不丧失sql的灵活性 <br />第二：ibatis所有的sql都可以放在配置文件中，这样有利于sql的集中管理，特别是在sql tuning是很容易把得到所有的sql,如果使用spring jdbctemplate,那么难免要在sql adv上调试好了sql，然后在粘贴到java代码中，会有一大堆的StringObj+=和 StringBufferObj.append() ,如果sql 很长，那么总是copy , paste 也很烦,ibatis没有这样的问题。 <br />第三：ibatis可以把查出的结果集自动mapping成po,不用写一行代码，只需配置一下ResultMap参数即可，而jdbcTemplate大多数情况都要手动的mapping或者实现MappingSqlQuery，ResultSetExtractor等，无论如何都要编程，这些都是体力活，如果使用了ibatis，这些体力活完全可以省去。 <br />第四：ibatis内置cache机制，同时还可以和osCache集成，cache的也是可以配置的，如果配置得当可以大大提高程序性能。 <br />第五：ibatis支持动态sql，不需要在java里有那么多if, else,完全配置
+  </div>
+  
+  
+              
+  <div class="blog_bottom">
+    <ul>
+      <li>10:52</li>
+      <li>浏览 (13389)</li>
+      <li><a href="http://www.javaeye.com/topic/24738" title="在论坛被浏览了15587 次">论坛浏览 (15587)</a></li>       <li><a href="#comments">评论</a> (20)</li>
+      <li>分类: <a href="/category/5591">技术天地</a></li>
+      
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/24738" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  <div>
+      <script type="text/javascript">
+      alimama_pid="mm_10894917_912120_1878361"; 
+      alimama_titlecolor="0000FF"; 
+      alimama_descolor ="000000"; 
+      alimama_bgcolor="FFFFFF"; 
+      alimama_bordercolor="E6E6E6"; 
+      alimama_linkcolor="008000"; 
+      alimama_bottomcolor="FFFFFF"; 
+      alimama_anglesize="0"; 
+      alimama_bgpic="0"; 
+      alimama_icon="0"; 
+      alimama_sizecode="14"; 
+      alimama_width=468; 
+      alimama_height=60; 
+      alimama_type=2; 
+      </script>
+      <script src="http://a.alimama.cn/inf.js" type=text/javascript>
+      </script>  
+    </div>
+              
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc221213">
+  <div class="comment_title">
+    <a href='http://lingate.javaeye.com' target='_blank'>lingate</a>
+    2007-02-09&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">喜欢，针对性强。</div>
+</div>
+<div id="bc220882">
+  <div class="comment_title">
+    <a href='http://ahuaxuan.javaeye.com' target='_blank'>ahuaxuan</a>
+    2007-02-08&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">我自己的选择是，如果是中小型项目，我会用hibernate，大型项目ibatis首选，但是我实在想不出直接用jdbc的理由</div>
+</div>
+<div id="bc220631">
+  <div class="comment_title">
+    <a href='http://largebean.javaeye.com' target='_blank'>LargeBean</a>
+    2007-02-08&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">分页：<br />别人做好了通用的框架，细节我们自己搞就好了。。。。<br />俺要学习下IBATIS1+1</div>
+</div>
+<div id="bc179864">
+  <div class="comment_title">
+    <a href='http://xiaobo.javaeye.com' target='_blank'>oboaix</a>
+    2006-11-30&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">理解认同一部分...</div>
+</div>
+<div id="bc179724">
+  <div class="comment_title">
+    <a href='http://ponderlw.javaeye.com' target='_blank'>ponderlw</a>
+    2006-11-30&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">对于遗留系统，IBATIS的优势还是有的。<br />有个场景，由于效率优化，将操作表与历史记录表分离<br />前者是后者的部分状态数据映射。<br />IBATIS中的修改，针对各自操作修改SQL MAPING XML就OK了。</div>
+</div>
+<div id="bc179300">
+  <div class="comment_title">
+    <a href='http://lszone.javaeye.com' target='_blank'>lszone</a>
+    2006-11-29&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">以前我们用的hibernate，现在也换成ibatis了</div>
+</div>
+<div id="bc176774">
+  <div class="comment_title">
+    <a href='http://pdw2009.javaeye.com' target='_blank'>pdw2009</a>
+    2006-11-23&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">DbUtils和ibatis思路非常想似,只不过一个是可配置一个需要程序里编写相应的脚本吧了</div>
+</div>
+<div id="bc159968">
+  <div class="comment_title">
+    <a href='http://edusaj.javaeye.com' target='_blank'>edusaj</a>
+    2006-10-27&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">一般ibatis分页不用自身的分页功能，需要自己利用数据库的特性去写，比如：mysql的limit，oracle的rumnum，mssql的top，db2的rownumber等，但是在AS400上面的db2是不支持rownumber这个分页的。</div>
+</div>
+<div id="bc156857">
+  <div class="comment_title">
+    <a href='http://bluelover.javaeye.com' target='_blank'>bluelover</a>
+    2006-10-23&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">[quote="刑天战士"][quote="Ivan Li"]<br /><br />其实配合DbUtils也可以的，挺方便的，jdbc+Dbutils+dbcp，价格便宜量又足，想当年我一直用它……[/quote]<br /><br />支持开源,俺就把dbutil用了,非常的不错<br />纯粹的jdbc,灵活实用</div>
+</div>
+<div id="bc156651">
+  <div class="comment_title">
+    <a href='http://jiajiulong.javaeye.com' target='_blank'>小贾</a>
+    2006-10-23&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">我觉得分页还是使用与框架或者技术相对独立的方式比较好一些；这样不就可以一劳永逸了嘛！向自定义标签等等。</div>
+</div>
+<div id="bc156493">
+  <div class="comment_title">
+    <a href='http://jacshan.javaeye.com' target='_blank'>jacshan</a>
+    2006-10-22&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">用jdbcTemplate分页不好实现</div>
+</div>
+<div id="bc153739">
+  <div class="comment_title">
+    <a href='http://baizhan.javaeye.com' target='_blank'>baizhan</a>
+    2006-10-18&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">呵呵..理由充分...IBATIS值得学习一下..</div>
+</div>
+<div id="bc141415">
+  <div class="comment_title">
+    <a href='http://ivanl.javaeye.com' target='_blank'>Ivan Li</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">Ivan Li 写道</div><div class="quote_div"><div class="quote_title">刑天战士 写道</div><div class="quote_div"><div class="quote_title">Ivan Li 写道</div><div class="quote_div"><br />第三：ibatis可以把查出的结果集自动mapping成po,不用写一行代码，只需配置一下ResultMap参数即可，而jdbcTemplate大多数情况都要手动的mapping或者实现MappingSqlQuery，ResultSetExtractor等，无论如何都要编程，这些都是体力活，如果使用了ibatis，这些体力活完全可以省去。 <br /><br /></div><br /><br />其实配合DbUtils也可以的，挺方便的，jdbc+Dbutils+dbcp，价格便宜量又足，想当年我一直用它……</div><br /><br />DbUtils如何做，请赐教！共同进步</div><br />看了DbUtils,觉得他和spring jdbcTemplate思路相似，但是感觉还是jdbctemplate更方便，如果让我在spring jdbcTemplate和DbUtils里选一个，我选spring jdbcTemplate</div>
+</div>
+<div id="bc141413">
+  <div class="comment_title">
+    <a href='http://ivanl.javaeye.com' target='_blank'>Ivan Li</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">galaxystar 写道</div><div class="quote_div">ibatis可以传入参数，靠sql来分页！mysql,oracle都支持！<br />不支持的数据库，加一个自增的ID，（非一般主键ID）！<br />如果有在用物理删除的话，我暂时没想到，不过M,O2个数据库我想已经足够了！</div><br />能否share一个例子？</div>
+</div>
+<div id="bc141406">
+  <div class="comment_title">
+    <a href='http://galaxystar.javaeye.com' target='_blank'>galaxystar</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">ibatis可以传入参数，靠sql来分页！mysql,oracle都支持！<br />不支持的数据库，加一个自增的ID，（非一般主键ID）！<br />如果有在用物理删除的话，我暂时没想到，不过M,O2个数据库我想已经足够了！</div>
+</div>
+<div id="bc141368">
+  <div class="comment_title">
+    <a href='http://ivanl.javaeye.com' target='_blank'>Ivan Li</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">simbasun 写道</div><div class="quote_div">正在准备从Hibernate转向iBatis。<br />不过ibatis好像对分页查询作的不是很好,不知道有没有best practice.</div><br /><br /><a href="http://www.javaeye.com/topic/22079" target="_blank">http://www.javaeye.com/topic/22079</a><br />这里有一点讨论，希望对你有帮助，ibatis的分页不是物理分页，最好自己写</div>
+</div>
+<div id="bc141364">
+  <div class="comment_title">
+    <a href='http://ivanl.javaeye.com' target='_blank'>Ivan Li</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">刑天战士 写道</div><div class="quote_div"><div class="quote_title">Ivan Li 写道</div><div class="quote_div"><br />第三：ibatis可以把查出的结果集自动mapping成po,不用写一行代码，只需配置一下ResultMap参数即可，而jdbcTemplate大多数情况都要手动的mapping或者实现MappingSqlQuery，ResultSetExtractor等，无论如何都要编程，这些都是体力活，如果使用了ibatis，这些体力活完全可以省去。 <br /><br /></div><br /><br />其实配合DbUtils也可以的，挺方便的，jdbc+Dbutils+dbcp，价格便宜量又足，想当年我一直用它……</div><br /><br />DbUtils如何做，请赐教！共同进步</div>
+</div>
+<div id="bc141317">
+  <div class="comment_title">
+    <a href='http://gaoxt1983.javaeye.com' target='_blank'>刑天战士</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">Ivan Li 写道</div><div class="quote_div"><br />第三：ibatis可以把查出的结果集自动mapping成po,不用写一行代码，只需配置一下ResultMap参数即可，而jdbcTemplate大多数情况都要手动的mapping或者实现MappingSqlQuery，ResultSetExtractor等，无论如何都要编程，这些都是体力活，如果使用了ibatis，这些体力活完全可以省去。 <br /><br /></div><br /><br />其实配合DbUtils也可以的，挺方便的，jdbc+Dbutils+dbcp，价格便宜量又足，想当年我一直用它……</div>
+</div>
+<div id="bc141312">
+  <div class="comment_title">
+    <a href='http://simbasun.javaeye.com' target='_blank'>simbasun</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">正在准备从Hibernate转向iBatis。<br />不过ibatis好像对分页查询作的不是很好,不知道有没有best practice.</div>
+</div>
+<div id="bc141220">
+  <div class="comment_title">
+    <a href='http://zhupan.javaeye.com' target='_blank'>温柔一刀</a>
+    2006-09-21&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">呵呵<br />我也喜欢ibatis</div>
+</div>
+
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+    
+      <p style='font-weight: bold; margin: 5px 0;'>该博客是同时发布到<a href="http://www.javaeye.com/topic/24738">论坛</a>的，无法评论在论坛已被锁定的帖子</p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+  quote_user = $(link).previous(0).innerHTML;
+  quote_body = $(link).up().next().innerHTML.stripTags();
+  editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://ivanl.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/29695/f9a82710-ffe5-4f10-bee6-3a466d9f4757.jpg?1170816178" title="Ivan Li的博客: Ivan Li 的大杂烩" /></a></div>
+            <div id="blog_owner_name">Ivan Li</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 263444 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 北京</li>
+              <li><img src='/images/status/offline.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a>  <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://anranran.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="anranran的博客: anranran" /></a></span> <a href='http://anranran.javaeye.com' target='_blank'>anranran</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://ai5173609.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="ai5173609的博客: " /></a></span> <a href='http://ai5173609.javaeye.com' target='_blank'>ai5173609</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://liuxx-adam.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="liuxx.adam的博客: " /></a></span> <a href='http://liuxx-adam.javaeye.com' target='_blank'>liuxx.adam</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://yn5411.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="yn5411的博客: yn5411" /></a></span> <a href='http://yn5411.javaeye.com' target='_blank'>yn5411</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (98)</a></li>
+                
+                  <li><a href="/category/5591">技术天地 (68)</a></li>
+                
+                  <li><a href="/category/5592">乱七八糟 (9)</a></li>
+                
+                  <li><a href="/category/6989">藏经阁 (10)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿</h5>
+                <ul>
+                  
+                    <li>
+                      你好请问下在linux redhat4下面我有一个sh脚本,我用ssh可以运行, ...<br/>
+                      -- by <a href="/blog/guest_book#195">SeaAim</a>
+                    </li>
+                  
+                </ul>              
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (8)</li>
+                                <li><a href="/blog/forum">我的论坛帖子</a> (298)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (6)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://ecside.group.javaeye.com">GT-Grid</a></li>
+                
+                  <li><a href="http://Originality.group.javaeye.com">盘古党</a></li>
+                
+              </ul>
+            </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2008-09">2008-09</a> (7)</li>
+                  
+                    <li><a href="/blog/monthblog/2008-08">2008-08</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2008-07">2008-07</a> (15)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/190667#comments" title="写给面试者--来至一线面试官的忠告">写给面试者--来至一线面试 ...</a><br/>
+                    楼主的情况很多情况下并不适用，比如应聘者把考官忽悠倒...<br/>
+                    -- by <a href='http://cm4ever.javaeye.com' target='_blank'>cm4ever</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/190667#comments" title="写给面试者--来至一线面试官的忠告">写给面试者--来至一线面试 ...</a><br/>
+                    忠告 1: 想去外企，必须过外语这一关 =================== ...<br/>
+                    -- by <a href='http://hotjava.javaeye.com' target='_blank'>hotjava</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/190667#comments" title="写给面试者--来至一线面试官的忠告">写给面试者--来至一线面试 ...</a><br/>
+                    Ivan Li 写道有一个应聘者自称写过很多pl sql,一说overview ...<br/>
+                    -- by <a href='http://gembler.javaeye.com' target='_blank'>gembler</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/215554#comments" title="使用ubuntu作为工作桌面详细步骤">使用ubuntu作为工作桌面详 ...</a><br/>
+                    Oracle的Oracle SQLDeveloper可以用也可以把windowz ...<br/>
+                    -- by <a href='http://zhoun.javaeye.com' target='_blank'>zhoun</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/215554#comments" title="使用ubuntu作为工作桌面详细步骤">使用ubuntu作为工作桌面详 ...</a><br/>
+                    Ivan Li 写道moonjava 写道一些数据库的客户端呢？Oracle可 ...<br/>
+                    -- by <a href='http://moonjava.javaeye.com' target='_blank'>moonjava</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/190667">写给面试者--来至一线面试官的忠告</a></li>
+                
+                  <li><a href="/blog/215554">使用ubuntu作为工作桌面详细步骤</a></li>
+                
+                  <li><a href="/blog/153659">EXT 中js语法请教</a></li>
+                
+                  <li><a href="/blog/169918">第一次出国经历--入境</a></li>
+                
+                  <li><a href="/blog/169442">第一次出国经历--转机</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://ivanl.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://ivanl.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://ivanl.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
