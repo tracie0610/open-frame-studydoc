@@ -1,0 +1,738 @@
+<html><head><!--STATUS OK-->
+<meta http-equiv="content-type" content="text/html; charset=GB2312"><title>nHibernate的ORM框架映射的第一步_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/global.js"></script>
+<script language="javascript" src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/popup.js"></script>
+<script language="JavaScript" src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=2;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='nHibernate的ORM框架映射的第一步'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=nHibernate%B5%C4ORM%BF%F2%BC%DC%D3%B3%C9%E4%B5%C4%B5%DA%D2%BB%B2%BD&item=a29951d088f2558ba1ec9cd1&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head><body onload="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/a29951d088f2558ba1ec9cd1%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/mods.css">
+
+<link rel="stylesheet" type="text/css" href="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/1c7a62da2f1578dbb7fd48f9.css">
+
+<link rel="stylesheet" type="text/css" href="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/space.css">
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com/" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/a29951d088f2558ba1ec9cd1%2Ehtml') + '">登录</a>');
+		</script>| <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http://hi.baidu.com%2Fbanseon%2Fblog%2Fitem%2Fa29951d088f2558ba1ec9cd1%252Ehtml">登录</a>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="http://hi.baidu.com/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="http://hi.baidu.com/banseon">主页</a><a href="http://hi.baidu.com/banseon/blog" class="on">博客</a><a href="http://hi.baidu.com/banseon/album">相册</a><span>|</span><a href="http://hi.baidu.com/banseon/profile">个人档案</a>
+	<span>|</span><a href="http://hi.baidu.com/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width: 100%;">
+
+	<table class="modth" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap="nowrap"><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" align="right" nowrap="nowrap"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></tbody></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">nHibernate的ORM框架映射的第一步</div>
+<div class="date">2008-03-14  08:25</div>
+<table style="table-layout: fixed;"><tbody><tr><td><div id="blog_text" class="cnt"><p>nHibernate集成框架是通过读取数据库的中的所有表，然后读取选取表的信息自动生成字段和数据。</p>
+<p>但是还没有构思nHibernate的从XML到JavaBean之间的映射关系和SQL语句的生成，所以这里还</p>
+<p>无从下手。今天还是先把前面的部分搞定把。</p>
+<p>初始界面是用来输入数据库类型和URL，用户和密码等等。</p>
+<p forimg="1" align="center"><img class="blogimg" small="0" src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/5474e2c87cd43c077e3e6f46.jpg" border="0"></p>
+<p forimg="1" align="left">然后，进去读取数据库信息的界面。</p>
+<p forimg="1" align="left"> </p>
+<p forimg="1" align="center"><img class="blogimg" small="0" src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/696dce1f9467621a314e1547.jpg" border="0"></p>
+<p forimg="1" align="left">上面为设计界面，运行后的结果如下：</p>
+<p forimg="1" align="left"> </p>
+<p forimg="1" align="center"> </p>
+<p forimg="1" align="center"><img class="blogimg" small="0" src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/336d642c588b5cfc8b139940.jpg" border="0"></p>
+<p forimg="1" align="left">当选中某一个表的时候，自动生成改表的字段和读取所有的数据信息。</p>
+<p forimg="1" align="left"> </p>
+<p forimg="1" align="center"><img class="blogimg" small="0" src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/7886a850e941207284352437.jpg" border="0"></p>
+<p forimg="1" align="left">下一步就可以在左边实现右键生成相应的JavaBean和XML文件。</p>
+<p forimg="1" align="left">敬请期待！</p></div></td></tr></tbody></table>
+<br>
+<div class="opt">
+<a href="http://hi.baidu.com/banseon/blog/category/Netbeans" title="查看该分类中所有文章">类别：Netbeans</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onclick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result">56</span>)
+	| <a href="#send">评论</a>&nbsp;(2)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'Framework_workflow 续集', 'Framework_workflow 续集','/banseon/blog/item/f86585fd61636f1209244dac.html'];
+var post = [true,'nHibernate的ORM框架映射的第二步','nHibernate的ORM框架映射的第二...', '/banseon/blog/item/fb971ef507615e21bd310907.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script><div style="height: 5px; line-height: 5px;">&nbsp;</div><div id="in_nav">上一篇：<a href="http://hi.baidu.com/banseon/blog/item/f86585fd61636f1209244dac.html" title="Framework_workflow 续集">Framework_workflow 续集</a>&nbsp;&nbsp;&nbsp;&nbsp;下一篇：<a href="http://hi.baidu.com/banseon/blog/item/fb971ef507615e21bd310907.html" title="nHibernate的ORM框架映射的第二步">nHibernate的ORM框架映射的第二...</a></div>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_doc"><div class="tit">相关文章：</div><table border="0" cellpadding="0" cellspacing="3"><tbody><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/crazybird%5Faip/blog/item/b81e9d583b582085810a18ec.html" target="_blank" title="ORM数据持久框架NHibernate(二)">ORM数据持久框架NHibernate(二)</a>　　　　　　　　　</td><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/crazybird%5Faip/blog/item/b3967c4e20f8d9ced0c86ae3.html" target="_blank" title="ORM数据持久框架NHibernate(一)">ORM数据持久框架NHibernate(一)</a></td></tr></tbody></table></div><div class="line">&nbsp;</div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=nHibernate%B5%C4ORM%BF%F2%BC%DC%D3%B3%C9%E4%B5%C4%B5%DA%D2%BB%B2%BD&item=a29951d088f2558ba1ec9cd1">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=nHibernate%B5%C4ORM%BF%F2%BC%DC%D3%B3%C9%E4%B5%C4%B5%DA%D2%BB%B2%BD&item=a29951d088f2558ba1ec9cd1&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["%BA%AB%D0%C5%B5%C2","2ed0baabd0c5b5c2ad03","韩信德"],
+	
+["%CE%D2%C3%C7%B8%C4%B1%E4%C9%FA%BB%EE","537aced2c3c7b8c4b1e4c9fabbeea103","我们改变生活"],
+	
+["damogusha","b8c864616d6f67757368616a00","damogusha"],
+	
+["tirone","2d827469726f6e651601","tirone"],
+	
+["fogscape","032f666f6773636170651804","fogscape"],
+	
+["ftuo","89526674756f7d02","ftuo"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script><table width="100%"><tbody><tr><td align="center" width="10%"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/portraitn.jpg" border="0" width="55" height="55"></td><td align="left" width="12%"><a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http%3A%2F%2Fhi.baidu.com%2Fbanseon%2Fblog%2Fitem%2Fa29951d088f2558ba1ec9cd1%252Ehtml" target="_self">登录</a>后，您就出现在这里。</td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/%BA%AB%D0%C5%B5%C2" target="_blank"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/2ed0baabd0c5b5c2ad03.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/%CE%D2%C3%C7%B8%C4%B1%E4%C9%FA%BB%EE" target="_blank"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/537aced2c3c7b8c4b1e4c9fabbeea103.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/damogusha" target="_blank"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/b8c864616d6f67757368616a00.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/tirone" target="_blank"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/2d827469726f6e651601.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/fogscape" target="_blank"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/032f666f6773636170651804.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/ftuo" target="_blank"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/89526674756f7d02.jpg" border="0"></a></td><td width="100%"></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/%BA%AB%D0%C5%B5%C2" target="_blank">韩信德</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/%CE%D2%C3%C7%B8%C4%B1%E4%C9%FA%BB%EE" target="_blank">我们改变生活</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/damogusha" target="_blank">damogusha</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/tirone" target="_blank">tirone</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/fogscape" target="_blank">fogscape</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/ftuo" target="_blank">ftuo</a></td><td></td></tr></tbody></table>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_a29951d088f2558ba1ec9cd1_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+<a name="4c0ff81302416226dd5401bd"></a>
+<table class="item" style="overflow: hidden; table-layout: fixed;" ;="" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="index" valign="top" width="5%">1</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow: hidden;">
+
+<script>
+writecmt(1,"4c0ff81302416226dd5401bd","tirone","http://hi.baidu.com/tirone","2d827469726f6e651601");
+</script><a href="http://hi.baidu.com/tirone" target="_blank" title="http://hi.baidu.com/tirone"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/2d827469726f6e651601.jpg" border="0"><br>tirone</a>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left: 20px;"><span class="date">2008-03-14  15:27
+
+
+</span><div class="desc" style="overflow: hidden;">o(∩_∩)o...。<br>右键生成javabean。我已经做好了。我有个poCreator类。可以根据数据库表直接产生javabean源码。</div></td></tr>
+</tbody></table>
+<div class="line">&nbsp;</div>
+
+<a name="e4a1a6cab37fca83c817681f"></a>
+<table class="item" style="overflow: hidden; table-layout: fixed;" ;="" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="index" valign="top" width="5%">2</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow: hidden;">
+
+<script>
+writecmt(1,"e4a1a6cab37fca83c817681f","banseon","http://hi.baidu.com/banseon","1fb662616e73656f6e1202");
+</script><a href="http://hi.baidu.com/banseon" target="_blank" title="http://hi.baidu.com/banseon"><img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/1fb662616e73656f6e1202.jpg" border="0"><br>banseon</a>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left: 20px;"><span class="date">2008-03-15  10:32
+
+
+</span><div class="desc" style="overflow: hidden;">呵呵。我的也做好咯</div></td></tr>
+</tbody></table>
+<div class="line">&nbsp;</div>
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onsubmit="return checkcmtform()">
+<input name="ct" value="8" type="hidden">
+<input name="cm" value="1" type="hidden">
+<input name="spBlogID" value="a29951d088f2558ba1ec9cd1" type="hidden">
+<input value="http://hi.baidu.com/banseon/blog/item/a29951d088f2558ba1ec9cd1.html" name="spRefURL" id="spRefURL" type="hidden">
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table border="0" cellpadding="0" cellspacing="5" width="620">
+<tbody><tr>
+
+<td class="f14">姓　名：</td>
+<td><input name="spBlogCmtor" id="spBlogCmtor" style="width: 220px;" onchange="checkname('spBlogCmtor')" maxlength="49" onfocus="hidErr(1);" tabindex="1" type="text">
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script> &nbsp;&nbsp; <a href="http://passport.baidu.com/?reg&amp;tpl=sp&amp;return_method=get&amp;skip_ok=1&amp;u=http://hi.baidu.com/sys/reg/" target="_blank">注册</a> | <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http%3A%2F%2Fhi.baidu.com%2Fbanseon%2Fblog%2Fitem%2Fa29951d088f2558ba1ec9cd1%252Ehtml">登录</a>
+
+<div style="display: none;" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input name="spBlogCmtURL" id="spBlogCmtURL" style="width: 360px;" maxlength="128" onchange="checkeandu('spBlogCmtURL')" onfocus="hidErr(2);" tabindex="2" type="text"> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14" valign="top">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width: 520px; height: 155px;" onfocus="hidErr(3);" tabindex="3"></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td class="f14" valign="top">验证码：</td>
+<td valign="top"><input name="spVcode" value="3035737061636531303335303434383039303030303030303030303030303031323236333838373036F1129F2ED220C30B691345C7519F1E0A" type="hidden">
+<input onfocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6" maxlength="4" autocomplete="off" tabindex="4" type="text"><br>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?3035737061636531303335303434383039303030303030303030303030303031323236333838373036F1129F2ED220C30B691345C7519F1E0A";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display: none;">
+<img id="verifypic" width="120" height="40"><wbr><a onfocus="this.blur();" href="#" onclick="return newverifypic();" title="看不清左边的字符">看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td class="f14" valign="top">&nbsp;</td>
+<td class="f14" valign="top"><input id="btn_ok" name="btn_ok" value="发表评论" tabindex="5" type="submit"></td>
+</tr>
+</tbody></table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" height="8">
+<tbody><tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></tbody></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script><script src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/brwstat.htm"></script>
+<br><center><div id="ft">&#169;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="nHibernate%E7%9A%84ORM%E6%A1%86%E6%9E%B6%E6%98%A0%E5%B0%84%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5_files/c.htm" style="display: none;">
+</body></html>

@@ -1,0 +1,782 @@
+<!--STATUS OK-->
+<html><head><meta http-equiv=content-type content="text/html; charset=gb2312"><title>Hibernate 二级缓存 (转载)_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="/ui/scripts/global.js"></script>
+<script language="javascript" src="/js/popup.js"></script>
+<script LANGUAGE="JavaScript" src="/js/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=0;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='Hibernate 二级缓存 (转载)'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=Hibernate%20%B6%FE%BC%B6%BB%BA%B4%E6%20%28%D7%AA%D4%D8%29&item=4bad502731351801908f9dc3&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head>
+<body onLoad="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/4bad502731351801908f9dc3%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/ui/css/mods.css" />
+
+<link rel="stylesheet" type="text/css" href="/banseon/css/item/1c7a62da2f1578dbb7fd48f9.css" />
+
+<link rel="stylesheet" type="text/css" href="/space.css" />
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/4bad502731351801908f9dc3%2Ehtml') + '">登录</a>');
+		</script>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="/banseon">主页</a><a href="/banseon/blog" class="on">博客</a><a href="/banseon/album">相册</a><span>|</span><a href="/banseon/profile">个人档案</a>
+	<span>|</span><a href="/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width:100%">
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" nowrap align="right"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">Hibernate 二级缓存 (转载)</div>
+<div class="date">2007-08-29  01:07</div>
+<table style="table-layout:fixed"><tr><td><div id="blog_text" class="cnt"><table cellspacing="0" cellpadding="0" width="100%" border="0" class="mode_table">
+<tbody>
+    <tr>
+        <td class="mode_table_main" valign="top">
+<div style="FONT-SIZE: 12px"><font size="2">很多人对二级缓存都不太了解，或者是有错误的认识，我一直想写一篇文章介绍一下hibernate的二级缓存的，今天终于忍不住了。&nbsp;&nbsp;<br>
+我的经验主要来自hibernate2.1版本，基本原理和3.0、3.1是一样的，请原谅我的顽固不化。 <br>
+<br>
+hibernate的session提供了一级缓存，每个session，对同一个id进行两次load，不会发送两条sql给数据库，但是session关闭的时候，一级缓存就失效了。 <br>
+<br>
+二级缓存是SessionFactory级别的全局缓存，它底下可以使用不同的缓存类库，比如ehcache、oscache等，需要设置hibernate.cache.provider_class，我们这里用ehcache，在2.1中就是&nbsp;&nbsp;<br>
+hibernate.cache.provider_class=net.sf.hibernate.cache.EhCacheProvider&nbsp;&nbsp;<br>
+如果使用查询缓存，加上&nbsp;&nbsp;<br>
+hibernate.cache.use_query_cache=true <br>
+<br>
+缓存可以简单的看成一个Map，通过key在缓存里面找value。 <br>
+<br>
+Class的缓存&nbsp;&nbsp;<br>
+对于一条记录，也就是一个PO来说，是根据ID来找的，缓存的key就是ID，value是POJO。无论list，load还是iterate，只要读出一个对象，都会填充缓存。但是list不会使用缓存，而iterate会先取数据库select id出来，然后一个id一个id的load，如果在缓存里面有，就从缓存取，没有的话就去数据库load。假设是读写缓存，需要设置：&nbsp;&nbsp;<br>
+&lt;cache usage="read-write"/&gt;&nbsp;&nbsp;<br>
+如果你使用的二级缓存实现是ehcache的话，需要配置ehcache.xml&nbsp;&nbsp;<br>
+&lt;cache name="com.xxx.pojo.Foo" maxElementsInMemory="500" eternal="false" timeToLiveSec timeToIdleSec overflowToDisk="true" /&gt;&nbsp;&nbsp;<br>
+其中eternal表示缓存是不是永远不超时，timeToLiveSeconds是缓存中每个元素（这里也就是一个POJO）的超时时间，如果eternal="false"，超过指定的时间，这个元素就被移走了。timeToIdleSeconds是发呆时间，是可选的。当往缓存里面put的元素超过500个时，如果overflowToDisk="true"，就会把缓存中的部分数据保存在硬盘上的临时文件里面。&nbsp;&nbsp;<br>
+每个需要缓存的class都要这样配置。如果你没有配置，hibernate会在启动的时候警告你，然后使用defaultCache的配置，这样多个class会共享一个配置。&nbsp;&nbsp;<br>
+当某个ID通过hibernate修改时，hibernate会知道，于是移除缓存。&nbsp;&nbsp;<br>
+这样大家可能会想，同样的查询条件，第一次先list，第二次再iterate，就可以使用到缓存了。实际上这是很难的，因为你无法判断什么时候是第一次，而且每次查询的条件通常是不一样的，假如数据库里面有100条记录，id从1到100，第一次list的时候出了前50个id，第二次iterate的时候却查询到30至70号id，那么30-50是从缓存里面取的，51到70是从数据库取的，共发送1+20条sql。所以我一直认为iterate没有什么用，总是会有1+N的问题。&nbsp;&nbsp;<br>
+（题外话：有说法说大型查询用list会把整个结果集装入内存，很慢，而iterate只select id比较好，但是大型查询总是要分页查的，谁也不会真的把整个结果集装进来，假如一页20条的话，iterate共需要执行21条语句，list虽然选择若干字段，比iterate第一条select id语句慢一些，但只有一条语句，不装入整个结果集hibernate还会根据数据库方言做优化，比如使用mysql的limit，整体看来应该还是list快。）&nbsp;&nbsp;<br>
+如果想要对list或者iterate查询的结果缓存，就要用到查询缓存了 <br>
+<br>
+查询缓存&nbsp;&nbsp;<br>
+首先需要配置hibernate.cache.use_query_cache=true&nbsp;&nbsp;<br>
+如果用ehcache，配置ehcache.xml，注意hibernate3.0以后不是net.sf的包名了&nbsp;&nbsp;<br>
+&lt;cache name="net.sf.hibernate.cache.StandardQueryCache"&nbsp;&nbsp;<br>
+maxElementsInMemory="50" eternal="false" timeToIdleSec&nbsp;&nbsp;<br>
+timeToLiveSec overflowToDisk="true"/&gt;&nbsp;&nbsp;<br>
+&lt;cache name="net.sf.hibernate.cache.UpdateTimestampsCache"&nbsp;&nbsp;<br>
+maxElementsInMemory="5000" eternal="true" overflowToDisk="true"/&gt;&nbsp;&nbsp;<br>
+然后&nbsp;&nbsp;<br>
+query.setCacheable(true);//激活查询缓存&nbsp;&nbsp;<br>
+query.setCacheRegion("myCacheRegion");//指定要使用的cacheRegion，可选&nbsp;&nbsp;<br>
+第二行指定要使用的cacheRegion是myCacheRegion，即你可以给每个查询缓存做一个单独的配置，使用setCacheRegion来做这个指定，需要在ehcache.xml里面配置它：&nbsp;&nbsp;<br>
+&lt;cache name="myCacheRegion" maxElementsInMemory="10" eternal="false" timeToIdleSec timeToLiveSec overflowToDisk="true" /&gt;&nbsp;&nbsp;<br>
+如果省略第二行，不设置cacheRegion的话，那么会使用上面提到的标准查询缓存的配置，也就是net.sf.hibernate.cache.StandardQueryCache <br>
+<br>
+对于查询缓存来说，缓存的key是根据hql生成的sql，再加上参数，分页等信息（可以通过日志输出看到，不过它的输出不是很可读，最好改一下它的代码）。&nbsp;&nbsp;<br>
+比如hql：&nbsp;&nbsp;<br>
+from Cat c where c.name like ?&nbsp;&nbsp;<br>
+生成大致如下的sql：&nbsp;&nbsp;<br>
+select * from cat c where c.name like ?&nbsp;&nbsp;<br>
+参数是"tiger%"，那么查询缓存的key*大约*是这样的字符串（我是凭记忆写的，并不精确，不过看了也该明白了）：&nbsp;&nbsp;<br>
+select * from cat c where c.name like ? , parameter:tiger%&nbsp;&nbsp;<br>
+这样，保证了同样的查询、同样的参数等条件下具有一样的key。&nbsp;&nbsp;<br>
+现在说说缓存的value，如果是list方式的话，value在这里并不是整个结果集，而是查询出来的这一串ID。也就是说，不管是list方法还是iterate方法，第一次查询的时候，它们的查询方式很它们平时的方式是一样的，list执行一条sql，iterate执行1+N条，多出来的行为是它们填充了缓存。但是到同样条件第二次查询的时候，就都和iterate的行为一样了，根据缓存的key去缓存里面查到了value，value是一串id，然后在到class的缓存里面去一个一个的load出来。这样做是为了节约内存。&nbsp;&nbsp;<br>
+可以看出来，查询缓存需要打开相关类的class缓存。list和iterate方法第一次执行的时候，都是既填充查询缓存又填充class缓存的。&nbsp;&nbsp;<br>
+这里还有一个很容易被忽视的重要问题，即打开查询缓存以后，即使是list方法也可能遇到1+N的问题！相同条件第一次list的时候，因为查询缓存中找不到，不管class缓存是否存在数据，总是发送一条sql语句到数据库获取全部数据，然后填充查询缓存和class缓存。但是第二次执行的时候，问题就来了，如果你的class缓存的超时时间比较短，现在class缓存都超时了，但是查询缓存还在，那么list方法在获取id串以后，将会一个一个去数据库load！因此，class缓存的超时时间一定不能短于查询缓存设置的超时时间！如果还设置了发呆时间的话，保证class缓存的发呆时间也大于查询的缓存的生存时间。这里还有其他情况，比如class缓存被程序强制evict了，这种情况就请自己注意了。 <br>
+<br>
+另外，如果hql查询包含select字句，那么查询缓存里面的value就是整个结果集了。 <br>
+<br>
+当hibernate更新数据库的时候，它怎么知道更新哪些查询缓存呢？&nbsp;&nbsp;<br>
+hibernate在一个地方维护每个表的最后更新时间，其实也就是放在上面net.sf.hibernate.cache.UpdateTimestampsCache所指定的缓存配置里面。&nbsp;&nbsp;<br>
+当通过hibernate更新的时候，hibernate会知道这次更新影响了哪些表。然后它更新这些表的最后更新时间。每个缓存都有一个生成时间和这个缓存所查询的表，当hibernate查询一个缓存是否存在的时候，如果缓存存在，它还要取出缓存的生成时间和这个缓存所查询的表，然后去查找这些表的最后更新时间，如果有一个表在生成时间后更新过了，那么这个缓存是无效的。&nbsp;&nbsp;<br>
+可以看出，只要更新过一个表，那么凡是涉及到这个表的查询缓存就失效了，因此查询缓存的命中率可能会比较低。 <br>
+<br>
+Collection缓存&nbsp;&nbsp;<br>
+需要在hbm的collection里面设置&nbsp;&nbsp;<br>
+&lt;cache usage="read-write"/&gt;&nbsp;&nbsp;<br>
+假如class是Cat，collection叫children，那么ehcache里面配置&nbsp;&nbsp;<br>
+&lt;cache name="com.xxx.pojo.Cat.children"&nbsp;&nbsp;<br>
+maxElementsInMemory="20" eternal="false" timeToIdleSec timeToLiveSec&nbsp;&nbsp;<br>
+overflowToDisk="true" /&gt;&nbsp;&nbsp;<br>
+Collection的缓存和前面查询缓存的list一样，也是只保持一串id，但它不会因为这个表更新过就失效，一个collection缓存仅在这个collection里面的元素有增删时才失效。&nbsp;&nbsp;<br>
+这样有一个问题，如果你的collection是根据某个字段排序的，当其中一个元素更新了该字段时，导致顺序改变时，collection缓存里面的顺序没有做更新。 <br>
+<br>
+缓存策略&nbsp;&nbsp;<br>
+只读缓存（read-only）：没有什么好说的&nbsp;&nbsp;<br>
+读/写缓存（read-write）:程序可能要的更新数据&nbsp;&nbsp;<br>
+不严格的读/写缓存（nonstrict-read-write）：需要更新数据，但是两个事务更新同一条记录的可能性很小，性能比读写缓存好&nbsp;&nbsp;<br>
+事务缓存（transactional）：缓存支持事务，发生异常的时候，缓存也能够回滚，只支持jta环境，这个我没有怎么研究过 <br>
+<br>
+读写缓存和不严格读写缓存在实现上的区别在于，读写缓存更新缓存的时候会把缓存里面的数据换成一个锁，其他事务如果去取相应的缓存数据，发现被锁住了，然后就直接取数据库查询。&nbsp;&nbsp;<br>
+在hibernate2.1的ehcache实现中，如果锁住部分缓存的事务发生了异常，那么缓存会一直被锁住，直到60秒后超时。&nbsp;&nbsp;<br>
+不严格读写缓存不锁定缓存中的数据。 <br>
+<br>
+使用二级缓存的前置条件&nbsp;&nbsp;<br>
+你的hibernate程序对数据库有独占的写访问权，其他的进程更新了数据库，hibernate是不可能知道的。你操作数据库必需直接通过hibernate，如果你调用存储过程，或者自己使用jdbc更新数据库，hibernate也是不知道的。hibernate3.0的大批量更新和删除是不更新二级缓存的，但是据说3.1已经解决了这个问题。&nbsp;&nbsp;<br>
+这个限制相当的棘手，有时候hibernate做批量更新、删除很慢，但是你却不能自己写jdbc来优化，很郁闷吧。&nbsp;&nbsp;<br>
+SessionFactory也提供了移除缓存的方法，你一定要自己写一些JDBC的话，可以调用这些方法移除缓存，这些方法是：&nbsp;&nbsp;<br>
+void evict(Class persistentClass)&nbsp;&nbsp;<br>
+Evict all entries from the second-level cache.&nbsp;&nbsp;<br>
+void evict(Class persistentClass, Serializable id)&nbsp;&nbsp;<br>
+Evict an entry from the second-level cache.&nbsp;&nbsp;<br>
+void evictCollection(String roleName)&nbsp;&nbsp;<br>
+Evict all entries from the second-level cache.&nbsp;&nbsp;<br>
+void evictCollection(String roleName, Serializable id)&nbsp;&nbsp;<br>
+Evict an entry from the second-level cache.&nbsp;&nbsp;<br>
+void evictQueries()&nbsp;&nbsp;<br>
+Evict any query result sets cached in the default query cache region.&nbsp;&nbsp;<br>
+void evictQueries(String cacheRegion)&nbsp;&nbsp;<br>
+Evict any query result sets cached in the named query cache region.&nbsp;&nbsp;<br>
+不过我不建议这样做，因为这样很难维护。比如你现在用JDBC批量更新了某个表，有3个查询缓存会用到这个表，用evictQueries(String cacheRegion)移除了3个查询缓存，然后用evict(Class persistentClass</font> </div>
+</td>
+    </tr>
+    <tr class="showSign">
+    <td class="mode_sign" valign="top"><a href="http://user.qzone.qq.com/375458302/blog/26">http://user.qzone.qq.com/375458302/blog/26</a></td>
+</tr>
+</tbody>
+</table></div></td></tr></table>
+<br>
+<div class="opt">
+<a href="/banseon/blog/category/%BF%F2%BC%DC%20%2D%20%B3%D6%BE%C3%B2%E3" title="查看该分类中所有文章">类别：框架 - 持久层</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onClick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result"></span>)
+	| <a href="#send">评论</a>&nbsp;(0)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'Struts的logic标签详解', 'Struts的logic标签详解','/banseon/blog/item/46fad8f863c7b80dd8f9fd29.html'];
+var post = [true,'祸不单行','祸不单行', '/banseon/blog/item/10ad40f09297afada50f5232.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_tmp"></div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=Hibernate%20%B6%FE%BC%B6%BB%BA%B4%E6%20%28%D7%AA%D4%D8%29&item=4bad502731351801908f9dc3">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=Hibernate%20%B6%FE%BC%B6%BB%BA%B4%E6%20%28%D7%AA%D4%D8%29&item=4bad502731351801908f9dc3&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["mymoqi","d7106764643731341401","gdd714"],
+	
+["progressspace","524c70726f677265737373706163659702","progressspace"],
+	
+["htop","caa668746f708a00","htop"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_4bad502731351801908f9dc3_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onSubmit="return checkcmtform()">
+<input type="hidden" name="ct" value="8">
+<input type="hidden" name="cm" value="1">
+<input type="hidden" name="spBlogID" value="4bad502731351801908f9dc3">
+<input type="hidden" name="spRefURL" id="spRefURL" />
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table width="620" border="0" cellspacing="5" cellpadding="0">
+<tr>
+
+<td class="f14">姓　名：</td>
+<td><input type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onChange="checkname('spBlogCmtor')" maxlength="49" onFocus="hidErr(1);"	tabindex=1>
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script>
+
+<div style="display:none" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onChange="checkeandu('spBlogCmtURL')" onFocus="hidErr(2);" tabindex=2> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td valign="top" class="f14">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width:520px;height:155px" onFocus="hidErr(3);" tabindex=3></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td valign="top" class="f14">验证码：</td>
+<td valign="top"><input type="hidden" name="spVcode" value="30357370616365353531343835393431303030303030303030303030303031323236333838323737383A0513F1D1138D00418404041B526C" />
+<input type="text" onFocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6"  maxlength="4" autocomplete="off" tabindex=4><br/>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?30357370616365353531343835393431303030303030303030303030303031323236333838323737383A0513F1D1138D00418404041B526C";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display:none">
+<img id='verifypic' width='120' height='40'><wbr /><a onFocus="this.blur();" href="#" onClick="return newverifypic();" title="看不清左边的字符" >看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td valign="top"class="f14">&nbsp;</td>
+<td valign="top" class="f14"><input id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex=5></td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="8">
+<tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script>
+<br><center><div id="ft">&copy;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="http://c.baidu.com/c.gif?t=6&p=3" style="display:none;"/>
+</body></html>

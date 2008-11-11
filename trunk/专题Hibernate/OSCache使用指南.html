@@ -1,0 +1,886 @@
+<!--STATUS OK-->
+<html><head><meta http-equiv=content-type content="text/html; charset=gb2312"><title>OSCache使用指南_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="/ui/scripts/global.js"></script>
+<script language="javascript" src="/js/popup.js"></script>
+<script LANGUAGE="JavaScript" src="/js/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=3;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='OSCache使用指南'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=OSCache%CA%B9%D3%C3%D6%B8%C4%CF&item=cbeb80197b86354342a9ad6c&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head>
+<body onLoad="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/cbeb80197b86354342a9ad6c%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/ui/css/mods.css" />
+
+<link rel="stylesheet" type="text/css" href="/banseon/css/item/1c7a62da2f1578dbb7fd48f9.css" />
+
+<link rel="stylesheet" type="text/css" href="/space.css" />
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/cbeb80197b86354342a9ad6c%2Ehtml') + '">登录</a>');
+		</script>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="/banseon">主页</a><a href="/banseon/blog" class="on">博客</a><a href="/banseon/album">相册</a><span>|</span><a href="/banseon/profile">个人档案</a>
+	<span>|</span><a href="/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width:100%">
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" nowrap align="right"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">OSCache使用指南</div>
+<div class="date">2008-09-01  13:11</div>
+<table style="table-layout:fixed"><tr><td><div id="blog_text" class="cnt"><div class="t_msgfont" >OSCache是当前运用最广的缓存方案，JBoss,Hibernate,Spring等都对其有支持， <br>
+下面简单介绍一下OSCache的配置和使用过程。 <br>
+<br>
+1.安装过程 <br>
+从<a href="http://www.opensymphony.com/oscache/download.action" target="_blank">http://www.opensymphony.com/oscache/download.action</a>下载合适的OSCache版本， <br>
+我下载的是oscache-2.0.2-full版本。 <br>
+解压缩下载的文件到指定目录 <br>
+<br>
+从解压缩目录取得oscache.jar 文件放到 /WEB-INF/lib 或相应类库目录 目录中， <br>
+jar文件名可能含有版本号和该版本的发布日期信息等，如oscache-2.0.2-22Jan04.jar <br>
+<br>
+如果你的jdk版本为1.3.x,建议在lib中加入Apache Common Lib 的commons-collections.jar包。 <br>
+如jdk是1.4以上则不必 <br>
+<br>
+从src或etc目录取得oscache.properties 文件，放入src根目录或发布环境的/WEB-INF/classes 目录 <br>
+如你需要建立磁盘缓存，须修改oscache.properties 中的cache.path信息 (去掉前面的#注释)。 <br>
+win类路径类似为c:\\app\\cache <br>
+unix类路径类似为/opt/myapp/cache <br>
+<br>
+拷贝OSCache标签库文件oscache.tld到/WEB-INF/classes目录。 <br>
+<br>
+现在你的应用目录类似如下： <br>
+$WEB_APPLICATION\WEB-INF\lib\oscache.jar <br>
+$WEB_APPLICATION\WEB-INF\classes\oscache.properties <br>
+$WEB_APPLICATION\WEB-INF\classes\oscache.tld <br>
+<br>
+<br>
+将下列代码加入web.xml文件中 <br>
+&lt;taglib&gt; <br>
+&lt;taglib-uri&gt;oscache&lt;/taglib-uri&gt; <br>
+&lt;taglib-location&gt;/WEB-INF/classes/oscache.tld&lt;/taglib-location&gt; <br>
+&lt;/taglib&gt; <br>
+<br>
+为了便于调试日志输出，须加入commons-logging.jar和log4j-1.2.8.jar到当前类库路径中 <br>
+<br>
+在src目录加入下面两个日志输出配置文件： <br>
+log4j.properties 文件内容为： <br>
+log4j.rootLogger=DEBUG,stdout,file <br>
+<br>
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender <br>
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout <br>
+log4j.appender.stdout.layout.ConversionPattern=[start]%d{yyyy/MM/dd/ HH:mm:ss}[DATE]%n%p[PRIORITY]%n%x[NDC]%n%t[THREAD] n%c[CATEGORY]%n%m[MESSAGE]%n%n <br>
+<br>
+<br>
+<br>
+log4j.appender.file=org.apache.log4j.RollingFileAppender <br>
+log4j.appender.file.File=oscache.log <br>
+log4j.appender.file.MaxFileSize=100KB <br>
+log4j.appender.file.MaxBackupIndex=5 <br>
+log4j.appender.file.layout=org.apache.log4j.PatternLayout <br>
+log4j.appender.file.layout.ConversionPattern=[start]%d{yyyy/MM/dd/ HH:mm:ss}[DATE]%n%p[PRIORITY]%n%x[NDC]%n%t[THREAD] n%c[CATEGORY]%n%m[MESSAGE]%n%n <br>
+<br>
+<br>
+log4j.logger.org.apache.commons=ERROR <br>
+log4j.logger.com.opensymphony.oscache.base=INFO <br>
+<br>
+<br>
+commons-logging.properties 文件内容为 <br>
+<br>
+org.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JCategoryLog <br>
+<br>
+2.oscache.properties 文件配置向导 <br>
+<br>
+cache.memory <br>
+值为true 或 false ，默认为在内存中作缓存， <br>
+如设置为false，那cache只能缓存到数据库或硬盘中，那cache还有什么意义：） <br>
+<br>
+cache.capacity <br>
+缓存元素个数 <br>
+<br>
+cache.persistence.class <br>
+持久化缓存类，如此类打开，则必须设置cache.path信息 <br>
+<br>
+cache.cluster 相关 <br>
+为集群设置信息。 <br>
+如 <br>
+cache.cluster.multicast.ip为广播IP地址 <br>
+cache.cluster.properties为集群属性 <br>
+<br>
+<br>
+3.OSCache的基本用法 <br>
+<br>
+cache1.jsp 内容如下 <br>
+<br>
+&lt;%@ page import=&quot;java.util.*&quot; %&gt; <br>
+&lt;%@ taglib uri=&quot;oscache&quot; prefix=&quot;cache&quot; %&gt; <br>
+<br>
+&lt;html&gt; <br>
+&lt;body&gt; <br>
+<br>
+没有缓存的日期: &lt;%= new Date() %&gt;&lt;p&gt; <br>
+&lt;!--自动刷新--&gt; <br>
+&lt;cache:cache time=&quot;30&quot;&gt; <br>
+每30秒刷新缓存一次的日期: &lt;%= new Date() %&gt; <br>
+&lt;/cache:cache&gt; <br>
+&lt;!--手动刷新--&gt; <br>
+&lt;cache:cache key=&quot;testcache&quot;&gt; <br>
+手动刷新缓存的日期: &lt;%= new Date() %&gt; &lt;p&gt; <br>
+&lt;/cache:cache&gt; <br>
+&lt;a href=&quot;cache2.jsp&quot;&gt;手动刷新&lt;/a&gt; <br>
+<br>
+&lt;/body&gt; <br>
+&lt;/html&gt; <br>
+<br>
+cache2.jsp 执行手动刷新页面如下 <br>
+&lt;%@ taglib uri=&quot;oscache&quot; prefix=&quot;cache&quot; %&gt; <br>
+<br>
+&lt;html&gt; <br>
+&lt;body&gt; <br>
+<br>
+缓存已刷新...&lt;p&gt; <br>
+<br>
+&lt;cache:flush key=&quot;testcache&quot; scope=&quot;application&quot;/&gt; <br>
+<br>
+&lt;a href=&quot;cache1.jsp&quot;&gt;返回&lt;/a&gt; <br>
+<br>
+&lt;/body&gt; <br>
+&lt;/html&gt; <br>
+<br>
+<br>
+你也可以通过下面语句定义Cache的有效范围,如不定义scope,scope默认为Applcation <br>
+&lt;cache:cache time=&quot;30&quot; scope=&quot;session&quot;&gt; <br>
+... <br>
+&lt;/cache:cache&gt; <br>
+<br>
+4. 缓存过滤器 CacheFilter <br>
+<br>
+你可以在web.xml中定义缓存过滤器，定义特定资源的缓存。 <br>
+&lt;filter&gt; <br>
+&lt;filter-name&gt;CacheFilter&lt;/filter-name&gt; <br>
+&lt;filter-class&gt;com.opensymphony.oscache.web.filter.CacheFilter&lt;/filter-class&gt; <br>
+&lt;init-param&gt; <br>
+&lt;param-name&gt;time&lt;/param-name&gt; <br>
+&lt;param-value&gt;60&lt;/param-value&gt; <br>
+&lt;/init-param&gt; <br>
+&lt;init-param&gt; <br>
+&lt;param-name&gt;scope&lt;/param-name&gt; <br>
+&lt;param-value&gt;session&lt;/param-value&gt; <br>
+&lt;/init-param&gt; <br>
+&lt;/filter&gt; <br>
+&lt;filter-mapping&gt; <br>
+&lt;filter-name&gt;CacheFilter&lt;/filter-name&gt; <br>
+&lt;url-pattern&gt;*.jsp&lt;/url-pattern&gt; <br>
+&lt;/filter-mapping&gt; <br>
+上面定义将缓存所有.jsp页面，缓存刷新时间为60秒，缓存作用域为Session <br>
+<br>
+注意，CacheFilter只捕获Http头为200的页面请求，即只对无错误请求作缓存， <br>
+而不对其他请求（如500,404,400）作缓存处理</div></div></td></tr></table>
+<br>
+<div class="opt">
+<a href="/banseon/blog/category/%BF%F2%BC%DC%20%2D%20%B3%D6%BE%C3%B2%E3" title="查看该分类中所有文章">类别：框架 - 持久层</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onClick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result"></span>)
+	| <a href="#send">评论</a>&nbsp;(3)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'通用的泛型GenericHibernateDao', '通用的泛型GenericHibernateDao','/banseon/blog/item/f5166ddfdc1ca81548540316.html'];
+var post = [true,'诈欺犯“李志祥”，先后骗取家乡亲朋770W。是我们家乡的耻辱啊！','诈欺犯“李志祥”，先后骗取家乡...', '/banseon/blog/item/93d8e3165b5d091e962b435a.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_tmp"></div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=OSCache%CA%B9%D3%C3%D6%B8%C4%CF&item=cbeb80197b86354342a9ad6c">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=OSCache%CA%B9%D3%C3%D6%B8%C4%CF&item=cbeb80197b86354342a9ad6c&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["zhangtianshun","6a987a68616e677469616e7368756ed801","zhangtianshun"],
+	
+["jiqisiwei","74cfbbfac6f7cbbcceaced03","机器思维"],
+	
+["anny%5Fyc","e7e8616e6e795f79637d04","anny_yc"],
+	
+["tirone","2d827469726f6e651601","tirone"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_cbeb80197b86354342a9ad6c_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+<a name="67a09bd301f28c33960a16d0"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">1</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"67a09bd301f28c33960a16d0","tirone","http://hi.baidu.com/tirone","2d827469726f6e651601");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2008-09-01  13:23
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">O毛。自己写一个撒。你的接口模式这么刁的人。</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+<a name="0b3e5638bd235f2496ddd8df"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">2</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"0b3e5638bd235f2496ddd8df","banseon","http://hi.baidu.com/banseon","1fb662616e73656f6e1202");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2008-09-01  20:37
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">嘿嘿，有现成的不用哈。<br>----------------------<br>过几天等我把项目搞好了再写一个。</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+<a name="fb39da50a88c1e5b1138c209"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">3</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"fb39da50a88c1e5b1138c209","anny_yc","http://hi.baidu.com/anny_yc","e7e8616e6e795f79637d04");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2008-09-05  21:03
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">向J2EE高手学习~！</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onSubmit="return checkcmtform()">
+<input type="hidden" name="ct" value="8">
+<input type="hidden" name="cm" value="1">
+<input type="hidden" name="spBlogID" value="cbeb80197b86354342a9ad6c">
+<input type="hidden" name="spRefURL" id="spRefURL" />
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table width="620" border="0" cellspacing="5" cellpadding="0">
+<tr>
+
+<td class="f14">姓　名：</td>
+<td><input type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onChange="checkname('spBlogCmtor')" maxlength="49" onFocus="hidErr(1);"	tabindex=1>
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script>
+
+<div style="display:none" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onChange="checkeandu('spBlogCmtURL')" onFocus="hidErr(2);" tabindex=2> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td valign="top" class="f14">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width:520px;height:155px" onFocus="hidErr(3);" tabindex=3></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td valign="top" class="f14">验证码：</td>
+<td valign="top"><input type="hidden" name="spVcode" value="30357370616365313935353839313638303030303030303030303030303031323236333838343336B2C2FEA10937B57A80D31356975094CD" />
+<input type="text" onFocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6"  maxlength="4" autocomplete="off" tabindex=4><br/>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?30357370616365313935353839313638303030303030303030303030303031323236333838343336B2C2FEA10937B57A80D31356975094CD";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display:none">
+<img id='verifypic' width='120' height='40'><wbr /><a onFocus="this.blur();" href="#" onClick="return newverifypic();" title="看不清左边的字符" >看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td valign="top"class="f14">&nbsp;</td>
+<td valign="top" class="f14"><input id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex=5></td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="8">
+<tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script>
+<br><center><div id="ft">&copy;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="http://c.baidu.com/c.gif?t=6&p=3" style="display:none;"/>
+</body></html>
