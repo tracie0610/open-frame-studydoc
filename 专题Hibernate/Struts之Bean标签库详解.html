@@ -1,0 +1,790 @@
+<!--STATUS OK-->
+<html><head><meta http-equiv=content-type content="text/html; charset=gb2312"><title>Struts之Bean标签库详解_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="/ui/scripts/global.js"></script>
+<script language="javascript" src="/js/popup.js"></script>
+<script LANGUAGE="JavaScript" src="/js/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=0;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='Struts之Bean标签库详解'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=Struts%D6%AEBean%B1%EA%C7%A9%BF%E2%CF%EA%BD%E2&item=5aee7cc266e86c37e4dd3b28&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head>
+<body onLoad="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/5aee7cc266e86c37e4dd3b28%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/ui/css/mods.css" />
+
+<link rel="stylesheet" type="text/css" href="/banseon/css/item/1c7a62da2f1578dbb7fd48f9.css" />
+
+<link rel="stylesheet" type="text/css" href="/space.css" />
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/5aee7cc266e86c37e4dd3b28%2Ehtml') + '">登录</a>');
+		</script>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="/banseon">主页</a><a href="/banseon/blog" class="on">博客</a><a href="/banseon/album">相册</a><span>|</span><a href="/banseon/profile">个人档案</a>
+	<span>|</span><a href="/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width:100%">
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" nowrap align="right"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">Struts之Bean标签库详解</div>
+<div class="date">2007-08-26  21:36</div>
+<table style="table-layout:fixed"><tr><td><div id="blog_text" class="cnt"><font size="3">Bean 标签库<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  此标签库和Java Bean有很强的关联性，设计的本意是要在JSP 和JavaBean 之间提供一个接口。Struts 提供了一套小巧有用的标签库来操纵JavaBean和相关的对象：cookie、 header、 parameter、 define、write、message、 include、page、resource、size、struts。<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><br>
+<font size="3"><strong>bean:cookie、bean:header、bean:parameter</strong><br>
+这三个标签用来重新得到cookie, request header和request parameter。<br>
+bean:header和bean:parameter标签定义了一个字符串；bean:cookie标签定义了一个Cookie对象。你可以使用value属性做为默认值。如果找不到指定的值，且默认值没有设定的话，会抛出一个request time异常。如果你期望返回多个值的话，可把multiple属性设为true。<br>
+&lt;bean:cookie id=&quot;sessionID&quot; name=&quot;JSESSIONID&quot; value=&quot;JSESSIONID-ISUNDEFINED&quot;/&gt;<br>
+// 这段代码定义了一个名为sessionID的脚本变量，如果找不到一个名为JSESSIONID的cookie，那sessionID<br>
+// 的值就被设置为JSESSIONID-ISUNDEFINED。<br>
+<br>
+下面代码会输出一些Cookie对象的一些属性：<br>
+&lt;jsp:getProperty name=&quot;sessionID &quot; property=&quot;comment&quot;/&gt; &hellip;<br>
+&lt;jsp:getProperty name=&quot;sessionID&quot; property=&quot;domain&quot;/&gt; &hellip;<br>
+&lt;jsp:getProperty name=&quot;sessionID&quot; property=&quot;maxAge&quot;/&gt; &hellip;<br>
+&lt;jsp:getProperty name=&quot;sessionID&quot; property=&quot;path&quot;/&gt; &hellip;<br>
+&lt;jsp:getProperty name=&quot;sessionID&quot; property=&quot;value&quot;/&gt; &hellip;<br>
+&lt;jsp:getProperty name=&quot;sessionID&quot; property=&quot;version&quot;/&gt; &hellip;<br>
+  <br>
+下面是在request中输出所有header的例子：  <br>
+&lt;%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  java.util.Enumeration names =((HttpServletRequest) request).getHeaderNames();<br>
+%&gt;<br>
+&hellip;<br>
+&lt;%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  while (names.hasMoreElements()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  String name = (String) names.nextElement();<br>
+%&gt;<br>
+&lt;bean:header id=&quot;head&quot; name=&quot;&lt;%= name %&gt;&quot;/&gt;<br>
+&hellip; &lt;%= name %&gt;<br>
+&hellip; &lt;%= head %&gt;<br>
+&hellip;<br>
+&lt;%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>
+%&gt;<br>
+  <br>
+下面是parameter的例子：<br>
+&lt;bean:parameter id=&quot;param1&quot; name=&quot;param1&quot;/&gt;<br>
+&lt;bean:parameter id=&quot;param2&quot; name=&quot;param2&quot; multiple=&quot;true&quot;/&gt;&nbsp;&nbsp;&nbsp;  // 此处定义了一个param2[]。<br>
+&lt;bean:parameter id=&quot;param3&quot; name=&quot;param3&quot; value=&quot;UNKNOWN VALUE&quot;/&gt;<br>
+<br>
+于其它标签结合使用：<br>
+&lt;bean:header id=&quot;browser&quot; name=&quot;User-Agent&quot;/&gt;<br>
+&lt;P&gt;You are viewing this page with: &lt;bean:write name=&quot;browser&quot;/&gt;&lt;/P&gt;<br>
+----------------------------------------------------------------------------------------------------------------------------------<br>
+&lt;bean:cookie id=&quot;username&quot; name=&quot;UserName&quot; scope=&quot;session&quot;<br>
+value=&quot;New User&quot; /&gt;<br>
+&lt;P&gt;Welcome &lt;bean:write name=&quot;username&quot; property=&quot;value&quot;/!&lt;/P&gt;<br>
+&nbsp;&nbsp;&nbsp;  // 根据cookie创建一个新的Bean，如果用户名称已经存储在cookie中，它就不显示为一个新用户。<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><font size="3">  <br>
+<strong> bean:define：</strong>有三个用途。<br>
+一是定义新字符串常量：<br>
+&lt;bean:define id=&quot;foo&quot; value=&quot;This is a new String&quot;/&gt;<br>
+&lt;bean:define id=&quot;bar&quot; value='&lt;%= &quot;Hello, &quot; + user.getName() %&gt;'/&gt;<br>
+&lt;bean:define id=&quot;last&quot; scope=&quot;session&quot; value='&lt;%= request.getRequestURI() %&gt;'/&gt;<br>
+二是复制一个现有的bean给新的bean：<br>
+&lt;bean:define id=&quot;foo&quot; name=&quot;bar&quot;/&gt;&nbsp;&nbsp;&nbsp;  <br>
+&lt;bean:define id=&quot;baz&quot; name=&quot;bop&quot; type=&quot;com.mycompany.MyClass&quot;/&gt;&nbsp;&nbsp;&nbsp;  //定义脚本变量的类型，默认为Object&nbsp;&nbsp;&nbsp;   <br>
+三是复制一个现有的bean的属性给新的bean：<br>
+&lt;bean:define id=&quot;bop&quot; name=&quot;user&quot; property=&quot;role[3].name&quot;/&gt;<br>
+&nbsp;&nbsp;&nbsp;  &lt;bean:define id=&quot;foo&quot; name=&quot;bar&quot; property=&quot;baz&quot; scope=&quot;request&quot;&nbsp;&nbsp;&nbsp;  toScope=&quot;session&quot;/&gt;<br>
+&nbsp;&nbsp;&nbsp;  //toScope属性指新bean的scope，默认为page&nbsp;&nbsp;  <br>
+上段代码的意思是把名为bar的bean的baz属性赋值给foo，foo的类型为String(默认)。<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><br>
+<font size="3"><strong> bean:include</strong><br>
+这个标签和bean:include标签和相似，不同点就是它定义了一个可以复用的脚本变量。用id属性命名一个新的脚本变量，还支持forward、href、page和transaction.属性，和html:link中的属性意义一样。<br>
+&lt;bean:include id=&quot;footerSpacer&quot;&nbsp;&nbsp;&nbsp;  page=&quot;/long/path/footerSpacer.jsp&quot;/&gt;<br>
+然后你能够在多个地方(scope为page)调用：<br>
+&lt;bean:write name=&quot;footerSpacer&quot; /&gt;<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+<strong>bean:message</strong><br>
+用来实现对国际化的支持的一个标签，配合java.util数据包中定义的Locale和ResourceBundle类来完成这个任务，用java.text.MessageFormat类配置消息的格式。<br>
+&nbsp;&nbsp;&nbsp;  首先要指定资源文件的名称。这个文件会包含用默认语言编写的在程序中会出现的所有消息，这些消息以&ldquo;关键字-值&rdquo;的形式存储。文件需要存储在类路径下，路径要作为初始化参数传送给ActionServlet。<br>
+&nbsp;&nbsp;&nbsp;  实现国际化的规定：所有的资源文件必须都存储在基本资源文件所在的目录中。基本资源文件包含的是用默认地区语言-本地语言编写的消息。如果基本资源文件的名称是ApplicationResources.properties，那么用其他特定语言编写的资源文件的名称就应该是ApplicationResources_xx.properties(xx为ISO编码，如英语是en)。因此这些文件应包含相同的关键字，但关键字的值是用特定语言编写的。<br>
+&nbsp;&nbsp;&nbsp;  然后，ActionServlet的区域初始化参数必须与一个true值一起传送，这样ActionServlet就会在用户会话中的Action.LOCALE_KEY关键字下存储一个特定用户计算机的区域对象。现在可以运行一个国际化的web站点，它可以根据用户计算机上的设置的区域自动以相应的语言显示。<br>
+<br>
+使用特定的字符串来替换部分消息：<br>
+在资源文件中的定义：info.myKey = The numbers entered are {0},{1},{2},{3}<br>
+标记的使用：&lt;bean:message key=&quot;info.myKey&quot; arg0=&quot;5&quot; arg1=&quot;6&quot; arg2=&quot;7&quot; arg3=&quot;8&quot;/&gt;<br>
+Jsp页面的显示：The numbers entered are 5,6,7,8&nbsp;&nbsp;&nbsp;  // 最多支持4个参数<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><br>
+<font size="3"><strong>&nbsp;&nbsp;  bean:page</strong>：把Jsp中的内部对象做为脚本变量。<br>
+&lt;bean:page id=&quot;requestObj&quot; property=&quot;request&quot;/&gt;<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><br>
+<font size="3"><strong> bean:resource：</strong>获得应用程序的资源，这个资源可以是一个String或从java.io.InputStream中读入。使用ServletContext.getResource()ServletContext.getResourceAsStream() 方法检索web应用中的资源，如果在检索资源时发生问题，就会产生一个ruquest time异常。  <br>
+&lt;bean:resource id=&quot;webxml&quot; name=&quot;/WEB-INF/web.xml&quot;/&gt;<br>
+使用input属性时，资源会做为一个InputStream，如果不指定就被当成一个String。<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><br>
+<font size="3"><strong>bean:size：</strong>得到存储在array、collection或map中的数目，类型为java.lang.Integer。<br>
+&lt;bean:size id=&quot;count&quot; name=&quot;employees&quot; /&gt;<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><br>
+<font size="3"><strong>bean:struts：</strong>复制Struct 对象(三种类型)给新的bean，scope为page。<br>
+&lt;bean:struts id=&quot;form&quot; formBean=&quot;CustomerForm&quot;/&gt;&nbsp;&nbsp;&nbsp;  <br>
+&lt;bean:struts id=&quot;fwd&quot; forward=&quot;success&quot;/&gt;<br>
+&lt;bean:struts id=&quot;map&quot; mapping=&quot;/saveCustomer&quot;/&gt;<br>
+</font><font size="3">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font><font size="3"> <br>
+<strong>bean:write：</strong>以字符串形式输出bean的属性值。<br>
+filter属性：设为true时，将HTML保留字转换为实体(&quot;&lt;&quot; 转换为 &amp;lt);<br>
+ignore属性：如果对象不存在，不会抛出异常。<br>
+&lt;bean:write name=&quot;userRegistration&quot; property=&quot;email&quot; scope=&quot;request&quot;/&gt;<br>
+<br>
+</font></div></td></tr></table>
+<br>
+<div class="opt">
+<a href="/banseon/blog/category/%BF%F2%BC%DC%20%2D%20%BF%D8%D6%C6%B2%E3" title="查看该分类中所有文章">类别：框架 - 控制层</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onClick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result"></span>)
+	| <a href="#send">评论</a>&nbsp;(0)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'双向关联与inverse设定（转载）', '双向关联与inverse设定（转载）','/banseon/blog/item/4335951e7755141d4034172c.html'];
+var post = [true,'Struts的logic标签详解','Struts的logic标签详解', '/banseon/blog/item/46fad8f863c7b80dd8f9fd29.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_tmp"></div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=Struts%D6%AEBean%B1%EA%C7%A9%BF%E2%CF%EA%BD%E2&item=5aee7cc266e86c37e4dd3b28">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=Struts%D6%AEBean%B1%EA%C7%A9%BF%E2%CF%EA%BD%E2&item=5aee7cc266e86c37e4dd3b28&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["josoo","7a666a6f736f6f8900","josoo"],
+	
+["wannimab","03545948435f6d6973738d00","YHC_miss"],
+	
+["%CD%F5%D7%D36%BA%C5","5446cdf5d7d336bac59000","王子6号"],
+	
+["fyj868","176566796a3836389702","fyj868"],
+	
+["ligd%5F85","26916c6967645f38356203","ligd_85"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_5aee7cc266e86c37e4dd3b28_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onSubmit="return checkcmtform()">
+<input type="hidden" name="ct" value="8">
+<input type="hidden" name="cm" value="1">
+<input type="hidden" name="spBlogID" value="5aee7cc266e86c37e4dd3b28">
+<input type="hidden" name="spRefURL" id="spRefURL" />
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table width="620" border="0" cellspacing="5" cellpadding="0">
+<tr>
+
+<td class="f14">姓　名：</td>
+<td><input type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onChange="checkname('spBlogCmtor')" maxlength="49" onFocus="hidErr(1);"	tabindex=1>
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script>
+
+<div style="display:none" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onChange="checkeandu('spBlogCmtURL')" onFocus="hidErr(2);" tabindex=2> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td valign="top" class="f14">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width:520px;height:155px" onFocus="hidErr(3);" tabindex=3></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td valign="top" class="f14">验证码：</td>
+<td valign="top"><input type="hidden" name="spVcode" value="3035737061636531363831313330373132303030303030303030303030303031323236333838323330017291CC0CD873867787441E5593CC61" />
+<input type="text" onFocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6"  maxlength="4" autocomplete="off" tabindex=4><br/>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?3035737061636531363831313330373132303030303030303030303030303031323236333838323330017291CC0CD873867787441E5593CC61";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display:none">
+<img id='verifypic' width='120' height='40'><wbr /><a onFocus="this.blur();" href="#" onClick="return newverifypic();" title="看不清左边的字符" >看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td valign="top"class="f14">&nbsp;</td>
+<td valign="top" class="f14"><input id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex=5></td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="8">
+<tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script>
+<br><center><div id="ft">&copy;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="http://c.baidu.com/c.gif?t=6&p=3" style="display:none;"/>
+</body></html>

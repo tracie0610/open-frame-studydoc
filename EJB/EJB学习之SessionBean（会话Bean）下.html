@@ -1,0 +1,817 @@
+<html><head><!--STATUS OK-->
+<meta http-equiv="content-type" content="text/html; charset=GB2312"><title>EJB学习之SessionBean（会话Bean）下_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/global.js"></script>
+<script language="javascript" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/popup.js"></script>
+<script language="JavaScript" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=0;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='EJB学习之SessionBean（会话Bean）下'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=EJB%D1%A7%CF%B0%D6%AESessionBean%A3%A8%BB%E1%BB%B0Bean%A3%A9%CF%C2&item=7260af823e1703bd6d811975&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head><body onload="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/7260af823e1703bd6d811975%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/mods.css">
+
+<link rel="stylesheet" type="text/css" href="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/1c7a62da2f1578dbb7fd48f9.css">
+
+<link rel="stylesheet" type="text/css" href="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/space.css">
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com/" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/7260af823e1703bd6d811975%2Ehtml') + '">登录</a>');
+		</script>| <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http://hi.baidu.com%2Fbanseon%2Fblog%2Fitem%2F7260af823e1703bd6d811975%252Ehtml">登录</a>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="http://hi.baidu.com/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="http://hi.baidu.com/banseon">主页</a><a href="http://hi.baidu.com/banseon/blog" class="on">博客</a><a href="http://hi.baidu.com/banseon/album">相册</a><span>|</span><a href="http://hi.baidu.com/banseon/profile">个人档案</a>
+	<span>|</span><a href="http://hi.baidu.com/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width: 100%;">
+
+	<table class="modth" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap="nowrap"><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" align="right" nowrap="nowrap"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></tbody></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">EJB学习之SessionBean（会话Bean）下</div>
+<div class="date">2007-08-17  20:24</div>
+<table style="table-layout: fixed;"><tbody><tr><td><div id="blog_text" class="cnt"><p>先占一个地方，等下就来写。</p>
+<p>-----------------------------------------------</p>
+<p>有状态会话Bean，主要是保存的用户会话状态。一个有状态会话Bean实例对应一个用户。</p>
+<p>那么我们首先来编写一个有状态的会话Bean。我们使用的开发工具为JBuilder2006，它开发EJB起来比较方便。EJB容器使用weblogic8.1中文版。</p>
+<p>建立相应的EJB项目后，开打EJB Designer设计窗口。设计一个有状态会话Bean。</p>
+<div forimg="1" align="center"><img class="blogimg" style="width: 706px; height: 582px;" small="0" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/4bad5027aac08d0a918f9dbd.gif" border="0" width="706" height="563"></div>
+<div forimg="1" align="left">在会话Bean上点击右键。设定相应参数。如图：</div>
+<div forimg="1" align="center"><img class="blogimg" small="0" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/289a8b99101d36016e068c81.gif" border="0"></div>
+<div forimg="1" align="left"><font size="3">Bean Name：指的是有状态会话Bean的名称。</font></div>
+<div forimg="1" align="left"><font size="3">Interfaces：表示它的调用接口的类型，remote表示远程。</font></div>
+<div forimg="1" align="left"><font size="3">Session type：表示会话Bean的类型，Stateful表示有状态。</font></div>
+<div forimg="1" align="left"><font size="3">Session synchronization：表示是否需要同步，false为不。</font></div>
+<div forimg="1" align="left"><font size="3">Transaction type：表示事务管理，Container表示EJB容器管理。</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">我们现在要写的一个例子是一个购物车的例子。我们介绍一下整个工程中所有的类：</font></div>
+<div forimg="1" align="left"><font size="3">EJB model：</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|___&nbsp;&nbsp;&nbsp;&nbsp;
+ShopingCar.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+有状态会话Bean的远程接口</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|___&nbsp;&nbsp;&nbsp;&nbsp;
+ShoppingCarBean.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Bean类，代码实现类</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|___&nbsp;&nbsp;&nbsp;&nbsp;
+ShoppingCarHome.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Home接口</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">Entity&nbsp;&nbsp;&nbsp; ：</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|___&nbsp;&nbsp;&nbsp;&nbsp;
+Product.java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+产品类，表示实体。这个类必须实现 java.io.Serializable接口。</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">首先介绍Product的代码，非常简单。</font></div>
+<div forimg="1" align="left"><font size="3">/****************************************************************/</font></div>
+<div forimg="1" align="left"><font size="3">import java.io.Serializable;</font></div>
+<div forimg="1" align="left"><font size="3">public class Product implements Serializable {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private String proName;//产品名称<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private double proPrice;//产品价格</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public Product() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public Product(String proName,double proPirce){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.setProName(proName);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.setProPrice(proPrice);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+<br>
+以下全是get和set方法......</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">/****************************************************************/</font></div>
+<div forimg="1" align="left"><font size="3">为什么这个实体类要实现序列化接口？应为EJB容器在初始化Bean的时候都有一个唯一的标识</font></div>
+<div forimg="1" align="left"><font size="3">这些获得唯一的标识的类都是必须实现Serializable的。当然还有其他用途就不一一介绍....</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">大家可以在上图看到，我在Bean当中添加了2个方法，一个是addList(Product product)另外一个是getList().相信大家看到这2个方面就该明白是干什么了。</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">以下是贴出相应Bean类的代码</font></div>
+<div forimg="1" align="left"><font size="3">/********************************************************/</font></div>
+<div forimg="1" align="left"><font size="3">import javax.ejb.SessionBean;<br>
+import javax.ejb.SessionContext;<br>
+import javax.ejb.CreateException;<br>
+import org.ejb.entity.Product;<br>
+import java.util.List;<br>
+import java.util.ArrayList;</font></div>
+<div forimg="1" align="left"><font size="3">public class ShoppingCarBean implements SessionBean {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SessionContext sessionContext;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; List list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public void ejbCreate() throws CreateException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public void ejbCreate(String name) throws CreateException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list = new ArrayList();//初始化产品集合<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public void ejbRemove() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public void ejbActivate() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public void ejbPassivate() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><br>
+<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public void setSessionContext(SessionContext sessionContext) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.sessionContext = sessionContext;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //添加某个产品到集合中</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public void addList(Product product) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list.add(product);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //得到所有产品</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public List getList() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></div>
+<div forimg="1" align="left"><font size="3">}<br>
+/**********************************************************/</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">当我在客户端远程调用EJB的时候，我就会使用到添加产品和得到所有产品的方法。</font></div>
+<div forimg="1" align="left"><font size="3">那么我们现在就来看看。在JSP页面里面如何调用：</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">&lt;html&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;title&gt;handlertest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/title&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/head&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;body bgcolor="#ffffff"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Context&nbsp;&nbsp;&nbsp; context = new InitialContext();//初始化上下文对象<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Object obj = context.lookup("ShoppingCar");//通过JNDI找到对象<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //得到骨架（通过远程调用，得到Home接口）<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ShoppingCarHome home =
+(ShoppingCarHome)PortableRemoteObject.narrow(obj,ShoppingCarHome.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ShoppingCar shop = home.create("banseon");//通过Home接口，得到存根<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shop.addList(new Product("苹果",12.2));//添加产品<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shop.addList(new Product("香蕉",3.4));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shop.addList(new Product("桔子",4.5));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i = shop.getList().size();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("现在产品总量为："+i+"&lt;br&gt;");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Handle d = shop.getHandle();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session.setAttribute("Handle",d);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shop = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.println("从新获取存根");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shop = (ShoppingCar)((Handle)session.getAttribute("Handle")).getEJBObject();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.print(shop.getList().size());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shop.remove();//删除服务器实例和本地存根。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }catch(Exception e){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;/body&gt;<br>
+&lt;/html&gt;</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">其中最主要的是我们要保存客户端与服务器的通信的句柄。就是Handle</font></div>
+<div forimg="1" align="left"><font size="3">首先我们要得到，然后放入一个Session当中。Handle里面是2进制数据。</font></div>
+<div forimg="1" align="left"><font size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Handle d = shop.getHandle();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session.setAttribute("Handle",d);</font></div>
+<div forimg="1" align="left"><font size="3">当我们下回再与服务器通信的时候就可以取出，告诉服务器与我们客户端匹配的有状态会话Bean是哪一个了。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shop = (ShoppingCar)((Handle)session.getAttribute("Handle")).getEJBObject();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></div>
+<div forimg="1" align="left"><font size="3">基本上的用法就是这些。大家可以自由发挥。。。有空来这里提提问题吧。</font></div>
+<div forimg="1" align="left"><font size="3"></font></div>
+<div forimg="1" align="left"><font size="3">下次介绍实体Bean</font></div></div></td></tr></tbody></table>
+<br>
+<div class="opt">
+<a href="http://hi.baidu.com/banseon/blog/category/ejb%C6%F3%D2%B5%BF%AA%B7%A2" title="查看该分类中所有文章">类别：ejb企业开发</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onclick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result">104</span>)
+	| <a href="#send">评论</a>&nbsp;(0)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'EJB学习之SessionBean（会话Bean）中', 'EJB学习之SessionBean（会话Bean...','/banseon/blog/item/5d3ce2583f02a083810a181b.html'];
+var post = [true,'9步告诉你什么是基金（转贴）','9步告诉你什么是基金（转贴）', '/banseon/blog/item/79b048ec93b7f9d32e2e2176.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script><div style="height: 5px; line-height: 5px;">&nbsp;</div><div id="in_nav">上一篇：<a href="http://hi.baidu.com/banseon/blog/item/5d3ce2583f02a083810a181b.html" title="EJB学习之SessionBean（会话Bean）中">EJB学习之SessionBean（会话Bean...</a>&nbsp;&nbsp;&nbsp;&nbsp;下一篇：<a href="http://hi.baidu.com/banseon/blog/item/79b048ec93b7f9d32e2e2176.html" title="9步告诉你什么是基金（转贴）">9步告诉你什么是基金（转贴）</a></div>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_doc"><div class="tit">相关文章：</div><table border="0" cellpadding="0" cellspacing="3"><tbody><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/oath911/blog/item/5e85d22f6b7bd9391e308914.html" target="_blank" title="EJB Entity Bean - SessionBean">EJB Entity Bean - SessionBean</a>　　　　　　　　　</td><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/darkken/blog/item/65609a64da212ff1f7365499.html" target="_blank" title="EJB基于哪些技术?sessionBean和entityBean的区别是什么?状态Bean与无状态Bean的区别?">EJB基于哪些技术?sessionBean和e...</a></td></tr></tbody></table></div><div class="line">&nbsp;</div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=EJB%D1%A7%CF%B0%D6%AESessionBean%A3%A8%BB%E1%BB%B0Bean%A3%A9%CF%C2&item=7260af823e1703bd6d811975">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=EJB%D1%A7%CF%B0%D6%AESessionBean%A3%A8%BB%E1%BB%B0Bean%A3%A9%CF%C2&item=7260af823e1703bd6d811975&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["cxyy%5F%D4%C6%D2%A3","8356637879795fd4c6d2a3df03","cxyy_云遥"],
+	
+["wangyuquansky","209077616e6779757175616e736b79bc03","wangyuquansky"],
+	
+["yaochuanlie","b6b4d2a6b4abc1d2ed01","姚传烈"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script><table width="100%"><tbody><tr><td align="center" width="10%"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/portraitn.jpg" border="0" width="55" height="55"></td><td align="left" width="12%"><a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http%3A%2F%2Fhi.baidu.com%2Fbanseon%2Fblog%2Fitem%2F7260af823e1703bd6d811975%252Ehtml" target="_self">登录</a>后，您就出现在这里。</td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/cxyy%5F%D4%C6%D2%A3" target="_blank"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/8356637879795fd4c6d2a3df03.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/wangyuquansky" target="_blank"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/209077616e6779757175616e736b79bc03.jpg" border="0"></a></td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/yaochuanlie" target="_blank"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/b6b4d2a6b4abc1d2ed01.jpg" border="0"></a></td><td width="100%"></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/cxyy%5F%D4%C6%D2%A3" target="_blank">cxyy_云遥</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/wangyuquansky" target="_blank">wangyuquansky</a></td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/yaochuanlie" target="_blank">姚传烈</a></td><td></td></tr></tbody></table>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_7260af823e1703bd6d811975_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onsubmit="return checkcmtform()">
+<input name="ct" value="8" type="hidden">
+<input name="cm" value="1" type="hidden">
+<input name="spBlogID" value="7260af823e1703bd6d811975" type="hidden">
+<input value="http://hi.baidu.com/banseon/blog/item/7260af823e1703bd6d811975.html" name="spRefURL" id="spRefURL" type="hidden">
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table border="0" cellpadding="0" cellspacing="5" width="620">
+<tbody><tr>
+
+<td class="f14">姓　名：</td>
+<td><input name="spBlogCmtor" id="spBlogCmtor" style="width: 220px;" onchange="checkname('spBlogCmtor')" maxlength="49" onfocus="hidErr(1);" tabindex="1" type="text">
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script> &nbsp;&nbsp; <a href="http://passport.baidu.com/?reg&amp;tpl=sp&amp;return_method=get&amp;skip_ok=1&amp;u=http://hi.baidu.com/sys/reg/" target="_blank">注册</a> | <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http%3A%2F%2Fhi.baidu.com%2Fbanseon%2Fblog%2Fitem%2F7260af823e1703bd6d811975%252Ehtml">登录</a>
+
+<div style="display: none;" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input name="spBlogCmtURL" id="spBlogCmtURL" style="width: 360px;" maxlength="128" onchange="checkeandu('spBlogCmtURL')" onfocus="hidErr(2);" tabindex="2" type="text"> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14" valign="top">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width: 520px; height: 155px;" onfocus="hidErr(3);" tabindex="3"></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td class="f14" valign="top">验证码：</td>
+<td valign="top"><input name="spVcode" value="3035737061636531393231383536313931303030303030303030303030303031323236333838363430719C09DCA74FD381D6775D7CDE13B8D1" type="hidden">
+<input onfocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6" maxlength="4" autocomplete="off" tabindex="4" type="text"><br>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?3035737061636531393231383536313931303030303030303030303030303031323236333838363430719C09DCA74FD381D6775D7CDE13B8D1";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display: none;">
+<img id="verifypic" width="120" height="40"><wbr><a onfocus="this.blur();" href="#" onclick="return newverifypic();" title="看不清左边的字符">看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td class="f14" valign="top">&nbsp;</td>
+<td class="f14" valign="top"><input id="btn_ok" name="btn_ok" value="发表评论" tabindex="5" type="submit"></td>
+</tr>
+</tbody></table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" height="8">
+<tbody><tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></tbody></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script><script src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/brwstat.htm"></script>
+<br><center><div id="ft">&#169;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BSessionBean%EF%BC%88%E4%BC%9A%E8%AF%9DBean%EF%BC%89%E4%B8%8B_files/c.htm" style="display: none;">
+</body></html>

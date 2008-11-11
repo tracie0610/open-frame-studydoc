@@ -1,0 +1,838 @@
+<!--STATUS OK-->
+<html><head><meta http-equiv=content-type content="text/html; charset=gb2312"><title>WebService的基本概念_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="/ui/scripts/global.js"></script>
+<script language="javascript" src="/js/popup.js"></script>
+<script LANGUAGE="JavaScript" src="/js/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=3;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='WebService的基本概念'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=WebService%B5%C4%BB%F9%B1%BE%B8%C5%C4%EE&item=cbf8c11f1f88d161f724e427&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head>
+<body onLoad="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/cbf8c11f1f88d161f724e427%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/ui/css/mods.css" />
+
+<link rel="stylesheet" type="text/css" href="/banseon/css/item/1c7a62da2f1578dbb7fd48f9.css" />
+
+<link rel="stylesheet" type="text/css" href="/space.css" />
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/cbf8c11f1f88d161f724e427%2Ehtml') + '">登录</a>');
+		</script>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="/banseon">主页</a><a href="/banseon/blog" class="on">博客</a><a href="/banseon/album">相册</a><span>|</span><a href="/banseon/profile">个人档案</a>
+	<span>|</span><a href="/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width:100%">
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" nowrap align="right"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">WebService的基本概念</div>
+<div class="date">2007-08-10  20:50</div>
+<table style="table-layout:fixed"><tr><td><div id="blog_text" class="cnt"><p><strong>WebService</strong><strong>是一种可以接收从Internet或者Intranet上的其它系统中传递过来的请求，轻量级的独立的通讯技术</strong>。</p>
+<p>这种技术允许网络上的所有系统进行交互。随着技术的发展，一个Web服务可以包含额外的指定功能并且可以在多个B2B应用中协作通讯。 Web服务可以理解请求中上下文的关系，并且在每一个特定的情况下产生动态的结果。这些服务会根据用户的身份，地点以及产生请求的原因来改变不同的处理，用以产生一个唯一的，定制的方案。这种协作机制对那些只对最终结果有兴趣的用户来说，是完全透明的。&nbsp;&nbsp;&nbsp;</p>
+<h5>UDDI </h5>
+在用户能够调用Web服务之前，必须确定这个服务内包含哪些商务方法，找到被调用的接口定义，还要在服务端来编制软件。所以，我们需要一种方法来发布我们的Web服务。 UDDI (Universal Description, Discovery, and Integration) 是一个主要针对Web服务供应商和使用者的新项目。UDDI 项目中的成员可以通过<strong>UDDI Business Registry (UBR)</strong> 来操作Web服务的调用，UBR是一个全球性的服务。 <strong>Web</strong><strong>服务供应商</strong>可以在UBR中描述并且注册他们的服务。 <strong>用户</strong>可以在UBR中查找并定位那些他们需要的服务。 UDDI是一种根据描述文档来引导系统查找相应服务的机制。 UDDI包含标准的“白皮书”类型的商业查询方式， “黄皮书”类型的局部查找，以及 “绿皮书”类型的服务类型查找。 <strong>UDDI</strong><strong>利用SOAP</strong><strong>消息机制（标准的XML/HTTP</strong><strong>）来发布，编辑，浏览以及查找注册信息</strong>。它采用XML格式来封装各种不同类型的数据，并且发送到注册中心或者由注册中心来返回需要的数据。&nbsp;&nbsp;&nbsp; 
+<h5>WSDL </h5>
+<p>对于商业用户来说，要找到一个自己需要使用的服务，他必须知道如何来调用。 <strong>WSDL (Web Services Description Language) </strong>规范是一个描述接口，语义以及Web服务为了响应请求需要经常处理的工作的XML文档。这将使简单地服务方便，快速地被描述和记录。以下是一个WSDL的样例： </p>
+<p align="center"><span class="code"></span>
+<p> </p>
+<p> </p>
+<p>它包含了以下的关键信息： 消息的描述和格式定义可以通过XML文档中的<strong>&lt;types&gt;</strong>和<strong>&lt;message&gt;</strong> 标记来传送。 <strong>&lt;portType&gt;</strong> 标记中表示了消息传送机制。 (e.g. request-only, request-response, response-only) 。 <strong>&lt;binding&gt;</strong> 标记指定了编码的规范 。 <strong>&lt;service&gt;</strong> 标记中表示服务所处的位置 (URL)。 WSDL在UDDI中总是作为一个接口描述文档。因为UDDI是一个通用的用来注册WSDL规范的地方，UDDI的规范并不限制任何类型或者格式描述文档。这些文档可能是一个WSDL文档，或者是一个正规的包含导向文档的Web页面，也可能只是一个包含联系信息的电子邮件地址。现在Java提供了一个 Java API for WSDL (JWSDL)规范。它提供了一套能快速处理WSDL文档的方法，并且不用直接对XML文档进行操作，它会比JAXP更方便，更快速。&nbsp;&nbsp;&nbsp;</p>
+<h5>SOAP </h5>
+<p>当商业用户通过UDDI找到你的WSDL描述文档后，他通过可以<strong>Simple Object Access Protocol (SOAP) </strong><strong>调用你建立的Web</strong><strong>服务中的一个或多个操作。</strong> <strong>SOAP</strong><strong>是XML</strong><strong>文档形式的调用商业方法的规范，它可以支持不同的底层接口，象HTTP(S)</strong><strong>或者SMTP</strong><strong>。</strong> 之所以使用XML是因为它的独立于编程语言，良好的可扩展性以及强大的工业支持。之所以使用HTTP是因为几乎所有的网络系统都可以用这种协议来通信，由于它是一种简单协议，所以可以与任何系统结合，还有一个原因就是它可以利用80端口来穿越过防火墙。 SOAP的强大是因为它简单。SOAP是一种轻量级的，非常容易理解的技术，并且很容易实现。它有工业支持，可以从各主要的电子商务平台供应商那里获得。从技术角度来看，SOAP详细指明了如何响应不同的请求以及如何对参数编码。一个SOAP封装了可选的头信息和正文，并且通常使用HTTP POST方法来传送到一个HTTP 服务器，当然其他方法也是可以的，例如SMTP。SOAP同时支持消息传送和远程过程调用。以下是一个SOAP请求。 </p>
+<p align="center"><span class="code"></span>
+<p> </p>
+<h5>JAXR </h5>
+为了支持UDDI在Java平台上的功能，Java APIs for XML Registries (JAXR)允许开发者来访问注册中心。 <strong>值得注意的是，JAXR</strong><strong>并不是建立Web</strong><strong>服务必需的，你可以利用其他常用的XML APIs</strong><strong>来直接集成这些协议。</strong> JAXR是一个方便的API，它提供了Java API来发布，查找以及编辑那些注册信息。它的重点在于基于XML的B2B应用，复杂的地址本查找以及对XML消息订阅的支持等Web服务。 <strong>它也可以用来访问其他类型的注册中心，象ebXML</strong><strong>注册中心</strong>。这些对Web服务的注册信息进行的操作，可以使用当前的一些Web服务工具来完成（例如第三方的SOAP和ebXML消息工具）。另外，当JAXP提供了一致并具有针对性的API来完成这些操作，这将使开发变得更加容易。 
+<h5>JAX/RPC </h5>
+为了使开发人员专注于建立象SOAP那样的基于XML的请求，JCP正在开发基于RPC (JAX/RPC) 的Java API。JAX/RPC是用来发送和接收方法调用请求的，它基于XML协议，象SOAP，或者其他的象XMLP (XML Protocol，要了解更多可以参考<a href="http://www.w3.org/2000/xp/">http://www.w3.org/2000/xp/</a>)。JAX/RPC使你不用再关注这些协议的规范，使应用的开发更快速。不久，开发人员就不用直接以XML表示方法调用了。目前有很多第三方实现了SOAP，开发人员可以在不同的层次上调用SOAP，并选择使用哪一种。将来，JAX/RPC会取代这些APIs并提供一个统一的接口来构造以及处理SOAP RPC请求。在接收一个从商业伙伴那里过来的SOAP请求的时候，一个Java servlet用JAX/RPC来接收这个基于XML的请求。一旦接收到请求后，servlet会调用商务方法，并且把结果回复给商业伙伴。 
+<h5>JAXM </h5>
+<p>当从商业合作伙伴那里接收一个Web服务的请求时，我们需要Java API实现一个Servlet来处理ebXML消息，就象我们用JAX/RPC来处理SOAP请求一样。 <strong>Java API for XML Messaging (JAXM) </strong><strong>是集成XML</strong><strong>消息标准（象ebXML</strong><strong>消息或者SOAP</strong><strong>消息）的规范。</strong> 这个API是用来推动XML消息处理的，它检测那些预定单的消息格式以及约束。它控制了所有的消息封装机制，用一种直观的方式分割了消息中的信息，象路由信息，发货单。这样，开发人员只要关注消息的有效负载，而不用去担心那些消息的重复处理。目前的开发人员用JAXP来实现JAXM将要提供的功能，JAXM将会提供一套非常具有针对性的API来处理基于XML的消息传送。这将大大简化开发人员的代码，并使它们具有统一的接口。 JAXM和JAX/RPC的差别在于处理消息导向的中间件以及远程过程调用的不同。JAXM注重于消息导向，而JAX/RPC是用来完成远程过程调用的。</p>
+<p><strong>请注意，在JAXM </strong><strong>和 JAX/RPC</strong><strong>技术成熟之前，开发人员还是依赖于第三方的SOAP APIs</strong><strong>，象Apache SOAP, IdooXOAP, </strong><strong>以及 GLUE</strong><strong>。当JAXM </strong><strong>和 JAX/RPC</strong><strong>正式发布后，它将为当前不同的SOAP</strong><strong>和ebXML</strong><strong>消息提供统一的接口。就象JDBC</strong><strong>位多种不同的数据库提供统一的接口。</strong> <strong></strong>&nbsp;&nbsp;</p>
+<h5>JAXB </h5>
+<strong>XML</strong><strong>绑定技术可以把XML</strong><strong>文档和Java</strong><strong>对象进行自由转换。</strong> 用JAXB，你可以在后台的EJB层，把XML文档转换成Java对象。同样你也可以把从EJB中取出的Java对象转换成XML文档返回给用户。 JAXB接口提供了比SAX和DOM更高级的方法来处理XML文档。它提供的特性可以在XML数据和Java类之间互相映射，提供了一个简单的方法来转换XML数据。它比逐个解析标记更简单。<strong></strong> </p>
+<div align="left">POST /StockQuote HTTP/1.1<br>
+Host: www.stockquoteserver.com<br>
+Content-Type: text/xml; charset="utf-8"<br>
+Content-Length: nnnn <br>
+SOAPAction: "Some-URI" &lt;SOAP-ENV:Envelope<br>
+&nbsp;&nbsp;&nbsp;&nbsp; xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"<br>
+&nbsp;&nbsp;&nbsp;&nbsp; SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;SOAP-ENV:Header&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;t:Transaction xmlns:t="some-URI" SOAP-ENV:mustUnderstand="1"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/t:Transaction&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/SOAP-ENV:Header&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;SOAP-ENV:Body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;m:GetLastTradePrice xmlns:m="Some-URI"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;symbol&gt;SUNW&lt;/symbol&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/m:GetLastTradePrice&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/SOAP-ENV:Body&gt;<br>
+&lt;/SOAP-ENV:Envelope&gt; </div>
+</p>
+<div align="left">&lt;?xml version="1.0"?&gt;<br>
+&lt;definitions name="StockQuote"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; targetNamespace="http://example.com/stockquote.wsdl"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xmlns:tns="http://example.com/stockquote.wsdl"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xmlns:xsd1="http://example.com/stockquote.xsd"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xmlns="http://schemas.xmlsoap.org/wsdl/"&gt;<br>
+&lt;types&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;schema targetNamespace=http://example.com/stockquote.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xmlns="http://www.w3.org/2000/10/XMLSchema"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;element name="TradePriceRequest"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;complexType&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;all&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;element name="tickerSymbol" type="string"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/all&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/complexType&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/element&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;element name="TradePrice"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;complexType&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;all&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;element name="price" type="float"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/all&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/complexType&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/element&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/schema&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/types&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;message name="GetLastTradePriceInput"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;part name="body" element="xsd1:TradePriceRequest"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/message&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;message name="GetLastTradePriceOutput"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;part name="body" element="xsd1:TradePrice"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/message&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;portType name="StockQuotePortType"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;operation name="GetLastTradePrice"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;input message="tns:GetLastTradePriceInput"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;output message="tns:GetLastTradePriceOutput"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/operation&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/portType&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;binding name="StockQuoteSoapBinding"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type="tns:StockQuotePortType"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;soap:binding style="document"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; transport="http://schemas.xmlsoap.org/soap/http"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;operation name="GetLastTradePrice"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;soap:operation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; soapAction="http://example.com/GetLastTradePrice"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;input&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;soap:body use="literal"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/input&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;output&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;soap:body use="literal"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/output&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/operation&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/binding&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;service name="StockQuoteService"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;documentation&gt;My first service&lt;/documentation&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;port name="StockQuotePort" binding="tns:StockQuoteBinding"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;soap:address location="http://example.com/stockquote"/&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/port&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/service&gt;<br>
+&nbsp;&nbsp; &lt;/definitions&gt;</div></div></td></tr></table>
+<br>
+<div class="opt">
+<a href="/banseon/blog/category/Webservices" title="查看该分类中所有文章">类别：Webservices</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onClick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result"></span>)
+	| <a href="#send">评论</a>&nbsp;(3)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'宜昌话最终问题---知道的把答案写在后面的贴上~', '宜昌话最终问题---知道的把答案...','/banseon/blog/item/efcdb8d4dc1b3e03a18bb7ad.html'];
+var post = [true,'来猜猜谜语','来猜猜谜语', '/banseon/blog/item/73457016e7f58b4821a4e9fd.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_tmp"></div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=WebService%B5%C4%BB%F9%B1%BE%B8%C5%C4%EE&item=cbf8c11f1f88d161f724e427">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=WebService%B5%C4%BB%F9%B1%BE%B8%C5%C4%EE&item=cbf8c11f1f88d161f724e427&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["tirone","2d827469726f6e651601","tirone"],
+	
+["xiaoyukongjian","b69267686f7374333230e900","ghost320"],
+	
+["goldtiger","6f047a68676467647c02","zhgdgd"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_cbf8c11f1f88d161f724e427_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+<a name="462a97c2795a36190ff47761"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">1</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"462a97c2795a36190ff47761","ghost320","http://hi.baidu.com/xiaoyukongjian","b69267686f7374333230e900");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2007-08-13  09:40
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">概念性的东西看的头晕晕</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+<a name="2140aa257589bb6235a80f1e"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">2</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"2140aa257589bb6235a80f1e","banseon","http://hi.baidu.com/banseon","1fb662616e73656f6e1202");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2007-08-14  10:47
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">理论和实践相结合</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+<a name="aade3f33ffc803fa1b4cff2a"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">3</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"aade3f33ffc803fa1b4cff2a","zhgdgd","http://hi.baidu.com/goldtiger","6f047a68676467647c02");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2007-08-14  15:03
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">太多哒  以后在欣赏</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onSubmit="return checkcmtform()">
+<input type="hidden" name="ct" value="8">
+<input type="hidden" name="cm" value="1">
+<input type="hidden" name="spBlogID" value="cbf8c11f1f88d161f724e427">
+<input type="hidden" name="spRefURL" id="spRefURL" />
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table width="620" border="0" cellspacing="5" cellpadding="0">
+<tr>
+
+<td class="f14">姓　名：</td>
+<td><input type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onChange="checkname('spBlogCmtor')" maxlength="49" onFocus="hidErr(1);"	tabindex=1>
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script>
+
+<div style="display:none" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onChange="checkeandu('spBlogCmtURL')" onFocus="hidErr(2);" tabindex=2> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td valign="top" class="f14">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width:520px;height:155px" onFocus="hidErr(3);" tabindex=3></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td valign="top" class="f14">验证码：</td>
+<td valign="top"><input type="hidden" name="spVcode" value="30357370616365313337383835373235383030303030303030303030303030313232363338383436324C5E79B6FA37413F71BC44496BCCF283" />
+<input type="text" onFocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6"  maxlength="4" autocomplete="off" tabindex=4><br/>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?30357370616365313337383835373235383030303030303030303030303030313232363338383436324C5E79B6FA37413F71BC44496BCCF283";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display:none">
+<img id='verifypic' width='120' height='40'><wbr /><a onFocus="this.blur();" href="#" onClick="return newverifypic();" title="看不清左边的字符" >看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td valign="top"class="f14">&nbsp;</td>
+<td valign="top" class="f14"><input id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex=5></td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="8">
+<tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script>
+<br><center><div id="ft">&copy;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="http://c.baidu.com/c.gif?t=6&p=3" style="display:none;"/>
+</body></html>

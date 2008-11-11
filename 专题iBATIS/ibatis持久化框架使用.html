@@ -1,0 +1,984 @@
+<!--STATUS OK-->
+<html><head><meta http-equiv=content-type content="text/html; charset=gb2312"><title>ibatis持久化框架使用_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="/ui/scripts/global.js"></script>
+<script language="javascript" src="/js/popup.js"></script>
+<script LANGUAGE="JavaScript" src="/js/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=3;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='ibatis持久化框架使用'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=ibatis%B3%D6%BE%C3%BB%AF%BF%F2%BC%DC%CA%B9%D3%C3&item=15941b34b26ce7395ab5f5dd&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head>
+<body onLoad="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/15941b34b26ce7395ab5f5dd%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/ui/css/mods.css" />
+
+<link rel="stylesheet" type="text/css" href="/banseon/css/item/1c7a62da2f1578dbb7fd48f9.css" />
+
+<link rel="stylesheet" type="text/css" href="/space.css" />
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/15941b34b26ce7395ab5f5dd%2Ehtml') + '">登录</a>');
+		</script>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="/banseon">主页</a><a href="/banseon/blog" class="on">博客</a><a href="/banseon/album">相册</a><span>|</span><a href="/banseon/profile">个人档案</a>
+	<span>|</span><a href="/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width:100%">
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" nowrap align="right"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">ibatis持久化框架使用</div>
+<div class="date">2007-08-25  10:26</div>
+<table style="table-layout:fixed"><tr><td><div id="blog_text" class="cnt"><p><font size="3" face="Arial">最近很火，所以我也下了一个用了一下。看看它与hibernate的异同。</font></p>
+<p><font size="3"><font face="Arial">在执行大量数据库操作时，我们的SQL语句必然要得到优化后才能使用。</font></font></p>
+<p>而Hibernate给我们的条件实在是太局限，在做大型数据操作时候，难免会觉得不是那么快。</p>
+<p>ibatis给我的感觉就是短而精悍，可以让我们自定义过程，相当一个半自动的框架。给于程序</p>
+<p>员的控制性比较大，使用起来也是比较方便。</p>
+<p> </p>
+<p><font size="3" face="Arial">-------------------------------------------------------------------------------------</font></p>
+<p><font size="3" face="Arial">ibatis最主要需要3个jar包：</font></p>
+<p><font size="3" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ibatis-sqlmap-2.jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      主要包</font></p>
+<p><font size="3" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ibatis-common-2.jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      提供的命令</font></p>
+<p><font size="3" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ibatis-dao-2.jar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      简单DAO</font></p>
+<font size="3" face="Arial"><br>
+</font>
+<p><font size="3" face="Arial">我的工程结构是这样：<br>
+</font></p>
+<div align="center" forimg="1"><font size="3" face="Arial"><img border="0" src="http://hiphotos.baidu.com/banseon/pic/item/10b780de98a36851ccbf1a8d.jpg" small="0" class="blogimg"></font></div>
+<font size="3" face="Arial"><br>
+</font>
+<p><font size="3" face="Arial">首先要编写一个读取配置文件的类：</font></p>
+<p><font size="3" face="Arial">我编写了一个IbatisFactory的工厂类，用于读取sqlmap-config.xml里面的配置</font></p>
+<p><font size="3" face="Arial">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font></p>
+<p><font size="3" face="Arial">package org.ibatis.model.config;<br>
+<br>
+import java.io.IOException;<br>
+<br>
+import com.ibatis.common.resources.Resources;<br>
+import com.ibatis.sqlmap.client.SqlMapClient;<br>
+import com.ibatis.sqlmap.client.SqlMapClientBuilder;<br>
+<br>
+public class IbatisFactory {<br>
+&nbsp;&nbsp;&nbsp;      /*使用单例模式，让整个程序中只有一个实例*/<br>
+&nbsp;&nbsp;&nbsp;      private final static SqlMapClient sqlMapper;<br>
+<br>
+&nbsp;&nbsp;&nbsp;      /*其中最主要就是获得SqlMapClient这个类，他相当hibernate中的session用来完成数据库操作*/<br>
+&nbsp;&nbsp;&nbsp;      public static SqlMapClient newInstence(){<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      return sqlMapper;<br>
+&nbsp;&nbsp;&nbsp;      }<br>
+&nbsp;&nbsp;&nbsp;      <br>
+&nbsp;&nbsp;&nbsp;      /*使用静态块来加载读取配置文件的过程*/<br>
+&nbsp;&nbsp;&nbsp;      static {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      try {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      java.io.Reader reader = Resources.getResourceAsReader(&quot;org/ibatis/model/config/sqlmap-config.xml&quot;);<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      sqlMapper = SqlMapClientBuilder.buildSqlMapClient(reader);<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      reader.close(); <br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      } catch (IOException e) {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      // Fail fast.<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      System.out.println(&quot;读出XML文件时异常&quot;);<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      throw new RuntimeException(&quot;Something bad happened while building the SqlMapClient instance.&quot; + e, e);<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      }<br>
+&nbsp;&nbsp;&nbsp;      }<br>
+}</font></p>
+<p><font size="3" face="Arial">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font></p>
+<p><font size="3" face="Arial">sqlmap-config.xml 的配置文件<br>
+</font></p>
+<p><font size="3" face="Arial">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+</font></p>
+<p><font size="3" face="Arial">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br>
+&lt;!DOCTYPE sqlMapConfig PUBLIC &quot;-//ibatis.apache.org//DTD SQL Map Config 2.0//EN&quot; &quot;http://ibatis.apache.org/dtd/sql-map-config-2.dtd&quot;&gt;<br>
+&lt;!-- <br>
+&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;      cacheModelsEnabled - 高速缓冲存储器<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      enhancementEnabled - 字节码增强<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      lazyLoadingEnabled - 延迟加载<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      maxRequests - 最大请求<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      maxSessions - 最大会话<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      maxTransactions - 最大事务数<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      useStatementNamespaces - 使用statement命名空间<br>
+&nbsp;&nbsp;&nbsp;      --&gt;<br>
+&lt;sqlMapConfig&gt;<br>
+&nbsp;&nbsp;&nbsp;      &lt;settings cacheModelsEnabled=&quot;true&quot; enhancementEnabled=&quot;true&quot;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      lazyLoadingEnabled=&quot;true&quot; maxRequests=&quot;32&quot; maxSessions=&quot;10&quot;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      maxTransactions=&quot;5&quot; useStatementNamespaces=&quot;false&quot; /&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;      &lt;transactionManager type=&quot;JDBC&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;dataSource type=&quot;SIMPLE&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;JDBC.Driver&quot; value=&quot;com.mysql.jdbc.Driver&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;JDBC.ConnectionURL&quot;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      value=&quot;jdbc:mysql://127.0.0.1:3306/ibatis?characterEncoding=utf-8&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;JDBC.Username&quot; value=&quot;root&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;JDBC.Password&quot; value=&quot;&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;JDBC.DefaultAutoCommit&quot; value=&quot;false&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.MaximumActiveConnections&quot; value=&quot;10&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.MaximumIdleConnections&quot; value=&quot;5&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.MaximumCheckoutTime&quot; value=&quot;120000&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.TimeToWait&quot; value=&quot;500&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.PingQuery&quot; value=&quot;select 1 from ibatis&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.PingEnabled&quot; value=&quot;false&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.PingConnectionsOlderThan&quot; value=&quot;1&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;property name=&quot;Pool.PingConnectionsNotUsedFor&quot; value=&quot;1&quot; /&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;/dataSource&gt;<br>
+&nbsp;&nbsp;&nbsp;      &lt;/transactionManager&gt;<br>
+&nbsp;&nbsp;&nbsp;      &lt;!-- 指定POJO的配置文件的存放的地址 --&gt;<br>
+&nbsp;&nbsp;&nbsp;      &lt;sqlMap resource=&quot;org/ibatis/model/entity/User.xml&quot; /&gt;<br>
+&lt;/sqlMapConfig&gt;</font></p>
+<p><font size="3" face="Arial">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</font></p>
+<p><font size="3" face="Arial">然后，我们通过数据库的表设计一个POJO：User.java</font></p>
+<font size="3" face="Arial">package org.ibatis.model.entity;<br>
+<br>
+/**<br>
+* iBatis - User.java ----------------------------------------------<br>
+* <br>
+* @version 0.1 2007-8-24<br>
+* @author banseon ---------------------------------------------- 说明：<br>
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      实体Bean 数据库映射表为T_USER<br>
+*/<br>
+public class User implements Entity {<br>
+&nbsp;&nbsp;       private long id;<br>
+&nbsp;&nbsp;       private String username;<br>
+&nbsp;&nbsp;       private String address;<br>
+<br>
+&nbsp;&nbsp;       public String getAddress() {<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       return address;<br>
+&nbsp;&nbsp;       }<br>
+<br>
+&nbsp;&nbsp;       public void setAddress(String address) {<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       this.address = address;<br>
+&nbsp;&nbsp;       }<br>
+<br>
+&nbsp;&nbsp;       public long getId() {<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       return id;<br>
+&nbsp;&nbsp;       }<br>
+<br>
+&nbsp;&nbsp;       public void setId(long id) {<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       this.id = id;<br>
+&nbsp;&nbsp;       }<br>
+<br>
+&nbsp;&nbsp;       public String getUsername() {<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       return username;<br>
+&nbsp;&nbsp;       }<br>
+<br>
+&nbsp;&nbsp;       public void setUsername(String username) {<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       this.username = username;<br>
+&nbsp;&nbsp;       }<br>
+<br>
+&nbsp;&nbsp;       @Override<br>
+&nbsp;&nbsp;       public String toString() {<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       String str = &quot;Username:&quot; + username + &quot;\n&quot;;<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       str += &quot;Address:&quot; + address;<br>
+&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;       return str;<br>
+&nbsp;&nbsp;       }<br>
+}<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+上面只是一个普通的POJO，最主要还是下面的配置文件User.xml文件<br>
+<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br>
+&lt;!DOCTYPE sqlMap PUBLIC &quot;-//ibatis.apache.org//DTD SQL Map 2.0//EN&quot; &quot;http://ibatis.apache.org/dtd/sql-map-2.dtd&quot;&gt;<br>
+&lt;sqlMap namespace=&quot;User&quot;&gt;<br>
+<br>
+&nbsp;&nbsp;      </font><font size="3" face="Arial" color="#ff0000">&lt;!-- 为了简化这里将类在配置文件中指定一个别名，方便调用 --&gt;</font><font size="3" face="Arial"><br>
+&nbsp;&nbsp;&nbsp;      &lt;typeAlias alias=&quot;User&quot; type=&quot;org.ibatis.model.entity.User&quot;/&gt;<br>
+&nbsp;&nbsp;&nbsp;      <br>
+&nbsp;&nbsp;&nbsp;      &lt;resultMap id=&quot;UserResult&quot; class=&quot;User&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;result property=&quot;username&quot; column=&quot;USERNAME&quot;/&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &lt;result property=&quot;address&quot; column=&quot;ADDRESS&quot;/&gt;<br>
+&nbsp;&nbsp;&nbsp;      &lt;/resultMap&gt;<br>
+&nbsp;&nbsp;&nbsp;      <br>
+&nbsp;&nbsp;&nbsp;      &lt;select id=&quot;getUserbyUsername&quot; resultMap=&quot;UserResult&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      select * from T_USER WHERE USERNAME = #username# <br>
+&nbsp;&nbsp;&nbsp;      &lt;/select&gt;<br>
+<br>
+</font><font size="3" face="Arial" color="#ff0000">  &lt;!-- <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      这里提供了增删改查4种配置，里面都有id,这里的id主要起到一个唯一性。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      给DAO中的方法调用，你可以编写多个insert配置，但id都要不同。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      parameterClass 指的是调用的参数类 后面的名称是这个类的别名<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      每个操作的中间都带有SQL语句，其中代&quot;#&quot;的表示是参数。系统自动填充。<br>
+&nbsp;&nbsp;      --&gt;</font><font size="3" face="Arial"><br>
+<br>
+</font><font size="3" face="Arial" color="#ff0000"> &lt;!-- Insert example, using the User parameter class --&gt;<br>
+</font><font size="3" face="Arial">  &lt;insert id=&quot;insert&quot; parameterClass=&quot;User&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;      insert into T_USER (ID,USERNAME,ADDRESS)<br>
+&nbsp;&nbsp;&nbsp;      values (#id#,#username#,#address#)<br>
+&lt;/insert&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp;      </font><font size="3" face="Arial" color="#ff0000">&lt;!-- Update example, using the User parameter class --&gt;</font><font size="3" face="Arial"><br>
+&nbsp;&nbsp;&nbsp;      &lt;update id=&quot;update&quot; parameterClass=&quot;User&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;       update T_USER set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      USERNAME = #username#,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ADDRESS = #address#<br>
+&nbsp;&nbsp;&nbsp;      where<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ID = #id#<br>
+&nbsp;&nbsp;&nbsp;      &lt;/update&gt;<br>
+&nbsp;&nbsp;&nbsp;      <br>
+&nbsp;&nbsp;&nbsp;      </font><font size="3" face="Arial" color="#ff0000"> &lt;!-- Delete example, using an integer as the parameter class --&gt;</font><font size="3" face="Arial"><br>
+&nbsp;&nbsp;&nbsp;      &lt;delete id=&quot;delete&quot; parameterClass=&quot;int&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;      delete from T_USER where ID = #id#<br>
+&nbsp;&nbsp;&nbsp;      &lt;/delete&gt;<br>
+<br>
+&lt;/sqlMap&gt;<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+<br>
+最后我们来编写一个DAO来测试一下：<br>
+<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+package org.ibatis.model.dao;<br>
+<br>
+import java.sql.SQLException;<br>
+<br>
+import org.ibatis.model.config.IbatisFactory;<br>
+<br>
+import org.ibatis.model.entity.User;<br>
+<br>
+import com.ibatis.sqlmap.client.SqlMapClient;<br>
+<br>
+<br>
+public class UserDAO {<br>
+&nbsp;&nbsp;&nbsp;      <br>
+&nbsp;&nbsp;&nbsp;      //通过工厂得到sqlMapClient实例<br>
+&nbsp;&nbsp;&nbsp;      protected SqlMapClient sqlMapClient = IbatisFactory.newInstence();<br>
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;      /**<br>
+&nbsp;&nbsp;&nbsp;       * 插入方法<br>
+&nbsp;&nbsp;&nbsp;       */<br>
+&nbsp;&nbsp;&nbsp;      public void insert(User entity) {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      try {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      sqlMapClient.startTransaction();//开始事务<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      </font><font size="3" face="Arial" color="#ff0000">sqlMapClient.insert(&quot;insert&quot;, entity);//这里很总要,第一个参数是指定调用的哪个插入方法</font><font size="3" face="Arial"><br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      sqlMapClient.commitTransaction();//提交事务<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      } catch (SQLException e) {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      // TODO Auto-generated catch block<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      e.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      }finally{<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      try {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      sqlMapClient.endTransaction();//关闭事务<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      } catch (SQLException e) {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      // TODO Auto-generated catch block<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      e.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      }<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      }<br>
+&nbsp;&nbsp;&nbsp;      }//插入方法结束<br>
+}<br>
+<br>
+public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      UserDAO _dao = new UserDAO();<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      org.ibatis.model.entity.User user = new org.ibatis.model.entity.User();<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      user.setId(0);<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      user.setAddress(&quot;123123123123&quot;);<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      user.setUsername(&quot;banseon123&quot;);<br>
+&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      _dao.insert(user);<br>
+&nbsp;&nbsp;&nbsp;      }<br>
+－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>
+<br>
+最后直接插入到数据库当中。<br>
+</font></div></td></tr></table>
+<br>
+<div class="opt">
+<a href="/banseon/blog/category/%BF%F2%BC%DC%20%2D%20%B3%D6%BE%C3%B2%E3" title="查看该分类中所有文章">类别：框架 - 持久层</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onClick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result"></span>)
+	| <a href="#send">评论</a>&nbsp;(3)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'EJB学习之EntityBean（实体Bean）下', 'EJB学习之EntityBean（实体Bean...','/banseon/blog/item/bca0e11b1cb0c3d7ac6e7561.html'];
+var post = [true,'哈，口误（转载）','哈，口误（转载）', '/banseon/blog/item/969222dfff9463116227985e.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_tmp"></div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=ibatis%B3%D6%BE%C3%BB%AF%BF%F2%BC%DC%CA%B9%D3%C3&item=15941b34b26ce7395ab5f5dd">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=ibatis%B3%D6%BE%C3%BB%AF%BF%F2%BC%DC%CA%B9%D3%C3&item=15941b34b26ce7395ab5f5dd&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["vsden","7830767364656e4300","vsden"],
+	
+["annbabysmile","647b416e6e42616279536d696c65e104","AnnBabySmile"],
+	
+["skyperson","cbfe736b79706572736f6e3b00","skyperson"],
+	
+["tirone","2d827469726f6e651601","tirone"],
+	
+["xiaoyukongjian","b69267686f7374333230e900","ghost320"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_15941b34b26ce7395ab5f5dd_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+<a name="de8eda2499abb8024c088d90"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">1</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"de8eda2499abb8024c088d90","ghost320","http://hi.baidu.com/xiaoyukongjian","b69267686f7374333230e900");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2007-08-26  15:53
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">终于有了有意义的更新！<br>撒花！！！！！！！</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+<a name="dbf2620f8abcc6296159f363"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">2</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"dbf2620f8abcc6296159f363","tirone","http://hi.baidu.com/tirone","2d827469726f6e651601");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2007-08-26  16:18
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">ibatis只比hibernate稍微瘦了一点。<br>哈哈哈哈</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+<a name="be8054090b0462cc3bc7639f"></a>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="item" style="table-layout:fixed;word-wrap:break-word;overflow:hidden;";>
+<tr>
+<td valign="top" class="index" width="5%">3</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow:hidden;">
+
+<script>
+writecmt(1,"be8054090b0462cc3bc7639f","banseon","http://hi.baidu.com/banseon","1fb662616e73656f6e1202");
+</script>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left:20px;"><span class="date">2007-08-26  21:04
+
+
+</span><div class="desc" style="overflow:hidden;word-break:normal;">HOHO~是啊,其实都差不多啊.</div></td></tr>
+</table>
+<div class="line">&nbsp;</div>
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onSubmit="return checkcmtform()">
+<input type="hidden" name="ct" value="8">
+<input type="hidden" name="cm" value="1">
+<input type="hidden" name="spBlogID" value="15941b34b26ce7395ab5f5dd">
+<input type="hidden" name="spRefURL" id="spRefURL" />
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table width="620" border="0" cellspacing="5" cellpadding="0">
+<tr>
+
+<td class="f14">姓　名：</td>
+<td><input type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onChange="checkname('spBlogCmtor')" maxlength="49" onFocus="hidErr(1);"	tabindex=1>
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script>
+
+<div style="display:none" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onChange="checkeandu('spBlogCmtURL')" onFocus="hidErr(2);" tabindex=2> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td valign="top" class="f14">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width:520px;height:155px" onFocus="hidErr(3);" tabindex=3></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td valign="top" class="f14">验证码：</td>
+<td valign="top"><input type="hidden" name="spVcode" value="30357370616365323130353534393231343030303030303030303030303030313232363338383434390833E43E484E36E012D1BC489606463B" />
+<input type="text" onFocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6"  maxlength="4" autocomplete="off" tabindex=4><br/>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?30357370616365323130353534393231343030303030303030303030303030313232363338383434390833E43E484E36E012D1BC489606463B";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display:none">
+<img id='verifypic' width='120' height='40'><wbr /><a onFocus="this.blur();" href="#" onClick="return newverifypic();" title="看不清左边的字符" >看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td valign="top"class="f14">&nbsp;</td>
+<td valign="top" class="f14"><input id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex=5></td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="8">
+<tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script>
+<br><center><div id="ft">&copy;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="http://c.baidu.com/c.gif?t=6&p=3" style="display:none;"/>
+</body></html>

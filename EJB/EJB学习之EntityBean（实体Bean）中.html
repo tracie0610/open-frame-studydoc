@@ -1,0 +1,795 @@
+<html><head><!--STATUS OK-->
+<meta http-equiv="content-type" content="text/html; charset=GB2312"><title>EJB学习之EntityBean（实体Bean）中_框架的心      </title>
+<style>.error{color:#FF0000;font-size:12px}</style>
+<script type="text/javascript" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/global.js"></script>
+<script language="javascript" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/popup.js"></script>
+<script language="JavaScript" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=2;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='EJB学习之EntityBean（实体Bean）中'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+
+//-->
+</script>
+
+<script type="text/javascript">
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=EJB%D1%A7%CF%B0%D6%AEEntityBean%A3%A8%CA%B5%CC%E5Bean%A3%A9%D6%D0&item=4c0ff8139717d121dc540161&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head><body onload="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/banseon/blog/item/4c0ff8139717d121dc540161%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/mods.css">
+
+<link rel="stylesheet" type="text/css" href="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/1c7a62da2f1578dbb7fd48f9.css">
+
+<link rel="stylesheet" type="text/css" href="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/space.css">
+<style type="text/css"> 
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+<div id="usrbar"><nobr>
+
+			<a href="http://www.baidu.com/" target="_blank">百度首页</a> 
+		| <a id="hi_index" href="http://hi.baidu.com/" target="_blank">百度空间</a>
+		<script type="text/javascript">
+		document.write('| <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/banseon/blog/item/4c0ff8139717d121dc540161%2Ehtml') + '">登录</a>');
+		</script>| <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http://hi.baidu.com%2Fbanseon%2Fblog%2Fitem%2F4c0ff8139717d121dc540161%252Ehtml">登录</a>
+		
+</nobr></div>
+
+
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="http://hi.baidu.com/banseon" class="titlink" title="banseon的空间 http://hi.baidu.com/banseon">框架的心</a></div>
+<div class="desc">不要[rang]自由的心给框架忽悠~....</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="http://hi.baidu.com/banseon">主页</a><a href="http://hi.baidu.com/banseon/blog" class="on">博客</a><a href="http://hi.baidu.com/banseon/album">相册</a><span>|</span><a href="http://hi.baidu.com/banseon/profile">个人档案</a>
+	<span>|</span><a href="http://hi.baidu.com/banseon/friend">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width: 100%;">
+
+	<table class="modth" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap="nowrap"><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" align="right" nowrap="nowrap"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></tbody></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">EJB学习之EntityBean（实体Bean）中</div>
+<div class="date">2007-08-20  21:53</div>
+<table style="table-layout: fixed;"><tbody><tr><td><div id="blog_text" class="cnt"><h2 style="margin: 13pt 0cm 13pt 32.25pt; text-indent: -32.25pt;"><span style=""><span style=""><span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><span style="">实体</span><span style="">Bean</span><span style="">类型</span><span style=""></span></h2>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong><span style="font-size: 12pt;">根据实体<span>Bean</span>的类型我们可以把它分为两类：</span></strong></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong><span style="font-size: 12pt;"></span></strong><span style="font-size: 12pt;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">一、<span>CMP<span style="">&nbsp;&nbsp;</span><strong style=""><span style="color: red;"><span style=""> </span></span></strong></span></span><strong style=""><span style="color: red;"><font face="Times New Roman">Container-Manager</font></span></strong><strong style=""><span style="font-size: 12pt; color: red;"> </span><a name="35363543"><span style="color: red;"><font face="Times New Roman">Persistence</font></span></a></strong><span style=""></span><span style="font-size: 12pt;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">二、<span>BMP<span style="">&nbsp;&nbsp;&nbsp;</span></span></span><strong style=""><span style="color: red;"><font face="Times New Roman">Bean-Manager Persistence</font></span></strong></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="color: red;"><font face="Times New Roman"></font></span></strong></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">CMP</span><span style="font-size: 12pt;">是由容器来管理<span>Bean</span>的添加、更新、查询和删除的操作，并由<span>EJB</span>容器自动启动事务。<span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">使用<span>CMP</span>最大的特点是<span>:</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">BMP</span><span style="font-size: 12pt;">是由开发者自己编写的代码来管理<span>Bean</span>的添加、更新、查询和删除的操作，并手动控制事务。<span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">BMP</span><span style="font-size: 12pt;">的特点：手动编写数据库连接代码，<span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"></span></p>
+<h2 style="margin: 13pt 0cm 13pt 32.25pt; text-indent: -32.25pt;"><span style=""><span style=""><span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;"></span></span></span><span style="">实体</span><span style="">Bean</span><span style="">编写规范</span><span style=""></span></h2>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong><span style="font-size: 12pt; color: rgb(153, 51, 0);">哪么如何才能编写一个<span>EntityBean</span>？</span></strong><span style="font-size: 12pt;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong><span class="3Char"><span style="font-size: 16pt;">EntityBean</span></span><span class="3Char"><span style="font-size: 16pt;"><font face="宋体">规范</font></span></span></strong><span style="font-size: 12pt; color: black;">：<span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |___Home</span>接口<span>&nbsp;&nbsp;</span>提供添加、查找数据实体的方法<span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |___</span>远程接口<span>&nbsp;&nbsp;</span>提供访问更新和得到数据方法<span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |___Bean</span>类<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>数据库操作方法</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt; color: black;"><span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="color: black;"><font face="Times New Roman">ejbCreate() :</font></span></strong><span style="font-size: 12pt;"> </span><span style="font-size: 12pt;">创建方法，调用该方法时会在数据库中插入新数据。实体<span>Bean</span>类可以有多个<span>ejbCreate()</span>方法，但参数不同。</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="color: black;"><font face="Times New Roman">ejbPostCreate() :</font></span></strong><strong style=""><span style="font-size: 12pt;"> </span></strong><span style="font-size: 12pt;">该方法在<span>ejbCreate()</span>方法执行完成之后调用。每个<span>ejbCreate()</span>方法都有一个对象的<span>ejbPostCreate()</span>方法，且会调用它来完成初始化后的操作。</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="color: black;"><font face="Times New Roman">ejbLoad() : </font></span></strong><span style="font-size: 12pt;"><span style=""></span></span><span style="font-size: 12pt;">刷行数据库的实例对象的数据。容器可将持久层的数据加载到实体<span>Bean</span>的内存中。</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="color: black;"><font face="Times New Roman">ejbStore() : </font></span></strong><span style="font-size: 12pt;"><span style=""></span></span><span style="font-size: 12pt;">用于将实体<span>Bean</span>的当前字段保存在持久层。保证了数据库中和高速缓存中匹配。</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="color: black;"><font face="Times New Roman">ejbRemove() : </font></span></strong><span style="font-size: 12pt;">用于从持久层删除一条记录。</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="color: black;"><font face="Times New Roman">findByPrimaryKey() ;</font></span></strong><span style="font-size: 12pt;"> </span><span style="font-size: 12pt;">按主键去查找一个实例<span>Bean</span>的实例。</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><strong style=""><span style="font-size: 12pt;">weblogic-cmp-rdbms-jar.xml </span></strong><strong style=""><span style="font-size: 12pt;">配置<span>CMP</span>配置文件<span></span></span></strong></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">&lt;!DOCTYPE weblogic-rdbms-jar PUBLIC "-//BEA Systems, Inc.//DTD WebLogic <st1:chsdate year="1899" month="12" day="30" islunardate="False" isrocdate="False">8.1.0</st1:chsdate> EJB RDBMS Persistence//EN" "http://www.bea.com/servers/wls810/dtd/weblogic-rdbms20-persistence-810.dtd"&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">&lt;weblogic-rdbms-jar&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;</span>&lt;weblogic-rdbms-bean&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;ejb-name&gt;Jobs&lt;/ejb-name&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;data-source-name&gt;pubs&lt;/data-source-name&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;table-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;table-name&gt;jobs&lt;/table-name&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;cmp-field&gt;jobId&lt;/cmp-field&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;dbms-column&gt;job_id&lt;/dbms-column&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;/field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;cmp-field&gt;jobDesc&lt;/cmp-field&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;dbms-column&gt;job_desc&lt;/dbms-column&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;/field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;cmp-field&gt;minLvl&lt;/cmp-field&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;dbms-column&gt;min_lvl&lt;/dbms-column&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;/field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;cmp-field&gt;maxLvl&lt;/cmp-field&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;dbms-column&gt;max_lvl&lt;/dbms-column&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;/field-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;/table-map&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;automatic-key-generation&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;generator-type&gt;SQLserver&lt;/generator-type&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;</span>&lt;/automatic-key-generation&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span style="">&nbsp;&nbsp;</span>&lt;/weblogic-rdbms-bean&gt;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">&lt;/weblogic-rdbms-jar&gt;</span></p>
+<span style="font-size: 12pt;">
+<h2 style="margin: 13pt 0cm 13pt 32.25pt; text-indent: -32.25pt;"><span style=""><span style=""><span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><span style="">实体</span><span style="">Bean</span><span style="">调用过程</span><span style=""></span></h2>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;">介绍完规范后，我们来讲解一下<span>EntityBean</span>被客户端的调用过程：</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 12pt;"><span></span></span></p>
+<span style="font-size: 12pt;"><span>
+<div forimg="1" align="center"><img small="0" class="blogimg" src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/6852b9134dbe71dbf6039e07.gif" border="0"></div>
+<div class="tmpDiv"> </div>
+</span></span>
+<p><span></span></p>
+<p><font face="宋体">当<span>EntityBean</span>不存在时由容器创建一个<span>EntityBean</span>，容器就会调用实体<span>Bean</span>类的<span>setEntityContext()</span>方法，将上下文传递给<span>Bean</span>。<span> EntityBean</span>创建实例后即刻将实例放入实例池中。池中所有的实例都完全相同。容器调用<span>ejbActivate()</span>方法将实体<span>Bean</span>放入就绪池，容器就会给实体<span>Bean</span>实例指定一个标识。</font></p>
+<p><font face="宋体">什么情况下<span>EntityBean</span>的实例会从入池状态转换成就绪状态？</font></p>
+<p><font face="宋体">有两种情况：</font></p>
+<p><font face="宋体">第一种是客户端调用<span>create()</span>方法，容器调用<span>ejbCreate()</span>和<span>ejbPostCreate()</span>方法</font></p>
+<p><font face="宋体">第二种是<span>EJB</span>容器调用<span>ejbActive()</span>方法。（当实体<span>Bean</span>处于就绪状态时，可调用业务方法。）</font></p>
+<p><font face="宋体">什么情况下<span>EntityBean</span>的实例会从就绪状态转换成入池状态？</font></p>
+<p><font face="宋体">第一种是当客户端调用<span>remove()</span>方法时，<span>EJB</span>容器调用<span>ejbRemove()</span>方法。</font></p>
+<p><font face="宋体">第二种是<span>EJB</span>容器调用<span>ejbPassivate()</span>方法。</font></p>
+<p><span><font face="宋体"></font></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 10.5pt;">最后，</span><span style="font-size: 10.5pt;">EJB</span><span style="font-size: 10.5pt;">容器删除池中的</span><span style="font-size: 10.5pt;">Bean</span><span style="font-size: 10.5pt;">实例就会调用</span><span style="font-size: 10.5pt;">unsetEntityContext()</span><span style="font-size: 10.5pt;">方法，因此实体</span><span style="font-size: 10.5pt;">Bean</span><span style="font-size: 10.5pt;">就不存在了。</span></p>
+</span></div></td></tr></tbody></table>
+<br>
+<div class="opt">
+<a href="http://hi.baidu.com/banseon/blog/category/ejb%C6%F3%D2%B5%BF%AA%B7%A2" title="查看该分类中所有文章">类别：ejb企业开发</a>
+ 
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onclick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result">179</span>)
+	| <a href="#send">评论</a>&nbsp;(2)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'EJB学习之EntityBean（实体Bean）上', 'EJB学习之EntityBean（实体Bean...','/banseon/blog/item/cb6f51d996908f2e10df9b61.html'];
+var post = [true,'EJB学习之EntityBean（实体Bean）下','EJB学习之EntityBean（实体Bean...', '/banseon/blog/item/bca0e11b1cb0c3d7ac6e7561.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script><div style="height: 5px; line-height: 5px;">&nbsp;</div><div id="in_nav">上一篇：<a href="http://hi.baidu.com/banseon/blog/item/cb6f51d996908f2e10df9b61.html" title="EJB学习之EntityBean（实体Bean）上">EJB学习之EntityBean（实体Bean...</a>&nbsp;&nbsp;&nbsp;&nbsp;下一篇：<a href="http://hi.baidu.com/banseon/blog/item/bca0e11b1cb0c3d7ac6e7561.html" title="EJB学习之EntityBean（实体Bean）下">EJB学习之EntityBean（实体Bean...</a></div>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_doc"><div class="tit">相关文章：</div><table border="0" cellpadding="0" cellspacing="3"><tbody><tr><td width="15"><a style="font-size: 25px;">&#8226;</a></td><td><a href="http://hi.baidu.com/darkken/blog/item/65609a64da212ff1f7365499.html" target="_blank" title="EJB基于哪些技术?sessionBean和entityBean的区别是什么?状态Bean与无状态Bean的区别?">EJB基于哪些技术?sessionBean和e...</a>　　　　　　　　　</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div><div class="line">&nbsp;</div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=EJB%D1%A7%CF%B0%D6%AEEntityBean%A3%A8%CA%B5%CC%E5Bean%A3%A9%D6%D0&item=4c0ff8139717d121dc540161">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=EJB%D1%A7%CF%B0%D6%AEEntityBean%A3%A8%CA%B5%CC%E5Bean%A3%A9%D6%D0&item=4c0ff8139717d121dc540161&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["tirone","2d827469726f6e651601","tirone"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script><table width="100%"><tbody><tr><td align="center" width="10%"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/portraitn.jpg" border="0" width="55" height="55"></td><td align="left" width="12%"><a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http%3A%2F%2Fhi.baidu.com%2Fbanseon%2Fblog%2Fitem%2F4c0ff8139717d121dc540161%252Ehtml" target="_self">登录</a>后，您就出现在这里。</td><td class="user" align="center" valign="bottom" width="10%"><a href="http://hi.baidu.com/tirone" target="_blank"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/2d827469726f6e651601.jpg" border="0"></a></td><td width="100%"></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td class="user" align="center" valign="top"><a href="http://hi.baidu.com/tirone" target="_blank">tirone</a></td><td></td></tr></tbody></table>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"93d8e316c89a9818962b4319_4c0ff8139717d121dc540161_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</script>
+
+
+
+<a name="fb971ef5502b6727bd3109f3"></a>
+<table class="item" style="overflow: hidden; table-layout: fixed;" ;="" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="index" valign="top" width="5%">1</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow: hidden;">
+
+<script>
+writecmt(1,"fb971ef5502b6727bd3109f3","tirone","http://hi.baidu.com/tirone","2d827469726f6e651601");
+</script><a href="http://hi.baidu.com/tirone" target="_blank" title="http://hi.baidu.com/tirone"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/2d827469726f6e651601.jpg" border="0"><br>tirone</a>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left: 20px;"><span class="date">2007-08-21  08:45
+
+
+</span><div class="desc" style="overflow: hidden;">不准删我的留言</div></td></tr>
+</tbody></table>
+<div class="line">&nbsp;</div>
+
+<a name="3dbda14532f1d43c8694735f"></a>
+<table class="item" style="overflow: hidden; table-layout: fixed;" ;="" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td class="index" valign="top" width="5%">2</td>
+<td align="center" valign="top" width="10%">
+<div class="user" style="overflow: hidden;">
+
+<script>
+writecmt(1,"3dbda14532f1d43c8694735f","banseon","http://hi.baidu.com/banseon","1fb662616e73656f6e1202");
+</script><a href="http://hi.baidu.com/banseon" target="_blank" title="http://hi.baidu.com/banseon"><img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/1fb662616e73656f6e1202.jpg" border="0"><br>banseon</a>
+ 
+</div>
+</td>
+<td class="cnt" style="padding-left: 20px;"><span class="date">2007-08-21  17:29
+
+
+</span><div class="desc" style="overflow: hidden;">.......</div></td></tr>
+</tbody></table>
+<div class="line">&nbsp;</div>
+
+
+
+<div id="page"></div>
+
+</div>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/banseon/commit" method="post" onsubmit="return checkcmtform()">
+<input name="ct" value="8" type="hidden">
+<input name="cm" value="1" type="hidden">
+<input name="spBlogID" value="4c0ff8139717d121dc540161" type="hidden">
+<input value="http://hi.baidu.com/banseon/blog/item/4c0ff8139717d121dc540161.html" name="spRefURL" id="spRefURL" type="hidden">
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table border="0" cellpadding="0" cellspacing="5" width="620">
+<tbody><tr>
+
+<td class="f14">姓　名：</td>
+<td><input name="spBlogCmtor" id="spBlogCmtor" style="width: 220px;" onchange="checkname('spBlogCmtor')" maxlength="49" onfocus="hidErr(1);" tabindex="1" type="text">
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(' | <a href="http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script> &nbsp;&nbsp; <a href="http://passport.baidu.com/?reg&amp;tpl=sp&amp;return_method=get&amp;skip_ok=1&amp;u=http://hi.baidu.com/sys/reg/" target="_blank">注册</a> | <a href="http://passport.baidu.com/?login&amp;tpl=sp&amp;tpl_reg=sp&amp;u=http%3A%2F%2Fhi.baidu.com%2Fbanseon%2Fblog%2Fitem%2F4c0ff8139717d121dc540161%252Ehtml">登录</a>
+
+<div style="display: none;" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input name="spBlogCmtURL" id="spBlogCmtURL" style="width: 360px;" maxlength="128" onchange="checkeandu('spBlogCmtURL')" onfocus="hidErr(2);" tabindex="2" type="text"> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14" valign="top">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width: 520px; height: 155px;" onfocus="hidErr(3);" tabindex="3"></textarea>
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display: none;">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td class="f14" valign="top">验证码：</td>
+<td valign="top"><input name="spVcode" value="3035737061636531373432323632353636303030303030303030303030303031323236333838363333ADA934CDE6D604DB6D387B5714AAE8FA" type="hidden">
+<input onfocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6" maxlength="4" autocomplete="off" tabindex="4" type="text"><br>
+<script type="text/javascript">
+/*<![CDATA[*/
+var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?3035737061636531373432323632353636303030303030303030303030303031323236333838363333ADA934CDE6D604DB6D387B5714AAE8FA";
+function f_focus(){
+	if(G('yanzheng').style.display=="none" ){
+		G('verifypic').src=imgsrc;
+		G('yanzheng').style.display="block";
+	}
+}
+function newverifypic(){
+	G("verifypic").src = imgsrc +"&t="+ Math.random();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display: none;">
+<img id="verifypic" width="120" height="40"><wbr><a onfocus="this.blur();" href="#" onclick="return newverifypic();" title="看不清左边的字符">看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td class="f14" valign="top">&nbsp;</td>
+<td class="f14" valign="top"><input id="btn_ok" name="btn_ok" value="发表评论" tabindex="5" type="submit"></td>
+</tr>
+</tbody></table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" height="8">
+<tbody><tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></tbody></table>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/banseon/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script><script src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/brwstat.htm"></script>
+<br><center><div id="ft">&#169;2008 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</script>
+</center>
+
+
+<img src="EJB%E5%AD%A6%E4%B9%A0%E4%B9%8BEntityBean%EF%BC%88%E5%AE%9E%E4%BD%93Bean%EF%BC%89%E4%B8%AD_files/c.htm" style="display: none;">
+</body></html>
