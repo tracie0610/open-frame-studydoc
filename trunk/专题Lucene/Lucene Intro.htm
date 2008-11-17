@@ -1,0 +1,1072 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<!-- saved from url=(0061)http://today.java.net/pub/a/today/2003/07/30/LuceneIntro.html -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<TITLE>java.net: Lucene Intro</TITLE>
+	<META name="description" content="Lucene is a high-performance, scalable, search engine technology.  The first part of this article takes you through an example of using Lucene to index all the text files in a directory and its subdirectories. The remainder provides examples of analysis...">
+	<META name="keywords" content="java.net,Java search,Lucene,Apache Jakarta,index analysis,search engine,Databases, Search,Erik Hatcher,">
+	<META name="date" content="Jul. 30, 2004">
+
+<!--  CSS stylesheet  -->
+<LINK rel="stylesheet" href="./Lucene Intro_files/main.css" type="text/css">
+
+<LINK rel="shortcut icon" href="http://today.java.net/favicon.ico">
+</HEAD><!-- stopindex --><!--  Common body tag  --><BODY leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" rightmargin="0" bgcolor="#ffffff">
+<A name="top"></A>
+
+<!--  Masthead  -->
+<DIV class="topline">
+<DIV class="topbar">
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100&percnt;" height="25">
+<TBODY><TR>
+<TD width="100&percnt;" rowspan="2"><A href="http://www.java.net/"><IMG src="./Lucene Intro_files/header_jnet_new.jpg" width="500" height="60" border="0" alt="The Source for Java Technology Collaboration"></A></TD>
+ <TD nowrap="nowrap" style="vertical-align:middle">
+ <DIV id="login">
+ 
+  <FORM name="loginform" id="loginform" action="https://www.dev.java.net/servlets/TLogin" method="post">
+  <INPUT type="hidden" name="redir" value="http://today.java.net/pub/a/today/2003/07/30/LuceneIntro.html">
+  <DIV>
+  <STRONG>User:</STRONG>
+   <INPUT type="text" name="loginID" id="loginID" value="" size="7" maxlength="32">
+   <STRONG>Password:</STRONG>
+
+   <INPUT type="password" name="password" id="password" value="" size="7" maxlength="32">
+   <INPUT type="submit" name="Login" class="buttonred" id="Button" value="Login"> </DIV>
+  <DIV class="small" align="right"><STRONG> <A href="https://www.dev.java.net/servlets/Join">Register</A>  | <A href="https://www.dev.java.net/servlets/TLogin">Login help</A>   &nbsp;&nbsp;&nbsp;</STRONG></DIV> 
+</FORM>
+ 
+</DIV>
+</TD> 
+</TR>
+</TBODY></TABLE>
+</DIV>
+
+<!--  Tabs  -->
+
+
+<NOINDEX>
+<DIV class="tabs" id="toptabs">
+<TABLE cellspacing="0" cellpadding="4" border="0">
+<TBODY>
+<TR>
+<TD><A href="https://www.dev.java.net/servlets/StartPage">My       pages</A> </TD>
+<TD><A href="http://community.java.net/projects/">Projects</A></TD>
+<TD><A href="http://community.java.net/">Communities</A>   </TD>
+<TH><A href="http://www.java.net/">java.net</A></TH>
+</TR></TBODY></TABLE></DIV>
+</NOINDEX>
+
+
+
+<TABLE id="main" cellspacing="2" cellpadding="2" width="100&percnt;" border="0">
+  <TBODY>
+  <TR valign="top">
+    <TD id="leftcol" width="150" rowspan="2">
+	<IMG src="./Lucene Intro_files/a.gif" width="150" height="1"><BR>
+<DIV id="navcolumn">
+<!--   COMMUNITY LINKS   -->
+<NOINDEX>
+<DIV class="toolgroup" id="communitylinks">
+<DIV class="label"><STRONG>Get Involved</STRONG></DIV>
+<DIV class="body">
+<DIV><A href="https://java-net.dev.java.net/">java-net Project</A></DIV>
+<DIV><A href="http://www.java.net/request_project.csp">Request a Project</A></DIV>
+<DIV><A href="http://community.java.net/help_wanted/">Project&nbsp;Help&nbsp;Wanted&nbsp;Ads</A></DIV>
+<DIV><A href="http://community.java.net/projects/publicize.csp">Publicize your Project</A></DIV>
+<!-- <div><a href="#">Success Stories</a></div>  -->
+<DIV><A href="http://today.java.net/cs/user/create/bl">Submit Content</A></DIV>
+<DIV><SCRIPT language="JavaScript" type="text/javascript">
+<!--
+var name = "spamreport";
+var domain = "admin.dev.java.net";
+var display = "Report Inappropriate Content";
+var subject = "";
+var ending = "";
+var style = "";
+document.write('<a class="' + style + '" href="mailto:' + name + '&#64;' + domain + '?subject=' + subject + '">');
+if (display) {
+ document.write(display);
+} else {
+ document.write(name + '&#64;' + domain);
+}
+document.write('</a>' + ending);
+document.write('<!-- mailmunge bit -->');
+// -->
+</SCRIPT><A class="" href="mailto:spamreport@admin.dev.java.net?subject=">Report Inappropriate Content</A><!-- mailmunge bit -->
+</DIV>
+</DIV>
+</DIV>
+
+<DIV class="toolgroup" id="communitylinks">
+<DIV class="label"><STRONG>Get Informed</STRONG></DIV>
+<DIV class="body">
+<DIV><A href="http://www.java.net/about.csp">About java.net</A></DIV>
+<DIV><A href="http://today.java.net/pub/q/articles">Articles</A></DIV>
+<DIV><A href="http://weblogs.java.net/">Blogs</A></DIV>
+<DIV><A href="http://www.java.net/events">Events</A></DIV>
+<DIV><A href="http://today.java.net/today/alsotoday.csp">Also in Java Today</A></DIV>
+<DIV><A href="http://safari.java.net/">java.net Online Books</A></DIV>
+<DIV><A href="http://today.java.net/today/archive/">java.net Archives</A></DIV>
+</DIV>
+</DIV>
+
+<DIV class="toolgroup" id="communitylinks">
+<DIV class="label"><STRONG>Get Connected</STRONG></DIV>
+<DIV class="body">
+<DIV><A href="http://forums.java.net/">java.net Forums</A></DIV>
+<DIV><A href="http://wiki.java.net/">Wiki</A> and <A href="http://wiki.java.net/bin/view/Javapedia/WebHome">Javapedia</A></DIV>
+<DIV><A href="http://wiki.java.net/bin/view/People/WebHome">People</A>, <A href="http://partners.java.net/">Partners</A>, and <A href="http://wiki.java.net/bin/view/Javanet/JobsWiki">Jobs</A> </DIV>
+<DIV><A href="http://community.java.net/jugs/listing.csp">Java User Groups</A></DIV>
+<DIV><!--  <a href="https://java-net.dev.java.net/servlets/ProjectMailingListList">Newsletters</a> and  --><A href="http://today.java.net/pub/q/rsschannels">RSS Feeds</A></DIV>
+</DIV>
+</DIV>
+
+<DIV class="toolgroup" id="communitylinks">
+<DIV class="label"><B>Search</B></DIV>
+<DIV class="body">
+<FORM action="http://www.java.net/search_results.csp" id="cse-search-box">
+<DIV>Web and Projects:</DIV>
+<DIV><INPUT type="text" name="q" class="medium" size="14" style="border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(126, 157, 185); border-right-color: rgb(126, 157, 185); border-bottom-color: rgb(126, 157, 185); border-left-color: rgb(126, 157, 185); padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; background-image: url(http://www.google.com/coop/intl/en/images/google_custom_search_watermark.gif); background-repeat: no-repeat; background-attachment: initial; -webkit-background-clip: initial; -webkit-background-origin: initial; background-color: rgb(255, 255, 255); background-position: 0&percnt; 50&percnt;; ">
+<INPUT type="hidden" name="cx" value="011656849246290948379:pdvwpzpb2di">
+<INPUT type="hidden" name="cof" value="FORID:9">
+<INPUT type="hidden" name="ie" value="UTF-8">
+<INPUT class="buttonred" type="submit" name="sa" value=" &raquo;">
+</DIV>
+</FORM>
+<SCRIPT type="text/javascript" src="./Lucene Intro_files/brand"></SCRIPT>
+
+<DIV>Online Books:</DIV>
+<FORM action="http://safari.java.net/search" method="post" name="searchForm" id="form_searchForm">
+<INPUT name="__formName" value="searchForm" type="hidden">
+<INPUT value="simple" name="searchmode" id="searchmode" type="hidden">
+<INPUT value="0" name="page" id="page" type="hidden">
+<INPUT value="summary" name="searchview" id="searchview" type="hidden">
+<INPUT value="rank" name="sort" id="sort" type="hidden">
+<INPUT value="desc" name="order" id="order" type="hidden">
+<INPUT value="1" name="NewSearch" id="NewSearch" type="hidden">
+<DIV>
+<INPUT name="searchtextbox" id="searchtextbox" type="text" value="" class="medium" size="14">
+<INPUT class="buttonred" value=" &raquo; " border="0" type="submit"></DIV>
+</FORM>
+
+<DIV>java.net on <A href="http://markmail.org/">MarkMail</A>:</DIV>
+<FORM action="http://markmail.org/search/list:net.java">
+<DIV><INPUT name="q" id="searchtextbox" type="text" value="" class="medium" size="14">
+<INPUT class="buttonred" value=" &raquo; " border="0" type="submit"></DIV>
+</FORM>
+
+<DIV><A href="http://www.java.net/search.csp">Advanced Search</A></DIV>
+</DIV>
+</DIV>
+</NOINDEX>
+
+</DIV>
+<BR>
+</TD>
+<TD height="3" colspan="2"><IMG src="./Lucene Intro_files/a.gif" width="1" height="3"><BR></TD>
+</TR>
+<TR> 
+<TD width="10"><IMG src="./Lucene Intro_files/a.gif" width="10" height="1"></TD>
+<TD width="100&percnt;" valign="top">
+
+<!-- startindex -->
+<!--  Begin SiteCatalyst code  -->
+<SCRIPT language="JavaScript">
+<!--
+var s_channel="technical articles";
+//--></SCRIPT>
+<!--  End SiteCatalyst code  -->
+
+<!--  begin discuss-print-email-blog options  -->
+<NOINDEX>
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100&percnt;">
+<TBODY><TR>
+<TD class="smaller" valign="top">&nbsp;</TD>
+<TD width="10">&nbsp;</TD>
+<TD align="right" valign="bottom"><DIV class="sitelinks" style="padding:0px;">
+<TABLE border="0" cellpadding="0" cellspacing="0">
+<TBODY><TR>
+<!--  email option  -->
+<TD valign="bottom" align="right"><IMG src="./Lucene Intro_files/ic_email.gif" width="14" height="12" border="0" hspace="4" vspace="1" alt=" "></TD>
+<TD valign="bottom" class="smaller" nowrap="nowrap"><A href="mailto:?subject=Lucene%20Intro&body=http://today.java.net/pub/a/today/2003/07/30/LuceneIntro.html">E-mail</A></TD>
+
+<!--  print option  -->
+<TD>&nbsp;&nbsp;</TD>
+<TD valign="bottom" align="right"><IMG src="./Lucene Intro_files/ic_print.gif" width="14" height="12" hspace="4" border="0" alt=" "></TD>
+<TD valign="bottom" class="smaller" nowrap="nowrap"><A href="http://today.java.net/lpt/a/16">Print</A></TD>
+
+<!--  discuss  -->
+<TD>&nbsp;&nbsp;</TD>
+
+<TD valign="bottom" align="right"><IMG src="./Lucene Intro_files/ic_discuss.gif" width="13" height="12" hspace="4" border="0" alt=" "></TD>
+<TD valign="bottom" class="smaller" nowrap="nowrap"><A href="http://today.java.net/pub/a/today/2003/07/30/LuceneIntro.html?page=last#thread">Discuss</A></TD>
+
+
+<!--  blog  -->
+<TD>&nbsp;&nbsp;</TD>
+<TD valign="bottom" align="right"><IMG src="./Lucene Intro_files/ic_blog.gif" width="14" height="12" hspace="4" border="0" alt=" "></TD>
+<TD valign="bottom" class="smaller" nowrap="nowrap"><A href="http://today.java.net/cs/user/print/a/16?x-t=blog_link.view&x-layout=blank" onclick="window.open(&#39;/cs/user/print/a/16?x-t=blog_link.view&amp;x-layout=blank&#39;,&#39;Blog&#39;,&#39;toolbar=no,width=600,height=400,status=no,location=no,scrollbars=yes,resizable=yes,menubar=yes&#39;);return false">Blog</A></TD> 
+</TR>
+</TBODY></TABLE></DIV>
+</TD></TR>
+</TBODY></TABLE>
+</NOINDEX>
+<!--  end discuss-print-email-blog options  -->
+
+<DIV style="clear:both"></DIV>
+<DIV class="contentdivider"><TABLE border="0" cellpadding="0" cellspacing="0" width="100&percnt;" class="grey4">
+<TBODY><TR><TD><IMG src="./Lucene Intro_files/a.gif" width="1" height="4" border="0" alt=" "></TD></TR></TBODY></TABLE></DIV>
+
+<!--  content here  -->
+<!-- CS_PAGE_BREAK -->
+<H2>
+<IMG src="./Lucene Intro_files/111-lucene.gif" height="91" width="111" alt="Lucene Intro" border="0" align="left" hspace="10" vspace="0">
+Lucene Intro</H2>
+by <A href="http://today.java.net/pub/au/15">Erik Hatcher</A><BR>
+07/30/2004<BR clear="all"><BR>
+<!--  sidebar begins  -->
+<!--  don't move sidebars  -->
+<!--  sidebar ends  -->
+
+<P>
+<EM>
+Editor&#39;s note: We are rerunning this Introduction to Lucene that originally ran in July 2003 in honor of the publication of &quot;Lucene in action&quot; by Otis Gospodnetic and Erik Hatcher.  To see an example of Lucene in action, take a look at Erik&#39;s <A href="http://www.lucenebook.com/search?query=java.net">www.lucenebook.com</A> site.
+</EM>
+</P>
+
+<P>In order to make sense of the perceived complexity of
+the world, humans have invented categorizations, classifications, genus,
+species, and other types of hierarchical organizational schemes. The
+explosion of the Internet and electronic data repositories has realized many
+dreams of being able to quickly find information that was previously
+unattainable. Yahoo was the first high-profile categorized view of the Internet.
+More and more, though, users demand the flexibility of free form queries
+which cuts across rigid category boundaries, as proven by the popular reliance 
+on search engines like Google. If users are demanding these capabilities of your applications, Lucene is quite possibly the best answer!</P>
+
+<P>Lucene is a high-performance, scalable, search engine technology. Both
+indexing and searching features make up the Lucene API. The first part of this article takes you through an example of using Lucene to index all the text files in a directory and its subdirectories. Before proceeding to examples of analysis and searching, we&#39;ll take a brief detour to discuss the format of the index directory.</P>
+
+<H2>Indexing</H2>
+
+<P> We&#39;ll begin by creating the <CODE>Indexer</CODE> class that will be used to index all the text files 
+in a specified directory. This class is a utility class with a single public method <CODE>index()</CODE> that
+takes two arguments. The first argument is a <CODE>File</CODE> object <CODE>indexDir</CODE>
+that corresponds to the directory where the index will be created. The second argument is another <CODE>File</CODE> object <CODE>dataDir</CODE> that corresponds to the directory to be indexed. </P>
+
+<PRE><CODE>public static void index(File indexDir, File dataDir) throws IOException {
+    if (!dataDir.exists() || !dataDir.isDirectory()) {
+       throw new IOException(dataDir + &quot; does not exist or is not a directory&quot;);
+    }
+
+    IndexWriter writer = new IndexWriter(indexDir, new StandardAnalyzer(), true);
+    indexDirectory(writer, dataDir);
+    writer.close();
+}</CODE></PRE>
+
+<P>After checking that  <CODE>dataDir</CODE> exists and is a directory, we instantiate the 
+<CODE>IndexWriter</CODE> object that will be used to create the index. 
+The <CODE>IndexWriter</CODE> constructor used above accepts as its first parameter the
+directory where the index will be created, with the last argument mandating
+that it be created from scratch rather than reusing an index that may already
+exist in that same location. The middle parameter is the analyzer to
+use for tokenized fields. Field analysis is described below, but for
+now we can take for granted that the important words in the file will
+be indexed thanks to the <CODE>StandardAnalyzer</CODE>.</P>
+
+<P>The <CODE>indexDirectory()</CODE> walks the directory tree, scanning
+for .txt files. Any .txt file will be indexed using the <CODE>indexFile()</CODE> method, any
+directory will be processed using the <CODE>indexDirectory()</CODE>method, and any other
+file will be ignored. Here is the code for <CODE>indexDirectory</CODE>. </P>
+
+<PRE><CODE>private static void indexDirectory(IndexWriter writer, File dir) throws IOException {
+    File[] files = dir.listFiles();
+
+    for (int i=0; i &lt; files.length; i++) {
+        File f = files[i];
+        if (f.isDirectory()) {
+           indexDirectory(writer, f);  // recurse
+        } else if (f.getName().endsWith(&quot;.txt&quot;)) {
+           indexFile(writer, f);
+        }
+    }
+}</CODE></PRE>
+
+<P>The <CODE>indexDirectory()</CODE> method lives independently from Lucene. This is
+an example of Lucene usage in general -- using Lucene rarely involves much
+coding directly with the Lucene API, but rather relies on your cleverness
+using it. And finally in the <CODE>Indexer</CODE> class, we get to the heart of
+its purpose, indexing a single text file:</P>
+
+<PRE><CODE>private static void indexFile(IndexWriter writer, File f) throws IOException {
+    System.out.println(&quot;Indexing &quot; + f.getName());
+
+    Document doc = new Document();
+    doc.add(Field.Text(&quot;contents&quot;, new FileReader(f)));
+    doc.add(Field.Keyword(&quot;filename&quot;, f.getCanonicalPath()));
+    writer.addDocument(doc);
+}</CODE></PRE>
+
+<P>And believe it or not, we&#39;re done! We&#39;ve just indexed an entire directory
+tree of text files. Yes, it really is that simple. To summarize, all
+it took to create this index were these steps:</P>
+<OL>
+<LI>Create an <CODE>IndexWriter</CODE>.</LI>
+<LI> Locate each file to be indexed by walking the directory looking for file names ending in <CODE>.txt</CODE>.</LI>
+<LI>For each text file, create a <CODE>Document</CODE> with the desired <CODE>Field</CODE>s.</LI>
+<LI>Add the document to the <CODE>IndexWriter</CODE> instance.</LI>
+</OL>
+<P> Let&#39;s assemble these methods into an <CODE>Indexer</CODE> class and add the appropriate imports. You can index
+a file by calling <CODE>Indexer.index( indexDir, dataDir)</CODE>. We&#39;ve also added a <CODE>main()</CODE> method so
+the <CODE>Indexer</CODE> can be run from the command line with the two directories passed in as command line
+parameters.</P>
+
+<PRE><CODE>import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.FileReader;
+
+public class Indexer {
+    public static void index(File indexDir, File dataDir) throws IOException {
+        if (!dataDir.exists() || !dataDir.isDirectory()) {
+            throw new IOException(dataDir + &quot; does not exist or is not a directory&quot;);
+        }
+        IndexWriter writer = new IndexWriter(indexDir, new StandardAnalyzer(), true);
+        indexDirectory(writer, dataDir);
+        writer.close();
+    }
+
+    private static void indexDirectory(IndexWriter writer, File dir) throws IOException {
+        File[] files = dir.listFiles();
+
+        for (int i=0; i &lt; files.length; i++) {
+            File f = files[i];
+            if (f.isDirectory()) {
+                indexDirectory(writer, f);  // recurse
+            } else if (f.getName().endsWith(&quot;.txt&quot;)) {
+                indexFile(writer, f);
+            }
+        }
+    }
+
+    private static void indexFile(IndexWriter writer, File f) throws IOException {
+        System.out.println(&quot;Indexing &quot; + f.getName());
+
+        Document doc = new Document();
+        doc.add(Field.Text(&quot;contents&quot;, new FileReader(f)));
+        doc.add(Field.Keyword(&quot;filename&quot;, f.getCanonicalPath()));
+        writer.addDocument(doc);
+    }
+
+    public static void main(String[] args) throws Exception {
+        if (args.length != 2) {
+            throw new Exception(&quot;Usage: &quot; + Indexer.class.getName() + &quot; &lt;index dir&gt; &lt;data dir&gt;&quot;);
+        }
+        File indexDir = new File(args[0]);
+        File dataDir = new File(args[1]);
+        index(indexDir, dataDir);
+    }
+}</CODE></PRE>
+
+<P>
+In this example, two fields are part of each document: the contents of the
+text file and the full file name. The contents field gets some
+extra special treatment under the covers as the <CODE>StandardAnalyzer</CODE>, which is
+discussed below, processes it. The filename field is indexed as is.
+There are still more explanations about what is going on, of course.
+The <CODE>Field</CODE> static methods, <CODE>Text</CODE>, and <CODE>Keyword</CODE> will be explained in detail after
+we take a quick look inside a Lucene index. </P>
+<H2>Lucene Index Anatomy</H2>
+<P>The Lucene index format is a directory structure of several files.
+ You can successfully use Lucene without understanding this directory structure. Feel free
+to skip this section and treat the directory as a black box without regard to what is inside. When you are ready to dig
+deeper you&#39;ll find that the files you created in the last section contain statistics and other data
+to facilitate rapid searching and ranking. An index contains a sequence
+of documents. In our indexing example, each document represents information
+about a text file.</P>
+<H3>Documents</H3>
+<P>Documents are the primary retrievable units from a Lucene query. Documents
+consist of a sequence of fields. Fields have a name (&quot;contents&quot; and
+&quot;filename&quot; in our example). Field values are a sequence of terms.</P>
+<H3>Terms</H3>
+<P>A term is the smallest piece of a particular field. Fields have three
+attributes of interest:</P>
+<UL>
+<LI>Stored  -- Original text is available in the documents returned from a search.</LI>
+<LI>Indexed  -- Makes this field searchable.</LI>
+<LI>Tokenized  --  The text added is run through an analyzer and broken into relevant
+pieces (only makes sense for indexed fields).</LI>
+</UL>
+<P>
+Stored fields are handy for immediately having the original text available
+from a search, such as a database primary key or filename. Stored fields
+can dramatically increase the index size, so use them wisely. Indexed
+field information is stored extremely efficiently, such that the same term
+in the same field name across multiple documents is only stored once, with pointers to the documents that
+contain it.</P>
+<P>The <CODE>Field</CODE> class has a few static methods to construct fields with combinations
+of the various attributes.  They are:</P>
+<UL>  
+ <LI><CODE>Field.Keyword</CODE> -- Indexed and stored, but <EM>not</EM> tokenized.  Keyword fields
+   are useful for data like filenames, part numbers, primary keys, and other text that needs to stay intact as is.</LI>
+ <LI><CODE>Field.Text</CODE> -- Indexed and tokenized.  The text is also stored if added as a <CODE>String</CODE>, but 
+ not stored if added as a <CODE>Reader</CODE>.</LI>
+ <LI><CODE>Field.UnIndexed</CODE> -- Only stored.  UnIndexed fields are not searchable.</LI>
+ <LI><CODE>Field.UnStored</CODE> -- Indexed and tokenized, but <EM>not</EM> stored.  UnStored fields are ideal for
+   text you want to be searchable but want to maintain the original text elsewhere or it is not needed for immediate display
+     from search results.</LI>
+     </UL>
+<P>Up to now, Lucene seems relatively simple. But don&#39;t be fooled into
+thinking that there is not much to what is under the covers. It&#39;s actually
+quite sophisticated. The heart of this sophistication comes in the
+analysis of text, and how terms are pulled from the field data.</P>
+<H2>Analysis</H2>
+<P> Tokenized fields are where the real fun happens.
+In our example, we are indexing the contents of text files. The goal
+is to have the words in the text file be searchable, but for practical purposes
+it doesn&#39;t make sense to index every word. Some words like &quot;a&quot;, &quot;and&quot;,
+and &quot;the&quot; are generally considered irrelevant for searching and can be optimized
+out -- these are called stop words.</P>
+
+<P>Does case matter for searching?
+What are word boundaries? Are acronyms, email addresses, URLs, and
+other such textual constructs kept intact  and made searchable? If
+a singular word is indexed, should searching on the plural form return the
+document? These are all very interesting and complex questions to ask
+when deciding on which analyzer to use, or whether to create your own.</P>
+ 
+<P>In our example, we use Lucene&#39;s built-in <CODE>StandardAnalyzer</CODE>,
+but there are other built-in analyzers as well as some optional ones (found
+currently in the Lucene &quot;sandbox&quot; CVS repository) that can be used.
+Here is some code that explores what several of these analyzers do to two
+different text strings:</P>
+
+<PRE><CODE>import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.StopAnalyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Token;
+import org.apache.lucene.analysis.SimpleAnalyzer;
+import org.apache.lucene.analysis.snowball.SnowballAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import java.io.StringReader;
+import java.io.IOException;
+
+public class AnalysisDemo {
+    private static final String[] strings = {
+        &quot;The quick brown fox jumped over the lazy dogs&quot;,
+        &quot;XY&amp;Z Corporation - xyz@example.com&quot;
+    };
+
+    private static final Analyzer[] analyzers = new Analyzer[]{
+        new WhitespaceAnalyzer(),
+        new SimpleAnalyzer(),
+        new StopAnalyzer(),
+        new StandardAnalyzer(),
+        new SnowballAnalyzer(&quot;English&quot;, StopAnalyzer.ENGLISH_STOP_WORDS),
+    };
+
+    public static void main(String[] args) throws IOException {
+        for (int i = 0; i &lt; strings.length; i++) {
+            analyze(strings[i]);
+        }
+    }
+
+    private static void analyze(String text) throws IOException {
+        System.out.println(&quot;Analzying \&quot;&quot; + text + &quot;\&quot;&quot;);
+        for (int i = 0; i &lt; analyzers.length; i++) {
+            Analyzer analyzer = analyzers[i];
+            System.out.println(&quot;\t&quot; + analyzer.getClass().getName() + &quot;:&quot;);
+            System.out.print(&quot;\t\t&quot;);
+            TokenStream stream = analyzer.tokenStream(&quot;contents&quot;, new StringReader(text));
+            while (true) {
+                Token token = stream.next();
+                if (token == null) break;
+
+                System.out.print(&quot;[&quot; + token.termText() + &quot;] &quot;);
+            }
+            System.out.println(&quot;\n&quot;);
+        }
+    }
+
+}</CODE></PRE>
+
+<P>The <CODE>analyze</CODE> method is using Lucene&#39;s API in an exploratory fashion.
+Your indexing code would not need to see the results of textual analysis,
+but it is helpful to see the terms that result from the various analyzers.
+Here are the results:</P>
+
+<PRE><CODE>Analzying &quot;The quick brown fox jumped over the lazy dogs&quot;
+    org.apache.lucene.analysis.WhitespaceAnalyzer:
+        [The] [quick] [brown] [fox] [jumped] [over] [the] [lazy] [dogs] 
+
+    org.apache.lucene.analysis.SimpleAnalyzer:
+        [the] [quick] [brown] [fox] [jumped] [over] [the] [lazy] [dogs] 
+
+    org.apache.lucene.analysis.StopAnalyzer:
+        [quick] [brown] [fox] [jumped] [over] [lazy] [dogs] 
+
+    org.apache.lucene.analysis.standard.StandardAnalyzer:
+        [quick] [brown] [fox] [jumped] [over] [lazy] [dogs] 
+
+    org.apache.lucene.analysis.snowball.SnowballAnalyzer:
+        [quick] [brown] [fox] [jump] [over] [lazi] [dog] 
+
+Analzying &quot;XY&amp;Z Corporation - xyz@example.com&quot;
+    org.apache.lucene.analysis.WhitespaceAnalyzer:
+        [XY&amp;Z] [Corporation] [-] [xyz@example.com] 
+
+    org.apache.lucene.analysis.SimpleAnalyzer:
+        [xy] [z] [corporation] [xyz] [example] [com] 
+
+    org.apache.lucene.analysis.StopAnalyzer:
+        [xy] [z] [corporation] [xyz] [example] [com] 
+
+    org.apache.lucene.analysis.standard.StandardAnalyzer:
+        [xy&amp;z] [corporation] [xyz@example] [com] 
+
+    org.apache.lucene.analysis.snowball.SnowballAnalyzer:
+        [xy&amp;z] [corpor] [xyz@exampl] [com] </CODE></PRE>
+		
+<P>The <CODE>WhitespaceAnalyzer</CODE> is the most basic, simply separating tokens based
+on, of course, whitespace. Note that not even capitalization was changed.
+Searches are case-sensitive, so a general best practice is to lowercase text
+during the analysis phase. The rest of the analyzers do lowercase as
+part of the process. The <CODE>SimpleAnalyzer</CODE> splits text at non-character
+boundaries, such as special characters (&#39;&amp;&#39;, &#39;@&#39;, and &#39;.&#39; in the second
+demo string). The <CODE>StopAnalyzer</CODE> builds upon the features of the <CODE>SimpleAnalyzer</CODE>
+and also removes common English stop words.</P>
+ <P>The most sophisticated analyzer built into Lucene&#39;s core
+is <CODE>StandardAnalyzer</CODE>. Under the covers it is a JavaCC-based parser with
+rules for email addresses, acronyms, hostnames, floating point numbers,
+as well as the lowercasing and stop word removal. Analyzers build upon a
+chaining-filter architecture, allowing single-purpose rules to be combined.</P>
+<P> The <CODE>SnowballAnalyzer</CODE> illustrated is not currently a built-in
+Lucene feature. It is part of the source code available in the jakarta-lucene-sandbox
+CVS repository. It has the most peculiar results of all analyzers shown.
+The algorithm is language-specific, using stemming. Stemming algorithms
+attempt to reduce a word to a common root form. This is seen with &quot;lazy&quot;
+being reduced to &quot;lazi&quot;. The word &quot;laziness&quot; would also be reduced
+to &quot;lazi&quot;, allowing searches for either word to find documents containing
+the other. Another interesting example of the <CODE>SnowballAnalzyer</CODE> in action
+is on the text &quot;corporate corporation corporations corpse&quot;, which yielded
+these results:</P>
+
+<PRE><CODE>[corpor] [corpor] [corpor] [corps]</CODE></PRE>
+
+<P>This was not the case for a lot of .com&#39;s, which became synonymous with &quot;corpse,&quot; although the stemming algorithm sees the difference.</P>
+<P> There is far more to textual analysis than is covered
+here. It is the topic of many dissertations and patents, and certainly
+ongoing research. Let&#39;s now turn our attention to searching, with
+the knowledge of how tokens are pulled from the original text.</P>
+<H2>Searching</H2>
+ <P>To match our indexing example, a <CODE>Searcher</CODE> class was created
+to display search results from the same index. Its skeleton main is
+shown here:</P>
+
+<PRE><CODE>import org.apache.lucene.document.Document;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Hits;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import java.io.File;
+
+public class Searcher {
+    public static void main(String[] args) throws Exception {
+        if (args.length != 2) {
+            throw new Exception(&quot;Usage: &quot; + Searcher.class.getName() + &quot; &lt;index dir&gt; &lt;query&gt;&quot;);
+        }
+
+        File indexDir = new File(args[0]);
+        String q = args[1];
+
+        if (!indexDir.exists() || !indexDir.isDirectory()) {
+            throw new Exception(indexDir + &quot; is does not exist or is not a directory.&quot;);
+        }
+
+        search(indexDir, q);
+    }
+}</CODE></PRE>
+
+<P>Again, we see nothing exciting here, just grabbing the command-line arguments
+representing the index directory (which must have previously been created)
+and the query to use. The interesting stuff happens in the <CODE>search</CODE> method:</P>
+
+<PRE><CODE>public static void search(File indexDir, String q)  throws Exception{
+    Directory fsDir = FSDirectory.getDirectory(indexDir, false);
+    IndexSearcher is = new IndexSearcher(fsDir);
+
+    Query query = QueryParser.parse(q, &quot;contents&quot;, new StandardAnalyzer());
+    Hits hits = is.search(query);
+    System.out.println(&quot;Found &quot; + hits.length() + &quot; document(s) that matched query &#39;&quot; + q + &quot;&#39;:&quot;);
+    for (int i = 0; i &lt; hits.length(); i++) {
+        Document doc = hits.doc(i);
+        System.out.println(doc.get(&quot;filename&quot;));
+    }
+}</CODE></PRE>
+
+<P>Through Lucene&#39;s API, a <CODE>Query</CODE> object instance is created and handed to an
+<CODE>IndexSearcher.search</CODE> method. The <CODE>Query</CODE> object can be constructed through
+the API using the built-in <CODE>Query</CODE> subclasses:</P>
+<UL>
+<LI><CODE>TermQuery</CODE></LI>
+<LI><CODE>BooleanQuery</CODE></LI>
+<LI><CODE>PrefixQuery</CODE></LI>
+<LI><CODE>WildcardQuery</CODE></LI>
+<LI><CODE>RangeQuery</CODE></LI>
+<LI>and a few others.</LI>
+</UL>
+<P>In our search method,
+though, we are using the <CODE>QueryParser</CODE> to parse a user-entered query.
+<CODE>QueryParser</CODE> is a sophisticated JavaCC-based parser to turn Google-like search
+expressions into Lucene&#39;s API representation of a <CODE>Query</CODE>. Lucene&#39;s expression
+syntax is documented on the Lucene web site (see Resources); expressions may
+contain boolean operators, per-field queries, grouping, range queries, and
+more. An example query expression &quot;+java -microsoft&quot;, which returns
+hits for documents that contain the word &quot;java&quot; but not the word &quot;microsoft.&quot; <CODE>QueryParser.query</CODE> requires the developer specify the default field for searching,
+and in this case we specified the &quot;contents&quot; field. This would be equivalent
+to querying for &quot;+contents:java - contents:microsoft&quot;, but allowing for it
+to be more user friendly.</P>
+<P>The developer must also specify the analyzer to be used for tokenizing the query.  In this case we use <CODE>StandardAnalyzer</CODE>, which is the same analyzer used for indexing.  Typically the same analyzer should be used for both indexing and QueryParser searching.  If we had used the SnowballAnalyzer as shown in the analysis examples, this would enable &quot;laziness&quot; searches to find the &quot;quick brown fox&quot; document.</P>
+<P>After searching, a <CODE>Hits</CODE> collection is returned. The hits returned are
+ordered by Lucene&#39;s determination of score. It is beyond the scope
+of this article to delve into Lucene scoring, but rest assured that its default
+behavior is plenty good enough for the majority of applications, and it can
+be customized in the rare cases that the default behavior is insufficient.</P>
+<P>  The <CODE>Hits</CODE> collection is itself not an actual collection
+of the documents that match the search. This is done for high-performance
+reasons. It is a simple method call to retrieve the document though.
+In our example we display the filename field value for each document that
+matches the query.</P>
+<H2>Summary</H2>
+<P> Lucene is a spectacularly top-notch piece of work.
+Even with its wondrous capabilities, it requires developer ingenuity to build
+applications around it. We&#39;ve seen a glimpse of the decisions that developers need to make with the choice of analyzers. There is more to it than this choice, though. Here are some questions to ponder as you consider
+adding Lucene to your projects:</P>
+<UL>
+<LI>What are my actual &quot;documents&quot;? (perhaps
+database rows or paragraphs rather than entire files)</LI>
+<LI>What are the fields
+that make up my documents?</LI>
+<LI>How do users want to search for documents?</LI>
+</UL>
+
+<P>This article serves as an introduction to Lucene&#39;s capabilities, demonstrating
+how simple Lucene usage is, yet how powerful its results are.</P>
+<H2>Resources</H2>
+<P>For more information on Lucene, visit the <A href="http://jakarta.apache.org/lucene">Lucene web site</A>.  There you can find more detailed information on the <A href="http://jakarta.apache.org/lucene/docs/queryparsersyntax.html"> QueryParser syntax</A> and the <A href="http://jakarta.apache.org/lucene/docs/fileformats.html">index file format</A>.</P>
+
+<P><EM><A href="http://today.java.net/pub/au/15">Erik Hatcher</A> is the co-author of the premiere book on Ant, Java Development with Ant (published by Manning),  and is co-author of  &quot;Lucene in Action&quot;.</EM></P>
+
+<DIV class="pad3x0">
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100&percnt;" bgcolor="#000000"><TBODY><TR><TD><IMG src="./Lucene Intro_files/a.gif" width="1" height="1" border="0" alt=" "></TD></TR></TBODY></TABLE></DIV>
+
+
+
+<!--  end content  -->
+
+
+<H2>Related Articles</H2>
+<P><A href="http://today.java.net/pub/a/today/2003/11/07/QueryParserRules.html">QueryParser Rules</A><BR>
+Erik Hatcher continues his series on Lucene with a look at using the QueryParser. Three things are needed: an expression, the default field name to use for unqualified fields in the expression, and an analyzer to pieces of the expression.</P>
+
+
+
+<P>View all <A href="http://today.java.net/pub/q/articles">java.net Articles</A>.</P>
+
+
+<A name="thread"></A>
+
+<DIV class="feedback">
+<DIV class="rbox">
+<DIV class="rboxtop"><DIV></DIV></DIV>
+<DIV class="rbcontent">
+<B>Any favorite Lucene tricks and techniques you&#39;d like to share?</B><BR>
+<DIV class="clear"></DIV>
+<DIV class="tb_left"><A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_disc/300&x-lr2=a/16&page="><IMG src="./Lucene Intro_files/button_post.gif" border="0" width="118" height="20" vspace="4" alt="Post Comment"></A>
+</DIV>
+<!--  rbcontent & rbox closed in cs_disc/thread_header.view  -->
+<DIV class="tb_right">
+
+<A href="http://today.java.net/pub/a/today/2003/07/30/LuceneIntro.html?page=last&x-maxdepth=0#thread"><IMG src="./Lucene Intro_files/button_main_threads.gif" hspace="6" vspace="4" alt="Full Threads" title="Display main threads only" border="0"></A>
+<A href="http://today.java.net/pub/a/today/2003/07/30/LuceneIntro.html?page=last&x-order=date#thread"><IMG src="./Lucene Intro_files/button_old.gif" alt="Oldest First" title="Sort oldest posts first" border="0" vspace="4"></A>
+
+</DIV>
+<DIV class="clear"></DIV>
+<!--  closing divs from a/print.view, et al  -->
+
+</DIV>
+<DIV class="rboxbot"><DIV></DIV></DIV>
+</DIV>
+
+
+
+<P>Showing messages 1 through 16 of 16.
+
+</P>
+<UL>
+
+<LI>
+<A name="32644"></A>
+<B>lucene for syslog</B><BR>
+2006-11-23 22:57:15&nbsp;mskumar
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/32644&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/32644">View</A>] 
+
+<BR>
+<BR>
+Anybody tried lucene to search syslog? We have to the index incrementally and we need to compress the data once it get older etc. <BR>
+<BR>
+Do we need to create multiple indexes? or how can we handle massive index files?<BR>
+<BR>
+regards,<BR>
+MSK</LI>
+
+</UL>
+<UL>
+
+<LI>
+<A name="18737"></A>
+<B>database indexing</B><BR>
+2006-05-29 22:25:04&nbsp;manojjain
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/18737&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/18737">View</A>] 
+
+<BR>
+<BR>
+Hi..<BR>
+<BR>
+Can anyone help me that how to do database indexing using lucene.<BR>
+<BR>
+i just want indexing on database data without export data in any text files..<BR>
+<BR>
+so plz help me if anyone have any idea about this.<BR>
+<BR>
+Thanks</LI>
+
+</UL>
+<UL>
+
+<LI>
+<A name="4263"></A>
+<B>Skip new TAGS using  JavaCC for  HTMLparser.jj</B><BR>
+2004-05-11 04:32:25&nbsp;karthik_net
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/4263&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/4263">View</A>] 
+
+<BR>
+<BR>
+Guys<BR>
+ If u encounter  no nonsense tags while stripping them( tags ) using lucene,The problem lies with the File &quot;HTMLParser.java&quot; <BR>
+Since This File is the One which strips out the Tags out of  the  content  fronm HTML tags.<BR>
+<BR>
+Some times this may not work  relating to  o/p during indexing ....<BR>
+=====================================<BR>
+ex:-<BR>
+Parse Aborted: Encountered &quot;=&quot; at line  x , column y.<BR>
+Was expecting one of:<BR>
+    &lt;ArgName&gt; ...<BR>
+    &lt;TagEnd&gt; ...<BR>
+=====================================<BR>
+<BR>
+In such a case <BR>
+Use JavaCC to precompile the HTMLParser.jj file  which replaces the HTMLParser.java file with escape syntax  appropriately  written in  another file  HTMLParseConstant.java<BR>
+<BR>
+Experimented Resource &quot;Javacc-tutorial.pdf&quot;<BR>
+<BR>
+Enjoy  Indexing..........:)</LI>
+
+</UL>
+<UL>
+
+<LI>
+<A name="3596"></A>
+<B>Lucene Merge Index Files</B><BR>
+2004-04-14 23:08:24&nbsp;karthik_net
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/3596&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/3596">View</A>] 
+
+<BR>
+<BR>
+Hi<BR>
+     Using Lucene Is it possible to  merge 2  separate  Indexed  Lucene files....<BR>
+<BR>
+mail to karthik@controlnet.co.in</LI>
+
+<UL>
+
+<LI>
+<A name="17173"></A>
+<B>Lucene Merge Index Files</B><BR>
+2006-02-08 03:03:06&nbsp;michael_tamm
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/17173&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/17173">View</A>] 
+
+<BR>
+<BR>
+Yes - via the addIndexes method of the IndexWriter class.</LI>
+
+</UL>
+<UL>
+
+<LI>
+<A name="4566"></A>
+<B>Lucene Merge Index Files</B><BR>
+2004-05-21 03:06:31&nbsp;erikhatcher
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/4566&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/4566">View</A>] 
+
+<BR>
+<BR>
+Yes, you can merge two indexes using Lucene&#39;s IndexWriter.addIndexes() methods.</LI>
+
+</UL>
+</UL>
+<UL>
+
+<LI>
+<A name="3496"></A>
+<B>LUCENE [INDEX UPDATION]</B><BR>
+2004-04-07 05:07:28&nbsp;karthik_net
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/3496&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/3496">View</A>] 
+
+<BR>
+<BR>
+Hi<BR>
+     How can I  Update my indexed file  when  more files are added to the Indexed folder  [ with out  starting the Index from beginning ]<BR>
+<BR>
+mail:karthik@controlnet.co.in</LI>
+
+<UL>
+
+<LI>
+<A name="31319"></A>
+<B>LUCENE [INDEX UPDATION]</B><BR>
+2006-11-08 02:10:43&nbsp;sawan_sharma
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/31319&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/31319">View</A>] 
+
+<BR>
+<BR>
+There is no direct update procedure in Lucene. To update an index incrementally you must first delete the documents that were updated, and then re-add them to the index. </LI>
+
+</UL>
+<UL>
+
+<LI>
+<A name="4567"></A>
+<B>LUCENE [INDEX UPDATION]</B><BR>
+2004-05-21 03:07:33&nbsp;erikhatcher
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/4567&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/4567">View</A>] 
+
+<BR>
+<BR>
+Lucene supports adding/removing documents from an existing index.</LI>
+
+<UL>
+
+<LI>
+<A name="31320"></A>
+<B>LUCENE [INDEX UPDATION]</B><BR>
+2006-11-08 02:13:12&nbsp;sawan_sharma
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/31320&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/31320">View</A>] 
+
+<BR>
+<BR>
+How I can add and delete from index...<BR>
+How I can identify that which doc has already present in the index and which one is new and to be indexed.</LI>
+
+</UL>
+</UL>
+</UL>
+<UL>
+
+<LI>
+<A name="477"></A>
+<B>I agree - Lucene is amazing</B><BR>
+2003-08-01 05:56:54&nbsp;simongbrown
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/477&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/477">View</A>] 
+
+<BR>
+<BR>
+Lucene is probably one of the best pieces of software that I&#39;ve come across in a long time. Although the concepts underlying Lucene and text searching are complicated, the API that it provides really does hide away this complexity. I integrated Lucene into my blog (http://www.simongbrown.com/blog/2003/05/28.html#a1054114426000) and all-in-all it only took a couple of hours. Of course, the other thing to mention is that searches are *fast*. Lucene really is recommended.</LI>
+
+<UL>
+
+<LI>
+<A name="1827"></A>
+<B>I agree - Lucene is amazing</B><BR>
+2003-11-28 01:47:56&nbsp;allank
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/1827&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/1827">View</A>] 
+
+<BR>
+<BR>
+Does anyone know how Lucene works - I mean what information retrieval model does it use (vectors space, string search..). Can Lucene be plugged unto a different information retrieval model such as probabilistic search?<BR>
+<BR>
+cheers<BR>
+<BR>
+Allan</LI>
+
+<UL>
+
+<LI>
+<A name="2401"></A>
+<B>I agree - Lucene is amazing</B><BR>
+2004-01-19 14:14:15&nbsp;liebermm
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/2401&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/2401">View</A>] 
+
+<BR>
+<BR>
+It appears the API is flexible, and you can write your own query scoring algorithm, though it looks like it does come with a simple vector based TF/IDF scoring system: <BR>
+http://jakarta.apache.org/lucene/docs/api/org/apache/lucene/search/DefaultSimilarity.html</LI>
+
+</UL>
+<UL>
+
+<LI>
+<A name="1828"></A>
+<B>How Lucene works</B><BR>
+2003-11-28 01:59:29&nbsp;erikhatcher
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/1828&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/1828">View</A>] 
+
+<BR>
+<BR>
+Of course there are people that know how Lucene works!  :)<BR>
+<BR>
+Lucene in an inverted index.  The file format is documented on the Lucene  website.  As for the model being pluggable - I&#39;m not sure exactly what you mean here, but it is unlikely since Lucene is all about its own file format and retrieval mechanisms.  Perhaps Lucene could be the basis for the type of thing you are asking about though.  I recommend you sign on to the lucene-user e-mail  list to inquire further.</LI>
+
+<UL>
+
+<LI>
+<A name="2277"></A>
+<B>How Lucene works</B><BR>
+2004-01-08 13:01:23&nbsp;carehart
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/2277&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/2277">View</A>] 
+
+<BR>
+<BR>
+Allan, in case it helps I&#39;ll offer this in addition to Erik&#39;s reply: the underlying structure of the Lucene index is discussed a little more in the document &quot;Index File Formats&quot;, at <BR>
+http://jakarta.apache.org/lucene/docs/fileformats.html</LI>
+
+<UL>
+
+<LI>
+<A name="76260"></A>
+<B>How Lucene works</B><BR>
+2007-08-14 00:47:52&nbsp;allywahlberg
+
+
+
+[<A href="http://today.java.net/cs/user/create/cs_msg?x-lr=cs_msg/76260&x-lr2=a/16" title="Reply to this message">Reply</A> | <A href="http://today.java.net/cs/user/view/cs_msg/76260">View</A>] 
+
+<BR>
+<BR>
+Thanks I&#39;m gonna check the link and try if I can get something out of it.. Thanks...</LI>
+
+</UL>
+</UL>
+</UL>
+</UL>
+</UL>
+
+
+</DIV>
+
+
+<!-- stopindex -->
+
+</TD></TR></TBODY></TABLE>
+
+<!--  BEGIN VNV5 FOOTER   -->
+<!--  BEGIN VNV5 FOOTER   -->
+<TABLE border="0" cellpadding="0" cellspacing="10" width="100&percnt;">
+<TBODY><TR>
+<TD>
+&nbsp;<A href="http://today.java.net/pub/q/java_net_rss"><IMG src="./Lucene Intro_files/feed.png" border="0" width="16" height="16" alt="Feed" align="absmiddle"></A>&nbsp;<A href="http://today.java.net/pub/q/java_net_rss">java.net RSS Feeds</A><BR>
+<DIV class="grayline"></DIV>
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100&percnt;" class="vatop">
+<TBODY><TR>
+<TD><IMG src="./Lucene Intro_files/a.gif" width="190" height="1" border="0" alt=" "><BR>
+<A href="http://www.sun.com/"><IMG src="./Lucene Intro_files/logo_sun_small.gif" width="61" height="29" border="0" alt=" " vspace="5"></A></TD>
+<TD width="60&percnt;" valign="top">
+<DIV class="footer">
+
+<!--  Start Quantcast tag  -->
+<SCRIPT type="text/javascript" src="./Lucene Intro_files/quant.js"></SCRIPT>
+<SCRIPT type="text/javascript">
+_qacct="p-20l78bOOCbhcg";quantserve();</SCRIPT>
+<NOSCRIPT></NOSCRIPT>
+<!--  End Quantcast tag  -->
+
+<A href="https://java-net.dev.java.net/feedback.html">Feedback</A> &nbsp;|&nbsp;<A href="http://java.net/faq.csp">FAQ</A> &nbsp;|&nbsp;<A href="http://java.net/presscenter/">Press</A>&nbsp;|&nbsp;<A href="http://java.net/terms.csp">Terms of Use</A><BR>
+<A href="http://www.sun.com/privacy/">Privacy</A> &nbsp;|&nbsp;
+<A href="http://www.sun.com/suntrademarks/">Trademarks</A>&nbsp;|&nbsp;<A href="https://java-net.dev.java.net/sitemap.html">Site Map</A>
+<BR><SPAN class="sp5">&nbsp;</SPAN><BR>
+Your use of this web site or any of its content or software indicates your agreement to be bound by these <A href="http://java.net/terms.csp">Terms of Participation</A>.<BR>
+<SPAN class="sp5">&nbsp;</SPAN><BR>
+Copyright &copy; 1995-2008 Sun Microsystems, Inc.
+</DIV></TD>
+<TD width="40&percnt;" valign="top" align="right"><DIV class="footer">
+<A href="http://www.oreilly.com/"><IMG src="./Lucene Intro_files/montague_logo_oreilly.gif" width="74" height="19" border="0" alt="Oreilly Logo"></A><A href="http://www.collab.net/"><IMG src="./Lucene Intro_files/montague_logo_collabnet.gif" width="85" height="19" border="0" alt="Collabnet Logo"></A><BR>
+Powered by Sun Microsystems, Inc.,<BR> O&#39;Reilly and CollabNet
+</DIV></TD></TR>
+<!--  <tr><td colspan="3" valign="top" class="grey3"><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>  -->
+</TBODY></TABLE>
+<DIV class="grayline"></DIV>
+</TD></TR>
+</TBODY></TABLE>
+<!--  END VNV5 FOOTER  -->
+
+<!--  Begin SiteCatalyst code  -->
+<SCRIPT language="JavaScript" src="./Lucene Intro_files/s_code_remote.js"></SCRIPT><SCRIPT type="text/javascript" src="./Lucene Intro_files/metrics_group1.js"></SCRIPT>
+<!--  End SiteCatalyst code  -->
+
+
+
+
+</DIV></BODY></HTML>
