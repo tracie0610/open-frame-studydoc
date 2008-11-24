@@ -1,0 +1,806 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0034)http://www.javaeye.com/topic/36716 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <TITLE>在Struts的html:select标签中显示默认值 - Struts - Java - JavaEye论坛</TITLE>
+    <META name="description" content="最近在写一个系统中，有一个有下拉列表的修改资料功能，对Struts的html:select进行了运用。  其中怎么样使进入修改页面之后，该下拉列表里的数据是该需要修改的数据列的数据字段，也就是使html:select中显示的值默认对应数据库中的值。测试修改了一个下午，总得不出结果，最后还是看了Struts的examples才算是弄出来了，如：          &nbsp;&nbsp;&nbsp; ...">
+    <META name="keywords" content="Struts html select 默认值 Struts Java">
+    <LINK rel="shortcut icon" href="http://www.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <LINK href="http://www.javaeye.com/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml">
+    <LINK href="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/forum.css" media="screen" rel="stylesheet" type="text/css">
+    <SCRIPT src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/application.js" type="text/javascript"></SCRIPT>
+      <LINK href="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/shCoreCommon.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/hotkey.js" type="text/javascript"></SCRIPT>
+            <SCRIPT src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/dragdrop.js" type="text/javascript"></SCRIPT>
+            <STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE></HEAD><BODY>
+    <DIV id="page">
+      <DIV id="header" class="clearfix">
+        <UL id="user_nav">
+      <LI class="last"><A href="http://www.javaeye.com/signup">注册</A></LI>
+    <LI><A href="http://www.javaeye.com/login">登录</A></LI>
+    <LI class="highlight"><SPAN>您还没有登录 !</SPAN></LI>  
+    
+</UL>
+        
+        <DIV id="branding">
+          <A href="http://www.javaeye.com/"><IMG alt="JavaEye3.0" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/logo.gif" title="JavaEye-最棒的软件开发交流社区"></A>
+        </DIV>  
+        <DIV id="ad"><A href="http://www.javaeye.com/adverts/135" target="_blank"><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/alibaba_job.gif"></A></DIV>
+      </DIV>
+      
+      <DIV id="content" class="clearfix">
+        <DIV id="main">
+          
+
+
+          
+
+
+<DIV class="clearfix">
+  <DIV class="crumbs">
+    <A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN class="arrow">&rarr;</SPAN>
+    <A href="http://www.javaeye.com/forums/board/Java">Java版</A> <SPAN class="arrow">&rarr;</SPAN>
+    <A href="http://www.javaeye.com/forums/tag/Struts">Struts</A> <SPAN class="arrow">&rarr;</SPAN>
+    <H1>在Struts的html:select标签中显示默认值</H1>
+  </DIV>
+</DIV>
+
+<DIV id="forum_tag_list">
+  <A href="http://www.javaeye.com/forums/board/Java">全部</A>
+      <A href="http://www.javaeye.com/forums/tag/Hibernate">Hibernate</A>
+      <A href="http://www.javaeye.com/forums/tag/Spring">Spring</A>
+      <A href="http://www.javaeye.com/forums/tag/Struts">Struts</A>
+      <A href="http://www.javaeye.com/forums/tag/Webwork">Webwork</A>
+      <A href="http://www.javaeye.com/forums/tag/iBATIS">iBATIS</A>
+      <A href="http://www.javaeye.com/forums/tag/J2EE">企业应用</A>
+      <A href="http://www.javaeye.com/forums/tag/Design-Pattern">设计模式</A>
+      <A href="http://www.javaeye.com/forums/tag/DAO">DAO</A>
+      <A href="http://www.javaeye.com/forums/tag/Object-Domain">领域模型</A>
+      <A href="http://www.javaeye.com/forums/tag/OO">OO</A>
+      <A href="http://www.javaeye.com/forums/tag/Tomcat">Tomcat</A>
+      <A href="http://www.javaeye.com/forums/tag/SOA">SOA</A>
+      <A href="http://www.javaeye.com/forums/tag/JBoss">JBoss</A>
+  </DIV>
+
+<DIV class="actions">
+  <DIV class="buttons"></DIV>
+  <DIV class="wrapper">
+    <DIV id="forum_advert_b0"></DIV>
+    <DIV class="pagination"><SPAN class="disabled prev_page">&laquo; 上一页</SPAN> <SPAN class="current">1</SPAN> <A href="http://www.javaeye.com/topic/36716?page=2" rel="next">2</A> <A href="http://www.javaeye.com/topic/36716?page=2" class="next_page" rel="next">下一页 &raquo;</A></DIV>
+    <DIV class="info">浏览 14406 次</DIV>
+  </DIV>
+</DIV>
+
+
+
+<TABLE id="forum_main" cellspacing="1">
+  <THEAD>
+    <TR>
+      <TH colspan="2" class="topic_title">
+        <DIV class="wrapper"><SPAN class="locked">锁定老贴子</SPAN> <A href="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛.htm">主题：在Struts的html:select标签中显示默认值</A></DIV>
+        <DIV id="topic_rate_box">精华帖 (0) :: 良好帖 (0) :: 新手帖 (0) :: 隐藏帖 (0)</DIV>
+      </TH>
+    </TR>
+    <TR>
+      <TD class="first_col">作者</TD>
+      <TD class="last_col">正文</TD>
+    </TR>
+  </THEAD>
+  <TBODY id="posts">
+    <TR id="p_179999">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">wenson</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://wenson.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/fbb1174a-666e-444c-83f8-edd92c44515b.jpg" title="wenson的博客: 山下的人"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 70</LI>
+      <LI>积分: 60</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2006-11-30 关键字: <STRONG>Struts html select 默认值</STRONG></DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        <DIV id="related_topics" style="position: relative; left: 0px; top: 0px; z-index: 0; display: none; ">相关文章: <SPAN class="close"><A href="http://www.javaeye.com/topic/36716#" onclick="$(&#39;related_topics&#39;).hide();return false;" title="关闭">&nbsp;</A></SPAN>
+          <UL>
+                            <LI><A href="http://www.javaeye.com/topic/89386" title="webwork与orm结合时，参数绑定的方法" target="_blank">webwork与orm结合时，参数绑定的方法</A></LI>
+                              <LI><A href="http://www.javaeye.com/topic/45744" title="Struts原理与实践（7）" target="_blank">Struts原理与实践（7）</A></LI>
+                              <LI><A href="http://www.javaeye.com/topic/103265" title="Ajax + Struts 实现省市联动详解" target="_blank">Ajax + Struts 实现省市联动详解</A></LI>
+                          </UL>
+            <BR><SPAN>推荐圈子: <A href="http://ecside.group.javaeye.com/" target="_blank">GT-Grid</A></SPAN>
+            <BR><A href="http://www.javaeye.com/wiki/topic/36716" target="_blank">更多相关推荐</A>
+          </DIV>
+                    <SCRIPT type="text/javascript">
+              new Draggable("related_topics");
+          </SCRIPT>
+        
+        <P>最近在写一个系统中，有一个有下拉列表的修改资料功能，对Struts的html:select进行了运用。</P>
+<P>其中怎么样使进入修改页面之后，该下拉列表里的数据是该需要修改的数据列的数据字段，也就是使html:select中显示的值默认对应数据库中的值。测试修改了一个下午，总得不出结果，最后还是看了Struts的examples才算是弄出来了，如：<BR>
+<FONT face="Arial"><FONT face="Arial">
+<HTML:SELECT property="id">
+<C:FOREACH var="row" item="rs.rows">
+<HTML:OPTION value="row.id">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</HTML:OPTION>
+&nbsp;&nbsp;&nbsp;</C:FOREACH>&nbsp;&nbsp;&nbsp;&nbsp;
+</HTML:SELECT>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>&nbsp;&nbsp;&nbsp;
+<HTML:SELECT property="c_id">
+</HTML:SELECT>
+</FONT>&nbsp;&nbsp;&nbsp;&nbsp;</P>
+<DIV class="code_title">
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-xml">
+    <LI class="alt"><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">html:select</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">property</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;id&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;//这里一定不能再用vlue属性了，只用一个property就可以了 &nbsp;&nbsp;</SPAN></SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">c:forEach</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">var</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;row&quot;</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">item</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;${rs.rows}&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">html:option</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;row.id&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">c:out</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;row.name&quot;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<SPAN class="tag"><SPAN class="tag-name">html:option</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </SPAN></SPAN></LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<SPAN class="tag"><SPAN class="tag-name">c:forEach</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </SPAN></SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<SPAN class="tag"><SPAN class="tag-name">html:select</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN> </SPAN></SPAN></LI>
+</OL>
+</DIV>
+</DIV>
+<P><SPAN><SPAN><SPAN><SPAN>总结：在使用Struts进行修改功能时，要在修改页面上取的数据库先前的值。只要在form中reset里取得数据库里的值，然后在前台页面里html:form里对应的项设置其property为form中对应的属性值就好了，而不需要再设置value属性了。</SPAN></SPAN></SPAN></SPAN></P>
+      </DIV>
+      
+      
+        <DIV id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </DIV>
+        <DIV id="forum_advert_b3">
+          <SPAN>推荐链接</SPAN>
+          <UL class="adverts"><LI><A href="http://www.javaeye.com/adverts/111" target="_blank"><SPAN style="color:red;font-weight:bold;">Windows7在微软WinHEC 2008上揭开神秘面纱</SPAN></A></LI><LI><A href="http://www.javaeye.com/adverts/126" target="_blank"><SPAN style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</SPAN></A></LI><LI><A href="http://www.javaeye.com/adverts/128" target="_blank">IBM Rational软件开发高峰论坛9月揭幕</A></LI></UL>
+        </DIV>
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://wenson.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://wenson.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://wenson.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                          
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_182420">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">王者之剑</LI>
+      <LI>等级: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/star2.gif" alt="二星会员" title="二星会员"></LI>
+      <LI><A href="http://albertsong.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/1f4e364e-8b02-49b0-8b2e-510655844e44.gif" title="王者之剑的博客: ◇王者之剑◇"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 82</LI>
+      <LI>积分: 247</LI>
+      <LI>来自: 湖北</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2006-12-06 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        真正的struts的做法
+<BR><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://www.javaeye.com/topic/36716#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN>XXAction{&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>execute()&nbsp;&nbsp;</SPAN></LI><LI><SPAN>{&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;request.setAttribute(<SPAN class="string">&quot;ids&quot;</SPAN><SPAN>,&nbsp;getNameID());&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>}&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">private</SPAN><SPAN>&nbsp;List&nbsp;getNameID()&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>{&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;<SPAN class="comment">//load&nbsp;from&nbsp;db</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;<SPAN class="comment">//make&nbsp;a&nbsp;LabelValueBean&nbsp;List</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;ArrayList&nbsp;ls&nbsp;=&nbsp;<SPAN class="keyword">new</SPAN><SPAN>&nbsp;ArrayList();&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;<SPAN class="keyword">for</SPAN><SPAN>()&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;{&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;ls.add(<SPAN class="keyword">new</SPAN><SPAN>&nbsp;LabelValueBean(name,id);&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;}&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>}&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">
+XXAction{
+execute()
+{
+ request.setAttribute(&quot;ids&quot;, getNameID());
+}
+private List getNameID()
+{
+ //load from db
+ ...
+ //make a LabelValueBean List
+ ArrayList ls = new ArrayList();
+ for()
+ {
+   ls.add(new LabelValueBean(name,id);
+ }
+		
+ }		
+}
+</PRE>
+<BR>jsp
+<BR><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://www.javaeye.com/topic/36716#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN>&lt;html:select&nbsp;property=</SPAN><SPAN class="string">&quot;id&quot;</SPAN><SPAN>&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;html:optionsCollection&nbsp;name=<SPAN class="string">&quot;ids&quot;</SPAN><SPAN>&nbsp;/&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;/html:select&gt;&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">&lt;html:select property=&quot;id&quot;&gt;
+	&lt;html:optionsCollection name=&quot;ids&quot; /&gt;
+&lt;/html:select&gt;
+</PRE>
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://albertsong.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://albertsong.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://albertsong.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_182420" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_182428">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">王者之剑</LI>
+      <LI>等级: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/star2.gif" alt="二星会员" title="二星会员"></LI>
+      <LI><A href="http://albertsong.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/1f4e364e-8b02-49b0-8b2e-510655844e44.gif" title="王者之剑的博客: ◇王者之剑◇"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 82</LI>
+      <LI>积分: 247</LI>
+      <LI>来自: 湖北</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2006-12-06 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        LabelValueBean是struts中的一个类,用来配合html:optionsCollection做显示,这里只展示了一种常用方案,
+<BR>更多细节请看html:optionsCollection相关文档
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://albertsong.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://albertsong.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://albertsong.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_182428" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_182438">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">王者之剑</LI>
+      <LI>等级: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/star2.gif" alt="二星会员" title="二星会员"></LI>
+      <LI><A href="http://albertsong.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/1f4e364e-8b02-49b0-8b2e-510655844e44.gif" title="王者之剑的博客: ◇王者之剑◇"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 82</LI>
+      <LI>积分: 247</LI>
+      <LI>来自: 湖北</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2006-12-06 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        还加一点,你可能会碰到要多加一个的情况,那么可以这样。
+<BR><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://www.javaeye.com/topic/36716#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN>&lt;html:select&nbsp;property=</SPAN><SPAN class="string">&quot;id&quot;</SPAN><SPAN>&gt;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;html:option&nbsp;value=<SPAN class="string">&quot;0&quot;</SPAN><SPAN>&gt;无&lt;/html:option&gt;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;html:optionsCollection&nbsp;name=<SPAN class="string">&quot;ids&quot;</SPAN><SPAN>&nbsp;/&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;/html:select&gt;&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">&lt;html:select property=&quot;id&quot;&gt; 
+    &lt;html:option value=&quot;0&quot;&gt;无&lt;/html:option&gt;  
+    &lt;html:optionsCollection name=&quot;ids&quot; /&gt;   
+&lt;/html:select&gt;
+</PRE>
+<BR>即html:option, html:options, html:optionsCollection这几个标标签可以组合。
+<BR>看看这样写的结果
+<BR><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://www.javaeye.com/topic/36716#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN>&lt;html:select&nbsp;property=</SPAN><SPAN class="string">&quot;id&quot;</SPAN><SPAN>&gt;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;html:option&nbsp;value=<SPAN class="string">&quot;0&quot;</SPAN><SPAN>&gt;无&lt;/html:option&gt;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;html:optionsCollection&nbsp;name=<SPAN class="string">&quot;ids&quot;</SPAN><SPAN>&nbsp;/&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;html:option&nbsp;value=<SPAN class="string">&quot;0&quot;</SPAN><SPAN>&gt;无&lt;/html:option&gt;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;html:optionsCollection&nbsp;name=<SPAN class="string">&quot;ids&quot;</SPAN><SPAN>&nbsp;/&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;/html:select&gt;&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">&lt;html:select property=&quot;id&quot;&gt; 
+    &lt;html:option value=&quot;0&quot;&gt;无&lt;/html:option&gt;  
+    &lt;html:optionsCollection name=&quot;ids&quot; /&gt;
+&lt;html:option value=&quot;0&quot;&gt;无&lt;/html:option&gt;  
+    &lt;html:optionsCollection name=&quot;ids&quot; /&gt;   
+&lt;/html:select&gt;
+</PRE>
+<BR>
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://albertsong.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://albertsong.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://albertsong.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_182438" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_182642">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">Ivan Li</LI>
+      <LI>等级: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/dimd1.gif" alt="一钻会员" title="一钻会员"></LI>
+      <LI><A href="http://ivanl.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/f9a82710-ffe5-4f10-bee6-3a466d9f4757.jpg" title="Ivan Li的博客: Ivan Li 的大杂烩"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 299</LI>
+      <LI>积分: 837</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2006-12-06 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        optionsCollection 中的类型也不一定必须是LabelValueBean，<BR>在&lt;html:optionsCollection/&gt;标签中可以指定label和name分别是ListItem的属性名字<BR>
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://ivanl.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://ivanl.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://ivanl.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_182642" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_183197">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">wenson</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://wenson.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/fbb1174a-666e-444c-83f8-edd92c44515b.jpg" title="wenson的博客: 山下的人"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 70</LI>
+      <LI>积分: 60</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2006-12-07 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        真的不错<IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_idea.gif"> 
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://wenson.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://wenson.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://wenson.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_183197" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_191870">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">ecsun</LI>
+      <LI>等级: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/star2.gif" alt="二星会员" title="二星会员"></LI>
+      <LI><A href="http://papalong.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/cbae82e6-7a68-36fd-b673-8a4a2363f070.jpg" title="ecsun的博客: [海鹏Blog]--{FaceYe开源}"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 219</LI>
+      <LI>积分: 205</LI>
+      <LI>来自: 深圳</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2006-12-23 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        &nbsp;&nbsp; &lt;c:out value=&quot;row.name&quot;/&gt;&nbsp;&nbsp; －&gt;${row.name}
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://papalong.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://papalong.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://papalong.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_191870" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_379323">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">kikumail</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://kikumail.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/user-logo.gif" title="kikumail的博客: kikumail"></A></LI>
+      
+      <LI>文章: 2</LI>
+      <LI>积分: 0</LI>
+      
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2007-09-18 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        如果我要其中一项作为默认值来显示呢
+<BR>
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://kikumail.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://kikumail.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://kikumail.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_379323" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_379358">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">tvjody</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://tvjody.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/e29602ab-ca20-37ca-b3aa-5f590ed5ee06.jpg" title="tvjody的博客: Jody Zhang Blog"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 75</LI>
+      <LI>积分: 20</LI>
+      <LI>来自: 广州</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2007-09-18 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        <P>如果Select的选项固定，可以直接用Selected标签实现默认值(JAVA代码1) </P>
+<DIV class="code_title">代码<SPAN><SPAN><SPAN></SPAN></SPAN></SPAN></DIV>
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-xml">
+    <LI class="alt"><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">html:select</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">property</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;id&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">html:option</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;0&quot; selecded</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>无</SPAN><SPAN class="tag"><SPAN class="tag-name">html:option</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">html:optionsCollection</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">name</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;ids&quot;</SPAN><SPAN>&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN></SPAN><SPAN class="tag"><SPAN class="tag-name">html:select</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN> </SPAN></LI>
+</OL>
+</DIV>
+<P>&nbsp;</P>
+<P>如果是动态的(JAVA代码2)，可以在相对应Action的From中设置默认值（JAVA代码3）</P>
+<DIV class="code_title">java 代码2</DIV>
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-j">
+    <LI class="alt"><SPAN><SPAN class="keyword">public</SPAN><SPAN>&nbsp;List&nbsp;getOptions()&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></SPAN> </LI>
+    <LI class=""><SPAN>{&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;List&nbsp;ls&nbsp;=&nbsp;</SPAN><SPAN class="keyword">new</SPAN><SPAN>&nbsp;ArrayList();&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;</SPAN><SPAN class="keyword">for</SPAN><SPAN>(;;)&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;{&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;ls.add(</SPAN><SPAN class="keyword">new</SPAN><SPAN>&nbsp;LabelValueBean(key,value);&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN> </LI>
+</OL>
+</DIV>
+<P>java 代码3</P>
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-j">
+    <LI class="alt"><SPAN><SPAN class="keyword">public</SPAN><SPAN>&nbsp;ActionForward&nbsp;update(ActionMapping&nbsp;mapping,&nbsp;ActionForm&nbsp;form, &nbsp;&nbsp;</SPAN></SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HttpServletRequest&nbsp;request,&nbsp;HttpServletResponse&nbsp;response)&nbsp;{ &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN></SPAN><SPAN class="comment">//do&nbsp;some&nbsp;thing&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN>&nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>xxxForm&nbsp;f&nbsp;=&nbsp;(xxxForm)form; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>f.setOption(value);&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="comment">//这里设置下拉选项的默认值 </SPAN><SPAN>&nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN></SPAN><SPAN class="keyword">return</SPAN><SPAN>&nbsp;mapping.findForward(</SPAN><SPAN class="string">&quot;page&quot;</SPAN><SPAN>); &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</SPAN> </LI>
+</OL>
+</DIV>
+<P><BR>
+如果上面的还不能满足的话，可以试试用JS控制 </P>
+<DIV class="code_title">js 代码</DIV>
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-c">
+    <LI class="alt"><SPAN><SPAN class="keyword">function</SPAN><SPAN>&nbsp;Selected(index,valued){ &nbsp;&nbsp;</SPAN></SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">if</SPAN><SPAN>(index!=</SPAN><SPAN class="string">&quot;&quot;</SPAN><SPAN>){ &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">var</SPAN><SPAN>&nbsp;lengths&nbsp;=&nbsp;$(</SPAN><SPAN class="string">&quot;select&quot;</SPAN><SPAN>).options.length;</SPAN><SPAN class="comment">//下拉项的长度 </SPAN><SPAN>&nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">for</SPAN><SPAN>(</SPAN><SPAN class="keyword">var</SPAN><SPAN>&nbsp;i=0;i </SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="keyword">if</SPAN><SPAN>(valued&nbsp;==&nbsp;index){ &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(</SPAN><SPAN class="string">&quot;select&quot;</SPAN><SPAN>).options[i].selected=</SPAN><SPAN class="keyword">true</SPAN><SPAN>; &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;</SPAN> </LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;</SPAN> </LI>
+    <LI class=""><SPAN>}&nbsp;&nbsp;</SPAN> </LI>
+</OL>
+</DIV>
+<P>&nbsp;</P>
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://tvjody.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://tvjody.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://tvjody.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_379358" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR><TR id="p_379363">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">tvjody</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://tvjody.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/e29602ab-ca20-37ca-b3aa-5f590ed5ee06.jpg" title="tvjody的博客: Jody Zhang Blog"></A></LI>
+      <LI>性别: <IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/icon_minigender_1.gif" title="男"></LI>
+      <LI>文章: 75</LI>
+      <LI>积分: 20</LI>
+      <LI>来自: 广州</LI>
+      <LI><IMG src="./在Struts的html select标签中显示默认值 - Struts - Java - JavaEye论坛_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2007-09-18 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix"> 
+      
+        <P>还有，比如楼主的代码</P>
+<DIV class="code_title">代码<SPAN><SPAN><SPAN><SPAN></SPAN></SPAN></SPAN></SPAN></DIV>
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-xml">
+    <LI class="alt"><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">html:select</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">property</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;id&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;//这里一定不能再用vlue属性了，只用一个property就可以了&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></SPAN></LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">c:forEach</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">var</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;row&quot;</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">item</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;${rs.rows}&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">html:option</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;row.id&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">c:out</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;row.name&quot;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">html:option</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></LI>
+    <LI class=""><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">c:forEach</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</SPAN></LI>
+    <LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">html:select</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></LI>
+</OL>
+</DIV>
+<P>可以在</P>
+<DIV class="code_title">代码</DIV>
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-xml">
+    <LI class="alt"><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">c:forEach</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">var</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;row&quot;</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">item</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;${rs.rows}&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&hellip;&hellip;</SPAN><SPAN class="tag"><SPAN class="tag-name">c:forEach</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN> </SPAN></LI>
+</OL>
+</DIV>
+<P>之间进行判断，像Struts1.X中的</P>
+<DIV class="code_title">代码<FONT face="Arial"></FONT></DIV>
+<DIV class="dp-highlighter">
+<DIV class="bar"></DIV>
+<OL class="dp-xml">
+    <LI class="alt"><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">logic:equal</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">name</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;by&quot;</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;desc&quot;</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">scope</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">&quot;session&quot;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN> </LI>
+</OL>
+</DIV>
+<P>&nbsp;</P>
+<P><BR>
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/36716#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://tvjody.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://tvjody.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        
+        <A href="http://tvjody.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+      <DIV id="post_rate_box_379363" class="post_rate_box"><A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/36716#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                    
+    </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+  </TBODY>
+</TABLE>
+
+
+<DIV class="actions">
+  <DIV class="buttons"></DIV>
+  <DIV class="wrapper"><DIV class="pagination"><SPAN class="disabled prev_page">&laquo; 上一页</SPAN> <SPAN class="current">1</SPAN> <A href="http://www.javaeye.com/topic/36716?page=2" rel="next">2</A> <A href="http://www.javaeye.com/topic/36716?page=2" class="next_page" rel="next">下一页 &raquo;</A></DIV></DIV>
+</DIV>
+
+<DIV>
+  <DIV class="crumbs">
+    <A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN class="arrow">&rarr;</SPAN>
+    <A href="http://www.javaeye.com/forums/board/Java">Java版</A>
+     <SPAN class="arrow">&rarr;</SPAN> <A href="http://www.javaeye.com/forums/tag/Struts">Struts</A>
+    <BR><BR>跳转论坛:<SELECT id="forum_urlname" name="forum[urlname]" onchange="window.location=&#39;/forums/board/&#39;+this.value"><OPTION value="Java" selected="selected">Java</OPTION>
+<OPTION value="Ruby">Ruby</OPTION>
+<OPTION value="AJAX">AJAX</OPTION>
+<OPTION value="mobile">移动编程和手机开发</OPTION>
+<OPTION value="dotnet">Microsoft .Net</OPTION>
+<OPTION value="Tech">综合技术</OPTION>
+<OPTION value="New">入门讨论</OPTION>
+<OPTION value="Agile">软件开发和项目管理</OPTION>
+<OPTION value="Industry">行业解决方案</OPTION>
+<OPTION value="company">厂商论坛</OPTION>
+<OPTION value="Job">招聘求职</OPTION>
+<OPTION value="Life">海阔天空</OPTION></SELECT>
+    <DIV id="forum_advert_b2"><SPAN>JavaEye推荐</SPAN><UL class="adverts"></UL></DIV>
+  </DIV>
+  
+  
+</DIV>
+
+<DIV style="display:none">
+  <FORM action="http://www.javaeye.com/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request(&#39;/posts/rate&#39;, {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <INPUT type="hidden" id="post_rate_id" name="id">
+    <INPUT type="hidden" id="post_rate_type" name="type">
+  </FORM>	
+</DIV>
+
+<SCRIPT type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":36716, "type":type}});
+    }
+
+      
+</SCRIPT>
+
+
+        </DIV>
+        <DIV id="nav">
+  <DIV class="wrapper">
+    <UL>
+            <LI><A href="http://www.javaeye.com/">首页</A></LI>
+      <LI><A href="http://www.javaeye.com/news">新闻</A></LI>
+      <LI><A href="http://www.javaeye.com/forums" class="selected">论坛</A></LI>
+      <LI><A href="http://www.javaeye.com/ask">问答</A></LI>
+      <LI><A href="http://www.javaeye.com/wiki">知识库</A></LI>
+      <LI><A href="http://www.javaeye.com/blogs">博客</A></LI>
+      <LI><A href="http://www.javaeye.com/groups">圈子</A></LI>
+      <LI><A href="http://job.javaeye.com/" target="_blank">招聘 <SPAN style="border:1px solid #2be42b;background-color: #7de865;padding: 0 2px;font-size: 11px;">New</SPAN></A></LI>
+      <LI><A href="http://www.javaeye.com/index/service">服务</A></LI>
+      <LI class="last"><A href="http://www.javaeye.com/search">搜索</A></LI>
+    </UL>
+  </DIV>
+</DIV>
+
+<DIV id="channel_nav">
+  <UL>
+    <LI><A href="http://java.javaeye.com/">Java</A></LI>
+    <LI><A href="http://ajax.javaeye.com/">AJAX</A></LI>    
+    <LI><A href="http://ruby.javaeye.com/">Ruby</A></LI>
+    <LI><A href="http://python.javaeye.com/">Python</A></LI>
+    <LI><A href="http://agile.javaeye.com/">敏捷</A></LI>
+    <LI><A href="http://mysql.javaeye.com/">MySQL</A></LI>
+    <LI><A href="http://book.javaeye.com/">图书</A></LI>
+    <LI><A href="http://oracle.javaeye.com/">Oracle</A></LI>
+    <LI><A href="http://dorado.javaeye.com/">Dorado</A></LI>
+    <LI class="last"><A href="http://primeton.javaeye.com/">普元</A></LI>
+  </UL>
+</DIV>
+      </DIV>
+      <DIV id="footer">
+  <DIV id="site_nav">
+    <UL>
+      <LI><A href="http://www.javaeye.com/index/service">广告服务</A></LI>
+      <LI><A href="http://webmaster.javaeye.com/">JavaEye黑板报</A></LI>
+      <LI><A href="http://www.javaeye.com/index/aboutus">关于我们</A></LI>
+      <LI><A href="http://www.javaeye.com/index/contactus">联系我们</A></LI>
+      <LI class="last"><A href="http://www.javaeye.com/index/friend_links">友情链接</A></LI>
+    </UL>
+  </DIV>
+  <DIV id="copyright">
+    &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </DIV>
+</DIV>      
+    </DIV>
+  
+  
+
+</BODY></HTML>
