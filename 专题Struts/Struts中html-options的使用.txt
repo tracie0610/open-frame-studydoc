@@ -1,0 +1,235 @@
+	
+
+ 	首    页	设计研究	构件产品	培训咨询	开源框架	论坛
+Struts中html:options的使用
+
+作者：banq 发表时间：2003年08月25日 11:19  回复 
+原贴网址： http://www.jdon.com:8080/jivejdon/thread/9185.html 
+标签列表
+
+html:options是Struts中比较复杂的一个tage lib，用法灵活，但是Sturts提供的源码exercise taglib中没有提出常用jsp+ActionForm这样形式的最直接的总结，现从中总结如下，分两种情况：数组和Collection。
+
+需求，要达到：
+
+
+<select name="beanCollectionSelect" multiple="multiple" size="10"><option value="Value 0">Label 0</option>
+<option value="Value 1" selected="selected">Label 1</option>
+<option value="Value 2">Label 2</option>
+<option value="Value 3" selected="selected">Label 3</option>
+<option value="Value 4">Label 4</option>
+<option value="Value 5" selected="selected">Label 5</option>
+<option value="Value 6">Label 6</option>
+<option value="Value 7">Label 7</option>
+<option value="Value 8">Label 8</option>
+<option value="Value 9">Label 9</option></select>
+
+
+要实现上述效果，需要两步：
+第一：设置ActionForm，
+也分两小步：第一小步必须在ActionForm中，有一句
+private Collection beanCollection;
+public Collection getBeanCollection();
+
+Collection beanCollection要确保是一个实现，如ArrayList，如果不是则会报No collection found的错误，Struts的最大不方便就是一旦出问题，定位很难，不知道什么地方使用错误，或忘记设置什么了。
+
+因为前面需求中option的value值和label值不一样，那么在beanCollection中保存的就是一个value和label组成的对象，名为LabelValueBean，在LabelValueBean中有两个属性value和label，
+
+在程序某个地方要为beanCollection赋值，如：
+
+
+Vector entries = new Vector(10);
+
+entries.add(new LabelValueBean("Label 0", "Value 0"));
+entries.add(new LabelValueBean("Label 1", "Value 1"));
+entries.add(new LabelValueBean("Label 2", "Value 2"));
+entries.add(new LabelValueBean("Label 3", "Value 3"));
+entries.add(new LabelValueBean("Label 4", "Value 4"));
+entries.add(new LabelValueBean("Label 5", "Value 5"));
+entries.add(new LabelValueBean("Label 6", "Value 6"));
+entries.add(new LabelValueBean("Label 7", "Value 7"));
+entries.add(new LabelValueBean("Label 8", "Value 8"));
+entries.add(new LabelValueBean("Label 9", "Value 9"));
+
+
+然后执行setBeanCollection(entries);
+这样ActionForm中的beanCollection算有值了。
+第二小步，需要设置Selected，selected有两种，单选和多选：
+在ActionForm中必须有：
+
+private String singleSelect = "Single 5";
+
+public String getSingleSelect() {
+return (this.singleSelect);
+}
+
+public void setSingleSelect(String singleSelect) {
+this.singleSelect = singleSelect;
+}
+
+或多选，多选必须是数组：
+
+private String[] beanCollectionSelect = { "Value 1", "Value 3",
+"Value 5" };
+
+public String[] getBeanCollectionSelect() {
+return (this.beanCollectionSelect);
+}
+
+public void setBeanCollectionSelect(String beanCollectionSelect[]) {
+this.beanCollectionSelect = beanCollectionSelect;
+}
+
+
+
+第二：在Jsp中写入tang lib语句如下：
+
+<html:select property="beanCollectionSelect" size="10" multiple="true">
+<html:optionsCollection name="testbean" property="beanCollection"/>
+</html:select>
+
+其中testbean是ActionForm的名称。
+
+以上是html:options的Collection解决方案，如果option值很少，简单地可以实现为数组，两步：
+第一：在ActionForm中，
+
+private String values[] =
+{ "Magazine", "Journal", "News Paper","Other" };
+
+private String labels[] =
+{ "L-Magazine", "L-Journal", "L-News Paper","L-Other"};
+
+private String selected = "Magazine";
+
+public String getSelected(){
+return selected;
+}
+public void setSelected(String selected){
+this.selected = selected;
+}
+
+
+public String[] getValues(){
+return values;
+}
+public void setValues(String[] values){
+this.values = values;
+}
+
+public String[] getLabels(){
+return values;
+}
+public void setLabels(String[] labels){
+this.labels = labels;
+}
+
+
+
+
+第二步在jsp中：
+
+
+<html:select property="selected" >
+<html:options name="testbean" property="values" labelProperty="label"/>
+</html:select>
+
+
+
+这个主题共有 8 回复 ／ 1 页
+Re: Struts中html:options的使用	 发表: 2003年08月25日 11:30	回复
+anonymous 发表文章: 0/ 注册时间:
+save as先，呵呵：）
+Re: Struts中html:options的使用	 发表: 2003年08月26日 15:11	回复
+jd2bs 发表文章: 16/ 注册时间: 2002年08月16日 10:00
+Good.
+Array and Collection的原理一样,但collection情况较为复杂.
+Re: Struts中html:options的使用	 发表: 2003年08月31日 22:41	回复
+banq 发表文章: 9488/ 注册时间: 2002年08月03日 17:08
+Struts中 html:radio 提供的可选功能类似html的
+input type="radio"
+
+但是它的用法有点特殊，特别是在集合Collection遍历时。
+
+见文章：
+http://husted.com/struts/tips/016.html
+Re: Struts中html:options的使用	 发表: 2003年08月31日 22:56	回复
+banq 发表文章: 9488/ 注册时间: 2002年08月03日 17:08
+这个html:radio不怎么好用，不如用html的radio语法，见下列文章：
+http://www.onjava.com/pub/a/onjava/2003/07/30/jakartastruts.html?page=2
+
+文章中用到
+
+<input 
+type="checkbox" 
+value="<bean:write name="cartItem" property="id"/>" 
+name="deleteCartItem">
+
+这句如果使用Struts标签库html:radio做，就比较麻烦。
+
+所以Struts标签库的使用还是需要小心，不必完全使用Struts的标签库，个人感觉Struts这种替代Html语句的标签库有一种牵强附会，给使用者掌握带来难度，使用者除熟悉html外，还必须理解Struts的对应标签库用法，而且这种调试出错，问题也无法准确定位，总是抽象地告诉你，no bean 或no form，靠，struts的标签库真是垃圾。
+
+
+
+Re: Struts中html:options的使用	 发表: 2003年09月01日 12:59	回复
+uyang 发表文章: 16/ 注册时间: 2003年04月09日 11:16
+同意，基本快不用了
+Re: Struts中html:options的使用	 发表: 2003年09月16日 15:42	回复
+天下为公 发表文章: 31/ 注册时间: 2003年07月15日 17:09
+to banq:
+实现一个user表的添加页面，而其中一个字段是tech表对照出来的，tech表有单独的维护，如何实现这个动态的下拉框???
+Re: Struts中html:options的使用	 发表: 2003年09月17日 21:01	回复
+banq 发表文章: 9488/ 注册时间: 2002年08月03日 17:08
+一般有两种做法：
+1.是将techActionForm生成后保存在request或session的arrtibute，
+然后在Jsp可以使用logic:iterator name="techForm"直接调用
+
+2.在userActionForm中，如上，增加labels和values数组，然后如上使用
+html:selector 和html:options调用。
+Re: Struts中html:options的使用	 发表: 2003年12月05日 10:25	回复
+joyxia 发表文章: 1/ 注册时间: 2003年12月05日 09:55
+2种方法我都试过
+但是把这些东西放到我的form里面
+我的别的Action 就报错
+
+你们说这大概会是什么原因呢？
+
+ 		
+这个主题共有 8 回复 ／ 1 页
+ 	
+上一篇: JasperReports在处理多表查询..	下一篇: 正在选开源项目构造一个整合框架，请各位高..
+ 
+
+查询本论坛   最热门帖子  
+
+  
+热点Tag: AOP cache 缓存 DDD EJB 集群 设计模式 Hibernate IOC JiveJdon OO RBAC Seam Spring Struts
+
+标签总列表 
+ 
+
+Jdon框架演示
+
+JiveJdon3.0
+源码下载
+
+GoF设计模式
+
+在线教程
+
+社区精彩讨论
+
+
+
+
+                  
+
+
+
+ 
+
+
+Wowziograb this · technology blog
+站长统计
+			
+联系我们 | 关于我们 | RSS订阅 | 广告联系 | 网站地图 
+Copyright (C) 2002-2008 Jdon.com, All Rights Reserved 版权所有 上海解道计算机技术有限公司
+沪ICP备05018152号 如有意见请与我们联系 Powered by JdonFramework

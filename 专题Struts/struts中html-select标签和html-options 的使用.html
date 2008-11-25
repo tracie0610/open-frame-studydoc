@@ -1,0 +1,502 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<link rel="stylesheet" href="../../templates/newtech/index.css"></link>
+<link rel="alternate" type="application/rss+xml" title="ChinaUnix Blog RSS Feed" href="http://blog.chinaunix.net/u/rss.php?id=57965"></link>
+<meta name="keywords" content="struts中html:select标签和html:options 的使用 - Struts2.0 - Java每一天,积累多一点">
+<meta name="description" content="中国最大的IT技术博客-ChinaUnix博客：struts中html:select标签和html:options 的使用 - Struts2.0 - Java每一天,积累多一点">
+<title>struts中html:select标签和html:options 的使用 - Struts2.0 - Java每一天,积累多一点</title>
+</head>
+<body leftmargin=0 topmargin=0 marginwidth=0 marginheight=0 style="background:#FFFFFF;background-image:url()" align="center">
+
+
+<table border="0" cellspacing="0" cellpadding="0" background="/images/tophem1.gif" style="border-collapse: collapse;height:25" height="25" width="100%" >
+<tr> <td id="tool-bar" align="left" width="540" nowrap>
+&nbsp;
+<a href="http://blog.chinaunix.net/" target="_blank">博客首页</a>
+<a href="http://blog.chinaunix.net/register.php" target="_blank">注册</a>
+<a href="http://bbs.chinaunix.net/forumdisplay.php?fid=51" target="_blank">建议与交流</a> 
+<a href="http://blog.chinaunix.net/top/" target="_blank">排行榜</a>
+<a href="" target="_blank" onclick="NewWindows('http://www.cublog.cn/addlink.php?url='+location.href+'&title='+document.title);return false;">加入友情链接</a>
+
+</td><form id="loginForm" method="get" target="_blank" action="/search.php">
+<td align="right" nowrap>
+<img src="/u2/userstar.php?blogid=57965" id="starimg" border=0 alt="" width=55 height=12>
+<a href="/u2/star.php?blogid=57965" id="star" onclick="NewWindows(this.href);return false;" title="给此博客推荐值">推荐</a>
+<a href="/u2/complaint.php?blogid=57965" id="complaint" onclick="NewWindows(this.href);return false;" title="投诉此博客">投诉</a>
+
+ 搜索：<input type="text" name="q" size="20"> <input type="submit" value="搜索" class="button1"> <a href="/help/" >帮助</a></td>
+</form></tr>
+<tr><td colspan="2">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" bordercolor="#111111" width="1000">
+<tr><td width="1000"></td></tr>
+</table>
+</td></tr>
+</table>
+<script language="javascript">
+<!--
+
+navHover = function() {
+var lis = document.getElementById("navmenu").getElementsByTagName("LI");
+for (var i=0; i<lis.length; i++) {
+lis[i].onmouseover=function() {
+this.className+=" iehover";
+}
+lis[i].onmouseout=function() {
+this.className=this.className.replace(new RegExp(" iehover\\b"), "");
+}
+}
+}
+
+function NewWindows(shref){
+var xx=(window.screen.width-450)/2;
+var yy=(window.screen.height-200)/2;
+pp=window.open(shref,"win","menubar=no,location=no,resizable=no,scrollbars=no,status=no,left="+xx+",top="+yy+",Width=450,Height=200");
+}
+function $(s){return document.getElementById(s);}
+//-->
+</script>
+<table border="0" cellspacing="0" cellpadding="0" height="80" style="border-collapse: collapse;background-image:url();background-repeat: " width="100%" bgcolor="#204689">
+<tr><td align="center"  width="200" >
+<p style="line-height: 150%; margin: 5px">
+ <font style="font-size:14px" 
+ 
+ color="#FFFFFF">
+ 
+<b>
+ 
+ 
+ 
+ Java每一天,积累多一点 
+ 
+ 
+</b>
+ 
+ </font></p>
+ 
+</td><td style="color:#AAC6F6">
+</td></tr>
+</table>
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="100%" height="27"  bgcolor="#EEEEEE">
+<tr><td>&nbsp;
+<a href="http://wangyan230.cublog.cn" class="list1" target="_blank">wangyan230.cublog.cn</a>
+ 
+</td><td align="right" style="color:#2A5200" width="680">
+<ul id="navmenu"><li class="ul0"><a href="http://control.cublog.cn/" target="_blank" class="list1">管理博客</a> </li>
+
+<li class="ul0"><a href="http://control.cublog.cn/article_new.php" target="_blank" class="list1">发表文章</a></li>
+<li class="ul0"><a href="guestbook.html" class="list1">留言</a></li>
+<li class="ul0"><a href="links.html" class="list1">收藏夹</a>
+<!-- 0 -->
+</li>
+<li class="ul0"><a href="group.html" class="list1">博客圈</a></li>
+<li class="ul0"><a href="music.html" class="list1">音乐</a>
+<ul class="ul1"><li><a href="music_3320.html"> · 欧美<!-- a3320 --></a><!-- 3320 --></li>
+<li><a href="music_3482.html"> · 国内<!-- a3482 --></a><!-- 3482 --></li>
+</ul>
+
+</li>
+<li class="ul0"><a href="photo.html" class="list1">相册</a>
+<ul class="ul1"><li><a href="photo_12362.html"> · 技术资料<!-- a12362 --></a><!-- 12362 --></li>
+</ul>
+
+</li> 
+<li class="ul0"><a href="myimport.html" class="list1">导入文章</a></li>
+ 
+<li class="ul0"><a href="article.html" class="list1">文章</a>
+<ul class="ul1"><li><a href="article_94038.html"> · 数据库技术<!-- a94038 --></a><!-- 94038 --></li>
+<li><a href="article_74729.html"> · Java技术&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_74711.html"> · Java基础<!-- a74711 --></a><!-- 74711 --></li>
+<li><a href="article_74769.html"> · Java高级<!-- a74769 --></a><!-- 74769 --></li>
+</ul>
+</li>
+<li><a href="article_74732.html"> · web技术&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_94040.html"> · WebService<!-- a94040 --></a><!-- 94040 --></li>
+<li><a href="article_76768.html"> · 模式应用<!-- a76768 --></a><!-- 76768 --></li>
+<li><a href="article_75936.html"> · 开源框架&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_75937.html"> · 数据库框架&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_74733.html"> · Hibernate<!-- a74733 --></a><!-- 74733 --></li>
+</ul>
+</li>
+<li><a href="article_75938.html"> · web框架&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_75935.html"> · Struts2.0<!-- a75935 --></a><!-- 75935 --></li>
+</ul>
+</li>
+<li><a href="article_75939.html"> · 布局框架&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_75940.html"> · Sitemesh<!-- a75940 --></a><!-- 75940 --></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="article_74755.html"> · JavaScript<!-- a74755 --></a><!-- 74755 --></li>
+<li><a href="article_74585.html"> · 应用服务器&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_81269.html"> · tomcat<!-- a81269 --></a><!-- 81269 --></li>
+<li><a href="article_74586.html"> · Websphere<!-- a74586 --></a><!-- 74586 --></li>
+</ul>
+</li>
+<li><a href="article_94430.html"> · 数据格式&nbsp;&nbsp;&nbsp;<font face='Wingdings 3'>}</font></a><ul class="ul2"><li><a href="article_94431.html"> · XML<!-- a94431 --></a><!-- 94431 --></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="article_81284.html"> · 工作流技术<!-- a81284 --></a><!-- 81284 --></li>
+<li><a href="article_76561.html"> · 我的收藏<!-- a76561 --></a><!-- 76561 --></li>
+<li><a href="article_83391.html"> · Ext框架学习<!-- a83391 --></a><!-- 83391 --></li>
+</ul>
+
+</li> 
+<li class="ul0"><a href="index.html" class="list1">首页</a></li>
+</ul>
+</td>
+<td width="2"></td>
+</tr>
+</table>
+<script language="javascript">
+function $(s){return document.getElementById(s);}
+function ShowHideDiv(divid,iImg){
+if($(divid).style.display == "none"){
+iImg.src="../../templates/tech/images/dot2.gif";
+$(divid).style.display = "block";
+iImg.title="收起";
+}else{
+iImg.src="../../templates/tech/images/dot4.gif";
+$(divid).style.display = "none";
+iImg.title="展开";
+}
+}
+if (window.attachEvent) window.attachEvent("onload", navHover);
+</script>
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="100%" >
+<tr><td width="235" valign="top"  align="center">
+<br />
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" bordercolor="#111111" width="220">
+<tr><td><img src="../../templates/newtech/images/left_bg_top.gif" border="0" alt="" /></td></tr>
+<tr><td bgcolor="#EDF2F2" height="25" align="center">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" bordercolor="#111111" width="200">
+<tr><td width="180" align="center"><font style="font-size:10pt" color="#1F72D0"><b>关于作者</b></font></td><td width="20"><img src="../../templates/newtech/images/dot2.gif" border="0" title="收起" onclick="ShowHideDiv('aboutwriter',this);return false;"/></td></tr>
+</table>
+
+</td></tr>
+<tr><td bgcolor="#D2DEE2" height="1"></td></tr>
+<tr><td bgcolor="#FFFFFF" height="1"></td></tr>
+
+<tr><td style="color:#02368D" bgcolor="F3F6F6"  align="center">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;word-wrap:break-word;table-layout: fixed;color:#02368D;" width="200" id="aboutwriter">
+<tr><td align="center">
+<a href="up_user.jpg" target="_blank"><img src="up_user_pre.jpg" border=0 alt=""></a>
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;word-wrap:break-word;" width="200">
+<tr><td width="200">
+<pre style="line-height: 150%; margin: 5px; " width="25">
+姓名：小燕子
+职业：It新贵
+年龄：24
+位置：上海
+个性介绍：
+</pre>	
+</td></tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+<tr><td>
+<table bgcolor="#FFFFFF" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border: 1px solid #D2DEE2; padding: 1" align="center" width="220" border="0">
+<tr height="20" bgcolor="#EDF2F2">
+<td align="center" width="14" style="cursor: hand; color: #1F72D0;font-size:9pt;" title="上一年" onclick="pushBtm('YU')">||</td>
+<td align="center" width="14" style="cursor: hand; color: #1F72D0;font-size:9pt" title="上一月" onclick="pushBtm('MU')">&lt;&lt;</td>
+<td align="center" nowrap="nowrap" id="YMBG" style="color: #1F72D0;font-size:9pt"></td>
+<td align="center" nowrap="nowrap" id="GZ" style="color: #1F72D0;font-size:9pt"></td>
+<td align="center" width="14" style="cursor: hand; color: #1F72D0;font-size:9pt" title="下一月" onclick="pushBtm('MD')">>></td>
+<td align="center" width="14" style="cursor: hand; color: #1F72D0;font-size:9pt" title="下一年" onclick="pushBtm('YD')">||</td>
+</tr>
+<tr><td colspan="6">
+<div id="ttdiv" align="center" width="210"></div>
+</td></tr>
+<tr><td colspan="6" height="1"></td></tr>
+</table>
+
+<script src="../../templates/newtech/mdate.js" ></script>
+<script language="javascript">
+var arrArtdate=new Array('20071226','20071228','20080102','20080107','20080109','20080116','20080117','20080120','20080122','20080202','20080203','20080324','20080410','20080416','20080423','20080514','20080602','20080725','20080813','20080901','20080905','20080912','20081013','20081014');
+
+initial("ttdiv");
+
+</script>
+
+</td></tr>
+<tr><td bgcolor="#D2DEE2" height="1"></td></tr>
+<tr><td bgcolor="#FFFFFF" height="1"></td></tr>
+<tr><td bgcolor="#EDF2F2" height="25" align="center">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" bordercolor="#111111" width="200">
+<tr><td width="180" align="center"><font style="font-size:10pt" color="#1F72D0"><b>我的分类</b></font></td><td width="20"><img src="../../templates/tech/images/dot2.gif" border="0" title="收起" onclick="ShowHideDiv('lefttree',this);return false;"/></td></tr>
+</table>
+
+</td></tr>
+<tr><td bgcolor="#D2DEE2" height="1"></td></tr>
+<tr><td bgcolor="#FFFFFF" height="1"></td></tr>
+<tr><td style="color:#02368D" bgcolor="F3F6F6">
+<script src="../../templates/newtech/tree.js" ></script>
+<div style="overflow:auto;scrollbar-face-color: #EEEEEE;scrollbar-highlight-color: #FFFFFF;scrollbar-shadow-color: #CCCCCC;scrollbar-3dlight-color: #D1D7DC;scrollbar-arrow-color:#006699;scrollbar-track-color: #CCCCCC;scrollbar-darkshadow-color: #EEDFE7;" id="lefttree"></div>
+<script language="javascript">
+ContentsTree = new CTree("ContentsTree");
+ContentsTree.bAutoClose = false;
+ContentsTree.stTarget = "";
+a0 = ContentsTree.AddNode(null, "我的文章分类", "article.html");
+i0 = ContentsTree.AddNode(null, "我导入的文章", "myimport.html");
+a0.bOpen=true;
+p0 = ContentsTree.AddNode(null, "我的图片分类", "photo.html");
+p0.bOpen=true;
+f0 = ContentsTree.AddNode(null, "我的链接分类", "links.html");
+f0.bOpen=true;
+m0 = ContentsTree.AddNode(null, "我的音乐分类", "music.html");
+m0.bOpen=true;
+a94038 = ContentsTree.AddNode(a0, "数据库技术", "article_94038.html");
+a74729 = ContentsTree.AddNode(a0, "Java技术", "article_74729.html");
+a74711 = ContentsTree.AddNode(a74729, "Java基础", "article_74711.html");
+a74769 = ContentsTree.AddNode(a74729, "Java高级", "article_74769.html");
+a74732 = ContentsTree.AddNode(a0, "web技术", "article_74732.html");
+a94040 = ContentsTree.AddNode(a74732, "WebService", "article_94040.html");
+a76768 = ContentsTree.AddNode(a74732, "模式应用", "article_76768.html");
+a75936 = ContentsTree.AddNode(a74732, "开源框架", "article_75936.html");
+a75937 = ContentsTree.AddNode(a75936, "数据库框架", "article_75937.html");
+a74733 = ContentsTree.AddNode(a75937, "Hibernate", "article_74733.html");
+a75938 = ContentsTree.AddNode(a75936, "web框架", "article_75938.html");
+a75935 = ContentsTree.AddNode(a75938, "Struts2.0", "article_75935.html");
+a75939 = ContentsTree.AddNode(a75936, "布局框架", "article_75939.html");
+a75940 = ContentsTree.AddNode(a75939, "Sitemesh", "article_75940.html");
+a74755 = ContentsTree.AddNode(a74732, "JavaScript", "article_74755.html");
+a74585 = ContentsTree.AddNode(a74732, "应用服务器", "article_74585.html");
+a81269 = ContentsTree.AddNode(a74585, "tomcat", "article_81269.html");
+a74586 = ContentsTree.AddNode(a74585, "Websphere", "article_74586.html");
+a94430 = ContentsTree.AddNode(a74732, "数据格式", "article_94430.html");
+a94431 = ContentsTree.AddNode(a94430, "XML", "article_94431.html");
+a81284 = ContentsTree.AddNode(a0, "工作流技术", "article_81284.html");
+a76561 = ContentsTree.AddNode(a0, "我的收藏", "article_76561.html");
+a83391 = ContentsTree.AddNode(a0, "Ext框架学习", "article_83391.html");
+ 
+p12362 = ContentsTree.AddNode(p0, "技术资料", "photo_12362.html");
+ 
+ 
+m3320 = ContentsTree.AddNode(m0, "欧美", "music_3320.html");
+m3482 = ContentsTree.AddNode(m0, "国内", "music_3482.html");
+ 
+//document.write(ContentsTree.GetHTMLCode());
+document.getElementById("lefttree").innerHTML=ContentsTree.GetHTMLCode();
+</script>	
+</td></tr>
+<tr><td bgcolor="#D2DEE2" height="1"></td></tr>
+<tr><td bgcolor="#FFFFFF" height="1"></td></tr>
+
+<tr><td><img src="../../templates/tech/images/left_bg_bottom.gif" border="0" alt="" /></td></tr>
+
+</table>
+
+
+</td><td width="10"></td><td  valign="top" align="center">
+
+<br />
+
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="100%">
+<tr><td width="11" height="11"><img src="../../templates/tech/images/g_left_top.gif" border="0" alt="" /></td>
+<td bgcolor="#DDDDDD" width="99%" height="11"></td>
+<td width="11" height="11"><img src="../../templates/tech/images/g_right_top.gif" border="0" alt="" /></td>
+</tr>
+
+<tr><td colspan="3" width="100%" bgcolor="#DDDDDD" align="center" valign="top"> 
+
+
+
+
+
+
+
+
+<br />
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="96%">
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_top.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3" width="100%"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_top.gif" border="0" alt="" /></td>
+</tr>
+<tr><td colspan="3"  bgcolor="#F3F3F3" align="center">
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;word-wrap:break-word;" width="100%" >
+<tr><td height="25" align="center">
+<font color="#02368D" style="font-size:14pt"><b>struts中html:select标签和html:options 的使用</b></font></b></font><br />
+</td></tr>
+<tr><td bgcolor="#D2DEE2" height="1"></td></tr>
+<tr><td bgcolor="#FFFFFF" height="1"></td></tr>
+<tr><td align="center">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;word-wrap:break-word;"  width="100%">
+<tr><td width="100%">
+<div id="art" width="100%" style=" margin: 15px">
+<DIV align=center><FONT face=幼圆 size=4><STRONG>struts中html:select标签和html:options 的使用</STRONG></FONT></DIV>
+<DIV align=left><FONT face=宋体 size=2></FONT>&nbsp;</DIV>
+<DIV align=left><FONT size=+0><FONT face=宋体><FONT size=2>在项目实际开发中，终于了解了html:select标签和html:options 的使用方法。</FONT></FONT></FONT></DIV>
+<DIV align=left><FONT face=宋体 size=2>代码片断如下：</FONT></DIV>
+<DIV align=left>&nbsp;</DIV>
+<DIV align=left>&nbsp;</DIV>
+<TABLE style="BORDER-COLLAPSE: collapse" borderColor=#999999 cellSpacing=0 cellPadding=0 width="95%" bgColor=#f1f1f1 border=1>
+<TBODY>
+<TR>
+<TD>
+<P style="MARGIN: 5px; LINE-HEIGHT: 150%"><CODE><SPAN style="COLOR: #000000"><SPAN style="COLOR: #0000cc">&lt;</SPAN><SPAN style="COLOR: #0000ff">html</SPAN><SPAN style="COLOR: #0000cc">:</SPAN><SPAN style="COLOR: #0000ff">select</SPAN> <SPAN style="COLOR: #ff0000">property</SPAN><SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"answerableDepId"</SPAN> <SPAN style="COLOR: #ff0000">onchange</SPAN><SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"getAccountList();"</SPAN><SPAN style="COLOR: #0000cc">&gt;</SPAN><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp; <SPAN style="COLOR: #0000cc">&lt;</SPAN><SPAN style="COLOR: #0000ff">html</SPAN><SPAN style="COLOR: #0000cc">:</SPAN>options collection<SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"depList"</SPAN><SPAN style="COLOR: #ff0000">&nbsp; property</SPAN><SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"id"</SPAN>labelProperty<SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"name"</SPAN> <SPAN style="COLOR: #0000cc">/</SPAN><SPAN style="COLOR: #0000cc">&gt;</SPAN><BR>&nbsp;<SPAN style="COLOR: #0000cc">&lt;</SPAN><SPAN style="COLOR: #0000cc">/</SPAN><SPAN style="COLOR: #0000ff">html</SPAN><SPAN style="COLOR: #0000cc">:</SPAN><SPAN style="COLOR: #0000ff">select</SPAN><SPAN style="COLOR: #0000cc">&gt;</SPAN><BR>&nbsp;&nbsp;<SPAN style="COLOR: #0000cc">&lt;</SPAN><SPAN style="COLOR: #0000ff">html</SPAN><SPAN style="COLOR: #0000cc">:</SPAN><SPAN style="COLOR: #0000ff">select</SPAN> <SPAN style="COLOR: #ff0000">property</SPAN><SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"answerablePersonId"</SPAN><SPAN style="COLOR: #0000cc">&gt;</SPAN><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;<SPAN style="COLOR: #0000cc">&lt;</SPAN><SPAN style="COLOR: #0000ff">html</SPAN><SPAN style="COLOR: #0000cc">:</SPAN>options collection<SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"personList"</SPAN> <SPAN style="COLOR: #ff0000">property</SPAN><SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"id"</SPAN> labelProperty<SPAN style="COLOR: #0000cc">=</SPAN><SPAN style="COLOR: #ff00ff">"realname"</SPAN> <SPAN style="COLOR: #0000cc">/</SPAN><SPAN style="COLOR: #0000cc">&gt;</SPAN><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;<SPAN style="COLOR: #0000cc">&lt;</SPAN><SPAN style="COLOR: #0000cc">/</SPAN><SPAN style="COLOR: #0000ff">html</SPAN><SPAN style="COLOR: #0000cc">:</SPAN><SPAN style="COLOR: #0000ff">select</SPAN><SPAN style="COLOR: #0000cc">&gt;</SPAN></SPAN></CODE></P></TD></TR></TBODY></TABLE>
+<P>以上是两个下拉列表框级联（分别是负责部门和部门负责人），其中第一个下拉列表框的onChange事件触发Ajax事件。</P>
+<P>1）&lt;html:select&gt;标签中的property一般是在form bean中定义的属性，用于将用户最终选择的值传递给后台的Action做相应处理。</P>
+<P>2）&lt;html:select&gt; 与&lt;html:options&gt; 这两个标签联合使用，其中&lt;html:options&gt;标签中的collection属性,如上面代码中的personList是在jsp范围中的一个集合对象（注意：不是formbean中的属性），该集合中的每个元素必须是一个实体，并且该实体必须具有getId()和getRealname()方法，其中id 和realname 属性正是&lt;html:options&gt;标签中的property和labelProperty指定的属性.&nbsp;</P>
+<P>3)&lt;html:options&gt;标签中的property用作选项的值（用作后台处理），而labelProperty（用作给用户显示选项的内容）．</P>
+<P>4)每次触发onChange事件都会通过选择负责部门而默认绑定该部门人员下拉列表中的第一个，即该部门负责人列表中的第一个人．</P>
+</div>
+</td></tr>
+</table>
+
+
+<p style="line-height: 150%; margin: 5px">
+ 
+ 
+</p>
+</td></tr>
+ 
+ 
+<tr><td height="25" align="center">
+<font color="#295200">发表于： 2008-01-07，修改于： 2008-01-07 11:57，已浏览2354次，有评论2条</font> 
+<a href="/u2/star.php?blogid=57965&artid=458766" id="star" onclick="NewWindows(this.href);return false;" title="推荐这篇文章">推荐</a>
+<a href="/u2/complaint.php?blogid=57965&artid=458766" id="complaint" onclick="NewWindows(this.href);return false;" title="投诉这篇文章">投诉</a>
+</td></tr>
+
+
+
+
+</table>
+
+
+</td></tr>
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_buttom.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_buttom.gif" border="0" alt="" /></td>
+</tr>
+</table>
+
+
+<tr><td width="11" height="11"><img src="../../templates/tech/images/g_left_bottom.gif" border="0" alt="" /></td>
+<td bgcolor="#DDDDDD"></td>
+<td width="11" height="11"><img src="../../templates/tech/images/g_right_bottom.gif" border="0" alt="" /></td>
+</tr>
+</table>
+<br />
+<br />
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="100%">
+<tr><td width="11" height="11"><img src="../../templates/tech/images/g_left_top.gif" border="0" alt="" /></td>
+<td bgcolor="#DDDDDD" width="99%" height="11"></td>
+<td width="11" height="11"><img src="../../templates/tech/images/g_right_top.gif" border="0" alt="" /></td>
+</tr>
+
+<tr><td colspan="3" width="100%" bgcolor="#DDDDDD" align="center" valign="top"> 
+<b>网友评论</b>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="96%">
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_top.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3" width="100%"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_top.gif" border="0" alt="" /></td>
+</tr>
+<tr><td colspan="3"  bgcolor="#F3F3F3" align="center">
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;color:#02368D;" width="700" align="center">
+<tr height="25">
+<td width="25"><img src="../../templates/tech/images/dot.gif" width="8" height="8" border="0" alt="" /></td>
+<td width="120">网友：<b>
+本站网友</b> </td><td width="555" align="right" style="color:#AAAAAA">时间：2008-04-01 17:10:23  &#32;&#32;IP地址：222.191.240.★</td></tr>
+<tr><td bgcolor="#D2DEE2" height="1" colspan="3"></td></tr>
+<tr><td bgcolor="#FFFFFF" height="1" colspan="3"></td></tr>
+<tr>
+<td colspan="3">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;word-wrap:break-word;" bordercolor="#111111" width="700">
+<tr><td valign="top" width="20"></td><td width="580">
+<pre style="line-height: 150%; margin: 0px;" wrap="break-word">
+提问：&nbsp;那么是否知道如果使用struts的验正机制，验证失败的情况下，怎样将&lt;html:options&gt;中的值保存住呢？</pre>
+</td></tr>
+</table>
+
+</td>
+</tr>
+<tr><td height="15" colspan="3"></td></tr>
+</table>
+
+
+</td></tr>
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_buttom.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_buttom.gif" border="0" alt="" /></td>
+</tr>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="96%">
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_top.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3" width="100%"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_top.gif" border="0" alt="" /></td>
+</tr>
+<tr><td colspan="3"  bgcolor="#F3F3F3" align="center">
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;color:#02368D;" width="700" align="center">
+<tr height="25">
+<td width="25"><img src="../../templates/tech/images/dot.gif" width="8" height="8" border="0" alt="" /></td>
+<td width="120">网友：<b>
+本站网友</b> </td><td width="555" align="right" style="color:#AAAAAA">时间：2008-11-12 15:30:08  &#32;&#32;IP地址：58.213.159.★</td></tr>
+<tr><td bgcolor="#D2DEE2" height="1" colspan="3"></td></tr>
+<tr><td bgcolor="#FFFFFF" height="1" colspan="3"></td></tr>
+<tr>
+<td colspan="3">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;word-wrap:break-word;" bordercolor="#111111" width="700">
+<tr><td valign="top" width="20"></td><td width="580">
+<pre style="line-height: 150%; margin: 0px;" wrap="break-word">
+上海mm,&nbsp;thank&nbsp;you.<br />
+</pre>
+</td></tr>
+</table>
+
+</td>
+</tr>
+<tr><td height="15" colspan="3"></td></tr>
+</table>
+
+
+</td></tr>
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_buttom.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_buttom.gif" border="0" alt="" /></td>
+</tr>
+</table>
+<br />
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="96%">
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_top.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3" width="100%"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_top.gif" border="0" alt="" /></td>
+</tr>
+<tr><td colspan="3"  bgcolor="#F3F3F3" align="center">
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse" width="700" align="center">
+
+<tr><td style="color:#0000CC;" height="25">
+　发表评论
+</td></tr>
+<tr><td height="25">
+ 
+<IFRAME NAME="comment" SRC="/comment/comment.php?bg=F3F3F3&ctype=0&iscomment=1&artid=458766&blogid=57965" WIDTH="640" HEIGHT="160" frameborder="0"></IFRAME>
+ 
+</td></tr>
+
+</table>
+
+</td></tr>
+<tr><td width="7" height="7"><img src="../../templates/tech/images/w_left_buttom.gif" border="0" alt="" /></td>
+<td bgcolor="#F3F3F3"></td>
+<td width="7" height="7"><img src="../../templates/tech/images/w_right_buttom.gif" border="0" alt="" /></td>
+</tr>
+</table>
+
+
+<tr><td width="11" height="11"><img src="../../templates/tech/images/g_left_bottom.gif" border="0" alt="" /></td>
+<td bgcolor="#DDDDDD"></td>
+<td width="11" height="11"><img src="../../templates/tech/images/g_right_bottom.gif" border="0" alt="" /></td>
+</tr>
+</table>
+</td></tr>
+</table>
+
+</center>
+
+</html>
