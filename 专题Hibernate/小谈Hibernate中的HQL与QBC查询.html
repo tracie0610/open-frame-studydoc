@@ -1,0 +1,411 @@
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-CN" />
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="generator" content="oblog" />
+<meta name="author" content="sally03101,晴天娃娃" />
+<meta name="keyword" content="小谈Hibernate中的HQL与QBC查询 - 学赛网，IT教育门户" />
+<meta name="description" content="　　最早接触Hibernate是在2004年，当时怀着忐忑和不安的心情来学习这门技术。经过这几年的使用和研究，也积累了一定的经验，下面就HQL和QBC查询来谈一 - 学赛网，IT教育门户" />
+<title>小谈Hibernate中的HQL与QBC查询--记忆的流光 - 学赛博客，专业IT教育博客</title>
+<link rel="alternate" href="/user7/48662/rss2.xml" type="application/rss+xml" title="RSS" />
+<link href="/OblogStyle/OblogUserDefault4.css" rel="stylesheet" type="text/css" />
+<script src="/inc/main.js" type="text/javascript"></script>
+</head>
+<body>
+<script src="/ad/ad_usertopjs.htm"></script>
+<STYLE>
+BODY {
+ padding: 0px;
+ margin: 0px;
+ font-family: Verdana, Arial, Helvetica, sans-serif; 
+ background-color: #EEEEEE;
+ background-image: url(/skin/greenhappy/3e.jpg);
+ text-align: center;
+ FONT-SIZE: 12px;
+ line-height: 17px;
+ scrollbar-base-color:#EEEEEE;
+ margin-right: auto; margin-left: auto; 
+}
+select,option,textarea,input {
+ padding: 0px;
+ margin: 0px;
+ font-family: Verdana, Arial, Helvetica, sans-serif; 
+ background-color: #ffffff;
+ FONT-SIZE: 12px;
+ line-height: 17px;
+}
+TD {
+ font-family: Verdana, Arial, Helvetica, sans-serif; 
+ FONT-SIZE: 12px;
+ line-height: 17px;
+}
+A {
+ COLOR: #303f22;
+ text-decoration: none;
+}
+A:hover {
+ COLOR: #ff5500;
+ text-decoration: underline;
+}
+.maxbox {
+ background-image: url(/skin/greenhappy/bg_mainbox.gif);
+ background-repeat: repeat-y;
+ background-position: center;
+ width: 780px;
+ margin-right: auto; margin-left: auto; 
+}
+.max2box {
+ background-image: url(/skin/greenhappy/bg_mainbox2.gif);
+ background-color: #ffffff;
+ background-repeat: repeat-y;
+ background-position: center;
+ width: 780px;
+margin-right: auto; margin-left: auto; 
+}
+.maxbox2 {
+ width: 750px;
+}
+.title {
+ background-image: url(/skin/greenhappy/title.jpg);
+ background-position: left top;
+ background-repeat: no-repeat;
+ padding-left: 12px;
+ padding-right: 5px;
+ padding-top: 85px;
+ height: 110px;
+}
+.title2 {
+ background-image: url(/skin/greenhappy/title.jpg);
+ background-position: left top;
+ background-repeat: no-repeat;
+ padding-left: 12px;
+ padding-right: 12px;
+ padding-top:85px;
+ height: 110px;
+}
+.catnavi {
+ border: #efefef 1px solid;
+ background-color: #000000;
+ background-image: url(/skin/greenhappy/tbg.gif);
+ color: White;
+ line-height: 100%;
+ FONT-SIZE: 13px;
+ height: 25px;
+ padding-left: 10px;
+ padding-right: 10px;
+}
+.catnavi1 {
+ border: #303f22 1px solid;
+ background-color: #ffffff;
+ color: White;
+ line-height: 100%;
+ FONT-SIZE: 13px;
+ height: 27px;
+ padding-left: 10px;
+ padding-right: 10px;
+}
+.catnavi A{
+ FONT-SIZE: 13px;
+ font-weight: bold;
+ color: White;
+ text-decoration: none;
+}
+.catnavi A:hover{
+ FONT-SIZE: 13px;
+ font-weight: bold;
+ color: #ff5500;
+ text-decoration: none;
+}
+.style1{
+ FONT-SIZE: 12px;
+ font-weight: bold;
+ color: #303f22;
+ text-decoration: none;
+}
+.leftframe {
+ padding-left: 12px;
+ padding-right: 12px;
+ padding-top: 5px;
+ width: 480px;
+ vertical-align: top;
+}
+.leftframe2 {
+ padding-left: 12px;
+ padding-right: 12px;
+ padding-top: 5px;
+ width: 726px;
+ vertical-align: top;
+}
+.leftmain {
+ background-color: White;
+ border: #ccc 0px solid;
+ vertical-align: top;
+ padding-left: 5px;
+ padding-right: 5px;
+}
+.rightframe {
+ vertical-align: top;
+ padding-top: 5px;
+ padding-left: 12px;
+ padding-right: 5px;
+ width: 230px;
+}
+.rightmain {
+ border-left: #FFFFFF 1px solid; 
+ border-right: #FFFFFF 1px solid; 
+ border-top: #FFFFFF 1px solid; 
+ border-bottom: #FFFFFF 0px solid;
+ background-color: #E2EDCF;
+}
+.rightside1 {
+ padding-top: 2px;
+ padding-bottom: 2px;
+ padding-left: 5px;
+ padding-right: 5px;
+ border-bottom: #FFFFFF 1px solid;
+ background-color: #E2EDCF;
+}
+.rightside2 {
+ padding-top: 2px;
+ padding-bottom: 2px;
+ padding-left: 5px;
+ padding-right: 5px;
+ border-bottom: #FFFFFF 1px solid;
+ background-color: #E2EDCF;
+ background-repeat: repeat-x;
+ background-position: top;
+}
+.calendar {
+ COLOR: #000000; 
+}
+.calendar A:link {
+ COLOR: #ff5500; TEXT-DECORATION: none
+}
+.calendar A:visited {
+ COLOR: #ff5500; TEXT-DECORATION: none
+}
+.calendar A:hover {
+ COLOR: #ff5500; TEXT-DECORATION: none
+}
+input {
+ border: 1px #303f22 dotted;
+ height: 17px;
+}
+.entry {
+ background-position: center bottom;
+ background-image: url(/skin/greenhappy/bg_article.gif);
+ background-repeat: no-repeat;
+ font-size: 75%;
+ padding-bottom: 30px;
+ padding-top: 8px;
+ line-height: 150%;
+ text-align: justify;
+}
+.arttitle {
+ font-weight: bold;
+ font-size: 14px;
+ color: #303f22;
+ font-family: georgia, "Times New Roman", serif;
+ text-align: left;
+ line-height: 19px;
+}
+.arttitle A {
+ font-weight: bold;
+ font-size: 14px;
+ color: #303F22;
+ text-decoration: none;
+}
+.arttitle A:hover {
+ color: #ff5500;
+ text-decoration: none;
+}
+.artfooter {
+ color: #666666;
+}
+.artfooter A {
+ color: #303f22;
+ text-decoration: none;
+}
+.arttitle A:hover {
+ color: #ff5500;
+ text-decoration: none;
+}
+.details {
+ color: #999;
+}
+.artbody A {
+ COLOR: #000000;
+ text-decoration: underline;
+}
+.artbody A:hover {
+ COLOR: #ff5500;
+ text-decoration: underline;
+}
+.footer {
+ padding-left: 5px;
+ padding-right: 5px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ background-color: White;
+ border-top: #e2edcf 1px solid;
+}
+.footer2 {
+ border: #ffffff 1px solid; 
+ padding-left: 10px;
+ padding-right: 10px;
+ padding-top: 5px;
+ padding-bottom: 5px;
+ background-color: #e2edcf;
+}
+ul {
+padding:0;
+margin:0;
+}
+#calendar{ 
+width:100%; 
+}
+#calendar caption {  
+font:11px 'Century Gothic', Arial, Helvetica, 
+
+sans-serif;  
+}
+#calendar table { 
+border-collapse: collapse; 
+} 
+#calendar th{  
+font: normal 12px;  
+}
+#calendar td { 
+text-align:center;
+font-size: 10px;   
+}
+</STYLE>
+
+<TABLE class=maxbox cellSpacing=0 cellPadding=0 border=0>
+<TBODY>
+<TR>
+<TD align=middle>
+<TABLE class=maxbox2 cellSpacing=0 cellPadding=0 border=0>
+<TBODY>
+<TR>
+<TD class=title>
+<TABLE class=catnavi1 cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD class=catnavi><div id="subject_l">loading...</div></TD></TR></TBODY></TABLE></TD></TR>
+<TR>
+<TD>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD class=leftframe>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD class=leftmain><TABLE cellSpacing=0 cellPadding=0 width="100%" bgColor=#ffffff border=0 style="table-layout:fixed;">
+<TBODY>
+<TR>
+<TD class=entry>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD vAlign=top><SPAN class=arttitle>小谈Hibernate中的HQL与QBC查询</SPAN></TD></TR>
+<TR>
+<TD class=details vAlign=top align=right>By&nbsp; 晴天娃娃 发表于 2008-9-1 9:53:00&nbsp; </TD></TR>
+<TR>
+<TD class=artbody vAlign=top><BR><P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　最早接触Hibernate是在2004年，当时怀着忐忑和不安的心情来学习这门技术。经过这几年的使用和研究，也积累了一定的经验，下面就HQL和QBC查询来谈一下我从工作中得到的一些总结。</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　本文不会讲什么是Hibernate、什么是ORM、更不会谈怎样使用HQL与QBC.本文的目的是让大家对平常使用最多，也是最广泛的与数据库打交道的两种方式，有一个新的认识。</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　恩，如果你还不知道Hibernate，大象建议你先去学一下再来看本文，如果你已经是这方面的高手，大可以关掉浏览器，千万不要因为本人的愚见，让你对大象口诛笔伐，进行人身攻击。</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　HQL和QBC都是查询检索的方式，最开始，我一直使用的都是HQL，因为以前一直用的都是SQL，觉得这东西和SQL差不多，上手很快。后来又用QBC，因为QBC是基于接口和类的对象化查询，使代码变得很清晰，很整洁。</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　下面是查询用户表中，id为2，年龄等于21，并且名字以J开头的两种查询语句，它们的结果都是一样，只是不同的表现方式。</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　HQL:</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　Query query = session</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　.createQuery("from User u where u.id = 2 and u.age = 21 and u.name like 'J%'");</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　List list = query.list();</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　QBC：</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　Criteria criteria = session.createCriteria(User.class);</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　List list = criteria.add(Expression.eq("id", 2)).add(</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　Expression.eq("age", 2)).add(Expression.like("name", "J%"))</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　.list();</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　如果查询再复杂一点，需要关联多张表，那上面这个HQL语句就会显得很复杂，比较难以阅读。对于QBC来说，需要再加一个createCriteria()，返回一个criteria新实例，比如说，用户表与帐号表关联，需要根据帐号表中的帐号，开户时间，金额等信息进行查询，可以写成下面的形式：</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　List list = criteria.add(Expression.eq("id", 2)).add(</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　Expression.eq("age", 2)).add(Expression.like("name", "J%"))</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　.createCriteria("account", "a").add(</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　Expression.eq("a.account_id", 112546)).add(</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　Expression.eq("a.start_date", "2008-8-30")).add(</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　Expression.eq("a.money_sum", 1000)).list();</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　account是用户表中建的与帐号表的关联对象属性，a是别名。我为了便于说明，用的都是固定值，并且条件判断也都是eq(等于)，其实在实际开发中，这是不可能的，这些值全都会被变量所代替。add方法也不用写在一起，可以分开来，特别是在查询中，需要对传入的参数进行检验，这时就需要一个条件一个条件的往上加。</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　这样看来，好像QBC比HQL要好一些，大象是这么认为的：HQL简单、灵活，QBC整洁、方便，不能说谁好谁不好，否则大名鼎鼎的Hibernate为什么要支持这两种检索方式呢?</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　根据本人做开发的情况来看，在需要多表关联查询的时候，如果POJO类之间建立一对多或多对多这样的关联关系，效率是很低下的，就算你设置了延迟检索，也会感觉很慢。而且在实际开发中，我还发现，在数据库中建立外键是一件非常吃力不讨好的事情，因为很多时候出错都是跟外键有关系，主要体现在修改和删除。而POJO之间建立对象关系，则会增加编码的复杂程度，提高出错机率，另外还会增加用户等待的时间。这是大象以前开发时所经历过的，所以后来的项目中，对于数据库中的每个表，只给一个流水号主键，不在建立其它的外键关系，而在POJO中，只设定最原始的属性与表中的字段对应，对于需要做多表查询的情况，建立视图，把需要查询的字段属性与要在列表中显示的字段属性都放在视图POJO中，这样，不管是HQL还是QBC，一个类就可以解决问题，而且对视图查询可比使用表之间的关联关系查询要快很多。</SPAN></P>
+<P><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　在项目中，到底采取哪种检索方式，关键还得看项目负责人。比如大象现在做的这个项目就规定了，必须使用QBC，而且除报表外，不准使用视图。呵呵，这样的情况，只能在POJO之间建立关联关系了，不过能少建，我们还是会尽量的减少类之间的关联，好在现在开发用的JDK是5.0的，因此我们可以使用注解的方式定义一些临时对象属性，这样也省掉了以前必须得写的hbm.xml文件，有时也采用仿视图的方式用JavaBean来封装一些对象和属性。</SPAN></P>
+<DIV><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　大家看到这里，有什么想法呢?欢迎大家提出自己宝贵的意见，我们一起来学习和研究，共同分享成功的经验。</SPAN></DIV><BR>
+<DIV align=right><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来源：中国IT实验室</SPAN></DIV>
+<DIV align=right><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体"></SPAN>&nbsp;</DIV>
+<DIV align=left><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体"><SPAN style="FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: 宋体">　　</SPAN><STRONG>点击</STRONG><A href="http://www.educity.cn/it/" target=_blank><STRONG>IT认证</STRONG></A><STRONG> 查看更多信息》》</STRONG></SPAN></DIV></TD></TR>
+<TR>
+<TD vAlign=top>&nbsp;</TD></TR>
+<TR>
+<TD class=artfooter vAlign=top align=right><a href="#" >阅读全文<span id="ob_logreaded"></span></a> | <a href="#cmt">回复(0)</a> | <a href="/showtb.asp?id=30029" target="_blank">引用通告<span id="ob_tbnum"></span></a> | <a href="/user_post.asp?logid=30029" target="_blank">编辑</a> </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><div id="blogaddon"><li>标签：<span><a href="/user7/48662/cmd.html?uid=48662&do=tag_blogs&id=11303">Java认证</a></span>&nbsp;<span><a href="/user7/48662/cmd.html?uid=48662&do=tag_blogs&id=589">IT认证</a></span>&nbsp;<span><a href="/user7/48662/cmd.html?uid=48662&do=tag_blogs&id=1345">认证考试</a></span>&nbsp;<span><a href="/user7/48662/cmd.html?uid=48662&do=tag_blogs&id=11312">技术交流</a></span>&nbsp;</li></div><div id="morelog"><ul><li>上一篇：<a href="/user7/48662/archives/2008/30026.html">Paper完CCNP之后还“该”做什么?</a></li><li>下一篇：<a href="/user7/48662/archives/2008/30039.html">准备CCIE考试用的一些学习笔记</a></li></ul></div><script src="/ad/ad_usercommentjs.htm"></script><a name='cmt'></a><h2>发表评论：</h2>
+<div id="form_comment"><form action='/savecomment.asp?logid=30029' method='post' name='commentform' id='commentform' onSubmit='return Verifycomment()'>
+<ul>大名：<input name='UserName' type='text' id='UserName' size='15' maxlength='20' value='' /></ul>
+<ul>密码：<input name='Password' type='password' id='Password' size='15' maxlength='20' value='' /> (游客无须输入密码)</ul>
+<ul>主页：<input name='homepage' type='text' id='homepage' size='42' maxlength='50' value='http://' /></ul><ul>标题：<input name='commenttopic' type='text' id='commenttopic' size='42' maxlength='50' value='Re:小谈Hibernate中的HQL与QBC查询' /></ul><ul><input type='hidden' name='edit' id='edit' value='' />
+<div id="oblog_edit">loading...</div>
+</ul>
+<ul><span id="ob_code"></span><input type='submit' value=' 提交 '></ul>
+</form></div>
+ </TD></TR></TBODY></TABLE><BR>&nbsp; </TD>
+<TD class=rightframe>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD class=rightmain vAlign=top>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD class=rightside1 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 站点公告</SPAN><BR><div id="placard">loading...</div></TD></TR>
+<TR>
+<TD class=rightside1 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 站点日历 </SPAN><BR>
+<DIV class=calendar align=center><div id="calendar">loading...</div></DIV></TD></TR>
+<TR>
+<TD class=rightside2 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 最新日志</SPAN><BR><div id="newblog">loading...</div></TD></TR>
+<TR>
+<TD class=rightside1 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 最新评论</SPAN><BR><div id="comment">loading...</div></TD></TR>
+<TR>
+<TD class=rightside1 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 最新留言</SPAN><BR><div id="newmessage">loading...</div></TD></TR>
+<TR>
+<TD class=rightside2 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 友情链接</SPAN><BR><div id="links">loading...</div><script src="/ad/ad_userlinksjs.htm"></script> </TD></TR>
+<TR>
+<TD class=rightside1 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 站点统计</SPAN><BR><div id="info">loading...</div><div><a href="http://blog.educity.cn/"><img src="/images/educity_logo.gif" width="110" border="0" alt="学赛博客"></a></div></TD></TR>
+<TR>
+<TD class=rightside2 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 日志搜索</SPAN><BR><div id="search">loading...</div></TD></TR>
+<TR>
+<TD class=rightside2 vAlign=top><SPAN class=style1><IMG src="/skin/greenhappy/new.gif"> 用户登陆</SPAN><BR><div id="ob_login"></div></TD></TR>
+<TR>
+<TD class=rightside1 vAlign=top align=middle><div id="xml"><span id="txml"></span><br /><br /><a href="/user7/48662/rss2.xml" target="_blank"><img src='/images/xml.gif' width='36' height='14' border='0' /></a></div> </TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><BR>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+<TR>
+<TD align=middle>
+<TABLE cellSpacing=0 cellPadding=0 width=750 align=center border=0>
+<TBODY>
+<TR>
+<TD class=footer>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD class=footer2><span id="blogname">loading...</span></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><script src="/ad/ad_userbotjs.htm"></script>
+</body></html><script src="/user7/48662/inc/show_subject.htm"></script>
+<script src="/user7/48662/inc/show_placard.htm"></script>
+<script src="/user7/48662/calendar/200809.htm"></script>
+<script src="/user7/48662/inc/show_search.htm"></script>
+<script src="/user7/48662/inc/show_newblog.htm"></script>
+<script src="/user7/48662/inc/show_comment.htm"></script>
+<script src="/user7/48662/inc/show_mygroups.htm"></script>
+<script src="/user7/48662/inc/show_myfriend.htm"></script>
+<script src="/user7/48662/inc/show_newmessage.htm"></script>
+<script src="/user7/48662/inc/show_info.htm"></script>
+<script src="/user7/48662/inc/show_links.htm"></script>
+<script src="/user7/48662/inc/show_blogname.htm"></script>
+<script src="/count.asp?action=code31"></script>
+<script src="/commentedit.asp"></script>
+<Script src="/count.asp?action=logtb31&id=30029"></Script><script src="/count.asp?action=site&id=48662"></script>
+<script src="/login.asp?action=showindexlogin"></script>

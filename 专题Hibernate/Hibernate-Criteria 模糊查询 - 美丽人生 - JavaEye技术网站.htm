@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Hibernate-Criteria 模糊查询 - 美丽人生 - JavaEye技术网站</title>
+    <meta name="description" content="Criteria Query通过面向对象化的设计，将数据查询条件封装为一个对象。简单来   &nbsp;讲，Criteria Query可以看作是传统SQL的对象化表示，如：   &nbsp;Criteria criteria = session.createCriteria(User.class);   &nbsp;criteria.add(Expression.eq(&quot;name&qu ..." />
+    <meta name="keywords" content="  Hibernate-Criteria 模糊查询" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="美丽人生" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1227770271" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1200451876" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="http://www.javaeye.com/javascripts/editor/css/ui.css?1222156967" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/editor/compress.js?1225335142" type="text/javascript"></script>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="this.blur();$('more_site_nav').toggle();return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div id="more_site_nav" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <ul id="user_nav">
+      <li class="last"><a href="/signup">注册</a></li>
+    <li><a href="/login">登录</a></li>
+    <li class='highlight'><span>您还没有登录 !</span></li>  
+    
+</ul>
+
+    </div>
+    
+    <div id="page" onclick="$('more_site_nav').hide();">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">美丽人生</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://fzfx88.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/86965" class="next">sql 整理(一)</a>
+      |
+      <a href="/blog/86956" class="pre">Hibernate---Criteria 查询</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2007</span><span class='sep_year'>-</span><span class='month'>06</span><span class='sep_month'>-</span><span class='day'>05</span></div>
+    <h3 class='' title=''><a href="/blog/86958">Hibernate-Criteria 模糊查询</a></h3>
+        
+  </div>
+  
+  <div class="blog_content">
+    <p class="MsoNormal" align="left" style="MARGIN: 0cm 0cm 0pt; TEXT-ALIGN: left; mso-layout-grid-align: none"><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria Query</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">通过面向对象化的设计，将数据查询条件封装为一个对象。简单来<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">讲，</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria Query</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">可以看作是传统</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的对象化表示，如：<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria criteria = session.createCriteria(User.</span><strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">class</span></strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">); </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.add(Expression.eq(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;name&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;Erica&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">)); </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.add(Expression.eq(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;sex&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">new </span></strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Integer(1))); </span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">这里的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">实例实际上是</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">SQL </span><span style="FONT-SIZE: 10pt; FONT-FAMILY: CourierNew; mso-font-kerning: 0pt; mso-bidi-font-family: CourierNew">&ldquo;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Select * from t_user where </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">name=</span><span style="FONT-SIZE: 10pt; FONT-FAMILY: CourierNew; mso-font-kerning: 0pt; mso-bidi-font-family: CourierNew">&rsquo;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Erica</span><span style="FONT-SIZE: 10pt; FONT-FAMILY: CourierNew; mso-font-kerning: 0pt; mso-bidi-font-family: CourierNew">&rsquo; </span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">and sex=<chmetcnv tcsc="0" hasspace="False" sourcevalue="1" negative="False" numbertype="1" unitname="”" w:st="on"></chmetcnv>1<span new="" times="" lang="EN-US" style="FONT-FAMILY: CourierNew; mso-hansi-font-family: "><span lang="EN-US">&rdquo;</span></span></span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的封装（我们可以打开</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">show_sql </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">选项，<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">以观察</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">在运行期生成的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">语句）。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">在运行期会根据</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中指定的查询条件（也就是上面代码中通过<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.add</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">方法添加的查询表达式）生成相应的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">语句。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">这种方式的特点是比较符合</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Java </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">程序员的编码习惯，并且具备清晰的可读性。正因<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">为此，不少</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">ORM</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">实现中都提供了类似的实现机制（如</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Apache OJB</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">）。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对于</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的初学者，特别是对</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">了解有限的程序员而言，</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria Query </span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">无疑是上手的极佳途径，相对</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">HQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">，</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria Query</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">提供了更易于理解的查询手段，借<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">助</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">IDE</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Coding Assist</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">机制，</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的使用几乎不用太多的学习。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<strong><span courier="" lang="EN-US" style="FONT-SIZE: 12pt; FONT-FAMILY: ">Criteria </span></strong><strong><span style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体,Bold; mso-font-kerning: 0pt; mso-bidi-font-family: '宋体,Bold'">查询表达式<span lang="EN-US"> </span></span></strong></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">本身只是一个查询容器，具体的查询条件需要通过</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria.add </span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">方法添加到</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">实例中。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">如前例所示，</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对象具体描述了查询条件。针对</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">SQL </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">语法，<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">提供了对应的查询限定机制，包括：<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<strong><span style="FONT-SIZE: 10pt; COLOR: #33339a; FONT-FAMILY: 宋体,Bold; mso-font-kerning: 0pt; mso-bidi-font-family: ">方法 描述<span lang="EN-US"> </span></span></strong></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.eq </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&ldquo;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">field = value</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;表达式。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">如</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.eq(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;name&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;Erica&quot;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">) </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.allEq </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">参数为一个</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Map</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对象，其中包含了多个属性－值对<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">应关系。相当于多个</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.eq</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">关系的叠加。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.gt </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的 </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&ldquo;field &gt; value &rdquo; </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">表达式<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.ge </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的 </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&ldquo;field &gt;= value&rdquo; </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">表达式<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.lt </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的 </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&ldquo;field &lt; value&rdquo; </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">表达式<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.le </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的 </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&ldquo;field &lt;= value&rdquo; </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">表达式<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.between </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的 </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&ldquo;between&rdquo; </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">表达式<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">如下面的表达式表示年龄（</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">age</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">）位于</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">13</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">到</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">50</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">区</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">间内。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.between(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;age&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">new </span></strong></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Integer(13),</span><strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">new </span></strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Integer(50)); </span></p>
+<p>&nbsp;<span new="" times="" lang="EN-US" style="mso-hansi-font-family: ; mso-font-kerning: 0pt">表达式<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.in </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的 </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&rdquo;field in &hellip;&rdquo; </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">表达式<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.eqProperty </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">用于比较两个属性之间的值，对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的&ldquo;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">field </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">= field</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">如：<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.eqProperty( </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;TUser.groupID&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">, </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;TGroup.id&quot; </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">); </span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.gtProperty </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">用于比较两个属性之间的值，对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的&ldquo;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">field </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&gt; field</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.geProperty </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">用于比较两个属性之间的值，对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的&ldquo;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">field </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&gt;= field</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.ltProperty </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">用于比较两个属性之间的值，对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的&ldquo;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">field </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&lt; field</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.leProperty </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">用于比较两个属性之间的值，对应</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的&ldquo;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">field </span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">&lt;= field</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.and and</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">关系组合。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">如：<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.and( </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.eq(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;name&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;Erica&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">), </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.eq( </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;sex&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">, </span></p>
+<p>&nbsp;<strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">new </span></strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Integer(1) </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">) </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">); </span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.or or</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">关系组合。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">如：<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.or( </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.eq(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;name&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;Erica&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">), </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.eq(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;name&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;Emma&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">) </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">); </span></p>
+<p>&nbsp;<span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression.sql </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">作为补充，本方法提供了原生</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">语法的支持。我<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">们可以通过这个方法直接通过</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">SQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">语句限定查询</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">条件。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">下面的代码返回所有名称以&ldquo;</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Erica</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;起始的记录：<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Expression.sql( </span></p>
+<p>&nbsp;<span style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: CourierNew; mso-font-kerning: 0pt; mso-bidi-font-family: CourierNew">&ldquo;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">lower({alias}.name) like lower(?)</span><span style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: CourierNew; mso-font-kerning: 0pt; mso-bidi-font-family: CourierNew">&rdquo;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">, </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;Erica%&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">, </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate.STRING </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">); </span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">其中的&ldquo;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">{alias}</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">&rdquo;将由</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">在运行期使<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">用当前关联的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">POJO</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">别名替换。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">注意</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Expression </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">各方法中的属性名参数（如</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">Express.eq</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中的第一个参数），这里<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">所谓属性名是</span><span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-fareast-font-family: ">POJO</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">中对应实际库表字段的属性名（大小写敏感），而非库表中的实<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">际字段名称。<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<strong><span courier="" lang="EN-US" style="FONT-SIZE: 12pt; FONT-FAMILY: ">Criteria </span></strong><strong><span style="FONT-SIZE: 12pt; FONT-FAMILY: 宋体,Bold; mso-font-kerning: 0pt; mso-bidi-font-family: ">高级特性<span lang="EN-US"> </span></span></strong></p>
+<p>&nbsp;<strong><span style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体,Bold; mso-font-kerning: 0pt; mso-bidi-font-family: ">限定返回的记录范围<span lang="EN-US"> </span></span></strong></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">通过</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria. setFirstResult/setMaxResults </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">方法可以限制一次查询返回<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的记录范围</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">: </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria criteria = session.createCriteria(TUser.</span><strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">class</span></strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">); </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">//</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">限定查询返回检索结果中，从第一百条结果开始的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">20</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">条记录<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.setFirstResult(100); </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.setMaxResults(20); </span></p>
+<p>&nbsp;<strong><span style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体,Bold; mso-font-kerning: 0pt; mso-bidi-font-family: ">对查询结果进行排序<span lang="EN-US"> </span></span></strong></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">//</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">查询所有</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">groupId=2</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的记录<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">//</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">并分别按照姓名</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">(</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">顺序</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">)</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">和</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: ">groupId</span><span new="" times="" style="FONT-SIZE: 10pt; COLOR: #3f7f5f; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">（逆序）排序<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria criteria = session.createCriteria(TUser.</span><strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">class</span></strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">); </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.add(Expression.eq(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;groupId&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">,</span><strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #7f0055; FONT-FAMILY: ">new </span></strong><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Integer(2))); </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.addOrder(Order.asc(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;name&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">)); </span></p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">criteria.addOrder(Order.desc(</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; COLOR: #2a00ff; FONT-FAMILY: ">&quot;groupId&quot;</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">)); </span></p>
+<p>&nbsp;</p>
+<p>&nbsp;<span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">作为一种对象化的查询封装模式，不过由于</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">在实现过程中将精力<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">更加集中在</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">HQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">查询语言上，因此</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的功能实现还没做到尽善尽美（这点上，</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">OJB </span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">的</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Criteria </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">实现倒是值得借鉴），因此，在实际开发中，建议还是采用</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">Hibernate </span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">官<span lang="EN-US"> </span></span></p>
+<p>&nbsp;<span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">方推荐的查询封装模式：</span><span courier="" lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: ">HQL</span><span new="" times="" style="FONT-SIZE: 10pt; FONT-FAMILY: 宋体; mso-hansi-font-family: ; mso-font-kerning: 0pt">。</span></p>
+  </div>
+  
+  
+                
+  <div class="blog_bottom">
+    <ul>
+      <li>10:39</li>
+      <li>浏览 (4364)</li>
+            <li><a href="#comments">评论</a> (2)</li>
+      <li>分类: <a href="/category/14470">Hibernate</a></li>
+      
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/86958" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  
+                
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc561056">
+  <div class="comment_title">
+    <a href='http://nicholasbugs.javaeye.com' target='_blank'>NicholasBugs</a>
+    2008-05-30&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">&gt;&gt;Expression.eq(String arg0, String arg1)对应SQL“field = value”表达式。<br />这句是有问题的，<br />其实arg0代表的是被查询对象的属性，而不是database中的域，arg1指查询的条件。<br />比如Expression.eq("name", "erica");就指 TUser对象的name属性值为erica的对象被返回。<br /><img src="/images/smiles/icon_biggrin.gif"/> <br />我是在使用Expression&nbsp; 用对象中的many-to-one 属性查询时发现这个问题的。</div>
+</div>
+<div id="bc323118">
+  <div class="comment_title">
+    <a href='http://andrewdu.javaeye.com' target='_blank'>andrewdu</a>
+    2007-06-29&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">如果我在查询 条件里面输入了%,<br />实际上我是想要 对应字段里有%的记录<br /><br />但是%是SQL的通配符,可能会把所有数据都给查出来<br /><br />怎么样才能查询有%的记录呢?</div>
+</div>
+
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+          
+      <form action="/blog/86958" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <input type="hidden" id="editor_bbcode_flag"/>
+
+
+
+<div id="editor_main"><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+        <p style="text-align:right;padding-right:30px;">您还没有登录，请<a href='/login'>登录</a>后发表评论 <input class="submit" id="submit_button" name="commit" type="submit" value="提交" /></p>
+      </form>                  
+      <script type="text/javascript">
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+            if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+  
+      }});
+      </script> 
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://fzfx88.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/22638/c7b8a1f7-a25d-4397-aae6-3064c5228cbd.gif?1177322547" title="fzfx88的博客: 美丽人生" /></a></div>
+            <div id="blog_owner_name">fzfx88</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 64964 次</li>
+              
+              
+              <li><img src='/images/status/offline.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a>  <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://haidaohaidao.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="haidaohaidao的博客: " /></a></span> <a href='http://haidaohaidao.javaeye.com' target='_blank'>haidaohaidao</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://dmzj.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="dmzj的博客: " /></a></span> <a href='http://dmzj.javaeye.com' target='_blank'>dmzj</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://micrstart.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="micrstart的博客: micrstart" /></a></span> <a href='http://micrstart.javaeye.com' target='_blank'>micrstart</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://zhangdf880.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="zhangdf880的博客: " /></a></span> <a href='http://zhangdf880.javaeye.com' target='_blank'>zhangdf880</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (59)</a></li>
+                
+                  <li><a href="/category/14467">AJAX (5)</a></li>
+                
+                  <li><a href="/category/14468">JAVA (14)</a></li>
+                
+                  <li><a href="/category/14469">DATABASE (8)</a></li>
+                
+                  <li><a href="/category/14470">Hibernate (3)</a></li>
+                
+                  <li><a href="/category/14471">Spring (0)</a></li>
+                
+                  <li><a href="/category/14472">Struts (0)</a></li>
+                
+                  <li><a href="/category/17470">生活琐事 (2)</a></li>
+                
+                  <li><a href="/category/19375">工作点滴、滴水穿石 (8)</a></li>
+                
+                  <li><a href="/category/21464">JMS (9)</a></li>
+                
+                  <li><a href="/category/21639">turbine (3)</a></li>
+                
+                  <li><a href="/category/21791">EJB3.0 (1)</a></li>
+                
+                  <li><a href="/category/22400">工作日志 (0)</a></li>
+                
+                  <li><a href="/category/23842">JCS (2)</a></li>
+                
+                  <li><a href="/category/29356">XFire (2)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (0)</li>
+                                
+                                <li><a href="/blog/forum">我的论坛帖子</a> (24)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://javaeye-water.group.javaeye.com">JavaEye水源</a></li>
+                
+              </ul>
+            </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2008-05">2008-05</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2008-04">2008-04</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-12">2007-12</a> (2)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/136963#comments" title="MyEclipse 6.0.1 注册码">MyEclipse 6.0.1 注册码</a><br/>
+                    谢谢哈 <br/>
+                    -- by <a href='http://josinta.javaeye.com' target='_blank'>josinta</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/110285#comments" title="doGet()和doPost()的区别">doGet()和doPost()的区别</a><br/>
+                    受教了！谢过！<br/>
+                    -- by <a href='http://changqingonly.javaeye.com' target='_blank'>changqingonly</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/86956#comments" title="Hibernate---Criteria 查询">Hibernate---Criteria 查 ...</a><br/>
+                      ...<br/>
+                    -- by <a href='http://dumeng.javaeye.com' target='_blank'>dumeng</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/86956#comments" title="Hibernate---Criteria 查询">Hibernate---Criteria 查 ...</a><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs ...<br/>
+                    -- by <a href='http://dumeng.javaeye.com' target='_blank'>dumeng</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/178467#comments" title="使用 xfire 开发 web service 应用">使用 xfire 开发 web ser ...</a><br/>
+                    写的什么东西啊,中间还有html标签什么的.还不如不写.乱<br/>
+                    -- by <a href='http://antonie1111.javaeye.com' target='_blank'>antonie1111</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/178467">使用 xfire 开发 web service 应用</a></li>
+                
+                  <li><a href="/blog/147321">JCS 资料</a></li>
+                
+                  <li><a href="/blog/178458">XFire 入门教程</a></li>
+                
+                  <li><a href="/blog/195140">构建一个更好的 HashMap</a></li>
+                
+                  <li><a href="/blog/195163">正确使用 Volatile 变量</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://fzfx88.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://fzfx88.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://fzfx88.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

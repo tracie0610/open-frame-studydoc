@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>关于HIBERNATE 的CreateSQLQuery的用法 - jihongbin12329@sohu.com - JavaEye技术网站</title>
+    <meta name="description" content="终于搞点了ＣＲＥＡＴＥＳＱＬＱＵＥＲＹ了  ＣＲＥＡＴＥＳＱＬＱＵＥＲＹ最好用原生的ＳＱＬ  如  Query qu =session.createSQLQuery(&quot;select user_account.NID, user_archive.* from user_account&nbsp; left outer join user_archive on&nbsp; user_acco ..." />
+    <meta name="keywords" content=" Java 关于HIBERNATE 的CreateSQLQuery的用法" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="jihongbin12329@sohu.com" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1227770271" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1200451876" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="this.blur();$('more_site_nav').toggle();return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div id="more_site_nav" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <ul id="user_nav">
+      <li class="last"><a href="/signup">注册</a></li>
+    <li><a href="/login">登录</a></li>
+    <li class='highlight'><span>您还没有登录 !</span></li>  
+    
+</ul>
+
+    </div>
+    
+    <div id="page" onclick="$('more_site_nav').hide();">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">jihongbin12329@sohu.com</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://jihongbin12329.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/93448" class="next">oracle</a>
+      |
+      <a href="/blog/88203" class="pre">关于ＨＩＢＥＲＮＡＴＥ中的动态ＩＮＳＥＲ ...</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2007</span><span class='sep_year'>-</span><span class='month'>06</span><span class='sep_month'>-</span><span class='day'>09</span></div>
+    <h3 class='' title=''><a href="/blog/88678">关于HIBERNATE 的CreateSQLQuery的用法</a></h3>
+        
+  </div>
+  
+  <div class="blog_content">
+    <p>终于搞点了ＣＲＥＡＴＥＳＱＬＱＵＥＲＹ了</p>
+<p>ＣＲＥＡＴＥＳＱＬＱＵＥＲＹ最好用原生的ＳＱＬ</p>
+<p>如</p>
+<p><font face="Arial">Query qu =session.createSQLQuery(&quot;select user_account.NID, user_archive.* from user_account&nbsp; left outer join user_archive on&nbsp; user_account.NID = user_archive.NUSER_ID where&nbsp;&nbsp; user_account.NID = &quot;+userId);</font></p>
+<p><font style="BACKGROUND-COLOR: #ff6600">以上都是表名同列名　　没有对应的类同属性</font></p>
+<p>如果一定要用对应的类同属性名是记的要给别名还有就是用了别名一定要给这个别名下定义如</p>
+<p><font face="Arial">Query qu =session.createSQLQuery(&quot;select&nbsp;&nbsp; NID, {b.*} from user_account&nbsp; , user_archive {b}&nbsp; where NID = {b}.NUSER_ID and NID = &quot;+userId).addEntity(&quot;b&quot;, UserArchive.class).addScalar(&quot;NID&quot;,new LongType());</font></p>
+<p>以上的除了表名外还有的是属性名记的用别名引用属性名是一定要用addEntity(&quot;b&quot;, UserArchive.class)不然会出错：好像１７２２０２错吧说别名不识别</p>
+<p><font style="BACKGROUND-COLOR: #ff6600">ＣＲＥＡＴＥＳＱＬＱＵＥＲＹ中可以直接进行多表操作不用在配置中配置ＭＡＮＹＴＯＯＮＥ　　ＯＲ　ＯＮＥＴＯＯＮＥ　　ＯＲ　　　ＭＡＮＹＴＯＭＡＮＹ　如：</font></p>
+<p><font face="Arial">Query qu =session.createSQLQuery(&quot;select NID , {b.*} from user_account left outer join user_archive {b} on&nbsp; NID = {b}.NUSER_ID where NID = &quot;+userId).addEntity(&quot;b&quot;, UserArchive.class).addScalar(&quot;NID&quot;,new LongType());</font></p>
+<p><font face="Arial">Query qu =session.createSQLQuery(&quot;select user_account.NID, user_archive.* from user_account&nbsp; left outer join user_archive on&nbsp; user_account.NID = user_archive.NUSER_ID where&nbsp;&nbsp; user_account.NID = &quot;+userId);</font></p>
+<p>对于投影查询使用别名的情况要注意了如果你的addEntity（）方法加了而只ＳＥＬＥＣＴ　一些属性时会出以下错误码：</p>
+<font face="Arial">
+<p><br />
+Hibernate: select&nbsp;&nbsp; NID NID0_1_, b.NUSER_ID as NUSER1_1_0_, b.SNAME as SNAME1_0_, b.SNAME_EN as SNAME3_1_0_, b.SSEX as SSEX1_0_, b.DBIRTH as DBIRTH1_0_, b.SMARRIAGE as SMARRIAGE1_0_, b.NSTATURE as NSTATURE1_0_, b.NAVOIRDUPOIS as NAVOIRDU8_1_0_, b.SCONSTELLATION as SCONSTEL9_1_0_, b.SBLOOD as SBLOOD1_0_, b.SGENUS as SGENUS1_0_, b.SMAXIM as SMAXIM1_0_, b.SCHARACTER as SCHARACTER1_0_, b.SINTEREST as SINTEREST1_0_, b.SCOUNTRY_CODE as SCOUNTRY15_1_0_, b.SAUTOCRITICAL as SAUTOCR16_1_0_, b.NHOMETOWN_CITY_ID as NHOMETOWN17_1_0_, b.NCITY_ID as NCITY18_1_0_, b.SKNOWLEDGE as SKNOWLEDGE1_0_, b.SACADEMY as SACADEMY1_0_, b.SOCCUPATION as SOCCUPA21_1_0_, b.SMONTH_SALARY as SMONTH22_1_0_, b.SEMAIL as SEMAIL1_0_, b.SQQ as SQQ1_0_, b.SMSN as SMSN1_0_, b.SISOPEN_NET_CONTACT as SISOPEN26_1_0_, b.SISOPEN_BASIC_CONTACT as SISOPEN27_1_0_, b.STEL as STEL1_0_, b.SMOBILE as SMOBILE1_0_, b.SADDRESS as SADDRESS1_0_, b.SZIPCODE as SZIPCODE1_0_, b.SPHOTO_URL as SPHOTO32_1_0_ from user_account a&nbsp; , user_archive b&nbsp; where NID = b.NUSER_ID and NID = 15000<br />
+- could not read column value from result set: SNICK2_0_1_; 列名无效</p>
+<p><font style="BACKGROUND-COLOR: #ff6600">ＡＤＤＥＮＴＩＴＹ方法照我看是别名的引用同返回对像的说明也就是说用了别名一定要有ＡＤＤＥＮＴＩＴＹ但有了ＡＤＤＥＮＴＩＴＹ一定会返回整个对像你只ＳＥＬＥＣＴ对像中的几个属性就会出错了</font></p>
+</font>
+  </div>
+  
+  
+                
+  <div class="blog_bottom">
+    <ul>
+      <li>18:40</li>
+      <li>浏览 (3265)</li>
+      <li><a href="http://www.javaeye.com/topic/88678" title="在论坛被浏览了1447 次">论坛浏览 (1447)</a></li>       <li><a href="#comments">评论</a> (0)</li>
+      
+      
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/88678" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  
+                
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+     
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+    
+      <p style='font-weight: bold; margin: 5px 0;'>该博客是同时发布到<a href="http://www.javaeye.com/topic/88678">论坛</a>的，无法评论在论坛已被锁定的帖子</p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://jihongbin12329.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jihongbin12329@sohu.com的博客: jihongbin12329@sohu.com" /></a></div>
+            <div id="blog_owner_name">jihongbin12329@sohu.com</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 8779 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 苏州</li>
+              <li><img src='/images/status/offline.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a>  <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://huochai.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="huochai的博客: huochai" /></a></span> <a href='http://huochai.javaeye.com' target='_blank'>huochai</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://wangzhongjie.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/24871/12483cd3-6d6a-41e3-a322-9473b98916b9-thumb.jpg?1183434924" title="wangzhongjie的博客: wangzhongjie" /></a></span> <a href='http://wangzhongjie.javaeye.com' target='_blank'>wangzhongjie</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://xfbxag.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="xfbxag的博客: " /></a></span> <a href='http://xfbxag.javaeye.com' target='_blank'>xfbxag</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://lizhongnan.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="lizhongnan的博客: " /></a></span> <a href='http://lizhongnan.javaeye.com' target='_blank'>lizhongnan</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (18)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (0)</li>
+                                
+                                <li><a href="/blog/forum">我的论坛帖子</a> (5)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://xys.group.javaeye.com">WoW插件编程</a></li>
+                
+              </ul>
+            </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2007-11">2007-11</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-08">2007-08</a> (3)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-07">2007-07</a> (7)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/86697#comments" title="关于HIBERNATE的缓存">关于HIBERNATE的缓存</a><br/>
+                    能在详细点就好了<br/>
+                    -- by <a href='http://a3mao.javaeye.com' target='_blank'>a3mao</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://jihongbin12329.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://jihongbin12329.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://jihongbin12329.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
