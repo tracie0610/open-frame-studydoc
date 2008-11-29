@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>收藏:Hibernate---Criteria  - 解决问题收藏 - JavaEye技术网站</title>
+    <meta name="description" content="具有一个直观的、可扩展的条件查询API是Hibernate的特色。     15.1. 创建一个Criteria 实例  org.hibernate.Criteria接口表示特定持久类的一个查询。Session是 Criteria实例的工厂。     Criteria crit = sess.createCriteria(Cat.class);  crit.setMaxResults(50);   ..." />
+    <meta name="keywords" content="  收藏:Hibernate---Criteria " />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="解决问题收藏" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1227770271" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1200451876" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="http://www.javaeye.com/javascripts/editor/css/ui.css?1222156967" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/editor/compress.js?1225335142" type="text/javascript"></script>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="this.blur();$('more_site_nav').toggle();return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div id="more_site_nav" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <ul id="user_nav">
+      <li class="last"><a href="/signup">注册</a></li>
+    <li><a href="/login">登录</a></li>
+    <li class='highlight'><span>您还没有登录 !</span></li>  
+    
+</ul>
+
+    </div>
+    
+    <div id="page" onclick="$('more_site_nav').hide();">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">解决问题收藏</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://qingzhuang.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/33419" class="next">收藏:条件查询(Criteria Queries) </a>
+      |
+      <a href="/blog/33389" class="pre">收藏:Hibernate中关联的相关问题 </a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2006</span><span class='sep_year'>-</span><span class='month'>11</span><span class='sep_month'>-</span><span class='day'>09</span></div>
+    <h3 class='' title=''><a href="/blog/33418">收藏:Hibernate---Criteria </a></h3>
+        
+  </div>
+  
+  <div class="blog_content">
+    <pre name="code" class="java">具有一个直观的、可扩展的条件查询API是Hibernate的特色。 
+
+15.1. 创建一个Criteria 实例
+org.hibernate.Criteria接口表示特定持久类的一个查询。Session是 Criteria实例的工厂。 
+
+Criteria crit = sess.createCriteria(Cat.class);
+crit.setMaxResults(50);
+List cats = crit.list();
+15.2. 限制结果集内容
+一个单独的查询条件是org.hibernate.criterion.Criterion 接口的一个实例。org.hibernate.criterion.Restrictions类 定义了获得某些内置Criterion类型的工厂方法。 
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "Fritz%") )
+    .add( Restrictions.between("weight", minWeight, maxWeight) )
+    .list();
+约束可以按逻辑分组。 
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "Fritz%") )
+    .add( Restrictions.or(
+        Restrictions.eq( "age", new Integer(0) ),
+        Restrictions.isNull("age")
+    ) )
+    .list();
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.in( "name", new String[] { "Fritz", "Izi", "Pk" } ) )
+    .add( Restrictions.disjunction()
+        .add( Restrictions.isNull("age") )
+     .add( Restrictions.eq("age", new Integer(0) ) )
+     .add( Restrictions.eq("age", new Integer(1) ) )
+     .add( Restrictions.eq("age", new Integer(2) ) )
+    ) )
+    .list();
+Hibernate提供了相当多的内置criterion类型(Restrictions 子类), 但是尤其有用的是可以允许你直接使用SQL。 
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.sql("lower({alias}.name) like lower(?)", "Fritz%", Hibernate.STRING) )
+    .list();
+{alias}占位符应当被替换为被查询实体的列别名。 
+
+Property实例是获得一个条件的另外一种途径。你可以通过调用Property.forName() 创建一个Property。 
+
+Property age = Property.forName("age");
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.disjunction()
+        .add( age.isNull() )
+     .add( age.eq( new Integer(0) ) )
+     .add( age.eq( new Integer(1) ) )
+     .add( age.eq( new Integer(2) ) )
+    ) )
+    .add( Property.forName("name").in( new String[] { "Fritz", "Izi", "Pk" } ) )
+    .list();
+15.3. 结果集排序
+你可以使用org.hibernate.criterion.Order来为查询结果排序。 
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "F%")
+    .addOrder( Order.asc("name") )
+    .addOrder( Order.desc("age") )
+    .setMaxResults(50)
+    .list();
+List cats = sess.createCriteria(Cat.class)
+    .add( Property.forName("name").like("F%") )
+    .addOrder( Property.forName("name").asc() )
+    .addOrder( Property.forName("age").desc() )
+    .setMaxResults(50)
+    .list();
+15.4. 关联
+你可以使用createCriteria()非常容易的在互相关联的实体间建立 约束。 
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "F%")
+    .createCriteria("kittens")
+        .add( Restrictions.like("name", "F%")
+    .list();
+注意第二个 createCriteria()返回一个新的 Criteria实例，该实例引用kittens 集合中的元素。 
+
+接下来，替换形态在某些情况下也是很有用的。 
+
+List cats = sess.createCriteria(Cat.class)
+    .createAlias("kittens", "kt")
+    .createAlias("mate", "mt")
+    .add( Restrictions.eqProperty("kt.name", "mt.name") )
+    .list();
+(createAlias()并不创建一个新的 Criteria实例。) 
+
+Cat实例所保存的之前两次查询所返回的kittens集合是 没有被条件预过滤的。如果你希望只获得符合条件的kittens， 你必须使用returnMaps()。 
+
+List cats = sess.createCriteria(Cat.class)
+    .createCriteria("kittens", "kt")
+        .add( Restrictions.eq("name", "F%") )
+    .returnMaps()
+    .list();
+Iterator iter = cats.iterator();
+while ( iter.hasNext() ) {
+    Map map = (Map) iter.next();
+    Cat cat = (Cat) map.get(Criteria.ROOT_ALIAS);
+    Cat kitten = (Cat) map.get("kt");
+}
+15.5. 动态关联抓取
+你可以使用setFetchMode()在运行时定义动态关联抓取的语义。 
+
+List cats = sess.createCriteria(Cat.class)
+    .add( Restrictions.like("name", "Fritz%") )
+    .setFetchMode("mate", FetchMode.EAGER)
+    .setFetchMode("kittens", FetchMode.EAGER)
+    .list();
+这个查询可以通过外连接抓取mate和kittens。 查看第 19.1 节 “ 抓取策略(Fetching strategies) ”可以获得更多信息。 
+
+15.6. 查询示例
+org.hibernate.criterion.Example类允许你通过一个给定实例 构建一个条件查询。 
+
+Cat cat = new Cat();
+cat.setSex('F');
+cat.setColor(Color.BLACK);
+List results = session.createCriteria(Cat.class)
+    .add( Example.create(cat) )
+    .list();
+版本属性、标识符和关联被忽略。默认情况下值为null的属性将被排除。 
+
+你可以自行调整Example使之更实用。 
+
+Example example = Example.create(cat)
+    .excludeZeroes()           //exclude zero valued properties
+    .excludeProperty("color")  //exclude the property named "color"
+    .ignoreCase()              //perform case insensitive string comparisons
+    .enableLike();             //use like for string comparisons
+List results = session.createCriteria(Cat.class)
+    .add(example)
+    .list();
+你甚至可以使用examples在关联对象上放置条件。 
+
+List results = session.createCriteria(Cat.class)
+    .add( Example.create(cat) )
+    .createCriteria("mate")
+        .add( Example.create( cat.getMate() ) )
+    .list();
+15.7. 投影(Projections)、聚合（aggregation）和分组（grouping）
+org.hibernate.criterion.Projections是 Projection 的实例工厂。我们通过调用 setProjection()应用投影到一个查询。 
+
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.rowCount() )
+    .add( Restrictions.eq("color", Color.BLACK) )
+    .list();
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.projectionList()
+        .add( Projections.rowCount() )
+        .add( Projections.avg("weight") )
+        .add( Projections.max("weight") )
+        .add( Projections.groupProperty("color") )
+    )
+    .list();
+在一个条件查询中没有必要显式的使用 "group by" 。某些投影类型就是被定义为 分组投影，他们也出现在SQL的group by子句中。 
+
+你可以选择把一个别名指派给一个投影，这样可以使投影值被约束或排序所引用。下面是两种不同的实现方式： 
+
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.alias( Projections.groupProperty("color"), "colr" ) )
+    .addOrder( Order.asc("colr") )
+    .list();
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.groupProperty("color").as("colr") )
+    .addOrder( Order.asc("colr") )
+    .list();
+alias()和as()方法简便的将一个投影实例包装到另外一个 别名的Projection实例中。简而言之，当你添加一个投影到一个投影列表中时 你可以为它指定一个别名： 
+
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.projectionList()
+        .add( Projections.rowCount(), "catCountByColor" )
+        .add( Projections.avg("weight"), "avgWeight" )
+        .add( Projections.max("weight"), "maxWeight" )
+        .add( Projections.groupProperty("color"), "color" )
+    )
+    .addOrder( Order.desc("catCountByColor") )
+    .addOrder( Order.desc("avgWeight") )
+    .list();
+List results = session.createCriteria(Domestic.class, "cat")
+    .createAlias("kittens", "kit")
+    .setProjection( Projections.projectionList()
+        .add( Projections.property("cat.name"), "catName" )
+        .add( Projections.property("kit.name"), "kitName" )
+    )
+    .addOrder( Order.asc("catName") )
+    .addOrder( Order.asc("kitName") )
+    .list();
+你也可以使用Property.forName()来表示投影： 
+
+List results = session.createCriteria(Cat.class)
+    .setProjection( Property.forName("name") )
+    .add( Property.forName("color").eq(Color.BLACK) )
+    .list();
+List results = session.createCriteria(Cat.class)
+    .setProjection( Projections.projectionList()
+        .add( Projections.rowCount().as("catCountByColor") )
+        .add( Property.forName("weight").avg().as("avgWeight") )
+        .add( Property.forName("weight").max().as("maxWeight") )
+        .add( Property.forName("color").group().as("color" )
+    )
+    .addOrder( Order.desc("catCountByColor") )
+    .addOrder( Order.desc("avgWeight") )
+    .list();
+15.8. 离线(detached)查询和子查询
+DetachedCriteria类使你在一个session范围之外创建一个查询，并且可以使用任意的 Session来执行它。 
+
+DetachedCriteria query = DetachedCriteria.forClass(Cat.class)
+    .add( Property.forName("sex").eq('F') );
+    
+Session session = ....;
+Transaction txn = session.beginTransaction();
+List results = query.getExecutableCriteria(session).setMaxResults(100).list();
+txn.commit();
+session.close();
+DetachedCriteria也可以用以表示子查询。条件实例包含子查询可以通过 Subqueries或者Property获得。 
+
+DetachedCriteria avgWeight = DetachedCriteria.forClass(Cat.class)
+.setProjection( Property.forName("weight").avg() );
+session.createCriteria(Cat.class)
+.add( Property.forName("weight).gt(avgWeight) )
+.list();
+DetachedCriteria weights = DetachedCriteria.forClass(Cat.class)
+.setProjection( Property.forName("weight") );
+session.createCriteria(Cat.class)
+.add( Subqueries.geAll("weight", weights) )
+.list();
+甚至相互关联的子查询也是有可能的： 
+
+DetachedCriteria avgWeightForSex = DetachedCriteria.forClass(Cat.class, "cat2")
+.setProjection( Property.forName("weight").avg() )
+.add( Property.forName("cat2.sex").eqProperty("cat.sex") );
+session.createCriteria(Cat.class, "cat")
+.add( Property.forName("weight).gt(avgWeightForSex) )
+.list();
+ 
+
+ //具体应用
+
+把HSQL语句用Criteria代替，感觉更加美观一点，而且还支持中文，要是HSQL想支持中文，你得使用占位符来设置，具体可参照：http://.blogdriver.com//983190.html
+
+那么Criteria的用法是这样的：
+
+    public Collection findCriteria(final DetachedCriteria dc, final IPage page) {
+        return (List) getHibernateTemplate().execute(new HibernateCallback(){
+            public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                Criteria c = dc.getExecutableCriteria(session);
+                
+                page.setTotalCount(((Integer) c.setProjection(Projections.rowCount()).uniqueResult()).intValue()); 
+                c.setProjection(null); 
+                c.setResultTransformer(Criteria.ROOT_ENTITY);
+                c.setFirstResult(page.getBeginIndex());
+                c.setMaxResults(page.getPageSize());
+                return c.list();
+            }
+        }, true);
+    }
+
+其中的参数true表示要Spring强制传入SessionImpl，而不是传入Proxy代理类，page.setTotalCount(((Integer) c.setProjection(Projections.rowCount()).uniqueResult()).intValue()); 
+c.setProjection(null); 目的是为了获得行数，并设置投影为空，为的是返回List出来，如果不设置setProjection(null)的话，c.list将返回的是行数(int型)，而不是所要查询的数据库信息。但是Criteria的ResultTransformer会变成PassThroughResultTransformer，criteria.list的时候可能结果会跟理想的不一样。所以我们还要再c.setResultTransformer(Criteria.ROOT_ENTITY);把结果以Entity的形式返回，而不是Object[]的形式返回。具体的ResultTransformer可以google一下。
+
+测试代码如下：
+
+    public void testCriteria() {
+        DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+        dc.add(Restrictions.eq("name", "user")).add(Restrictions.like("description", "%主管人员%"));
+        IPage page = new Page();
+        page.setCurrentPage(1);
+        page.setPageSize(10);
+        Collection list = _userDAO.findCriteria(dc, page);
+        assertNotNull(list);
+        assertEquals(1, list.size());
+    }
+
+来源：http://aimtime812110.spaces.msn.com/Blog/cns!1pXyGS-D6ufSs-1GPdk-fkiQ!108.entry
+
+ 
+
+
+
+
+Trackback: http://tb.blog.csdn.net/TrackBack.aspx?PostId=898571
+</pre>
+  </div>
+  
+  
+                
+  <div class="blog_bottom">
+    <ul>
+      <li>17:58</li>
+      <li>浏览 (3686)</li>
+            <li><a href="#comments">评论</a> (2)</li>
+      <li>分类: <a href="/category/6469">Hibernate</a></li>
+      
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/33418" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  
+                
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc363847">
+  <div class="comment_title">
+    <a href='http://wubaodan.javaeye.com' target='_blank'>wubaodan</a>
+    2007-08-27&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">是不是Criteria只能查询该表中的全部列,是否能过滤掉不需要的列呢？</div>
+</div>
+<div id="bc363845">
+  <div class="comment_title">
+    <a href='http://wubaodan.javaeye.com' target='_blank'>wubaodan</a>
+    2007-08-27&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">楼主你好，看了您的以上关于Criteria的查询例子，我觉得写的很全面，我有个问题就是关于Criteria的查询怎么查询一个表中几个列的list不知道怎么写,请指教，比如 hql:select u.name,u.age from user u</div>
+</div>
+
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+          
+      <form action="/blog/33418" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <input type="hidden" id="editor_bbcode_flag"/>
+
+
+
+<div id="editor_main"><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+        <p style="text-align:right;padding-right:30px;">您还没有登录，请<a href='/login'>登录</a>后发表评论 <input class="submit" id="submit_button" name="commit" type="submit" value="提交" /></p>
+      </form>                  
+      <script type="text/javascript">
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+            if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+  
+      }});
+      </script> 
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://qingzhuang.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="qingzhuang的博客: 解决问题收藏" /></a></div>
+            <div id="blog_owner_name">qingzhuang</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 54763 次</li>
+              
+              
+              <li><img src='/images/status/offline.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a>  <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://guoliang-ti.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="guoliang_ti的博客: " /></a></span> <a href='http://guoliang-ti.javaeye.com' target='_blank'>guoliang_ti</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://feng413.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="feng413的博客: feng413" /></a></span> <a href='http://feng413.javaeye.com' target='_blank'>feng413</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://bobosware.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="bobosware的博客: " /></a></span> <a href='http://bobosware.javaeye.com' target='_blank'>bobosware</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://dishhy.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="dishhy的博客: " /></a></span> <a href='http://dishhy.javaeye.com' target='_blank'>dishhy</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (70)</a></li>
+                
+                  <li><a href="/category/6468">spring (2)</a></li>
+                
+                  <li><a href="/category/6469">Hibernate (15)</a></li>
+                
+                  <li><a href="/category/6470">struts (1)</a></li>
+                
+                  <li><a href="/category/6471">webwork (8)</a></li>
+                
+                  <li><a href="/category/6472">oracle (4)</a></li>
+                
+                  <li><a href="/category/6483">ejb (10)</a></li>
+                
+                  <li><a href="/category/6484">java (5)</a></li>
+                
+                  <li><a href="/category/6489">web (1)</a></li>
+                
+                  <li><a href="/category/6820">javascript (3)</a></li>
+                
+                  <li><a href="/category/6849">Asp.net (12)</a></li>
+                
+                  <li><a href="/category/6874">C++ (4)</a></li>
+                
+                  <li><a href="/category/9213">weblogic (1)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (68)</li>
+                                
+                                <li><a href="/blog/forum">我的论坛帖子</a> (8)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://www.ssuupv.54bk.com" target="_blank">ssuupv</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2008-07">2008-07</a> (3)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-07">2007-07</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-05">2007-05</a> (1)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/33586#comments" title="收藏:Hibernate中的取策略延迟加载">收藏:Hibernate中的取策略 ...</a><br/>
+                    查资料中路过，谢谢博主分享<br/>
+                    -- by <a href='http://yvonxiao.javaeye.com' target='_blank'>yvonxiao</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/32415#comments" title="收藏:在eclipse的环境下使用wtp开发web service">收藏:在eclipse的环境下 ...</a><br/>
+                    [align=left][/align]<br/>
+                    -- by <a href='http://gmizr.javaeye.com' target='_blank'>gmizr</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/49378#comments" title="jbuilder 2006 enterprise + winxp + weblogic 9.2开发cmp2.0的问题">jbuilder 2006 enterprise ...</a><br/>
+                    :) 谢了．<br/>
+                    -- by <a href='http://freshet.javaeye.com' target='_blank'>FRESHET</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/33418#comments" title="收藏:Hibernate---Criteria ">收藏:Hibernate---Criteri ...</a><br/>
+                    是不是Criteria只能查询该表中的全部列,是否能过滤掉不需要的列呢？<br/>
+                    -- by <a href='http://wubaodan.javaeye.com' target='_blank'>wubaodan</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/33418#comments" title="收藏:Hibernate---Criteria ">收藏:Hibernate---Criteri ...</a><br/>
+                    楼主你好，看了您的以上关于Criteria的查询例子，我觉得写的很全面，我有个问 ...<br/>
+                    -- by <a href='http://wubaodan.javaeye.com' target='_blank'>wubaodan</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/212088">(收藏)checkboxlist控件的使用 </a></li>
+                
+                  <li><a href="/blog/212640">(收藏）OnTextChanged改变事件</a></li>
+                
+                  <li><a href="/blog/220139">.net Ajax无刷新技术</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://qingzhuang.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://qingzhuang.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://qingzhuang.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

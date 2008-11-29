@@ -1,0 +1,991 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+	<head>
+
+		<title>Hibernate, Criteria, COUNT</title>
+        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+        <link rel="stylesheet" type="text/css" href="/forums/style.jsp">
+<link href="/css/jl.css" rel="stylesheet" type="text/css" />
+<link href="/css/jlJive.css" rel="stylesheet" type="text/css" />
+<link href="/css/navmenu.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<link rel="top" href="/" title="Javalobby Home Page">
+		<link rel="up" href="/java/forums/f210.html" title="Up to thread list">
+
+		
+		
+				<link rel="prev"
+							href="/java/forums/t85452.html"
+							title="Previous thread" >
+		
+
+		
+		
+
+    
+        <link rel="alternate" type="application/rss+xml" title="RSS"
+         href="http://www.javalobby.org/rss/rssmessages.jspa?threadID=71284">
+
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+sfHover = function() {
+	var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onmouseover=function() {
+			this.className+=" sfhover";
+		}
+		sfEls[i].onmouseout=function() {
+			this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+		}
+	}
+}
+if (document.all) { //MS IE
+	if (window.attachEvent) window.attachEvent("onload", sfHover);
+	else { //IE 5.2 Mac does not support attachEvent
+		var old = window.onload;
+		window.onload = function() { if (old) old(); sfHover(); }
+	}
+}
+//--><!]]></script>
+<!--[if IE]>
+<style>
+body {
+  height: 100%;
+  overflow: hidden;
+  font-size: 100%;
+  }
+div#wrap_outer {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  }
+div#glideDiv0 {
+  position: absolute;
+}
+#comments dd pre {
+	width: 100%;
+	overflow: scroll;
+}
+</style>
+<script type="text/javascript">
+onload = function() { wrap_outer.focus() }
+</script>
+<![endif]-->
+</head>
+    <body >
+    
+
+<div id="wrap_outer">
+<!-- TOP LEADERBOARD GOES HERE -->
+
+<div id="wrap_inner">
+<div id="header">
+	<div class="netbar">
+		<a href="http://www.javalobby.org/" title="Java & J2EE Programming community with Java forums, Java blogs, Java news & Java tutorials">Javalobby</a> |
+        <a href="http://www.eclipsezone.com/" title="Eclipse Developer and User Community">EclipseZone</a> |
+        <a href="http://www.javaforge.com/" title="Open Source Java Project Hosting">JavaForge</a> |
+		<a href="http://www.jroller.com/" title="Free Java Blogging community for Java & J2EE Developer blogs">JRoller</a> |
+		<a href="http://www.javablackbelt.com/" title="Java skill evaluation platform">JavaBlackBelt</a> |
+		<a href="http://www.jdocs.com/" title="Javadoc API docs for over 130 Java & J2EE libraries">JDocs</a> |
+        <a href="http://www.javacrawl.com/" title="RSS Portal for Java news & J2EE news">Javacrawl</a> |		
+        <a href="http://www.jugcentral.com/" title="Java User Group hosting & services for JUGs">JUGCentral</a> |
+		<a href="http://www.myjavaserver.com/" title="Free Java JSP & J2EE hosting for developers learning Java">MyJavaServer</a> |
+		<a href="http://www.dzone.com/advertise.jsp" title="Promote your products & services to Java developers"><b>ADVERTISE</b></a>
+	</div>
+	<div class="welcomebar">
+		
+				<form action="/forums/login.jspa" method="post" name="loginform">
+				Username/Email: <input type="text" name="username" size="20" maxlength="150" value="" tabindex="1" id="username01" />
+				Password: <input type="password" name="password" size="20" maxlength="150" value="" tabindex="2" id="password01" />
+				<input type="hidden" name="autoLogin" id="autoLogin01" value="true" />
+				<input type="hidden" name="successURL" id="successURL01" value="http://www.javalobby.org/java/forums/t71284.html" />
+
+				<a href="javascript:document.loginform.submit()">SIGN IN</a> | <a href="/account!default.jspa">JOIN NOW!</a>
+				</form>
+		
+	</div>
+	</div>
+<div id="navcontainer">
+	<ul id="nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="#">Features</a>
+			<ul>
+				<li><a href="/forums/post!default.jspa?forumID=61">Submit&nbsp;an&nbsp;article</a></li>
+				<li><a href="/spotlights.jsp?view=all">Presentations and Articles</a></li>
+				<li><a href="/av/javapolis/">JavaPolis 2004 Online</a></li>
+                <li><a href="/av/javazone/">JavaZone 2005</a></li>
+
+				<li><a href="/java/forums/f17.html">Announcements</a></li>
+				<li><a href="/nl/index.jsp">Newsletters</a></li>
+
+			</ul>
+		</li>
+		<li><a href="/java/forums/c5601.html">Forums</a>
+			<ul>
+				<li><a href="/java/forums/c5601.html">Overview</a></li>
+				<li><a href="/forums/help.jspa">Help&nbsp;&amp;&nbsp;FAQ</a></li>
+				<li><a href="/notyet.jsp">Posting&nbsp;guidelines</a></li>
+				<li><a href="/notyet.jsp">Recent&nbsp;postings</a></li>
+				<li><a href="/notyet.jsp">Popular&nbsp;discussions</a></li>
+				
+				<li><a href="/forums/online.jspa">Who's&nbsp;online</a></li>
+			</ul>
+		</li>
+		<li><a href="#">Blogs</a>
+			<ul>
+				<li><a href="http://www.jroller.com/">Popular&nbsp;blogs</a></li>
+				<li><a href="http://www.jroller.com/user.do?method=registerUser">Start&nbsp;your&nbsp;free&nbsp;blog</a></li>
+				<li><a href="http://www.jroller.com/">Recent&nbsp;blog&nbsp;entries</a></li>
+			</ul>
+		</li>
+		<li><a href="#">JL Network</a>
+			<ul>
+				<li><a href="http://www.javalobby.org/" title="Java J2SE J2EE Programming community with Java forums, Java blogs, Java news & Java tutorials">Javalobby.org</a></li>
+        <li><a href="http://www.javacrawl.com/" title="RSS Portal for Java news & J2EE news">Javacrawl.com</a></li>
+				<li><a href="http://www.jdocs.com/" title="Javadoc API docs for over 130 Java & J2EE libraries">JDocs.com</a></li>
+				<li><a href="http://www.jroller.com/" title="Free Java blog network for over 7,000 Java & J2EE Developer blogs">JRoller.com</a></li>
+				<li><a href="http://www.jugcentral.com/" title="Java User Group hosting & services for JUGs">JUGCentral.com</a></li>
+				<li><a href="http://www.myjavaserver.com/" title="Free Java JSP & J2EE hosting for developers learning Java">MyJavaServer.com</a></li>
+				<li><a href="#">Friends&nbsp;&amp;&nbsp;Partners</a></li>
+			</ul>
+		</li>
+		<li><a href="#">Members&nbsp;Only</a>
+			<ul>
+				<li><a href="/forums/usersettings!default.jspa">Control&nbsp;Panel</a></li>
+				
+				<li><a href="/forums/accountEditNewsletter!default.jspa">Subscriptions</a></li>
+				<li><a href="/notyet.jsp">Downloads</a></li>
+				<li><a href="/notyet.jsp">Benefits</a></li>
+				<li><a href="/notyet.jsp">Special&nbsp;Offers</a></li>
+			</ul>
+		</li>
+		<li><a href="#">About JL</a>
+			<ul>
+				<li><a href="/about.jsp">Our&nbsp;story</a></li>
+				<li><a href="/network.jsp">Sites&nbsp;&amp;&nbsp;Services</a></li>
+				<li><a href="/notyet.jsp">In&nbsp;the&nbsp;News</a></li>
+				<li><a href="/privacy.jsp">Privacy&nbsp;policy</a></li>
+				<li><a href="/contact.jsp">Contact&nbsp;us</a></li>
+				<li><a href="/advertise.jsp">Advertising&nbsp;info</a></li>
+				<li><a href="/forums/help.jspa">FAQ</a></li>
+			</ul>
+		</li>
+	</ul>
+	<div style="clear: both;"> </div>
+</div>
+<div id="topLeaderboard">
+<!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+
+<SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=32&pid=0&random=49268885" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=32&pid=0&random=49268885" height="90" width="728" hspace="0" vspace="0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=32&pid=0&lookup=true&random=49268885" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=32&pid=0&random=49268885" height="90" width="728" hspace="0" vspace="0" border="0" alt="Click Here!">
+</A>
+</IFRAME>
+</NOSCRIPT>
+
+<!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+</div>
+    
+<div id="rightColumn">
+
+
+<div class="jljive-portlet">
+  <div class="header">
+
+    <h1>Popular @ <a href="http://www.dzone.com">
+      <img src="/images/std/dzone_130x24.gif" alt="dzone.com: fresh links for developers"
+           title="dzone.com: fresh links for developers"
+           style="border:none;vertical-align:text-top;padding-top:2px;"></a></h1></div>
+  <ul class="dzone">
+    
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/tim_bray_on_java_let_it_go_already.html" title="Tim Bray on Java: Let it go already">
+        Tim Bray on Java: Let it go already</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/you_still_work_with_javascript.html" title="You STILL Work With JavaScript?">
+        You STILL Work With JavaScript?</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/rockstarappscom_how_do_you_store_a_tree_in_a_data_2.html" title="How do you store a tree in a database table?">
+        How do you store a tree in a database...</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/some_computer_science_blogs_you_might_consider_fo.html" title="Some Computer Science Blogs You Might Consider Following">
+        Some Computer Science Blogs You Might...</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/loom_10_final_is_out_let_there_be_awesome.html" title="Loom 1.0 final is out. Let there be AWESOME">
+        Loom 1.0 final is out. Let there be...</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/install_java_on_ubuntu_810_intrepid_ibex.html" title="Install Java on Ubuntu 8.10 (Intrepid Ibex)">
+        Install Java on Ubuntu 8.10 (Intrepid...</a>
+        </li>
+    
+      <li class="last">
+        <a href="http://www.dzone.com/links/rss/everythingyouknow_about_cssiswrong.html" title="Everything You Know About CSS Is Wrong!">
+        Everything You Know About CSS Is Wrong!</a>
+        </li>
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </ul>
+
+  <div class="footer">
+    <img src="/images/std/icons/write_16x16.gif" hspace="0" vspace="0" align="texttop"/>
+    <a href="http://www.dzone.com/links/add.html" class="post">Submit a story</a>
+    &nbsp;<img src="/images/std/icons/check_16x16.gif" hspace="0" vspace="0" align="texttop"/>
+    <a href="http://www.dzone.com/links/queue.html" class="post">Vote on new stories</a>
+  </div>
+</div>
+
+
+<div id="mpu">
+  <!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+   <SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=33&pid=0&random=99902432" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=33&pid=0&random=99902432" height="250" width="300" hspace="4" vspace="4" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=33&pid=0&lookup=true&random=99902432" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=33&pid=0&random=99902432" height="250" width="300" hspace="4" vspace="4" border="0" alt="Support Javalobby, visit our sponsors">
+</A>
+</IFRAME>
+</NOSCRIPT>
+
+   <!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+  </div> <!-- end mpu DIV -->
+
+<div class="jljive-portlet">
+	<div class="header">Forum Controls</div>
+		
+		
+
+		
+		
+
+		
+			
+		
+	<ul>
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="/forums/post!reply.jspa?threadID=71284"
+	class="noborder"><img src="/images/std/icons/write_16x16.gif"
+	width="16" height="16" border="0"
+	alt="Reply to this Thread"></a> 
+<a href="/forums/post!reply.jspa?threadID=71284">Reply to this Thread</a></li>
+
+
+  
+
+<li><a href="/forums/search!default.jspa?objID=f210"
+	class="noborder"><img src="images/search-16x16.gif" width="16"
+	height="16" border="0" alt="Search Forum"></a>
+ <a
+	href="/forums/search!default.jspa?objID=f210">Search Forum</a></li>
+
+
+
+
+
+
+
+        <li>
+            <a href="/java/forums/f210.html" class="noborder"
+             ><img src="images/arrow-left-16x16.gif" width="16" height="16" border="0" alt="Back to Thread List"></a>
+            
+            <a href="/java/forums/f210.html"
+             >Back to Thread List</a></li>
+
+
+
+	</ul>
+              <div class="footer">
+                
+                Whos Online:
+
+                
+
+                
+                
+                        
+                        
+                157 guest(s), 0 user(s).
+
+                
+                <a href="/forums/online.jspa">More info &raquo;</a>
+            </div>
+
+</div>
+
+
+	
+
+<div class="textAd"><h3><a href="http://txt.couchware.com/medias/jump?hid=332&cid=204&zid=17">Defy all challenges. Microsoft Visual Studio 2008.</a></h3>
+<p>Microsoft Visual Studio 2008. </p>
+<div class="sponsored">(sponsored)</div><h4>www.defyallchallenges.com</h4></div>
+
+
+
+
+		<div class="jljive-portlet">
+		<div class="header">Spotlight Features</div>
+		
+
+
+
+
+<div class="spotlight">
+
+
+<div class="feature">
+<a href="http://www.javalobby.org/articles/di-heritage/" target="_blank"><img src="http://www.javalobby.org/images/spotlight/di_heritage.gif" width="80" height="60" border="0" title="The Rich Engineering Heritage Behind Dependency Injection"/></a>
+<div class="featureText">
+<h3><a href="http://www.javalobby.org/articles/di-heritage/" target="_blank">
+The Rich Engineering Heritage Behind Dependency Injection</a></h3>
+Andrew McVeigh takes us on a tour of the rich heritage behind dependency injection, what it represents, and tells us why its here to stay.
+</div></div>
+
+<div class="feature">
+<a href="http://www.javalobby.org/eps/matisse-updates/" target="_blank"><img src="http://www.javalobby.org/images/spotlight/matisse_updates.gif" width="80" height="60" border="0" title="NetBeans 6: Matisse Updates"/></a>
+<div class="featureText">
+<h3><a href="http://www.javalobby.org/eps/matisse-updates/" target="_blank">
+NetBeans 6: Matisse Updates</a></h3>
+NetBeans 6 delivers great updates to the Matisse GUI builder. Spend a few minutes with Roman Strobl and get an expert briefing on what's new and what has changed. <span class="sponsored">(sponsored)</span>
+</div></div>
+
+<div class="feature">
+<a href="http://www.javalobby.org/articles/groovy-intro3" target="_blank"><img src="http://www.javalobby.org/articles/groovy-intro3/groovy3.png" width="80" height="60" border="0" title="Introduction to Groovy Part 3"/></a>
+<div class="featureText">
+<h3><a href="http://www.javalobby.org/articles/groovy-intro3" target="_blank">
+Introduction to Groovy Part 3</a></h3>
+In this, the third and final installation of Andres' Introduction to Groovy series, you learn about how Groovy handles variable numbers of  arguments, named parameters, currying, and more about Groovy operators. Including, some new operators.
+</div></div>
+
+</div>
+
+
+        <div class="footer"><a href="/spotlights.jsp">Read the Spotlight Archives</a></div>
+		</div>
+
+<!-- end rightColumn div --></div>
+
+<div id="leftColumn">
+     
+    
+		<span class="jljive-paginator">
+		
+		Replies:
+		3 -
+		
+		Pages:
+		1 &nbsp;
+
+		
+		</span>
+	
+	<br>
+	
+		<span class="jljive-paginator">
+			
+					
+					Threads:
+					[
+					
+							
+							<a href="/java/forums/t85452.html"
+							 >Previous</a>
+					
+					|
+					
+							
+							Next
+					
+					]
+			
+		</span>
+	
+    
+    <div id="comments">
+	<dl>
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+
+    
+
+		<div class="rootmsg">
+			<div class="rm_header">
+				<a name="92015991"></a>
+				<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=92015991" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=92015991"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div><h1>Hibernate, Criteria, COUNT
+</h1>
+			
+				<h4>At 11:54 PM
+				on May 4, 2006, <a href="/forums/profile.jspa?userID=190841" class="author">jsergey</a>  wrote:</h4>
+			</div>
+			<style type="text/css">
+        div#smalljobs a.post {
+            font-size: 70%;
+            margin-left: 1em;
+            color: #933;
+        }
+             div#smalljobs ul {
+       margin: 0;
+                 padding: 0;
+                 list-style: none;
+     }
+     div#smalljobs li {
+       border-bottom: none;
+         margin: 0px 0.0em 0px 1.5em;
+         line-height: 140%;
+         overflow: hidden;
+         height: 1.4em;
+       padding: 0;
+     }
+     div#smalljobs {
+         padding-left: 1em;
+         padding-bottom: 0.5em;
+         padding-right: 1em;
+         margin-bottom: 1em;
+         clear: both;
+         background-color: #f8f8f8;
+     }
+    </style>
+     <div id="smalljobs" class="thread">
+       <h3><a href="http://jobs.dzone.com">Fresh Jobs for Developers</a> <a href="https://jobs.dzone.com/jobs/new" class="post">Post a job opportunity</a></h3>
+       <ul>
+      
+         
+         
+           <li><nobr>&raquo; <a href="http://jobs.dzone.com/id/336?ref=jlthread" title="View full details at jobs.dzone.com"><b>Dieselpoint</b> seeks a Software Engineer / Professional Services</a> in Chicago, IL</nobr></li>
+         
+           <li><nobr>&raquo; <a href="http://jobs.dzone.com/id/334?ref=jlthread" title="View full details at jobs.dzone.com"><b>SmartBear</b> seeks a Developer</a> in Austin, TX</nobr></li>
+         
+           <li class="last"><nobr>&raquo; <a href="http://jobs.dzone.com/id/332?ref=jlthread" title="View full details at jobs.dzone.com"><b>Terracotta</b> seeks a SENIOR QA AND PERFORMANCE ENGINEER</a> in San Francisco, CA</nobr></li>
+         
+           
+         
+           
+         
+           
+         
+       
+       </ul>
+   </div>
+                    
+                    
+                 <div id="dzone_vote_widget" style="float: left; margin-right: 8px;">
+                <script language="javascript" src="http://www.dzone.com/widgets/zoneit.js"></script></div>Hello.
+<br><br>How can I count rows using Hibernate Criteria with some select expression (such as SELECT COUNT(*) FROM table WHERE id=1 AND name="James" in native sql) ?
+<br>(call size() method of result List is not what I need).
+<br><br>Thanks.
+
+      <div class="rm_footer">
+         <!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+          <span style="float:right"> <SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=71&pid=0&random=25986374" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=71&pid=0&random=25986374" height="60" width="234" hspace="4" vspace="4" frameborder="0" align="right" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=71&pid=0&lookup=true&random=25986374" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=71&pid=0&random=25986374" height="60" width="234" hspace="4" vspace="4" border="0" alt="Support Javalobby, visit our sponsors" align="right">
+</A>
+</IFRAME>
+</NOSCRIPT>
+</span>
+          <!--<a href="http://avpa.javalobby.org/servlet/click/zone?zid=71&pid=0&lookup=true&position=1" target="_top">
+<img src="http://avpa.javalobby.org/servlet/view/banner/image/zone?zid=71&pid=0&position=1" height="60" width="234" hspace="0" vspace="4" align="right" border="0" alt="Click Here!">
+</a>-->   <!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+
+				
+				<h3>3 replies
+					
+							 so far
+							
+							<span class="postYours">(<a href="/forums/post!reply.jspa?threadID=71284" style="border:none"
+							 ><img src="/images/std/icons/write_16x16.gif" title="Reply to this Thread"
+							 width="16" height="16" ></a>
+							<a href="/forums/post!reply.jspa?threadID=71284"
+							 >Post your own</a>)</span>
+					
+				</h3>
+				
+		</div>
+		</div>
+
+
+                <!-- Text ad at top of right column -->
+                
+	
+
+<div class="textAd"><h3><a href="http://txt.couchware.com/medias/jump?hid=292&cid=2&zid=17">Free Open Source Project Hosting</a></h3>
+<p>Disappointed with SourceForge?<br>
+Host your project at JavaForge!</p>
+<div class="sponsored">(sponsored)</div><h4>JavaForge.com</h4></div>
+
+            
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="92015999"></a>
+<dt id="reply1" class="alt"><a href="#92015999"
+																				class="postno"
+																				title="Permlink to this reply">1
+	.</a>
+		<span class="replyInfo">At 4:53 AM
+		on May 5, 2006, <a
+				href="/forums/profile.jspa?userID=198017"
+				class="author">Ins0mnia</a>
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=92015999" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=92015999"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate, Criteria, COUNT
+</h3>
+	<a href="http://opensource.atlassian.com/projects/hibernate/browse/HB-474" target="_blank">http://opensource.atlassian.com/projects/hibernate/browse/HB-474</a>
+<br><br><i>Adds a count() method to the Criteria class that does a modified query to return the count without returning entire query.
+</i> 
+<br><br>Hi:)
+<br><br>I think this url will help you...
+
+
+	
+</dd>
+
+
+
+
+
+
+			
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="92058362"></a>
+<dt id="reply2" class="alt2"><a href="#92058362"
+																				class="postno"
+																				title="Permlink to this reply">2
+	.</a>
+		<span class="replyInfo">At 5:29 AM
+		on Nov 2, 2006, <a
+				href="/forums/profile.jspa?userID=208628"
+				class="author">vincent</a>
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt2">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=92058362" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=92058362"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate, Criteria, COUNT
+</h3>
+	Hi,
+<br><br>I'm working with Hibernate 3.2 and I'm trying to domesticate it.
+<br>The documentation is quite good concerning the request built with criteria, but I cannot succeed to perform a request with count.
+<br>I have a poor database for testing with 3 tables :
+<br>Book, Author, and Writtenby because a Book can be written by several authors.
+<br>I generate the java files : Book and Author with respectively a Set of Authors and Books.
+<br>Now, I did not find a way to execute this simple native SQL request :
+<br><b>select book.title, count(writtenby.author_id)
+<br>from book, writtenby
+<br>where book.id=writtenby.book_id
+<br>group by 1
+</b><br>For the moment, I wrote this piece of code
+<br><b><br>Criteria crit = session.createCriteria(Book.class);
+<br>crit.setFetchMode("Author", FetchMode.JOIN);
+<br>ProjectionList projList = Projections.projectionList();
+<br>projList.add(Projections.groupProperty("title"));
+<br>projList.add(Projections.count("authors"));
+<br>crit.setProjection(projList);
+<br>List list = crit.list();
+<br></b><br><br>please, help me !
+
+
+	
+</dd>
+
+
+
+
+
+
+			
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="92071166"></a>
+<dt id="reply3" class="alt"><a href="#92071166"
+																				class="postno"
+																				title="Permlink to this reply">3
+	.</a>
+		<span class="replyInfo">At 6:06 AM
+		on Dec 4, 2006, <a
+				href="/forums/profile.jspa?userID=211180"
+				class="author">cichy</a>
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=92071166" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=92071166"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate, Criteria, COUNT
+</h3>
+	Look there:
+<br><br><a href="http://www.java2s.com/Code/Java/Hibernate/CriteriaRowCountCriteria.htm" target="_blank">http://www.java2s.com/Code/Java/Hibernate/CriteriaRowCountCriteria.htm</a>
+<br><br>I solved the problem using Projections.
+<br>My code is like that:
+<br>Criteria criteria = session.createCriteria(getReferenceClass());				criteria.setProjection(Projections.rowCount());
+<br>return ((Integer)criteria.list().get(0)).intValue();
+
+
+	
+</dd>
+
+
+
+
+
+
+			
+
+		
+	</dl>
+	</div>
+
+</div>
+
+<div class="jive-message-list-footer">
+	
+		<span class="jljive-paginator">
+		
+		Replies:
+		3 -
+		
+		Pages:
+		1 &nbsp;
+
+		
+		</span>
+	
+	
+		<span class="jljive-paginator">
+			
+					
+					Threads:
+					[
+					
+							
+							<a href="/java/forums/t85452.html"
+							 >Previous</a>
+					
+					|
+					
+							
+							Next
+					
+					]
+			
+		</span>
+	
+</div>
+
+
+    <br>
+    <a href="/rss/rssmessages.jspa?threadID=71284"
+    title="Point your RSS reader here for a feed of the latest messages in this thread"><img src="images/rss-24x16.gif"
+    width="24" height="14" border="0" alt="thread.rss_message"></a>
+
+
+<!-- layers that slide go here.
+		 Be sure to include id for each layer in style sheet in head -->
+<div id="glideDiv0">
+	
+			
+			<a href="/forums/post!reply.jspa?threadID=71284"
+			 ><img src="/images/std/icons/write.gif" title="Reply to this Thread"
+			 width="24" height="24" align="right"></a>
+	
+
+	
+	<a href="/"
+	><img src="/images/std/icons/home.gif" title="Home"
+		width="24" height="24" align="right"></a>
+
+	
+	<a href="/java/forums/f210.html"
+	><img src="/images/std/icons/folder_up.gif" title="Up to Thread List"
+		width="24" height="24" align="right"></a>
+
+	
+	
+			<img src="/images/std/icons/next_thread_off.gif" title="No Next Thread" width="24" height="24" align="right">
+	
+
+	
+	
+			<img src="/images/std/icons/next_messages_off.gif" title="No Additional Replies" width="24" height="24" align="right">
+	
+
+	
+	
+			<img src="/images/std/icons/prev_messages_off.gif" title="No Previous Replies" width="24" height="24" align="right">
+	
+
+	
+	
+			<a href="/java/forums/t85452.html"
+			 ><img src="/images/std/icons/prev_thread.gif" title="Previous Thread" width="24" height="24" align="right"></a>
+	
+
+	
+	
+			<img src="/images/std/icons/write_off.gif" title="No Email this thread to a friend" width="24" height="24" align="right">
+	
+
+</div>
+<br/><br/>
+<div id="footer">
+	<!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+ <SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=24&pid=0&random=21147417" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=24&pid=0&random=21147417" height="60" width="468" hspace="0" vspace="0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=24&pid=0&lookup=true&random=21147417" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=24&pid=0&random=21147417" height="60" width="468" hspace="0" vspace="0" border="0" alt="Click Here!">
+</A>
+</IFRAME>
+</NOSCRIPT>
+
+ <!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=29092&amp;t=64" class="noborder"><img border="0" alt="Get Firefox!" title="Get Firefox!" src="/images/logos/get_firefox.gif"/></a>
+&nbsp;<a href="http://www.jivesoftware.com/poweredby?src=javalobby" style="font-size: 11px">Powered by Jive Software</a> <a href="http://www.caucho.com"><img border="0"
+                             alt="Powered by Caucho Resin!"
+                             title="Powed by Caucho Resin!"
+                             src="/images/logos/resin-powered.gif"/></a>
+<!-- end footer div--></div>
+
+<!-- end wrap_inner div--></div>
+<!-- end wrap_outer div--></div>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-410289-4";
+urchinTracker();
+</script>
+    <!-- Start Quantcast tag -->
+    <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+    <script type="text/javascript">
+    _qacct="p-ebK_XdQH1HeLo";quantserve();</script>
+    <noscript>
+    <img src="http://pixel.quantserve.com/pixel/p-ebK_XdQH1HeLo.gif" style="display: none" height="1" width="1" alt="Quantcast"/></noscript>
+    <!-- End Quantcast tag -->
+    
+</body>
+</html>
