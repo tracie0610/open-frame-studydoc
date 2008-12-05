@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>JBoss4 应用服务器Web开发人员参考手册(7)：设置虚拟主机 - JBossWeek - JavaEye技术网站</title>
+    <meta name="description" content="虚拟主机允许按照运行JBoss机器的不同DNS名称对Web应用进行分组。例如，Example&nbsp;7.1, &ldquo;A virtual host configuration.&rdquo;给出的server.xml配置文件，除了定义一个缺省虚拟主机vhost1.mydot.com外，还定义了第二个虚拟主机vhost2.mydot.com及其别名www.mydot.com.Example ..." />
+    <meta name="keywords" content="  JBoss4 应用服务器Web开发人员参考手册(7)：设置虚拟主机" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="JBossWeek" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1227770271" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1200451876" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="http://www.javaeye.com/javascripts/editor/css/ui.css?1222156967" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/editor/compress.js?1225335142" type="text/javascript"></script>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="this.blur();$('more_site_nav').toggle();return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div id="more_site_nav" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <ul id="user_nav">
+      <li class="last"><a href="/signup">注册</a></li>
+    <li><a href="/login">登录</a></li>
+    <li class='highlight'><span>您还没有登录 !</span></li>  
+    
+</ul>
+
+    </div>
+    
+    <div id="page" onclick="$('more_site_nav').hide();">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">JBossWeek</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://jbossweek.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/138915" class="next">JBoss4 应用服务器Web开发人员参考手册(8 ...</a>
+      |
+      <a href="/blog/138917" class="pre">JBoss4 应用服务器Web开发人员参考手册(6 ...</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2007</span><span class='sep_year'>-</span><span class='month'>04</span><span class='sep_month'>-</span><span class='day'>02</span></div>
+    <h3 class='' title=''><a href="/blog/138916">JBoss4 应用服务器Web开发人员参考手册(7)：设置虚拟主机</a></h3>
+        
+  </div>
+  
+  <div class="blog_content">
+    <p>虚拟主机允许按照运行JBoss机器的不同DNS名称对Web应用进行分组。例如，<a href="http://docs.jboss.com/jbossas/guides/webguide/r2/en/html_single/#ch9.virtualhost.ex" title="Example 7.1. A virtual host configuration.">Example&nbsp;7.1, &ldquo;A virtual host configuration.&rdquo;</a>给出的<font face="Courier New">server.xml配置文件，除了定义一个缺省虚拟主机</font><tt class="literal">vhost1.mydot.com外，还定义了</tt>第二个虚拟主机<tt class="literal">vhost2.mydot.com及其别名</tt><tt class="literal">www.mydot.com</tt>.</p><div class="example"><a name="ch9.virtualhost.ex"></a><p class="title"><strong>Example&nbsp;7.1.&nbsp;A virtual host configuration.</strong></p><pre class="programlisting">&nbsp; <div style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 3pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 3pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 3pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 3pt; BORDER-BOTTOM: #cccccc 1pt solid"><pre>&lt;Server&gt;</pre><pre><span>&nbsp;&nbsp; &lt;Service name=&quot;jboss.web&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; className=&quot;org.jboss.web.tomcat.tc5.StandardService&quot;&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- A HTTP/1.1 Connector on port 8080 --&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Connector port=&quot;8080&quot; address=&quot;${jboss.bind.address}&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maxThreads=&quot;150&quot; minSpareThreads=&quot;25&quot; maxSpareThreads=&quot;75&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enableLookups=&quot;false&quot; redirectPort=&quot;8443&quot; acceptCount=&quot;100&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connectionTimeout=&quot;20000&quot; disableUploadTimeout=&quot;true&quot;/&gt;</span></pre><pre>&nbsp;</pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Engine name=&quot;jboss.web&quot; defaultHost=&quot;vhost1&quot;&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Realm className=&quot;org.jboss.web.tomcat.security.JBossSecurityMgrRealm&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; certificatePrincipal=&quot;org.jboss.security.auth.certs.SubjectDNMapping&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /&gt;</span></pre><pre><span>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Logger className=&quot;org.jboss.web.tomcat.Log4jLogger&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; verbosityLevel=&quot;WARNING&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; category=&quot;org.jboss.web.localhost.Engine&quot;/&gt;</span></pre><pre>&nbsp;</pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Host name=&quot;vhost1&quot; autoDeploy=&quot;false&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; deployOnStartup=&quot;false&quot; deployXML=&quot;false&quot;&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Alias&gt;vhost1.mydot.com&lt;/Alias&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prefix=&quot;vhost1&quot; suffix=&quot;.log&quot; pattern=&quot;common&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;directory=&quot;${jboss.server.home.dir}/log&quot;/&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></pre><pre><span>&nbsp;&nbsp;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;DefaultContext cookies=&quot;true&quot; crossContext=&quot;true&quot; override=&quot;true&quot;/&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/Host&gt; &nbsp; </span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Host name=&quot;vhost2&quot; autoDeploy=&quot;false&quot; </span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deployOnStartup=&quot;false&quot; deployXML=&quot;false&quot;&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Alias&gt;vhost2.mydot.com&lt;/Alias&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Alias&gt;www.mydot.com&lt;/Alias&gt; &nbsp;</span></pre><pre>&nbsp;</pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prefix=&quot;vhost2&quot; suffix=&quot;.log&quot; pattern=&quot;common&quot; </span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;directory=&quot;${jboss.server.home.dir}/log&quot;/&gt;</span></pre><pre>&nbsp;</pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;DefaultContext cookies=&quot;true&quot; crossContext=&quot;true&quot; override=&quot;true&quot;/&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/Host&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/Engine&gt;</span></pre><pre><span>&nbsp;&nbsp; &lt;/Service&gt;</span></pre><pre style="BACKGROUND: #f4f4f4">&lt;/Server&gt;</pre></div></pre></div><p>在缺省情况下，部署的WAR包将会绑定到Engine元素defaultHost属性匹配的虚拟主机. 为了将WAR包部署到指定的虚拟主机上，必须在<font face="Courier New">jboss-web.xml描述文件中指定合适的</font><tt class="literal">virtual-host</tt>.&nbsp;下面的 <tt class="literal">jboss-web.xml</tt>&nbsp;描述文件演示了怎样将一个WAR包部署到特定的虚拟主机 <tt class="literal"><a href="http://www.mydot.com上">www.mydot.com上</a></tt>. 值得注意的是，在配置文件中既可以使用虚拟主机名，也可以使用真实的主机名.</p><pre class="programlisting">&nbsp; <div style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 3pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 3pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 3pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 3pt; BORDER-BOTTOM: #cccccc 1pt solid"><pre>&lt;jboss-web&gt;</pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;context-root&gt;/&lt;/context-root&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;virtual-host&gt;www.mydot.com&lt;/virtual-host&gt;</span></pre><pre style="BACKGROUND: #f4f4f4">&lt;/jboss-web&gt;</pre>&nbsp;</div></pre><br /><br /><p id="TBPingURL"></p>
+  </div>
+  
+  
+                
+  <div class="blog_bottom">
+    <ul>
+      <li>12:19</li>
+      <li>浏览 (230)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      
+      
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/138916" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  
+                
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+     
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+          
+      <form action="/blog/138916" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <input type="hidden" id="editor_bbcode_flag"/>
+
+
+
+<div id="editor_main"><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+        <p style="text-align:right;padding-right:30px;">您还没有登录，请<a href='/login'>登录</a>后发表评论 <input class="submit" id="submit_button" name="commit" type="submit" value="提交" /></p>
+      </form>                  
+      <script type="text/javascript">
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+            if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+  
+      }});
+      </script> 
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://jbossweek.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="JBossWeek的博客: JBossWeek" /></a></div>
+            <div id="blog_owner_name">JBossWeek</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 11945 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 北京</li>
+              <li><img src='/images/status/offline.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a>  <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://pzw-0612.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="pzw_0612的博客: pzw_0612" /></a></span> <a href='http://pzw-0612.javaeye.com' target='_blank'>pzw_0612</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://j2etodj.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="j2etodj的博客: " /></a></span> <a href='http://j2etodj.javaeye.com' target='_blank'>j2etodj</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://jeffzong.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="jeffzong的博客: " /></a></span> <a href='http://jeffzong.javaeye.com' target='_blank'>jeffzong</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://jamesqiu.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="jamesqiu的博客: jamesqiu" /></a></span> <a href='http://jamesqiu.javaeye.com' target='_blank'>jamesqiu</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (61)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (0)</li>
+                                
+                                <li><a href="/blog/forum">我的论坛帖子</a> (0)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://seam.group.javaeye.com">JBoss SEAM</a></li>
+                
+                  <li><a href="http://jbpm.group.javaeye.com">JBPM @net</a></li>
+                
+              </ul>
+            </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2007-11">2007-11</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-10">2007-10</a> (6)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-09">2007-09</a> (7)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://jbossweek.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://jbossweek.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://jbossweek.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

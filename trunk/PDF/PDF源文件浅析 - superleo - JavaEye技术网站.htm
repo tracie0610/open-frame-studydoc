@@ -1,0 +1,1584 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0039)http://superleo.javaeye.com/blog/283848 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <TITLE>PDF源文件浅析 - superleo - JavaEye技术网站</TITLE>
+    <META name="description" content="&nbsp;  应该项目需要，初步研究了一下  PDF    的格式，打算和大家分享一下，如果有想做  PDF    或  PDF    阅读器开发的同学们，可以看看。      &nbsp;      &nbsp;      PDF    格式规范，语法简洁。但初次查看  PDF    却容易给人错觉  &mdash;&mdash;PDF    的二进制流太多了，原本清晰的数据格式被杂乱无章的二 ...">
+    <META name="keywords" content="pdf源文件, 解析  PDF源文件浅析">
+    <LINK rel="shortcut icon" href="http://superleo.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <LINK href="http://superleo.javaeye.com/rss" rel="alternate" title="superleo" type="application/rss+xml"> 
+    <LINK href="./PDF源文件浅析 - superleo - JavaEye技术网站_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<LINK href="./PDF源文件浅析 - superleo - JavaEye技术网站_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <SCRIPT src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/application.js" type="text/javascript"></SCRIPT>
+      <LINK href="./PDF源文件浅析 - superleo - JavaEye技术网站_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/shCoreCommon.js" type="text/javascript"></SCRIPT>
+  <STYLE>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </STYLE>
+  <LINK href="./PDF源文件浅析 - superleo - JavaEye技术网站_files/ui.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/compress.js" type="text/javascript"></SCRIPT>
+  <STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE></HEAD><BODY>
+    <DIV id="header">
+      <DIV id="blog_site_nav">
+  <A href="http://www.javaeye.com/" class="homepage">首页</A>
+  <A href="http://www.javaeye.com/news">新闻</A>
+  <A href="http://www.javaeye.com/forums">论坛</A>
+  <A href="http://www.javaeye.com/blogs">博客</A>
+  <A href="http://job.javaeye.com/">招聘</A>
+  <A href="http://superleo.javaeye.com/blog/283848#" onclick="this.blur();$(&#39;more_site_nav&#39;).toggle();return false;" id="msna"><U>更多</U> <SMALL>▼</SMALL></A>
+  <DIV id="more_site_nav" style="display: none; ">
+    <A href="http://www.javaeye.com/ask">问答</A>
+    <A href="http://www.javaeye.com/wiki">知识库</A>
+    <A href="http://www.javaeye.com/groups">圈子</A>
+    <A href="http://www.javaeye.com/search">搜索</A>
+  </DIV>
+</DIV>
+      <UL id="user_nav">
+      <LI class="last"><A href="http://superleo.javaeye.com/signup">注册</A></LI>
+    <LI><A href="http://superleo.javaeye.com/login">登录</A></LI>
+    <LI class="highlight"><SPAN>您还没有登录 !</SPAN></LI>  
+    
+</UL>
+
+    </DIV>
+    
+    <DIV id="page" onclick="$(&#39;more_site_nav&#39;).hide();">
+      <DIV id="branding" class="clearfix">
+        <DIV id="blog_name"><H1><A href="http://superleo.javaeye.com/">superleo</A></H1></DIV>
+        <DIV id="blog_preview"></DIV>
+        <DIV id="blog_domain">永久域名 <A href="http://superleo.javaeye.com/">http://superleo.javaeye.com</A></DIV>
+      </DIV>
+      
+      
+      <DIV id="content" class="clearfix">
+        <DIV id="main">
+          
+
+
+          
+
+
+<DIV class="blog_main"> 
+  <DIV id="blog_nav">
+    <DIV class="digg" id="b283848"><H3><A href="http://superleo.javaeye.com/blog/283848#" onclick="digg_blog(283848);return false;" class="digg">16顶</A><BR><A href="http://superleo.javaeye.com/blog/283848#" onclick="bury_blog(283848);return false;" class="bury">2踩</A></H3></DIV>
+    <DIV id="pre_next">
+      
+      
+      <A href="http://superleo.javaeye.com/blog/278808" class="pre">垃圾收集器是一个&ldquo;宝贝收藏家&rdquo;？</A>
+    </DIV>
+  </DIV>
+  <DIV class="blog_title">
+    <DIV class="date"><SPAN class="year">2008</SPAN><SPAN class="sep_year">-</SPAN><SPAN class="month">12</SPAN><SPAN class="sep_month">-</SPAN><SPAN class="day">01</SPAN></DIV>
+    <H3 class="type_original" title="原创"><A href="./PDF源文件浅析 - superleo - JavaEye技术网站_files/PDF源文件浅析 - superleo - JavaEye技术网站.htm">PDF源文件浅析</A></H3>
+        <STRONG>关键字: pdf源文件, 解析</STRONG>
+  </DIV>
+  
+  <DIV class="blog_content">
+    <P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="font-family: 宋体;">应该项目需要，初步研究了一下</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PDF</SPAN>
+</SPAN>
+<SPAN style="font-family: 宋体;">的格式，打算和大家分享一下，如果有想做</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PDF</SPAN>
+</SPAN>
+<SPAN style="font-family: 宋体;">或</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PDF</SPAN>
+</SPAN>
+<SPAN style="font-family: 宋体;">阅读器开发的同学们，可以看看。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PDF</SPAN>
+</SPAN>
+<SPAN style="font-family: 宋体;">格式规范，语法简洁。但初次查看</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PDF</SPAN>
+</SPAN>
+<SPAN style="font-family: 宋体;">却容易给人错觉</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&mdash;&mdash;PDF</SPAN>
+</SPAN>
+<SPAN style="font-family: 宋体;">的二进制流太多了，原本清晰的数据格式被杂乱无章的二进制流给淹没了。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-family: 宋体;"><SPAN style="font-size: small;">例如：</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://superleo.javaeye.com/blog/283848#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN>stream&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>5di?倯?&nbsp;貓?匚{o绝幾Te:馎HG&nbsp;&nbsp;</SPAN></LI><LI><SPAN>嵶?W}?妮雥??隱q?屸鷭鴊狳!赭&euro;?鼜&nbsp;??烖K柽z煜?w?&nbsp;??鴚&not;D&not;h?斜?醱釓?x?i佲匃???灗&nbsp;&nbsp;Iu叁剪?&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">stream
+5di?倯? 貓?匚{o绝幾Te:馎HG
+嵶?W}?妮雥??隱q?屸鷭鴊狳!赭&euro;?鼜 ??烖K柽z煜?w? ??鴚&not;D&not;h?斜?醱釓?x?i佲匃???灗  Iu叁剪?
+&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;
+</PRE>
+<P>&nbsp;</P>
+<P><!--        [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--        [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+</P>
+<P><!--        [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">像这样一大堆乱码的东西很多，所以，心理上无法耐心的继续看下去。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">实际上</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">就是由四部分组成：</SPAN>
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal" style="text-align: center;"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/622ae78e-0818-3493-a363-3f9491022341.jpg" height="385" alt="" width="700" title="点击查看原始大小图片" class="magplus">
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><!--        [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--        [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<!--        [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">数据流的读写操作一般是从文件末尾开始的：</SPAN>
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal" style="text-align: center;"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/14291a5f-8813-3e4e-9f56-050bf4d265bf.jpg" height="652" alt="" width="452">
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><!--        [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--        [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]--><!--        [if !mso]>
+<span class="mceItemObject" 
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui>
+</span>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<!--        [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">所有的数据类型都是</SPAN>
+<SPAN lang="EN-US">obj</SPAN>
+<SPAN style="font-family: 宋体;">，强调的也是一切皆对象。我简要的把</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">常见的几种数据类型给大家说说：</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">注意&ldquo;</SPAN>
+<SPAN lang="EN-US">&percnt;</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;表示注释</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--        [if !supportLists]--><SPAN lang="EN-US"><SPAN>1.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN lang="EN-US">Boolean Objects</SPAN>
+<SPAN style="font-family: 宋体;">：只有</SPAN>
+<SPAN lang="EN-US">true</SPAN>
+<SPAN style="font-family: 宋体;">和</SPAN>
+<SPAN lang="EN-US">false</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--        [if !supportLists]--><SPAN lang="EN-US"><SPAN>2.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN lang="EN-US">Numeric Objects</SPAN>
+<SPAN style="font-family: 宋体;">：</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><SPAN style="font-family: Wingdings;"><SPAN>l<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN style="font-family: 宋体;">整型：</SPAN>
+<SPAN lang="EN-US">123</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><SPAN style="font-family: Wingdings;"><SPAN>l<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN style="font-family: 宋体;">浮点型</SPAN>
+ <SPAN lang="EN-US">-43.54</SPAN>
+<SPAN style="font-family: 宋体;">，</SPAN>
+<SPAN lang="EN-US">6.02E23</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">3.<SPAN>&nbsp; </SPAN>
+String
+Objects</SPAN>
+<SPAN style="font-family: 宋体;">：</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><SPAN style="font-family: Wingdings;"><SPAN>l<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN style="font-family: 宋体;">文字型，用圆括号括起来，如：</SPAN>
+<SPAN lang="EN-US">(Hello World)</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><SPAN style="font-family: Wingdings;"><SPAN>l<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN style="font-family: 宋体;">十六进制型，用尖括号括起来，如：</SPAN>
+<SPAN lang="EN-US">&lt;901FA3&gt; </SPAN>
+<SPAN style="font-family: 宋体;">分别为</SPAN>
+<SPAN lang="EN-US">90</SPAN>
+<SPAN style="font-family: 宋体;">，</SPAN>
+<SPAN lang="EN-US">1F</SPAN>
+<SPAN style="font-family: 宋体;">，</SPAN>
+<SPAN lang="EN-US">A3</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><SPAN lang="EN-US">4.<SPAN>&nbsp; </SPAN>
+Name Objects</SPAN>
+<SPAN style="font-family: 宋体;">：除</SPAN>
+<SPAN lang="EN-US">null</SPAN>
+<SPAN style="font-family: 宋体;">以外的任意</SPAN>
+<SPAN lang="EN-US">8</SPAN>
+<SPAN style="font-family: 宋体;">位字符组成的字符串，出现在</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">中，用&ldquo;</SPAN>
+<SPAN lang="EN-US">/</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;作前导符号，如：</SPAN>
+<SPAN lang="EN-US">/Name1</SPAN>
+<SPAN style="font-family: 宋体;">。其实这与编程中的常量很类似。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">5.<SPAN>&nbsp; </SPAN>
+Array
+Objects</SPAN>
+<SPAN style="font-family: 宋体;">：</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">中的数组用方括号&ldquo;</SPAN>
+<SPAN lang="EN-US">[]</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;括起来，里面的数据可以完全不相同，如：</SPAN>
+<SPAN lang="EN-US">[549 3.14 false
+(Ralph) /SomeName] </SPAN>
+<SPAN style="font-family: 宋体;">该数组里面分别装有</SPAN>
+<SPAN lang="EN-US">5</SPAN>
+<SPAN style="font-family: 宋体;">种不同的类型。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--        [if !supportLists]--><SPAN lang="EN-US"><SPAN>6.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN lang="EN-US">Dictionary Objects</SPAN>
+<SPAN style="font-family: 宋体;">：其实就类似于</SPAN>
+<SPAN lang="EN-US">Java</SPAN>
+<SPAN style="font-family: 宋体;">的</SPAN>
+<SPAN lang="EN-US">Map</SPAN>
+<SPAN style="font-family: 宋体;">对象&mdash;&mdash;即以</SPAN>
+<SPAN lang="EN-US">key</SPAN>
+<SPAN style="font-family: 宋体;">，</SPAN>
+<SPAN lang="EN-US">value</SPAN>
+<SPAN style="font-family: 宋体;">的形式成对出现。用的时候要用&ldquo;</SPAN>
+<SPAN style="font-size: 10pt; font-family: Arial;">&lt;&lt;&hellip;&gt;&gt;</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;把</SPAN>
+<SPAN lang="EN-US">key</SPAN>
+<SPAN style="font-family: 宋体;">，</SPAN>
+<SPAN lang="EN-US">value</SPAN>
+<SPAN style="font-family: 宋体;">括起来。例如：</SPAN>
+<SPAN style="font-size: 10pt; font-family: Arial;">&lt;&lt;/Name
+(leo) &gt;&gt;</SPAN>
+<SPAN style="font-size: 10pt; font-family: 宋体;">表示</SPAN>
+<SPAN style="font-size: 10pt; font-family: Arial;">key</SPAN>
+<SPAN style="font-size: 10pt; font-family: 宋体;">为&ldquo;</SPAN>
+<SPAN style="font-size: 10pt; font-family: Arial;">name</SPAN>
+<SPAN style="font-size: 10pt; font-family: 宋体;">&rdquo;的</SPAN>
+<SPAN lang="EN-US">Name
+Objects</SPAN>
+<SPAN style="font-family: 宋体;">，而</SPAN>
+<SPAN lang="EN-US">value</SPAN>
+<SPAN style="font-family: 宋体;">为&ldquo;</SPAN>
+<SPAN lang="EN-US">leo</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;字符串。</SPAN>
+<SPAN lang="EN-US">&lt;&lt;&gt;&gt;</SPAN>
+<SPAN style="font-family: 宋体;">内部也可以嵌套使用，在</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">源文件中应用的非常广泛。</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--        [if !supportLists]--><SPAN lang="EN-US"><SPAN>7.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--        [endif]--><SPAN lang="EN-US">Stream Objects</SPAN>
+<SPAN style="font-family: 宋体;">：顾名思义，肯定有流有关。这就是</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">中专门用于存放二进行流的对象。</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">的实现者对</SPAN>
+<SPAN lang="EN-US">String Objects</SPAN>
+<SPAN style="font-family: 宋体;">通常会做限制，但是</SPAN>
+<SPAN lang="EN-US">Stream Objects</SPAN>
+<SPAN style="font-family: 宋体;">却没有这样的限制。因此</SPAN>
+<SPAN lang="EN-US">stream object</SPAN>
+<SPAN style="font-family: 宋体;">用在图片，页面描述信息上是非常的适合的。</SPAN>
+<!--       [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal" align="left" style="margin-left: 19.5pt; text-align: left;"><SPAN style="font-family: 宋体;">看看使用示例：</SPAN>
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://superleo.javaeye.com/blog/283848#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;某一个Image类型的对象&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Type&nbsp;/XObject&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Subtype&nbsp;/Image&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Name&nbsp;/Im7&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Width&nbsp;<SPAN class="number">189</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Height&nbsp;<SPAN class="number">189</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/BitsPerComponent&nbsp;<SPAN class="number">8</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/ColorSpace&nbsp;[/Indexed&nbsp;/DeviceRGB&nbsp;<SPAN class="number">255</SPAN><SPAN>&nbsp;&hellip;&gt;]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Mask&nbsp;[<SPAN class="number">255</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">255</SPAN><SPAN>]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Length&nbsp;<SPAN class="number">3832</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Filter&nbsp;/FlateDecode&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;紧接着这个对象定义后的Dictionary&nbsp;Objects对象后面&nbsp;&nbsp;</SPAN></LI><LI><SPAN>stream&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;定义它的Stream&nbsp;Objects&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&percnt;这里放二进制流&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endstream&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">7 0 obj 		 			&percnt;某一个Image类型的对象
+&lt;&lt;
+/Type /XObject
+/Subtype /Image
+/Name /Im7
+/Width 189
+/Height 189
+/BitsPerComponent 8
+/ColorSpace [/Indexed /DeviceRGB 255 &hellip;&gt;]
+/Mask [255 255]
+/Length 3832
+/Filter /FlateDecode
+&gt;&gt;						&percnt;紧接着这个对象定义后的Dictionary Objects对象后面
+stream 					&percnt;定义它的Stream Objects
+&percnt;这里放二进制流
+endstream
+</PRE>
+&nbsp;
+<P>&nbsp;</P>
+<P><!--       [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--       [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<!--       [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--       [if !supportLists]--><SPAN lang="EN-US"><SPAN>8.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--       [endif]--><SPAN lang="EN-US">Null Object</SPAN>
+<SPAN style="font-family: 宋体;">：区别与其它任何对象，用关键字</SPAN>
+<SPAN lang="EN-US">null</SPAN>
+<SPAN style="font-family: 宋体;">标注的对象就是</SPAN>
+<SPAN lang="EN-US">null object</SPAN>
+<SPAN style="font-family: 宋体;">。</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--       [if !supportLists]--><SPAN lang="EN-US"><SPAN>9.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--       [endif]--><SPAN lang="EN-US">Indirect Objects</SPAN>
+<SPAN style="font-family: 宋体;">：当然就是类似</SPAN>
+<SPAN lang="EN-US">Java</SPAN>
+<SPAN style="font-family: 宋体;">中的&ldquo;引用&rdquo;概念啦，举个例子就说明一切了。</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;">&nbsp;</P>
+<P>&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://superleo.javaeye.com/blog/283848#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;有一个索引号为</SPAN><SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>的对象&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;/Length&nbsp;<SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&gt;&gt;&nbsp;&nbsp;&nbsp;&percnt;&nbsp;在它的Length属性引用了一个索引号为</SPAN><SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>的对象&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>　　　　　　　　　　　　　&percnt;在这里&ldquo;<SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&rdquo;表示对</SPAN><SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>的对象引用(Reference)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>stream&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&hellip;&hellip;&hellip;&hellip;.&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endstream&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;被上面</SPAN><SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>对象所引用的那个索引号为</SPAN><SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>的对象&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">77</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;</SPAN><SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>对象的二进制流的长度&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">7 0 obj  				&percnt;有一个索引号为7 0的对象
+&lt;&lt; /Length 8 0 R &gt;&gt;  	&percnt; 在它的Length属性引用了一个索引号为8 0的对象
+　　　　　　　　　　　　　&percnt;在这里&ldquo;8 0 R&rdquo;表示对8 0的对象引用(Reference)
+stream
+&hellip;&hellip;&hellip;&hellip;.
+endstream
+endobj
+
+
+8 0 obj				&percnt;被上面7 0对象所引用的那个索引号为8 0的对象
+77 					&percnt;7 0对象的二进制流的长度
+endobj
+
+</PRE>
+&nbsp;
+<P>&nbsp;</P>
+<P><SPAN style="color: #ff0000;">注意：</SPAN>
+&nbsp;
+<!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><SPAN style="color: #ff0000;"><SPAN style="font-size: 10.5pt; font-family: &quot;Times New Roman&quot;;">obj &hellip;&hellip; endobj PDF</SPAN>
+<SPAN style="font-size: 10.5pt; font-family: 宋体;">文档组成的最小</SPAN>
+<SPAN style="font-size: 10.5pt; font-family: &quot;Times New Roman&quot;;"><SPAN>组成部分。表示一个完整对象的定义</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><!--      [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--      [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">够了，说了这么多，让我们实战吧。现在我们来看一个完整的示例，该示例可以在附件中下载。看的时候，可以按照下面的步骤一步一步来分析</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">源文件：</SPAN>
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://superleo.javaeye.com/blog/283848#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN>&percnt;PDF-</SPAN><SPAN class="number">1.3</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&percnt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">2</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;</SPAN><SPAN class="number">2</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj，里面是一些PDF的基本信息。比如&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/CreationDate&nbsp;(D:<SPAN class="number">20081029093606</SPAN><SPAN>+</SPAN><SPAN class="number">08</SPAN><SPAN class="string">&#39;00&#39;</SPAN><SPAN>)　　&percnt;创建时间&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/ModDate&nbsp;(D:<SPAN class="number">20081029093606</SPAN><SPAN>+</SPAN><SPAN class="number">08</SPAN><SPAN class="string">&#39;00&#39;</SPAN><SPAN>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;　&nbsp;&percnt;最后修改时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Producer&nbsp;(leo&nbsp;<SPAN class="number">4.30</SPAN><SPAN>&nbsp;\(</SPAN><SPAN class="number">0615</SPAN><SPAN>\))　　　　　　　　&percnt;创建人&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Creator&nbsp;(easyPDF&nbsp;SDK&nbsp;<SPAN class="number">4.3</SPAN><SPAN>)　　　　　　　　&percnt;制作人&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;　　　　　　　　　　　　　　　　　　&nbsp;&percnt;你还可以自由的编写任何信息&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">1</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Count&nbsp;<SPAN class="number">0</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">3</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;这是PDF的根结点(不是起始位置)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Type&nbsp;/Catalog&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Pages&nbsp;<SPAN class="number">4</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;这是所有页面的集合，我们主要关心这个&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Outlines&nbsp;<SPAN class="number">1</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Type&nbsp;/XObject&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Subtype&nbsp;/Image&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Name&nbsp;/Im7&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Width&nbsp;<SPAN class="number">189</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Height&nbsp;<SPAN class="number">189</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/BitsPerComponent&nbsp;<SPAN class="number">8</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/ColorSpace&nbsp;[/Indexed&nbsp;/DeviceRGB&nbsp;<SPAN class="number">255</SPAN><SPAN>&nbsp;&lt;&percnt;这里放每个像素点的值&gt;]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Mask&nbsp;[<SPAN class="number">255</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">255</SPAN><SPAN>]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Length&nbsp;<SPAN class="number">3832</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Filter&nbsp;/FlateDecode&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>stream&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&percnt;这里放的全是图片的二进制流&hellip;&hellip;..&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endstream&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Length&nbsp;<SPAN class="number">51</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Filter&nbsp;/FlateDecode&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>stream&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&percnt;这里放的全是图片的二进制流&hellip;&hellip;..&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endstream&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">6</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;重点分析一下这个&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Type&nbsp;/Page&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Parent&nbsp;<SPAN class="number">4</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/MediaBox&nbsp;[&nbsp;<SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">595.276</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">841.89</SPAN><SPAN>&nbsp;]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Resources&nbsp;&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/XObject&nbsp;&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Im7&nbsp;<SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/ProcSet&nbsp;[/PDF&nbsp;/Text&nbsp;/ImageB&nbsp;/ImageC]&nbsp;&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Contents&nbsp;<SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">4</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Type&nbsp;/Pages&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Kids&nbsp;[&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">6</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;继续查找</SPAN><SPAN class="number">6</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj来看看具体的页面情况&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>]&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Count&nbsp;<SPAN class="number">1</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>xref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;索引，f表示该地址未被使用，n表示已经被占用。&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">9</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;索引的顺序与对象在文中出现的序号是一致的，比如&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000000000</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">65535</SPAN><SPAN>&nbsp;f&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;默认占位符，不使用。&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000000177</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;　　　　　　　&percnt;表示</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">1</SPAN><SPAN>&nbsp;obj的偏移地址&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000000015</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;　　　　　　　&percnt;表示</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">2</SPAN><SPAN>&nbsp;obj的偏移地地&nbsp;下面的以些类推&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000000208</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000006159</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000000000</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;　　　　　　　&percnt;表示</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">5</SPAN><SPAN>&nbsp;obj的偏移为</SPAN><SPAN class="number">0</SPAN><SPAN>，可能被删除操作给干掉了。&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000005981</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000000274</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="number">0000005858</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">00000</SPAN><SPAN>&nbsp;n&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>trailer&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Size&nbsp;<SPAN class="number">9</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Root&nbsp;<SPAN class="number">3</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;这个属性信息最重要，我们可以直接找到根结点&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Info&nbsp;<SPAN class="number">2</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/ID[&lt;112cbcc8320742d1cbe148d4ec0d7dba&gt;&lt;112cbcc8320742d1cbe148d4ec0d7dba&gt;]&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>startxref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;PDF文件解析的起点&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="number">6219</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&percnt;&percnt;EOF&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">&percnt;PDF-1.3
+&percnt;
+2 0 obj                                 &percnt;2 0 obj，里面是一些PDF的基本信息。比如
+&lt;&lt;				
+/CreationDate (D:20081029093606+08&#39;00&#39;)　　&percnt;创建时间
+/ModDate (D:20081029093606+08&#39;00&#39;)		　 &percnt;最后修改时间		
+/Producer (leo 4.30 \(0615\))　　　　　　　　&percnt;创建人
+/Creator (easyPDF SDK 4.3)　　　　　　　　&percnt;制作人
+&gt;&gt;　　　　　　　　　　　　　　　　　　 &percnt;你还可以自由的编写任何信息
+endobj
+
+1 0 obj
+&lt;&lt;
+/Count 0
+&gt;&gt;
+endobj
+
+3 0 obj									&percnt;这是PDF的根结点(不是起始位置)
+&lt;&lt;
+/Type /Catalog
+/Pages 4 0 R								&percnt;这是所有页面的集合，我们主要关心这个
+/Outlines 1 0 R
+&gt;&gt;
+endobj
+
+7 0 obj
+&lt;&lt;
+/Type /XObject
+/Subtype /Image
+/Name /Im7
+/Width 189
+/Height 189
+/BitsPerComponent 8
+/ColorSpace [/Indexed /DeviceRGB 255 &lt;&percnt;这里放每个像素点的值&gt;]
+/Mask [255 255]
+/Length 3832
+/Filter /FlateDecode
+&gt;&gt;
+stream
+&percnt;这里放的全是图片的二进制流&hellip;&hellip;..
+endstream
+endobj
+
+8 0 obj
+&lt;&lt;
+/Length 51
+/Filter /FlateDecode
+&gt;&gt;
+stream
+&percnt;这里放的全是图片的二进制流&hellip;&hellip;..
+endstream
+endobj
+
+6 0 obj									&percnt;重点分析一下这个
+&lt;&lt;
+/Type /Page
+/Parent 4 0 R
+/MediaBox [ 0 0 595.276 841.89 ]
+/Resources &lt;&lt;
+/XObject &lt;&lt;
+/Im7 7 0 R
+&gt;&gt;
+/ProcSet [/PDF /Text /ImageB /ImageC] &gt;&gt;
+/Contents 8 0 R
+&gt;&gt;
+endobj
+
+4 0 obj
+&lt;&lt;
+/Type /Pages
+/Kids [
+6 0 R							&percnt;继续查找6 0 obj来看看具体的页面情况
+]
+/Count 1
+&gt;&gt;
+endobj
+
+xref						&percnt;索引，f表示该地址未被使用，n表示已经被占用。
+0 9								&percnt;索引的顺序与对象在文中出现的序号是一致的，比如
+0000000000 65535 f               &percnt;默认占位符，不使用。
+0000000177 00000 n 　　　　　　　&percnt;表示0 1 obj的偏移地址
+0000000015 00000 n 　　　　　　　&percnt;表示0 2 obj的偏移地地 下面的以些类推
+0000000208 00000 n 
+0000006159 00000 n 
+0000000000 00000 n 　　　　　　　&percnt;表示0 5 obj的偏移为0，可能被删除操作给干掉了。
+0000005981 00000 n 
+0000000274 00000 n 
+0000005858 00000 n 
+trailer
+&lt;&lt;
+/Size 9
+/Root 3 0 R						&percnt;这个属性信息最重要，我们可以直接找到根结点
+/Info 2 0 R
+/ID[&lt;112cbcc8320742d1cbe148d4ec0d7dba&gt;&lt;112cbcc8320742d1cbe148d4ec0d7dba&gt;]
+&gt;&gt;
+startxref							&percnt;PDF文件解析的起点
+6219
+&percnt;&percnt;EOF
+</PRE>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><!--      [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--      [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+</P>
+<P><!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体; color: red;">第一步：</SPAN>
+<SPAN style="font-family: 宋体;">首先是先看文件末尾，找到它的&ldquo;</SPAN>
+<SPAN lang="EN-US">xref</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;和&ldquo;</SPAN>
+<SPAN lang="EN-US">trailer</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;部分。</SPAN>
+<SPAN lang="EN-US">Xref</SPAN>
+<SPAN style="font-family: 宋体;">表示对象索引，其实就是对象在文件中的偏移地址<SPAN style="color: #ff6600;">（</SPAN>
+</SPAN>
+<SPAN style="color: #ff6600;">PDF</SPAN>
+<SPAN style="font-family: 宋体; color: #ff6600;">源文件中是以</SPAN>
+<SPAN style="color: #ff6600;">10</SPAN>
+<SPAN style="font-family: 宋体; color: #ff6600;">进制表示的，你转换成</SPAN>
+<SPAN style="color: #ff6600;">16</SPAN>
+<SPAN style="font-family: 宋体; color: #ff6600;">进制后，用</SPAN>
+<SPAN style="color: #ff6600;">UE</SPAN>
+<SPAN style="font-family: 宋体; color: #ff6600;">或者其它工具查看即可）</SPAN>
+<SPAN style="font-family: 宋体;">。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">Trailer</SPAN>
+<SPAN style="font-family: 宋体;">虽然从字面上看是&ldquo;尾部&rdquo;的意思，但是解析却从它开始。&ldquo;</SPAN>
+<SPAN lang="EN-US">startxref</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;表示文件的入口地址，像</SPAN>
+<SPAN lang="EN-US">java</SPAN>
+<SPAN style="font-family: 宋体;">的</SPAN>
+<SPAN lang="EN-US">main()</SPAN>
+<SPAN style="font-family: 宋体;">方法。后面紧跟着一个</SPAN>
+<SPAN lang="EN-US">10</SPAN>
+<SPAN style="font-family: 宋体;">进制的数字，指向的是索引&ldquo;</SPAN>
+<SPAN lang="EN-US">xref</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;的位置。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">Trailer</SPAN>
+<SPAN style="font-family: 宋体;">里面的值分别表示：</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><SPAN lang="EN-US"><SPAN>1.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN lang="EN-US">Size 9</SPAN>
+<SPAN style="font-family: 宋体;">：表示</SPAN>
+<SPAN lang="EN-US">9</SPAN>
+<SPAN style="font-family: 宋体;">个索引值</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><SPAN lang="EN-US"><SPAN>2.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN lang="EN-US">Root 3 0 R</SPAN>
+<SPAN style="font-family: 宋体;">：根结点是</SPAN>
+<SPAN lang="EN-US">3 0 obj</SPAN>
+<SPAN style="font-family: 宋体;">的引用</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><SPAN lang="EN-US"><SPAN>3.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN lang="EN-US">Info 2 0 R</SPAN>
+<SPAN style="font-family: 宋体;">：相关信息是</SPAN>
+<SPAN lang="EN-US">2 0 obj</SPAN>
+<SPAN style="font-family: 宋体;">的引用</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><SPAN lang="EN-US"><SPAN>4.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN lang="EN-US">ID</SPAN>
+<SPAN style="font-family: 宋体;">：类似于</SPAN>
+<SPAN lang="EN-US">Java</SPAN>
+<SPAN style="font-family: 宋体;">的</SPAN>
+<SPAN lang="EN-US">Serializable</SPAN>
+<SPAN style="font-family: 宋体;">机制，给本</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">文件生成一个独一无二的标识</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;">&nbsp;</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体; color: red;">第二步：</SPAN>
+<SPAN style="font-family: 宋体;">按照</SPAN>
+<SPAN lang="EN-US">Root 3 0 R</SPAN>
+<SPAN style="font-family: 宋体;">，我们向上查找，找到了我们要找的</SPAN>
+<SPAN lang="EN-US">Root</SPAN>
+<SPAN style="font-family: 宋体;">对象，里面的信息从字面上很容易理解：</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><SPAN lang="EN-US"><SPAN>1.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN lang="EN-US">/Type /Catalog</SPAN>
+<SPAN style="font-family: 宋体;">：表示该对象的类型是目录</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><SPAN lang="EN-US"><SPAN>2.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN lang="EN-US">/Pages 4 0 R</SPAN>
+<SPAN style="font-family: 宋体;">：表示所有的</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">页面在一个叫</SPAN>
+<SPAN lang="EN-US">4 0 R</SPAN>
+<SPAN style="font-family: 宋体;">的对象上</SPAN>
+ </P>
+<P class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><SPAN lang="EN-US"><SPAN>3.<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN lang="EN-US">/Outlines 1 0 R</SPAN>
+<SPAN style="font-family: 宋体;">：</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">文件的大纲，也就是左侧展示的东西。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">继续查找</SPAN>
+<SPAN lang="EN-US">4 0 obj</SPAN>
+<SPAN style="font-family: 宋体;">，果然与预期所想的一样，的确是所有页面的集合，并且还有一个附加属性</SPAN>
+<SPAN lang="EN-US">Count</SPAN>
+<SPAN style="font-family: 宋体;">统计页面对象的个数：</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">/Type /Pages</SPAN>
+<SPAN style="font-family: 宋体;">：表示该对象的类型是所有页面的集合</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">/Kids [&hellip;]</SPAN>
+<SPAN style="font-family: 宋体;">：这是一个数组，里面装的是每个页面的具体引用。因为这个</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">就一页，所有只有一个&ldquo;</SPAN>
+<SPAN lang="EN-US">6 0
+R</SPAN>
+<SPAN style="font-family: 宋体;">&rdquo;。下一步，就从这里入手。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">/Count 1</SPAN>
+<SPAN style="font-family: 宋体;">：页的总数大小，因为这个</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">就一页，所以值为</SPAN>
+<SPAN lang="EN-US">1</SPAN>
+<SPAN style="font-family: 宋体;">。编程时可能会用到。</SPAN>
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体; color: red;">第三步：</SPAN>
+<SPAN style="font-family: 宋体;">来重点分析一下页对象</SPAN>
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P>&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <A href="http://superleo.javaeye.com/blog/283848#" onclick="dp.sh.Toolbar.Command(&#39;CopyToClipboard&#39;,this);return false;" title="复制代码"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_copy.gif" alt="复制代码"></A></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN class="number">6</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;obj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;索引编号为</SPAN><SPAN class="number">6</SPAN><SPAN>的对象，</SPAN><SPAN class="number">0</SPAN><SPAN>表示该对象的修改次数&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;&nbsp;&lt;&lt;&nbsp;表示是这一个map，里面的所有数据都以key，value形式出现&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Type&nbsp;/Page&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;其类型为Page，表示PDF的每一页&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Parent&nbsp;<SPAN class="number">4</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;其父结点为</SPAN><SPAN class="number">4</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>对象（R表示引用，对象之间是可以双向引用的）&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/MediaBox&nbsp;[&nbsp;<SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">595.276</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">841.89</SPAN><SPAN>&nbsp;]&nbsp;&nbsp;&nbsp;&nbsp;&percnt;当前页画布为MediaBox样式，后面的表示左上角与右下角坐标，这样就形成了一个矩形。&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>/Resources&nbsp;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;&nbsp;Resources&nbsp;又为一个map的嵌套&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/XObject&nbsp;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;&nbsp;XObject&nbsp;也是一个map的嵌套&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Im7&nbsp;<SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;&nbsp;在Xobject中定义了一个叫Im7的名称，引用了叫Im7的</SPAN><SPAN class="number">7</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>对象（在我的PDF中，这是一个图片对象）&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/ProcSet&nbsp;[/PDF&nbsp;/Text&nbsp;/ImageB&nbsp;/ImageC]&nbsp;&gt;&gt;&nbsp;&percnt;&nbsp;打印时的参数设置&nbsp;&nbsp;</SPAN></LI><LI><SPAN>/Contents&nbsp;<SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;&nbsp;这里是实际页面上的内容信息，引用的是</SPAN><SPAN class="number">8</SPAN><SPAN>&nbsp;</SPAN><SPAN class="number">0</SPAN><SPAN>对象&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&gt;&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>endobj&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&percnt;&nbsp;对象定义结束&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">6 0 obj              	&percnt;索引编号为6的对象，0表示该对象的修改次数
+&lt;&lt;                 	&percnt; &lt;&lt; 表示是这一个map，里面的所有数据都以key，value形式出现
+/Type /Page  			&percnt;其类型为Page，表示PDF的每一页
+/Parent 4 0 R			&percnt;其父结点为4 0对象（R表示引用，对象之间是可以双向引用的）
+/MediaBox [ 0 0 595.276 841.89 ]	&percnt;当前页画布为MediaBox样式，后面的表示左上角与右下角坐标，这样就形成了一个矩形。
+/Resources &lt;&lt;			&percnt; Resources 又为一个map的嵌套
+/XObject &lt;&lt;			&percnt; XObject 也是一个map的嵌套
+/Im7 7 0 R		&percnt; 在Xobject中定义了一个叫Im7的名称，引用了叫Im7的7 0对象（在我的PDF中，这是一个图片对象）
+&gt;&gt;					
+/ProcSet [/PDF /Text /ImageB /ImageC] &gt;&gt; &percnt; 打印时的参数设置
+/Contents 8 0 R        &percnt; 这里是实际页面上的内容信息，引用的是8 0对象
+&gt;&gt;
+endobj				&percnt; 对象定义结束
+
+</PRE>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P class="MsoNormal"><!--      [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--      [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+</P>
+<P class="MsoNormal"><!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">对于我们来说，以下是项目开发的重点。因为要实现</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">文件盖章的添加或删除功能，必须进行流操作，并且图片在</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">文件的位置也要写入。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--      [if !supportLists]--><SPAN style="font-family: Wingdings; color: red;"><SPAN>l<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN style="color: red;">/XObject&lt;&lt;&gt;&gt;</SPAN>
+<SPAN style="font-family: 宋体; color: red;">：</SPAN>
+<SPAN style="font-family: 宋体;">里面持有图片等二进制的引用。通过上述的方法，当你再查看</SPAN>
+<SPAN lang="EN-US">7 0 obj</SPAN>
+<SPAN style="font-family: 宋体;">时，就会看到大量的二进制文件了。</SPAN>
+
+</P>
+<P class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--      [if !supportLists]--><SPAN style="font-family: Wingdings;"><SPAN>l<SPAN style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</SPAN>
+</SPAN>
+</SPAN>
+<!--      [endif]--><SPAN style="color: red;">/Contents</SPAN>
+<SPAN style="font-family: 宋体; color: red;">：</SPAN>
+<SPAN style="font-family: 宋体;">是文件的内容信息。比如说，页面上的文本，图片的坐标位置等。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="font-family: 宋体;">通过这个完整的流程，你应该明白</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">的格式其实就是一个层次分明的树形结构。不过，想完全了解</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">的格式，进行相关的操作。你还得参看</SPAN>
+<SPAN lang="EN-US">PDF</SPAN>
+<SPAN style="font-family: 宋体;">规范文档。</SPAN>
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+  </DIV>
+  
+  
+  <DIV class="attachments">
+    
+        
+          <UL>
+            <LI><A href="http://superleo.javaeye.com/topics/download/2a6c03d3-101d-3a2d-b2cf-9bd56066260e">test.rar</A> (5.2 KB)</LI>
+            
+            <LI>下载次数: 67</LI>
+          </UL>
+        
+      
+    </DIV>
+  
+                
+  <DIV class="blog_bottom">
+    <UL>
+      <LI>13:14</LI>
+      <LI>浏览 (1763)</LI>
+            <LI><A href="http://superleo.javaeye.com/blog/283848#comments">评论</A> (13)</LI>
+      <LI>分类: <A href="http://superleo.javaeye.com/category/22381">行业信息</A></LI>
+      
+      
+      
+      <LI class="last"><A href="http://www.javaeye.com/wiki/topic/283848" target="_blank" class="more">相关推荐</A></LI>
+    </UL>
+  </DIV>
+  
+  
+  
+                
+  <DIV class="blog_comment">
+    <H5>评论</H5>
+    <A id="comments" name="comments"></A>
+    <DIV id="bc774230">
+  <DIV class="comment_title">
+    <A href="http://hanjs.javaeye.com/" target="_blank">hanjs</A>
+    4 小时前&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">lz写的这些都是java代码？？
+<BR>
+<BR></DIV>
+</DIV>
+<DIV id="bc772580">
+  <DIV class="comment_title">
+    <A href="http://site.javaeye.com/" target="_blank">sheandwei</A>
+    昨天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">不错<BR>还真没去研究过</DIV>
+</DIV>
+<DIV id="bc771024">
+  <DIV class="comment_title">
+    <A href="http://harsh.javaeye.com/" target="_blank">harsh</A>
+    昨天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">哇塞，太好了，偶也在研究pdf呢</DIV>
+</DIV>
+<DIV id="bc771009">
+  <DIV class="comment_title">
+    <A href="http://cyfgod.javaeye.com/" target="_blank">cyfgod</A>
+    昨天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">分析的不错，不过对一般应用来说，不用研究这么底层，用itext就足够了。</DIV>
+</DIV>
+<DIV id="bc769771">
+  <DIV class="comment_title">
+    <A href="http://kakaluyi.javaeye.com/" target="_blank">kakaluyi</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">eyejava 写道</DIV><DIV class="quote_div">
+<BR>kakaluyi 写道
+<BR>kyo100900 ,关注你挺久的了，感觉你是那种一步一个脚印做事的人，身为高手但是为人谦虚 加油，日后必成大器啊ps:我对你封面上的美女挺感兴趣的 请使用留言簿发表你的敬仰好像以前有个敬仰表情的，咋没了，Quake同学确认下
+<BR></DIV>
+<BR>这是私人博客啊，敬仰一个人也有错了&nbsp;<IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_sad.gif"> ,这个我就不服了，就当是两个个朋友聊聊嘛，
+<BR></DIV>
+</DIV>
+<DIV id="bc769659">
+  <DIV class="comment_title">
+    <A href="http://eyejava.javaeye.com/" target="_blank">eyejava</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">kakaluyi 写道</DIV><DIV class="quote_div"><BR>kyo100900 ,关注你挺久的了，感觉你是那种一步一个脚印做事的人，<BR>身为高手但是为人谦虚 加油，日后必成大器啊<BR>ps:我对你封面上的美女挺感兴趣的 <BR><BR></DIV><BR>请使用留言簿发表你的敬仰<BR>好像以前有个敬仰表情的，咋没了，Quake同学确认下</DIV>
+</DIV>
+<DIV id="bc769358">
+  <DIV class="comment_title">
+    <A href="http://kakaluyi.javaeye.com/" target="_blank">kakaluyi</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">kyo100900 ,关注你挺久的了，感觉你是那种一步一个脚印做事的人，
+<BR>身为高手但是为人谦虚 加油，日后必成大器啊
+<BR>ps:我对你封面上的美女挺感兴趣的<IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_cool.gif"> 
+<BR></DIV>
+</DIV>
+<DIV id="bc769273">
+  <DIV class="comment_title">
+    <A href="http://superleo.javaeye.com/" target="_blank">kyo100900</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">Quake Wang 写道</DIV><DIV class="quote_div">
+<BR>kyo100900 写道
+<BR>我们实际上想做的是一个类似于Adobe Reader的PDF阅读器。用户只能通过我们的阅读器才能实现盖章的添加，删除，虚化等功能。当别的PDF阅读器打开时，只能是只读的。我之前遇到类似的需求（公文电子签名），如果你采用开放规范的PDF来实现，是很难达到高安全性的要求，正是由于PDF格式是公开的，导致破解签名比较容易，我们是对PDF格式作了改动和加密，不过这样的文件就不能在其他阅读器打开了。
+<BR></DIV>
+<BR>
+<BR>嗯，方法和你类似<IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_lol.gif"> ，　并且要想使用我们的PDF阅读器，还得用USE KEY。</DIV>
+</DIV>
+<DIV id="bc769038">
+  <DIV class="comment_title">
+    <A href="http://quake.javaeye.com/" target="_blank">Quake Wang</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">kyo100900 写道</DIV><DIV class="quote_div"><BR>我们实际上想做的是一个类似于Adobe Reader的PDF阅读器。用户只能通过我们的阅读器才能实现盖章的添加，删除，虚化等功能。当别的PDF阅读器打开时，只能是只读的。<BR></DIV><BR>我之前遇到类似的需求（公文电子签名），如果你采用开放规范的PDF来实现，是很难达到高安全性的要求，正是由于PDF格式是公开的，导致破解签名比较容易，我们是对PDF格式作了改动和加密，不过这样的文件就不能在其他阅读器打开了。</DIV>
+</DIV>
+<DIV id="bc769035">
+  <DIV class="comment_title">
+    <A href="http://chamborghini.javaeye.com/" target="_blank">chamborghini</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">用iText做pdf的加密， 好像不管怎么做都很容易被破解， 解决中。 
+<BR>
+<BR>g到这里，问下，有没有办法将pdf文件设置为不能被修改的？(很难被破解的那种， 目前的做法是将pdf文件设置为仅能被打印的，并建权限密码设置为随机数，但是这种做法很容易就被PDF Password Remover给破解了)</DIV>
+</DIV>
+<DIV id="bc768995">
+  <DIV class="comment_title">
+    <A href="http://superleo.javaeye.com/" target="_blank">kyo100900</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">iText主要还是一个应用类库。远远无法满足我们的需求。
+<BR><SPAN style="color: red">我们实际上想做的是一个类似于Adobe Reader的PDF阅读器。用户只能通过我们的阅读器才能实现盖章的添加，删除，虚化等功能。</SPAN>当别的PDF阅读器打开时，只能是只读的。</DIV>
+</DIV>
+<DIV id="bc768947">
+  <DIV class="comment_title">
+    <A href="http://c-mingze-163-com.javaeye.com/" target="_blank">c_mingze@163.com</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">看了一头雾水&nbsp; 好乱 果然是高手中的高手&nbsp; 个人感觉itext较好用</DIV>
+</DIV>
+<DIV id="bc768935">
+  <DIV class="comment_title">
+    <A href="http://quake.javaeye.com/" target="_blank">Quake Wang</A>
+    前天&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/283848#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">PDF规范很麻烦，如果要通过2进制实现PDF文件盖章/添加/删除的功能要作不少工作，你可以试试看itext，它应该可以简化一些工作。</DIV>
+</DIV>
+
+    
+    
+  </DIV>
+  
+  <DIV class="blog_comment">
+    <H5>发表评论</H5>  
+          
+      <FORM action="./PDF源文件浅析 - superleo - JavaEye技术网站_files/PDF源文件浅析 - superleo - JavaEye技术网站.htm" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <INPUT type="hidden" id="editor_bbcode_flag" value="true">
+
+
+
+<DIV id="editor_main"><DIV id="editor_wrapper" class="clearfix"><DIV id="bbcode_emotions"><H5>表情图标</H5><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_biggrin.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_smile.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_sad(1).gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_surprised.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_eek.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_confused.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_cool(1).gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_lol(1).gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_mad.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_razz.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_redface.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_cry.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_evil.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_twisted.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_rolleyes.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_wink.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_exclaim.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_question.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_idea.gif"><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_arrow.gif"></DIV><DIV id="bbcode_controllers"><DIV id="bbcode_toolbar"><INPUT type="button" value="B" id="button_bold"><INPUT type="button" value="I" id="button_italic"><INPUT type="button" value="U" id="button_underline"><INPUT type="button" value="Quote"><INPUT type="button" value="Code"><INPUT type="button" value="List"><INPUT type="button" value="List="><INPUT type="button" value="Img"><INPUT type="button" value="URL"><INPUT type="button" value="Flash"><BR>字体颜色: <SELECT id="select_color"><OPTION value="black" style="color: black;">标准</OPTION><OPTION value="darkred" style="color: darkred;">深红</OPTION><OPTION value="red" style="color: red;">红色</OPTION><OPTION value="orange" style="color: orange;">橙色</OPTION><OPTION value="brown" style="color: brown;">棕色</OPTION><OPTION value="yellow" style="color: yellow;">黄色</OPTION><OPTION value="green" style="color: green;">绿色</OPTION><OPTION value="olive" style="color: olive;">橄榄</OPTION><OPTION value="cyan" style="color: cyan;">青色</OPTION><OPTION value="blue" style="color: blue;">蓝色</OPTION><OPTION value="darkblue" style="color: darkblue;">深蓝</OPTION><OPTION value="indigo" style="color: indigo;">靛蓝</OPTION><OPTION value="violet" style="color: violet;">紫色</OPTION><OPTION value="gray" style="color: gray;">灰色</OPTION><OPTION value="white" style="color: white;">白色</OPTION><OPTION value="black" style="color: black;">黑色</OPTION></SELECT>&nbsp;字体大小: <SELECT id="select_font"><OPTION value="0">标准</OPTION><OPTION value="xx-small">1 (xx-small)</OPTION><OPTION value="x-small">2 (x-small)</OPTION><OPTION value="small">3 (small)</OPTION><OPTION value="medium">4 (medium)</OPTION><OPTION value="large">5 (large)</OPTION><OPTION value="x-large">6 (x-large)</OPTION><OPTION value="xx-large">7 (xx-large)</OPTION></SELECT>&nbsp;对齐: <SELECT id="select_align"><OPTION value="0">标准</OPTION><OPTION value="left">居左</OPTION><OPTION value="center">居中</OPTION><OPTION value="right">居右</OPTION></SELECT></DIV><DIV id="bbcode_tooltip">插入Flash: [flash=宽,高]http://your_flash.swf[/flash]</DIV><TEXTAREA class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></TEXTAREA></DIV></DIV></DIV>
+
+
+<SCRIPT type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</SCRIPT>
+        <P style="text-align:right;padding-right:30px;">您还没有登录，请<A href="http://superleo.javaeye.com/login">登录</A>后发表评论 <INPUT class="submit" id="submit_button" name="commit" type="submit" value="提交"></P>
+      <IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/spinner.gif" style="display:none;" id="_form_spinner_"></FORM>                  
+      <SCRIPT type="text/javascript">
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+            if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+  
+      }});
+      </SCRIPT> 
+      </DIV>
+</DIV>
+
+
+<SCRIPT type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</SCRIPT>
+
+
+        </DIV>
+        
+        <DIV id="local">
+          <DIV class="local_top"></DIV>
+          <DIV id="blog_owner">
+            <DIV id="blog_owner_logo"><A href="http://superleo.javaeye.com/"><IMG alt="用户头像" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/17ac240d-e4db-3a59-b0f9-374d3d94d2ef.jpg" title="kyo100900的博客: superleo"></A></DIV>
+            <DIV id="blog_owner_name">kyo100900</DIV>
+          </DIV>
+          <DIV id="blog_actions">
+            <UL>
+              <LI>浏览: 170429 次</LI>
+              <LI>性别: <IMG alt="Icon_minigender_1" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/icon_minigender_1.gif" title="男"></LI>
+              <LI>来自: 北京</LI>
+              <LI><IMG src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/offline.gif"></LI>              
+              <LI><A href="http://superleo.javaeye.com/blog/profile">详细资料</A>  <A href="http://superleo.javaeye.com/blog/guest_book">留言簿</A></LI>
+            </UL>
+            <H5>搜索本博客</H5>
+            <FORM action="http://superleo.javaeye.com/blog/search" method="get">              <INPUT class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text">
+              <INPUT class="submit" type="submit" value="搜索">
+            </FORM>          </DIV>
+          
+            <DIV id="user_visits" class="clearfix">
+              <H5>最近访客</H5>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://thunder64.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/user-logo-thumb.gif" title="thunder64的博客: "></A></SPAN> <A href="http://thunder64.javaeye.com/" target="_blank">thunder64</A></DIV>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://je-mazh.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/user-logo-thumb.gif" title="je_mazh的博客: "></A></SPAN> <A href="http://je-mazh.javaeye.com/" target="_blank">je_mazh</A></DIV>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://allan-lei.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/user-logo-thumb.gif" title="allan_lei的博客: allan_lei"></A></SPAN> <A href="http://allan-lei.javaeye.com/" target="_blank">allan_lei</A></DIV>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://vampires.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/user-logo-thumb.gif" title="vampires的博客: vampires"></A></SPAN> <A href="http://vampires.javaeye.com/" target="_blank">vampires</A></DIV>
+              
+              <DIV class="left" id="more_user_visits"><A href="http://superleo.javaeye.com/blog/user_visits">&gt;&gt;更多访客</A></DIV>
+            </DIV>
+          
+                      <DIV id="blog_menu">
+              <H5>博客分类</H5>				
+              <UL>
+                <LI><A href="http://superleo.javaeye.com/">全部博客 (67)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22379">Struts2 (18)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22574">spring2 (3)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/24555">hibernate (5)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22380">Database (2)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22381">行业信息 (3)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/23266">单元测试 (1)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/26042">专家文章翻译 (35)</A></LI>
+                
+              </UL>
+            </DIV>
+            
+              <DIV id="blog_album">
+                <H5>我的相册</H5>
+                <DIV class="picture_thumb" style="float: none">
+                  <DIV><SPAN class="thumb_box"><A href="http://superleo.javaeye.com/album"><IMG alt="14291a5f-8813-3e4e-9f56-050bf4d265bf-thumb" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/14291a5f-8813-3e4e-9f56-050bf4d265bf-thumb.jpg"></A></SPAN></DIV>
+                  <SPAN>pdf_02<BR> <A href="http://superleo.javaeye.com/album">共 36 张</A></SPAN>
+                </DIV>
+              </DIV>
+            
+            
+              <DIV id="guest_books">
+                <H5>我的留言簿</H5>
+                <UL>
+                  
+                    <LI>
+                       你好阳光阿<BR>
+                      -- by <A href="http://superleo.javaeye.com/blog/guest_book#1236">eyejava</A>
+                    </LI>
+                  
+                    <LI>
+                       你给我站住<BR>
+                      -- by <A href="http://superleo.javaeye.com/blog/guest_book#790">20921556</A>
+                    </LI>
+                  
+                    <LI>
+                      kyo100900 写道 出来看上帝
+我也喜欢听&ldquo;流年&rdquo;
+其实我我喜欢林夕多一些 ...<BR>
+                      -- by <A href="http://superleo.javaeye.com/blog/guest_book#659">火星叔叔马丁</A>
+                    </LI>
+                  
+                </UL>              
+              </DIV>
+            
+            <DIV id="blog_others">
+              <H5>其他分类</H5>
+              <UL>
+                <LI><A href="http://superleo.javaeye.com/blog/favorite">我的收藏</A> (12)</LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/pdf">我的书籍</A> (1) </LI>
+                                
+                                  <LI><A href="http://superleo.javaeye.com/blog/news">我的新闻</A> (36) </LI>
+                                <LI><A href="http://superleo.javaeye.com/blog/forum">我的论坛帖子</A> (161)</LI>
+                <LI><A href="http://superleo.javaeye.com/blog/article">我的精华良好贴</A> (0)</LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/solution">我解决的问题</A> (14) </LI>
+                              </UL>
+            </DIV>
+            
+            <DIV id="recent_groups">
+              <H5>最近加入圈子</H5>
+              <UL>
+                
+                  <LI><A href="http://mars.group.javaeye.com/">火星常驻JE办事处</A></LI>
+                
+                  <LI><A href="http://ecside.group.javaeye.com/">GT-Grid</A></LI>
+                
+                  <LI><A href="http://struts2.group.javaeye.com/">struts2</A></LI>
+                
+                  <LI><A href="http://jsi.group.javaeye.com/">JSI Side</A></LI>
+                
+                  <LI><A href="http://english.group.javaeye.com/">英语学习</A></LI>
+                
+              </UL>
+            </DIV>
+            
+              <DIV id="user_links">
+                <H5>链接</H5>
+                <UL>
+                  
+                    <LI><A href="http://www.theserverside.com/" target="_blank">java最大交流社区</A></LI>
+                  
+                    <LI><A href="http://blog.sina.com.cn/pibeidelinghun" target="_blank">大静妹的世界</A></LI>
+                  
+                    <LI><A href="http://java.dzone.com/" target="_blank">Java空间</A></LI>
+                  
+                    <LI><A href="http://blog.springsource.com/main/author/rodj/" target="_blank">Rod Johnson</A></LI>
+                  
+                    <LI><A href="http://elminster.javaeye.com/" target="_blank">大法师</A></LI>
+                  
+                    <LI><A href="http://trustno1.javaeye.com/" target="_blank">trustno1</A></LI>
+                  
+                    <LI><A href="http://shenyu.javaeye.com/" target="_blank">数据结构与算法</A></LI>
+                  
+                    <LI><A href="http://qiezi.javaeye.com/blog/162689" target="_blank">qiezi</A></LI>
+                  
+                    <LI><A href="http://ajoo.javaeye.com/" target="_blank">ajoo</A></LI>
+                  
+                    <LI><A href="http://www.blogjava.net/yifeng/" target="_blank">老弟的blog</A></LI>
+                  
+                </UL>
+              </DIV>
+            
+            
+                          <DIV id="month_blogs">
+                <H5>存档</H5>
+                <UL>
+                  
+                    <LI><A href="http://superleo.javaeye.com/blog/monthblog/2008-12">2008-12</A> (1)</LI>
+                  
+                    <LI><A href="http://superleo.javaeye.com/blog/monthblog/2008-11">2008-11</A> (3)</LI>
+                  
+                    <LI><A href="http://superleo.javaeye.com/blog/monthblog/2008-10">2008-10</A> (2)</LI>
+                  
+                  <LI><A href="http://superleo.javaeye.com/blog/monthblog_more">更多存档...</A></LI>
+                </UL>
+              </DIV>
+                        <DIV id="recent_comments">
+              <H5>最新评论</H5>
+              <UL>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/283848#comments" title="PDF源文件浅析">PDF源文件浅析</A><BR>
+                    lz写的这些都是java代码？？
+
+<BR>
+                    -- by <A href="http://hanjs.javaeye.com/" target="_blank">hanjs</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/283848#comments" title="PDF源文件浅析">PDF源文件浅析</A><BR>
+                    不错还真没去研究过<BR>
+                    -- by <A href="http://site.javaeye.com/" target="_blank">sheandwei</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/214535#comments" title="【翻译】spring配置全书(下)&mdash;&mdash;附PDF完整版下载">【翻译】spring配置全书( ...</A><BR>
+                    楼主辛苦了，谢谢楼主！！！<BR>
+                    -- by <A href="http://walsh.javaeye.com/" target="_blank">walsh</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/283848#comments" title="PDF源文件浅析">PDF源文件浅析</A><BR>
+                    哇塞，太好了，偶也在研究pdf呢<BR>
+                    -- by <A href="http://harsh.javaeye.com/" target="_blank">harsh</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/283848#comments" title="PDF源文件浅析">PDF源文件浅析</A><BR>
+                    分析的不错，不过对一般应用来说，不用研究这么底层，用itext就足够了。<BR>
+                    -- by <A href="http://cyfgod.javaeye.com/" target="_blank">cyfgod</A>
+                  </LI>
+                
+              </UL>
+            </DIV>
+            <DIV id="comments_top">
+              <H5>评论排行榜</H5>
+              <UL>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/214535">【翻译】spring配置全书(下)&mdash;&mdash;附PDF完 ...</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/243322">hibernate延迟加载的原理与实现</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/227857">自己动手写一个Struts2</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/175656">JSF+AJAX企业级开发之路&mdash;&mdash;来自Sun的高级 ...</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/154587">Hibernate多对多删除问题的解决</A></LI>
+                
+              </UL>
+            </DIV>
+            <DIV id="rss">
+              <UL>
+                <LI><A href="http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/rss.png"></A></LI>
+                <LI><A href="http://fusion.google.com/add?feedurl=http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss_google" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/rss_google.gif"></A></LI>
+                <LI><A href="http://www.zhuaxia.com/add_channel.php?url=http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss_zhuaxia" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/rss_zhuaxia.gif"></A></LI>
+                <LI><A href="http://www.xianguo.com/subscribe.php?url=http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss_xianguo" src="./PDF源文件浅析 - superleo - JavaEye技术网站_files/rss_xianguo.jpg"></A></LI>
+                <LI><A href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</A></LI>
+              </UL>
+            </DIV>
+            <DIV class="local_bottom"></DIV>
+          
+        </DIV>
+      </DIV>
+      
+      <DIV id="footer" class="clearfix">            	
+        <DIV id="copyright">
+          <HR>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<BR>
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </DIV>
+      </DIV>
+    </DIV>
+    
+  
+
+</BODY></HTML>
