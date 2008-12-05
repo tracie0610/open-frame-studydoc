@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>JBoss4 应用服务器Web开发人员参考手册(10)：使用JSF - JBossWeek - JavaEye技术网站</title>
+    <meta name="description" content="从4.0.3版本开始, JBoss应用服务器内置对JavaServer Faces的支持. JSF实现使用的是Apache MyFaces; 但是MyFaces的扩展并没有一起包含在JBoss的发布中. 在JBoss中部署JSF应用时，并不需要在WEB-INF/lib目录中额外放置许多JSF实现的JAR文件.为了使用JSF, 必须在web.xml文件的servlet mapping中声明Faces ..." />
+    <meta name="keywords" content="  JBoss4 应用服务器Web开发人员参考手册(10)：使用JSF" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="JBossWeek" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1227770271" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1200451876" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="http://www.javaeye.com/javascripts/editor/css/ui.css?1222156967" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/editor/compress.js?1225335142" type="text/javascript"></script>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="this.blur();$('more_site_nav').toggle();return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div id="more_site_nav" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <ul id="user_nav">
+      <li class="last"><a href="/signup">注册</a></li>
+    <li><a href="/login">登录</a></li>
+    <li class='highlight'><span>您还没有登录 !</span></li>  
+    
+</ul>
+
+    </div>
+    
+    <div id="page" onclick="$('more_site_nav').hide();">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">JBossWeek</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://jbossweek.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/138912" class="next">JBoss AS 4.2.0 CR2发布</a>
+      |
+      <a href="/blog/138914" class="pre">JBoss4 应用服务器Web开发人员参考手册(9 ...</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2007</span><span class='sep_year'>-</span><span class='month'>04</span><span class='sep_month'>-</span><span class='day'>05</span></div>
+    <h3 class='' title=''><a href="/blog/138913">JBoss4 应用服务器Web开发人员参考手册(10)：使用JSF</a></h3>
+        
+  </div>
+  
+  <div class="blog_content">
+    <p>从4.0.3版本开始, JBoss应用服务器内置对JavaServer Faces的支持. JSF实现使用的是Apache MyFaces; 但是MyFaces的扩展并没有一起包含在JBoss的发布中. 在JBoss中部署JSF应用时，并不需要在<font face="Courier New">WEB-INF/lib目录中额外放置许多</font>JSF实现的JAR文件.</p><p>为了使用JSF, 必须在<font face="Courier New">web.xml文件的</font>servlet mapping中声明Faces Servlet :</p><div style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 4pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 4pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 4pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 4pt; BORDER-BOTTOM: #cccccc 1pt solid"><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&lt;servlet&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&nbsp;&nbsp;&nbsp; &lt;servlet-name&gt;Faces Servlet&lt;/servlet-name&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&nbsp;&nbsp;&nbsp; &lt;servlet-class&gt;javax.faces.webapp.FacesServlet&lt;/servlet-class&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&nbsp;&nbsp;&nbsp; &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&lt;/servlet&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left">&nbsp;</div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&lt;servlet-mapping&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&nbsp;&nbsp;&nbsp; &lt;servlet-name&gt;Faces Servlet&lt;/servlet-name&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&nbsp;&nbsp;&nbsp; &lt;url-pattern&gt;*.jsf&lt;/url-pattern&gt;</span></div><div align="left" style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 0cm; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: left"><span style="FONT-SIZE: 12pt; COLOR: black">&lt;/servlet-mapping&gt;</span></div></div><p>为了初始化JSF环境，还需要在<font face="Courier New">web.xml文件中增加</font>MyFaces监听器:&nbsp; </p><div style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 4pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 4pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 4pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 4pt; BORDER-BOTTOM: #cccccc 1pt solid"><pre>&lt;listener&gt;</pre><pre>&lt;listener-class&gt;org.apache.myfaces.webapp.StartupServletContextListener&lt;/listener-class&gt;</pre><pre style="BACKGROUND: #f4f4f4">&lt;/listener&gt;</pre></div><p>通过设置几个额外的context参数，还可以为特定的Web应用控制JavaServer Faces的配置:</p><div style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 4pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 4pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 4pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 4pt; BORDER-BOTTOM: #cccccc 1pt solid"><pre>&lt;context-param&gt;</pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-name&gt;javax.faces.CONFIG_FILES&lt;/param-name&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-value&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /WEB-INF/examples-config.xml</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;/param-value&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;description&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comma separated list of URIs of (additional) faces config files.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (e.g. /WEB-INF/my-config.xml)</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; See JSF 1.0 PRD2, 10.3.2</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;/description&gt;</span></pre><pre>&lt;/context-param&gt;</pre><pre>&lt;context-param&gt;</pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-name&gt;javax.faces.STATE_SAVING_METHOD&lt;/param-name&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-value&gt;server&lt;/param-value&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;description&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; State saving method: &quot;client&quot; or &quot;server&quot; (= default)</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; See JSF Specification 2.5.2</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;/description&gt;</span></pre><pre>&lt;/context-param&gt;</pre><pre>&lt;context-param&gt;</pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-name&gt;org.apache.myfaces.ALLOW_JAVASCRIPT&lt;/param-name&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;description&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This parameter tells MyFaces if javascript code should be allowed in the</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rendered HTML output.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If javascript is allowed, command_link anchors will have javascript code</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; that submits the corresponding form.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If javascript is not allowed, the state saving info and nested parameters</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; will be added as url parameters.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default: &quot;true&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;/description&gt;</span></pre><pre>&lt;/context-param&gt;&nbsp;</pre><pre>&lt;context-param&gt;</pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-name&gt;org.apache.myfaces.DETECT_JAVASCRIPT&lt;/param-name&gt;</span></pre><pre><span>&nbsp;&nbsp; &nbsp;&lt;param-value&gt;false&lt;/param-value&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;description&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This parameter tells MyFaces if javascript code should be allowed in the</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rendered HTML output.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If javascript is allowed, command_link anchors will have javascript code</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; that submits the corresponding form.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If javascript is not allowed, the state saving info and nested parameters</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; will be added as url parameters.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default: &quot;false&quot;</span><span>&nbsp; </span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Setting this param to true should be combined with STATE_SAVING_METHOD &quot;server&quot; for</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; best results.</span></pre><pre><span></span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is an EXPERIMENTAL feature. You also have to enable the detector </span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filter/filter mapping below to get JavaScript detection working.</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;/description&gt;</span></pre><pre>&lt;/context-param&gt;</pre><pre>&lt;context-param&gt;</pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-name&gt;org.apache.myfaces.PRETTY_HTML&lt;/param-name&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;description&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If true, rendered HTML code will be formatted, so that it is &quot;human readable&quot;.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i.e. additional line separators and whitespace will be written, that do not</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; influence the HTML code.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default: &quot;true&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;/description&gt;</span></pre><pre>&lt;/context-param&gt;</pre><pre>&lt;context-param&gt;</pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-name&gt;org.apache.myfaces.AUTO_SCROLL&lt;/param-name&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;description&gt;</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If true, a javascript function will be rendered that is able to restore the</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; former vertical scroll on every request. Convenient feature if you have pages</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; with long lists and you do not want the browser page to always jump to the top</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if you trigger a link or button action that stays on the same page.</span></pre><pre><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default: &quot;false&quot;</span></pre><pre><span>&nbsp;&nbsp;&nbsp; &lt;/description&gt;</span></pre><pre style="BACKGROUND: #f4f4f4">&lt;/context-param&gt;</pre></div><p>如果需要使用其它的JSF实现, 例如JSF的参考实现, 而不是JBoss自带的MyFaces实现, 简单地删除 </p><div style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 4pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 4pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 4pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 4pt; BORDER-BOTTOM: #cccccc 1pt solid"><pre style="BACKGROUND: #f4f4f4">jbossweb-tomcat55.sar/jsf-lib</pre></div><p>目录，然后再把JSF实现的JAR文件放置在应用的如下目录即可</p><div style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 4pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 4pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 4pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 4pt; BORDER-BOTTOM: #cccccc 1pt solid"><pre style="BACKGROUND: #f4f4f4">WEB-INF/lib</pre><br /></div><br /><br /><p id="TBPingURL"></p>
+  </div>
+  
+  
+                
+  <div class="blog_bottom">
+    <ul>
+      <li>21:23</li>
+      <li>浏览 (130)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      
+      
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/138913" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  
+                
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+     
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+          
+      <form action="/blog/138913" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <input type="hidden" id="editor_bbcode_flag"/>
+
+
+
+<div id="editor_main"><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+        <p style="text-align:right;padding-right:30px;">您还没有登录，请<a href='/login'>登录</a>后发表评论 <input class="submit" id="submit_button" name="commit" type="submit" value="提交" /></p>
+      </form>                  
+      <script type="text/javascript">
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+            if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+  
+      }});
+      </script> 
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://jbossweek.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="JBossWeek的博客: JBossWeek" /></a></div>
+            <div id="blog_owner_name">JBossWeek</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 11942 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 北京</li>
+              <li><img src='/images/status/offline.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a>  <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://pzw-0612.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="pzw_0612的博客: pzw_0612" /></a></span> <a href='http://pzw-0612.javaeye.com' target='_blank'>pzw_0612</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://j2etodj.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="j2etodj的博客: " /></a></span> <a href='http://j2etodj.javaeye.com' target='_blank'>j2etodj</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://jeffzong.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="jeffzong的博客: " /></a></span> <a href='http://jeffzong.javaeye.com' target='_blank'>jeffzong</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://jamesqiu.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="jamesqiu的博客: jamesqiu" /></a></span> <a href='http://jamesqiu.javaeye.com' target='_blank'>jamesqiu</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (61)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (0)</li>
+                                
+                                <li><a href="/blog/forum">我的论坛帖子</a> (0)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://seam.group.javaeye.com">JBoss SEAM</a></li>
+                
+                  <li><a href="http://jbpm.group.javaeye.com">JBPM @net</a></li>
+                
+              </ul>
+            </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2007-11">2007-11</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-10">2007-10</a> (6)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-09">2007-09</a> (7)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://jbossweek.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://jbossweek.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://jbossweek.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0040)http://jbossweek.javaeye.com/blog/138921 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <TITLE>JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站</TITLE>
+    <META name="description" content="为嵌入的Tomcat servlet容器配置基于SSL的HTTP的方法有许多，区别在于使用是否用JBoss特有的connector socket factory, 它能够从JBossSX SecurityDomain获得JSSE的服务器证书信息. 它需要使用org.jboss.security.plugins.JaasSecurityDomain MBean建立一个SecurityDomain.  ...">
+    <META name="keywords" content="  JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS">
+    <LINK rel="shortcut icon" href="http://jbossweek.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <LINK href="http://jbossweek.javaeye.com/rss" rel="alternate" title="JBossWeek" type="application/rss+xml"> 
+    <LINK href="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<LINK href="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <SCRIPT src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/application.js" type="text/javascript"></SCRIPT>
+      <LINK href="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/shCoreCommon.js" type="text/javascript"></SCRIPT>
+  <STYLE>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </STYLE>
+  <LINK href="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/ui.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/compress.js" type="text/javascript"></SCRIPT>
+  </HEAD><BODY>
+    <DIV id="header">
+      <DIV id="blog_site_nav">
+  <A href="http://www.javaeye.com/" class="homepage">首页</A>
+  <A href="http://www.javaeye.com/news">新闻</A>
+  <A href="http://www.javaeye.com/forums">论坛</A>
+  <A href="http://www.javaeye.com/blogs">博客</A>
+  <A href="http://job.javaeye.com/">招聘</A>
+  <A href="http://jbossweek.javaeye.com/blog/138921#" onclick="this.blur();$(&#39;more_site_nav&#39;).toggle();return false;" id="msna"><U>更多</U> <SMALL>▼</SMALL></A>
+  <DIV id="more_site_nav" style="display: none; ">
+    <A href="http://www.javaeye.com/ask">问答</A>
+    <A href="http://www.javaeye.com/wiki">知识库</A>
+    <A href="http://www.javaeye.com/groups">圈子</A>
+    <A href="http://www.javaeye.com/search">搜索</A>
+  </DIV>
+</DIV>
+      <UL id="user_nav">
+      <LI class="last"><A href="http://jbossweek.javaeye.com/signup">注册</A></LI>
+    <LI><A href="http://jbossweek.javaeye.com/login">登录</A></LI>
+    <LI class="highlight"><SPAN>您还没有登录 !</SPAN></LI>  
+    
+</UL>
+
+    </DIV>
+    
+    <DIV id="page" onclick="$(&#39;more_site_nav&#39;).hide();">
+      <DIV id="branding" class="clearfix">
+        <DIV id="blog_name"><H1><A href="http://jbossweek.javaeye.com/">JBossWeek</A></H1></DIV>
+        <DIV id="blog_preview"></DIV>
+        <DIV id="blog_domain">永久域名 <A href="http://jbossweek.javaeye.com/">http://jbossweek.javaeye.com</A></DIV>
+      </DIV>
+      
+      
+      <DIV id="content" class="clearfix">
+        <DIV id="main">
+          
+
+
+          
+
+
+<DIV class="blog_main"> 
+  <DIV id="blog_nav">
+    
+    <DIV id="pre_next">
+      <A href="http://jbossweek.javaeye.com/blog/138920" class="next">JBoss4 应用服务器Web开发人员参考手册(5 ...</A>
+      |
+      <A href="http://jbossweek.javaeye.com/blog/138922" class="pre">JBoss4 应用服务器Web开发人员参考手册(3 ...</A>
+    </DIV>
+  </DIV>
+  <DIV class="blog_title">
+    <DIV class="date"><SPAN class="year">2007</SPAN><SPAN class="sep_year">-</SPAN><SPAN class="month">03</SPAN><SPAN class="sep_month">-</SPAN><SPAN class="day">27</SPAN></DIV>
+    <H3 class="" title=""><A href="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站.htm">JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS</A></H3>
+        
+  </DIV>
+  
+  <DIV class="blog_content">
+    <P>为嵌入的Tomcat servlet容器配置基于SSL的HTTP的方法有许多，区别在于使用是否用JBoss特有的connector socket factory, 它能够从JBossSX <TT class="literal">SecurityDomain</TT>获得JSSE的服务器证书信息. 它需要使用<FONT face="Courier New">org.jboss.security.plugins.JaasSecurityDomain</FONT> MBean建立一个<TT class="literal">SecurityDomain</TT>. 下面的<TT class="literal">server.xml</TT> 配置文件展示了使用这种方法仅建立SSL connector的配置： </P><P>&nbsp; </P><DIV style="BORDER-RIGHT: #cccccc 1pt solid; PADDING-RIGHT: 3pt; BORDER-TOP: #cccccc 1pt solid; PADDING-LEFT: 3pt; BACKGROUND: #f4f4f4; PADDING-BOTTOM: 3pt; BORDER-LEFT: #cccccc 1pt solid; PADDING-TOP: 3pt; BORDER-BOTTOM: #cccccc 1pt solid"><PRE>&lt;Server&gt;</PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp; &lt;Service name=&quot;jboss.web&quot; className=&quot;org.jboss.web.tomcat.tc5.StandardService&quot;&gt;</SPAN></PRE><PRE>&nbsp;</PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Connector port=&quot;8080&quot; address=&quot;${jboss.bind.address}&quot; maxThreads=&quot;150&quot;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; minSpareThreads=&quot;25&quot; maxSpareThreads=&quot;75&quot; enableLookups=&quot;false&quot;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; redirectPort=&quot;443&quot; acceptCount=&quot;100&quot; connectionTimeout=&quot;20000&quot; </SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disableUploadTimeout=&quot;true&quot;/&gt;</SPAN></PRE><PRE>&nbsp;</PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <STRONG>&lt;Connector port=&quot;443&quot; address=&quot;${jboss.bind.address}&quot; maxThreads=&quot;100&quot;</STRONG></SPAN></PRE><PRE><STRONG><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; minSpareThreads=&quot;5&quot; maxSpareThreads=&quot;15&quot; scheme=&quot;https&quot;</SPAN></SPAN></STRONG></PRE><PRE><STRONG><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; secure=&quot;true&quot; clientAuth=&quot;false&quot;</SPAN></SPAN></STRONG></PRE><PRE><STRONG><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; keystoreFile=&quot;${jboss.server.home.dir}/conf/chap8.keystore&quot;</SPAN></SPAN></STRONG></PRE><PRE><STRONG><SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; keystorePass=&quot;rmi+ssl&quot; sslProtocol=&quot;TLS&quot;/&gt;</SPAN></SPAN></STRONG></PRE><PRE>&nbsp;</PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Engine name=&quot;jboss.web&quot; defaultHost=&quot;localhost&quot;&gt;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Realm</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; className=&quot;org.jboss.web.tomcat.security.JBossSecurityMgrRealm&quot; </SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;certificatePrincipal=&quot;org.jboss.securia.Log4jLogger&quot;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; verbosityLevel=&quot;WARNING&quot; category=&quot;org.jboss.web.localhost.Engine&quot;/&gt;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Host name=&quot;localhost&quot; autoDeploy=&quot;false&quot; deployOnStartup=&quot;false&quot; </SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deployXML=&quot;false&quot;&gt;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;DefaultContext cookies=&quot;true&quot; crossContext=&quot;true&quot; override=&quot;true&quot;/&gt;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/Host&gt;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/Engine&gt;</SPAN></PRE><PRE><SPAN>&nbsp;&nbsp;&nbsp; &lt;/Service&gt;</SPAN></PRE><PRE style="BACKGROUND: #f4f4f4">&lt;/Server&gt;</PRE></DIV><P>该配置包含了一个<TT class="literal">JaasSecurityDomain</TT>, 但是因为该描述信息没有作为包含<TT class="literal">chap8.keystore的SAR包进行部署</TT>, 你需要将<TT class="literal">chap8.keystore拷贝到</TT><TT class="literal">server/default/conf目录</TT>.&nbsp;你可以使用HTTPS通过URL: <A href="https://localhost/jmx-console" target="_top">https://localhost/jmx-console</A>访问 JMX console web&nbsp;应用来测试该配置 .</P><P>注意: 如果你的运行系统需要特殊权限来开通1024以下的端口，可以方便地将端口设置为1024以上的数字，因此端口8443经常被使用.</P><P>配置的属性信息如下:</P><DIV class="itemizedlist"><UL type="disc">    <LI>    <P><SPAN class="bold"><STRONG>algorithm</STRONG></SPAN>: 表示对证书编码时使用的算法. 如果不指定，缺省值为 SunX509.</P>    </LI>    <LI>    <P><SPAN class="bold"><STRONG>className</STRONG></SPAN>: 表示SSL server socket factory 实现类的全称. 在这里必须指定 org.apache.coyote.tomcat4.CoyoteServerSocketFactory. 使用其它的socket factory不会出现错误，但是服务器的socket将不会使用SSL.</P>    </LI>    <LI>    <P><SPAN class="bold"><STRONG>clientAuth</STRONG></SPAN>: 如果将该属性设置为true，SSL协议栈就会在接收客户连接之前对客户的证书进行证书链验证。缺省值为false, 在这种情况下将不需要证书链连，除非客户请求被CLIENT-CERT验证安全限制保护的资源。.</P>    </LI>    <LI>    <P><SPAN class="bold"><STRONG>keystoreFile</STRONG></SPAN>: 表示需要加载的服务器证书存储的文件路径. 缺省情况下, 证书的文件路径是操作系统Tomcat运行home目录下的<TT class="literal">.keystore文件</TT>.</P>    </LI>    <LI>    <P><SPAN class="bold"><STRONG>keystorePass</STRONG></SPAN>: 表示从指定的keystore文件中访问服务器证书时需要使用的密码.&nbsp;缺省值为 <TT class="literal">changeit</TT>.</P>    </LI>    <LI>    <P><SPAN class="bold"><STRONG>keystoreType</STRONG></SPAN>: 指定用于存储服务器证书的keystore文件类型. 如果不指定,&nbsp;缺省值为 <TT class="literal">JKS</TT>.</P>    </LI>    <LI>    <P><SPAN class="bold"><STRONG>protocol</STRONG></SPAN>: 指定SSL协议使用的版本. 如果不指定,&nbsp;缺省值为 <TT class="literal">TLS</TT>.</P>    </LI></UL></DIV><P>需要注意的是，如果试着使用自己签发的证书通过HTTPS访问进行SSL配置的测试,&nbsp;浏览器应该会显示一个警告对话框，表示不能信任签发服务器证书的证书机构 . 例如, 当测试第一个配置例子时，, IE 5.5 就会显示提示服务器证书信息的初始安全警告对话框 <A href="http://docs.jboss.com/jbossas/guides/webguide/r2/en/html_single/#ch9.ie5alert.fig" title="Figure&nbsp;4.1.&nbsp;The Internet Explorer 5.5 security alert dialog.">Figure&nbsp;4.1, &ldquo;The Internet Explorer 5.5 security alert dialog.&rdquo;</A>. <A href="http://docs.jboss.com/jbossas/guides/webguide/r2/en/html_single/#ch9.ie5cert.fig" title="Figure&nbsp;4.2.&nbsp;The Internet Explorer 5.5 SSL certificate details dialog.">Figure&nbsp;4.2, &ldquo;The Internet Explorer 5.5 SSL certificate details dialog.&rdquo;</A> . 这个警告信息非常重要，因为任何人都可以随心所欲地签发包含任意信息的证书 . 只有通过确认服务器证书是否为信任的第三方签发，才能确保所连接的服务器和它自己代表的机构一致。. </P><DIV class="figure"><A name="ch9.ie5alert.fig"></A><DIV class="mediaobject" align="center"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/Chap9-5.jpg" align="middle" alt="The Internet Explorer 5.5 security alert dialog."></DIV><P class="title"><STRONG>Figure&nbsp;4.1.&nbsp;The Internet Explorer 5.5 security alert dialog.</STRONG></P></DIV><DIV class="figure"><A name="ch9.ie5cert.fig"></A><DIV class="mediaobject" align="center"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/Chap9-6.jpg" align="middle" alt="The Internet Explorer 5.5 SSL certificate details dialog."></DIV><P class="title"><STRONG>Figure&nbsp;4.2.&nbsp;The Internet Explorer 5.5 SSL certificate details dialog.</STRONG></P></DIV>&nbsp;<BR><BR><P id="TBPingURL">
+  </DIV>
+  
+  
+                
+  <DIV class="blog_bottom">
+    <UL>
+      <LI>11:15</LI>
+      <LI>浏览 (100)</LI>
+            <LI><A href="http://jbossweek.javaeye.com/blog/138921#comments">评论</A> (0)</LI>
+      
+      
+      
+      
+      <LI class="last"><A href="http://www.javaeye.com/wiki/topic/138921" target="_blank" class="more">相关推荐</A></LI>
+    </UL>
+  </DIV>
+  
+  
+  
+                
+  <DIV class="blog_comment">
+    <H5>评论</H5>
+    <A id="comments" name="comments"></A>
+     
+    
+    
+  </DIV>
+  
+  <DIV class="blog_comment">
+    <H5>发表评论</H5>  
+          
+      <FORM action="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站.htm" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <INPUT type="hidden" id="editor_bbcode_flag" value="true">
+
+
+
+<DIV id="editor_main"><DIV id="editor_wrapper" class="clearfix"><DIV id="bbcode_emotions"><H5>表情图标</H5><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_biggrin.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_smile.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_sad.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_surprised.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_eek.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_confused.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_cool.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_lol.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_mad.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_razz.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_redface.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_cry.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_evil.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_twisted.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_rolleyes.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_wink.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_exclaim.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_question.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_idea.gif"><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_arrow.gif"></DIV><DIV id="bbcode_controllers"><DIV id="bbcode_toolbar"><INPUT type="button" value="B" id="button_bold"><INPUT type="button" value="I" id="button_italic"><INPUT type="button" value="U" id="button_underline"><INPUT type="button" value="Quote"><INPUT type="button" value="Code"><INPUT type="button" value="List"><INPUT type="button" value="List="><INPUT type="button" value="Img"><INPUT type="button" value="URL"><INPUT type="button" value="Flash"><BR>字体颜色: <SELECT id="select_color"><OPTION value="black" style="color: black;">标准</OPTION><OPTION value="darkred" style="color: darkred;">深红</OPTION><OPTION value="red" style="color: red;">红色</OPTION><OPTION value="orange" style="color: orange;">橙色</OPTION><OPTION value="brown" style="color: brown;">棕色</OPTION><OPTION value="yellow" style="color: yellow;">黄色</OPTION><OPTION value="green" style="color: green;">绿色</OPTION><OPTION value="olive" style="color: olive;">橄榄</OPTION><OPTION value="cyan" style="color: cyan;">青色</OPTION><OPTION value="blue" style="color: blue;">蓝色</OPTION><OPTION value="darkblue" style="color: darkblue;">深蓝</OPTION><OPTION value="indigo" style="color: indigo;">靛蓝</OPTION><OPTION value="violet" style="color: violet;">紫色</OPTION><OPTION value="gray" style="color: gray;">灰色</OPTION><OPTION value="white" style="color: white;">白色</OPTION><OPTION value="black" style="color: black;">黑色</OPTION></SELECT>&nbsp;字体大小: <SELECT id="select_font"><OPTION value="0">标准</OPTION><OPTION value="xx-small">1 (xx-small)</OPTION><OPTION value="x-small">2 (x-small)</OPTION><OPTION value="small">3 (small)</OPTION><OPTION value="medium">4 (medium)</OPTION><OPTION value="large">5 (large)</OPTION><OPTION value="x-large">6 (x-large)</OPTION><OPTION value="xx-large">7 (xx-large)</OPTION></SELECT>&nbsp;对齐: <SELECT id="select_align"><OPTION value="0">标准</OPTION><OPTION value="left">居左</OPTION><OPTION value="center">居中</OPTION><OPTION value="right">居右</OPTION></SELECT></DIV><DIV id="bbcode_tooltip">提示：选择您需要装饰的文字, 按上列按钮即可添加上相应的标签</DIV><TEXTAREA class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></TEXTAREA></DIV></DIV></DIV>
+
+
+<SCRIPT type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</SCRIPT>
+        <P style="text-align:right;padding-right:30px;">您还没有登录，请<A href="http://jbossweek.javaeye.com/login">登录</A>后发表评论 <INPUT class="submit" id="submit_button" name="commit" type="submit" value="提交"></P>
+      <IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/spinner.gif" style="display:none;" id="_form_spinner_"></FORM>                  
+      <SCRIPT type="text/javascript">
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+            if(confirm('您需要登录以后才能执行这个操作，现在要登录吗？')) window.location.href = '/login';
+  
+      }});
+      </SCRIPT> 
+      </DIV>
+</DIV>
+
+
+<SCRIPT type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</SCRIPT>
+
+
+        </DIV>
+        
+        <DIV id="local">
+          <DIV class="local_top"></DIV>
+          <DIV id="blog_owner">
+            <DIV id="blog_owner_logo"><A href="http://jbossweek.javaeye.com/"><IMG alt="用户头像" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/user-logo.gif" title="JBossWeek的博客: JBossWeek"></A></DIV>
+            <DIV id="blog_owner_name">JBossWeek</DIV>
+          </DIV>
+          <DIV id="blog_actions">
+            <UL>
+              <LI>浏览: 11938 次</LI>
+              <LI>性别: <IMG alt="Icon_minigender_1" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/icon_minigender_1.gif" title="男"></LI>
+              <LI>来自: 北京</LI>
+              <LI><IMG src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/offline.gif"></LI>              
+              <LI><A href="http://jbossweek.javaeye.com/blog/profile">详细资料</A>  <A href="http://jbossweek.javaeye.com/blog/guest_book">留言簿</A></LI>
+            </UL>
+            <H5>搜索本博客</H5>
+            <FORM action="http://jbossweek.javaeye.com/blog/search" method="get">              <INPUT class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text">
+              <INPUT class="submit" type="submit" value="搜索">
+            </FORM>          </DIV>
+          
+            <DIV id="user_visits" class="clearfix">
+              <H5>最近访客</H5>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://pzw-0612.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/user-logo-thumb.gif" title="pzw_0612的博客: pzw_0612"></A></SPAN> <A href="http://pzw-0612.javaeye.com/" target="_blank">pzw_0612</A></DIV>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://j2etodj.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/user-logo-thumb.gif" title="j2etodj的博客: "></A></SPAN> <A href="http://j2etodj.javaeye.com/" target="_blank">j2etodj</A></DIV>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://jeffzong.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/user-logo-thumb.gif" title="jeffzong的博客: "></A></SPAN> <A href="http://jeffzong.javaeye.com/" target="_blank">jeffzong</A></DIV>
+              
+                <DIV class="left"><SPAN class="logo"><A href="http://jamesqiu.javaeye.com/" target="_blank"><IMG alt="用户头像" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/user-logo-thumb.gif" title="jamesqiu的博客: jamesqiu"></A></SPAN> <A href="http://jamesqiu.javaeye.com/" target="_blank">jamesqiu</A></DIV>
+              
+              <DIV class="left" id="more_user_visits"><A href="http://jbossweek.javaeye.com/blog/user_visits">&gt;&gt;更多访客</A></DIV>
+            </DIV>
+          
+                      <DIV id="blog_menu">
+              <H5>博客分类</H5>				
+              <UL>
+                <LI><A href="http://jbossweek.javaeye.com/">全部博客 (61)</A></LI>
+                
+              </UL>
+            </DIV>
+            
+            
+            <DIV id="blog_others">
+              <H5>其他分类</H5>
+              <UL>
+                <LI><A href="http://jbossweek.javaeye.com/blog/favorite">我的收藏</A> (0)</LI>
+                                
+                                <LI><A href="http://jbossweek.javaeye.com/blog/forum">我的论坛帖子</A> (0)</LI>
+                <LI><A href="http://jbossweek.javaeye.com/blog/article">我的精华良好贴</A> (0)</LI>
+                              </UL>
+            </DIV>
+            
+            <DIV id="recent_groups">
+              <H5>最近加入圈子</H5>
+              <UL>
+                
+                  <LI><A href="http://seam.group.javaeye.com/">JBoss SEAM</A></LI>
+                
+                  <LI><A href="http://jbpm.group.javaeye.com/">JBPM @net</A></LI>
+                
+              </UL>
+            </DIV>
+            
+            
+                          <DIV id="month_blogs">
+                <H5>存档</H5>
+                <UL>
+                  
+                    <LI><A href="http://jbossweek.javaeye.com/blog/monthblog/2007-11">2007-11</A> (2)</LI>
+                  
+                    <LI><A href="http://jbossweek.javaeye.com/blog/monthblog/2007-10">2007-10</A> (6)</LI>
+                  
+                    <LI><A href="http://jbossweek.javaeye.com/blog/monthblog/2007-09">2007-09</A> (7)</LI>
+                  
+                  <LI><A href="http://jbossweek.javaeye.com/blog/monthblog_more">更多存档...</A></LI>
+                </UL>
+              </DIV>
+                        <DIV id="recent_comments">
+              <H5>最新评论</H5>
+              <UL>
+                
+              </UL>
+            </DIV>
+            <DIV id="comments_top">
+              <H5>评论排行榜</H5>
+              <UL>
+                
+              </UL>
+            </DIV>
+            <DIV id="rss">
+              <UL>
+                <LI><A href="http://jbossweek.javaeye.com/rss" target="_blank"><IMG alt="Rss" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/rss.png"></A></LI>
+                <LI><A href="http://fusion.google.com/add?feedurl=http://jbossweek.javaeye.com/rss" target="_blank"><IMG alt="Rss_google" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/rss_google.gif"></A></LI>
+                <LI><A href="http://www.zhuaxia.com/add_channel.php?url=http://jbossweek.javaeye.com/rss" target="_blank"><IMG alt="Rss_zhuaxia" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/rss_zhuaxia.gif"></A></LI>
+                <LI><A href="http://www.xianguo.com/subscribe.php?url=http://jbossweek.javaeye.com/rss" target="_blank"><IMG alt="Rss_xianguo" src="./JBoss4 应用服务器Web开发人员参考手册(4)：使用HTTPS - JBossWeek - JavaEye技术网站_files/rss_xianguo.jpg"></A></LI>
+                <LI><A href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</A></LI>
+              </UL>
+            </DIV>
+            <DIV class="local_bottom"></DIV>
+          
+        </DIV>
+      </DIV>
+      
+      <DIV id="footer" class="clearfix">            	
+        <DIV id="copyright">
+          <HR>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<BR>
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </DIV>
+      </DIV>
+    </DIV>
+    
+  
+
+</BODY></HTML>

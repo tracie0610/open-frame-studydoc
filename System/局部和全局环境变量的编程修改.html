@@ -1,0 +1,770 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head id="Head"><title>
+	局部和全局环境变量的编程修改 - 菠萝工作室 - C++博客
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta id="metaKeywords" name="keywords" content="局部和全局环境变量的编程修改" /><link id="MainCss" type="text/css" rel="stylesheet" href="http://www.cppblog.com/Skins/KJC/style.css" /><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cppblog.com/redapple/rss.aspx" /></head>
+<body>
+    <form name="Form1" method="post" action="60633.html" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=PyW-m2hLmppJ9byT1bYEqw2&amp;t=633363616222850001" type="text/javascript"></script>
+
+<script language=JavaScript>
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language=JavaScript>function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="/ScriptResource.axd?d=keXr1l0ODizNGwpG5umihnLbiZlZFmnBNv9PADikeydJNFn_nnzWP6nCtj5LEvCjoGqazIbHl5iuU6pakvSNXw2&amp;t=633363616222850001" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=keXr1l0ODiwWLTaLPM0Wf405seaw-kJY_J94dRUexb3hftiy5dT0X5GxWLiqANj30&amp;t=633069160780000000" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=keXr1l0ODiwWLTaLPM0Wf405seaw-kJY_J94dRUexb1YLr7RQriMsNXsDWOxc8wQub8O_qeSuZ41&amp;t=633069160780000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+        
+<table class="Framework" cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<td colspan="3">
+			
+<div id="top">
+<table cellpadding="10" cellspacing="0">
+	<tr>
+		<td nowrap>
+			<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cppblog.com/redapple/">菠萝工作室</a></h1>
+			C++/MFC/QT/CORBA/ACE/TAO/boost
+		</td>
+	</tr>
+</table>
+</div>
+<div id="sub">
+	<div id="sub-right"></div>
+	
+&nbsp;
+<a id="Header1_MyLinks1_HomeLink" href="http://www.cppblog.com/">C++博客</a>&nbsp;::
+<a id="Header1_MyLinks1_MyHomeLink" href="http://www.cppblog.com/redapple/">首页</a>&nbsp;::
+<a id="Header1_MyLinks1_NewPostLink" href="http://www.cppblog.com/redapple/admin/EditPosts.aspx?opt=1">新随笔</a>&nbsp;::
+<a id="Header1_MyLinks1_ContactLink" accesskey="9" href="http://www.cppblog.com/redapple/contact.aspx?id=1">联系</a>&nbsp;::
+<a id="Header1_MyLinks1_Syndication" href="http://www.cppblog.com/redapple/Rss.aspx">聚合</a>
+<a id="Header1_MyLinks1_XMLLink" class="XMLLink" href="http://www.cppblog.com/redapple/Rss.aspx"><img src="http://www.cppblog.com/images/xml.gif" style="border-width:0px;" /></a>&nbsp;::
+<a id="Header1_MyLinks1_Admin" href="http://www.cppblog.com/redapple/admin/EditPosts.aspx">管理</a>
+
+</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="LeftCell">
+			<div id="leftmenu">
+			</div>
+		</td>
+		<td class="MainCell">
+			<div id="main">
+				
+					
+	<div class="post">
+		<div class="posthead">
+			<h2>
+				<a id="viewpost1_TitleUrl" class="singleposttitle" href="http://www.cppblog.com/redapple/archive/2008/09/01/60633.html">局部和全局环境变量的编程修改</a>
+			</h2>
+ 			Posted on 2008-09-01 21:12 <a href='http://www.cppblog.com/redapple/'>菠萝</a> 阅读(105) <a href='#Post'>评论(0)</a> &nbsp;<a href="http://www.cppblog.com/redapple/admin/EditPosts.aspx?postid=60633">编辑</a>&nbsp;<a href="http://www.cppblog.com/redapple/AddToFavorite.aspx?id=60633">收藏</a> <a href='http://www.cppblog.com/redapple/services/trackbacks/60633.aspx'>引用</a>  所属分类: <a href='http://www.cppblog.com/redapple/category/8145.html'>常识</a> 、<a href='http://www.cppblog.com/redapple/category/8304.html'>Qt</a> 
+			<img src ="http://www.cppblog.com/redapple/aggbug/60633.html?webview=1" width = "1" height = "1" />
+			
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.cppblog.com/redapple/archive/2008/09/01/60633.html"
+dc:identifier="http://www.cppblog.com/redapple/archive/2008/09/01/60633.html"
+dc:title="局部和全局环境变量的编程修改"
+trackback:ping="http://www.cppblog.com/redapple/services/trackbacks/60633.aspx" />
+</rdf:RDF>
+-->
+
+		</div>
+		<div class="postbody">
+		<br />局部和全局环境变量的编程修改<br /><br />先说一下局部环境变量的修改，在VC中可以使用SetEnvironmentVariable或setenv或putenv函数增加局部环境变量<br />或者　通过写bat文件增加局部环境变量，用set<br />有关具体的使用方法也非常简单，看帮助吧<br /><br />现在说一下全局环境变量的设置方法，<br />1，手动设置：我的电脑－＞属性－＞高级－＞环境变量<br /><br />2，修改注册表：<br />用户环境变量列表的注册表键：<br />HKEY_CURRENT_USER\Environment<br />系统环境变量列表的注册表键：<br />HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment<br />当修改完环境变量的注册表项后，可以通过下面的代码来通知环境变量更新<br />DWORD dwReturnValue = 0;<br />SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,<br />    (LPARAM) "Environment", SMTO_ABORTIFHUNG,5000, &amp;dwReturnValue);<br />eg:<br />reg add HKEY_CURRENT_USER\Environment /v TEST　/d  testValue<br />更多：请参考　reg /?<br /><br />3，写bat文件：<br />你可能会有疑问，刚才不是说写bat文件的方式是修改局部变量，在这里怎么又能修改全局变量了？<br />回答：如果在bat中写reg不就能实现了？<br /><br />4，写vbs脚本<br />例：<br />strComputer = "."<br />Dim WshShell, bKey<br />Set WshShell = WScript.CreateObject("WScript.Shell")<br />Set objWMIService = GetObject("winmgmts:" _<br />    &amp; "{impersonationLevel=impersonate}!\\" &amp; strComputer &amp; "\root\cimv2")<br />Set objVariable = objWMIService.Get("Win32_Environment").SpawnInstance_<br />rem ACE_ROOT 环境变量<br />objVariable.Name = "ACE_ROOT"<br />objVariable.VariableValue = "d:\ACE_wrappers_5_5"<br />objVariable.SystemVariable = True<br />objVariable.UserName = "&lt;SYSTEM&gt;"<br />objVariable.Status = "OK"<br />objVariable.Put_<br /><br /><br /><br /><br /></div>
+	</div><script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<STYLE>.userData { BEHAVIOR: url(#default#userdata) }
+	</STYLE>
+<DIV class="userData" id="CommentsPersistDiv"></DIV>
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;
+       
+    }    
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+<div class="commentform">
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br />
+<a name="Feedback"></a>
+	<TABLE cellSpacing="1" cellPadding="1" border="0">
+		<TR>
+			<TD width="75"></TD>
+			<TD></TD>
+			<TD></TD>
+		</TR>
+		<TR>
+			<TD width="55">标题</TD>
+			<TD><input name="AjaxHolder$PostComment$tbTitle" type="text" value="re: 局部和全局环境变量的编程修改" id="AjaxHolder_PostComment_tbTitle" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color:Red;visibility:hidden;">请输入标题</span></TD>
+		</TR>
+		<TR>
+			<TD>姓名</TD>
+			<TD><input name="AjaxHolder$PostComment$tbName" type="text" id="AjaxHolder_PostComment_tbName" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color:Red;visibility:hidden;">请输入你的姓名</span></TD>
+		</TR>
+		<TR>
+			<TD>主页</TD>
+			<TD><input name="AjaxHolder$PostComment$tbUrl" type="text" id="AjaxHolder_PostComment_tbUrl" class="commenttb" style="width:320" /></TD>
+			<TD><FONT face="宋体"></FONT></TD>
+		</TR>
+		<tr>
+			<td align="left" colSpan="3">
+				<table id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<td colspan="3">
+							<span id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color:Red;display:none;">请输入验证码</span>
+							<span id="AjaxHolder_PostComment_lblImage" style="color:Red;font-weight:bold;"></span>
+						</td>
+		</tr>
+		<tr>
+			<td width="78">验证码</td>
+			<td><input name="AjaxHolder$PostComment$CodeNumberTextBox" type="text" id="AjaxHolder_PostComment_CodeNumberTextBox" />*</td>
+			<td align="left">
+							<img src="../../../../../Modules/CaptchaImage/JpegImage.aspx" id="AjaxHolder_PostComment_Img1" />
+						</td>
+		</tr>
+	</table>
+	
+			</td>
+		</tr>
+		<TR>
+			<TD colSpan="3">内容(提交失败后,可以通过“恢复上次提交”恢复刚刚提交的内容)
+				<span id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color:Red;visibility:hidden;">请输入评论内容</span><BR>
+				<textarea name="AjaxHolder$PostComment$tbComment" rows="10" cols="50" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')" style="Width:480;Height:220"></textarea></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+		<span id="AjaxHolder_PostComment_Message" style="color:Red;"></span>
+		</td>
+		<TR>
+			<TD colSpan="3"><input id="AjaxHolder_PostComment_chkRemember" type="checkbox" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1" /><label for="AjaxHolder_PostComment_chkRemember">Remember Me?</label></TD>
+		</TR>
+		<TR>
+			<TD height="23"><input type="submit" name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" />
+				</TD>
+			<td colSpan="2" height="23">&nbsp;
+				<a id="AjaxHolder_PostComment_lnkLogin" href="http://www.cppblog.com/login.aspx?ReturnURL=http://www.cppblog.com/redapple/archive/2008/09/01/60633.html&amp;SourceURL=/redapple/archive/2008/09/01/60633.html">登录</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_linkLoginComment" OnClick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" href="http://www.cppblog.com/redapple/archive/2008/09/01/60633.html?login=1#Post">使用高级评论</a>&nbsp;&nbsp;<a href="http://www.cppblog.com/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<A href="#Top">返回页首</A>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_lbRestore" OnClick="Restore('AjaxHolder_PostComment_tbComment'); return false;" href="/redapple/archive/2008/09/01/60633.html#Post">恢复上次提交</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+		</TR>
+		<TR>
+			<TD colSpan="3">[使用Ctrl+Enter键可以直接提交]</TD>
+		</TR>	
+		<TR>
+			<TD colSpan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;">
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl01_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/06/61101.html">有关病毒的工作原理，感兴趣的一起来讨论一下</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl02_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/02/60655.html">新建菜单中不能新建文本文档,怎么办?</a>
+			</li>
+		
+			<li style='list-style:none;display:none'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl03_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/01/60633.html">局部和全局环境变量的编程修改</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl04_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/06/06/8223.html">Windows XP注册表的应用 </a>
+			</li>
+		
+			</ul>
+		
+</div>
+</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3"
+		<script type="text/javascript" src="http://a4.yeshj.com/page/129/" ></script>
+		<script type="text/JavaScript">show_a4_zone("H1");</script>
+		<!-- YU-D-H1T-467-1 --></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">相关链接:<script  type="text/javascript">
+	function GetMeta(ametaName){
+	var METAs = document.getElementsByTagName("meta"); 
+	for (var i=0; i<METAs.length; i++) { 
+	if(METAs[i].name.toLowerCase()==ametaName){return (METAs[i].content);}
+	};
+	return "";
+	}
+	var title = document.title;
+	document.write("<div id=\"a4_ads_output\">");
+	document.write("<script type='text/javascript' src='http://a4.yeshj.com/adwords/EN017?num=7&title="+ encodeURIComponent(title) +"&tag="+ encodeURIComponent(GetMeta("keywords")) +"'></scri"+"pt>");
+	document.write("</div>");
+	</script></TD>
+		</TR>
+		<TR>
+		<TD colSpan="3">
+		<script type="text/javascript"><!--
+		google_ad_client = "pub-4210569241504288";
+		/* cppblog_commentbox_bottom_468x60, 创建于 08-9-13 */
+		google_ad_slot = "6441091489";
+		google_ad_width = 468;
+		google_ad_height = 60;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="1">网站导航:<div id="blogsite">
+			<a href="http://www.cnblogs.com">博客园</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://www.blogjava.net">BlogJava</a>&nbsp;&nbsp;
+			<a href="http://www.cnweblog.com">博客生活</a>&nbsp;&nbsp;
+			<a href="http://www.cnitblog.com">IT博客网</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com">C++博客</a>&nbsp;&nbsp;
+			<a href="http://www.phpweblog.net">PHP博客</a>&nbsp;&nbsp;
+			<a href="http://space.cnblogs.com">博客园社区</a>
+			<br/>
+			<a href="http://www.manageblog.net">管理博客</a>&nbsp;&nbsp;
+			<a href="http://www.teachblog.net">教师博客</a>&nbsp;&nbsp;
+			<a href="http://www.astroblog.cn/">天文博客</a>&nbsp;&nbsp;
+			<a href="http://www.cnautoblog.com/">汽车博客</a>&nbsp;&nbsp;
+			<a href="http://www.zuqiublog.com/">足球博客</a>&nbsp;&nbsp;
+			<a href="http://www.gupiaoblog.com/">股票博客</a>&nbsp;&nbsp;
+			<a href="http://www.etronblog.com/">电子博客</a>&nbsp;&nbsp;<a href="/redapple/archive/2008/09/01/60633.html?opt=admin">管理</a>
+			</div></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+				</TD>
+		</TR>
+	</TABLE>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+
+</div>
+
+				
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="FooterCell">
+			
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a id="Footer1_Hyperlink3" NAME="Hyperlink1" href="http://www.cppblog.com/" style="font-family:Verdana;font-size:12px;">C++博客</a>
+	<br />
+	Copyright &copy; 菠萝
+</p>
+
+		</td>
+	</tr>
+</table>
+<div id="lefttemp" style="DISPLAY:none">
+	
+		
+<div id="Cal">
+<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><h3>日历</h3>
+<table id="Calendar1_entryCal" cellspacing="0" cellpadding="0" title="Calendar" border="0" style="color:Black;background-color:#EEEEDD;border-width:0px;font-family:Verdana;height:180px;width:178px;border-collapse:collapse;">
+	<tr><td colspan="7" style="background-color:#EEEEEE;"><table cellspacing="0" border="0" style="color:#666666;font-family:Verdana;font-size:13px;font-weight:bold;width:100%;border-collapse:collapse;">
+		<tr><td valign="bottom" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3135')" style="color:Black" title="Go to the previous month">&lt;</a></td><td align="center" style="width:70%;">2008年9月</td><td align="right" valign="bottom" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3196')" style="color:Black" title="Go to the next month">&gt;</a></td></tr>
+	</table></td></tr><tr><th align="center" abbr="日" scope="col" style="background-color:#DDDDCC;font-size:12px;">日</th><th align="center" abbr="一" scope="col" style="background-color:#DDDDCC;font-size:12px;">一</th><th align="center" abbr="二" scope="col" style="background-color:#DDDDCC;font-size:12px;">二</th><th align="center" abbr="三" scope="col" style="background-color:#DDDDCC;font-size:12px;">三</th><th align="center" abbr="四" scope="col" style="background-color:#DDDDCC;font-size:12px;">四</th><th align="center" abbr="五" scope="col" style="background-color:#DDDDCC;font-size:12px;">五</th><th align="center" abbr="六" scope="col" style="background-color:#DDDDCC;font-size:12px;">六</th></tr><tr><td align="center" style="color:Gray;font-size:11px;width:14%;">31</td><td align="center" style="font-size:11px;width:14%;"><a href="http://www.cppblog.com/redapple/archive/2008/09/01.html"><u>1</u></a></td><td align="center" style="font-size:11px;width:14%;"><a href="http://www.cppblog.com/redapple/archive/2008/09/02.html"><u>2</u></a></td><td align="center" style="font-size:11px;width:14%;">3</td><td align="center" style="font-size:11px;width:14%;">4</td><td align="center" style="font-size:11px;width:14%;">5</td><td align="center" style="font-size:11px;width:14%;"><a href="http://www.cppblog.com/redapple/archive/2008/09/06.html"><u>6</u></a></td></tr><tr><td align="center" style="font-size:11px;width:14%;">7</td><td align="center" style="font-size:11px;width:14%;"><a href="http://www.cppblog.com/redapple/archive/2008/09/08.html"><u>8</u></a></td><td align="center" style="font-size:11px;width:14%;">9</td><td align="center" style="font-size:11px;width:14%;"><a href="http://www.cppblog.com/redapple/archive/2008/09/10.html"><u>10</u></a></td><td align="center" style="font-size:11px;width:14%;">11</td><td align="center" style="font-size:11px;width:14%;">12</td><td align="center" style="font-size:11px;width:14%;">13</td></tr><tr><td align="center" style="font-size:11px;width:14%;">14</td><td align="center" style="font-size:11px;width:14%;">15</td><td align="center" style="font-size:11px;width:14%;">16</td><td align="center" style="font-size:11px;width:14%;">17</td><td align="center" style="font-size:11px;width:14%;">18</td><td align="center" style="font-size:11px;width:14%;"><a href="http://www.cppblog.com/redapple/archive/2008/09/19.html"><u>19</u></a></td><td align="center" style="font-size:11px;width:14%;">20</td></tr><tr><td align="center" style="font-size:11px;width:14%;">21</td><td align="center" style="font-size:11px;width:14%;">22</td><td align="center" style="font-size:11px;width:14%;">23</td><td align="center" style="font-size:11px;width:14%;"><a href="http://www.cppblog.com/redapple/archive/2008/09/24.html"><u>24</u></a></td><td align="center" style="font-size:11px;width:14%;">25</td><td align="center" style="font-size:11px;width:14%;">26</td><td align="center" style="font-size:11px;width:14%;">27</td></tr><tr><td align="center" style="font-size:11px;width:14%;">28</td><td align="center" style="font-size:11px;width:14%;">29</td><td align="center" style="font-size:11px;width:14%;">30</td><td align="center" style="color:Gray;font-size:11px;width:14%;">1</td><td align="center" style="color:Gray;font-size:11px;width:14%;">2</td><td align="center" style="color:Gray;font-size:11px;width:14%;">3</td><td align="center" style="color:Gray;font-size:11px;width:14%;">4</td></tr><tr><td align="center" style="color:Gray;font-size:11px;width:14%;">5</td><td align="center" style="color:Gray;font-size:11px;width:14%;">6</td><td align="center" style="color:Gray;font-size:11px;width:14%;">7</td><td align="center" style="color:Gray;font-size:11px;width:14%;">8</td><td align="center" style="color:Gray;font-size:11px;width:14%;">9</td><td align="center" style="color:Gray;font-size:11px;width:14%;">10</td><td align="center" style="color:Gray;font-size:11px;width:14%;">11</td></tr>
+</table>
+</div>
+
+		
+	
+	
+<div id="cell">
+<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><H3>留言簿</H3>
+<ul>
+	<li>
+		<a id="Singlecolumn2__1f5d0d4f1439_lnkMessages" href="http://www.cppblog.com/redapple/Contact.aspx?id=1">给我留言</a>
+	<li>
+		<a id="Singlecolumn2__1f5d0d4f1439_lnkPublicMsgView" href="http://www.cppblog.com/redapple/default.aspx?opt=msg">查看公开留言</a>
+	<li>
+		<a id="Singlecolumn2__1f5d0d4f1439_lnkPrivateMsgView" href="http://www.cppblog.com/redapple/admin/MyMessages.aspx">查看私人留言</a>
+	</li>
+</ul>
+</div>
+
+		<div id=cell>
+		<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><h3>随笔分类<span style="font-size:11px;font-weight:normal">(34)</span></h3>
+		
+				<ul>
+			
+				<li><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to ACE(2)" href="http://www.cppblog.com/redapple/category/8330.html/rss"><img title="Subscribe to ACE(2)" src="/Skins/KJC/Images/xmlsmall.gif" style="border-width:0px;" /></a><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl01_Link" href="http://www.cppblog.com/redapple/category/8330.html">ACE(2)</a>
+				</li>
+			
+				<li><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to C++(3)" href="http://www.cppblog.com/redapple/category/8331.html/rss"><img title="Subscribe to C++(3)" src="/Skins/KJC/Images/xmlsmall.gif" style="border-width:0px;" /></a><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl02_Link" href="http://www.cppblog.com/redapple/category/8331.html">C++(3)</a>
+				</li>
+			
+				<li><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to MFC(13)" href="http://www.cppblog.com/redapple/category/8332.html/rss"><img title="Subscribe to MFC(13)" src="/Skins/KJC/Images/xmlsmall.gif" style="border-width:0px;" /></a><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl03_Link" href="http://www.cppblog.com/redapple/category/8332.html">MFC(13)</a>
+				</li>
+			
+				<li><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to Qt(2)" href="http://www.cppblog.com/redapple/category/8304.html/rss"><img title="Subscribe to Qt(2)" src="/Skins/KJC/Images/xmlsmall.gif" style="border-width:0px;" /></a><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl04_Link" href="http://www.cppblog.com/redapple/category/8304.html">Qt(2)</a>
+				</li>
+			
+				<li><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to 常识(4)" href="http://www.cppblog.com/redapple/category/8145.html/rss"><img title="Subscribe to 常识(4)" src="/Skins/KJC/Images/xmlsmall.gif" style="border-width:0px;" /></a><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl05_Link" href="http://www.cppblog.com/redapple/category/8145.html">常识(4)</a>
+				</li>
+			
+				<li><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to 修身养性(10)" href="http://www.cppblog.com/redapple/category/8129.html/rss"><img title="Subscribe to 修身养性(10)" src="/Skins/KJC/Images/xmlsmall.gif" style="border-width:0px;" /></a><a id="Singlecolumn2_Categories_CatList_ctl00_LinkList_ctl06_Link" href="http://www.cppblog.com/redapple/category/8129.html">修身养性(10)</a>
+				</li>
+			
+				</ul>
+			</div>
+	
+		<div id=cell>
+		<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><h3>相册</h3>
+		
+				<ul>
+			
+				<li><a id="Singlecolumn2_Categories_CatList_ctl01_LinkList_ctl01_Link" href="http://www.cppblog.com/redapple/gallery/1775.html">我的相册</a>
+				</li>
+			
+				</ul>
+			</div>
+	
+
+<div id="cell">
+<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><h3>最新随笔</h3>
+<ul style="word-break:break-all">
+	
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl00_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/10/66498.html">1. 预编译宏的巧妙运用</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl01_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/08/66346.html">2. 中国神话中的上古大神的关系及来历</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl02_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/06/66096.html">3. 都说招行的服务好,今天我就遇到了一个招行的垃圾服务人员.大家注册他回复的时间及内容</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl03_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/10/14/63994.html">4. 怎样获得其它程序子窗口的句柄?</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl04_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/24/62706.html">5. 十句保你不败的职场名言</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl04_RecentPostsList2_ctl01_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/24/62705.html">6. 微软公司的董事长比尔·盖茨，曾送给职场新人10句话</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl04_RecentPostsList2_ctl02_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/24/62704.html">7. 35岁以前养成九个好习惯</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl04_RecentPostsList2_ctl03_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/24/62702.html">8. 人生的35个好习惯</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl04_RecentPostsList2_ctl04_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/24/62701.html">9. 成大事必备9种能力.9种手段.9种心态</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl04_RecentPostsList2_ctl05_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/24/62698.html">10. 你的时间在哪里，成就就在哪里</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl04_RecentPostsList2_ctl06_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/24/62697.html">11. 兼职创业最安全的四个方法   </a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl05_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/19/62274.html">12. QByteArray::setRawData浅谈</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl06_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/10/61461.html">13. 穷人为什么穷 富人为什么富</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl07_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/08/61296.html">14. ACE_Future的使用</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl08_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/06/61101.html">15. 有关病毒的工作原理，感兴趣的一起来讨论一下</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl08_RecentPostsList2_ctl01_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/06/61096.html">16. ACE_DEBUG介绍及日志输出</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl09_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/02/60743.html">17. std::vector,std::deque,std::list的区别的使用</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl09_RecentPostsList2_ctl01_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/02/60655.html">18. 新建菜单中不能新建文本文档,怎么办?</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl10_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/01/60633.html">19. 局部和全局环境变量的编程修改</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl11_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/08/20/59421.html">20. 有效运用auto_ptr提高程序健壮性</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl12_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/06/06/8223.html">21. Windows XP注册表的应用 </a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7837.html">22. VC实现BMP位图文件结构及平滑缩放  </a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl01_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7836.html">23. UpdateData()函数</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl02_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7835.html">24. 程序结束时保存文件问题</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl03_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7834.html">25. 旋转控件（Spin）的使用</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl04_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7832.html">26. 用CWnd类的函数MoveWindow()或SetWindowPos()可以改变控件的大小和位置</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl05_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7833.html">27. 什么时候设定视中控件的初始尺寸</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl06_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7831.html">28. 控件的隐藏与显示</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl07_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7830.html">29. 按钮的使能与禁止</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl08_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7829.html">30. 如何获取字体句柄从而实现字体的输出</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl09_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7827.html">31. 列举视图类(CView)的三个子类，并简要说明其作用</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl10_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7826.html">32. 简述在MFC应用程序中UpdateData函数的作用及其参数含义与使用场合。</a></li>
+		
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl13_RecentPostsList2_ctl11_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/29/7825.html">33. 句柄vs指针区别</a></li>
+		
+		
+	
+			<li><a id="Singlecolumn2__37069029d9cd_RecentPostsList_ctl14_RecentPostsList2_ctl00_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2006/05/16/7240.html">34. 随机数的生成</a></li>
+		
+	
+</ul>
+</div>
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0)
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location = url;
+				return false;			
+			}
+			
+		}
+</script>
+<div id="cell">
+<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><H3>搜索</H3>
+<ul>
+	<li><input style="WIDTH: 130px" type="text" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById('q'),event,'http://www.cppblog.com/redapple/')">&nbsp;<input onclick="SearchGoogle(document.getElementById('q'),event,'http://www.cppblog.com/redapple/')" type="button" value="搜索" name="sa"></li></ul>
+</div>
+<div id=cell>
+<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><H3>积分与排名</H3>
+<ul>
+	<li>
+		积分 -
+		13420
+	<li>
+		排名 -
+		174
+	</li>
+</ul>
+</div>
+
+<div id="cell">
+<img src="/Skins/KJC/Images/icon-group.jpg" hspace=5 align=left vspace=2><h3>最新评论
+	<a id="Singlecolumn2__2ea337257312_RSSHyperlink1" href="http://www.cppblog.com/redapple/CommentsRSS.aspx"><img src="/images/xml.gif" style="border-width:0px;" /></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl01_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/14/66498.html#66930">1. re: 预编译宏的巧妙运用</a>
+			</li>
+			<li style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--dikatour</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl02_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/12/66498.html#66680">2. re: 预编译宏的巧妙运用</a>
+			</li>
+			<li style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--浪迹天涯</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl03_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/11/66498.html#66660">3. re: 预编译宏的巧妙运用</a>
+			</li>
+			<li style="word-break:break-all">
+				楼上的对的，今天刚在C in Nutshell里看了
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--RustingSword</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl04_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/11/66498.html#66573">4. re: 预编译宏的巧妙运用[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				##是连接符，如X=i, Y=nt，则结果为int
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--jacky_zz</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl05_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/11/10/66498.html#66506">5. re: 预编译宏的巧妙运用</a>
+			</li>
+			<li style="word-break:break-all">
+				把宏参数当作字符串进行链接？？动手做几个试验吧。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--万连文</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl06_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/15/61101.html#61900">6. re: 有关病毒的工作原理，感兴趣的一起来讨论一下</a>
+			</li>
+			<li style="word-break:break-all">
+				支持一下，我对这个也很感兴趣！
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Leon916</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl07_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/08/61101.html#61300">7. re: 有关病毒的工作原理，感兴趣的一起来讨论一下[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				看看rootkit相关资料吧，现在高级一点的木马都用这方面的技术实现的。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--hdqqq</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl08_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/08/61101.html#61287">8. re: 有关病毒的工作原理，感兴趣的一起来讨论一下</a>
+			</li>
+			<li style="word-break:break-all">
+				@过客<br>那高级点的病毒使用什么技术呢?
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--菠萝</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl09_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/07/61101.html#61214">9. re: 有关病毒的工作原理，感兴趣的一起来讨论一下</a>
+			</li>
+			<li style="word-break:break-all">
+				推荐 Process Explorer 这个软件
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Cppblog</li>
+		
+			<li style="word-break:break-all">
+				<a id="Singlecolumn2__2ea337257312_CommentList_ctl10_Hyperlink1" href="http://www.cppblog.com/redapple/archive/2008/09/07/61101.html#61209">10. re: 有关病毒的工作原理，感兴趣的一起来讨论一下[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				RootKit
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--DraculaW</li>
+		
+			</ul>
+		
+</div>
+</div>
+
+</div>
+
+    
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+<!--
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+// -->
+</script>
+        
+<script type="text/javascript">
+//<![CDATA[
+
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/script/ShowHidden.js"></script>    
+	<span style="display:none"><script language="javascript" src="http://count45.51yes.com/click.aspx?id=456984812&logo=1"></script></span>
+</body>
+</html>

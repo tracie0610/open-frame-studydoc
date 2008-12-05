@@ -1,0 +1,788 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<meta name="keywords" content="dosbbs,dosuni,中国,DOS,论坛,联盟,中國,聯盟,論壇,Autoit,Wengier" />
+<meta name="generator" content="dosbbs,dosuni,中国,DOS,论坛,联盟,中國,聯盟,論壇,Autoit,Wengier" />
+<meta name="description" content="中国DOS联盟论坛 - 中国DOS联盟" />
+<meta name="MSSmartTagsPreventParsing" content="TRUE" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php">
+
+<title>[讨论]使用脚本设置全局环境变量 - DOS批处理 & 脚本技术（批处理室） - 中国DOS联盟论坛 - 中国DOS联盟之联合DOS论坛</title>
+<style type="text/css">
+a:link,a:visited	{ text-decoration: none; color: #003366 }
+a:hover			{ text-decoration: underline }
+body			{ scrollbar-base-color: #F8F9FC; scrollbar-arrow-color: #DDE3EC; font-size: 12px; background-color: #E9EDF7 }
+table			{ font-family: Tahoma, Verdana; color: #000000; font-size: 12px }
+textarea,input,object	{ font-family: Tahoma, Verdana; font-size: 12px;  color: #000000; font-weight: normal; background-color: #F8F9FC }
+select			{ font-family: Tahoma; font-size: 11px;  color: #000000; font-weight: normal; background-color: #F8F9FC }
+.nav			{ font-family: Tahoma, Verdana; font-size: 12px; font-weight: bold }
+.header			{ font-family: Tahoma, Verdana; font-size: 12px; color: #FFFFFF; font-weight: bold; background-image: url("images/default/headerbg.gif") }
+.category		{ font-family: Tahoma; font-size: 12px; color: #000000; background-image: url("images/default/catbg.gif") }
+.multi			{ font-family: Tahoma; font-size: 11px; color: #003366; }
+.smalltxt		{ font-family: Tahoma; font-size: 11px }
+.mediumtxt		{ font-family: Tahoma, Verdana; font-size: 12px; color: #000000 }
+.bold			{ font-weight: bold }
+blockquote { margin-left:20px;  margin-right:20px; border:#DDE3EC  dashed  1px; padding:5px; background-color:#FFFFFF}
+.code { margin-left:20px;  margin-right:20px; padding:5px; background-color:#FFFFFF}
+</style><script type="text/javascript" src="include/common.js"></script>
+</head>
+<body leftmargin="0" rightmargin="0" topmargin="0"> 
+
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0"> 
+<tr> 
+    <td>
+
+<table width="100%" border="1" bordercolor="#879EBC" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" style="border-collapse: collapse">
+        <tr>
+          <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr> 
+                
+            <td nowrap><a href="index.php?sid=LWz40y"><img src="images/default/logo.gif" alt="" border="0"></a></td>
+                <td width="100%" align="center" background="images/default/topbg_right.gif">
+<h4><font size=6 color="#110000">中国DOS联盟</font><br><MARQUEE behavior=alternate height=18 scrollDelay=100 style="HEIGHT: 18px; WIDTH: 60%;" border="0"><font color="000080">-- 联合DOS 推动DOS 发展DOS --</font></MARQUEE><p><font size=3 color="#110000">联盟域名：<a href ="http://www.cn-dos.net/">www.cn-dos.net</a>&nbsp;&nbsp;论坛域名：<a href ="http://bbs.cn-dos.net/">bbs.cn-dos.net</a></font><p><font color="555500" style="font-size:14px;">DOS，代表着自由开放与发展，我们努力起来，学习FreeDOS和Linux的自由开放与GNU精神，共同创造和发展美好的自由与GNU GPL世界吧！</font>
+<p>
+<!--b>
+公告：DOS联盟论坛域名现已恢复，详细情况请见论坛站务公告区。
+</b-->
+</td>
+              </tr>
+            </table>
+<table width="100%" height="28" border="0" cellpadding="4" cellspacing="0">
+<tr> 
+            <td align="right" background="images/default/topbg.gif"><span class="bold">&raquo;</span>
+<span class="bold">游客: &nbsp;</span><a href="register.php?sid=LWz40y">注册</a> | <a href="logging.php?action=login&sid=LWz40y">登录</a>
+| <a href="cmdprmt.php?sid=LWz40y">命令行</a>
+| <a href="member.php?action=list&sid=LWz40y">会员</a>
+| <a href="search.php?sid=LWz40y"><b>搜索</b></a> 
+              | <a href="http://rtngslin.moe.hm/cndos-up/upload.php"><b>上传</b></a>
+ | <a href="faq.php?sid=LWz40y">帮助</a>
+              </td>
+</tr>
+
+</table><br>
+
+<table cellspacing="0" cellpadding="0" border="0" width="99%" align="center" style="table-layout: fixed"> 
+<tr><td class="nav" width="90%" align="left" nowrap>&nbsp;<a href="index.php?sid=LWz40y">中国DOS联盟论坛</a> &raquo; <a href="forumdisplay.php?fid=23&page=&sid=LWz40y"> DOS批处理 & 脚本技术（批处理室）</a> &raquo; [讨论]使用脚本设置全局环境变量</td>
+<td align="right" width="10%">&nbsp;<a href="#bottom"><img src="images/default/arrow_dw.gif" border="0" align="absmiddle"></a></td>
+</tr></table><br>
+<form name="delpost" method="post" action="topicadmin.php?action=delpost&fid=23&tid=29114&page=1">
+<input type="hidden" name="sid" value="LWz40y">
+<input type="hidden" name="formhash" value="9bf30b0b">
+<input type="hidden" name="fpage" value="0">
+<table width="99%" cellspacing="0" cellpadding="0" align="center">
+<tr><td class="multi"></td><td align="right">
+</td></tr></table>
+
+<table cellspacing="0" cellpadding="0" border="0" width="99%" align="center">
+<tr><td bgcolor="#DDE3EC">
+
+<table border="0" cellspacing="1" cellpadding="4" width="100%">
+<tr class="header"><td width="21%">作者:</td>
+
+<td><table cellspacing="0" cellpadding="0" border="0" width="100%"  style="table-layout: fixed; word-wrap: break-word">
+<tr style="color: #FFFFFF"><td class="bold">标题: [讨论]使用脚本设置全局环境变量</td>
+<td align="right" width="200" nowrap>
+<a href="redirect.php?fid=23&tid=29114&goto=nextoldset&sid=LWz40y" style="color: #FFFFFF;font-weight: normal">上一主题</a> | 
+<a href="redirect.php?fid=23&tid=29114&goto=nextnewset&sid=LWz40y" style="color: #FFFFFF;font-weight: normal">下一主题</a></td>
+</tr></table></td>
+
+</tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#F8F9FC">
+<td width="21%" valign="top"><a name="pid187670"></a>
+<span class="bold">willsort</span><br><span class="smalltxt">
+<b><font color=red><font color="FC7908">荣誉版主</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br>Batchinger<br><br>
+<table width="95%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+<tr><td align="center"><img src="customavatars/19.gif" width="62" height="58" border="0"></td></tr></table><br>
+积分 4329<br>
+发帖 1515<br>
+注册 2002-10-18<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt"><font color=red>『楼 主』:</font>
+</span><span class="bold">&nbsp;[讨论]使用脚本设置全局环境变量</span><br><br>
+使用脚本设置全局环境变量<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;最近发现有不少人在讨论使用脚本如何设置系统全局长期有效的环境变量的问题，正巧最近也用到了这方面的内容，所以将大家的讨论内容做了一些收集整理，遂成此文。<br />
+<br />
+1、内部工具：regedit /s、echo &gt;&gt; &amp; regedit /s、reg add<br />
+2、外部工具：setx、setntenvar、winset<br />
+3、其他脚本：vbs<br />
+4、自动批处理：autoexec.bat、autoexec.nt<br />
+<br />
+===============================================<br />
+<br />
+1、内部工具：regedit /s、echo &gt;&gt; &amp; regedit /s、reg add<br />
+<br />
+1.1 regedit /s - Windows自带工具<br />
+<br />
+优点：在所有Windows系统下均可使用，可同时操作其他注册表项<br />
+缺点：不可动态定义变量，需要重启才能生效，需读取额外的注册表文件<br />
+<br />
+:: dsc.reg 已经存在并可用<br />
+REGEDIT /S DSC.REG<br />
+<br />
+1.2 echo &gt;&gt; &amp; regedit /s - Windows自带命令和工具<br />
+<br />
+优点：可动态定义变量，在所有Windows系统下均可使用，可同时操作其他注册表项<br />
+缺点：需要重启才能生效，需读写额外的注册表文件<br />
+<br />
+:: dsc.reg 已经存在并可用，修改环境变量Driver为cd变量转化值<br />
+ECHO &quot;Driver&quot;=&quot;%cd:\=\\%\\sqora32.dll&quot;&gt;&gt;DSC.REG<br />
+REGEDIT /S DSC.REG<br />
+<br />
+1.3 reg add - Windows 2K/XP/03自带工具<br />
+<br />
+优点：可动态定义变量<br />
+缺点：需要重启才能生效，缺省不能在9X下使用<br />
+<br />
+SET ENV_POOL=HKLM\SYSTEM\ControlSet001\Control\Session Manager\Environment<br />
+REG ADD &quot;%ENV_POOL%&quot; /V PATH /T REG_SZ /D &quot;%cd%;%Path%&quot; /F &gt;nul<br />
+<br />
+2、外部工具：setx、setntenvar、winset<br />
+<br />
+2.1 setx - 来自 2K/XP/03 安装光盘的支持工具包<br />
+<br />
+ Version 1.0a (5/31/96)<br />
+ Gary Milne - Microsoft MCS<br />
+<br />
+优点：可动态定义变量，不需重启立即生效，可动态引用变量，可引用文本内容设置变量<br />
+缺点：只能在NTs下使用，不能删除变量而只能置为空值<br />
+<br />
+:: 设置当前用户全局变量<br />
+SETX MACHINE COMPAQ<br />
+:: 设置系统全局变量<br />
+SETX MACHINE &quot;COMPAQ COMPUTER&quot; -m<br />
+:: 静态引用其他环境变量（仅引用一次当前会话环境变量）<br />
+SETX MYPATH %PATH%<br />
+:: 动态引用其他环境变量（总是引用全局环境变量）<br />
+SETX MYPATH ~PATH~<br />
+:: 使用注册表值设置环境变量<br />
+SETX BUILD -k &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\CurrentBuildNumber&quot;<br />
+:: 使用文件中指定内容设置环境变量（不会立即生效）<br />
+SETX IPGATEWAY -f ipconfig.out -r 0,7 &quot;Gateway&quot;<br />
+<br />
+2.2 setntenvar - 来自无忧启动论坛（topic=4197） Lx1638（老九）<br />
+<br />
+SetNTEnVar V06.04<br />
+<br />
+优点：可动态定义变量，可定义光驱盘符为环境变量，不需重启立即生效<br />
+缺点：只能在NTs下使用<br />
+<br />
+:: 修改变量<br />
+SETNTENVAR PATH=%PATH_BAK%<br />
+:: 删除变量<br />
+SETNTENVAR BAK_PATH=<br />
+:: 定义光驱盘符为环境变量CDROM\CDROM0\CDROM1等<br />
+SETNTENVAR /FindCDROM<br />
+<br />
+2.3 winset - 来自9x安装盘支持工具包<br />
+<br />
+优点：可动态定义变量，不需重启立即生效<br />
+缺点：只能在9X下使用，在NTs下运行出错<br />
+<br />
+:: 修改变量<br />
+WINSET PATH=%PATH_BAK%<br />
+:: 删除变量<br />
+WINSET BAK_PATH=<br />
+<br />
+3、其他脚本：vbs<br />
+<br />
+3.1 vbs - 来自中国DOS联盟论坛(tid=27952) electronixtar<br />
+<br />
+set sysenv=CreateObject(&quot;WScript.Shell&quot;).Environment(&quot;system&quot;) '系统环境变量的数组对象<br />
+sysenv.Remove(&quot;ztest2&quot;)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '删除变量<br />
+sysenv(&quot;ztest3&quot;)=&quot;test value&quot;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '添加变量<br />
+<br />
+优点：可动态定义变量，不需重启立即生效<br />
+缺点：需要修改系统配置文件，仅对使用command创建的命令行有效<br />
+<br />
+4、自动批处理：autoexec.bat、autoexec.nt<br />
+<br />
+4.1 autoexec.bat - 来自系统盘根目录<br />
+<br />
+优点：可动态定义变量，可在DOS/Windows全系列系统下使用<br />
+缺点：需要重启才能生效，需要修改系统文件<br />
+<br />
+echo set path=d:\batch;%path%&gt;&gt; c:\autoexec.bat<br />
+<br />
+在2K/XP/03中是否解析autoexec.bat中的变量与以下注册表项相关<br />
+<br />
+User Key: [HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]<br />
+Value Name: ParseAutoexec<br />
+Data Type: REG_SZ (String Value)<br />
+Value Data: (0 = disabled, 1 = enabled)<br />
+<br />
+4.2 autoexec.nt - 来自2K/XP/03系统的%SystemRoot%\system32<br />
+<br />
+优点：可动态定义变量，不需重启立即生效<br />
+缺点：需要修改系统文件，仅对2K/XP/03中使用autoexec.nt文件的命令行有效<br />
+<br />
+echo set path=d:\batch;%path%&gt;&gt; %SystemRoot%\System32\autoexec.nt<br />
+<br />
+===============================================<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;总体而言，系统环境变量在NT系列的注册表下有两个地方：<br />
+<br />
+1、HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment<br />
+代表系统环境变量空间的注册表项<br />
+<br />
+2、HKEY_CURRENT_USER\Environment<br />
+代表当前用户环境变量空间的注册表项<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;这两个键支下的注册表值分别表示相应的环境变量，直接修改系统空间的变量需要重启才会再全局生效，在用户空间修改的只要注销就可以了。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;另外需要注意的是，使用以上方法设置的系统变量，都是无法在批处理或命令行运行的当前会话（窗口）中生效的，所以如果在设置变量后即刻去查询，是不会发生变化的。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;解决这个问题的最简单办法是设置系统级变量的同时，使用set设置会话级变量为相同的内容。另外，也可以使用reg query或regedit /e或者setx -k查询相应的注册表值。<br />
+<br />
+===============================================<br />
+<br />
+关于autoexec.nt文件的问题<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;配置文件是否生效与文件名无关，只有且只要它能被命令行程序正确引用时才生效。<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;引用配置文件的方法，新建快捷方式，在项目中填写command，按确定后生成程序信息文件（.pif）&quot;MS-DOS 方式&quot;，在“属性-&gt;程序-&gt;高级”中定义初始化文件<br />
+<br />
+&nbsp; &nbsp;&nbsp; &nbsp;但是因为command.com总是使用%SystemRoot%\_default.pif作为程序信息文件，而_default.pif定义了auotexec.nt和config.nt作为初始化配置文件，所以使用command.com打开命令行，总是能成功引用autoexec.nt中设置的环境变量。<br />
+<br />
+============================<br />
+<br />
+相关链接<br />
+<br />
+1、[环境变量] WinXP SP2支持工具包里提取的setx.exe<br />
+<a href="http://www.cn-dos.net/forum/viewthread.php?tid=28698" target="_blank">http://www.cn-dos.net/forum/viewthread.php?tid=28698</a><br />
+<br />
+2、[原]setx.vbs重启依然有效的系统环境变量 <br />
+<a href="http://www.cn-dos.net/forum/viewthread.php?tid=27952" target="_blank">http://www.cn-dos.net/forum/viewthread.php?tid=27952</a><br />
+<br />
+3、怎么写一个自动完成系统环境变量添加的脚本 <br />
+<a href="http://www.cn-dos.net/forum/viewthread.php?tid=24114" target="_blank">http://www.cn-dos.net/forum/viewthread.php?tid=24114</a><br />
+<br />
+4、如何用批处理修改系统path环境变量<br />
+<a href="http://www.cn-dos.net/forum/viewthread.php?tid=25057" target="_blank">http://www.cn-dos.net/forum/viewthread.php?tid=25057</a><br />
+<br />
+5、怎么用批处理设置XP系统的环境变量<br />
+<a href="http://www.cn-dos.net/forum/viewthread.php?tid=23409" target="_blank">http://www.cn-dos.net/forum/viewthread.php?tid=23409</a><br />
+<br />
+6、[讨论]MSDOS7.10启动过程中各因素的相互影响 <br />
+<a href="http://www.cn-dos.net/forum/viewthread.php?tid=17107" target="_blank">http://www.cn-dos.net/forum/viewthread.php?tid=17107</a><br />
+<br />
+16:56 2007-3-24<br />
+14:42 2007-4-1<br />
+<br />
+[<i> Last edited by willsort on 2007-4-2 at 06:04 AM </i>]        <br><br>
+<br></td></tr><tr>
+                  <td align="left" valign="bottom"><img src="images/common/sigline.gif"><br>
+                    ※ Batchinger 致 Bat Fans：请访问 <a href="http://www.cn-dos.net/forum/viewthread.php?tid=12388" target="_blank">[讨论]批处理编程的异类</a> ，欢迎交流与共享批处理编程心得！</td></tr></table>
+</td></tr>
+<tr bgcolor="#F8F9FC"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 05:49</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=19&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:willsort@163.com"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="pm.php?action=send&uid=19&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=19&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187670&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187670&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#FFFFFF">
+<td width="21%" valign="top"><a name="pid187673"></a>
+<span class="bold">ccwan</span><br><span class="smalltxt">
+<b><font color=red><font color="FFCC00">金牌会员</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<table width="95%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+<tr><td align="center"><img src="customavatars/63486.jpg" width="111" height="160" border="0"></td></tr></table><br>
+积分 2659<br>
+发帖 1109<br>
+注册 2006-9-23<br>来自 河北廊坊<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+2</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+沙发！<br />
+wil兄终于又发技术贴啦。呵呵        <br><br>
+<br></td></tr><tr>
+                  <td align="left" valign="bottom"><img src="images/common/sigline.gif"><br>
+                    三人行，必有吾师焉。<font color="White">&nbsp; &nbsp;学然后知不足，教然后知困，然后能自强也。</font></td></tr></table>
+</td></tr>
+<tr bgcolor="#FFFFFF"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 06:07</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=63486&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:ccwanlxg@21cn.com"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="pm.php?action=send&uid=63486&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=63486&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187673&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187673&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#F8F9FC">
+<td width="21%" valign="top"><a name="pid187680"></a>
+<span class="bold">huzixuan</span><br><span class="smalltxt">
+<b><font color=red><font color="1194EE">高级用户</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<table width="95%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+<tr><td align="center"><img src="images/avatars/20.gif" width="90" height="90" border="0"></td></tr></table><br>
+积分 541<br>
+发帖 220<br>
+注册 2006-10-31<br>来自 芜湖<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+3</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+&quot;全局环境变量&quot; 难道就是 一个变量在哪个 CMD 窗口 都可以使用???        <br><br>
+<br></td></tr><tr>
+                  <td align="left" valign="bottom"><img src="images/common/sigline.gif"><br>
+                    江湖远<br />
+碧空长<br />
+路茫茫<br />
+<br />
+&nbsp; &nbsp; 一个人漫无目的的奔跑,风,刺骨的冷....</td></tr></table>
+</td></tr>
+<tr bgcolor="#F8F9FC"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 06:28</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=69036&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="pm.php?action=send&uid=69036&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=69036&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187680&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187680&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#FFFFFF">
+<td width="21%" valign="top"><a name="pid187713"></a>
+<span class="bold">everest79</span><br><span class="smalltxt">
+<b><font color=red><font color="00DD66">银牌会员</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br>一叶枝头，万树皆春<br><br>
+<br><br>
+积分 2360<br>
+发帖 979<br>
+注册 2006-12-25<br>
+状态 <b>在线</b>
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+4</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+大胡子，我也写过一个<br />
+<a href="http://www.cn-dos.net/forum/viewthread.php?tid=28204&amp;fpage=1&amp;highlight=%2Beverest79" target="_blank">http://www.cn-dos.net/forum/view ... hlight=%2Beverest79</a>        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#FFFFFF"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 08:49</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=74552&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="pm.php?action=send&uid=74552&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=74552&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187713&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187713&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#F8F9FC">
+<td width="21%" valign="top"><a name="pid187715"></a>
+<span class="bold">bjsh</span><br><span class="smalltxt">
+<b><font color=red>版主</font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<br><br>
+积分 1553<br>
+发帖 624<br>
+注册 2007-1-2<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+5</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+先仰慕一下willsort再看贴子        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#F8F9FC"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 09:03</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=75212&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:tiankonghaikuo1000@163.com"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="pm.php?action=send&uid=75212&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=75212&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187715&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187715&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#FFFFFF">
+<td width="21%" valign="top"><a name="pid187717"></a>
+<span class="bold">bjsh</span><br><span class="smalltxt">
+<b><font color=red>版主</font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<br><br>
+积分 1553<br>
+发帖 624<br>
+注册 2007-1-2<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+6</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+我xp sp2 c:\autoexec.bat 内容是空的;<br />
+<br />
+似乎wmic用来设置全局变量方便些;<br />
+<br />
+因为这阵子刚好看这个        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#FFFFFF"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 09:08</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=75212&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:tiankonghaikuo1000@163.com"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="pm.php?action=send&uid=75212&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=75212&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187717&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187717&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#F8F9FC">
+<td width="21%" valign="top"><a name="pid187766"></a>
+<span class="bold">estar</span><br><span class="smalltxt">
+<b><font color=red><font color="008080">中级用户</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<br><br>
+积分 349<br>
+发帖 104<br>
+注册 2004-4-6<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+7</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+Willsort的帖子，来晚了，瞻仰～～        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#F8F9FC"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 12:04</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=21852&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:abc@abc.abc"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="pm.php?action=send&uid=21852&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=21852&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187766&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187766&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#FFFFFF">
+<td width="21%" valign="top"><a name="pid187769"></a>
+<span class="bold">20080610</span><br><span class="smalltxt">
+<b><font color=red><font color="808000">初级用户</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<br><br>
+积分 83<br>
+发帖 34<br>
+注册 2006-11-24<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+8</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+版主一出手就是实用的东西..        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#FFFFFF"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-2 12:32</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=71574&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="pm.php?action=send&uid=71574&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=71574&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187769&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187769&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#F8F9FC">
+<td width="21%" valign="top"><a name="pid187842"></a>
+<span class="bold">vkill</span><br><span class="smalltxt">
+<b><font color=red><font color="FFCC00">金牌会员</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<br><br>
+积分 4109<br>
+发帖 1745<br>
+注册 2006-1-20<br>来自 甘肃.临泽<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+9</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+wmic算不算?        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#F8F9FC"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-3 02:45</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=49241&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:he200377@yahoo.com.cn"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="http://www.vkill.net" target="_blank"><img src="images/default/site.gif" border="0" alt="访问主页"></a>&nbsp;
+<a href="pm.php?action=send&uid=49241&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=49241&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=187842&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=187842&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#FFFFFF">
+<td width="21%" valign="top"><a name="pid189711"></a>
+<span class="bold">namejm</span><br><span class="smalltxt">
+<b><font color=red><font color="FC7908">荣誉版主</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br>batch fan<br><br>
+<table width="95%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+<tr><td align="center"><img src="customavatars/51697.jpg" width="33" height="33" border="0"></td></tr></table><br>
+积分 5207<br>
+发帖 1741<br>
+注册 2006-3-10<br>来自 成都<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+10</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+　　飞刀，又见飞刀！willsort归隐多日，此番重出江湖，又给大家带来不少惊喜。先顶再说。        <br><br>
+<br></td></tr><tr>
+                  <td align="left" valign="bottom"><img src="images/common/sigline.gif"><br>
+                    <font color="blue">尺有所短，寸有所长，学好CMD没商量。</font><br />
+<font color="blue">考虑问题复杂化，解决问题简洁化。</font></td></tr></table>
+</td></tr>
+<tr bgcolor="#FFFFFF"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-9 00:31</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=51697&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="pm.php?action=send&uid=51697&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=51697&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=189711&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=189711&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#F8F9FC">
+<td width="21%" valign="top"><a name="pid189740"></a>
+<span class="bold">lxmxn</span><br><span class="smalltxt">
+<b><font color=red>版主</font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<table width="95%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+<tr><td align="center"><img src="customavatars/59080.jpg" width="132" height="160" border="0"></td></tr></table><br>
+积分 11316<br>
+发帖 4912<br>
+注册 2006-7-23<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<span class="smalltxt">『第<font color=red><b>
+11</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+<font color="#660033"><b><br />
+我也来顶一下。<br />
+<br />
+不过我的XP sp2的Autoexec.bat无法运行，ParseAutoexec的REG_SZ的值也是1，不知道为什么执行不了Autoexec.bat，我的Autoexec.bat里面是有内容的。<br />
+</b></font>        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#F8F9FC"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2007-4-9 03:25</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=59080&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:lxmxn520@163.com"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="pm.php?action=send&uid=59080&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=59080&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=189740&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=189740&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+<tr><td bgColor="#F8F9FC" height="1" colSpan="2"></td></tr> 
+<tr bgcolor="#FFFFFF">
+<td width="21%" valign="top"><a name="pid254934"></a>
+<span class="bold">popfrog</span><br><span class="smalltxt">
+<b><font color=red><font color="808000">初级用户</font></font></b>
+<br>
+<img src="images/default/star.gif"><img src="images/default/star.gif"><br><br><br>
+<br><br>
+积分 20<br>
+发帖 7<br>
+注册 2008-1-22<br>
+状态 离线
+</span>
+</td>
+<td width="79%" height="100%" valign="top">
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; word-wrap: break-word">
+<tr><td valign="top">
+<a name="#lastpost"></a>
+<span class="smalltxt">『第<font color=red><b>
+12</b></font> 楼』:
+</span><span class="bold">&nbsp;</span><br><br>
+set sysenv=CreateObject(&quot;WScript.Shell&quot;).Environment(&quot;system&quot;) '系统环境变量的数组对象<br />
+sysenv.Remove(&quot;ztest2&quot;)&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;'删除变量<br />
+sysenv(&quot;ztest3&quot;)=&quot;test value&quot;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; '添加变量<br />
+<br />
+这个借用了。多谢        <br><br>
+</td></tr></table>
+</td></tr>
+<tr bgcolor="#FFFFFF"><td valign="middle" class="smalltxt">
+<img src="images/default/lastpost.gif" align="absmiddle"> 2008-1-25 12:31</td>
+  <td valign="middle">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr class="smalltxt"><td align="left">
+<a href="viewpro.php?uid=109289&sid=LWz40y"><img src="images/default/profile.gif" border="0" alt="查看资料"></a>&nbsp;
+<a href="mailto:popfrog@vip.sina.com"><img src="images/default/email.gif" border="0" alt="发送邮件"></a>&nbsp;
+<a href="pm.php?action=send&uid=109289&sid=LWz40y" target="_blank"><img src="images/default/pm.gif" border="0" alt="发短消息"></a>&nbsp;<a href="blog.php?uid=109289&sid=LWz40y"><img src="images/default/blog.gif" border="0" alt="网志"></a>&nbsp;
+</td><td align="right">
+&nbsp;<a href="post.php?action=edit&fid=23&tid=29114&pid=254934&page=1&sid=LWz40y"><img src="images/default/edit.gif" border="0" alt="编辑帖子"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&sid=LWz40y"><img src="images/default/replyb.gif" border="0" alt="回复"></a>
+&nbsp;<a href="post.php?action=reply&fid=23&tid=29114&repquote=254934&sid=LWz40y"><img src="images/default/quote.gif" border="0" alt="引用回复"></a>
+</td></tr></table>
+</td></tr>
+</table></td></tr></table>
+
+<table width="99%" cellspacing="0" cellpadding="0" align="center">
+<tr>
+<td class="multi" valign="top"></td><td align="right"><br>
+</td></tr></table></form>
+<center><font color=red>请注意：</font>您目前尚未注册或登录，请您<a href="register.php?sid=LWz40y"><b>注册</b></a>或<a href="logging.php?action=login&sid=LWz40y"><b>登录</b></a>以使用论坛的各项功能，例如发表和回复帖子等。</center><p>
+<br><table width="310" cellspacing="0" cellpadding="0" align="center">
+<td align="center" bgcolor="#DDE3EC" width="30%">
+<table border="0" cellspacing="1" width="100%">
+<tr><td bgcolor="#FFFFFF" align="center" class="smalltxt" nowrap>
+<a href="viewthread.php?fid=23&tid=29114&action=printable&sid=LWz40y" target="_blank">可打印版本</a> | 
+<a href="misc.php?action=emailfriend&tid=29114&sid=LWz40y">推荐给朋友</a> | 
+<a href="memcp.php?action=subscriptions&subadd=29114&sid=LWz40y">订阅主题</a> | 
+<a href="memcp.php?action=favorites&favadd=29114&sid=LWz40y">收藏主题</a>
+</td></tr></table></td></tr></table><br>
+
+<br><br><table width="99%" cellspacing="0" cellpadding="0" align="center">
+<tr class="mediumtxt"><td align="left" class="smalltxt">
+<span class="bold">论坛跳转:</span>
+<select onchange="if(this.options[this.selectedIndex].value != '') {
+window.location=('forumdisplay.php?fid='+this.options[this.selectedIndex].value+'&sid=LWz40y') }">
+<option value="">站务区</option><option value="1">&nbsp; &gt; 站务公告 & 版主讨论</option><option value="8">&nbsp; &gt; 意见反馈 & 网友交流</option><option value="">&nbsp;</option><option value="">DOS讨论区</option><option value="12">&nbsp; &gt; DOS学习入门 & 精彩文章 （教学室）</option><option value="9">&nbsp; &gt; DOS疑难解答 & 问题讨论 （解答室）</option><option value="11">&nbsp; &gt; DOS启动盘 & LOGO技术 （启动盘室）</option><option value="23">&nbsp; &gt; DOS批处理 & 脚本技术（批处理室）</option><option value="14">&nbsp; &gt; DOS媒体世界 & 网络技术 （多媒体室）</option><option value="17">&nbsp; &gt; DOS汉化世界 & 中文系统 （中文化室）</option><option value="6">&nbsp; &gt; DOS开发编程 & 发展交流 （开发室）</option><option value="4">&nbsp; &gt; DOS软件下载 & 游戏分享 （下载室）</option><option value="">&nbsp;</option><option value="">其它讨论区</option><option value="28">&nbsp; &gt; GRUB4DOS、SYSLINUX及其它启动管理软件讨论专区</option><option value="10">&nbsp; &gt; Windows系列、Unix/Linux及其它操作系统综合讨论区</option><option value="24">&nbsp; &gt; WinPE、PowerShell及其它命令行系统专区</option><option value="7">&nbsp; &gt; 贴图灌水、文学娱乐专区</option><option value="">&nbsp;</option><option value="">服务区</option><option value="22">&nbsp; &gt; 网络日志（Blog）</option><option value="27">&nbsp; &gt; 论坛回收站</option><option value="">&nbsp;</option></select>
+&nbsp;</td><td align="right" class="smalltxt">
+</td>
+</tr></table><br><br>
+<a name="#bottom"></a><center>
+  <span class="mediumtxt"> <br>
+  [ <a href="contact.php?sid=LWz40y" class="mediumtxt">联系我们</a> - <a href="http://www.cn-dos.net" class="mediumtxt" target="_blank">中国DOS联盟</a> 
+  ]</span><br><br>
+  <span style="color: #000000; font-size: 11px; font-family: Tahoma, Arial">
+<a href="http://www.dvbox.cn/" target="_blank" style="color: #000000">Autoit(DvBox)网络服务中心</a><br>Powered by <a href="http://www.Discuz.net" style="color: #000000" target="_blank">Discuz! 2.5</a>
+&copy; 2001-2005
+</span></center><br>
+</td>
+        </tr>
+      </table>
+   </td>
+    <td width="5" valign="top" background="images/default/right-bg.gif"><img src="images/default/right-1.gif" width="5" height="4"></td>
+  </tr>
+</table>
+
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr> 
+    <td background="images/default/foot-bg.gif"><img src="images/default/themecopyright.gif" width="234" height="21"></td>
+    <td width="5"><img src="images/default/foot-bg.gif" width="5" height="21"></td>
+  </tr>
+</table>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-386302-2";
+urchinTracker();
+</script>
+</body></html>
