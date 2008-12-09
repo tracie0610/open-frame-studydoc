@@ -1,0 +1,1594 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>PDF源文件浅析 - superleo - JavaEye技术网站</title>
+    <meta name="description" content="&nbsp;  应该项目需要，初步研究了一下  PDF    的格式，打算和大家分享一下，如果有想做  PDF    或  PDF    阅读器开发的同学们，可以看看。      &nbsp;      &nbsp;      PDF    格式规范，语法简洁。但初次查看  PDF    却容易给人错觉  &mdash;&mdash;PDF    的二进制流太多了，原本清晰的数据格式被杂乱无章的二 ..." />
+    <meta name="keywords" content="pdf源文件, 解析  PDF源文件浅析" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="superleo" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1228726266" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1200451876" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="http://www.javaeye.com/javascripts/editor/css/ui.css?1222156967" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/editor/compress.js?1225335142" type="text/javascript"></script>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="this.blur();$('more_site_nav').toggle();return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div id="more_site_nav" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <ul id="user_nav">
+      <li class="last"><a href="/logout" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a></li>
+    <li><a href="http://frankswu.javaeye.com/admin/profile">设置</a></li>
+    <li><a href="http://frankswu.javaeye.com/admin/mygroups">我的圈子</a></li>
+    <li><a href="http://frankswu.javaeye.com/admin">我的博客</a></li>
+    
+      <li><a href="http://frankswu.javaeye.com/admin/messages">收件箱 (0)</a></li>
+    
+    <li class='highlight'><span>欢迎 frankswu !</span></li>    
+    
+</ul>
+
+    </div>
+    
+    <div id="page" onclick="$('more_site_nav').hide();">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">superleo</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://superleo.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    <div class='digg' id='b283848'><h3><a href='#' onclick='digg_blog(283848);return false;' class='digg'>21顶</a><br/><a href='#' onclick='bury_blog(283848);return false;' class='bury'>3踩</a></h3></div>
+    <div id="pre_next">
+      
+      
+      <a href="/blog/278808" class="pre">垃圾收集器是一个“宝贝收藏家”？</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2008</span><span class='sep_year'>-</span><span class='month'>12</span><span class='sep_month'>-</span><span class='day'>01</span></div>
+    <h3 class='type_original' title='原创'><a href="/blog/283848">PDF源文件浅析</a></h3>
+        <strong>关键字: pdf源文件, 解析</strong>
+  </div>
+  
+  <div class="blog_content">
+    <p class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体;">应该项目需要，初步研究了一下</span>
+<span lang="EN-US"><span style="font-family: Times New Roman;">PDF</span>
+</span>
+<span style="font-family: 宋体;">的格式，打算和大家分享一下，如果有想做</span>
+<span lang="EN-US"><span style="font-family: Times New Roman;">PDF</span>
+</span>
+<span style="font-family: 宋体;">或</span>
+<span lang="EN-US"><span style="font-family: Times New Roman;">PDF</span>
+</span>
+<span style="font-family: 宋体;">阅读器开发的同学们，可以看看。</span>
+</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-family: Times New Roman; font-size: small;">&nbsp;</span>
+</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-family: Times New Roman; font-size: small;">&nbsp;</span>
+</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Times New Roman;">PDF</span>
+</span>
+<span style="font-family: 宋体;">格式规范，语法简洁。但初次查看</span>
+<span lang="EN-US"><span style="font-family: Times New Roman;">PDF</span>
+</span>
+<span style="font-family: 宋体;">却容易给人错觉</span>
+<span lang="EN-US"><span style="font-family: Times New Roman;">&mdash;&mdash;PDF</span>
+</span>
+<span style="font-family: 宋体;">的二进制流太多了，原本清晰的数据格式被杂乱无章的二进制流给淹没了。</span>
+</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-family: Times New Roman; font-size: small;">&nbsp;</span>
+</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体;"><span style="font-size: small;">例如：</span>
+</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</p>
+<pre name="code" class="java">stream
+5di?倯? 貓?匚{o绝幾Te:馎HG
+嵶?W}?妮雥??隱q?屸鷭鴊狳!赭€?鼜 ??烖K柽z煜?w? ??鴚¬D¬h?斜?醱釓?x?i佲匃???灗  Iu叁剪?
+…………………………
+</pre>
+<p>&nbsp;</p>
+<p><!--        [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--        [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+</p>
+<p><!--        [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">像这样一大堆乱码的东西很多，所以，心理上无法耐心的继续看下去。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">实际上</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">就是由四部分组成：</span>
+</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal" style="text-align: center;"><img src="/upload/picture/pic/26125/622ae78e-0818-3493-a363-3f9491022341.jpg" height="416" alt="" width="756" />
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><!--        [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--        [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<!--        [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">数据流的读写操作一般是从文件末尾开始的：</span>
+</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal" style="text-align: center;"><img src="/upload/picture/pic/26127/14291a5f-8813-3e4e-9f56-050bf4d265bf.jpg" height="652" alt="" width="452" />
+</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><!--        [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--        [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]--><!--        [if !mso]>
+<span class="mceItemObject" 
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui>
+</span>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<!--        [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal"><span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">所有的数据类型都是</span>
+<span lang="EN-US">obj</span>
+<span style="font-family: 宋体;">，强调的也是一切皆对象。我简要的把</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">常见的几种数据类型给大家说说：</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">注意&ldquo;</span>
+<span lang="EN-US">%</span>
+<span style="font-family: 宋体;">&rdquo;表示注释</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--        [if !supportLists]--><span lang="EN-US"><span>1.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span lang="EN-US">Boolean Objects</span>
+<span style="font-family: 宋体;">：只有</span>
+<span lang="EN-US">true</span>
+<span style="font-family: 宋体;">和</span>
+<span lang="EN-US">false</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--        [if !supportLists]--><span lang="EN-US"><span>2.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span lang="EN-US">Numeric Objects</span>
+<span style="font-family: 宋体;">：</span>
+</p>
+<p class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><span style="font-family: Wingdings;"><span>l<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span style="font-family: 宋体;">整型：</span>
+<span lang="EN-US">123</span>
+</p>
+<p class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><span style="font-family: Wingdings;"><span>l<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span style="font-family: 宋体;">浮点型</span>
+ <span lang="EN-US">-43.54</span>
+<span style="font-family: 宋体;">，</span>
+<span lang="EN-US">6.02E23</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">3.<span>&nbsp; </span>
+String
+Objects</span>
+<span style="font-family: 宋体;">：</span>
+</p>
+<p class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><span style="font-family: Wingdings;"><span>l<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span style="font-family: 宋体;">文字型，用圆括号括起来，如：</span>
+<span lang="EN-US">(Hello World)</span>
+</p>
+<p class="MsoNormal" style="margin-left: 42pt; text-indent: -21pt;"><!--        [if !supportLists]--><span style="font-family: Wingdings;"><span>l<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span style="font-family: 宋体;">十六进制型，用尖括号括起来，如：</span>
+<span lang="EN-US">&lt;901FA3&gt; </span>
+<span style="font-family: 宋体;">分别为</span>
+<span lang="EN-US">90</span>
+<span style="font-family: 宋体;">，</span>
+<span lang="EN-US">1F</span>
+<span style="font-family: 宋体;">，</span>
+<span lang="EN-US">A3</span>
+</p>
+<p class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><span lang="EN-US">4.<span>&nbsp; </span>
+Name Objects</span>
+<span style="font-family: 宋体;">：除</span>
+<span lang="EN-US">null</span>
+<span style="font-family: 宋体;">以外的任意</span>
+<span lang="EN-US">8</span>
+<span style="font-family: 宋体;">位字符组成的字符串，出现在</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">中，用&ldquo;</span>
+<span lang="EN-US">/</span>
+<span style="font-family: 宋体;">&rdquo;作前导符号，如：</span>
+<span lang="EN-US">/Name1</span>
+<span style="font-family: 宋体;">。其实这与编程中的常量很类似。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">5.<span>&nbsp; </span>
+Array
+Objects</span>
+<span style="font-family: 宋体;">：</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">中的数组用方括号&ldquo;</span>
+<span lang="EN-US">[]</span>
+<span style="font-family: 宋体;">&rdquo;括起来，里面的数据可以完全不相同，如：</span>
+<span lang="EN-US">[549 3.14 false
+(Ralph) /SomeName] </span>
+<span style="font-family: 宋体;">该数组里面分别装有</span>
+<span lang="EN-US">5</span>
+<span style="font-family: 宋体;">种不同的类型。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--        [if !supportLists]--><span lang="EN-US"><span>6.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span lang="EN-US">Dictionary Objects</span>
+<span style="font-family: 宋体;">：其实就类似于</span>
+<span lang="EN-US">Java</span>
+<span style="font-family: 宋体;">的</span>
+<span lang="EN-US">Map</span>
+<span style="font-family: 宋体;">对象&mdash;&mdash;即以</span>
+<span lang="EN-US">key</span>
+<span style="font-family: 宋体;">，</span>
+<span lang="EN-US">value</span>
+<span style="font-family: 宋体;">的形式成对出现。用的时候要用&ldquo;</span>
+<span style="font-size: 10pt; font-family: Arial;">&lt;&lt;&hellip;&gt;&gt;</span>
+<span style="font-family: 宋体;">&rdquo;把</span>
+<span lang="EN-US">key</span>
+<span style="font-family: 宋体;">，</span>
+<span lang="EN-US">value</span>
+<span style="font-family: 宋体;">括起来。例如：</span>
+<span style="font-size: 10pt; font-family: Arial;">&lt;&lt;/Name
+(leo) &gt;&gt;</span>
+<span style="font-size: 10pt; font-family: 宋体;">表示</span>
+<span style="font-size: 10pt; font-family: Arial;">key</span>
+<span style="font-size: 10pt; font-family: 宋体;">为&ldquo;</span>
+<span style="font-size: 10pt; font-family: Arial;">name</span>
+<span style="font-size: 10pt; font-family: 宋体;">&rdquo;的</span>
+<span lang="EN-US">Name
+Objects</span>
+<span style="font-family: 宋体;">，而</span>
+<span lang="EN-US">value</span>
+<span style="font-family: 宋体;">为&ldquo;</span>
+<span lang="EN-US">leo</span>
+<span style="font-family: 宋体;">&rdquo;字符串。</span>
+<span lang="EN-US">&lt;&lt;&gt;&gt;</span>
+<span style="font-family: 宋体;">内部也可以嵌套使用，在</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">源文件中应用的非常广泛。</span>
+</p>
+<p class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--        [if !supportLists]--><span lang="EN-US"><span>7.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--        [endif]--><span lang="EN-US">Stream Objects</span>
+<span style="font-family: 宋体;">：顾名思义，肯定有流有关。这就是</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">中专门用于存放二进行流的对象。</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">的实现者对</span>
+<span lang="EN-US">String Objects</span>
+<span style="font-family: 宋体;">通常会做限制，但是</span>
+<span lang="EN-US">Stream Objects</span>
+<span style="font-family: 宋体;">却没有这样的限制。因此</span>
+<span lang="EN-US">stream object</span>
+<span style="font-family: 宋体;">用在图片，页面描述信息上是非常的适合的。</span>
+<!--       [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal" align="left" style="margin-left: 19.5pt; text-align: left;"><span style="font-family: 宋体;">看看使用示例：</span>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre name="code" class="java">7 0 obj 		 			%某一个Image类型的对象
+&lt;&lt;
+/Type /XObject
+/Subtype /Image
+/Name /Im7
+/Width 189
+/Height 189
+/BitsPerComponent 8
+/ColorSpace [/Indexed /DeviceRGB 255 …&gt;]
+/Mask [255 255]
+/Length 3832
+/Filter /FlateDecode
+&gt;&gt;						%紧接着这个对象定义后的Dictionary Objects对象后面
+stream 					%定义它的Stream Objects
+%这里放二进制流
+endstream
+</pre>
+&nbsp;
+<p>&nbsp;</p>
+<p><!--       [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--       [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<!--       [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--       [if !supportLists]--><span lang="EN-US"><span>8.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--       [endif]--><span lang="EN-US">Null Object</span>
+<span style="font-family: 宋体;">：区别与其它任何对象，用关键字</span>
+<span lang="EN-US">null</span>
+<span style="font-family: 宋体;">标注的对象就是</span>
+<span lang="EN-US">null object</span>
+<span style="font-family: 宋体;">。</span>
+</p>
+<p class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;"><!--       [if !supportLists]--><span lang="EN-US"><span>9.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--       [endif]--><span lang="EN-US">Indirect Objects</span>
+<span style="font-family: 宋体;">：当然就是类似</span>
+<span lang="EN-US">Java</span>
+<span style="font-family: 宋体;">中的&ldquo;引用&rdquo;概念啦，举个例子就说明一切了。</span>
+</p>
+<p class="MsoNormal" style="margin-left: 19.5pt; text-indent: -19.5pt;">&nbsp;</p>
+<p>&nbsp;</p>
+<pre name="code" class="java">7 0 obj  				%有一个索引号为7 0的对象
+&lt;&lt; /Length 8 0 R &gt;&gt;  	% 在它的Length属性引用了一个索引号为8 0的对象
+　　　　　　　　　　　　　%在这里“8 0 R”表示对8 0的对象引用(Reference)
+stream
+………….
+endstream
+endobj
+
+
+8 0 obj				%被上面7 0对象所引用的那个索引号为8 0的对象
+77 					%7 0对象的二进制流的长度
+endobj
+
+</pre>
+&nbsp;
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;">注意：</span>
+&nbsp;
+<!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><span style="color: #ff0000;"><span style="font-size: 10.5pt; font-family: &quot;Times New Roman&quot;;">obj &hellip;&hellip; endobj PDF</span>
+<span style="font-size: 10.5pt; font-family: 宋体;">文档组成的最小</span>
+<span style="font-size: 10.5pt; font-family: &quot;Times New Roman&quot;;"><span>组成部分。表示一个完整对象的定义</span>
+</span>
+</span>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><!--      [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--      [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">够了，说了这么多，让我们实战吧。现在我们来看一个完整的示例，该示例可以在附件中下载。看的时候，可以按照下面的步骤一步一步来分析</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">源文件：</span>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<pre name="code" class="java">%PDF-1.3
+%
+2 0 obj                                 %2 0 obj，里面是一些PDF的基本信息。比如
+&lt;&lt;				
+/CreationDate (D:20081029093606+08'00')　　%创建时间
+/ModDate (D:20081029093606+08'00')		　 %最后修改时间		
+/Producer (leo 4.30 \(0615\))　　　　　　　　%创建人
+/Creator (easyPDF SDK 4.3)　　　　　　　　%制作人
+&gt;&gt;　　　　　　　　　　　　　　　　　　 %你还可以自由的编写任何信息
+endobj
+
+1 0 obj
+&lt;&lt;
+/Count 0
+&gt;&gt;
+endobj
+
+3 0 obj									%这是PDF的根结点(不是起始位置)
+&lt;&lt;
+/Type /Catalog
+/Pages 4 0 R								%这是所有页面的集合，我们主要关心这个
+/Outlines 1 0 R
+&gt;&gt;
+endobj
+
+7 0 obj
+&lt;&lt;
+/Type /XObject
+/Subtype /Image
+/Name /Im7
+/Width 189
+/Height 189
+/BitsPerComponent 8
+/ColorSpace [/Indexed /DeviceRGB 255 &lt;%这里放每个像素点的值&gt;]
+/Mask [255 255]
+/Length 3832
+/Filter /FlateDecode
+&gt;&gt;
+stream
+%这里放的全是图片的二进制流……..
+endstream
+endobj
+
+8 0 obj
+&lt;&lt;
+/Length 51
+/Filter /FlateDecode
+&gt;&gt;
+stream
+%这里放的全是图片的二进制流……..
+endstream
+endobj
+
+6 0 obj									%重点分析一下这个
+&lt;&lt;
+/Type /Page
+/Parent 4 0 R
+/MediaBox [ 0 0 595.276 841.89 ]
+/Resources &lt;&lt;
+/XObject &lt;&lt;
+/Im7 7 0 R
+&gt;&gt;
+/ProcSet [/PDF /Text /ImageB /ImageC] &gt;&gt;
+/Contents 8 0 R
+&gt;&gt;
+endobj
+
+4 0 obj
+&lt;&lt;
+/Type /Pages
+/Kids [
+6 0 R							%继续查找6 0 obj来看看具体的页面情况
+]
+/Count 1
+&gt;&gt;
+endobj
+
+xref						%索引，f表示该地址未被使用，n表示已经被占用。
+0 9								%索引的顺序与对象在文中出现的序号是一致的，比如
+0000000000 65535 f               %默认占位符，不使用。
+0000000177 00000 n 　　　　　　　%表示0 1 obj的偏移地址
+0000000015 00000 n 　　　　　　　%表示0 2 obj的偏移地地 下面的以些类推
+0000000208 00000 n 
+0000006159 00000 n 
+0000000000 00000 n 　　　　　　　%表示0 5 obj的偏移为0，可能被删除操作给干掉了。
+0000005981 00000 n 
+0000000274 00000 n 
+0000005858 00000 n 
+trailer
+&lt;&lt;
+/Size 9
+/Root 3 0 R						%这个属性信息最重要，我们可以直接找到根结点
+/Info 2 0 R
+/ID[&lt;112cbcc8320742d1cbe148d4ec0d7dba&gt;&lt;112cbcc8320742d1cbe148d4ec0d7dba&gt;]
+&gt;&gt;
+startxref							%PDF文件解析的起点
+6219
+%%EOF
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><!--      [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--      [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+</p>
+<p><!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span style="font-family: 宋体; color: red;">第一步：</span>
+<span style="font-family: 宋体;">首先是先看文件末尾，找到它的&ldquo;</span>
+<span lang="EN-US">xref</span>
+<span style="font-family: 宋体;">&rdquo;和&ldquo;</span>
+<span lang="EN-US">trailer</span>
+<span style="font-family: 宋体;">&rdquo;部分。</span>
+<span lang="EN-US">Xref</span>
+<span style="font-family: 宋体;">表示对象索引，其实就是对象在文件中的偏移地址<span style="color: #ff6600;">（</span>
+</span>
+<span style="color: #ff6600;">PDF</span>
+<span style="font-family: 宋体; color: #ff6600;">源文件中是以</span>
+<span style="color: #ff6600;">10</span>
+<span style="font-family: 宋体; color: #ff6600;">进制表示的，你转换成</span>
+<span style="color: #ff6600;">16</span>
+<span style="font-family: 宋体; color: #ff6600;">进制后，用</span>
+<span style="color: #ff6600;">UE</span>
+<span style="font-family: 宋体; color: #ff6600;">或者其它工具查看即可）</span>
+<span style="font-family: 宋体;">。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">Trailer</span>
+<span style="font-family: 宋体;">虽然从字面上看是&ldquo;尾部&rdquo;的意思，但是解析却从它开始。&ldquo;</span>
+<span lang="EN-US">startxref</span>
+<span style="font-family: 宋体;">&rdquo;表示文件的入口地址，像</span>
+<span lang="EN-US">java</span>
+<span style="font-family: 宋体;">的</span>
+<span lang="EN-US">main()</span>
+<span style="font-family: 宋体;">方法。后面紧跟着一个</span>
+<span lang="EN-US">10</span>
+<span style="font-family: 宋体;">进制的数字，指向的是索引&ldquo;</span>
+<span lang="EN-US">xref</span>
+<span style="font-family: 宋体;">&rdquo;的位置。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">Trailer</span>
+<span style="font-family: 宋体;">里面的值分别表示：</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><span lang="EN-US"><span>1.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span lang="EN-US">Size 9</span>
+<span style="font-family: 宋体;">：表示</span>
+<span lang="EN-US">9</span>
+<span style="font-family: 宋体;">个索引值</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><span lang="EN-US"><span>2.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span lang="EN-US">Root 3 0 R</span>
+<span style="font-family: 宋体;">：根结点是</span>
+<span lang="EN-US">3 0 obj</span>
+<span style="font-family: 宋体;">的引用</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><span lang="EN-US"><span>3.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span lang="EN-US">Info 2 0 R</span>
+<span style="font-family: 宋体;">：相关信息是</span>
+<span lang="EN-US">2 0 obj</span>
+<span style="font-family: 宋体;">的引用</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><span lang="EN-US"><span>4.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span lang="EN-US">ID</span>
+<span style="font-family: 宋体;">：类似于</span>
+<span lang="EN-US">Java</span>
+<span style="font-family: 宋体;">的</span>
+<span lang="EN-US">Serializable</span>
+<span style="font-family: 宋体;">机制，给本</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">文件生成一个独一无二的标识</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;">&nbsp;</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体; color: red;">第二步：</span>
+<span style="font-family: 宋体;">按照</span>
+<span lang="EN-US">Root 3 0 R</span>
+<span style="font-family: 宋体;">，我们向上查找，找到了我们要找的</span>
+<span lang="EN-US">Root</span>
+<span style="font-family: 宋体;">对象，里面的信息从字面上很容易理解：</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><span lang="EN-US"><span>1.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span lang="EN-US">/Type /Catalog</span>
+<span style="font-family: 宋体;">：表示该对象的类型是目录</span>
+</p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><span lang="EN-US"><span>2.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span lang="EN-US">/Pages 4 0 R</span>
+<span style="font-family: 宋体;">：表示所有的</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">页面在一个叫</span>
+<span lang="EN-US">4 0 R</span>
+<span style="font-family: 宋体;">的对象上</span>
+ </p>
+<p class="MsoNormal" style="margin-left: 18pt; text-indent: -18pt;"><!--      [if !supportLists]--><span lang="EN-US"><span>3.<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span lang="EN-US">/Outlines 1 0 R</span>
+<span style="font-family: 宋体;">：</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">文件的大纲，也就是左侧展示的东西。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">继续查找</span>
+<span lang="EN-US">4 0 obj</span>
+<span style="font-family: 宋体;">，果然与预期所想的一样，的确是所有页面的集合，并且还有一个附加属性</span>
+<span lang="EN-US">Count</span>
+<span style="font-family: 宋体;">统计页面对象的个数：</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">/Type /Pages</span>
+<span style="font-family: 宋体;">：表示该对象的类型是所有页面的集合</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">/Kids [&hellip;]</span>
+<span style="font-family: 宋体;">：这是一个数组，里面装的是每个页面的具体引用。因为这个</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">就一页，所有只有一个&ldquo;</span>
+<span lang="EN-US">6 0
+R</span>
+<span style="font-family: 宋体;">&rdquo;。下一步，就从这里入手。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">/Count 1</span>
+<span style="font-family: 宋体;">：页的总数大小，因为这个</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">就一页，所以值为</span>
+<span lang="EN-US">1</span>
+<span style="font-family: 宋体;">。编程时可能会用到。</span>
+</p>
+<p class="MsoNormal">&nbsp;</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体; color: red;">第三步：</span>
+<span style="font-family: 宋体;">来重点分析一下页对象</span>
+</p>
+<p class="MsoNormal">&nbsp;</p>
+<p>&nbsp;</p>
+<pre name="code" class="java">6 0 obj              	%索引编号为6的对象，0表示该对象的修改次数
+&lt;&lt;                 	% &lt;&lt; 表示是这一个map，里面的所有数据都以key，value形式出现
+/Type /Page  			%其类型为Page，表示PDF的每一页
+/Parent 4 0 R			%其父结点为4 0对象（R表示引用，对象之间是可以双向引用的）
+/MediaBox [ 0 0 595.276 841.89 ]	%当前页画布为MediaBox样式，后面的表示左上角与右下角坐标，这样就形成了一个矩形。
+/Resources &lt;&lt;			% Resources 又为一个map的嵌套
+/XObject &lt;&lt;			% XObject 也是一个map的嵌套
+/Im7 7 0 R		% 在Xobject中定义了一个叫Im7的名称，引用了叫Im7的7 0对象（在我的PDF中，这是一个图片对象）
+&gt;&gt;					
+/ProcSet [/PDF /Text /ImageB /ImageC] &gt;&gt; % 打印时的参数设置
+/Contents 8 0 R        % 这里是实际页面上的内容信息，引用的是8 0对象
+&gt;&gt;
+endobj				% 对象定义结束
+
+</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="MsoNormal"><!--      [if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--      [if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+</p>
+<p class="MsoNormal"><!--      [if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">对于我们来说，以下是项目开发的重点。因为要实现</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">文件盖章的添加或删除功能，必须进行流操作，并且图片在</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">文件的位置也要写入。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--      [if !supportLists]--><span style="font-family: Wingdings; color: red;"><span>l<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span style="color: red;">/XObject&lt;&lt;&gt;&gt;</span>
+<span style="font-family: 宋体; color: red;">：</span>
+<span style="font-family: 宋体;">里面持有图片等二进制的引用。通过上述的方法，当你再查看</span>
+<span lang="EN-US">7 0 obj</span>
+<span style="font-family: 宋体;">时，就会看到大量的二进制文件了。</span>
+
+</p>
+<p class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--      [if !supportLists]--><span style="font-family: Wingdings;"><span>l<span style="font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>
+</span>
+</span>
+<!--      [endif]--><span style="color: red;">/Contents</span>
+<span style="font-family: 宋体; color: red;">：</span>
+<span style="font-family: 宋体;">是文件的内容信息。比如说，页面上的文本，图片的坐标位置等。</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal"><span style="font-family: 宋体;">通过这个完整的流程，你应该明白</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">的格式其实就是一个层次分明的树形结构。不过，想完全了解</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">的格式，进行相关的操作。你还得参看</span>
+<span lang="EN-US">PDF</span>
+<span style="font-family: 宋体;">规范文档。</span>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+  </div>
+  
+  
+  <div class="attachments">
+    
+        
+          <ul>
+            <li><a href="/topics/download/2a6c03d3-101d-3a2d-b2cf-9bd56066260e">test.rar</a> (5.2 KB)</li>
+            
+            <li>下载次数: 90</li>
+          </ul>
+        
+      
+    </div>
+  
+                
+  <div class="blog_bottom">
+    <ul>
+      <li>13:14</li>
+      <li>浏览 (2493)</li>
+            <li><a href="#comments">评论</a> (15)</li>
+      <li>分类: <a href="/category/22381">行业信息</a></li>
+      
+      <li><a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=PDF%E6%BA%90%E6%96%87%E4%BB%B6%E6%B5%85%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fsuperleo.javaeye.com%2Fblog%2F283848' target='_blank' class='favorite'>收藏</a></li>
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/283848" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+  
+  
+  
+                
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc777929">
+  <div class="comment_title">
+    <a href='http://elf8848.javaeye.com' target='_blank'>elf8848</a>
+    前天&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">引用</div><div class="quote_div"><img src="/images/smiles/icon_idea.gif"/> </div></div>
+</div>
+<div id="bc774943">
+  <div class="comment_title">
+    <a href='http://john2007.javaeye.com' target='_blank'>john2007</a>
+    2008-12-04&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">以前研究过一段时间。<br />有开源的java库，可以把pdf源文件的所有object解析为java object，很爽的。</div>
+</div>
+<div id="bc774230">
+  <div class="comment_title">
+    <a href='http://hanjs.javaeye.com' target='_blank'>hanjs</a>
+    2008-12-04&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">lz写的这些都是java代码？？<br /><br /></div>
+</div>
+<div id="bc772580">
+  <div class="comment_title">
+    <a href='http://site.javaeye.com' target='_blank'>sheandwei</a>
+    2008-12-03&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">不错<br />还真没去研究过</div>
+</div>
+<div id="bc771024">
+  <div class="comment_title">
+    <a href='http://harsh.javaeye.com' target='_blank'>harsh</a>
+    2008-12-02&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">哇塞，太好了，偶也在研究pdf呢</div>
+</div>
+<div id="bc771009">
+  <div class="comment_title">
+    <a href='http://cyfgod.javaeye.com' target='_blank'>cyfgod</a>
+    2008-12-02&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">分析的不错，不过对一般应用来说，不用研究这么底层，用itext就足够了。</div>
+</div>
+<div id="bc769771">
+  <div class="comment_title">
+    <a href='http://kakaluyi.javaeye.com' target='_blank'>kakaluyi</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">eyejava 写道</div><div class="quote_div"><br />kakaluyi 写道<br />kyo100900 ,关注你挺久的了，感觉你是那种一步一个脚印做事的人，身为高手但是为人谦虚 加油，日后必成大器啊ps:我对你封面上的美女挺感兴趣的 请使用留言簿发表你的敬仰好像以前有个敬仰表情的，咋没了，Quake同学确认下<br /></div><br />这是私人博客啊，敬仰一个人也有错了&nbsp;<img src="/images/smiles/icon_sad.gif"/> ,这个我就不服了，就当是两个个朋友聊聊嘛，<br /></div>
+</div>
+<div id="bc769659">
+  <div class="comment_title">
+    <a href='http://eyejava.javaeye.com' target='_blank'>eyejava</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">kakaluyi 写道</div><div class="quote_div"><br />kyo100900 ,关注你挺久的了，感觉你是那种一步一个脚印做事的人，<br />身为高手但是为人谦虚 加油，日后必成大器啊<br />ps:我对你封面上的美女挺感兴趣的 <br /><br /></div><br />请使用留言簿发表你的敬仰<br />好像以前有个敬仰表情的，咋没了，Quake同学确认下</div>
+</div>
+<div id="bc769358">
+  <div class="comment_title">
+    <a href='http://kakaluyi.javaeye.com' target='_blank'>kakaluyi</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">kyo100900 ,关注你挺久的了，感觉你是那种一步一个脚印做事的人，<br />身为高手但是为人谦虚 加油，日后必成大器啊<br />ps:我对你封面上的美女挺感兴趣的<img src="/images/smiles/icon_cool.gif"/> <br /></div>
+</div>
+<div id="bc769273">
+  <div class="comment_title">
+    <a href='http://superleo.javaeye.com' target='_blank'>kyo100900</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">Quake Wang 写道</div><div class="quote_div"><br />kyo100900 写道<br />我们实际上想做的是一个类似于Adobe Reader的PDF阅读器。用户只能通过我们的阅读器才能实现盖章的添加，删除，虚化等功能。当别的PDF阅读器打开时，只能是只读的。我之前遇到类似的需求（公文电子签名），如果你采用开放规范的PDF来实现，是很难达到高安全性的要求，正是由于PDF格式是公开的，导致破解签名比较容易，我们是对PDF格式作了改动和加密，不过这样的文件就不能在其他阅读器打开了。<br /></div><br /><br />嗯，方法和你类似<img src="/images/smiles/icon_lol.gif"/> ，　并且要想使用我们的PDF阅读器，还得用USE KEY。</div>
+</div>
+<div id="bc769038">
+  <div class="comment_title">
+    <a href='http://quake.javaeye.com' target='_blank'>Quake Wang</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">kyo100900 写道</div><div class="quote_div"><br />我们实际上想做的是一个类似于Adobe Reader的PDF阅读器。用户只能通过我们的阅读器才能实现盖章的添加，删除，虚化等功能。当别的PDF阅读器打开时，只能是只读的。<br /></div><br />我之前遇到类似的需求（公文电子签名），如果你采用开放规范的PDF来实现，是很难达到高安全性的要求，正是由于PDF格式是公开的，导致破解签名比较容易，我们是对PDF格式作了改动和加密，不过这样的文件就不能在其他阅读器打开了。</div>
+</div>
+<div id="bc769035">
+  <div class="comment_title">
+    <a href='http://chamborghini.javaeye.com' target='_blank'>chamborghini</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">用iText做pdf的加密， 好像不管怎么做都很容易被破解， 解决中。 <br /><br />g到这里，问下，有没有办法将pdf文件设置为不能被修改的？(很难被破解的那种， 目前的做法是将pdf文件设置为仅能被打印的，并建权限密码设置为随机数，但是这种做法很容易就被PDF Password Remover给破解了)</div>
+</div>
+<div id="bc768995">
+  <div class="comment_title">
+    <a href='http://superleo.javaeye.com' target='_blank'>kyo100900</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">iText主要还是一个应用类库。远远无法满足我们的需求。<br /><span style="color: red">我们实际上想做的是一个类似于Adobe Reader的PDF阅读器。用户只能通过我们的阅读器才能实现盖章的添加，删除，虚化等功能。</span>当别的PDF阅读器打开时，只能是只读的。</div>
+</div>
+<div id="bc768947">
+  <div class="comment_title">
+    <a href='http://c-mingze-163-com.javaeye.com' target='_blank'>c_mingze@163.com</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">看了一头雾水&nbsp; 好乱 果然是高手中的高手&nbsp; 个人感觉itext较好用</div>
+</div>
+<div id="bc768935">
+  <div class="comment_title">
+    <a href='http://quake.javaeye.com' target='_blank'>Quake Wang</a>
+    2008-12-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(this);return false;">回复</a>
+    
+  </div>
+  <div class="comment_content">PDF规范很麻烦，如果要通过2进制实现PDF文件盖章/添加/删除的功能要作不少工作，你可以试试看itext，它应该可以简化一些工作。</div>
+</div>
+
+    
+    
+  </div>
+  
+  <div class="blog_comment">
+    <h5>发表评论</h5>  
+          
+      <form action="/blog/283848" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <input type="hidden" id="editor_bbcode_flag"/>
+
+
+
+<div id="editor_main"><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+        <p style="text-align:right;padding-right:30px;"> <input class="submit" id="submit_button" name="commit" type="submit" value="提交" /></p>
+      </form>                  
+      <script type="text/javascript">
+          new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+                if(result) {
+                    new Ajax.Request('/blog/create_comment/283848', {
+                    onSuccess:function(response){
+                        Element.scrollTo($('comments'));
+                        $('comments').insert({after:response.responseText})
+                        $('editor_body').value = "";
+                        $('_form_spinner_').hide();
+                    }, parameters:Form.serialize(form)
+                });
+            }
+  
+      }});
+      </script> 
+      </div>
+</div>
+
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+fix_image_size($$('div.blog_content img'), 700);
+function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+}
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://superleo.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/16176/17ac240d-e4db-3a59-b0f9-374d3d94d2ef.jpg?1204721018" title="kyo100900的博客: superleo" /></a></div>
+            <div id="blog_owner_name">kyo100900</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 172339 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 北京</li>
+              <li><img src='/images/status/blog_show.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a> <a href="http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=kyo100900">发送短消息</a> <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://frolive.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="Frolive的博客: " /></a></span> <a href='http://frolive.javaeye.com' target='_blank'>Frolive</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://onepiece021.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="onepiece021的博客: onepiece021" /></a></span> <a href='http://onepiece021.javaeye.com' target='_blank'>onepiece021</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://order.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="order的博客: " /></a></span> <a href='http://order.javaeye.com' target='_blank'>order</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://suan2046.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="suan2046的博客: " /></a></span> <a href='http://suan2046.javaeye.com' target='_blank'>suan2046</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (67)</a></li>
+                
+                  <li><a href="/category/22379">Struts2 (18)</a></li>
+                
+                  <li><a href="/category/22574">spring2 (3)</a></li>
+                
+                  <li><a href="/category/24555">hibernate (5)</a></li>
+                
+                  <li><a href="/category/22380">Database (2)</a></li>
+                
+                  <li><a href="/category/22381">行业信息 (3)</a></li>
+                
+                  <li><a href="/category/23266">单元测试 (1)</a></li>
+                
+                  <li><a href="/category/26042">专家文章翻译 (35)</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="blog_album">
+                <h5>我的相册</h5>
+                <div class="picture_thumb" style="float: none">
+                  <div><span class='thumb_box'><a href='/album'><img alt="14291a5f-8813-3e4e-9f56-050bf4d265bf-thumb" src="http://www.javaeye.com/upload/picture/pic/26127/14291a5f-8813-3e4e-9f56-050bf4d265bf-thumb.jpg?1228106757" /></a></span></div>
+                  <span>pdf_02<br/> <a href="/album">共 36 张</a></span>
+                </div>
+              </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿</h5>
+                <ul>
+                  
+                    <li>
+                       你好阳光阿<br/>
+                      -- by <a href="/blog/guest_book#1236">eyejava</a>
+                    </li>
+                  
+                    <li>
+                       你给我站住<br/>
+                      -- by <a href="/blog/guest_book#790">20921556</a>
+                    </li>
+                  
+                    <li>
+                      kyo100900 写道 出来看上帝我也喜欢听“流年”其实我我喜欢林夕多一些 ...<br/>
+                      -- by <a href="/blog/guest_book#659">火星叔叔马丁</a>
+                    </li>
+                  
+                </ul>              
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (12)</li>
+                
+                  <li><a href="/blog/pdf">我的书籍</a> (1) </li>
+                                
+                                  <li><a href="/blog/news">我的新闻</a> (36) </li>
+                                <li><a href="/blog/forum">我的论坛帖子</a> (161)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                
+                  <li><a href="/blog/solution">我解决的问题</a> (14) </li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://mars.group.javaeye.com">火星常驻JE办事处</a></li>
+                
+                  <li><a href="http://ecside.group.javaeye.com">GT-Grid</a></li>
+                
+                  <li><a href="http://struts2.group.javaeye.com">struts2</a></li>
+                
+                  <li><a href="http://JSI.group.javaeye.com">JSI Side</a></li>
+                
+                  <li><a href="http://english.group.javaeye.com">英语学习</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://www.theserverside.com/" target="_blank">java最大交流社区</a></li>
+                  
+                    <li><a href="http://blog.sina.com.cn/pibeidelinghun" target="_blank">大静妹的世界</a></li>
+                  
+                    <li><a href="http://java.dzone.com/" target="_blank">Java空间</a></li>
+                  
+                    <li><a href="http://blog.springsource.com/main/author/rodj/" target="_blank">Rod Johnson</a></li>
+                  
+                    <li><a href="http://elminster.javaeye.com/" target="_blank">大法师</a></li>
+                  
+                    <li><a href="http://trustno1.javaeye.com/" target="_blank">trustno1</a></li>
+                  
+                    <li><a href="http://shenyu.javaeye.com/" target="_blank">数据结构与算法</a></li>
+                  
+                    <li><a href="http://qiezi.javaeye.com/blog/162689" target="_blank">qiezi</a></li>
+                  
+                    <li><a href="http://ajoo.javaeye.com/" target="_blank">ajoo</a></li>
+                  
+                    <li><a href="http://www.blogjava.net/yifeng/" target="_blank">老弟的blog</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2008-12">2008-12</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2008-11">2008-11</a> (3)</li>
+                  
+                    <li><a href="/blog/monthblog/2008-10">2008-10</a> (2)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/283848#comments" title="PDF源文件浅析">PDF源文件浅析</a><br/>
+                    引用 <br/>
+                    -- by <a href='http://elf8848.javaeye.com' target='_blank'>elf8848</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/154587#comments" title="Hibernate多对多删除问题的解决">Hibernate多对多删除问题 ...</a><br/>
+                    引用但如果是Spring+Hiberante下多对多删除，可能会报一个错误，目前 ...<br/>
+                    -- by <a href='http://minfirefox.javaeye.com' target='_blank'>minfirefox</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/214535#comments" title="【翻译】spring配置全书(下)——附PDF完整版下载">【翻译】spring配置全书( ...</a><br/>
+                    下了好东西还是应该顶下楼主的<br/>
+                    -- by <a href='http://lujiawu12.javaeye.com' target='_blank'>lujiawu12</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/227857#comments" title="自己动手写一个Struts2">自己动手写一个Struts2</a><br/>
+                    楼主是牛人啦。<br/>
+                    -- by <a href='http://daoyongyu.javaeye.com' target='_blank'>daoyongyu</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/212515#comments" title="【翻译】spring配置全书(上)">【翻译】spring配置全书( ...</a><br/>
+                    楼主辛苦了，谢谢，向楼主学习！<br/>
+                    -- by <a href='http://daoyongyu.javaeye.com' target='_blank'>daoyongyu</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/214535">【翻译】spring配置全书(下)——附PDF完 ...</a></li>
+                
+                  <li><a href="/blog/227857">自己动手写一个Struts2</a></li>
+                
+                  <li><a href="/blog/243322">hibernate延迟加载的原理与实现</a></li>
+                
+                  <li><a href="/blog/175656">JSF+AJAX企业级开发之路——来自Sun的高级 ...</a></li>
+                
+                  <li><a href="/blog/154587">Hibernate多对多删除问题的解决</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://superleo.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://superleo.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://superleo.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
