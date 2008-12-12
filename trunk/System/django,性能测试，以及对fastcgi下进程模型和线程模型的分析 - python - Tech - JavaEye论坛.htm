@@ -1,0 +1,1088 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>django,性能测试，以及对fastcgi下进程模型和线程模型的分析 - python - Tech - JavaEye论坛</title>
+    <meta name="description" content="/**  *作者：张荣华  *日期：2008-11-15  **/   之前网上有很多关于django的测试，他们的测试结果都表明django在fastcgi模式下，使用线程模型要比进程模型快，而且更稳定，具体文章见： http://irobot.blog.hexun.com/20332312_d.html http://taoyh163.blog.163.com/blog/static/1958 ..." />
+    <meta name="keywords" content=" python Tech" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Tech" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1229054016" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1219629801" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1213929026" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1214209033" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header" class="clearfix">
+        <ul id="user_nav">
+      <li class="last"><a href="/logout" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a></li>
+    <li><a href="http://frankswu.javaeye.com/admin/profile">设置</a></li>
+    <li><a href="http://frankswu.javaeye.com/admin/mygroups">我的圈子</a></li>
+    <li><a href="http://frankswu.javaeye.com/admin">我的博客</a></li>
+    
+      <li><a href="http://frankswu.javaeye.com/admin/messages">收件箱 (0)</a></li>
+    
+    <li class='highlight'><span>欢迎 frankswu !</span></li>    
+    
+</ul>
+        
+        <div id="branding">
+          <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1212054226" title="JavaEye-最棒的软件开发交流社区" /></a>
+        </div>  
+        <div id="ad">
+          <script type="text/javascript">
+            Event.observe(window,'load',function() {
+              $("ad").innerHTML = '<a href=\'/adverts/135\' target=\'_blank\'><img src="http://ftp.javaeye.com/public/alibaba/alibaba_job.gif" /></a>';
+            });
+          </script>
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Tech">综合技术版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/python">python</a> <span class="arrow">&rarr;</span>
+    <h1>django,性能测试，以及对fastcgi下进程模型和线程模型的分析</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Tech'>全部</a>
+      <a href='/forums/tag/Database'>Database</a>
+      <a href='/forums/tag/python'>python</a>
+      <a href='/forums/tag/C'>C</a>
+      <a href='/forums/tag/CPP'>C++</a>
+      <a href='/forums/tag/Haskell'>Haskell</a>
+      <a href='/forums/tag/Erlang'>Erlang</a>
+      <a href='/forums/tag/FP'>FP</a>
+      <a href='/forums/tag/PHP'>PHP</a>
+      <a href='/forums/tag/Linux'>Linux</a>
+      <a href='/forums/tag/algorithm'>数据结构和算法</a>
+      <a href='/forums/tag/DLang'>D语言</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"><a href='/forums/43/topics/267429/posts/new' class='new_post' title='发表回复'>&nbsp;</a></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/267429?page=2" rel="next">2</a> <a href="/topic/267429?page=3">3</a> <a href="/topic/267429?page=4">4</a> <a href="/topic/267429?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 3894 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"> <a href="/topic/267429">主题：django,性能测试，以及对fastcgi下进程模型和线程模型的分析</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_737224">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ahuaxuan</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://ahuaxuan.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/21746/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg?1190597612" title="ahuaxuan的博客: ahuaxuan" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 688</li>
+      <li>积分: 2076</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737224/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F267429' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/255556' title='Nginx和Apache简单的并发压力测试' target='_blank'>Nginx和Apache简单的并发压力测试</a></li>
+                              <li><a href='http://www.javaeye.com/topic/190329' title='tomcat 优化到每秒并发1000' target='_blank'>tomcat 优化到每秒并发1000</a></li>
+                              <li><a href='http://www.javaeye.com/topic/254923' title='Apache在Worker模式下的参数调整试验' target='_blank'>Apache在Worker模式下的参数调整试验</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://onlypython.group.javaeye.com" target="_blank">Python</a></span>
+            <br/><a href="/wiki/topic/267429" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        /** <br />*作者：张荣华 <br />*日期：2008-11-15 <br />**/ <br /><br />之前网上有很多关于django的测试，他们的测试结果都表明django在fastcgi模式下，使用线程模型要比进程模型快，而且更稳定，具体文章见：<br /><a href="http://irobot.blog.hexun.com/20332312_d.html" target="_blank">http://irobot.blog.hexun.com/20332312_d.html</a><br /><a href="http://taoyh163.blog.163.com/blog/static/19580356200802433559850/" target="_blank">http://taoyh163.blog.163.com/blog/static/19580356200802433559850/</a><br />但是ahuaxuan根据操作系统的原理判断结果不应该是这样，理论上来讲，进程应该更快。为了证明自己的观点，于是做了以下测试。<br /><br />	那么在讲解我的测试方法之前，按照惯例，现来讲以下dango中fastcgi模式的一些知识点。<br />dango的fastcgi模式有如下几个重要参数：<br /> <pre name="code" class="java"> protocol=PROTOCOL    fcgi, scgi, ajp, ... (default fcgi)
+  host=HOSTNAME        hostname to listen on..
+  port=PORTNUM         port to listen on.
+  socket=FILE          UNIX socket to listen on.
+  method=IMPL          prefork or threaded (default prefork)
+  maxrequests=NUMBER   number of requests a child handles before it is 
+                       killed and a new child is forked (0 = no limit).
+  maxspare=NUMBER      max number of spare processes / threads
+  minspare=NUMBER      min number of spare processes / threads.
+  maxchildren=NUMBER   hard limit number of processes / threads
+  daemonize=BOOL       whether to detach from terminal.
+  pidfile=FILE         write the spawned process-id to this file.
+  workdir=DIRECTORY    change to this directory when daemonizing.
+  outlog=FILE          write stdout to this file.
+  errlog=FILE          write stderr to this file.
+  umask=UMASK          umask to use when daemonizing (default 022).</pre><br /><br />相信做java的同学一看就比较明白了，很多参数和tomcat中是一样的，主要有一个host，port，socket需要讲解一下，host和port我们知道应该是成对出现的，那么socket是什么呢，其实他们都是socket，只不过，host+port模式是tcp sock，而socket是unix sock，他们都是套接字，一个是操作系统本地的，一个是网络套接字而已。<br /><br />我的测试工具是apachbench，简称ab，在apache的bin目录中有这个工具。我的web服务器是lighttpd1.4。<br />我一共划分了4个场景，第一个场景是操作数据库的请求，第二个场景是请求缓存的场景，而且使用线程模型，第3和第4个场景都是fastcgi的进程模型。<br /><br />场景一<br />涉及到查数据库的url，每次请求一条简单的sql语句。<br />python manage.py runfcgi method=threaded host=127.0.0.1 port=3033 daemonize=false<br /><br />请求数&nbsp;&nbsp;&nbsp; 并发数&nbsp;&nbsp; 总时间<br /><pre name="code" class="java">5000    50     22.86s
+5000    25     23.37s
+5000    10     23.37s
+5000    100    21.58s</pre><br /><br />场景二<br />不涉及到数据的url，执行一段判断后返回(可以认为数据都放在缓存中)。<br />python manage.py runfcgi method=threaded host=127.0.0.1 port=3033<br />请求数&nbsp;&nbsp;&nbsp; 并发数&nbsp;&nbsp; 总时间<br />5000&nbsp;&nbsp;&nbsp; 50&nbsp;&nbsp;&nbsp;&nbsp; 7.734s<br /><pre name="code" class="java">
+Concurrency Level:      50
+
+Time taken for tests:   7.883 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5505084 bytes
+
+HTML transferred:       4685937 bytes
+
+Requests per second:    634.28 [#/sec] (mean)
+
+Time per request:       78.830 [ms] (mean)
+
+Time per request:       1.577 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          681.98 [Kbytes/sec] received
+</pre><br /><br />5000&nbsp;&nbsp;&nbsp; 25&nbsp;&nbsp;&nbsp;&nbsp; 7.545s<br /><pre name="code" class="java">Concurrency Level:      25
+
+Time taken for tests:   7.859 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5504770 bytes
+
+HTML transferred:       4685000 bytes
+
+Requests per second:    636.20 [#/sec] (mean)
+
+Time per request:       39.296 [ms] (mean)
+
+Time per request:       1.572 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          684.01 [Kbytes/sec] received
+</pre><br /><br />5000&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp;&nbsp; 7.481s<br /><pre name="code" class="java">Concurrency Level:      10
+
+Time taken for tests:   7.920 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5503153 bytes
+
+HTML transferred:       4685000 bytes
+
+Requests per second:    631.28 [#/sec] (mean)
+
+Time per request:       15.841 [ms] (mean)
+
+Time per request:       1.584 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          678.52 [Kbytes/sec] received
+</pre><br /><br />5000&nbsp;&nbsp;&nbsp; 100&nbsp;&nbsp;&nbsp; 7.776s<br /><pre name="code" class="java">Concurrency Level:      100
+
+Time taken for tests:   7.776 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5504370 bytes
+
+HTML transferred:       4685937 bytes
+
+Requests per second:    643.04 [#/sec] (mean)
+
+Time per request:       155.511 [ms] (mean)
+
+Time per request:       1.555 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          691.32 [Kbytes/sec] received
+
+</pre><br />场景一和场景 二对比可以发现，带有数据操作的请求明显需要更多的时间，之间从缓存中拿数据，每秒中fastcgi可以处理1000个请求。<br /><br />场景三<br />不涉及到数据的url，执行一段判断后返回(可以认为数据都放在缓存中)。使用进程模型。<br />python manage.py runfcgi method=prefork host=127.0.0.1 port=3033<br />请求数&nbsp;&nbsp;&nbsp; 并发数&nbsp;&nbsp; 总时间<br />5000&nbsp;&nbsp;&nbsp; 50&nbsp;&nbsp;&nbsp;&nbsp; 22 s<br /><pre name="code" class="java">Concurrency Level:      50
+
+Time taken for tests:   22.676 seconds
+
+Complete requests:      5000
+
+Failed requests:        15
+
+   (Connect: 0, Receive: 0, Length: 15, Exceptions: 0)
+
+Write errors:           0
+
+Non-2xx responses:      15
+
+Total transferred:      5519788 bytes
+
+HTML transferred:       4676480 bytes
+
+Requests per second:    220.50 [#/sec] (mean)
+
+Time per request:       226.762 [ms] (mean)
+
+Time per request:       4.535 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          237.71 [Kbytes/sec] received
+
+</pre><br />5000&nbsp;&nbsp;&nbsp; 25&nbsp;&nbsp;&nbsp;&nbsp; 25 s<br /><pre name="code" class="java">Concurrency Level:      25
+
+Time taken for tests:   25.330 seconds
+
+Complete requests:      5000
+
+Failed requests:        15
+
+   (Connect: 0, Receive: 0, Length: 15, Exceptions: 0)
+
+Write errors:           0
+
+Non-2xx responses:      15
+
+Total transferred:      5481652 bytes
+
+HTML transferred:       4676480 bytes
+
+Requests per second:    197.40 [#/sec] (mean)
+
+Time per request:       126.649 [ms] (mean)
+
+Time per request:       5.066 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          211.34 [Kbytes/sec] received
+</pre><br /><br />5000&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp;&nbsp; 15 s<br /><pre name="code" class="java">Concurrency Level:      10
+
+Time taken for tests:   15.463 seconds
+
+Complete requests:      5000
+
+Failed requests:        9
+
+   (Connect: 0, Receive: 0, Length: 9, Exceptions: 0)
+
+Write errors:           0
+
+Non-2xx responses:      9
+
+Total transferred:      5536528 bytes
+
+HTML transferred:       4679888 bytes
+
+Requests per second:    323.35 [#/sec] (mean)
+
+Time per request:       30.926 [ms] (mean)
+
+Time per request:       3.093 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          349.66 [Kbytes/sec] received
+</pre><br /><br />5000&nbsp;&nbsp;&nbsp; 100&nbsp;&nbsp;&nbsp; 21 s<br /><pre name="code" class="java">Concurrency Level:      100
+
+Time taken for tests:   21.225 seconds
+
+Complete requests:      5000
+
+Failed requests:        15
+
+   (Connect: 0, Receive: 0, Length: 15, Exceptions: 0)
+
+Write errors:           0
+
+Non-2xx responses:      15
+
+Total transferred:      5541355 bytes
+
+HTML transferred:       4676480 bytes
+
+Requests per second:    235.57 [#/sec] (mean)
+
+Time per request:       424.498 [ms] (mean)
+
+Time per request:       4.245 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          254.96 [Kbytes/sec] received
+</pre><br />通过场景二和三的对比，我们可以看出线程模型在默认情况下比进程模型更加快。不过根据操作系统的特性，ahuaxuan认为事有蹊跷。理论上来讲，在速度方面，进程模型不应该比线程模型慢，虽然网上有的文章确实有提到线程模型比进程模型快，不过ahuaxuan觉得他们的测试是有问题的。在研究了django的fastcgi参数之后，再根据做java的经验我发现问题可能出现在进程的创建上。于是调整参数，继续测试。<br /><br /><br />场景四<br />不涉及到数据的url，执行一段判断后返回(可以认为数据都放在缓存中)。将最大进程数和最小进程数调整到50。<br />python manage.py runfcgi method=prefork host=127.0.0.1 port=3033 daemonize=false minspare=50 maxspare=50<br />请求数&nbsp;&nbsp;&nbsp; 并发数&nbsp;&nbsp; 总时间<br />5000&nbsp;&nbsp;&nbsp; 100&nbsp;&nbsp;&nbsp;&nbsp; 8.16s<br />第一次：<br /><pre name="code" class="java">Concurrency Level:      100
+
+Time taken for tests:   9.682 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5557585 bytes
+
+HTML transferred:       4685000 bytes
+
+Requests per second:    516.42 [#/sec] (mean)
+
+Time per request:       193.642 [ms] (mean)
+
+Time per request:       1.936 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          560.55 [Kbytes/sec] received
+</pre><br />第二次<br /><pre name="code" class="java">Concurrency Level:      100
+
+Time taken for tests:   5.134 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5560000 bytes
+
+HTML transferred:       4685000 bytes
+
+Requests per second:    973.84 [#/sec] (mean)
+
+Time per request:       102.686 [ms] (mean)
+
+Time per request:       1.027 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          1057.53 [Kbytes/sec] received
+</pre><br /><br />分析，一模一样的两次请求，为什么差两倍的速度呢，根据ahuaxuan的分析，问题应该出在进程的创建上，第二次测试，由于进程已经存在，所以速度非常的快，比线程模型快了2倍不到一点。<br />5000&nbsp;&nbsp;&nbsp; 25&nbsp;&nbsp;&nbsp;&nbsp; 8.90s<br /><br /><pre name="code" class="java">Concurrency Level:      25
+
+Time taken for tests:   5.347 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5559748 bytes
+
+HTML transferred:       4685000 bytes
+
+Requests per second:    935.07 [#/sec] (mean)
+
+Time per request:       26.736 [ms] (mean)
+
+Time per request:       1.069 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          1015.38 [Kbytes/sec] received
+</pre><br />5000&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp;&nbsp; 8.78s<br /><br /><pre name="code" class="java">Concurrency Level:      10
+
+Time taken for tests:   5.723 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5562916 bytes
+
+HTML transferred:       4687811 bytes
+
+Requests per second:    873.64 [#/sec] (mean)
+
+Time per request:       11.446 [ms] (mean)
+
+Time per request:       1.145 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          949.22 [Kbytes/sec] received
+</pre><br />5000&nbsp;&nbsp;&nbsp; 50&nbsp;&nbsp;&nbsp; 7.90s<br /><pre name="code" class="java">Concurrency Level:      50
+
+Time taken for tests:   5.239 seconds
+
+Complete requests:      5000
+
+Failed requests:        0
+
+Write errors:           0
+
+Total transferred:      5560923 bytes
+
+HTML transferred:       4685937 bytes
+
+Requests per second:    954.43 [#/sec] (mean)
+
+Time per request:       52.387 [ms] (mean)
+
+Time per request:       1.048 [ms] (mean, across all concurrent requests)
+
+Transfer rate:          1036.63 [Kbytes/sec] received
+</pre><br /><br />对比场景三和场景四发现，在进程模式下在没有指定maxspare和minspare值的情况下，由于每次并发大的时候都动态的去创建进程，效率明显下降，5000个请求居然需要20s之多。而一旦设置了maxspare和minspare之后，只有第一次请求的时候，需要创建进程，之后经常已经存在，不需要创建，也不需要动态的消亡(maxspare和minspare值太小会导致fastcgi父进程频繁的创建和销毁子进程，非常的消耗cpu)，整个应用程序的处理能力大大提高。<br /><br />再对比场景二和场景四，可以发现不管是进程模式还是线程模式，每秒都能处理超过1000次的请求。而且在并发较大的情况下，进程模式效率更高。由此可见在网站访问量巨大的情况下，使用进程模型才是比较好的选择，而不是网上所说的使用线程模型。<br /><br />后来为了作对比，ahuaxuan在线程模型上也加了maxspare=50,minspare=50，不过性能和没有加几乎一样，可见，这两个参数对进程模型的影响比较大。而且也可以进一步说明操作系统创建进程消耗确实大。<br /><br />从这个对比结果，我们还可以得知：<br />1线程创建在ubuntu中的代价比进程小的多。(根据观察，在创建进程的时候，cpu上升到100%,而线程模型的cpu只有80%的样子)<br />2在进程已经存在的情况下，处理请求的能力，进程要比线程能力强。而且要强出1/3左右的样子<br /><br />最后，贴出我的机器配置<br />cpu:t8100<br />内存:2g<br />硬盘：5400转的希捷<br /><br />希望本文能够给对django性能有怀疑，以及对fastcgi下认为线程模型更快的同学有所帮助。<br />
+      </div>
+      
+      
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">轻松优化数据管理环境</span></a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li><li><a href='/adverts/128' target='_blank'>IBM Rational软件开发高峰论坛9月揭幕</a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ahuaxuan.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=ahuaxuan' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2008-11-15
+        
+      </div>
+      
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737230">
+  <td class="postauthor">
+    <ul>
+      <li class="name">剑 事</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://jfy3d20070414200500.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/64200/12c04b54-58f6-4310-8ea6-0e3dce04836f.gif?1176785904" title="剑 事的博客: 剑 事" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 367</li>
+      <li>积分: 50</li>
+      <li>来自: 北京</li>
+      <li><a href='/topic/291317' target='_blank' title='我正在看《技术压迫感》'><img src='/images/status/topic_show.gif'/></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737230/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737230' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        protocol=scgi
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jfy3d20070414200500.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jfy3d20070414200500.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=%E5%89%91+%E4%BA%8B' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://jfy3d20070414200500.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+      <div id='post_rate_box_737230' class='post_rate_box'><a href='#' onclick='rate_post(737230, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737230, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737235">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ahuaxuan</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://ahuaxuan.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/21746/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg?1190597612" title="ahuaxuan的博客: ahuaxuan" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 688</li>
+      <li>积分: 2076</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737235/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737235' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">剑 事 写道</div><div class="quote_div">protocol=scgi</div><br />没试，不过我想不会高到哪里去的，因为fastcgi的进程模型已经够快了，每天2000w根本不是什么难事，关键看程序怎么写。反正django给我们带来的特性已经支持每天2000w了<br /><br />其实写这篇文章的主要目的是为了给进程模型讨会一个公道，也省得网上一些文章继续误导大家<br /><br />5000次请求只要5秒钟，而且是在我的笔记本上。<br /><br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ahuaxuan.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=ahuaxuan' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2008-11-15
+        
+      </div>
+      <div id='post_rate_box_737235' class='post_rate_box'><a href='#' onclick='rate_post(737235, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737235, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737239">
+  <td class="postauthor">
+    <ul>
+      <li class="name">剑 事</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://jfy3d20070414200500.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/64200/12c04b54-58f6-4310-8ea6-0e3dce04836f.gif?1176785904" title="剑 事的博客: 剑 事" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 367</li>
+      <li>积分: 50</li>
+      <li>来自: 北京</li>
+      <li><a href='/topic/291317' target='_blank' title='我正在看《技术压迫感》'><img src='/images/status/topic_show.gif'/></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737239/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737239' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        lighttpd+fastcgi+threaded&nbsp;&nbsp; Requests per second: 591.93 [#/sec] (mean) <br /><br /><br />lighttpd+scgi+threaded&nbsp;&nbsp;&nbsp; Requests per second: 806.19 [#/sec] (mean) <br />我用scgi&nbsp; 不过没测试过
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jfy3d20070414200500.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jfy3d20070414200500.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=%E5%89%91+%E4%BA%8B' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://jfy3d20070414200500.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2008-11-15
+        
+      </div>
+      <div id='post_rate_box_737239' class='post_rate_box'><a href='#' onclick='rate_post(737239, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737239, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737250">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ahuaxuan</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://ahuaxuan.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/21746/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg?1190597612" title="ahuaxuan的博客: ahuaxuan" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 688</li>
+      <li>积分: 2076</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737250/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737250' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">剑 事 写道</div><div class="quote_div">lighttpd+fastcgi+threaded&nbsp;&nbsp; Requests per second: 591.93 [#/sec] (mean) <br /><br /><br />lighttpd+scgi+threaded&nbsp;&nbsp;&nbsp; Requests per second: 806.19 [#/sec] (mean) <br />我用scgi&nbsp; 不过没测试过</div><br /><br />从你的测试结果得出的结论是：<br />在线程模型下，scgi的速度比fastcgi更快<br /><br />于是我也做一个测试<br />测试cast：<br />./ab -c 100 -n 5000 http://localhost/mark.html<br /><br />django启动命令：python manage.py runfcgi host=127.0.0.1 port=3033 method=prefork protocol=scgi&nbsp; daemonize=false<br /><br />结果：<br /><pre name="code" class="java">Concurrency Level:      100
+Time taken for tests:   8.240 seconds
+Complete requests:      5000
+Failed requests:        0
+Write errors:           0
+Total transferred:      5512708 bytes
+HTML transferred:       4685000 bytes
+Requests per second:    606.80 [#/sec] (mean)
+Time per request:       164.800 [ms] (mean)
+Time per request:       1.648 [ms] (mean, across all concurrent requests)
+Transfer rate:          653.34 [Kbytes/sec] received
+</pre><br />对比我的测试场景二，发现，scgi下的线程模型和fastcgi下的线程模型也是差不多<br /><br />你的测试结果怎么相差那么多，能给出你的测试方法吗？<br /><br /><br /><br /><br /><br /><br />－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br /><br />但是在进程模型下，scgi和fastcgi谁快呢<br />于是我又做了一个测试：<br /><br />测试case：<br />./ab -c 100 -n 5000 http://localhost/mark.html<br /><br />django启动命令：python manage.py runfcgi host=127.0.0.1 port=3033 method=prefork protocol=scgi&nbsp; daemonize=false minspare=50 maxspare=50<br /><br />测试结果<br />第一次请求：<br /><pre name="code" class="java">Concurrency Level:      100
+Time taken for tests:   9.617 seconds
+Complete requests:      5000
+Failed requests:        0
+Write errors:           0
+Total transferred:      5557396 bytes
+HTML transferred:       4685000 bytes
+Requests per second:    519.91 [#/sec] (mean)
+Time per request:       192.342 [ms] (mean)
+Time per request:       1.923 [ms] (mean, across all concurrent requests)
+Transfer rate:          564.32 [Kbytes/sec] received
+</pre><br /><br />第二次请求<br /><pre name="code" class="java">
+Concurrency Level:      100
+Time taken for tests:   5.330 seconds
+Complete requests:      5000
+Failed requests:        0
+Write errors:           0
+Total transferred:      5559979 bytes
+HTML transferred:       4685000 bytes
+Requests per second:    938.02 [#/sec] (mean)
+Time per request:       106.607 [ms] (mean)
+Time per request:       1.066 [ms] (mean, across all concurrent requests)
+Transfer rate:          1018.63 [Kbytes/sec] received
+
+</pre><br />结合我文章中的场景四可以得出结论<br />在scgi模式下的进程模型和fastcgi模式下的进程模型速度不相上下<br /><br /><br /><br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ahuaxuan.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=ahuaxuan' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2008-11-15
+        
+      </div>
+      <div id='post_rate_box_737250' class='post_rate_box'><a href='#' onclick='rate_post(737250, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737250, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737273">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd4.gif" alt="四钻会员" title="四钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/44783/d14fa926-08e5-3a6d-9579-31b294c28cf8.jpg?1224832355" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 5416</li>
+      <li>积分: 1935</li>
+      <li>来自: 上海</li>
+      <li><a href='/post/786992' target='_blank' title='我正在看《[转载]Java语言学校的危险性》'><img src='/images/status/topic_show.gif'/></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737273/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737273' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        SCGI和FCGI仅仅是通讯协议略有差别而已，性能差别会在测试误差范围之内的。<br /><br />我没有研究过django的部署，不过从上文描述来看，FCGI进程是可以动态spawn的。但我以为动态spawn并不适合真正高负载的网络环境，黑客们只需要在瞬间发起上万个并发链接，服务器因为需要短时间内创建大量进程的开销而导致CPU消耗光，服务器失去响应。<br /><br />Ruby的mod_rails就是这种动态spawn模式，我很反对。JavaEye是静态spawn模式，应用服务器启动特定数量的FCGI进程数量，不论并发请求如何波动，不创建更多进程，也不销毁进程，这样系统的负载比较平滑。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=robbin' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+      <div id='post_rate_box_737273' class='post_rate_box'><a href='#' onclick='rate_post(737273, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737273, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737320">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ahuaxuan</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://ahuaxuan.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/21746/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg?1190597612" title="ahuaxuan的博客: ahuaxuan" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 688</li>
+      <li>积分: 2076</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737320/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737320' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">robbin 写道</div><div class="quote_div"><br />我没有研究过django的部署，不过从上文描述来看，FCGI进程是可以动态spawn的。但我以为动态spawn并不适合真正高负载的网络环境，黑客们只需要在瞬间发起上万个并发链接，服务器因为需要短时间内创建大量进程的开销而导致CPU消耗光，服务器失去响应。<br /><br /></div><br /><br /> 从场景三来看确实是这样的，动态的spawn导致我的本本的cpu在整个测试期间（也就是多次5000个请求里）都是100%，然后我通过自己写的中间件发现，进程在不停的被创建和销毁，这个对操作系统来说简直是恶梦啊<br /><br />在django里也可以解决这个问题，通过设置合理的maxchildren，minspare和maxspare应该就可以解决这个问题了 <br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ahuaxuan.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=ahuaxuan' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+      <div id='post_rate_box_737320' class='post_rate_box'><a href='#' onclick='rate_post(737320, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737320, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737482">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd4.gif" alt="四钻会员" title="四钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/44783/d14fa926-08e5-3a6d-9579-31b294c28cf8.jpg?1224832355" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 5416</li>
+      <li>积分: 1935</li>
+      <li>来自: 上海</li>
+      <li><a href='/post/786992' target='_blank' title='我正在看《[转载]Java语言学校的危险性》'><img src='/images/status/topic_show.gif'/></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737482/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737482' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">ahuaxuan 写道</div><div class="quote_div"><div class="quote_title">robbin 写道</div><div class="quote_div"><br />我没有研究过django的部署，不过从上文描述来看，FCGI进程是可以动态spawn的。但我以为动态spawn并不适合真正高负载的网络环境，黑客们只需要在瞬间发起上万个并发链接，服务器因为需要短时间内创建大量进程的开销而导致CPU消耗光，服务器失去响应。<br /><br /></div><br /><br /> 从场景三来看确实是这样的，动态的spawn导致我的本本的cpu在整个测试期间（也就是多次5000个请求里）都是100%，然后我通过自己写的中间件发现，进程在不停的被创建和销毁，这个对操作系统来说简直是恶梦啊<br /><br />在django里也可以解决这个问题，通过设置合理的maxchildren，minspare和maxspare应该就可以解决这个问题了 <br /></div><br /><br />我部署JavaEye服务器是自己写shell脚本来控制FCGI进程的spawn，respawn，很稳定，很健壮，而且很容易维护。<br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=robbin' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2008-11-15
+        
+      </div>
+      <div id='post_rate_box_737482' class='post_rate_box'><a href='#' onclick='rate_post(737482, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737482, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737531">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ahuaxuan</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://ahuaxuan.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/21746/2968f799-27e8-4a8c-a7a1-726ee060fdd6.jpg?1190597612" title="ahuaxuan的博客: ahuaxuan" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 688</li>
+      <li>积分: 2076</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737531/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737531' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">robbin 写道</div><div class="quote_div"><br />我部署JavaEye服务器是自己写shell脚本来控制FCGI进程的spawn，respawn，很稳定，很健壮，而且很容易维护。<br /></div><br />想了几分钟，还是没有想通具体的做法或者思路是什么样子的，shell脚本是如何去控制系统中进程的行为的呢，难道那个进程有提供这样的接口或者什么滴？<br /><br />知识不够用了，robbin大哥能否为我们讲解一下具体的思路。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ahuaxuan.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=ahuaxuan' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://ahuaxuan.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+      <div id='post_rate_box_737531' class='post_rate_box'><a href='#' onclick='rate_post(737531, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737531, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr><tr id="p_737546">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd4.gif" alt="四钻会员" title="四钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/44783/d14fa926-08e5-3a6d-9579-31b294c28cf8.jpg?1224832355" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>性别: <img src="/images/icon_minigender_1.gif" title="男"/></li>
+      <li>文章: 5416</li>
+      <li>积分: 1935</li>
+      <li>来自: 上海</li>
+      <li><a href='/post/786992' target='_blank' title='我正在看《[转载]Java语言学校的危险性》'><img src='/images/status/topic_show.gif'/></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-11-15 </div>
+      <div class="links">
+        <a href='/forums/43/topics/267429/posts/737546/quote' class='quote'>引用</a>
+        
+          
+            
+            <a href='http://frankswu.javaeye.com/admin/user_favorites?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+django%2C%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%B9fastcgi%E4%B8%8B%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%88%86%E6%9E%90&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F737546' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">ahuaxuan 写道</div><div class="quote_div"><div class="quote_title">robbin 写道</div><div class="quote_div"><br />我部署JavaEye服务器是自己写shell脚本来控制FCGI进程的spawn，respawn，很稳定，很健壮，而且很容易维护。<br /></div><br />想了几分钟，还是没有想通具体的做法或者思路是什么样子的，shell脚本是如何去控制系统中进程的行为的呢，难道那个进程有提供这样的接口或者什么滴？<br /><br />知识不够用了，robbin大哥能否为我们讲解一下具体的思路。</div><br /><br />我们是静态spawn的，用lighttpd的spawn-fcgi命令来spawn进程就可以了，不进行动态spawn，当然shell启动脚本还有很多其他工作要做。另外的一个shell脚本用来监控FCGI的内存使用状况，发现超过限额以后就respawn它，另外还有一个进程健康检查的shell，如果发现进程crash掉，就spawn一个新的进程。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href='http://frankswu.javaeye.com/admin/messages/new?message%5Breceiver_name%5D=robbin' class='icon_pm' title='发送站内短信'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2008-11-15
+        
+      </div>
+      <div id='post_rate_box_737546' class='post_rate_box'><a href='#' onclick='rate_post(737546, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(737546, "hidden"); return false;' class='hidden' title='差'>0</a> </div>
+    </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"><a href='/forums/43/topics/267429/posts/new' class='new_post' title='发表回复'>&nbsp;</a></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/267429?page=2" rel="next">2</a> <a href="/topic/267429?page=3">3</a> <a href="/topic/267429?page=4">4</a> <a href="/topic/267429?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Tech">综合技术版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/python'>python</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="mobile">移动编程和手机开发</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech" selected="selected">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2"><span>JavaEye推荐</span><ul class='adverts'></ul></div>
+  </div>
+  
+  
+    <div class="quick_reply">
+      <form action="/topic/267429" id="quick_reply_form" method="post" onsubmit="return false;">        <input type="hidden" name="post[bbcode]" value="true"/>
+        <span><strong>快速回复</strong></span><span><input type="checkbox" name="quote_post_id" value="784140" id="quote_post_id"/> 引用上一条消息</span> <span class="last">(Alt+S) <input class="submit" id="quick_reply_button" name="commit" type="submit" value="提交" /></span>
+        <textarea class="required bad-words min-length-5" cols="40" id="post_body" name="post[body]" rows="20"></textarea><br />
+      </form>    
+      <script type="text/javascript">
+        new HotKey("s",function() {
+          ValidationUtils.fireSubmit("quick_reply_form");
+        },{altKey: true, ctrlKey: false});
+      
+        new Validation("quick_reply_form", {immediate: false, onFormValidate: function(result, form){
+            if(result) {
+              new Ajax.Request('/forums/43/topics/267429/posts', {
+              onSuccess:function(response){
+                $('posts').insert(response.responseText);
+                $('post_body').value = "";
+                $('_form_spinner_').hide();
+              }, parameters:Form.serialize(form)
+            });
+          }
+        }});
+      </script>
+    </div>
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form>	
+</div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":267429, "type":type}});
+    }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘 <span style="border:1px solid #2be42b;background-color: #7de865;padding: 0 2px;font-size: 11px;">New</span></a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2008 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>      
+    </div>
+  </body>
+  
+</html>
