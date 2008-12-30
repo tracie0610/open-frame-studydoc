@@ -1,0 +1,674 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0065)http://blog.csdn.net/iwindyforest/archive/2008/01/25/2065791.aspx -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META name="author" content="陈英华">
+    <META name="Copyright" content="Csdn">
+    <META name="description" content="如果简单只使用FormFile在Action中判断文件大小是根本不能在上传过程中起到提示作用的，因为这时候文件已经上传完了。而且这个设计还有一个确定就是不能捕获上传过程中出现的任何问题。也就是说：在Action里我们得到的FormFile对象是上传的一个结果，而不是一个未上传好就可以使用的对象！">
+    <META name="keywords" content="陈英华,struts FormFile Commons-FileUpload MultipartRequestHandler">
+    <LINK rel="Shortcut Icon" href="http://profile.csdn.net/iwindyforest/picture/1.ico">
+    <LINK href="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/default_1.css" type="text/css" rel="stylesheet" media="all"><LINK href="http://blog.csdn.net/iwindyforest/rss.aspx" title="RSS" type="application/rss+xml" rel="alternate">
+    <TITLE>
+        Struts的FormFile与Commons-FileUpload控件使用心得  - 陈英华的专栏 - CSDNBlog</TITLE>
+<LINK href="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/webimPopup.css" rel="stylesheet" type="text/css"><SCRIPT src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/webimPopup.js" type="text/javascript"></SCRIPT></HEAD><BODY id="defaultuser">
+    <DIV id="csdnblog_allwrap">
+        <FORM name="Form1" method="post" action="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog.htm" language="javascript" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<INPUT type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<INPUT type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<INPUT type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="">
+
+<SCRIPT type="text/javascript">
+<!--
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+// -->
+</SCRIPT>
+
+
+<SCRIPT src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/WebResource.axd" type="text/javascript"></SCRIPT>
+
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var Anthem_FormID = "Form1";
+//]]>
+</SCRIPT>
+<SCRIPT src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/WebResource(1).axd" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/WebResource(2).axd" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+<!--
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+// -->
+</SCRIPT>
+
+        
+<DIV id="csdnblog_midwrap">
+    <DIV id="csdnblog_header">
+        
+        <H1><A id="Header1_HeaderTitle" href="http://blog.csdn.net/iwindyforest/">陈英华的专栏</A></H1><H2>Make simple things simple,Make hard things possible</H2>
+        
+        <UL id="personalnav"><LI><A href="http://hi.csdn.net/franks_wu" target="_blank">欢迎 franks_wu</A></LI><LI><A href="http://hi.csdn.net/my.html">我的首页<EM></EM></A></LI><LI><A href="http://writeblog.csdn.net/PostList.aspx">文章管理<EM></EM></A></LI><LI><A href="http://writeblog.csdn.net/PostEditPlain.aspx">写文章<EM></EM></A></LI><LI><A href="http://writeblog.csdn.net/Signout.aspx">退出</A></LI></UL>
+        
+        <UL id="blogsearchsty"><LI><INPUT id="inputSearch" type="text" class="bolgsearch" onkeydown="return keyb(event)"></LI><LI class="selectsty"><SELECT name="Search:ddlSearchScope" id="Search_ddlSearchScope"><OPTION value="all">全站</OPTION><OPTION value="iwindyforest">当前博客</OPTION></SELECT></LI><LI><INPUT type="button" onclick="checkNull()" value="搜索" class="bolggobtn"></LI></UL>
+        
+        <UL id="menu"><LI><A href="http://hi.csdn.net/iwindyforest">空间</A></LI><LI><A href="http://blog.csdn.net/iwindyforest" class="on">博客</A></LI><LI><A href="http://hi.csdn.net/iwindyforest/profile/contactlist/1.html">好友</A></LI><LI><A href="http://album.hi.csdn.net/" target="_blank">相册</A></LI><LI><A href="http://hi.csdn.net/iwindyforest/profile/notebook/1.html" class="last">留言</A></LI></UL>
+    </DIV>
+    <DIV id="csdnblog_sidebar">
+        <DIV class="gutter">
+            <DIV class="aboutauthor">
+                <DL>
+                    
+                    <DT>用户操作</DT><DD class="middle"><A href="http://webim.csdn.net/Messages/iwindyforest.ashx" target="_blank">[即时聊天]</A> <A href="http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=iwindyforest" target="_blank">[发私信]</A> <A href="http://webim.csdn.net/AddFriends/iwindyforest.ashx" target="_blank">[加为好友]</A></DD><DT>陈英华</DT><DD class="middle"><IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/1.jpg"></DD>
+                    
+                    
+
+                    <DT>最近评论</DT><DD>east_java：<A href="http://blog.csdn.net/iwindyforest/archive/2008/01/25/2065791.aspx#986602" title="点击查看《回复:Struts的FormFile与Commons-FileUpload控件使用心得 》">我试了好多次就是没有成功..很是郁闷..<BR>对于enctype=&quot;multipart/form-data&quot;都报错..错误信息很不详细..</A></DD><DD>walkerlan：<A href="http://blog.csdn.net/iwindyforest/archive/2008/01/20/2054812.aspx#969433" title="点击查看《回复:学习&amp;amp;quot;研发人员的职业素养&amp;amp;quot;的笔记》">刚参加这样的学习。有同感。谢谢分享。</A></DD><DD>walkerlan：<A href="http://blog.csdn.net/iwindyforest/archive/2008/01/20/2054812.aspx#969432" title="点击查看《回复:学习&amp;amp;quot;研发人员的职业素养&amp;amp;quot;的笔记》">刚参加这样的学习。有同感。谢谢分享。</A></DD><DD>iwindyforest：<A href="http://blog.csdn.net/iwindyforest/archive/2008/06/27/2592438.aspx#831359" title="点击查看《回复:从TcpSocket上读取数据的三种方式》">我也是分多种情况试过了多次，<BR>但是结果是在远端正常关闭时能得到-1，<BR>但是如果程序crash了，就得不到，<BR>另外远端死机，拔远端的网线，都不能得到-1。<BR>因此，这些试验只能说明-1很不靠谱，呵呵...</A></DD><DD>java_course：<A href="http://blog.csdn.net/iwindyforest/archive/2008/06/27/2592438.aspx#831296" title="点击查看《回复:从TcpSocket上读取数据的三种方式》">Java TcpSocket检测远端是否关闭的最好方法就是向远端发送数据，看是否发生IO异常&rdquo;，远端关闭得到－1是对的，如果不是关闭，而是把网线切断或者网络不通也能得到－1么？         正解!</A></DD>
+                    
+                    <DT>文章分类</DT><DD><DIV class="publiclist_sidebar"><UL><LI><A href="http://blog.csdn.net/iwindyforest/category/419354.aspx">Architecture</A><A href="http://blog.csdn.net/iwindyforest/category/419354.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/iwindyforest/category/419350.aspx">Experience</A><A href="http://blog.csdn.net/iwindyforest/category/419350.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/iwindyforest/category/419347.aspx">JAVABase</A><A href="http://blog.csdn.net/iwindyforest/category/419347.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/iwindyforest/category/419352.aspx">JAVAEE</A><A href="http://blog.csdn.net/iwindyforest/category/419352.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/iwindyforest/category/419351.aspx">Mood</A><A href="http://blog.csdn.net/iwindyforest/category/419351.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/iwindyforest/category/419353.aspx">SoftwareEngineering</A><A href="http://blog.csdn.net/iwindyforest/category/419353.aspx/rss">(RSS)</A></LI></UL></DIV></DD><DT>收藏</DT><DD><DIV class="publiclist_sidebar"><UL></UL></DIV></DD><DT>相册</DT><DT>存档</DT><DD><DIV class="publiclist_sidebar"><UL><LI><A href="http://blog.csdn.net/iwindyforest/archive/2008/07.aspx">2008年07月(2)</A></LI><LI><A href="http://blog.csdn.net/iwindyforest/archive/2008/06.aspx">2008年06月(7)</A></LI><LI><A href="http://blog.csdn.net/iwindyforest/archive/2008/01.aspx">2008年01月(5)</A></LI></UL></DIV></DD>
+
+                    <SPAN id="RecentVisitors"></SPAN>
+                    
+                    <DT>软件项目交易</DT><DD><IFRAME style="margin:0;　padding:0; width: 180px; height: 32px;" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/CsdnBlogPage.htm" frameborder="0" scrolling="no"></IFRAME></DD>
+                    
+                    <SPAN id="SubscriptionList"><DT>订阅我的博客</DT><DD><A href="http://blog.csdn.net/iwindyforest/Rss.aspx"><IMG border="0" alt="XML聚合" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/xml.gif"></A>&nbsp;&nbsp;<A href="http://feeds.feedsky.com/csdn.net/iwindyforest" target="_blank"><IMG border="0" alt="FeedSky" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/feedsky.gif"></A></DD><DD><A href="http://www.xianguo.com/subscribe.php?url=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到鲜果" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_xianguo.jpg"></A></DD><DD><A href="http://fusion.google.com/add?feedurl=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到Google" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_google.gif"></A></DD><DD><A href="http://www.zhuaxia.com/add_channel.php?url=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到抓虾" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_zhuaxia.gif"></A></DD><DD><A href="http://www.bloglines.com/sub/http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到BlogLines" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_bloglines.gif"></A></DD><DD><A href="http://add.my.yahoo.com/rss?url=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到Yahoo" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_yahoo.gif"></A></DD><DD><A href="http://rss.gougou.com/find_rss.jsp?url=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到GouGou" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_gougou.gif"></A></DD><DD><A href="http://www.pageflakes.com/subscribe.aspx?url=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到飞鸽" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_pageflakes.gif"></A></DD><DD><A href="http://www.rojo.com/add-subscription?resource=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到Rojo" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_rojo.gif"></A></DD><DD><A href="http://www.newsgator.com/ngs/subscriber/subfext.aspx?url=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到newsgator" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_newsgator.gif"></A></DD><DD><A href="http://www.netvibes.com/subscribe.php?url=http://blog.csdn.net/iwindyforest/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到netvibes" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/rss_netvibes.gif"></A></DD></SPAN>
+                </DL>
+            </DIV>
+        </DIV>
+    </DIV>
+    
+    <DIV id="csdnblog_content">
+        <DIV class="gutter">
+            
+                    
+<DIV class="default_contents">
+    <DIV class="user_article">
+        <SCRIPT type="text/javascript" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/LoadFeedbackCount.js"></SCRIPT>
+        <H1><IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/authorship.gif" border="0" width="15" height="16" alt="原创">&nbsp;<A href="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog.htm">Struts的FormFile与Commons-FileUpload控件使用心得 </A><CITE class="fav_csdnstylebykimi"><A href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</A></CITE></H1>
+<DIV class="blogstory">
+    <SPAN id="Post.ascx_ViewPost_PreviousAndNextEntriesUp"><H3><A href="http://blog.csdn.net/iwindyforest/archive/2008/01/26/2066835.aspx">新一篇:&nbsp;给盖茨的一封信：退休后不宜去的几个地方</A>&nbsp;|&nbsp;<A href="http://blog.csdn.net/iwindyforest/archive/2008/01/20/2054812.aspx">旧一篇:&nbsp;学习&quot;研发人员的职业素养&quot;的笔记</A></H3></SPAN>
+    <SCRIPT>function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</SCRIPT><FONT size="2"><FONT face="宋体">前一段时间刚来公司,看到一个项目中以前有人写的</FONT><FONT face="Times New Roman">struts</FONT><FONT face="宋体">代码。是使用了<FONT face="Times New Roman">FormFile来处理</FONT>关于文件上传的模块</FONT><FONT face="宋体">。但是用力一段时间后，发现出问题了。写完的这个模块<WBR>，上传文件是没有问题的，但是当服务器的空间较小的时候<WBR>，穿一个比较大的文件就出问题了，文件还没有上传完<WBR>，就抛出一个错误的页面</FONT><FONT face="Times New Roman">,</FONT><FONT face="宋体">报告上传模块出了问题，而且是</FONT><FONT face="Times New Roman">Tomcat</FONT><FONT face="宋体">默认的出错页面。</FONT></FONT>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">于是想办法，修改，查看源代码，发现原来写这段代码的人是默认等文<WBR>件上传完以后进入</FONT><FONT face="Times New Roman" size="2">Action</FONT><FONT face="宋体" size="2">了才判断文件大小是否超出了限制。</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">但是，默认配置下使用</FONT><FONT face="Times New Roman" size="2">struts</FONT><FONT face="宋体" size="2">的</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">比较特殊，</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">是</FONT><FONT face="Times New Roman" size="2">struts</FONT><FONT face="宋体" size="2">包对外的一个接口，而且</FONT><FONT face="Times New Roman" size="2">org.apache.struts.upload</FONT><FONT face="宋体" size="2">包是使用的</FONT><FONT face="Times New Roman" size="2">commons-fileupload-1.0</FONT><FONT face="宋体" size="2">进行的封装。如果使用了它来实现文件上传的功能，则<STRONG>必须是</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>FormFile</STRONG></FONT><FONT face="宋体" size="2"><STRONG>对象在被初始化以后才能使用</STRONG>，那什么时候它才是被初始化的呢？</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">答案是：<STRONG>在进入</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>Action</STRONG></FONT><FONT face="宋体" size="2"><STRONG>之前就已经初始化好了！</STRONG></FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">因此，原先的设计：在</FONT><FONT face="Times New Roman" size="2">Action</FONT><FONT face="宋体" size="2">中判断文件大小是根本不能在上传过程中起到提示作用的<WBR>，因为这时候文件已经上传完了。而且这个设计还有一个确定就是不能<WBR>捕获上传过程中出现的任何问题。也就是说：在</FONT><FONT face="Times New Roman" size="2">Action</FONT><FONT face="宋体" size="2">里我们得到的</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">对象是上传的一个结果，而不是一个未上传好就可以使用的对象！</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">那如何控制</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">上传的过程呢？显然，在</FONT><FONT face="Times New Roman" size="2">Action</FONT><FONT face="宋体" size="2">里处理已经不能奏效了，想想别的办法，让我们翻看一下</FONT><FONT face="Times New Roman" size="2">Struts</FONT><FONT face="宋体" size="2">的源代码找找灵感吧。</FONT>&nbsp;
+</P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">这是</FONT><FONT face="Times New Roman" size="2">struts1.1</FONT><FONT face="宋体" size="2">的</FONT><FONT face="Times New Roman" size="2">org.apache.struts.upload</FONT><FONT face="宋体" size="2">包的描述：</FONT></P>
+<P><IMG height="364" width="624" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/mail.jpg" alt=""></P>
+<P>&nbsp;<FONT face="宋体" size="2">从上图我们可以看出有有</FONT><FONT face="Times New Roman" size="2">CommonsMultipartRequestHandler</FONT><FONT face="宋体" size="2">和</FONT><FONT face="Times New Roman" size="2">DiskMultipartRequestHandler</FONT><FONT face="宋体" size="2">两个类实现了</FONT><FONT face="Times New Roman" size="2">MultipartRequestHandler</FONT><FONT face="宋体" size="2">接口。</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">大家都知道，</FONT><FONT face="Times New Roman" size="2">Commons-fileupload</FONT><FONT face="宋体" size="2">控件在上传的时候，<STRONG>使用的</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>enctype</STRONG></FONT><FONT face="宋体" size="2"><STRONG>为：</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>enctype=&quot;multipart/form-data&quot;</STRONG></FONT><FONT face="宋体" size="2">，因此不难看出</FONT><FONT face="Times New Roman" size="2">MultipartRequestHandler</FONT><FONT face="宋体" size="2">的实现就是来处理</FONT><FONT face="Times New Roman" size="2">enctype=&quot;multipart/form-data&quot;</FONT><FONT face="宋体" size="2">这样的</FONT><FONT face="Times New Roman" size="2">post</FONT><FONT face="宋体" size="2">请求的。</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">但是这里有两个类，</FONT><FONT face="Times New Roman" size="2">CommonsMultipartRequestHandler</FONT><FONT face="宋体" size="2">和</FONT><FONT face="Times New Roman" size="2">DiskMultipartRequestHandler</FONT><FONT face="宋体" size="2">。到底哪个是处理</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">的上传的呢？这个问题应该从</FONT><FONT face="Times New Roman" size="2"><STRONG>org.apache.struts.config</STRONG></FONT><FONT face="宋体" size="2">包里来找。</FONT></P>
+<P align="justify"><FONT face="Times New Roman" size="2">org.apache.struts.config</FONT><FONT face="宋体" size="2">包是用来处理</FONT><FONT face="Times New Roman" size="2">struts</FONT><FONT face="宋体" size="2">配置文件的数据的包。找到</FONT><FONT face="Times New Roman" size="2"><STRONG>org.apache.struts.config. ControllerConfig</STRONG></FONT><FONT face="宋体" size="2">。</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">看这几行：</FONT></P>
+<P>&nbsp;</P>
+<DIV style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0&percnt; 0&percnt;; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95&percnt;;">
+<DIV><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">/**</SPAN><SPAN style="color: rgb(0, 128, 0);">
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;The&nbsp;fully&nbsp;qualified&nbsp;Java&nbsp;class&nbsp;name&nbsp;of&nbsp;the&nbsp;MultipartRequestHandler
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;class&nbsp;to&nbsp;be&nbsp;used.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">*/</SPAN><SPAN style="color: rgb(0, 0, 0);">
+
+&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">protected</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;String&nbsp;multipartClass&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">org.apache.struts.upload.CommonsMultipartRequestHandler</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">;&nbsp;
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;String&nbsp;getMultipartClass()&nbsp;{
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">return</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(</SPAN><SPAN style="color: rgb(0, 0, 255);">this</SPAN><SPAN style="color: rgb(0, 0, 0);">.multipartClass);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">void</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;setMultipartClass(String&nbsp;multipartClass)&nbsp;{
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">if</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(configured)&nbsp;{
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">throw</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;IllegalStateException(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">Configuration&nbsp;is&nbsp;frozen</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">this</SPAN><SPAN style="color: rgb(0, 0, 0);">.multipartClass&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;multipartClass;
+
+&nbsp;&nbsp;&nbsp;}&nbsp;
+
+
+</SPAN></DIV>
+</DIV>
+<P>&nbsp;</P>
+<P><FONT size="2"><FONT face="宋体">这几行的意思很明白，<STRONG>如果没有在配置文件中配置</STRONG></FONT><STRONG><FONT face="Times New Roman">MultipartRequestHandler</FONT><FONT face="宋体"><STRONG>实现类的绝对路径，那就使用</STRONG></FONT><FONT face="Times New Roman"><STRONG>org.apache.struts.upload<WBR>.CommonsMultipartRequestHandler</STRONG></FONT><FONT face="宋体"><STRONG>类默认处理</STRONG>。</FONT></STRONG></FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">^_^</FONT><FONT face="宋体" size="2">，这就是关键了</FONT><FONT face="Times New Roman" size="2">:<STRONG>struts</STRONG></FONT><FONT face="宋体" size="2"><STRONG>是默认使用</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>org.apache.struts.upload<WBR>.CommonsMultipartRequestHandler</STRONG></FONT><FONT face="宋体" size="2"><STRONG>类来处理</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>FormFile</STRONG></FONT><FONT face="宋体" size="2"><STRONG>指定的上传文件的</STRONG>。</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">马上转到</FONT><FONT face="Times New Roman" size="2">org.apache.struts.upload<WBR>.CommonsMultipartRequestHandler</FONT><FONT face="宋体" size="2">来看看：</FONT></P>
+<P align="justify"><FONT face="宋体" size="2"></FONT></P>
+<DIV style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0&percnt; 0&percnt;; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95&percnt;;">
+<DIV><SPAN style="color: rgb(0, 128, 0);">/**</SPAN><SPAN style="color: rgb(0, 128, 0);">
+
+&nbsp;&nbsp;&nbsp;*默认文件上传的大小是250M
+
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">*/</SPAN><SPAN style="color: rgb(0, 0, 0);">
+
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">static</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">final</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">long</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;DEFAULT_SIZE_MAX&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">250</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">*</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">1024</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">*</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">1024</SPAN><SPAN style="color: rgb(0, 0, 0);">;&nbsp;
+
+
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">/**</SPAN><SPAN style="color: rgb(0, 128, 0);">
+
+&nbsp;&nbsp;&nbsp;*上传文件在内存中使用的缓冲区大小，超过次数值的数据写入硬盘。
+
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">*/</SPAN><SPAN style="color: rgb(0, 0, 0);">
+
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">static</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">final</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">int</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;DEFAULT_SIZE_THRESHOLD&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">256</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">*</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">1024</SPAN><SPAN style="color: rgb(0, 0, 0);">;&nbsp;
+
+
+</SPAN></DIV>
+</DIV>
+<P>&nbsp;</P>
+<P><STRONG>&nbsp;<FONT face="宋体" size="2">还有，最最重要的实现方法：</FONT></STRONG></P>
+<P>&nbsp;</P>
+<DIV style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0&percnt; 0&percnt;; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95&percnt;;">
+<DIV><SPAN style="color: rgb(0, 128, 0);">/**</SPAN><SPAN style="color: rgb(0, 128, 0);">
+
+&nbsp;&nbsp;&nbsp;*&nbsp;Parses&nbsp;the&nbsp;input&nbsp;stream&nbsp;and&nbsp;partitions&nbsp;the&nbsp;parsed&nbsp;items&nbsp;into&nbsp;a&nbsp;set&nbsp;of
+
+&nbsp;&nbsp;&nbsp;*&nbsp;form&nbsp;fields&nbsp;and&nbsp;a&nbsp;set&nbsp;of&nbsp;file&nbsp;items.&nbsp;In&nbsp;the&nbsp;process,&nbsp;the&nbsp;parsed&nbsp;items
+
+&nbsp;&nbsp;&nbsp;*&nbsp;are&nbsp;translated&nbsp;from&nbsp;Commons&nbsp;FileUpload&nbsp;&lt;code&gt;FileItem&lt;/code&gt;&nbsp;instances
+
+&nbsp;&nbsp;&nbsp;*&nbsp;to&nbsp;Struts&nbsp;&lt;code&gt;FormFile&lt;/code&gt;&nbsp;instances.
+
+&nbsp;&nbsp;&nbsp;*
+
+&nbsp;&nbsp;&nbsp;*&nbsp;</SPAN><SPAN style="color: rgb(128, 128, 128);">@param</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;request&nbsp;The&nbsp;multipart&nbsp;request&nbsp;to&nbsp;be&nbsp;processed.
+
+&nbsp;&nbsp;&nbsp;*
+
+&nbsp;&nbsp;&nbsp;*&nbsp;</SPAN><SPAN style="color: rgb(128, 128, 128);">@throws</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;ServletException&nbsp;if&nbsp;an&nbsp;unrecoverable&nbsp;error&nbsp;occurs.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;就是这个函数处理上传文件的request，把request交给
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Commons&nbsp;FileUpload&nbsp;控件处理，并解析FileItem转换成Struts的FormFile。
+
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">*/</SPAN><SPAN style="color: rgb(0, 0, 0);">
+
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">void</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;handleRequest(HttpServletRequest&nbsp;request)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">throws</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;ServletException&nbsp;
+
+
+</SPAN></DIV>
+</DIV>
+<P>&nbsp;</P>
+<P><FONT face="宋体" size="2">再看看这个函数内部是怎么实现的吧？</FONT></P>
+<P><FONT face="宋体" size="2">&nbsp;</FONT>&nbsp;</P>
+<DIV style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0&percnt; 0&percnt;; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95&percnt;;">
+<DIV><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;使用了DiskFileUpload。
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;（Commons-FileUpload很老版本的一个上传实现类了，还在用？我的显示是Deprecated）</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;DiskFileUpload&nbsp;upload&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;DiskFileUpload();
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;上传最大值</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;upload.setSizeMax((</SPAN><SPAN style="color: rgb(0, 0, 255);">int</SPAN><SPAN style="color: rgb(0, 0, 0);">)&nbsp;getSizeMax(ac));
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;上传文件在内存中使用的缓冲区大小</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;upload.setSizeThreshold((</SPAN><SPAN style="color: rgb(0, 0, 255);">int</SPAN><SPAN style="color: rgb(0, 0, 0);">)&nbsp;getSizeThreshold(ac));
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;存在硬盘的什么地方，一般是默认</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;upload.setRepositoryPath(getRepositoryPath(ac));&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""></SPAN></DIV>
+</DIV>
+<P>&nbsp;</P>
+<P>接着看handleRequest如何处理request的：</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<DIV style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0&percnt; 0&percnt;; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95&percnt;;">
+<DIV><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;Parse&nbsp;the&nbsp;request&nbsp;into&nbsp;file&nbsp;items.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+</SPAN><SPAN style="color: rgb(0, 0, 0);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;items&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">null</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">try</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;{
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;upload.parseRequest(request);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">这里是关键：上传过程中出了超出最大值的异常了，如何处理？</SPAN><SPAN style="color: rgb(0, 128, 0);">
+</SPAN><SPAN style="color: rgb(0, 0, 0);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(DiskFileUpload.SizeLimitExceededException&nbsp;e)&nbsp;{&nbsp;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;Special&nbsp;handling&nbsp;for&nbsp;uploads&nbsp;that&nbsp;are&nbsp;too&nbsp;big.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+</SPAN><SPAN style="color: rgb(0, 0, 0);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.setAttribute(
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MultipartRequestHandler.ATTRIBUTE_MAX_LENGTH_EXCEEDED,
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean.TRUE);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">return</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">出了其他异常，如enctype不对，磁盘空间不足怎么办？</SPAN><SPAN style="color: rgb(0, 128, 0);">
+</SPAN><SPAN style="color: rgb(0, 0, 0);">
+&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(FileUploadException&nbsp;e)&nbsp;{
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;log.error(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">Failed&nbsp;to&nbsp;parse&nbsp;multipart&nbsp;request</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;e);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">throw</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;ServletException(e);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+</SPAN></DIV>
+</DIV>
+<P>&nbsp;</P>
+<P>&nbsp;<FONT face="宋体" size="2">这次一目了然了：</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2"><STRONG>Struts</STRONG></FONT><FONT face="宋体" size="2"><STRONG>根本没有把上传过程中出的超出最大值的异常带到</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>Action</STRONG></FONT><FONT face="宋体" size="2"><STRONG>，因为那是不可能的，而是把它放到了</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>rquest</STRONG></FONT><FONT face="宋体" size="2"><STRONG>的</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>Attribute</STRONG></FONT><FONT face="宋体" size="2"><STRONG>里</STRONG>。</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">而出了其他异常如</FONT><FONT face="Times New Roman" size="2">enctype</FONT><FONT face="宋体" size="2">不对，磁盘空间不足怎么办？很遗憾，</FONT><FONT face="Times New Roman" size="2">Struts</FONT><FONT face="宋体" size="2">没有去处理它，而是</FONT><FONT face="Times New Roman" size="2">log</FONT><FONT face="宋体" size="2">了一下，抛给了上一层了。</FONT>&nbsp;
+</P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">那我一定要获得这些全部异常咋办呢？没办法，自己定制一个</FONT><FONT face="Times New Roman" size="2">MultipartRequestHandler</FONT><FONT face="宋体" size="2">吧，那样就能彻底解决上传过程中的控制问题了！</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">在此之前，我们得先去最新版的</FONT><FONT face="Times New Roman" size="2">commons-fileupload</FONT><FONT face="宋体" size="2">控件看看上传过程中可能抛出多少异常？</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">//</FONT><FONT face="宋体" size="2">所有上传异常的父类</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">org.apache.commons.fileupload<WBR>.FileUploadException</FONT>&nbsp;
+</P>
+<UL>
+    <P align="justify"><FONT face="Times New Roman" size="2">//</FONT><FONT face="宋体" size="2">注意：这个类的类名是</FONT><FONT face="Times New Roman" size="2">FileUploadBase.SizeLimitExceede<WBR>dException</FONT><FONT face="宋体" size="2">是个</FONT><FONT face="Times New Roman" size="2">public</FONT><FONT face="宋体" size="2">内</FONT><FONT face="Times New Roman" size="2">//</FONT><FONT face="宋体" size="2">部类。上传的</FONT><FONT face="Times New Roman" size="2">formdata</FONT><FONT face="宋体" size="2">总的数据超出了规定大小</FONT></P>
+</UL>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">org.apache.commons.fileupload<WBR>.FileUploadBase.SizeLimitExceed<WBR>edException</FONT>&nbsp;
+</P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">//</FONT><FONT face="宋体" size="2">注意：也是个内部类。这个才是上传的文件超出了规定大小</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">org.apache.commons.fileupload<WBR>.FileUploadBase.FileSizeLimitEx<WBR>ceededException</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">其它的，也看看吧：</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">org.apache.commons.fileupload<WBR>.FileUploadBase.FileUploadIOExc<WBR>eption</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">org.apache.commons.fileupload<WBR>.FileUploadBase.InvalidContentT<WBR>ypeException</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">org.apache.commons.fileupload<WBR>.FileUploadBase.IOFileUploadExc<WBR>eption</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="Times New Roman" size="2">org.apache.commons.fileupload<WBR>.FileUploadBase.UnknownSizeExce<WBR>ption</FONT>&nbsp;
+</P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">要想获得尽可能仔细的数据就在处理的</FONT><FONT face="Times New Roman" size="2">try/catch</FONT><FONT face="宋体" size="2">块里把上面的异常都</FONT><FONT face="Times New Roman" size="2">catch</FONT><FONT face="宋体" size="2">一下，放到</FONT><FONT face="Times New Roman" size="2">request</FONT><FONT face="宋体" size="2">的</FONT><FONT face="Times New Roman" size="2">attribute</FONT><FONT face="宋体" size="2">里去就</FONT><FONT face="Times New Roman" size="2">OK</FONT><FONT face="宋体" size="2">了。</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">另外还有要说的是，<STRONG>最好用</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>commons-fileupload</STRONG></FONT><FONT face="宋体" size="2"><STRONG>控件的最新版本，因为</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>DiskFileUpload</STRONG></FONT><FONT face="宋体" size="2"><STRONG>这个类，</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>commons-fileupload</STRONG></FONT><FONT face="宋体" size="2"><STRONG>已经弃用了，取而代之的是</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>ServletFileUpload</STRONG></FONT><FONT face="宋体" size="2"><STRONG>类了，所以一定要注意！切记，切记</STRONG></FONT><FONT face="Times New Roman" size="2"><STRONG>&hellip;..</STRONG></FONT>&nbsp;
+</P>
+<P align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">这是我写的</FONT><FONT face="Times New Roman" size="2">CommonsMultipartRequestHandler</FONT><FONT face="宋体" size="2">替代类的</FONT><FONT face="Times New Roman" size="2">public void handleRequest(HttpServletReques<WBR>t request) throws ServletException</FONT><FONT face="宋体" size="2">函数：</FONT>&nbsp;
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<DIV style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0&percnt; 0&percnt;; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95&percnt;;">
+<DIV><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">void</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;handleRequest(HttpServletRequest&nbsp;request)&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">throws</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;ServletException
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_89_4458_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_89_4458_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_89_4458_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_89_4458_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_89_4458_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_89_4458_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_89_4458_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_89_4458_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_89_4458_Closed_Text">...</SPAN><SPAN id="_89_4458_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;Get&nbsp;the&nbsp;app&nbsp;config&nbsp;for&nbsp;the&nbsp;current&nbsp;request.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModuleConfig&nbsp;ac&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(ModuleConfig)&nbsp;request.getAttribute(Globals.MODULE_KEY);&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;DiskFileItem工厂,主要用来设定上传文件的参数</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DiskFileItemFactory&nbsp;fileItemFactory&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;DiskFileItemFactory();
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;上传文件所用到的缓冲区大小,超过此缓冲区的部分将被写入到磁盘</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fileItemFactory.setSizeThreshold((</SPAN><SPAN style="color: rgb(0, 0, 255);">int</SPAN><SPAN style="color: rgb(0, 0, 0);">)&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">this</SPAN><SPAN style="color: rgb(0, 0, 0);">.getSizeThreshold(ac));
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;上传文件用到的临时文件存放位置</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fileItemFactory.setRepository(</SPAN><SPAN style="color: rgb(0, 0, 255);">this</SPAN><SPAN style="color: rgb(0, 0, 0);">.getRepository(ac));&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;使用fileItemFactory为参数实例化一个ServletFileUpload对象
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;注意:该对象为commons-fileupload-1.2新增的类.
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;对于1.2以下的commons-fileupload版本并不存在此类.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ServletFileUpload&nbsp;upload&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;ServletFileUpload(fileItemFactory);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;从session中读取对本次上传文件的最大值的限制</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;maxUploadSize&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(String)&nbsp;request.getSession().getAttribute(BasicConstants.maxUploadSize);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;获取struts-config文件中controller标签的maxFileSize属性来确定默认上传的限制
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;如果struts-config文件中controller标签的maxFileSize属性没设置则使用默认的上传限制250M.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">long</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;defaultOrConfigedMaxUploadSize&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">this</SPAN><SPAN style="color: rgb(0, 0, 0);">.getSizeMax(ac);&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">if</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(maxUploadSize&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">!=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">null</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&amp;&amp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;maxUploadSize&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">!=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">)
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_1348_1620_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_1348_1620_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_1348_1620_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_1348_1620_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_1348_1620_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_1348_1620_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_1348_1620_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_1348_1620_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_1348_1620_Closed_Text">...</SPAN><SPAN id="_1348_1620_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;如果maxUploadSize设定不正确则上传限制为defaultOrConfigedMaxUploadSize的值
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;正确则为maxUploadSize转换成的字节数</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upload.setSizeMax((</SPAN><SPAN style="color: rgb(0, 0, 255);">long</SPAN><SPAN style="color: rgb(0, 0, 0);">)&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">this</SPAN><SPAN style="color: rgb(0, 0, 0);">.convertSizeToBytes(maxUploadSize,&nbsp;defaultOrConfigedMaxUploadSize));
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">else</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_1659_1804_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_1659_1804_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_1659_1804_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_1659_1804_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_1659_1804_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_1659_1804_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_1659_1804_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_1659_1804_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_1659_1804_Closed_Text">...</SPAN><SPAN id="_1659_1804_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;如果maxUploadSize没设置则使用默认的上传限制</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;upload.setSizeMax(defaultOrConfigedMaxUploadSize);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;从session中清空maxUploadSize</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.getSession().removeAttribute(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">maxUploadSize</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;Create&nbsp;the&nbsp;hash&nbsp;tables&nbsp;to&nbsp;be&nbsp;populated.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elementsText&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Hashtable();
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elementsFile&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Hashtable();
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elementsAll&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Hashtable();&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;Parse&nbsp;the&nbsp;request&nbsp;into&nbsp;file&nbsp;items.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;items&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">null</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;ServletFileUpload类来处理表单请求
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;抛出的异常为FileUploadException的子异常
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;如果捕获这些异常就将捕获的异常放到session中返回.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">try</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_2396_2474_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_2396_2474_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_2396_2474_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_2396_2474_Open_Image" style="display: none; "><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_2396_2474_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_2396_2474_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_2396_2474_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: inline; " id="_2396_2474_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(128, 128, 128); border-right-color: rgb(128, 128, 128); border-bottom-color: rgb(128, 128, 128); border-left-color: rgb(128, 128, 128); background-color: rgb(255, 255, 255); display: inline; " id="_2396_2474_Closed_Text">...</SPAN><SPAN id="_2396_2474_Open_Text" style="display: none; "><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;upload.parseRequest(request);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(FileUploadBase.SizeLimitExceededException&nbsp;e)
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_2560_2759_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_2560_2759_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_2560_2759_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_2560_2759_Open_Image" style="display: inline; "><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_2560_2759_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_2560_2759_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_2560_2759_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none; " id="_2560_2759_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(128, 128, 128); border-right-color: rgb(128, 128, 128); border-bottom-color: rgb(128, 128, 128); border-left-color: rgb(128, 128, 128); background-color: rgb(255, 255, 255); display: none; " id="_2560_2759_Closed_Text">...</SPAN><SPAN id="_2560_2759_Open_Text" style="display: inline; "><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;请求数据的size超出了规定的大小.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.getSession().setAttribute(BasicConstants.baseSizeLimitExceededException,&nbsp;e);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">return</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(FileUploadBase.FileSizeLimitExceededException&nbsp;e)
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_2849_3052_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_2849_3052_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_2849_3052_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_2849_3052_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_2849_3052_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_2849_3052_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_2849_3052_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_2849_3052_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_2849_3052_Closed_Text">...</SPAN><SPAN id="_2849_3052_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;请求文件的size超出了规定的大小.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.getSession().setAttribute(BasicConstants.baseFileSizeLimitExceededException,&nbsp;e);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">return</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(FileUploadBase.IOFileUploadException&nbsp;e)
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_3133_3328_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_3133_3328_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_3133_3328_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_3133_3328_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_3133_3328_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_3133_3328_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_3133_3328_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_3133_3328_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_3133_3328_Closed_Text">...</SPAN><SPAN id="_3133_3328_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;文件传输出现错误,例如磁盘空间不足等.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.getSession().setAttribute(BasicConstants.baseIOFileUploadException,&nbsp;e);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">return</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(FileUploadBase.InvalidContentTypeException&nbsp;e)
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_3415_3642_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_3415_3642_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_3415_3642_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_3415_3642_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_3415_3642_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_3415_3642_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_3415_3642_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_3415_3642_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_3415_3642_Closed_Text">...</SPAN><SPAN id="_3415_3642_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;无效的请求类型,即请求类型enctype&nbsp;!=&nbsp;&quot;multipart/form-data&quot;</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.getSession().setAttribute(BasicConstants.baseInvalidContentTypeException,&nbsp;e);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">return</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(FileUploadException&nbsp;e)
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_3706_3908_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_3706_3908_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_3706_3908_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_3706_3908_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_3706_3908_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_3706_3908_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_3706_3908_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_3706_3908_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_3706_3908_Closed_Text">...</SPAN><SPAN id="_3706_3908_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;如果都不是以上子异常,则抛出此总的异常,出现此异常原因无法说明.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.getSession().setAttribute(BasicConstants.FileUploadException,&nbsp;e);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">return</SPAN><SPAN style="color: rgb(0, 0, 0);">;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;Partition&nbsp;the&nbsp;items&nbsp;into&nbsp;form&nbsp;fields&nbsp;and&nbsp;files.</SPAN><SPAN style="color: rgb(0, 128, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt=""></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iterator&nbsp;iter&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;items.iterator();
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">while</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(iter.hasNext())
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_4082_4446_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_4082_4446_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_4082_4446_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_4082_4446_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_4082_4446_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_4082_4446_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_4082_4446_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_4082_4446_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_4082_4446_Closed_Text">...</SPAN><SPAN id="_4082_4446_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileItem&nbsp;item&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(FileItem)&nbsp;iter.next();&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">if</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(item.isFormField())
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_4216_4301_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_4216_4301_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_4216_4301_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_4216_4301_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_4216_4301_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_4216_4301_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_4216_4301_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_4216_4301_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_4216_4301_Closed_Text">...</SPAN><SPAN id="_4216_4301_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addTextParameter(request,&nbsp;item);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">else</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockStart.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_4352_4428_Open_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_4352_4428_Closed_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_4352_4428_Closed_Text&#39;).style.display=&#39;inline&#39;;" id="_4352_4428_Open_Image"><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ContractedSubBlock.gif" alt="" onclick="this.style.display=&#39;none&#39;; document.getElementById(&#39;_4352_4428_Closed_Text&#39;).style.display=&#39;none&#39;; document.getElementById(&#39;_4352_4428_Open_Image&#39;).style.display=&#39;inline&#39;; document.getElementById(&#39;_4352_4428_Open_Text&#39;).style.display=&#39;inline&#39;;" style="display: none;" id="_4352_4428_Closed_Image">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="border: 1px solid rgb(128, 128, 128); display: none; background-color: rgb(255, 255, 255);" id="_4352_4428_Closed_Text">...</SPAN><SPAN id="_4352_4428_Open_Text"><SPAN style="color: rgb(0, 0, 0);">{
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addFileParameter(item);
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedSubBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/InBlock.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/ExpandedBlockEnd.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""></SPAN></DIV>
+</DIV>
+<P>
+&nbsp;<FONT face="宋体" size="2">其它部分均未做什么大改变。</FONT>&nbsp;
+</P>
+<P align="justify">&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">好了，替代类写好了，我们怎么去用呢</FONT><FONT face="Times New Roman" size="2">?</FONT></P>
+<P align="justify">&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">这样：在</FONT><FONT face="Times New Roman" size="2">struts-config</FONT><FONT face="宋体" size="2">文件中写配置：</FONT></P>
+<P>&nbsp;</P>
+<DIV style="border: 0.5pt solid windowtext; padding: 4px 5.4pt; background: rgb(230, 230, 230) none repeat scroll 0&percnt; 0&percnt;; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; width: 95&percnt;;">
+<DIV><IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">&lt;!--</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;==========&nbsp;Controller&nbsp;Configuration&nbsp;================================&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">--&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">&lt;</SPAN><SPAN style="color: rgb(128, 0, 0);">controller</SPAN><SPAN style="color: rgb(0, 0, 255);">&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">&lt;!--</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;The&nbsp;&quot;input&quot;&nbsp;parameter&nbsp;on&nbsp;&quot;action&quot;&nbsp;elements&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;a
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local&nbsp;or&nbsp;global&nbsp;&quot;forward&quot;&nbsp;rather&nbsp;than&nbsp;a&nbsp;module-relative&nbsp;path&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">--&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">&lt;</SPAN><SPAN style="color: rgb(128, 0, 0);">set-property&nbsp;</SPAN><SPAN style="color: rgb(255, 0, 0);">value</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;true&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;property</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;inputForward&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">/&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">&lt;</SPAN><SPAN style="color: rgb(128, 0, 0);">set-property&nbsp;</SPAN><SPAN style="color: rgb(255, 0, 0);">value</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;text/html;&nbsp;charset=UTF-8&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;property</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;contentType&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">/&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">&lt;!--</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;通过写类的全名来替代struts默认的MultipartRequestHandler&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">--&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">&lt;</SPAN><SPAN style="color: rgb(128, 0, 0);">set-property&nbsp;</SPAN><SPAN style="color: rgb(255, 0, 0);">property</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;multipartClass&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;value</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;com.amplesky.commonmodule.struts.AmpleskyMultipartRequestHandler&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">/&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">&lt;!--</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;规定的上传文件的最大值&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">--&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">&lt;</SPAN><SPAN style="color: rgb(128, 0, 0);">set-property&nbsp;</SPAN><SPAN style="color: rgb(255, 0, 0);">property</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;maxFileSize&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;value</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;15M&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">/&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">&lt;!--</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;&nbsp;缓冲区大小&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">--&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">&lt;</SPAN><SPAN style="color: rgb(128, 0, 0);">set-property&nbsp;</SPAN><SPAN style="color: rgb(255, 0, 0);">property</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;memFileSize&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;value</SPAN><SPAN style="color: rgb(0, 0, 255);">=&quot;5M&quot;</SPAN><SPAN style="color: rgb(255, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">/&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">&lt;/</SPAN><SPAN style="color: rgb(128, 0, 0);">controller</SPAN><SPAN style="color: rgb(0, 0, 255);">&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt="">
+<IMG align="top" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/None.gif" alt=""></SPAN></DIV>
+</DIV>
+<P>&nbsp;<FONT face="宋体" size="2">好了！现在我们再用</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">上传文件，一旦上传过程中出现了异常，就会被写入</FONT><FONT face="Times New Roman" size="2">request</FONT><FONT face="宋体" size="2">的</FONT><FONT face="Times New Roman" size="2">attributs</FONT><FONT face="宋体" size="2">里。当进入</FONT><FONT face="Times New Roman" size="2">action</FONT><FONT face="宋体" size="2">的时候，通过在</FONT><FONT face="Times New Roman" size="2">Action</FONT><FONT face="宋体" size="2">里获取异常就可以判断上传过程中出了什么问题了，而且在上传过程中<WBR>文件一旦超出了规定大小，或者磁盘大小不足的情况会立即中断上传的<WBR>。这样我们的功能就实现了。</FONT>&nbsp;
+</P>
+<P align="justify">&nbsp;&nbsp;&nbsp;<FONT face="宋体" size="2">最后，感慨一下，</FONT></P>
+<OL type="1">
+    <LI><FONT face="宋体" size="2">感觉</FONT><FONT face="Times New Roman" size="2">commons-fileupload</FONT><FONT face="宋体" size="2">还是挺好用的，但是</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">的使用不大好，基本上误导能力很强，网上关于</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">的资料说明很少，以上这些都是我自己摸索出来的。</FONT> </LI>
+    <LI><FONT face="Times New Roman" size="2">Struts 1</FONT><FONT face="宋体" size="2">都到了</FONT><FONT face="Times New Roman" size="2">1.3</FONT><FONT face="宋体" size="2">版本了，但是对于</FONT><FONT face="Times New Roman" size="2">FormFile</FONT><FONT face="宋体" size="2">的实现依然使用</FONT><FONT face="Times New Roman" size="2">commons-fileupload-1.0</FONT><FONT face="宋体" size="2">版本的</FONT><FONT face="Times New Roman" size="2">DiskFileUpload</FONT><FONT face="宋体" size="2">类，可见更新也不怎么样。其实我觉得这是</FONT><FONT face="Times New Roman" size="2">apache</FONT><FONT face="宋体" size="2">大部分开源工具的一个通病：更新确实不怎么快，</FONT><FONT face="Times New Roman" size="2">commons</FONT><FONT face="宋体" size="2">框架里边的源代码和</FONT><FONT face="Times New Roman" size="2">jar</FONT><FONT face="宋体" size="2">包不一致，还有很多是</FONT><FONT face="Times New Roman" size="2">2004</FONT><FONT face="宋体" size="2">或者</FONT><FONT face="Times New Roman" size="2">2003</FONT><FONT face="宋体" size="2">年的</FONT><FONT face="Times New Roman" size="2">&hellip;</FONT><FONT face="宋体" size="2">要命的是居然不支持</FONT><FONT face="Times New Roman" size="2">javase5</FONT><FONT face="宋体" size="2">的新特性？？？？</FONT> </LI>
+    <LI><FONT face="宋体" size="2">认为把异常放到</FONT><FONT face="Times New Roman" size="2">request</FONT><FONT face="宋体" size="2">的</FONT><FONT face="Times New Roman" size="2">attributs</FONT><FONT face="宋体" size="2">里不好，曾经尝试过抛出异常然后通过配置</FONT><FONT face="Times New Roman" size="2">exception-controller</FONT><FONT face="宋体" size="2">来抓去异常处理，但是抓不到，怎么都抓不到，后来翻了大半天源码才<WBR>发现：</FONT><FONT face="Times New Roman" size="2">struts</FONT><FONT face="宋体" size="2">在处理异常请求的时候将出现的</FONT><FONT face="Times New Roman" size="2">ServletException</FONT><FONT face="宋体" size="2">和</FONT><FONT face="Times New Roman" size="2">IOExcepton</FONT><FONT face="宋体" size="2">都交给了上层去处理了，根本不会抛出来。所以这两种异常是抓不到的<WBR>。</FONT> </LI>
+</OL>
+<P>&nbsp;</P>
+<P>&nbsp;</P><P class="right articalinfo">发表于 @ <A href="" title="permalink">2008年01月25日 18:10:00</A>|<A href="http://blog.csdn.net/iwindyforest/archive/2008/01/25/2065791.aspx#FeedBack" title="评论">评论(<SPAN id="FeedbackCount_2065791">1</SPAN><SCRIPT type="text/javascript">AddFeedbackCountStack("2065791")</SCRIPT>)</A>|<CITE class="fav_csdnstylebykimi"><A href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</A></CITE></P>
+    <SPAN id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><H3><A href="http://blog.csdn.net/iwindyforest/archive/2008/01/26/2066835.aspx">新一篇:&nbsp;给盖茨的一封信：退休后不宜去的几个地方</A>&nbsp;|&nbsp;<A href="http://blog.csdn.net/iwindyforest/archive/2008/01/20/2054812.aspx">旧一篇:&nbsp;学习&quot;研发人员的职业素养&quot;的笔记</A></H3></SPAN>
+</DIV>
+
+        <DIV id="Post.ascx_TagAd_palTagAd">
+	
+    <DIV class="tagadfornews" id="csdn_tag_adstyle"><DL><DT><A href="http://tagegg.csdn.net/a.aspx?action=click&unionuser=19&adid=1957&tag=&adurl=http%3a%2f%2fwww.itcast.net%2fportal%2fcourses%2funit%2f191"><IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/logo.jpg" alt=""></A> </DT><DD class="tit"><A href="http://tagegg.csdn.net/a.aspx?action=click&unionuser=19&adid=1957&tag=&adurl=http%3a%2f%2fwww.itcast.net%2fportal%2fcourses%2funit%2f191">相等性（==及equals方法）详解</A></DD><DD>JAVA面试必看！   Java常见面试题目深度剖析</DD></DL><DL><DT><A href="http://tagegg.csdn.net/a.aspx?action=click&unionuser=19&adid=1958&tag=&adurl=http%3a%2f%2fwww.itcast.net%2fportal%2fcourses%2funit%2f191"><IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/logo.jpg" alt=""></A> </DT><DD class="tit"><A href="http://tagegg.csdn.net/a.aspx?action=click&unionuser=19&adid=1958&tag=&adurl=http%3a%2f%2fwww.itcast.net%2fportal%2fcourses%2funit%2f191">相等性（==及equals方法）详解</A></DD><DD>JAVA面试必看！   Java常见面试题目深度剖析</DD></DL></DIV>
+
+</DIV>
+
+    </DIV>
+    <DIV class="commentslist">
+        <SPAN id="Anthem_Post.ascx_Comments_ltlComments__"><SPAN id="Post.ascx_Comments_ltlComments"><DIV id="commentslist"><H3>评论</H3><DL class="question"><DT><A title="permalink: 回复:Struts的FormFile与Commons-FileUpload控件使用心得 " href="http://blog.csdn.net/iwindyforest/archive/2008/01/25/2065791.aspx#986602">#</A><A name="986602"></A>east_java&nbsp;发表于2008-12-21 14:52:46&nbsp;&nbsp;IP: 117.40.20.*</DT><DD>我试了好多次就是没有成功..很是郁闷..<BR>对于enctype=&quot;multipart/form-data&quot;都报错..错误信息很不详细..</DD></DL></DIV></SPAN></SPAN>
+
+    </DIV>
+    <DIV class="spacecommment">
+        <DIV id="Anthem_Post.ascx_PostComment_CommentUpdatePanel__"><DIV id="Post.ascx_PostComment_CommentUpdatePanel">
+	
+    <FIELDSET>
+        <LEGEND>发表评论</LEGEND>
+        <UL>
+            <LI>姓&nbsp;&nbsp;&nbsp;名：<INPUT name="Post.ascx:PostComment:tbName" type="text" value="franks_wu" maxlength="32" id="Post.ascx_PostComment_tbName" disabled="disabled" size="40"><SPAN controltovalidate="Post.ascx_PostComment_tbName" errormessage="请输入名字" id="Post.ascx_PostComment_RequiredFieldValidator2" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;visibility:hidden;">请输入名字</SPAN></LI>
+            <LI>主&nbsp;&nbsp;&nbsp;页：<INPUT name="Post.ascx:PostComment:tbUrl" type="text" maxlength="256" id="Post.ascx_PostComment_tbUrl" size="40"></LI>
+            <LI>
+                <DIV id="Post.ascx_PostComment_AntiBotImageRegion">
+		
+                    校验码：
+                    <INPUT name="Post.ascx:PostComment:tbAntiBotImage" type="text" id="Post.ascx_PostComment_tbAntiBotImage" style="width:75px;">
+                    <SPAN display="Dynamic" id="Post.ascx_PostComment_valAntiBotImage" evaluationfunction="CustomValidatorEvaluateIsValid" style="color:Red;display:none;">检验码无效!</SPAN>
+                    <SPAN id="Anthem_Post.ascx_PostComment_imgAntiBotImage__"><IMG id="Post.ascx_PostComment_imgAntiBotImage" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/AntiBotImage.aspx" alt="" align="absmiddle" border="0"></SPAN>
+                    <SPAN id="Anthem_Post.ascx_PostComment_lbCreateAntiBotImage__"><A onclick="javascript:Anthem_FireCallBackEvent(this,event,&#39;Post.ascx:PostComment:lbCreateAntiBotImage&#39;,&#39;&#39;,false,&#39;&#39;,&#39;&#39;,&#39;&#39;,true,null,null,null,true,true);return false;" id="Post.ascx_PostComment_lbCreateAntiBotImage" href="javascript:__doPostBack('Post.ascx$PostComment$lbCreateAntiBotImage','')">看不清,换一张</A></SPAN>
+	</DIV>
+            </LI>
+        </UL>
+        <SPAN controltovalidate="Post.ascx_PostComment_tbComment" errormessage="请输入评论" id="Post.ascx_PostComment_RequiredFieldValidator3" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;visibility:hidden;">请输入评论</SPAN><BR>
+        <TEXTAREA name="Post.ascx:PostComment:tbComment" rows="10" cols="50" id="Post.ascx_PostComment_tbComment"></TEXTAREA><BR>
+        <SPAN id="Anthem_Post.ascx_PostComment_btnSubmit__"><INPUT type="submit" name="Post.ascx:PostComment:btnSubmit" value="提交" onclick="javascript:Anthem_FireCallBackEvent(this,event,&#39;Post.ascx:PostComment:btnSubmit&#39;,&#39;&#39;,true,&#39;&#39;,&#39;&#39;,&#39;正在处理...&#39;,false,null,null,null,true,true);return false;WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;Post.ascx:PostComment:btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" language="javascript" id="Post.ascx_PostComment_btnSubmit"></SPAN>
+        <BR>
+        <SPAN id="Post.ascx_PostComment_Message" style="color:Red;"></SPAN>
+    </FIELDSET>
+
+</DIV></DIV>
+
+    </DIV>
+
+    <SCRIPT type="text/javascript">
+    LoadFeedbackCount();//加载评论
+    document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");// 计数器
+    ad_width=468;//加载广告
+    ad_height=60;
+    adcss=2;
+    unionuser=19;
+    tags='';
+    ad_type='j';
+    count=2;
+    </SCRIPT><IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/pv.aspx" border="0" width="0" height="0">
+
+    <SCRIPT src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/HighLighter.js" type="text/javascript"></SCRIPT>
+
+    <SCRIPT language="javascript" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/showads.js" type="text/javascript"></SCRIPT><SCRIPT language="JavaScript1.1" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/b.aspx"></SCRIPT><IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/pv(1).aspx" border="0" width="0" height="0">
+
+    <SCRIPT type="text/javascript">
+    if(typeof(gms) != 'undefined') 
+    {
+        var outhtml='';
+        for (var k in gms) {
+	        outhtml+='<dl>';
+	        outhtml+='<dt><a href="'+gms[k].link+'"><img src="'+gms[k].displink+'" alt="" /></a> ';
+	        outhtml+='<dd class="tit"><a href="'+gms[k].link+'">'+gms[k].title+'</a></dd>';
+	        outhtml+='<dd  >'+gms[k].desc1+"   "+gms[k].desc2+'</dd>';
+	        outhtml+='</dl>';
+        }
+        document.getElementById("csdn_tag_adstyle").innerHTML=outhtml;
+    }
+    </SCRIPT>
+
+</DIV>
+ 
+                
+        </DIV>
+    </DIV>
+    
+    <DIV id="pubfooter">
+        
+<DL>
+    <DT>
+    <DD>
+        Csdn Blog version 3.1a</DD>
+    <DD>
+        Copyright &copy;
+        陈英华
+    </DD>
+</DL>
+
+    </DIV>
+</DIV>
+
+        
+<SCRIPT type="text/javascript">
+<!--
+var Page_Validators =  new Array(document.getElementById("Post.ascx_PostComment_RequiredFieldValidator2"), document.getElementById("Post.ascx_PostComment_valAntiBotImage"), document.getElementById("Post.ascx_PostComment_RequiredFieldValidator3"));
+// -->
+</SCRIPT>
+
+
+<SCRIPT type="text/javascript">
+<!--
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+// -->
+</SCRIPT>
+        </FORM>
+
+        <SCRIPT type="text/javascript" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/counter.js"></SCRIPT><IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/visitlog.php" width="1" height="1" border="0" alt=""><IFRAME id="myframe" name="myframe" frameborder="no" scrolling="no" width="0" height="0" border="0" src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/dd333.htm"></IFRAME>
+
+    </DIV>
+
+
+<IMG src="./Struts的FormFile与Commons-FileUpload控件使用心得 - 陈英华的专栏 - CSDNBlog_files/pv(2).aspx" alt="" style="display: none; "></BODY></HTML>
