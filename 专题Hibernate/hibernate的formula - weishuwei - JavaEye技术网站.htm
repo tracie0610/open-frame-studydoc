@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>hibernate的formula - weishuwei - JavaEye技术网站</title>
+    <meta name="description" content="  Property元素中的formula允许对象属性包含导出值，比如sum、average、max等的结果。如：               &lt;property&nbsp;name=&quot;averagePrice&quot;&nbsp;formula=&quot;(select&nbsp;avg(pc.price)&nbsp;from&nbsp;PriceCatalogue&nbsp ..." />
+    <meta name="keywords" content="  hibernate的formula" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="weishuwei" type="application/rss+xml" /> 
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1231312900" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/itadvance/theme.css?1215506025" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1229347835" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1224988575" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  <link href="http://www.javaeye.com/javascripts/editor/css/ui.css?1222156967" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/editor/compress.js?1225335142" type="text/javascript"></script>
+  </head>	
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="this.blur();$('more_site_nav').toggle();return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div id="more_site_nav" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+    
+      <a href="http://frankswu.javaeye.com/app/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (2)</a>
+    
+    <a href="http://frankswu.javaeye.com/app/subscriptions" title="查看我的订阅">订 阅</a>
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">博 客</a>
+    
+      <a href="http://frankswu.javaeye.com/app/my_groups" title="查看我的圈子">圈 子</a>
+    
+    <a href="http://frankswu.javaeye.com/admin/profile">设置</a>
+    <a href="/logout" class="last" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+
+
+
+    </div>
+    
+    <div id="page" onclick="$('more_site_nav').hide();">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">weishuwei</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://weishuwei.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/69519" class="next">webwork的路径转发</a>
+      |
+      <a href="/blog/66587" class="pre">远程调试tomcat</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2007</span><span class='sep_year'>-</span><span class='month'>04</span><span class='sep_month'>-</span><span class='day'>04</span></div>
+    <h3 class='' title=''><a href="/blog/68030">hibernate的formula</a></h3>
+        
+  </div>
+
+  <div class="blog_content">
+    <font face="Arial">
+<p><font face="Arial">Property元素中的formula允许对象属性包含导出值，比如sum、average、max等的结果。如： <br />
+</font><font face="Arial">
+<div class="dp-highlighter">
+<div class="bar"></div>
+<ol class="dp-j">
+    <li class="alt"><span><span>&lt;property&nbsp;name=</span><span class="string">&quot;averagePrice&quot;</span><span>&nbsp;formula=</span><span class="string">&quot;(select&nbsp;avg(pc.price)&nbsp;from&nbsp;PriceCatalogue&nbsp;pc,&nbsp;SelectedItems&nbsp;si&nbsp;where&nbsp;si.priceRefID=pc.priceID)&quot;</span><span>/&gt;&nbsp;&nbsp;</span></span></li>
+</ol>
+</div>
+<p>此外，formula还可以基于当前记录的特定属性值从另一个表检索值。例如：<br />
+</p>
+<div class="code_title">代码</div>
+</font><font face="Arial">
+<div class="dp-highlighter">
+<div class="bar"></div>
+<ol class="dp-j">
+    <li class="alt"><span><span>&lt;property&nbsp;name=</span><span class="string">&quot;currencyName&quot;</span><span>&nbsp;formula=</span><span class="string">&quot;(select&nbsp;cur.name&nbsp;from&nbsp;currency&nbsp;cur&nbsp;where&nbsp;cur.id=&nbsp;currencyID)&quot;</span><span>/&gt;&nbsp;&nbsp;</span></span></li>
+</ol>
+</div>
+<p>&nbsp;</p>
+<div class="code_title">代码</div>
+<div class="dp-highlighter">
+<div class="bar"></div>
+<ol class="dp-j">
+    <li class="alt"><span><span>&lt;property&nbsp;name=</span><span class="string">&quot;schNum&quot;</span><span>&nbsp;formula=</span><span class="string">&quot;(select&nbsp;max(a.schoolNumb)&nbsp;from&nbsp;sys_act_code&nbsp;as&nbsp;a)&quot;</span><span>/&gt;&nbsp;&nbsp;</span></span></li>
+</ol>
+</div>
+<p><strong>注意:<br />
+</strong>1,formula=&quot;()&quot;,里面的是sql语句,字段和表名都应该和数据库相应,而不是字段,若带有参数如<font face="Arial">cur.id= currencyID,这个currencyID才是对象的东东.<br />
+2,formula=&quot;( sql )&quot;,这个括号不能少,不然会报错,我试了几次,没括号就报错,添上就没问题<br />
+3,操作字段一定要用别名</font></p>
+<p><strong>问题:</strong><br />
+&nbsp;1,org.springframework.orm.hibernate3.HibernateSystemException: Null value was assigned to a property of primitive type setter of <br />
+没用别名,会出现这个错误,添个别名就好了<br />
+<br />
+2,如果我要用obj.getSchNum()得到想要的值,该对象(obj)必须是hibernate取得的对象,<br />
+<br />
+3,如果要传入参数,如上面那个,<font face="Arial">currencyID</font>是该对象的属性,它的值也是有hibernate操作当前对象时,把该属性对应的值自动传入进去.</p>
+</font></p>
+<div class="code_title">&nbsp;代码</div>
+</font>
+  </div>
+  
+  
+
+  
+
+  <div class="blog_bottom">
+    <ul>
+      <li>18:26</li>
+      <li>浏览 (1019)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      <li>分类: <a href="/category/9587">持久化</a></li>
+      
+      
+        <li><a href='http://frankswu.javaeye.com/app/user_favorites?user_favorite%5Btitle%5D=hibernate%E7%9A%84formula&amp;user_favorite%5Burl%5D=http%3A%2F%2Fweishuwei.javaeye.com%2Fblog%2F68030' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/68030" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  
+  
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+     
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      <form action="/blog/68030" id="comment_form" method="post" onsubmit="return false;">        
+
+
+  <input type="hidden" id="editor_bbcode_flag"/>
+
+
+
+<div id="editor_main"><textarea class="validate-richeditor bad-words min-length-5" cols="40" id="editor_body" name="comment[body]" rows="20" style="width: 500px; height: 350px;"></textarea></div>
+
+
+<script type="text/javascript">
+  var editor = new Control.TextArea.Editor("editor_body", "bbcode", false);
+</script>
+        <p style="text-align:right;padding-right:30px;"> <input class="submit" id="submit_button" name="commit" type="submit" value="提交" /></p>
+      </form>
+      <script type="text/javascript">
+        new Validation("comment_form", {immediate: false, onFormValidate: function(result, form){
+  
+          if(result) {
+            new Ajax.Request('/blog/create_comment/68030', {
+              onSuccess:function(response){
+                Element.scrollTo($('comments'));
+                $('comments').insert({after:response.responseText})
+                $('editor_body').value = "";
+                $('_form_spinner_').hide();
+              }, parameters:Form.serialize(form)
+            });
+          }
+  
+      }});
+      </script>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.ClipboardSwf = '/javascripts/syntaxhighlighter/clipboard.swf';
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(link) {
+    quote_user = $(link).previous(0).innerHTML;
+    quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+  }
+</script>
+
+
+        </div>
+        
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://weishuwei.javaeye.com'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/40380/a8640668-1e4c-4884-822c-4d06ebb70518.jpg?1183684037" title="weishuwei的博客: weishuwei" /></a></div>
+            <div id="blog_owner_name">weishuwei</div>
+          </div>
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 76802 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 上海</li>
+              <li><img src='/images/status/offline.gif'/></li>              
+              <li><a href="/blog/profile">详细资料</a> <a href="http://frankswu.javaeye.com/app/messages/new?message%5Breceiver_name%5D=weishuwei">发送短消息</a> <a href="/blog/guest_book">留言簿</a></li>
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left"><span class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></span> <a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://jansel.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/upload/logo/user/53178/aa85703b-b1e5-4f15-9fd6-afada689917a-thumb.jpg?1173274512" title="jansel的博客: 竹林风 珍惜拥有，做个明智的人，做个快乐的人！" /></a></span> <a href='http://jansel.javaeye.com' target='_blank'>jansel</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://bufegar.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="bufegar的博客: bufegar" /></a></span> <a href='http://bufegar.javaeye.com' target='_blank'>bufegar</a></div>
+              
+                <div class="left"><span class="logo"><a href='http://kevin-305.javaeye.com' target='_blank'><img alt="用户头像" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="kevin_305的博客: " /></a></span> <a href='http://kevin-305.javaeye.com' target='_blank'>kevin_305</a></div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>				
+              <ul>
+                <li><a href="/">全部博客 (74)</a></li>
+                
+                  <li><a href="/category/8366">Lucene (4)</a></li>
+                
+                  <li><a href="/category/8368">框架模版 (17)</a></li>
+                
+                  <li><a href="/category/8369">Script (3)</a></li>
+                
+                  <li><a href="/category/8835">问题拾遗 (15)</a></li>
+                
+                  <li><a href="/category/8836">生活琐碎 (3)</a></li>
+                
+                  <li><a href="/category/9249">权限管理 (10)</a></li>
+                
+                  <li><a href="/category/9411">远程调用RPC (7)</a></li>
+                
+                  <li><a href="/category/9412">定时调度 (1)</a></li>
+                
+                  <li><a href="/category/9587">持久化 (9)</a></li>
+                
+                  <li><a href="/category/16364">项目管理 (4)</a></li>
+                
+                  <li><a href="/category/19198">服务器管理 (1)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿 <span style='font-weight:normal;font-size:12px;padding-left:20px;'><a href="/blog/guest_book">&gt;&gt;更多留言</a></span></h5>
+                <ul>
+                  
+                    <li>
+                      com.caucho.hessian.client.HessianConnect ...<br/>
+                      -- by <a href="/blog/guest_book#1265">carlos175</a>
+                    </li>
+                  
+                    <li>
+                      你好，我想请问一个关于hessian的问题。之前在本地的两台windows上测 ...<br/>
+                      -- by <a href="/blog/guest_book#1264">carlos175</a>
+                    </li>
+                  
+                </ul>              
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (0)</li>
+                
+                  <li><a href="/blog/pdf">我的书籍</a> (1) </li>
+                                
+                                <li><a href="/blog/forum">我的论坛帖子</a> (40)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://ecside.group.javaeye.com">GT-Grid</a></li>
+                
+                  <li><a href="http://tapestrying.group.javaeye.com">Tapestry</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://ivanisme.javaeye.com" target="_blank">ivan's blog</a></li>
+                  
+                    <li><a href="http://subethasmtp.tigris.org/" target="_blank">subethasmtp</a></li>
+                  
+                    <li><a href="http://dojotoolkit.org/" target="_blank">dojo</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2007-10">2007-10</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-09">2007-09</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2007-08">2007-08</a> (2)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/66009#comments" title="hibernate自定义主键">hibernate自定义主键</a><br/>
+                    学习～～～～～～～～～～～～～～～<br/>
+                    -- by <a href='http://wxyhibernate.javaeye.com' target='_blank'>wxyhibernate</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/85041#comments" title="修改dreamweaver是它能支持freemarker">修改dreamweaver是它能支 ...</a><br/>
+                    试了，没用，另外&lt;directive_spec tag_name="ftl ...<br/>
+                    -- by <a href='http://wewi.javaeye.com' target='_blank'>wewi</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/95822#comments" title="hibernate annotation笔记">hibernate annotation笔记</a><br/>
+                    字段的comment怎么搞？<br/>
+                    -- by <a href='http://fourfire.javaeye.com' target='_blank'>fourfire</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/95822#comments" title="hibernate annotation笔记">hibernate annotation笔记</a><br/>
+                    zhouyaguo 写道请教一下，我的程序里也写了@Temporal(Temp ...<br/>
+                    -- by <a href='http://antonyup-2006.javaeye.com' target='_blank'>antonyup_2006</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/95822#comments" title="hibernate annotation笔记">hibernate annotation笔记</a><br/>
+                    引用@Temporal(TemporalType.TIMESTAMP)//不用s ...<br/>
+                    -- by <a href='http://zhouyaguo.javaeye.com' target='_blank'>zhouyaguo</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://weishuwei.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://weishuwei.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://weishuwei.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+      
+      <div id="footer" class="clearfix">            	
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>

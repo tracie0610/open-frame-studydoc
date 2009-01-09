@@ -1,0 +1,593 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="author" content="yeth" />
+    <meta name="Copyright" content="Csdn" />
+    <meta name="description" content="up&amp;lt;br /&amp;gt;摘自hibernate.org" />
+    <meta name="keywords" content="yeth,person,adddress,cat," />
+    <link rel="Shortcut Icon" href="http://profile.csdn.net/yethyeth/picture/1.ico" />
+    <link href="http://hi.images.csdn.net/css/Cogitation/Cogitation_1.css" type="text/css" rel="stylesheet" media="all" /><link href="http://blog.csdn.net/yethyeth/customcss.aspx" type="text/css" rel="stylesheet" media="all" /><link href="http://blog.csdn.net/yethyeth/rss.aspx" title="RSS" type="application/rss+xml" rel="alternate" />
+    <title>
+        Native sql (本地sql)在Hibernate中 - yethyeth的专栏 - CSDNBlog</title>
+</head>
+<body id="defaultuser">
+    <div id="csdnblog_allwrap">
+        <form name="Form1" method="post" action="1626868.aspx" language="javascript" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+
+<script type="text/javascript">
+<!--
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+// -->
+</script>
+
+
+<script src="/WebResource.axd?d=vPBp1uwAXcWW_HR7kQLSJw2&amp;t=633368809778488179" type="text/javascript"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+var Anthem_FormID = "Form1";
+//]]>
+</script>
+<script src="/WebResource.axd?d=xe4Hb-SpxzFzlneGulsvshD5tJaeoT5rOhxhNgNV4Rw1&amp;t=633532073515543195" type="text/javascript"></script>
+<script src="/WebResource.axd?d=sCPKYj5Niyz0W_esyXefUe_mVagR4BQx1pHtu2ZkeZk1&amp;t=633368809778488179" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+// -->
+</script>
+
+        
+<div id="csdnblog_midwrap">
+    <div id="csdnblog_header">
+        
+        <h1><a id="Header1_HeaderTitle" href="http://blog.csdn.net/yethyeth/">yethyeth的专栏</a></h1><h2>从菜鸟到高手的路还有多远？---java typist</h2>
+        
+        <ul id="personalnav"><li><a href="http://passport.csdn.net/UserLogin.aspx">登录</a></li><li><a href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</a></li></ul>
+        
+        <ul id="blogsearchsty"><li><input id="inputSearch" type="text" class="bolgsearch" onkeydown="return keyb(event)" /></li><li class="selectsty"><select name="Search:ddlSearchScope" id="Search_ddlSearchScope"><option value="all">全站</option><option value="yethyeth">当前博客</option></select></li><li><input type="button" onclick="checkNull()" value="搜索" class="bolggobtn" /></li></ul>
+        
+        <ul id="menu"><li><a href="http://hi.csdn.net/yethyeth">空间</a></li><li><a href="http://blog.csdn.net/yethyeth" class="on">博客</a></li><li><a href="http://hi.csdn.net/yethyeth/profile/contactlist/1.html">好友</a></li><li><a href="http://album.hi.csdn.net/" target="_blank">相册</a></li><li><a href="http://hi.csdn.net/yethyeth/profile/notebook/1.html" class="last">留言</a></li></ul>
+    </div>
+    <div id="csdnblog_sidebar">
+        <div class="gutter">
+            <div class="aboutauthor">
+                <dl>
+                    
+                    <dt>用户操作</dt><dd class="middle"><a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/Messages/yethyeth.ashx" target="_blank">[即时聊天]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=yethyeth" target="_blank">[发私信]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/AddFriends/yethyeth.ashx" target="_blank">[加为好友]</a></dd><dt>yeth</dt><dd class="middle"><img src="http://profile.csdn.net/yethyeth/picture/1.jpg" /></dd>
+                    
+                    <dt>yeth的公告</dt><dd><script language="javascript">
+function on_search_click(){
+ Form1.action = "http://www.google.com/custom/";
+ Form1.target = "_blank";
+ Form1.method = "get";
+}
+</script>
+<!-- Search Google -->
+<center>
+<table cellspacing="0" border="0">
+<tr><td>Google 查询：</td></tr>
+<tr valign="top"><td>
+<input type="text" name="q" maxlength="255" value="" style="width:130px;border:3px double #cecece;">
+<input type="submit" name="sa" value="Search" onclick="javascript:on_search_click()">
+<input type="hidden" name="cof" value="AH:center;AWFID:3182aae82da4ddf8;">
+<input type="hidden" name="ie" value="GB2312">
+<input type="hidden" name="oe" value="GB2312">
+<input type="hidden" name="domains" value="blog.csdn.net"><br>
+<input type="radio" name="sitesearch" value=""> By csdn
+<input type="radio" name="sitesearch" value="google.com" checked="checked"> By google
+<input type="radio" name="sitesearch" value="blog.csdn.net/yethyeth" checked="checked"> By Me
+</td></tr></table>
+</center>
+<!-- Search Google -->
+<br>
+
+━━━━━━━━━━━━━━━━━━━━━━
+写着原创的东西未必是原创的，都是csdn搞的，本人不负责。
+
+如果你觉得有的文章损害了你的著作权请邮件联系，我会及时改正yethyeth@gmail.com
+***************************
+━━━━━━━━━━━━━━━━━━━━━━
+
+
+有一天，柏拉图问老师苏格拉底什么是爱情？老师就让他先到到麦田里去，摘一棵全麦田里最大最金黄的麦穗来，期间只能摘一次，并且只可向前走，不能回头。 
+　　
+　　　　柏拉图于是按照老师说的去做了。结果他两手空空的走出了田地。老师问他为什么摘不到？ 
+　　
+　　　　他说：因为只能摘一次，又不能走回头路，期间即使见到最大最金黄的，因为不知前面是否有更好的，所以没有摘；走到前面时，又发决总不及之前见到的好，原来最大最金黄的麦穗早已错过了；于是我什么也没摘。 
+　　
+　　　　老师说：这就是“爱情”。 
+　　
+　　　　之后又有一天，柏拉图问他的老师什么是婚姻，他的老师就叫他先到树林里，砍下一棵全树林最大最茂盛、最适合放在家作圣诞树的树。其间同样只能砍一次，以及同样只可以向前走，不能回头。 
+　　
+　　　　柏拉图于是照着老师的说话做。今次，他带了一棵普普通通，不是很茂盛，亦不算太差的树回来。老师问他，怎么带这棵普普通通的树回来，他说：“有了上一次经验，当我走到大半路程还两手空空时，看到这棵树也不太差，便砍下来，免得错过了后，最后又什么也带不出来。” 
+　　
+　　　　老师说：“这就是婚姻！” 
+　　
+　　　　人生就正如穿越麦田和树林，只走一次，不能回头。要找到属于自己最好的麦穗和大树，你必须要有莫大的勇气和付出相当的努力才可以。</dd>
+
+                    <dt>最近评论</dt><dd>higkoo：<a href="http://blog.csdn.net/yethyeth/archive/2007/05/09/1601563.aspx#951605" Title="点击查看《回复:jboss安装》">同意“langke93”的意见。<br /><br />莫非是版本不同？</a></dd><dd>创新基金：<a href="http://blog.csdn.net/yethyeth/archive/2007/02/26/1515270.aspx#937652" Title="点击查看《回复:有衬线字体与无衬线字体(serif vs sans serif)》">个人觉得还是有村好看  不过无村比较朴实</a></dd><dd>MR Zhang：<a href="http://blog.csdn.net/yethyeth/archive/2008/07/08/2626695.aspx#932815" Title="点击查看《回复:【转】 Session详解[郎云鹏]》">OK，讲的好</a></dd><dd>wmxj2008：<a href="http://blog.csdn.net/yethyeth/archive/2006/11/16/1389009.aspx#926741" Title="点击查看《回复:DevExpress学习(ExpressEditor,cxgrid)》">学习了</a></dd><dd>janet：<a href="http://blog.csdn.net/yethyeth/archive/2007/03/30/1547110.aspx#909591" Title="点击查看《回复:firefox基于本地绝对路径的图片做背景时显示有问题》">我也遇到这个问题了<br />但是不知道怎么解决</a></dd>
+                    
+                    <dt>文章分类</dt><dd><div class="publiclist_sidebar"><ul><li><a href="http://blog.csdn.net/yethyeth/category/158285.aspx">Agent 软件开发学习</a><a href="http://blog.csdn.net/yethyeth/category/158285.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/173690.aspx">Architecture</a><a href="http://blog.csdn.net/yethyeth/category/173690.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/297511.aspx">CSS</a><a href="http://blog.csdn.net/yethyeth/category/297511.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/288670.aspx">CSS Hack Bug Filter</a><a href="http://blog.csdn.net/yethyeth/category/288670.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/173010.aspx">Delphi</a><a href="http://blog.csdn.net/yethyeth/category/173010.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/298311.aspx">Eclipse</a><a href="http://blog.csdn.net/yethyeth/category/298311.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/310592.aspx">hibernate</a><a href="http://blog.csdn.net/yethyeth/category/310592.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/171323.aspx">java</a><a href="http://blog.csdn.net/yethyeth/category/171323.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/302854.aspx">java open source</a><a href="http://blog.csdn.net/yethyeth/category/302854.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/297510.aspx">Javascript</a><a href="http://blog.csdn.net/yethyeth/category/297510.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/354320.aspx">JBuilder</a><a href="http://blog.csdn.net/yethyeth/category/354320.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/346433.aspx">OO</a><a href="http://blog.csdn.net/yethyeth/category/346433.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/321561.aspx">SOA</a><a href="http://blog.csdn.net/yethyeth/category/321561.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/310591.aspx">spring web mvc</a><a href="http://blog.csdn.net/yethyeth/category/310591.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/310593.aspx">spring 事务</a><a href="http://blog.csdn.net/yethyeth/category/310593.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/223272.aspx">SQL SERVER</a><a href="http://blog.csdn.net/yethyeth/category/223272.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/298312.aspx">Test</a><a href="http://blog.csdn.net/yethyeth/category/298312.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/306154.aspx">tomcat</a><a href="http://blog.csdn.net/yethyeth/category/306154.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/163667.aspx">uml</a><a href="http://blog.csdn.net/yethyeth/category/163667.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/158720.aspx">UNIX/LINUX</a><a href="http://blog.csdn.net/yethyeth/category/158720.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/211676.aspx">Web</a><a href="http://blog.csdn.net/yethyeth/category/211676.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/236730.aspx">XML</a><a href="http://blog.csdn.net/yethyeth/category/236730.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/158859.aspx">报表</a><a href="http://blog.csdn.net/yethyeth/category/158859.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/349078.aspx">本blog的一些页面代码</a><a href="http://blog.csdn.net/yethyeth/category/349078.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/334154.aspx">工作应试</a><a href="http://blog.csdn.net/yethyeth/category/334154.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/168253.aspx">其他</a><a href="http://blog.csdn.net/yethyeth/category/168253.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/279219.aspx">软件工程</a><a href="http://blog.csdn.net/yethyeth/category/279219.aspx/rss">(RSS)</a></li><li><a href="http://blog.csdn.net/yethyeth/category/340050.aspx">书籍推荐与评价</a><a href="http://blog.csdn.net/yethyeth/category/340050.aspx/rss">(RSS)</a></li></ul></div></dd><dt>收藏</dt><dd><div class="publiclist_sidebar"><ul><li><a href="http://blog.csdn.net/yethyeth/category/158822.aspx">Delphi</a></li><li><a href="http://blog.csdn.net/yethyeth/category/159508.aspx">Java</a></li><li><a href="http://blog.csdn.net/yethyeth/category/158717.aspx">UNIX/Linux</a></li><li><a href="http://blog.csdn.net/yethyeth/category/158722.aspx">UNIX下C</a></li><li><a href="http://blog.csdn.net/yethyeth/category/160278.aspx">工作流</a></li><li><a href="http://blog.csdn.net/yethyeth/category/158979.aspx">供应链</a></li><li><a href="http://blog.csdn.net/yethyeth/category/161701.aspx">其他</a></li></ul></div></dd><dt>相册</dt><dt>Blogs</dt><dd><a href="http://blog.csdn.net/baggio785/" target="_blank">baggio785的专栏，关于java和eclipse(!)</a></dd><dd><a href="http://blog.csdn.net/beckel/" target="_blank">Bruce Eckel </a></dd><dd><a href="http://blog.csdn.net/yethyeth/archive/2006/02/06/593147.aspx" target="_blank">java常用文档</a></dd><dd><a href="http://www.cnblogs.com/josson/" target="_blank">一个技术博客</a></dd><dt>Delphi</dt><dd><a href="http://dev.cq118.com/web/cn/research/softengine/dcs.htm" target="_blank">delphi编码规范</a></dd><dd><a href="http://www.doany.net" target="_blank">一delphi牛人（写有《delphi源代码分析》）</a></dd><dd><a href="http://www.51one.net/study/Delphi/" target="_blank">一些delphi实例和技巧</a></dd><dd><a href="http://www.ejun.cn/" target="_blank">一款delphi表格控件（不错！）</a></dd><dd><a href="http://www.hotkey.net.au/~hambar/habit/delflink.htm" target="_blank">很多delphi的链接</a></dd><dd><a href="http://blog.cnbie.com/blog_12200.html" target="_blank">很多关于Delphi的东西，很不错！</a></dd><dd><a href="http://dev.csdn.net/article/30/30252.shtm" target="_blank">深入QREPORT（关于QREPORT相当好的文档）</a></dd><dt>Java</dt><dd><a href="http://blog.csdn.net/yethyeth/archive/2007/07/23/1702995.aspx" target="_blank">APIS</a></dd><dd><a href="http://www.chedong.com/tech/hello_unicode.html" target="_blank">Java中文处理学习笔记——Hello Unicode(好文！！！)</a></dd><dd><a href="http://www.open-open.com/08.htm" target="_blank">java开源</a></dd><dd><a href="http://www.54bk.com/blog.asp?subjectid=2123&name=jovejove" target="_blank">一个不错的博客</a><a href="http://www.54bk.com/rss2.asp?name=jovejove" target="_blank">(RSS)</a></dd><dd><a href="http://blog.csdn.net/lunwen173/" target="_blank">免费计算机毕业论文咨询|计算机专业论文|计算机毕业论文|计算机论文指导|计算机专业毕业论文|交换论文    提供定做论文服务。文档，程序齐全，包括VB，VF，VC，ASP，JSP，C，Delphi，php,PB,java,Lotus Domino等。。</a></dd><dd><a href="http://art.westcn.com/wlws/jmww/wangyi/" target="_blank">王怡</a></dd><dt>my webs</dt><dd><a href="http://doubleyeth.spaces.live.com" target="_blank">cai's yeth</a></dd><dt>UML</dt><dd><a href="http://guoxy.blogchina.com/699979.html" target="_blank">Rational Rose 入门指南</a></dd><dd><a href="http://www-128.ibm.com/developerworks/cn/rational/rationaledge/content/mar05/5383/#N1009A" target="_blank">从用例到代码</a></dd><dd><a href="http://www.matrix.org.cn/resource/article/1/1247.html" target="_self">基于UML的工作流管理系统分析</a></dd><dd><a href="http://www.woodpecker.org.cn/share/doc/RationalUnifiedProcess.zh_cn/index.htm" target="_blank">指南： 状态图(从该链接可以到很多不错的UML相关网页)</a></dd><dd><a href="http://www-128.ibm.com/developerworks/cn/rational/r-usecase-atm/" target="_self">用例建模指南</a></dd><dt>UNIX/LINUX</dt><dd><a href="http://blog.xjtu.edu.cn/user2/4902/archives/2005/52468.shtml" target="_blank">LINUX下如何卸载软件？？？</a></dd><dd><a href="http://rpm.livna.org/" target="_blank">rpm.livna.org  provides many useful packages that can not be distributed in Fedora Core or Fedora Extras</a></dd><dd><a href="http://wsxacc.bokee.com/4630628.html" target="_blank">solaris10下载</a></dd><dd><a href="http://wizhu.bokee.com/" target="_blank">一些linux相关文章</a></dd><dd><a href="http://www.chinalinuxpub.com/doc/fedorafaq.html#installsoftware" target="_blank">我们的非官方 Fedora FAQ</a></dd><dt>web</dt><dd><a href="传说之牛人的技巧性网站" target="_blank">http://meyerweb.com/eric/css/edge/</a></dd><dd><a href="http://www.somacon.com/p334.php" target="_blank">一个演示各种字体和文本格式的网页</a></dd><dt>Windows相关</dt><dd><a href="http://szele.techwin-co.com/article_view.asp?id=597" target="_self">无线局域网设置全上手</a></dd><dt>报表</dt><dd><a href="http://www.inforbus.com/product/inforreport/demo/index.jsp" target="_blank">InforReport报表工具在线演示（做了详细的“报表分类”工作）</a></dd><dd><a href="http://searchcio.techtarget.com.cn/186/2129186.shtml?508" target="_blank">中国报表漫谈（好文啊，对中式报表的复杂性做了深入的讨论）</a></dd><dd><a href="http://www.bjnsr.com/2005/2005717/20057171807503903.html" target="_blank">会计报表概述——会计报表的分类</a></dd><dd><a href="http://solution.chinabyte.com/50/2023050.shtml" target="_blank">报表工具需要“报”“表”完美结合</a></dd><dd><a href="http://www.pconline.com.cn/pcedu/empolder/gj/delphi/0406/406199.html" target="_self">用Delphi制作中国式报表</a></dd><dt>工作流</dt><dd><a href="http://www.beidasoft.com/JBFlow/" target="_blank"> 青鸟工作流管理系统</a></dd><dd><a href="http://cnbie.net/print_146048m125239.html" target="_blank">基于UML的工作流管理系统分析(该文用uml的定义方法描述了工作流管理系统,好文)(页面下面连接了很多文档)</a></dd><dd><a href="http://www.dltech.com.cn/product/yuerp.htm" target="_blank">工作流管理与ERP系统应用方案</a></dd><dd><a href="http://www.tongji.edu.cn/~yangdy/computer/WFMS/paper1.htm" target="_self">工作流管理系统概念</a></dd><dt>供应链</dt><dd><a href="http://www.starone.com.cn/kfcp/yxzlxtgs.htm" target="_blank">一个供应链相关软件的链接（其中的“营销战略系统”中有关于供应链系统使用的报表的情况）</a></dd><dt>其他</dt><dd><a href="http://bbs2.yunxiaoge.com/dispbbs.asp?boardID=5&ID=225859&page=1" target="_blank">×××××××××小说××××××××</a></dd><dd><a href="http://www.lib.ecnu.edu.cn/tp.htm" target="_blank">TP 自动化技术、计算机技术类核心期刊表</a></dd><dd><a href="http://415238.tomore.com/" target="_blank">yeth收集的资料下载</a></dd><dd><a href="http://www.icwin.net/" target="_blank">一个技术网站</a></dd><dd><a href="http://www.chinaaspx.com/" target="_blank">不错的计算机文章</a></dd><dd><a href="http://www.cernet.edu.cn/20051202/3163878.shtml" target="_blank">两个随机变量不相关,独立,独立同分布及相等之间的关系如何</a></dd><dd><a href="http://www.mathrs.net/" target="_blank">中国数学资源网</a></dd><dd><a href="http://www.2008red.com/member_pic_65/files/zzx111/html/article_7372_1.shtml" target="_blank">常用数学公式</a></dd><dd><a href="http://zhidao.baidu.com/question/1642132.html" target="_blank">积化和差和和差化积的推导（问题论述部分公式系数有些问题，“最佳答案”部分的叙述是正确的）</a></dd><dd><a href="http://www.xtxjyj.com/gz/kwzs/g2/sx/g2s/6.23.htm" target="_blank">著名不等式荟萃</a></dd><dt>存档</dt><dd><div class="publiclist_sidebar"><ul><li><a href="/yethyeth/archive/2008/11.aspx">2008年11月(2)</a></li><li><a href="/yethyeth/archive/2008/07.aspx">2008年07月(1)</a></li><li><a href="/yethyeth/archive/2008/05.aspx">2008年05月(4)</a></li><li><a href="/yethyeth/archive/2008/02.aspx">2008年02月(2)</a></li><li><a href="/yethyeth/archive/2008/01.aspx">2008年01月(1)</a></li><li><a href="/yethyeth/archive/2007/12.aspx">2007年12月(6)</a></li><li><a href="/yethyeth/archive/2007/11.aspx">2007年11月(28)</a></li><li><a href="/yethyeth/archive/2007/10.aspx">2007年10月(21)</a></li><li><a href="/yethyeth/archive/2007/09.aspx">2007年09月(7)</a></li><li><a href="/yethyeth/archive/2007/08.aspx">2007年08月(8)</a></li><li><a href="/yethyeth/archive/2007/07.aspx">2007年07月(16)</a></li><li><a href="/yethyeth/archive/2007/06.aspx">2007年06月(19)</a></li><li><a href="/yethyeth/archive/2007/05.aspx">2007年05月(39)</a></li><li><a href="/yethyeth/archive/2007/04.aspx">2007年04月(33)</a></li><li><a href="/yethyeth/archive/2007/03.aspx">2007年03月(22)</a></li><li><a href="/yethyeth/archive/2007/02.aspx">2007年02月(16)</a></li><li><a href="/yethyeth/archive/2007/01.aspx">2007年01月(32)</a></li><li><a href="/yethyeth/archive/2006/12.aspx">2006年12月(25)</a></li><li><a href="/yethyeth/archive/2006/11.aspx">2006年11月(8)</a></li><li><a href="/yethyeth/archive/2006/10.aspx">2006年10月(12)</a></li><li><a href="/yethyeth/archive/2006/09.aspx">2006年09月(11)</a></li><li><a href="/yethyeth/archive/2006/08.aspx">2006年08月(5)</a></li><li><a href="/yethyeth/archive/2006/07.aspx">2006年07月(12)</a></li><li><a href="/yethyeth/archive/2006/06.aspx">2006年06月(7)</a></li><li><a href="/yethyeth/archive/2006/05.aspx">2006年05月(13)</a></li><li><a href="/yethyeth/archive/2006/04.aspx">2006年04月(4)</a></li><li><a href="/yethyeth/archive/2006/03.aspx">2006年03月(2)</a></li><li><a href="/yethyeth/archive/2006/02.aspx">2006年02月(8)</a></li><li><a href="/yethyeth/archive/2006/01.aspx">2006年01月(6)</a></li><li><a href="/yethyeth/archive/2005/12.aspx">2005年12月(2)</a></li><li><a href="/yethyeth/archive/2005/11.aspx">2005年11月(3)</a></li></ul></div></dd>
+
+                    <span id="RecentVisitors"></span>
+                    
+                    <dt>软件项目交易</dt><dd><iframe style="margin:0;　padding:0; width: 180px; height: 32px;" src="http://prj.csdn.net/CSDN/CsdnBlog/CsdnBlogPage.html" frameborder="0" scrolling="no" ></iframe></dd>
+                    
+                    <span id="SubscriptionList"><dt>订阅我的博客</dt><dd><a href="http://blog.csdn.net/yethyeth/Rss.aspx" ><img border="0" alt="XML聚合" src="/images/xml.gif" /></a>&nbsp;&nbsp;<a href="http://feeds.feedsky.com/csdn.net/yethyeth" target="_blank"><img border="0" alt="FeedSky" src="/images/feedsky.gif" /></a></dd><dd><a href="http://www.xianguo.com/subscribe.php?url=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到鲜果" src="/images/rss_xianguo.jpg"/></a></dd><dd><a href="http://fusion.google.com/add?feedurl=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到Google" src="/images/rss_google.gif"/></a></dd><dd><a href="http://www.zhuaxia.com/add_channel.php?url=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到抓虾" src="/images/rss_zhuaxia.gif"/></a></dd><dd><a href="http://www.bloglines.com/sub/http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到BlogLines" src="/images/rss_bloglines.gif"/></a></dd><dd><a href="http://add.my.yahoo.com/rss?url=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到Yahoo" src="/images/rss_yahoo.gif"/></a></dd><dd><a href="http://rss.gougou.com/find_rss.jsp?url=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到GouGou" src="/images/rss_gougou.gif"/></a></dd><dd><a href="http://www.pageflakes.com/subscribe.aspx?url=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到飞鸽" src="/images/rss_pageflakes.gif"/></a></dd><dd><a href="http://www.rojo.com/add-subscription?resource=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到Rojo" src="/images/rss_rojo.gif"/></a></dd><dd><a href="http://www.newsgator.com/ngs/subscriber/subfext.aspx?url=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到newsgator" src="/images/rss_newsgator.gif"/></a></dd><dd><a href="http://www.netvibes.com/subscribe.php?url=http://blog.csdn.net/yethyeth/Rss.aspx" target="_blank"><img border="0" alt="订阅到netvibes" src="/images/rss_netvibes.gif"/></a></dd></span>
+                </dl>
+            </div>
+        </div>
+    </div>
+    
+    <div id="csdnblog_content">
+        <div class="gutter">
+            
+                    
+<div class="default_contents">
+    <div class="user_article">
+        <script type="text/javascript" src="http://blog.csdn.net/js/LoadFeedbackCount.js"></script>
+        <h1><img src="/images/authorship.gif" border="0" width="15" height="16" alt="原创" />&nbsp;<a href="http://blog.csdn.net/yethyeth/archive/2007/05/26/1626868.aspx">Native sql (本地sql)在Hibernate中</a><cite class="fav_csdnstylebykimi"><a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a></cite></h1>
+<div class="blogstory">
+    <span id="Post.ascx_ViewPost_PreviousAndNextEntriesUp"><h3><a href="http://blog.csdn.net/yethyeth/archive/2007/05/26/1627088.aspx">新一篇:&nbsp;hibernate and spring tips</a>&nbsp;|&nbsp;<a href="http://blog.csdn.net/yethyeth/archive/2007/05/26/1626729.aspx">旧一篇:&nbsp;myeclipse中hibernate的使用</a></h3></span>
+    <script>function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</script><p class="MsoTitle"><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Native sql </span><span style="font-size: 10.5pt; font-family: 宋体;">本地</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">sql</span><span style="font-size: 10.5pt; font-family: 宋体;">在</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Hibernate</span><span style="font-size: 10.5pt; font-family: 宋体;">中</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><a href="http://www.hibernate.org/hib_docs/nhibernate/1.2/reference/en/html/querysql.html">http://www.hibernate.org/hib_docs/v3/reference/en/html/querysql.html</a><o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><o:p>&nbsp;</o:p></span></p>
+<h1><span style="font-family: 宋体;">使用</span><span lang="EN-US">SQLQuery<o:p></o:p></span></h1>
+<p class="MsoNormal"><span lang="EN-US" style=""><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style=""><span style="">1.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span style="font-family: 宋体;">标量查询</span><span lang="EN-US" style="">scalar query<o:p></o:p></span></p>
+<p class="MsoNormal"><span style="font-family: 宋体;">如</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">sess.CreateSQLQuery(&quot;SELECT * FROM CATS&quot;)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> .AddScalar(&quot;ID&quot;, NHibernateUtil.Int64)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> .AddScalar(&quot;NAME&quot;, NHibernateUtil.String)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> .AddScalar(&quot;BIRTHDATE&quot;, NHibernateUtil.Date)<o:p></o:p></span></pre>
+<p class="MsoNormal"><span style="font-family: 宋体;">返回</span><span lang="EN-US" style="">List</span><span style="font-family: 宋体;">的</span><span lang="EN-US" style="">Object[]</span><span style="font-family: 宋体;">，每个</span><span lang="EN-US" style="">Object</span><span style="font-family: 宋体;">有上述三个字段组成。</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<p class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style=""><span style="">2.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="">Entity query<o:p></o:p></span></p>
+<p class="MsoNormal"><span style="font-family: 宋体;">如</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">sess.CreateSQLQuery(&quot;SELECT * FROM CATS&quot;).AddEntity(typeof(Cat));<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">sess.CreateSQLQuery(&quot;SELECT ID, NAME, BIRTHDATE FROM CATS&quot;).AddEntity(typeof(Cat));<o:p></o:p></span></pre>
+<p class="MsoNormal"><span style="font-family: 宋体;">返回</span><span lang="EN-US" style="">List</span><span style="font-family: 宋体;">的</span><span lang="EN-US" style="">Cat[]</span><span style="font-family: 宋体;">。</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style=""><span style="">3.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span style="font-family: 宋体;">处理</span><span lang="EN-US" style="">association</span><span style="font-family: 宋体;">和</span><span lang="EN-US" style="">collections<o:p></o:p></span></p>
+<p class="MsoNormal"><span style="font-family: 宋体;">如</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style="">sess.CreateSQLQuery(&quot;SELECT c.*, m.*<span style="">&nbsp; </span>FROM CATS c, CATS m WHERE c.MOTHER_ID = c.ID&quot;)<o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><span style="">&nbsp;</span>.AddEntity(&quot;cat&quot;, typeof(Cat))<o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><span style="">&nbsp;</span>.AddEntity(&quot;mother&quot;, typeof(Cat))<o:p></o:p></span></p>
+<p class="MsoNormal"><span style="font-family: 宋体;">每行将返回两个</span><span lang="EN-US" style="">Cat</span><span style="font-family: 宋体;">对象：一个</span><span lang="EN-US" style="">Cat</span><span style="font-family: 宋体;">，一个</span><span lang="EN-US" style="">Cat</span><span style="font-family: 宋体;">的</span><span lang="EN-US" style="">mother</span><span style="font-family: 宋体;">。</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<p class="MsoNormal"><span style="font-family: 宋体;">但是上面的代码会造成列名的冲突问题。</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<p class="MsoNormal"><span style="font-family: 宋体;">因此：</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style="">sess.CreateSQLQuery(&quot;SELECT {cat.*}, {mother.*}<span style="">&nbsp; </span>FROM CATS c, CATS m WHERE c.MOTHER_ID = c.ID&quot;)<o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><span style="">&nbsp;</span>.AddEntity(&quot;cat&quot;, typeof(Cat))<o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><span style="">&nbsp;</span>.AddEntity(&quot;mother&quot;, typeof(Cat))<o:p></o:p></span></p>
+<p class="MsoNormal"><span lang="EN-US" style=""><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style=""><span style="">4.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="">alias</span><span style="font-family: 宋体;">和</span><span lang="EN-US" style="">property</span><span style="font-family: 宋体;">引用</span><span lang="EN-US" style=""><o:p></o:p></span></p>
+<table cellpadding="0" border="1" class="MsoNormalTable" style="">
+    <thead>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="center" class="MsoNormal" style="text-align: center;"><strong><span lang="EN-US" style="color: windowtext;">Description<o:p></o:p></span></strong></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="center" class="MsoNormal" style="text-align: center;"><strong><span lang="EN-US" style="color: windowtext;">Syntax<o:p></o:p></span></strong></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="center" class="MsoNormal" style="text-align: center;"><strong><span lang="EN-US" style="color: windowtext;">Example<o:p></o:p></span></strong></p>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">A simple property<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].[propertyname]}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">A_NAME as {item.Name}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">A composite property<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].[componentname].[propertyname]}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">CURRENCY as {item.Amount.Currency}, VALUE as   {item.Amount.Value}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">Discriminator of an entity<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].class}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">DISC as {item.class}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">All properties of an entity<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].*}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{item.*}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">A collection key<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].key}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">ORGID as {coll.key}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">The id of an collection<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].id}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">EMPID as {coll.id}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">The element of an collection<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].element}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">XID as {coll.element}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">property of the element in the collection<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].element.[propertyname]}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">NAME as {coll.element.Name}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">All properties of the element in the collection<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].element.*}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{coll.element.*}<o:p></o:p></span></p>
+            </td>
+        </tr>
+        <tr style="">
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">All properties of the the collection<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{[aliasname].*}<o:p></o:p></span></p>
+            </td>
+            <td style="padding: 0.75pt;">
+            <p align="left" class="MsoNormal" style="text-align: left;"><span lang="EN-US" style="color: windowtext;">{coll.*}<o:p></o:p></span></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p align="left" class="MsoNormal" style="text-align: left;"><a name="d0e9192"></a><strong><span lang="EN" style="color: windowtext;"><o:p>&nbsp;</o:p></span></strong></p>
+<p align="left" class="MsoNormal" style="text-align: left;"><strong><span lang="EN" style="color: windowtext;"><o:p>&nbsp;</o:p></span></strong></p>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">5.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span style="font-size: 10.5pt;">得到</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">non-managed entities<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre><span style="font-size: 10.5pt;">处理继承</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">native sql</span><span style="font-size: 10.5pt;">查询的实体是一个继承结构中的一部分的话，就必须包括进来其基类和子类的属性。</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">6.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span style="font-size: 10.5pt;">参数</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Query query = sess.CreateSQLQuery(&quot;SELECT * FROM CATS WHERE NAME like ?&quot;).AddEntity(typeof(Cat));<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">IList pusList = query.SetString(0, &quot;Pus%&quot;).List();<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">query = sess.createSQLQuery(&quot;SELECT * FROM CATS WHERE NAME like :name&quot;).AddEntity(typeof(Cat));<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">IList pusList = query.SetString(&quot;name&quot;, &quot;Pus%&quot;).List();<span style="">&nbsp;&nbsp;&nbsp; </span></span><span lang="EN-US"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<h1><span lang="EN-US" style="">Named sql queries</span></h1>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">1.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Scalar query<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;sql-query name=&quot;mySqlQuery&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;return-scalar column=&quot;name&quot; type=&quot;String&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;return-scalar column=&quot;age&quot; type=&quot;Int64&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>SELECT p.NAME AS name,<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>p.AGE AS age,<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>FROM PERSON p WHERE p.NAME LIKE 'Hiber%'<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/sql-query&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">2.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Entity query<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;sql-query name=&quot;persons&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> <span style="">&nbsp;&nbsp;&nbsp;</span>&lt;return alias=&quot;person&quot; class=&quot;eg.Person&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>SELECT person.NAME AS {person.Name},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.AGE AS {person.Age},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.SEX AS {person.Sex}<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>FROM PERSON person<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>WHERE person.NAME LIKE :namePattern<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/sql-query&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">IList people = sess.GetNamedQuery(&quot;persons&quot;)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>.SetString(&quot;namePattern&quot;, namePattern)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>.SetMaxResults(50)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>.List();<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">return</span><span style="font-size: 10.5pt;">的含义：这个查询返回一个</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">alias</span><span style="font-size: 10.5pt;">的实体。</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">3.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">return-join</span><span style="font-size: 10.5pt;">和</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">load-collection<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;sql-query name=&quot;personsWith&quot;&gt;<o:p></o:p></span></pre>
+<pre><!--[if gte vml 1]><v:line
+ id="_x0000_s1028" style='position:absolute;flip:y;z-index:3' from="39.6pt,13.8pt"
+ to="48.6pt,45pt" coordsize="21600,21600">
+ <v:stroke endarrow="block" />
+</v:line><![endif]--><!--[if !vml]--><span style="position: absolute; z-index: 3; margin-left: 52px; margin-top: 15px; width: 19px; height: 46px;"><img width="19" height="46" alt="" src="file:///C:/DOCUME~1/yeth/LOCALS~1/Temp/msohtml1/01/clip_image001.gif" v:shapes="_x0000_s1028" /></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;<u>return</u> alias=&quot;person&quot; class=&quot;eg.Person&quot;/&gt;<o:p></o:p></span></pre>
+<pre><!--[if gte vml 1]><v:line
+ id="_x0000_s1027" style='position:absolute;flip:x y;z-index:2' from="30.6pt,13.8pt"
+ to="66.6pt,84pt" coordsize="21600,21600">
+ <v:stroke endarrow="block" />
+</v:line><![endif]--><!--[if !vml]--><span style="position: absolute; z-index: 2; margin-left: 35px; margin-top: 14px; width: 55px; height: 99px;"><img width="55" height="99" alt="" src="file:///C:/DOCUME~1/yeth/LOCALS~1/Temp/msohtml1/01/clip_image002.gif" v:shapes="_x0000_s1027" /></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;<u>return-join</u> alias=&quot;address&quot; property=&quot;person.MailingAddress&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>SELECT person.NAME AS {person.Name},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.AGE AS {person.Age},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.SEX AS {person.Sex},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.STREET AS {address.Street},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.CITY AS {address.City},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.STATE AS {address.State},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.ZIP AS {address.Zip}<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>FROM PERSON person<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>JOIN ADDRESS adddress<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>ON person.ID = address.PERSON_ID AND address.TYPE='MAILING'<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>WHERE person.NAME LIKE :namePattern<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/sql-query&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">return-join</span><span style="font-size: 10.5pt;">和</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">load-collection</span><span style="font-size: 10.5pt;">都可以参照第一部分中的</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">assocation</span><span style="font-size: 10.5pt;">和</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">collection</span><span style="font-size: 10.5pt;">。</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">4.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><!--[if gte vml 1]><v:line
+ id="_x0000_s1026" style='position:absolute;left:0;text-align:left;flip:x y;
+ z-index:1' from="30.6pt,-245.7pt" to="147.6pt,3.9pt" coordsize="21600,21600">
+ <v:stroke endarrow="block" />
+</v:line><![endif]--><!--[if !vml]--><span style="position: relative; z-index: 1;"><span style="position: absolute; left: 35px; top: -332px; width: 163px; height: 338px;"><img width="163" height="338" alt="" src="file:///C:/DOCUME~1/yeth/LOCALS~1/Temp/msohtml1/01/clip_image003.gif" v:shapes="_x0000_s1026" /></span></span><!--[endif]--><span style="font-size: 10.5pt;">利用</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">resultset</span><span style="font-size: 10.5pt;">扩展关于<u>结果集映射（参考上面的</u></span><u><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">return</span></u><u><span style="font-size: 10.5pt;">和</span></u><u><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">return-join</span></u><u><span style="font-size: 10.5pt;">）</span></u><span style="font-size: 10.5pt;">的信息</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;resultset name=&quot;personAddress&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;return alias=&quot;person&quot; class=&quot;eg.Person&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;return-join alias=&quot;address&quot; property=&quot;person.MailingAddress&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/resultset&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;sql-query name=&quot;personsWith&quot; resultset-ref=&quot;personAddress&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>SELECT person.NAME AS {person.Name},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.AGE AS {person.Age},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.SEX AS {person.Sex},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.STREET AS {address.Street},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.CITY AS {address.City},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.STATE AS {address.State},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>adddress.ZIP AS {address.Zip}<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>FROM PERSON person<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>JOIN ADDRESS adddress<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>ON person.ID = address.PERSON_ID AND address.TYPE='MAILING'<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>WHERE person.NAME LIKE :namePattern<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/sql-query&gt;<o:p></o:p></span></pre>
+<pre><span style="font-size: 10.5pt;">用程序的方式处理上面的配置信息：</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">IList cats = sess.CreateSQLQuery(<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&quot;select {cat.*}, {kitten.*} from cats cat, cats kitten where kitten.mother = cat.id&quot;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>.SetResultSetMapping(&quot;catAndKitten&quot;)<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>.List();<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">5.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span style="font-size: 10.5pt;">显示指定结果集中的</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">column</span><span style="font-size: 10.5pt;">的显示名字（</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">return-property</span><span style="font-size: 10.5pt;">）</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;sql-query name=&quot;mySqlQuery&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;return alias=&quot;person&quot; class=&quot;eg.Person&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;Name&quot; column=&quot;myName&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;Age&quot; column=&quot;myAge&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;Sex&quot; column=&quot;mySex&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;/return&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>SELECT person.NAME AS myName,<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.AGE AS myAge,<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>person.SEX AS mySex,<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>FROM PERSON person WHERE person.NAME LIKE :name<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/sql-query&gt;<o:p></o:p></span></pre>
+<pre><span style="font-size: 10.5pt;">将多</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">column</span><span style="font-size: 10.5pt;">映射为一个名字</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;sql-query name=&quot;organizationCurrentEmployments&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;return alias=&quot;emp&quot; class=&quot;Employment&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;Salary&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-column name=&quot;VALUE&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-column name=&quot;CURRENCY&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;/return-property&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;EndDate&quot; column=&quot;myEndDate&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;/return&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>SELECT EMPLOYEE AS {emp.Employee}, EMPLOYER AS {emp.Employer},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><st1:place><st1:city><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">STARTDATE</span></st1:city><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> </span><st1:state><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">AS</span></st1:state></st1:place><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> {emp.StartDate}, </span><st1:place><st1:city><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">ENDDATE</span></st1:city><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> </span><st1:state><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">AS</span></st1:state></st1:place><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> {emp.EndDate},<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>REGIONCODE as {emp.RegionCode}, </span><st1:place><st1:city><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">EID</span></st1:city><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> </span><st1:state><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">AS</span></st1:state></st1:place><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"> {emp.Id}, VALUE, CURRENCY<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>FROM EMPLOYMENT<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>WHERE EMPLOYER = :id AND ENDDATE IS NULL<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>ORDER BY STARTDATE ASC<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/sql-query&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p>&nbsp;</o:p></span></pre>
+<pre style="margin-left: 21pt; text-indent: -21pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">6.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">stored procedures<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;sql-query name=&quot;selectAllEmployments_SP&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;return alias=&quot;emp&quot; class=&quot;Employment&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;employee&quot; column=&quot;EMPLOYEE&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;employer&quot; column=&quot;EMPLOYER&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;startDate&quot; column=&quot;STARTDATE&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;endDate&quot; column=&quot;ENDDATE&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;regionCode&quot; column=&quot;REGIONCODE&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;id&quot; column=&quot;EID&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-property name=&quot;salary&quot;&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-column name=&quot;VALUE&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;return-column name=&quot;CURRENCY&quot;/&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;/return-property&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>&lt;/return&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><span style="">&nbsp;&nbsp;&nbsp; </span>exec selectAllEmployments<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">&lt;/sql-query&gt;<o:p></o:p></span></pre>
+<pre><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">stored procedures</span><span style="font-size: 10.5pt;">的使用有一些限制，如果不遵守，就不能在</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Hibernate</span><span style="font-size: 10.5pt;">中使用</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">stored procedures</span><span style="font-size: 10.5pt;">，而只能用</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">session.connection()</span><span style="font-size: 10.5pt;">。限制根据</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">db</span><span style="font-size: 10.5pt;">的不同而不同，因为不同的</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">db</span><span style="font-size: 10.5pt;">中</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">stored procedures</span><span style="font-size: 10.5pt;">有差别。</span><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;"><o:p></o:p></span></pre>
+<p><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Stored procedure queries can't be paged with <tt><span style="font-family: &quot;Courier New&quot;;">setFirstResult()/setMaxResults()</span></tt>.<o:p></o:p></span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">Recommended call form is standard SQL92: <tt><span style="font-family: &quot;Courier New&quot;;">{ ? = call functionName(&lt;parameters&gt;) }</span></tt> or <tt><span style="font-family: &quot;Courier New&quot;;">{ ? = call procedureName(&lt;parameters&gt;}</span></tt>. Native call syntax is not supported.<o:p></o:p></span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">For Oracle the following rules apply:<o:p></o:p></span></p>
+<p style="margin-left: 36pt; text-indent: -18pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10pt; font-family: Symbol;"><span style="">&middot;<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">A function must return a result set. The first parameter of a procedure must be an <tt><span style="font-family: &quot;Courier New&quot;;">OUT</span></tt> that returns a result set. This is done by using a <tt><span style="font-family: &quot;Courier New&quot;;">SYS_REFCURSOR</span></tt> type in Oracle 9 or 10. In Oracle you need to define a <tt><span style="font-family: &quot;Courier New&quot;;">REF CURSOR</span></tt> type, see Oracle literature.<o:p></o:p></span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">For Sybase or MS SQL server the following rules apply:<o:p></o:p></span></p>
+<p style="margin-left: 36pt; text-indent: -18pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10pt; font-family: Symbol;"><span style="">&middot;<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">The procedure must return a result set. Note that since these servers can/will return multiple result sets and update counts, Hibernate will iterate the results and take the first result that is a result set as its return value. Everything else will be discarded.<o:p></o:p></span></p>
+<p style="margin-left: 36pt; text-indent: -18pt;"><!--[if !supportLists]--><span lang="EN-US" style="font-size: 10pt; font-family: Symbol;"><span style="">&middot;<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><!--[endif]--><span lang="EN-US" style="font-size: 10.5pt; font-family: &quot;Courier New&quot;;">If you can enable <tt><span style="font-family: &quot;Courier New&quot;;">SET NOCOUNT ON</span></tt> in your procedure it will probably be more efficient, but this is not a requirement.<o:p></o:p></span></p>
+<h1><span lang="EN-US">Custom sql for create, update ,delete, loading</span><span lang="EN-US" style="color: windowtext;"><o:p></o:p></span></h1>
+&nbsp;<p class="right articalinfo">发表于 @ <a href="http://blog.csdn.net/yethyeth/archive/2007/05/26/1626868.aspx" Title = "permalink">2007年05月26日 17:23:00</a>&#124;<a href="http://blog.csdn.net/yethyeth/archive/2007/05/26/1626868.aspx#FeedBack" Title = "评论">评论(<span id="FeedbackCount_1626868">loading...</span><script type="text/javascript">AddFeedbackCountStack("1626868")</script>)</a>&#124;<a href="http://writeblog.csdn.net/PostEdit.aspx?entryId=1626868" Title = "编辑">编辑</a></p>
+    <span id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><h3><a href="http://blog.csdn.net/yethyeth/archive/2007/05/26/1627088.aspx">新一篇:&nbsp;hibernate and spring tips</a>&nbsp;|&nbsp;<a href="http://blog.csdn.net/yethyeth/archive/2007/05/26/1626729.aspx">旧一篇:&nbsp;myeclipse中hibernate的使用</a></h3></span>
+</div>
+
+        <div id="Post.ascx_TagAd_palTagAd">
+	
+    <div class="tagadfornews" id="csdn_tag_adstyle">
+    </div>
+
+</div>
+
+    </div>
+    <div class="commentslist">
+        <span id="Anthem_Post.ascx_Comments_ltlComments__"><span id="Post.ascx_Comments_ltlComments"><div id="commentslist"><h3>评论：没有评论。</h3></div></span></span>
+
+    </div>
+    <div class="spacecommment">
+        <div id="Anthem_Post.ascx_PostComment_CommentUpdatePanel__"><div id="Post.ascx_PostComment_CommentUpdatePanel">
+	
+    <fieldset>
+        <legend>发表评论</legend>
+        <ul>
+            <li>姓&nbsp;&nbsp;&nbsp;名：<input name="Post.ascx:PostComment:tbName" type="text" maxlength="32" id="Post.ascx_PostComment_tbName" Size="40" /><span controltovalidate="Post.ascx_PostComment_tbName" errormessage="请输入名字" id="Post.ascx_PostComment_RequiredFieldValidator2" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;visibility:hidden;">请输入名字</span></li>
+            <li>主&nbsp;&nbsp;&nbsp;页：<input name="Post.ascx:PostComment:tbUrl" type="text" maxlength="256" id="Post.ascx_PostComment_tbUrl" Size="40" /></li>
+            <li>
+                <div id="Post.ascx_PostComment_AntiBotImageRegion">
+		
+                    校验码：
+                    <input name="Post.ascx:PostComment:tbAntiBotImage" type="text" id="Post.ascx_PostComment_tbAntiBotImage" style="width:75px;" />
+                    <span display="Dynamic" id="Post.ascx_PostComment_valAntiBotImage" evaluationfunction="CustomValidatorEvaluateIsValid" style="color:Red;display:none;">检验码无效!</span>
+                    <span id="Anthem_Post.ascx_PostComment_imgAntiBotImage__"><img id="Post.ascx_PostComment_imgAntiBotImage" src="/AntiBotImage.aspx?abi=7717&amp;id=1626868" alt="" align="absmiddle" border="0" /></span>
+                    <span id="Anthem_Post.ascx_PostComment_lbCreateAntiBotImage__"><a onclick="javascript:Anthem_FireCallBackEvent(this,event,'Post.ascx:PostComment:lbCreateAntiBotImage','',false,'','','',true,null,null,null,true,true);return false;" id="Post.ascx_PostComment_lbCreateAntiBotImage" href="javascript:__doPostBack('Post.ascx$PostComment$lbCreateAntiBotImage','')">看不清,换一张</a></span>
+	</div>
+            </li>
+        </ul>
+        <span controltovalidate="Post.ascx_PostComment_tbComment" errormessage="请输入评论" id="Post.ascx_PostComment_RequiredFieldValidator3" evaluationfunction="RequiredFieldValidatorEvaluateIsValid" initialvalue="" style="color:Red;visibility:hidden;">请输入评论</span><br />
+        <textarea name="Post.ascx:PostComment:tbComment" rows="10" cols="50" id="Post.ascx_PostComment_tbComment"></textarea><br />
+        <span id="Anthem_Post.ascx_PostComment_btnSubmit__"><input type="submit" name="Post.ascx:PostComment:btnSubmit" value="提交" onclick="javascript:Anthem_FireCallBackEvent(this,event,'Post.ascx:PostComment:btnSubmit','',true,'','','正在处理...',false,null,null,null,true,true);return false;WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;Post.ascx:PostComment:btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" language="javascript" id="Post.ascx_PostComment_btnSubmit" /></span>
+        <br />
+        <span id="Post.ascx_PostComment_Message" style="color:Red;"><a href="http://passport.csdn.net/member/UserLogin.aspx?from=http://blog.csdn.net/yethyeth/archive/2007/05/26/1626868.aspx">登录</a></span>
+    </fieldset>
+
+</div></div>
+
+    </div>
+
+    <script type="text/javascript">
+    LoadFeedbackCount();//加载评论
+    document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");// 计数器
+    ad_width=468;//加载广告
+    ad_height=60;
+    adcss=2;
+    unionuser=19;
+    tags='';
+    ad_type='j';
+    count=2;
+    </script>
+
+    <script src='/js/HighLighter.js' type="text/javascript"></script>
+
+    <script language="javascript" src="http://tagegg.csdn.net/showads.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    if(typeof(gms) != 'undefined') 
+    {
+        var outhtml='';
+        for (var k in gms) {
+	        outhtml+='<dl>';
+	        outhtml+='<dt><a href="'+gms[k].link+'"><img src="'+gms[k].displink+'" alt="" /></a> ';
+	        outhtml+='<dd class="tit"><a href="'+gms[k].link+'">'+gms[k].title+'</a></dd>';
+	        outhtml+='<dd  >'+gms[k].desc1+"   "+gms[k].desc2+'</dd>';
+	        outhtml+='</dl>';
+        }
+        document.getElementById("csdn_tag_adstyle").innerHTML=outhtml;
+    }
+    </script>
+
+</div>
+ 
+                
+        </div>
+    </div>
+    
+    <div id="pubfooter">
+        
+<dl>
+    <dt></dt>
+    <dd>
+        Csdn Blog version 3.1a</dd>
+    <dd>
+        Copyright &copy;
+        yeth
+    </dd>
+</dl>
+
+    </div>
+</div>
+
+        
+<script type="text/javascript">
+<!--
+var Page_Validators =  new Array(document.getElementById("Post.ascx_PostComment_RequiredFieldValidator2"), document.getElementById("Post.ascx_PostComment_valAntiBotImage"), document.getElementById("Post.ascx_PostComment_RequiredFieldValidator3"));
+// -->
+</script>
+
+
+<script type="text/javascript">
+<!--
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+// -->
+</script>
+        </form>
+
+        <script type="text/javascript" src="http://www.csdn.net/common/counter.js"></script>
+
+    </div>
+</body>
+</html>
