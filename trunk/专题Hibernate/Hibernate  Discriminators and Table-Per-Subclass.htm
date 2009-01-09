@@ -1,0 +1,1613 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+	<head>
+
+		<title>Hibernate: Discriminators and Table-Per-Subclass</title>
+        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+        <link rel="stylesheet" type="text/css" href="/forums/style.jsp">
+<link href="/css/jl.css" rel="stylesheet" type="text/css" />
+<link href="/css/jlJive.css" rel="stylesheet" type="text/css" />
+<link href="/css/navmenu.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<link rel="top" href="/" title="Javalobby Home Page">
+		<link rel="up" href="/java/forums/f18032.html" title="Up to thread list">
+
+		
+		
+				<link rel="prev"
+							href="/java/forums/t18406.html"
+							title="Previous thread" >
+		
+
+		
+		
+
+    
+        <link rel="alternate" type="application/rss+xml" title="RSS"
+         href="http://www.javalobby.org/rss/rssmessages.jspa?threadID=18300">
+
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+sfHover = function() {
+	var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onmouseover=function() {
+			this.className+=" sfhover";
+		}
+		sfEls[i].onmouseout=function() {
+			this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+		}
+	}
+}
+if (document.all) { //MS IE
+	if (window.attachEvent) window.attachEvent("onload", sfHover);
+	else { //IE 5.2 Mac does not support attachEvent
+		var old = window.onload;
+		window.onload = function() { if (old) old(); sfHover(); }
+	}
+}
+//--><!]]></script>
+<!--[if IE]>
+<style>
+body {
+  height: 100%;
+  overflow: hidden;
+  font-size: 100%;
+  }
+div#wrap_outer {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  }
+div#glideDiv0 {
+  position: absolute;
+}
+#comments dd pre {
+	width: 100%;
+	overflow: scroll;
+}
+</style>
+<script type="text/javascript">
+onload = function() { wrap_outer.focus() }
+</script>
+<![endif]-->
+</head>
+    <body >
+    
+
+<div id="wrap_outer">
+<!-- TOP LEADERBOARD GOES HERE -->
+
+<div id="wrap_inner">
+<div id="header">
+	<div class="netbar">
+		<a href="http://www.javalobby.org/" title="Java & J2EE Programming community with Java forums, Java blogs, Java news & Java tutorials">Javalobby</a> |
+        <a href="http://www.eclipsezone.com/" title="Eclipse Developer and User Community">EclipseZone</a> |
+        <a href="http://www.javaforge.com/" title="Open Source Java Project Hosting">JavaForge</a> |
+		<a href="http://www.jroller.com/" title="Free Java Blogging community for Java & J2EE Developer blogs">JRoller</a> |
+		<a href="http://www.javablackbelt.com/" title="Java skill evaluation platform">JavaBlackBelt</a> |
+		<a href="http://www.jdocs.com/" title="Javadoc API docs for over 130 Java & J2EE libraries">JDocs</a> |
+        <a href="http://www.javacrawl.com/" title="RSS Portal for Java news & J2EE news">Javacrawl</a> |		
+        <a href="http://www.jugcentral.com/" title="Java User Group hosting & services for JUGs">JUGCentral</a> |
+		<a href="http://www.myjavaserver.com/" title="Free Java JSP & J2EE hosting for developers learning Java">MyJavaServer</a> |
+		<a href="http://www.dzone.com/advertise.jsp" title="Promote your products & services to Java developers"><b>ADVERTISE</b></a>
+	</div>
+	<div class="welcomebar">
+		
+				<form action="/forums/login.jspa" method="post" name="loginform">
+				Username/Email: <input type="text" name="username" size="20" maxlength="150" value="" tabindex="1" id="username01" />
+				Password: <input type="password" name="password" size="20" maxlength="150" value="" tabindex="2" id="password01" />
+				<input type="hidden" name="autoLogin" id="autoLogin01" value="true" />
+				<input type="hidden" name="successURL" id="successURL01" value="http://www.javalobby.org/java/forums/t18300.html" />
+
+				<a href="javascript:document.loginform.submit()">SIGN IN</a> | <a href="/account!default.jspa">JOIN NOW!</a>
+				</form>
+		
+	</div>
+	</div>
+<div id="navcontainer">
+	<ul id="nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="#">Features</a>
+			<ul>
+				<li><a href="/forums/post!default.jspa?forumID=61">Submit&nbsp;an&nbsp;article</a></li>
+				<li><a href="/spotlights.jsp?view=all">Presentations and Articles</a></li>
+				<li><a href="/av/javapolis/">JavaPolis 2004 Online</a></li>
+                <li><a href="/av/javazone/">JavaZone 2005</a></li>
+
+				<li><a href="/java/forums/f17.html">Announcements</a></li>
+				<li><a href="/nl/index.jsp">Newsletters</a></li>
+
+			</ul>
+		</li>
+		<li><a href="/java/forums/c5601.html">Forums</a>
+			<ul>
+				<li><a href="/java/forums/c5601.html">Overview</a></li>
+				<li><a href="/forums/help.jspa">Help&nbsp;&amp;&nbsp;FAQ</a></li>
+				<li><a href="/notyet.jsp">Posting&nbsp;guidelines</a></li>
+				<li><a href="/notyet.jsp">Recent&nbsp;postings</a></li>
+				<li><a href="/notyet.jsp">Popular&nbsp;discussions</a></li>
+				
+				<li><a href="/forums/online.jspa">Who's&nbsp;online</a></li>
+			</ul>
+		</li>
+		<li><a href="#">Blogs</a>
+			<ul>
+				<li><a href="http://www.jroller.com/">Popular&nbsp;blogs</a></li>
+				<li><a href="http://www.jroller.com/user.do?method=registerUser">Start&nbsp;your&nbsp;free&nbsp;blog</a></li>
+				<li><a href="http://www.jroller.com/">Recent&nbsp;blog&nbsp;entries</a></li>
+			</ul>
+		</li>
+		<li><a href="#">JL Network</a>
+			<ul>
+				<li><a href="http://www.javalobby.org/" title="Java J2SE J2EE Programming community with Java forums, Java blogs, Java news & Java tutorials">Javalobby.org</a></li>
+        <li><a href="http://www.javacrawl.com/" title="RSS Portal for Java news & J2EE news">Javacrawl.com</a></li>
+				<li><a href="http://www.jdocs.com/" title="Javadoc API docs for over 130 Java & J2EE libraries">JDocs.com</a></li>
+				<li><a href="http://www.jroller.com/" title="Free Java blog network for over 7,000 Java & J2EE Developer blogs">JRoller.com</a></li>
+				<li><a href="http://www.jugcentral.com/" title="Java User Group hosting & services for JUGs">JUGCentral.com</a></li>
+				<li><a href="http://www.myjavaserver.com/" title="Free Java JSP & J2EE hosting for developers learning Java">MyJavaServer.com</a></li>
+				<li><a href="#">Friends&nbsp;&amp;&nbsp;Partners</a></li>
+			</ul>
+		</li>
+		<li><a href="#">Members&nbsp;Only</a>
+			<ul>
+				<li><a href="/forums/usersettings!default.jspa">Control&nbsp;Panel</a></li>
+				
+				<li><a href="/forums/accountEditNewsletter!default.jspa">Subscriptions</a></li>
+				<li><a href="/notyet.jsp">Downloads</a></li>
+				<li><a href="/notyet.jsp">Benefits</a></li>
+				<li><a href="/notyet.jsp">Special&nbsp;Offers</a></li>
+			</ul>
+		</li>
+		<li><a href="#">About JL</a>
+			<ul>
+				<li><a href="/about.jsp">Our&nbsp;story</a></li>
+				<li><a href="/network.jsp">Sites&nbsp;&amp;&nbsp;Services</a></li>
+				<li><a href="/notyet.jsp">In&nbsp;the&nbsp;News</a></li>
+				<li><a href="/privacy.jsp">Privacy&nbsp;policy</a></li>
+				<li><a href="/contact.jsp">Contact&nbsp;us</a></li>
+				<li><a href="/advertise.jsp">Advertising&nbsp;info</a></li>
+				<li><a href="/forums/help.jspa">FAQ</a></li>
+			</ul>
+		</li>
+	</ul>
+	<div style="clear: both;"> </div>
+</div>
+<div id="topLeaderboard">
+<!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+
+<SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=32&pid=0&random=80105368" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=32&pid=0&random=80105368" height="90" width="728" hspace="0" vspace="0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=32&pid=0&lookup=true&random=80105368" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=32&pid=0&random=80105368" height="90" width="728" hspace="0" vspace="0" border="0" alt="Click Here!">
+</A>
+</IFRAME>
+</NOSCRIPT>
+
+<!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+</div>
+    
+<div id="rightColumn">
+
+
+<div class="jljive-portlet">
+  <div class="header">
+
+    <h1>Popular @ <a href="http://www.dzone.com">
+      <img src="/images/std/dzone_130x24.gif" alt="dzone.com: fresh links for developers"
+           title="dzone.com: fresh links for developers"
+           style="border:none;vertical-align:text-top;padding-top:2px;"></a></h1></div>
+  <ul class="dzone">
+    
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/why_do_people_think_functional_programming_will_c.html" title="Why do people think functional programming will catch on?">
+        Why do people think functional programming...</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/best_of_2008_or_blogs_you_should_follow_in_2009.html" title="Best of 2008 (or blogs you should follow in 2009)">
+        Best of 2008 (or blogs you should follow...</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/who_told_java_checked_exceptions_were_a_bad_idea.html" title="Who told Java Checked Exceptions were a Bad Idea?">
+        Who told Java Checked Exceptions were a...</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/why_do_designers_abuse_css_floatleft.html" title="Why do designers abuse CSS float:left?">
+        Why do designers abuse CSS float:left?</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/my_clients_are_getting_thicker_and_thicker_mvc_im.html" title="My clients are getting thicker and thicker: MVC implementation shift">
+        My clients are getting thicker and...</a>
+        </li>
+    
+      <li>
+        <a href="http://www.dzone.com/links/rss/8_interesting_cms_for_ecommerce_websites.html" title="8 Interesting CMS for e-commerce websites">
+        8 Interesting CMS for e-commerce websites</a>
+        </li>
+    
+      <li class="last">
+        <a href="http://www.dzone.com/links/rss/apache_commons_digester_20_released.html" title="Apache Commons Digester 2.0 Released">
+        Apache Commons Digester 2.0 Released</a>
+        </li>
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </ul>
+
+  <div class="footer">
+    <img src="/images/std/icons/write_16x16.gif" hspace="0" vspace="0" align="texttop"/>
+    <a href="http://www.dzone.com/links/add.html" class="post">Submit a story</a>
+    &nbsp;<img src="/images/std/icons/check_16x16.gif" hspace="0" vspace="0" align="texttop"/>
+    <a href="http://www.dzone.com/links/queue.html" class="post">Vote on new stories</a>
+  </div>
+</div>
+
+
+<div id="mpu">
+  <!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+   <SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=33&pid=0&random=19825394" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=33&pid=0&random=19825394" height="250" width="300" hspace="4" vspace="4" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=33&pid=0&lookup=true&random=19825394" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=33&pid=0&random=19825394" height="250" width="300" hspace="4" vspace="4" border="0" alt="Support Javalobby, visit our sponsors">
+</A>
+</IFRAME>
+</NOSCRIPT>
+
+   <!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+  </div> <!-- end mpu DIV -->
+
+<div class="jljive-portlet">
+	<div class="header">Forum Controls</div>
+		
+		
+
+		
+		
+
+		
+			
+		
+	<ul>
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="/forums/post!reply.jspa?threadID=18300"
+	class="noborder"><img src="/images/std/icons/write_16x16.gif"
+	width="16" height="16" border="0"
+	alt="Reply to this Thread"></a> 
+<a href="/forums/post!reply.jspa?threadID=18300">Reply to this Thread</a></li>
+
+
+  
+
+<li><a href="/forums/search!default.jspa?objID=f18032"
+	class="noborder"><img src="images/search-16x16.gif" width="16"
+	height="16" border="0" alt="Search Forum"></a>
+ <a
+	href="/forums/search!default.jspa?objID=f18032">Search Forum</a></li>
+
+
+
+
+
+
+
+        <li>
+            <a href="/java/forums/f18032.html" class="noborder"
+             ><img src="images/arrow-left-16x16.gif" width="16" height="16" border="0" alt="Back to Thread List"></a>
+            
+            <a href="/java/forums/f18032.html"
+             >Back to Thread List</a></li>
+
+
+
+	</ul>
+              <div class="footer">
+                
+                Whos Online:
+
+                
+
+                
+                
+                        
+                        
+                166 guest(s), 0 user(s).
+
+                
+                <a href="/forums/online.jspa">More info &raquo;</a>
+            </div>
+
+</div>
+
+
+	
+
+
+
+
+		<div class="jljive-portlet">
+		<div class="header">Spotlight Features</div>
+		
+
+
+
+
+<div class="spotlight">
+
+
+</div>
+
+
+        <div class="footer"><a href="/spotlights.jsp">Read the Spotlight Archives</a></div>
+		</div>
+
+<!-- end rightColumn div --></div>
+
+<div id="leftColumn">
+     
+    
+		<span class="jljive-paginator">
+		
+		Replies:
+		6 -
+		
+		Pages:
+		1 &nbsp;
+
+		
+		</span>
+	
+	<br>
+	
+		<span class="jljive-paginator">
+			
+					
+					Threads:
+					[
+					
+							
+							<a href="/java/forums/t18406.html"
+							 >Previous</a>
+					
+					|
+					
+							
+							Next
+					
+					]
+			
+		</span>
+	
+    
+    <div id="comments">
+	<dl>
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+
+    
+
+		<div class="rootmsg">
+			<div class="rm_header">
+				<a name="91831069"></a>
+				<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=91831069" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=91831069"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div><h1>Hibernate: Discriminators and Table-Per-Subclass
+</h1>
+			
+				<h4>At 12:05 AM
+				on Apr 18, 2005, <a href="/forums/profile.jspa?userID=58312" class="author">R.J. Lorimer</a>  wrote:</h4>
+			</div>
+			<style type="text/css">
+        div#smalljobs a.post {
+            font-size: 70%;
+            margin-left: 1em;
+            color: #933;
+        }
+             div#smalljobs ul {
+       margin: 0;
+                 padding: 0;
+                 list-style: none;
+     }
+     div#smalljobs li {
+       border-bottom: none;
+         margin: 0px 0.0em 0px 1.5em;
+         line-height: 140%;
+         overflow: hidden;
+         height: 1.4em;
+       padding: 0;
+     }
+     div#smalljobs {
+         padding-left: 1em;
+         padding-bottom: 0.5em;
+         padding-right: 1em;
+         margin-bottom: 1em;
+         clear: both;
+         background-color: #f8f8f8;
+     }
+    </style>
+     <div id="smalljobs" class="thread">
+       <h3><a href="http://jobs.dzone.com">Fresh Jobs for Developers</a> <a href="https://jobs.dzone.com/jobs/new" class="post">Post a job opportunity</a></h3>
+       <ul>
+      
+         
+         
+           <li><nobr>&raquo; <a href="http://jobs.dzone.com/id/356?ref=jlthread" title="View full details at jobs.dzone.com"><b>OpenMarket</b> seeks a Senior Java Developer</a> in Seattle, WA. 98121</nobr></li>
+         
+       
+       </ul>
+   </div>
+                    
+                    
+                        <img class="jive-avatar" src="avatar-display.jspa?avatarID=3&file=av.png" align="right" hspace="4" vspace="4" border="0" alt="" />
+                    
+                 <div id="dzone_vote_widget" style="float: left; margin-right: 8px;">
+                <script language="javascript" src="http://www.dzone.com/widgets/zoneit.js"></script></div><p>
+Typically when I map my application to a relational database, each record in the database is modeled by an object in Java. Hibernate is designed specifically to solve the problem of creating Java objects for the records in the database, without writing miles and miles of code that converts SQL results to objects, and vice-versa. While I don't intend to use this tip entry to thoroughly cover the basics of Hibernate, I 
+<i>will
+</i> set up a basic example.
+</p><p>
+Before I get too far ahead of myself, however, let me explain what I want to achieve. What I would like to explain in this tip is how to map inheritence of your beans with varying tables in your database. The comprehensive details of hibernate inheritence mapping can be found at this URL: <a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/inheritance.html" target="_blank">http://www.hibernate.org/hib_docs/v3/reference/en/html/inheritance.html</a> - today I'll be discussing inheritence mapping of the variety 
+<a href="http://www.hibernate.org/hib_docs/v3/reference/en/html/inheritance.html#inheritance-tablepersubclass-discriminator">'Table per subclass, using a discriminator'
+</a>. While each type of mapping has it's various advantages and disadvantages, I am describing the table with discriminator variety here because it is the implementation I see most often in legacy applications not using Hibernate (it seems to be fairly common) - and you may have a need for it. The variety that doesn't have a discriminator is easier anyway, so this example describes more than enough for you to try the recommended Hibernate format - 'table per subclass - no discriminator' - if you so wish).
+</p><p>
+Say I have the class User, and we want to map it to our database. Piece of cake so far - here is our main 'bootstrap' test class:
+</p><p>
+<pre><font color="navy"><b>package</b></font> com.javalobby.tnt.hib;
+&nbsp;
+<font color="navy"><b>import</b></font> org.hibernate.Session;
+<font color="navy"><b>import</b></font> org.hibernate.SessionFactory;
+<font color="navy"><b>import</b></font> org.hibernate.cfg.Configuration;
+&nbsp;
+<font color="navy"><b>public</b></font> <font color="navy"><b>class</b></font> Main <font color="navy">{</font>
+&nbsp;
+	<font color="navy"><b>public</b></font> Main() <font color="navy">{</font>
+		<font color="navy"><b>super</b></font>();
+	<font color="navy">}</font>
+	
+	<font color="navy"><b>public</b></font> <font color="navy"><b>static</b></font> <font color="navy"><b>void</b></font> main(String[] args) <font color="navy">{</font>
+		Configuration cfg = <font color="navy"><b>new</b></font> Configuration()
+		.addClass(User.class)
+		.setProperty(<font color="red">"hibernate.dialect"</font>, <font color="red">"org.hibernate.dialect.MySQLInnoDBDialect"</font>)
+		.setProperty(<font color="red">"hibernate.connection.driver_class"</font>, <font color="red">"com.mysql.jdbc.Driver"</font>)
+		.setProperty(<font color="red">"hibernate.connection.url"</font>, <font color="red">"jdbc:mysql://localhost/javalobby"</font>)
+		.setProperty(<font color="red">"hibernate.connection.username"</font>, <font color="red">"admin"</font>);
+		
+		
+		SessionFactory sessions = cfg.buildSessionFactory();
+		
+		Session session = sessions.openSession();
+		<font color="navy"><b>try</b></font> <font color="navy">{</font>
+			User user = (User)session.load(User.class, <font color="navy"><b>new</b></font> Long(1));
+			System.out.println(user);
+		<font color="navy">}</font>
+		<font color="navy"><b>finally</b></font> <font color="navy">{</font>
+			session.close();
+		<font color="navy">}</font>
+		
+	<font color="navy">}</font>
+<font color="navy">}</font>
+</pre>
+</p><p>
+... and here is our User class:
+</p><p>
+<pre><font color="navy"><b>package</b></font> com.javalobby.tnt.hib;
+&nbsp;
+<font color="navy"><b>public</b></font> <font color="navy"><b>class</b></font> User <font color="navy">{</font>
+&nbsp;
+	<font color="navy"><b>private</b></font> <font color="navy"><b>long</b></font> id;
+&nbsp;
+	<font color="navy"><b>private</b></font> String firstName;
+&nbsp;
+	<font color="navy"><b>private</b></font> String lastName;
+&nbsp;
+	<font color="navy"><b>public</b></font> String getFirstName() <font color="navy">{</font>
+		<font color="navy"><b>return</b></font> firstName;
+	<font color="navy">}</font>
+&nbsp;
+	<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> setFirstName(String firstName) <font color="navy">{</font>
+		this.firstName = firstName;
+	<font color="navy">}</font>
+&nbsp;
+	<font color="navy"><b>public</b></font> <font color="navy"><b>long</b></font> getId() <font color="navy">{</font>
+		<font color="navy"><b>return</b></font> id;
+	<font color="navy">}</font>
+&nbsp;
+	<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> setId(<font color="navy"><b>long</b></font> id) <font color="navy">{</font>
+		this.id = id;
+	<font color="navy">}</font>
+&nbsp;
+	<font color="navy"><b>public</b></font> String getLastName() <font color="navy">{</font>
+		<font color="navy"><b>return</b></font> lastName;
+	<font color="navy">}</font>
+&nbsp;
+	<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> setLastName(String lastName) <font color="navy">{</font>
+		this.lastName = lastName;
+	<font color="navy">}</font>
+&nbsp;
+	@Override <font color="navy"><b>public</b></font> String toString() <font color="navy">{</font>
+		StringBuffer userInfo = <font color="navy"><b>new</b></font> StringBuffer()
+		.append(<font color="red">"Class: "</font>).append(getClass())
+		.append(<font color="red">"\nID: "</font>).append(getId())
+		.append(<font color="red">"\nFirst Name: "</font>).append(getFirstName())
+		.append(<font color="red">"\nLast Name: "</font>).append(getLastName());
+		
+		<font color="navy"><b>return</b></font> userInfo.toString();
+	<font color="navy">}</font>
+&nbsp;
+<font color="navy">}</font>
+</pre>
+</p><p>
+Next, we need to create our user table, and give it some data:
+</p><p>
+<pre>
+CREATE TABLE 'user' (
+  'id' int(10) unsigned NOT NULL auto_increment,
+  'first_name' varchar(45) NOT NULL default '',
+  'last_name' varchar(45) NOT NULL default '',
+  'type' varchar(12) NOT NULL default '',
+  PRIMARY KEY  ('id')
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+insert into user (id, first_name, last_name) values (1, "R.J.", "Lorimer")
+
+*--------------------------------------*
+*  id  | first_name | last_name | type *
+*--------------------------------------*
+*  1   | "R.J."     | "Lorimer" | null *
+*--------------------------------------*
+</pre>
+</p><p>
+(this creation SQL is a direct export of my MySql test db - it may vary for your DB).
+</p><p>
+Next, we have to create a hibernate mapping file in the package with our User class, called User.hbm.xml:
+</p><p>
+<pre>
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"&gt;
+
+&lt;hibernate-mapping&gt;
+	&lt;class name="com.javalobby.tnt.hib.User" table="USER" lazy="false"&gt;
+		&lt;id name="id" type="long" column="ID"&gt;
+			&lt;generator class="identity" /&gt;
+		&lt;/id&gt;
+		
+		&lt;property name="firstName" column="first_name"/&gt;
+		&lt;property name="lastName" column="last_name"/&gt;
+	&lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</pre>
+</p><p>
+Now, when we run our test class, we get this result in the console (trimmed for your comfort):
+</p><p>
+<pre>
+Class: class com.javalobby.tnt.hib.User
+ID: 1
+First Name: R.J.
+Last Name: Lorimer
+</pre>
+</p><p>
+Ok, now, we've done the basic leg-work. Now let's map some subclasses. As I mentioned above, I'll be mapping table-per-subclass with discriminators. What this essentially means, is that the 'type' column on our 'user' table will be used as a discriminator to determine what subclass will be created and used for our new record.
+</p><p>
+<pre>
+# Create Employee Table
+CREATE TABLE 'employee' (
+  'id' int(10) unsigned NOT NULL auto_increment,
+  'job_title' varchar(45) NOT NULL default '',
+  'supervisor_id' int(10) unsigned default '0',
+  PRIMARY KEY  ('id')
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+# Insert Employee-Table-Specific Details for User id=1
+insert into employee (id, job_title, supervisor_id) values (1, 'Master of All', null)
+# Update User id=1 to be of 'employee' type
+update user set type='employee' where id=1
+
+[user]
+*--------------------------------------------*
+*  id  | first_name | last_name |    type    *
+*--------------------------------------------*
+*  1   | "R.J."     | "Lorimer" | "employee" *
+*--------------------------------------------*
+
+[employee]
+*---------------------------------------*
+* id | job_title        | supervisor_id *
+*---------------------------------------*
+* 1  | "Master of All"  | null          *
+*---------------------------------------*
+</pre>
+</p><p>
+Then we simply want to create our new employee class:
+</p><p>
+<pre><font color="navy"><b>package</b></font> com.javalobby.tnt.hib;
+&nbsp;
+<font color="navy"><b>public</b></font> <font color="navy"><b>class</b></font> Employee <font color="navy"><b>extends</b></font> User <font color="navy">{</font>
+&nbsp;
+	<font color="navy"><b>private</b></font> String jobTitle;
+	<font color="navy"><b>private</b></font> Employee supervisor;
+	
+	<font color="navy"><b>public</b></font> String getJobTitle() <font color="navy">{</font>
+		<font color="navy"><b>return</b></font> jobTitle;
+	<font color="navy">}</font>
+	<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> setJobTitle(String jobTitle) <font color="navy">{</font>
+		this.jobTitle = jobTitle;
+	<font color="navy">}</font>
+	<font color="navy"><b>public</b></font> Employee getSupervisor() <font color="navy">{</font>
+		<font color="navy"><b>return</b></font> supervisor;
+	<font color="navy">}</font>
+	<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> setSupervisor(Employee supervisor) <font color="navy">{</font>
+		this.supervisor = supervisor;
+	<font color="navy">}</font>
+	
+	@Override <font color="navy"><b>public</b></font> String toString() <font color="navy">{</font>
+		StringBuffer result = <font color="navy"><b>new</b></font> StringBuffer()
+		.append(super.toString())
+		.append(<font color="red">"\nJob Title: "</font>).append(getJobTitle())
+		.append(<font color="red">"\nSupervisor: "</font>).append(getSupervisor());
+		<font color="navy"><b>return</b></font> result.toString();
+	<font color="navy">}</font>
+<font color="navy">}</font>
+</pre>
+</p><p>
+Now, we need to extend our mapping to account for the discriminator, and then introduce the subclass mapping based on that discriminator. Subclass mappings of this variety use the 'join' sub-element that describes how to map the subclass to the new table.
+</p><p>
+<pre>
+&lt;hibernate-mapping&gt;
+	&lt;class name="com.javalobby.tnt.hib.User" table="USER" lazy="false"&gt;
+		&lt;id name="id" type="long" column="ID"&gt;
+			&lt;generator class="identity" /&gt;
+		&lt;/id&gt;
+
+		&lt;discriminator column="type" type="string"/&gt;
+		
+		&lt;property name="firstName" column="first_name"/&gt;
+		&lt;property name="lastName" column="last_name"/&gt;
+		
+		&lt;subclass name="com.javalobby.tnt.hib.Employee" discriminator-value="employee"&gt;
+			&lt;join table="employee"&gt;
+				&lt;key column="id"/&gt;
+				&lt;property name="jobTitle" column="job_title"/&gt;
+				&lt;many-to-one name="supervisor" column="supervisor_id" not-null="true" /&gt;
+			&lt;/join&gt;
+		&lt;/subclass&gt;
+	&lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</pre>
+</p><p>
+In addition, we can also make our User class abstract:
+</p><p>
+<pre><font color="navy"><b>public</b></font> <font color="navy"><b>abstract</b></font> <font color="navy"><b>class</b></font> User <font color="navy">{</font> <font color="darkgreen">// ...</font>
+</pre>
+</p><p>
+By running the test-class again, we are given this result:
+</p><p>
+<pre>
+Class: class com.javalobby.tnt.hib.Employee
+ID: 1
+First Name: R.J.
+Last Name: Lorimer
+Job Title: Master of All
+Supervisor: null
+</pre>
+</p><p>
+Let's go one step further, and subclass our subclass. We'll create a class called Employer. Employers will be another employee, but will specifically have subordinates (and other things). Because of that, they have all of the columns of the 
+<code>employee
+</code> table, but also have their own columns. So, first step is to create our new employer table, and add some new test data:
+</p><p>
+<pre>
+# Create employer table
+CREATE TABLE 'employer' (
+  'id' int(10) unsigned NOT NULL auto_increment,
+  'company_car_brand' varchar(45) NOT NULL default '',
+  PRIMARY KEY  ('id')
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+</p><p>
+# Add employer-table-specific details for user id=1
+insert into employer (id, company_car_brand) values (1, "Ferrari")
+# make user id=1 an employer
+update user set type='employer' where id=1
+# add another user, 'milton waddums' id=2, type=employee
+insert into user (id, first_name, last_name, type) values (2, "Milton", "Waddums", "employee")
+# add employee specific details for user id=2
+insert into employee (id, job_title, supervisor_id) values (2, "Roach Killer", 1)
+
+[user]
+*--------------------------------------------*
+*  id  | first_name | last_name |    type    *
+*--------------------------------------------*
+*  1   | "R.J."     | "Lorimer" | "employer" *
+*--------------------------------------------*
+*  2   | "Milton"   | "Waddums" | "employee" *
+*--------------------------------------------*
+
+[employee]
+*---------------------------------------*
+* id | job_title        | supervisor_id *
+*---------------------------------------*
+* 1  | "Master of All"  | null          *
+*---------------------------------------*
+* 2  | "Roach Killer"   | 1             *
+*---------------------------------------*
+
+[employer]
+*------------------------*
+* id | company_car_brand *
+*------------------------*
+* 1  | "Ferrari"         *
+*------------------------*
+
+</pre>
+</p><p>
+Next, we'll create our Employer class:
+</p><p>
+<pre><font color="navy"><b>package</b></font> com.javalobby.tnt.hib;
+&nbsp;
+<font color="navy"><b>import</b></font> java.util.Set;
+&nbsp;
+<font color="navy"><b>public</b></font> <font color="navy"><b>class</b></font> Employer <font color="navy"><b>extends</b></font> Employee <font color="navy">{</font>
+&nbsp;
+	<font color="navy"><b>private</b></font> Set subordinates;
+	<font color="navy"><b>private</b></font> String companyCarBrand;
+	
+	<font color="navy"><b>public</b></font> Set getSubordinates() <font color="navy">{</font>
+		<font color="navy"><b>return</b></font> subordinates;
+	<font color="navy">}</font>
+	
+	<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> setSubordinates(Set newSubordinates) <font color="navy">{</font>
+		subordinates = newSubordinates;
+	<font color="navy">}</font>
+&nbsp;
+	<font color="navy"><b>public</b></font> String getCompanyCarBrand() <font color="navy">{</font>
+		<font color="navy"><b>return</b></font> companyCarBrand;
+	<font color="navy">}</font>
+	
+	<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> setCompanyCarBrand(String companyCarBrand) <font color="navy">{</font>
+		this.companyCarBrand = companyCarBrand;
+	<font color="navy">}</font>
+	
+	@Override <font color="navy"><b>public</b></font> String toString() <font color="navy">{</font>
+		StringBuffer result = <font color="navy"><b>new</b></font> StringBuffer()
+		.append(super.toString())
+		.append(<font color="red">"\nCompany Car Brand: "</font>).append(getCompanyCarBrand());
+		
+		<font color="navy"><b>return</b></font> result.toString();
+	<font color="navy">}</font>
+<font color="navy">}</font>
+</pre>
+</p><p>
+... and now we will create the mapping. The mapping format is quite similar to before, but is simply nested a level deeper. Also note I am using a one-to-many set mapping in the sub-sub-class (just to show you it is FULLY functional):
+</p><p>
+<pre>
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"&gt;
+
+&lt;hibernate-mapping&gt;
+	&lt;class name="com.javalobby.tnt.hib.User" table="USER" lazy="false"&gt;
+		&lt;id name="id" type="long" column="ID"&gt;
+			&lt;generator class="identity" /&gt;
+		&lt;/id&gt;
+
+		&lt;discriminator column="type" type="string"/&gt;
+		
+		&lt;property name="firstName" column="first_name"/&gt;
+		&lt;property name="lastName" column="last_name"/&gt;
+		
+		&lt;subclass name="com.javalobby.tnt.hib.Employee" discriminator-value="employee"&gt;
+			&lt;join table="employee"&gt;
+				&lt;key column="id"/&gt;
+				&lt;property name="jobTitle" column="job_title"/&gt;
+				&lt;many-to-one name="supervisor" column="supervisor_id" not-null="true" /&gt;
+			&lt;/join&gt;
+			&lt;subclass name="com.javalobby.tnt.hib.Employer" discriminator-value="employer"&gt;
+				&lt;set name="subordinates"&gt;
+					&lt;key column="supervisor_id" not-null="true"/&gt;
+					&lt;one-to-many class="com.javalobby.tnt.hib.Employee"/&gt;
+				&lt;/set&gt;
+				&lt;join table="employer"&gt;
+					&lt;key column="id"/&gt;
+					&lt;property name="companyCarBrand" column="company_car_brand"/&gt;
+				&lt;/join&gt;
+			&lt;/subclass&gt;
+		&lt;/subclass&gt;
+	&lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</pre>
+</p><p>
+Finally, we will update the 'load' line of our test method to load Milton Waddums as opposed to your's truly:
+</p><p>
+<pre>User user = (User)session.load(User.class, <font color="navy"><b>new</b></font> Long(2));
+</pre>
+</p><p>
+Here is the result of running it again:
+</p><p>
+<pre>
+Class: class com.javalobby.tnt.hib.Employee
+ID: 2
+First Name: Milton
+Last Name: Waddums
+Job Title: Roach Killer
+Supervisor: Class: class com.javalobby.tnt.hib.Employer
+ID: 1
+First Name: R.J.
+Last Name: Lorimer
+Job Title: Master of All
+Supervisor: null
+Company Car Brand: Ferrari
+</pre>
+</p><p>
+Not too bad at all! On top of that, Hibernate manages to load these two users with only 2 select statements - pretty efficient!
+</p><p>
+For those that are interested, here are the (rather cryptic) SQL statements issued by Hibernate:
+</p><p>
+<pre>
+<b>SQL 1
+</b>
+select 
+	user0_.ID as ID0_,
+	user0_.first_name as first3_0_0_,
+	user0_.last_name as last4_0_0_,
+	user0_1_.job_title as job2_1_0_,
+	user0_1_.supervisor_id as supervisor3_1_0_,
+	user0_2_.company_car_brand as company2_2_0_,
+	user0_.type as type0_
+<br/>
+from 
+	USER user0_ 
+left outer join 
+	employee user0_1_ 
+on 
+	user0_.ID=user0_1_.id 
+	
+	left outer join 
+		employer user0_2_ 
+	on 
+		user0_.ID=user0_2_.id
+where 
+	user0_.ID=?
+
+<b>SQL 2
+</b>
+select 
+	employee0_.ID as ID0_,
+	employee0_.first_name as first3_0_0_,
+	employee0_.last_name as last4_0_0_,
+	employee0_1_.job_title as job2_1_0_,
+	employee0_1_.supervisor_id as supervisor3_1_0_,
+	employee0_2_.company_car_brand as company2_2_0_,
+	employee0_.type as type0_
+from
+	USER employee0_
+inner join
+	employee employee0_1_
+on
+	employee0_.ID=employee0_1_.id
+	
+	left outer join
+		employer employee0_2_
+	on
+		employee0_.ID=employee0_2_.id
+where employee0_.ID=?
+</pre>
+</p>
+Until next time,
+</p><p>
+R.J. Lorimer
+<br/>
+<a href="#">rj -at- javalobby.org
+</a><br/>
+<a href="http://www.coffee-bytes.com" target="_blank">http://www.coffee-bytes.com</a>
+<br/>
+</p>
+      <div class="rm_footer">
+         <!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+          <span style="float:right"> <SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=71&pid=0&random=52419059" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=71&pid=0&random=52419059" height="60" width="234" hspace="4" vspace="4" frameborder="0" align="right" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=71&pid=0&lookup=true&random=52419059" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=71&pid=0&random=52419059" height="60" width="234" hspace="4" vspace="4" border="0" alt="Support Javalobby, visit our sponsors" align="right">
+</A>
+</IFRAME>
+</NOSCRIPT>
+</span>
+          <!--<a href="http://avpa.javalobby.org/servlet/click/zone?zid=71&pid=0&lookup=true&position=1" target="_top">
+<img src="http://avpa.javalobby.org/servlet/view/banner/image/zone?zid=71&pid=0&position=1" height="60" width="234" hspace="0" vspace="4" align="right" border="0" alt="Click Here!">
+</a>-->   <!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+
+				
+				<h3>6 replies
+					
+							 so far
+							
+							<span class="postYours">(<a href="/forums/post!reply.jspa?threadID=18300" style="border:none"
+							 ><img src="/images/std/icons/write_16x16.gif" title="Reply to this Thread"
+							 width="16" height="16" ></a>
+							<a href="/forums/post!reply.jspa?threadID=18300"
+							 >Post your own</a>)</span>
+					
+				</h3>
+				
+		</div>
+		</div>
+
+
+                <!-- Text ad at top of right column -->
+                
+	
+
+            
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="91831081"></a>
+<dt id="reply1" class="alt"><a href="#91831081"
+																				class="postno"
+																				title="Permlink to this reply">1
+	.</a>
+		<span class="replyInfo">At 3:03 AM
+		on Apr 18, 2005, <a
+				href="/forums/profile.jspa?userID=39406"
+				class="author">Ray Cromwell</a> <img
+				src="/images/std/dz100.gif" height="16" width="50" border="0" alt="DeveloperZone Top 100"
+				title="DeveloperZone Top 100 Posters"/> 
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=91831081" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=91831081"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate: Discriminators and Table-Per-Subclass
+</h3>
+	You should probably also show how people can generate the database schema directly out of the mapping file with hbm2java, since many people who don't start with a legacy database, but start with POJOs will take that approach, since it saves the work of doing all three parts manually (POJO, mapping, and DB schema) Legacy databases usually won't have the discriminator column <img class="jive-emoticon" border="0" src="images/emoticons/sad.gif" alt=":(">
+<br><br>I'm amazed at how nicely annotations work in Hib3.
+
+
+	
+</dd>
+
+
+
+
+
+
+			
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="91831094"></a>
+<dt id="reply2" class="alt2"><a href="#91831094"
+																				class="postno"
+																				title="Permlink to this reply">2
+	.</a>
+		<span class="replyInfo">At 7:50 AM
+		on Apr 18, 2005, <a
+				href="/forums/profile.jspa?userID=58312"
+				class="author">R.J. Lorimer</a>
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt2 withSig">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=91831094" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=91831094"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate: Discriminators and Table-Per-Subclass
+</h3>
+	Ray,
+<br><br>Interesting you should say that legacy databases usually 
+<b>won't
+</b> have the discriminator column - I've seen so many that 
+<b>do
+</b> in the past 5 years. Granted, they were all already Java applications - they were just using old, Java 1.1 (and some Java 2) codebases.
+<br><br>There is certainly plenty more to the 'hibernate experience' that I'd like to show and talk about, but I have to trim down the subject matter for these tips. I will keep hbm2java and the other Hibernate tools in mind as something to show Javalobby readers in the near future. Same goes for the new annotations.
+<br><br>Thanks for the feedback,
+
+
+	
+</dd>
+
+
+<dd class="signature alt2">
+	Best, R.J. Lorimer</dd>
+
+
+
+
+
+			
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="91831108"></a>
+<dt id="reply3" class="alt"><a href="#91831108"
+																				class="postno"
+																				title="Permlink to this reply">3
+	.</a>
+		<span class="replyInfo">At 10:50 AM
+		on Apr 18, 2005, <a
+				href="/forums/profile.jspa?userID=161035"
+				class="author">Rainer P.</a>
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=91831108" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=91831108"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate: Discriminators and Table-Per-Subclass
+</h3>
+	Hello,
+<br><br>a few weeks ago we had the problem to map a legacy system to  hibernate. 
+<br>To our big surprise we had to find out that it's nearly impossible to create own mappings with this piece of software!
+<br><br>If you have other structures than primitive Java values and java.util.Collections you cannot use Hibernate (e.g. you have your implementation for java.util.List).
+<br>Very sad ...
+<br><br>Cheers
+
+
+	
+</dd>
+
+
+
+
+
+
+			
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="91831269"></a>
+<dt id="reply4" class="alt2"><a href="#91831269"
+																				class="postno"
+																				title="Permlink to this reply">4
+	.</a>
+		<span class="replyInfo">At 5:17 PM
+		on Apr 19, 2005, <a
+				href="/forums/profile.jspa?userID=111165"
+				class="author">Jim Hazen</a>
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt2">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=91831269" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=91831269"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate: Discriminators and Table-Per-Subclass
+</h3>
+	The folks here and the Hibernate guys love a challenge.  What exactly what your problem (you found a DB column type that is supported by the DB and not by Java, I doubt that)?  I and others have found Hibernate's mapping mechanism extremely flexible, even more so in 3.0.
+<br><br>If you present your problem and it really can't be done currently, it might be something the Hibernate gurus would take up to support in a future release.
+
+
+	
+</dd>
+
+
+
+
+
+
+			
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="91831270"></a>
+<dt id="reply5" class="alt"><a href="#91831270"
+																				class="postno"
+																				title="Permlink to this reply">5
+	.</a>
+		<span class="replyInfo">At 5:22 PM
+		on Apr 19, 2005, <a
+				href="/forums/profile.jspa?userID=58312"
+				class="author">R.J. Lorimer</a>
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt withSig">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=91831270" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=91831270"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate: Discriminators and Table-Per-Subclass
+</h3>
+	Jim,
+<br><br>I agree - the only thing he mentioned concretely in his rant was that you can't use your own implementation of a collection - but I believe that 
+<i>is
+</i> possible through the org.hibernate.usertype.UserCollectionType interface (although I'm not 100% sure, never tried).
+
+
+	
+</dd>
+
+
+<dd class="signature alt">
+	Best, R.J. Lorimer</dd>
+
+
+
+
+
+			
+
+		
+
+			
+				
+
+
+
+
+
+
+
+
+
+
+<a name="91831290"></a>
+<dt id="reply6" class="alt2"><a href="#91831290"
+																				class="postno"
+																				title="Permlink to this reply">6
+	.</a>
+		<span class="replyInfo">At 1:54 AM
+		on Apr 20, 2005, <a
+				href="/forums/profile.jspa?userID=39406"
+				class="author">Ray Cromwell</a> <img
+				src="/images/std/dz100.gif" height="16" width="50" border="0" alt="DeveloperZone Top 100"
+				title="DeveloperZone Top 100 Posters"/> 
+
+
+            
+ wrote:</span>
+</dt>
+<dd class="alt2">
+	<div class="msgControls">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        
+
+                        
+                        
+                        
+                        
+
+                            <td>&nbsp;</td>
+                            <td class="jive-icon">
+                                <a href="/forums/post!reply.jspa?messageID=91831290" title="Click to reply to this thread"
+                                 ><img src="/images/std/icons/write_16x16.gif" width="16" height="16" border="0" alt="Click to reply to this thread"></a>
+                            </td>
+                            <td class="jive-icon-label">
+                                <a href="/forums/post!reply.jspa?messageID=91831290"
+                                 title="Click to reply to this thread"
+                                 >Reply</a>
+                            </td>
+
+                        
+                    </tr>
+                    </table>
+        </div>
+	<h3>Re: Hibernate: Discriminators and Table-Per-Subclass
+</h3>
+	Although you can do it, remember Hibernate isn't a JDO-like framework, it is for mapping Java classes to relational database datastructures.  If you want to map something like a Graph or Tree custom collection structure to the DB, Hibernate won't support it as easily.
+<br><br>Hibernate allows you to map datastructures which make sense for a typical database schema. Much more complicated datastructures are left for you to implement on your own. But IMHO, Hibernate by default handles 95% of all common DB paradigms and does it much better than most other persistent frameworks.
+
+
+	
+</dd>
+
+
+
+
+
+
+			
+
+		
+	</dl>
+	</div>
+
+</div>
+
+<div class="jive-message-list-footer">
+	
+		<span class="jljive-paginator">
+		
+		Replies:
+		6 -
+		
+		Pages:
+		1 &nbsp;
+
+		
+		</span>
+	
+	
+		<span class="jljive-paginator">
+			
+					
+					Threads:
+					[
+					
+							
+							<a href="/java/forums/t18406.html"
+							 >Previous</a>
+					
+					|
+					
+							
+							Next
+					
+					]
+			
+		</span>
+	
+</div>
+
+
+    <br>
+    <a href="/rss/rssmessages.jspa?threadID=18300"
+    title="Point your RSS reader here for a feed of the latest messages in this thread"><img src="images/rss-24x16.gif"
+    width="24" height="14" border="0" alt="thread.rss_message"></a>
+
+
+<!-- layers that slide go here.
+		 Be sure to include id for each layer in style sheet in head -->
+<div id="glideDiv0">
+	
+			
+			<a href="/forums/post!reply.jspa?threadID=18300"
+			 ><img src="/images/std/icons/write.gif" title="Reply to this Thread"
+			 width="24" height="24" align="right"></a>
+	
+
+	
+	<a href="/"
+	><img src="/images/std/icons/home.gif" title="Home"
+		width="24" height="24" align="right"></a>
+
+	
+	<a href="/java/forums/f18032.html"
+	><img src="/images/std/icons/folder_up.gif" title="Up to Thread List"
+		width="24" height="24" align="right"></a>
+
+	
+	
+			<img src="/images/std/icons/next_thread_off.gif" title="No Next Thread" width="24" height="24" align="right">
+	
+
+	
+	
+			<img src="/images/std/icons/next_messages_off.gif" title="No Additional Replies" width="24" height="24" align="right">
+	
+
+	
+	
+			<img src="/images/std/icons/prev_messages_off.gif" title="No Previous Replies" width="24" height="24" align="right">
+	
+
+	
+	
+			<a href="/java/forums/t18406.html"
+			 ><img src="/images/std/icons/prev_thread.gif" title="Previous Thread" width="24" height="24" align="right"></a>
+	
+
+	
+	
+			<img src="/images/std/icons/write_off.gif" title="No Email this thread to a friend" width="24" height="24" align="right">
+	
+
+</div>
+<br/><br/>
+<div id="footer">
+	<!-- BEGIN ADVERTPRO ADVANCED CODE BLOCK -->
+ <SCRIPT language="JavaScript" src="http://avpa.javalobby.org/servlet/view/javascript/zone?zid=24&pid=0&random=31921348" type="text/javascript"></SCRIPT>
+<NOSCRIPT>
+<IFRAME src="http://avpa.javalobby.org/servlet/view/html/zone?zid=24&pid=0&random=31921348" height="60" width="468" hspace="0" vspace="0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no">
+<A href="http://avpa.javalobby.org/servlet/click/zone?zid=24&pid=0&lookup=true&random=31921348" target="_top">
+<IMG src="http://avpa.javalobby.org/servlet/view/image/zone?zid=24&pid=0&random=31921348" height="60" width="468" hspace="0" vspace="0" border="0" alt="Click Here!">
+</A>
+</IFRAME>
+</NOSCRIPT>
+
+ <!-- END ADVERTPRO ADVANCED CODE BLOCK -->
+<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=29092&amp;t=64" class="noborder"><img border="0" alt="Get Firefox!" title="Get Firefox!" src="/images/logos/get_firefox.gif"/></a>
+&nbsp;<a href="http://www.jivesoftware.com/poweredby?src=javalobby" style="font-size: 11px">Powered by Jive Software</a> <a href="http://www.caucho.com"><img border="0"
+                             alt="Powered by Caucho Resin!"
+                             title="Powed by Caucho Resin!"
+                             src="/images/logos/resin-powered.gif"/></a>
+<!-- end footer div--></div>
+
+<!-- end wrap_inner div--></div>
+<!-- end wrap_outer div--></div>
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-410289-4";
+urchinTracker();
+</script>
+    <!-- Start Quantcast tag -->
+    <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+    <script type="text/javascript">
+    _qacct="p-ebK_XdQH1HeLo";quantserve();</script>
+    <noscript>
+    <img src="http://pixel.quantserve.com/pixel/p-ebK_XdQH1HeLo.gif" style="display: none" height="1" width="1" alt="Quantcast"/></noscript>
+    <!-- End Quantcast tag -->
+    
+</body>
+</html>
