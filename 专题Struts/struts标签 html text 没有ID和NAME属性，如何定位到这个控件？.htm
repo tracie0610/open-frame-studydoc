@@ -1,0 +1,758 @@
+<!-- DefaultTemplate -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta name="designer" content="csdn design team">
+<meta content="all" name="robots">
+<meta http-equiv="Content-Language" content="zh-CN">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="/u/ui/styles/default/topic.css" />
+
+<link type="text/css" rel="Stylesheet" href="/u/ui/styles/mzform.css">
+<title>struts标签&lt;html:text&gt;没有ID和NAME属性，如何定位到这个控件？</title>
+<meta csdnid="keywords" content="" name="Keywords">
+<meta id="topicViewUrl" csdnid="topicViewUrl" content="http://topic.csdn.net/u/20070724/21/f53022cf-079f-4134-b7c5-b32322ac5003.html">
+<meta csdnid="sectionId" content="2efca177-6b51-42d9-a509-0216fbca231e">
+<meta csdnid="description" content="struts标签&lt;html:text&gt;没有ID和NAME属性，如何定位到这个控件？" name="description">
+<script type="text/javascript" src="/u/ui/scripts/StaticTopicView.js"></script>
+</head>
+<body>
+ <a name="top"></a>
+ <div id="CSDNPHL">
+  <table class="CSDN-PHF" border="0" cellspacing="1" cellpadding="0"><tr>
+      <td><a rel="mz" href="http://www.csdn.net/">首页</a></td>
+      <td><a rel="mz" href="http://news.csdn.net/">新闻</a></td>
+      <td><a rel="mz" href="http://bbs.csdn.net/">论坛</a></td>
+      <td><a rel="mz" href='http://groups.csdn.net/'>群组</a></td>
+      <td><a rel="mz" href="http://blog.csdn.net/">Blog</a></td>
+      <td><a rel="mz" href="http://dev.csdn.net/">文档</a></td>
+      <td><a rel="mz" href="http://download.csdn.net/">下载</a></td>
+      <td><a rel="mz" href="http://book.csdn.net/">读书</a></td>
+      <td><a rel="mz" href="http://tag.csdn.net/">Tag</a></td>
+      <td><a rel="mz" href='http://wz.csdn.net/'>网摘</a></td>
+      <td><a rel="mz" href="http://so.csdn.net/bbs.aspx">搜索</a></td>
+      <td><a rel="mz" href="http://dotnet.csdn.net/">.NET</a></td>
+      <td><a rel="mz" href="http://java.csdn.net/">Java</a></td>
+      <td><a rel="mz" href="http://gamedev.csdn.net/">游戏</a></td>
+      <td><a rel="mz" href='http://live.csdn.net/'>视频</a></td>
+      <td><a rel="mz" href="http://job.csdn.net/">人才</a></td>
+      <td><a rel="mz" href="http://prj.csdn.net/">外包</a></td>
+      <td><a rel="mz" href="http://training.csdn.net/">培训</a></td>
+      <td><a rel="mz" href='http://database.csdn.net/'>数据库</a></td>
+      <td><a rel="mz" href='http://www.dearbook.com.cn/'>书店</a></td>
+      <td><a rel="mz" href='http://www.programmer.com.cn/'>程序员</a></td> 
+    </tr></table>
+</div>
+<div class="ad top"><iframe id="Topic_Top" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" width="100%" height="0" src="about:blank" ></iframe></div>
+<script type="text/javascript">
+
+try { document.domain="csdn.net"; }  catch (ex){};
+
+window._stopMouseOver=function(e){(window.event||e).cancelBubble=true;}
+
+var panelAdmin;
+
+document.onmouseover=function(){ 
+    panelAdmin=document.getElementById("panelAdmin");
+    if(panelAdmin)
+        panelAdmin.style.display='none';
+ }
+		    
+function showMenu(event){
+        _stopMouseOver(event);
+        panelAdmin=document.getElementById("panelAdmin");
+        var bt=event.srcElement||event.target;
+        panelAdmin.style.display="block";
+        panelAdmin.style.left=bt.offsetLeft-5+"px";
+        panelAdmin.style.top=realOffset(bt).y+bt.offsetHeight-2+"px";
+}
+    
+
+function realOffset(o)
+{
+  var x = y = 0; do{
+  x += o.offsetLeft || 0; 
+  y += o.offsetTop  || 0;
+  o  = o.offsetParent;}while(o);
+  return {"x" : x, "y" : y};
+};
+
+</script>
+ <div id="headerUserSearch">
+<img class="float_left" src="http://www.csdn.net/Images/logo_csdn.gif" alt="中国软件网" width="150" height="60" border="0">
+<div class="float_left ">
+	<span>欢迎您:</span><a id="vName" target="_blank" class="blackLink" href="http://hi.csdn.net/my.html">游客</a><a id="exit" style="display:none" class="darkLink" href="http://forum.csdn.net/User/LoginOut.aspx?from=http%3a%2f%2ftopic.csdn.net%2fu%2f20070724%2f21%2ff53022cf-079f-4134-b7c5-b32322ac5003.html"> | 退出</a> <span id="login"><a class="darkLink" href="http://passport.csdn.net/UserLogin.aspx?from=http%3a%2f%2ftopic.csdn.net%2fu%2f20070724%2f21%2ff53022cf-079f-4134-b7c5-b32322ac5003.html">| 登录</a> <a class="darkLink" href="http://passport.csdn.net/CSDNUserRegister.aspx?from=http%3a%2f%2ftopic.csdn.net%2fu%2f20070724%2f21%2ff53022cf-079f-4134-b7c5-b32322ac5003.html">注册</a></span> <a target="_blank" class="darkLink" href="http://community.csdn.net/Help/HelpCenter.htm">帮助</a>
+	<li><ul><a target="_blank" href="http://forum.csdn.net/PointForum/Forum/UserTopicList.aspx?sectionid=2efca177-6b51-42d9-a509-0216fbca231e&type=TopicOfUser">我的帖子</a></ul><ul><a target="_blank" href="http://forum.csdn.net/PointForum/Forum/UserTopicList.aspx?sectionid=2efca177-6b51-42d9-a509-0216fbca231e&type=TopicUserJoined">我参与的帖子</a></ul><ul><a target="_blank" href="http://hi.csdn.net/my.html">我的空间</a></ul><ul><a target="_blank" href="http://wz.csdn.net/my">我的网摘</a></ul></li>
+</div>
+<div class="float_left" id="search">
+    <input type="hidden" id="hf_searchUrl" value="http://forum.csdn.net/PointForum/SearchTopic.aspx">
+    <form id="TopicSearchForm" name="TopicSearchForm" method="post" action="">
+    <input type="text" name="key" onkeydown="try{onkey(event)}catch(ex){}" class="key">
+    <input type="image" src="/u/ui/images/blank.gif" class="csdnsearch" onclick="javascript: Search(); return false;">
+    <input type="image" src="/u/ui/images/blank.gif" class="fsearch" onclick="JavaScript:SearchInSubject('3d11cb76-8373-401d-9e9a-a6b24dd73eff','2efca177-6b51-42d9-a509-0216fbca231e','small'); return false;">
+</form>
+</div>
+<div class="clear"></div>  
+</div>
+ <div id="navbar" class="item">
+  <dl><dd><ul class="navigationBar">
+<li><a href="http://www.csdn.net/" target="_Blank">CSDN</a></li><li><a href="http://community.csdn.net/" target="_Blank">CSDN社区</a></li><li><a href="http://forum.csdn.net/BList/Java/UnClosedList" target="_Blank">Java</a></li><li class="current"><a href="http://forum.csdn.net/SList/J2EE_EJB_JMS/UnClosedList/" target="_Blank">J2EE / EJB / JMS</a></li></ul>
+</dd><dt class="clear"></dt>
+  <dd style="border-top: solid 1px #FFFFFF; padding: 2px">
+    <div id="pagefunc">
+     <a href="#" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Forum/TopicMoveUp.aspx?forumid=2efca177-6b51-42d9-a509-0216fbca231e&topicid=f53022cf-079f-4134-b7c5-b32322ac5003', width:400, height: 300, title: '将帖子提前'});}catch(ex){} return false;">将帖子提前</a> &nbsp; 
+     <a href="#" onclick="javascript:try{addToWZ()}catch(ex){};return false;">放进我的网摘</a> &nbsp;
+     <a href="#" onclick="javascript:try{recommand('http://forum.csdn.net/PointForum/Forum/EmailRecommend.aspx?topicsubject=struts%e6%a0%87%e7%ad%be%3chtml%3atext%3e%e6%b2%a1%e6%9c%89ID%e5%92%8cNAME%e5%b1%9e%e6%80%a7%ef%bc%8c%e5%a6%82%e4%bd%95%e5%ae%9a%e4%bd%8d%e5%88%b0%e8%bf%99%e4%b8%aa%e6%8e%a7%e4%bb%b6%ef%bc%9f&topicurl=http://topic.csdn.net/u/20070724/21/f53022cf-079f-4134-b7c5-b32322ac5003.html');return false;}catch(ex){}">推荐给好友</a>
+    </div>
+    <div id="menu1" class="float_left">
+    <a class="float_left blockButton" href="http://forum.csdn.net/PointForum/Forum/PostTopic.aspx?forumID=2efca177-6b51-42d9-a509-0216fbca231e" target="_blank">我要提问</a>
+    <a href="http://forum.csdn.net/PointForum/Forum/TopicAddPoint.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&date=2007-7-24 21:02:11" onclick="javascript:try{showWindow({url:this.href, width:400, height: 300, title: '帖子加分'});}catch(ex){} return false;" class="float_left blockButton">帖子加分</a>
+    <div id="panelAdmin" onmouseover="_stopMouseOver(event)" class="chout"><div>
+     <div class="menu">
+     <a href="http://forum.csdn.net/PointForum/BuildTopic.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&return=">生成帖子</a>
+     <a onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/Top/AddTop.aspx?url=http://topic.csdn.net/u/20070724/21/f53022cf-079f-4134-b7c5-b32322ac5003.html&text=struts%e6%a0%87%e7%ad%be%3chtml%3atext%3e%e6%b2%a1%e6%9c%89ID%e5%92%8cNAME%e5%b1%9e%e6%80%a7%ef%bc%8c%e5%a6%82%e4%bd%95%e5%ae%9a%e4%bd%8d%e5%88%b0%e8%bf%99%e4%b8%aa%e6%8e%a7%e4%bb%b6%ef%bc%9f&sectionid=2efca177-6b51-42d9-a509-0216fbca231e', width:680, height: 250, title: '置顶'});}catch(ex){} return false; " href="#">置顶</a>
+     <a onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/SetPrime.aspx?forumid=2efca177-6b51-42d9-a509-0216fbca231e&topicid=f53022cf-079f-4134-b7c5-b32322ac5003&topicCreateDate=2007-7-24 21:02:11', width:400, height: 300, title: '推荐(加精)'});}catch(ex){} return false; " href="#">推荐(加精)</a> 
+     <a onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/SetNotPrime.aspx?topicid=f53022cf-079f-4134-b7c5-b32322ac5003&forumid=2efca177-6b51-42d9-a509-0216fbca231e&postDate=2007-07-24', width:400, height: 300, title: '取消推荐(加精)'});}catch(ex){} return false; " href="#">取消推荐(加精)</a>
+     <a onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/LockTopic.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003', width:400, height: 300, title: '锁定帖子'});}catch(ex){} return false;" href="#">锁定帖子</a>
+     <a onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/MoveTopic.aspx?fid=2efca177-6b51-42d9-a509-0216fbca231e&tid=f53022cf-079f-4134-b7c5-b32322ac5003&date=2007-7-24+21%3a02%3a11', width:450, height: 200, title: '移动帖子'});}catch(ex){} return false;" href="#">移动帖子</a>
+     <a onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteTopicReferenceForums.aspx?topicid=f53022cf-079f-4134-b7c5-b32322ac5003&forumid=2efca177-6b51-42d9-a509-0216fbca231e', width:450, height: 200, title: '取消引用'});}catch(ex){} return false;" href="#">取消引用</a></div>
+      </div>
+    </div>
+    <a id="manageUrl" style="display:none;" href="http://forum.csdn.net/PointForum/Manage/TopicManageView.aspx?forumID=2efca177-6b51-42d9-a509-0216fbca231e&topicID=f53022cf-079f-4134-b7c5-b32322ac5003&date=2007-7-24+21%3a02%3a11" class="float_left blockButton">结贴去...</a>
+    <a class="float_left blockButton" id="btAdmin" onmouseover="javascript:try{showMenu(event);return false}catch(ex){}">管理菜单</a>
+    <select class="float_left" onchange="changeTheme(this.value)"><option value="">页面风格切换<option value="default">标准风格<option value="old">老版本论坛</select>
+    </div>    
+    </dd><dt class="clear"></dt></dl></div>
+ <input type="hidden" id="hf_cardUrl" value="http://forum.csdn.net/PointForum/UserCard.ashx?user=">
+ <table class="item topic" cellspacing="1">
+  <tr><th colspan="2" class="topicCaption">
+  <strong><span csdnid="topicSubject" id="topicSubject">struts标签&lt;html:text&gt;没有ID和NAME属性，如何定位到这个控件？</span><span csdnid="isPrime" class="">
+    <img alt="" src="/u/ui/images/blank.gif"></span><span csdnid="isLocked" class="">
+    <img alt="" src="/u/ui/images/blank.gif"></span><span csdnid="isCheckOut" class="color_red">[已结贴,结贴人:bkscofild]</span></strong>
+  </th></tr>
+  <tr><td class="info">
+   <dl><dd class="icon">
+        <a href="http://hi.csdn.net/BKscofild" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/BKscofild/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'BKscofild')}catch(ex){};" alt="进入用户个人空间"></a></dd>
+       <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/BKscofild.ashx">加为好友</a></dd>
+       <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/BKscofild.html">发送私信</a></dd>
+       <dd><a target="_blank" href="http://webim.csdn.net/Messages/BKscofild.ashx">在线聊天</a></dd></dl>
+    <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'BKscofild')}catch(ex){};"> <img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/BKscofild.ashx"><a target="_blank" href="http://hi.csdn.net/BKscofild"><var csdnid="topicUsername" id="topicUserName">BKscofild</var></a></li>
+        <li class="nickname"><textarea cols="" rows="" csdnid="topicNickname" readonly="readonly"></textarea></li>
+        <li>等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="topicUserRank" class="grade user1"></li></ul>
+  </td>
+  <td class="main">
+  <table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="topicPostDate">2007-07-24 21:02:11</var></span> <var>楼主</var></td></tr>
+  <tr><td class="content" id="Topic_Body" csdnid="topicBody">struts标签 &lt;html:text&gt; 没有ID和NAME属性，不能象HTML那样document.getElementById得到控件。 <br>  <br> 有办法得到这个 &lt;html:text&gt; 的object吗？</td></tr>
+  <tr><td csdnid="topicModifyInfo" class="modify"></td></tr>
+  <tr><td csdnid="topicRelatedLinks" class="file"></td></tr>
+  <tr><td class="function">
+  <span><label>问题点数：</label><var id="point" csdnid="topicPoint">20</var>&nbsp;<label>回复次数：<var csdnid="replyCount">15</var></label></span>
+  <select onchange="changeViewMode(this);"><option value="0">显示所有回复<option value="1">显示星级回复<option value="2">显示楼主回复</select>  
+<a style="color:#a2a2a2" title="修改" href="#" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyTopic.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" title="删除" href="#" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteTopic.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('Topic_Body','BKscofild',0)}catch(ex){};return false">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false;}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">
+ </td></tr></table></td></tr></table>
+   <div class="ad topicad01"><iframe id="Topic_Zone" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" width="100%" height="0" src="about:blank"></iframe></div>
+ <a csdnid="replyId" name="41722520"></a>
+<table class="item reply" csdnid="reply_41722520" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/yijie1206688" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/yijie1206688/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'yijie1206688');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/yijie1206688.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/yijie1206688.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/yijie1206688.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'yijie1206688');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/yijie1206688.ashx">
+  <a target="_blank" href="http://hi.csdn.net/yijie1206688"><var csdnid="replyUsername" id="topicUserName">yijie1206688</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly"></textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user4"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 21:28:25</var></span><var csdnid="replyLayer">1</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41722520_body" name="reply_body" csdnid="replyBody" class="content">本人对Struts标签一向挺反感的，你可以试着使用一下JSTL标签，毕竟它是被sun认定为 &quot;标准标签库 &quot;</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722520', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722520', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722520);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722520_body','yijie1206688','1')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41722587"></a>
+<table class="item reply" csdnid="reply_41722587" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/zhkchi" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/zhkchi/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'zhkchi');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/zhkchi.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/zhkchi.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/zhkchi.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'zhkchi');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/zhkchi.ashx">
+  <a target="_blank" href="http://hi.csdn.net/zhkchi"><var csdnid="replyUsername" id="topicUserName">zhkchi</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">火焰神</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade star1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 21:36:48</var></span><var csdnid="replyLayer">2</var>楼&nbsp;得分:<var csdnid="replyPoint">10</var></td></tr>
+  <tr><td id="reply41722587_body" name="reply_body" csdnid="replyBody" class="content">property就可以 <br>  <br> 你用getElementId可以得到</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722587', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722587', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722587);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722587_body','zhkchi','2')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41722610"></a>
+<table class="item reply" csdnid="reply_41722610" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/itcswgq" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/itcswgq/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'itcswgq');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/itcswgq.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/itcswgq.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/itcswgq.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'itcswgq');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/itcswgq.ashx">
+  <a target="_blank" href="http://hi.csdn.net/itcswgq"><var csdnid="replyUsername" id="topicUserName">itcswgq</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly"></textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user2"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 21:39:00</var></span><var csdnid="replyLayer">3</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41722610_body" name="reply_body" csdnid="replyBody" class="content">property属性值相当于原来的name属性</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722610', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722610', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722610);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722610_body','itcswgq','3')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41722629"></a>
+<table class="item reply" csdnid="reply_41722629" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/bigc2001" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/bigc2001/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'bigc2001');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/bigc2001.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/bigc2001.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/bigc2001.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'bigc2001');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/bigc2001.ashx">
+  <a target="_blank" href="http://hi.csdn.net/bigc2001"><var csdnid="replyUsername" id="topicUserName">bigc2001</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">大C</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user5"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 21:40:39</var></span><var csdnid="replyLayer">4</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41722629_body" name="reply_body" csdnid="replyBody" class="content">有名字的。</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722629', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722629', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722629);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722629_body','bigc2001','4')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41722933"></a>
+<table class="item reply" csdnid="reply_41722933" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/dch1287" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/dch1287/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/dch1287.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/dch1287.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/dch1287.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/dch1287.ashx">
+  <a target="_blank" href="http://hi.csdn.net/dch1287"><var csdnid="replyUsername" id="topicUserName">dch1287</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">静华飞月</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 22:18:31</var></span><var csdnid="replyLayer">5</var>楼&nbsp;得分:<var csdnid="replyPoint">10</var></td></tr>
+  <tr><td id="reply41722933_body" name="reply_body" csdnid="replyBody" class="content">Use &nbsp;  &quot;styleId &quot; &nbsp;  <br>  <br>  &quot;Identifier &nbsp; to &nbsp; be &nbsp; assigned &nbsp; to &nbsp; this &nbsp; HTML &nbsp; element &nbsp; (renders &nbsp; an &nbsp;  &quot;id &quot; &nbsp; attribute). &quot; <br>  <br> Use &nbsp;  &quot;styleId &quot; &nbsp; like &nbsp; this: <br>  <br>  &lt;html:text &nbsp; styleId= &quot;yourID &quot; &nbsp; /&gt;  <br>  <br> then &nbsp; in &nbsp; JavaScript: <br> var &nbsp; item &nbsp; = &nbsp; document.getElementById( &quot;yourID &quot;); <br>  <br> </td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722933', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722933', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722933);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722933_body','dch1287','5')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41722935"></a>
+<table class="item reply" csdnid="reply_41722935" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/zhang2000" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/zhang2000/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'zhang2000');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/zhang2000.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/zhang2000.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/zhang2000.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'zhang2000');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/zhang2000.ashx">
+  <a target="_blank" href="http://hi.csdn.net/zhang2000"><var csdnid="replyUsername" id="topicUserName">zhang2000</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly"></textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user2"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 22:18:55</var></span><var csdnid="replyLayer">6</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41722935_body" name="reply_body" csdnid="replyBody" class="content">同意zhkchi(火焰神)，应该是property属性</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722935', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722935', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722935);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722935_body','zhang2000','6')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41722950"></a>
+<table class="item reply" csdnid="reply_41722950" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/dch1287" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/dch1287/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/dch1287.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/dch1287.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/dch1287.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/dch1287.ashx">
+  <a target="_blank" href="http://hi.csdn.net/dch1287"><var csdnid="replyUsername" id="topicUserName">dch1287</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">静华飞月</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 22:20:41</var></span><var csdnid="replyLayer">7</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41722950_body" name="reply_body" csdnid="replyBody" class="content">As &nbsp; is &nbsp; said &nbsp; before: <br>  &lt;html:text &nbsp; style &nbsp; = &nbsp;  &quot;yourID &quot;&gt;  <br>  <br> then &nbsp; Struts &nbsp; will &nbsp; render &nbsp; like &nbsp; this: <br>  <br>  &lt;input &nbsp; type &nbsp; = &nbsp;  &quot;text &quot; &nbsp; id &nbsp; = &nbsp;  &quot;yourID &quot; &nbsp; /&gt;  <br>  <br> I &nbsp; think &nbsp; you &#39;ve &nbsp; got &nbsp; it, &nbsp; right?</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722950', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722950', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722950);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722950_body','dch1287','7')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41722964"></a>
+<table class="item reply" csdnid="reply_41722964" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/dch1287" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/dch1287/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/dch1287.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/dch1287.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/dch1287.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/dch1287.ashx">
+  <a target="_blank" href="http://hi.csdn.net/dch1287"><var csdnid="replyUsername" id="topicUserName">dch1287</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">静华飞月</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 22:23:04</var></span><var csdnid="replyLayer">8</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41722964_body" name="reply_body" csdnid="replyBody" class="content">property &nbsp; -- &nbsp; Name &nbsp; of &nbsp; this &nbsp; input &nbsp; field, &nbsp; and &nbsp; the &nbsp; name &nbsp; of &nbsp; the &nbsp; corresponding &nbsp; bean &nbsp; property &nbsp; if &nbsp; value &nbsp; is &nbsp; not &nbsp; specified. &nbsp; The &nbsp; corresponding &nbsp; bean &nbsp; property &nbsp; (if &nbsp; any) &nbsp; must &nbsp; be &nbsp; of &nbsp; type &nbsp; String. &nbsp;  &nbsp;  <br>  <br> if &nbsp; you &nbsp; use &nbsp;  &quot;property &quot; &nbsp; like &nbsp; this: <br>  &lt;html:text &nbsp; property &nbsp; = &nbsp;  &quot;yourName &quot; &nbsp; /&gt;  <br>  <br> Struts &nbsp; will &nbsp; render &nbsp; you &nbsp; like &nbsp; this: <br>  &lt;input &nbsp; type &nbsp; = &nbsp;  &quot;text &quot; &nbsp; name &nbsp; = &nbsp;  &quot;yourName &quot; &nbsp; /&gt; </td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722964', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41722964', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41722964);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41722964_body','dch1287','8')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41723474"></a>
+<table class="item reply" csdnid="reply_41723474" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/iwillrockyou" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/iwillrockyou/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'iwillrockyou');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/iwillrockyou.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/iwillrockyou.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/iwillrockyou.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'iwillrockyou');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/iwillrockyou.ashx">
+  <a target="_blank" href="http://hi.csdn.net/iwillrockyou"><var csdnid="replyUsername" id="topicUserName">iwillrockyou</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">iwillrockyou</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user5"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-24 23:46:23</var></span><var csdnid="replyLayer">9</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41723474_body" name="reply_body" csdnid="replyBody" class="content">property吧。。。</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41723474', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41723474', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41723474);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41723474_body','iwillrockyou','9')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41726004"></a>
+<table class="item reply" csdnid="reply_41726004" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/hfjfboy" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/hfjfboy/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'hfjfboy');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/hfjfboy.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/hfjfboy.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/hfjfboy.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'hfjfboy');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/hfjfboy.ashx">
+  <a target="_blank" href="http://hi.csdn.net/hfjfboy"><var csdnid="replyUsername" id="topicUserName">hfjfboy</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">Waifboy.NET</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user2"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-25 10:07:03</var></span><var csdnid="replyLayer">10</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41726004_body" name="reply_body" csdnid="replyBody" class="content">to &nbsp; dch1287(静华飞月) &nbsp;  <br>  <br> I &nbsp; use &nbsp;  &quot;styleId &quot; &nbsp; is &nbsp; right, &nbsp; use &nbsp;  &quot;style &quot; &nbsp; is &nbsp; error</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41726004', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41726004', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41726004);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41726004_body','hfjfboy','10')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="41732170"></a>
+<table class="item reply" csdnid="reply_41732170" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/dch1287" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/dch1287/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/dch1287.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/dch1287.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/dch1287.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'dch1287');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/dch1287.ashx">
+  <a target="_blank" href="http://hi.csdn.net/dch1287"><var csdnid="replyUsername" id="topicUserName">dch1287</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">静华飞月</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2007-07-25 16:00:18</var></span><var csdnid="replyLayer">11</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply41732170_body" name="reply_body" csdnid="replyBody" class="content">I &nbsp; am &nbsp; sorry &nbsp; that &nbsp; there &#39;s &nbsp; some &nbsp; spelling &nbsp; error &nbsp; with &nbsp; my &nbsp; answer. <br>  <br>  &quot;styleId &quot; &nbsp; is &nbsp; correct &nbsp; but &nbsp; not &nbsp; the &nbsp;  &quot;style &quot;.</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41732170', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=41732170', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,41732170);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply41732170_body','dch1287','11')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="47867546"></a>
+<table class="item reply" csdnid="reply_47867546" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/zhjshmeng" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/zhjshmeng/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'zhjshmeng');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/zhjshmeng.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/zhjshmeng.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/zhjshmeng.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'zhjshmeng');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/zhjshmeng.ashx">
+  <a target="_blank" href="http://hi.csdn.net/zhjshmeng"><var csdnid="replyUsername" id="topicUserName">zhjshmeng</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">张雨生</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2008-03-17 09:34:25</var></span><var csdnid="replyLayer">12</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply47867546_body" name="reply_body" csdnid="replyBody" class="content">struts标签不好用，我的strutsform 里没有的属性，页面上不能使用。比如说：转到一个页面，页面上有： &lt;html:text property=&quot;instrumentName&quot;/&gt; ，老是报错： <br> 严重: Servlet.service() for servlet jsp threw exception <br> javax.servlet.jsp.JspException: No getter method for property instrumentName of bean org.apache.struts.taglib.html.BEAN <br> 	at org.apache.struts.util.RequestUtils.lookup(RequestUtils.java:968) <br> 	at org.apache.struts.taglib.html.BaseFieldTag.doStartTag(BaseFieldTag.java:176) <br> 	at org.apache.jsp.bangongfuzhu.jizujijiaoCreate_jsp._jspx_meth_html_text_1(jizujijiaoCreate_jsp.java:406) <br> 	at org.apache.jsp.bangongfuzhu.jizujijiaoCreate_jsp._jspx_meth_html_form_0(jizujijiaoCreate_jsp.java:229) <br> 	at org.apache.jsp.bangongfuzhu.jizujijiaoCreate_jsp._jspx_meth_html_html_0(jizujijiaoCreate_jsp.java:137) <br> 	at org.apache.jsp.bangongfuzhu.jizujijiaoCreate_jsp._jspService(jizujijiaoCreate_jsp.java:94) <br> 	at org.apache.jasper.runtime.HttpJspBase.service(HttpJspBase.java:97) <br> 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:802) <br> 	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:332) <br> 	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:314) <br> 	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:264) <br> 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:802) <br> 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:252) <br> 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173) <br> 	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:672) <br> 	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:463) <br> 	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:398) <br> 	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:301) <br> 	at org.apache.struts.action.RequestProcessor.doForward(RequestProcessor.java:1069) <br> 	at org.apache.struts.tiles.TilesRequestProcessor.doForward(TilesRequestProcessor.java:274) <br> 	at org.apache.struts.action.RequestProcessor.processForwardConfig(RequestProcessor.java:455) <br> 	at org.apache.struts.tiles.TilesRequestProcessor.processForwardConfig(TilesRequestProcessor.java:320) <br> 	at org.apache.struts.action.RequestProcessor.process(RequestProcessor.java:279) <br> 	at org.apache.struts.action.ActionServlet.process(ActionServlet.java:1482) <br> 	at org.apache.struts.action.ActionServlet.doGet(ActionServlet.java:507) <br> 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:689) <br> 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:802) <br> 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:252) <br> 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173) <br> 	at science.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:73) <br> 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202) <br> 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173) <br> 	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:213) <br> 	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:178) <br> 	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:126) <br> 	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:105) <br> 	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:107) <br> 	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:148) <br> 	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:869) <br> 	at org.apache.coyote.http11.Http11BaseProtocol$Http11ConnectionHandler.processConnection(Http11BaseProtocol.java:664) <br> 	at org.apache.tomcat.util.net.PoolTcpEndpoint.processSocket(PoolTcpEndpoint.java:527) <br> 	at org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:80) <br> 	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684) <br> 	at java.lang.Thread.run(Thread.java:595) <br> org.apache.jasper.JasperException: Exception in JSP: /bangongfuzhu/jizujijiaoCreate.jsp:38 <br>  <br> 35:&nbsp; &nbsp;   &lt;/td&gt; <br> 36:  <br> 37:&nbsp; &nbsp;   &lt;td style=&quot;width:30%&quot;&gt;所属地区 &lt;/td&gt; <br> 38:&nbsp; &nbsp;   &lt;td &gt; &lt;html:text property=&quot;instrumentName&quot;&nbsp;  style=&quot;width:230px&quot;/&gt; &lt;/td&gt; <br> 39:  &lt;/tr&gt; <br> 40:  <br> 41:  &lt;tr&gt; <br>  <br>  <br> Stacktrace: <br> 	at org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:504) <br> 	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:375) <br> 	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:314) <br> 	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:264) <br> 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:802) <br> 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:252) <br> 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173) <br> 	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:672) <br> 	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:463) <br> 	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:398) <br> 	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:301) <br> 	at org.apache.struts.action.RequestProcessor.doForward(RequestProcessor.java:1069) <br> 	at org.apache.struts.tiles.TilesRequestProcessor.doForward(TilesRequestProcessor.java:274) <br> 	at org.apache.struts.action.RequestProcessor.processForwardConfig(RequestProcessor.java:455) <br> 	at org.apache.struts.tiles.TilesRequestProcessor.processForwardConfig(TilesRequestProcessor.java:320) <br> 	at org.apache.struts.action.RequestProcessor.process(RequestProcessor.java:279) <br> 	at org.apache.struts.action.ActionServlet.process(ActionServlet.java:1482) <br> 	at org.apache.struts.action.ActionServlet.doGet(ActionServlet.java:507) <br> 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:689) <br> 	at javax.servlet.http.HttpServlet.service(HttpServlet.java:802) <br> 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:252) <br> 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173) <br> 	at science.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:73) <br> 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:202) <br> 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:173) <br> 	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:213) <br> 	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:178) <br> 	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:126) <br> 	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:105) <br> 	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:107) <br> 	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:148) <br> 	at org.apache.coyote.http11.Http11Processor.process(Http11Processor.java:869) <br> 	at org.apache.coyote.http11.Http11BaseProtocol$Http11ConnectionHandler.processConnection(Http11BaseProtocol.java:664) <br> 	at org.apache.tomcat.util.net.PoolTcpEndpoint.processSocket(PoolTcpEndpoint.java:527) <br> 	at org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:80) <br> 	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684) <br> 	at java.lang.Thread.run(Thread.java:595)</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=47867546', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=47867546', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,47867546);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply47867546_body','zhjshmeng','12')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="47941408"></a>
+<table class="item reply" csdnid="reply_47941408" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/fyfsyfy" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/fyfsyfy/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'fyfsyfy');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/fyfsyfy.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/fyfsyfy.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/fyfsyfy.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'fyfsyfy');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/fyfsyfy.ashx">
+  <a target="_blank" href="http://hi.csdn.net/fyfsyfy"><var csdnid="replyUsername" id="topicUserName">fyfsyfy</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">沸水中的绿茶</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2008-03-20 10:02:45</var></span><var csdnid="replyLayer">13</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply47941408_body" name="reply_body" csdnid="replyBody" class="content">用cssClass 或是cssId试一下吧</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=47941408', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=47941408', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,47941408);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply47941408_body','fyfsyfy','13')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+<a csdnid="replyId" name="50087545"></a>
+<table class="item reply" csdnid="reply_50087545" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/zhengbin917943" target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/zhengbin917943/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'zhengbin917943');}catch(ex){}" alt="进入用户个人空间"></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/zhengbin917943.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/zhengbin917943.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/zhengbin917943.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'zhengbin917943');}catch(ex){}"><img alt="" src="http://webim.csdn.net/UserOnlineFace/Theme1/zhengbin917943.ashx">
+  <a target="_blank" href="http://hi.csdn.net/zhengbin917943"><var csdnid="replyUsername" id="topicUserName">zhengbin917943</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly"></textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1"></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid="replyDate">2008-06-10 11:43:45</var></span><var csdnid="replyLayer">14</var>楼&nbsp;得分:<var csdnid="replyPoint">0</var></td></tr>
+  <tr><td id="reply50087545_body" name="reply_body" csdnid="replyBody" class="content">呵呵.&nbsp;   &lt;html:text styleId=&quot;id&quot;/&gt;&nbsp; 这个就是id</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=50087545', width:600, height: 500, title: '修改'});}catch(ex){} return false;">修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=50087545', width:400, height: 300, title: '删除'});}catch(ex){} return false;">删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,50087545);}catch(ex){} return false;">举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply50087545_body','zhengbin917943','14')}catch(ex){};return false;">引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}">回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'">  
+ </td></tr></table></td></tr></table>
+
+ <a csdnid="replyId" name="51874824" ></a>
+<table class="item reply" csdnid="reply_51874824" cellspacing="1"><tr> <td class="info">
+<dl>
+ <dd class="icon"><a href="http://hi.csdn.net/nilvn"  target="_blank" title="进入用户个人空间"><img src="http://profile.csdn.net/nilvn/picture/2.jpg" onmouseover="javascript:try{showUserCard(event,'nilvn');}catch(ex){}" alt="进入用户个人空间" /></a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/AddFriends/nilvn.ashx">加为好友</a></dd>
+ <dd><a target="_blank" href="http://hi.csdn.net/guest/profile/post/send/nilvn.html">发送私信</a></dd>
+ <dd><a target="_blank" href="http://webim.csdn.net/Messages/nilvn.ashx">在线聊天</a></dd></dl>
+ <ul><li class="username" onmouseover="javascript:try{showUserCard(event,'nilvn');}catch(ex){}" ><img alt='' src='http://webim.csdn.net/UserOnlineFace/Theme1/nilvn.ashx' />
+  <a target="_blank" href="http://hi.csdn.net/nilvn"><var csdnid="replyUsername" id="topicUserName">nilvn</var></a></li>
+  <li class="nickname"><textarea cols="" rows="" csdnid="replyNickname" readonly="readonly">nilvn</textarea></li>
+  <li class="grade">等级:<img alt="" src="/u/ui/images/blank.gif" csdnid="replyUserRank" class="grade user1" /></li></ul>
+</td>
+   <td class="main"><table cellspacing="0" style="height: 100%;">
+  <tr><td class="floor"><span>发表于：<var csdnid='replyDate'>2008-08-28 16:58:40</var></span><var csdnid="replyLayer">15</var>楼&nbsp;得分:<var csdnid='replyPoint'>0</var></td></tr>
+  <tr><td id="reply51874824_body" name="reply_body" csdnid="replyBody" class="content">用styleId好，property只能在ie下行，但是到firefox就不行了。 <br />  <br /> 同意&nbsp; dch1287(静华飞月)&nbsp;  <br /> property : Name of this input field <br /> styleId : Id of this input field</td></tr><tr><td csdnid="replyModifyInfo"></td></tr><tr><td class="function">
+  <!--
+<span>预留的文字链广告位</span>
+//-->
+
+ <a style="color:#a2a2a2" href="#" title="修改" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/ModifyReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=51874824', width:600, height: 500, title: '修改'});}catch(ex){} return false;" >修改</a>
+<a style="color:#a2a2a2" href="#" title="删除" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Manage/DeleteReply.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&replyId=51874824', width:400, height: 300, title: '删除'});}catch(ex){} return false;" >删除</a>
+<a title="举报" style="color:Black" href="#" onclick="javascript:try{report(event,51874824);}catch(ex){} return false;" >举报</a>
+<a title="引用" style="color:Black" href="#" onclick="javascript:try{Quote('reply51874824_body','nilvn','15')}catch(ex){};return false;" >引用</a>
+<a title="回复" style="color:Black" href="#replyachor" onclick="javascript:try{ReplyBoxFocus();return false}catch(ex){}" >回复</a>
+<input class="gotop" value="" onclick="window.location.href='#top'" />  
+ </td></tr></table></td></tr></table>
+<span csdnid="endOfReplyList" style="display: none"></span>
+ <div id="funcbar" class="item">
+ <dl><dd><div id="pagefunc1">
+      <a href="#" onclick="javascript:try{showWindow({url:'http://forum.csdn.net/PointForum/Forum/TopicMoveUp.aspx?forumid=2efca177-6b51-42d9-a509-0216fbca231e&topicid=f53022cf-079f-4134-b7c5-b32322ac5003', width:400, height: 300, title: '将帖子提前'});}catch(ex){} return false;">将帖子提前</a> &nbsp; 
+      <a href="#" onclick="javascript:try{addToWZ()}catch(ex){};return false;">放进我的网摘</a> &nbsp;
+      <a href="#" onclick="recommand('http://forum.csdn.net/PointForum/Forum/EmailRecommend.aspx?topicsubject=struts%e6%a0%87%e7%ad%be%3chtml%3atext%3e%e6%b2%a1%e6%9c%89ID%e5%92%8cNAME%e5%b1%9e%e6%80%a7%ef%bc%8c%e5%a6%82%e4%bd%95%e5%ae%9a%e4%bd%8d%e5%88%b0%e8%bf%99%e4%b8%aa%e6%8e%a7%e4%bb%b6%ef%bc%9f&topicurl=http://topic.csdn.net/u/20070724/21/f53022cf-079f-4134-b7c5-b32322ac5003.html');return false;">推荐给好友</a>
+     </div>
+     <div id="menu1" class="float_left">
+     <a class="float_left blockButton" href="http://forum.csdn.net/PointForum/Forum/PostTopic.aspx?forumID=2efca177-6b51-42d9-a509-0216fbca231e" target="_blank">我要提问</a>
+     <a href="http://forum.csdn.net/PointForum/Forum/TopicAddPoint.aspx?forumId=2efca177-6b51-42d9-a509-0216fbca231e&topicId=f53022cf-079f-4134-b7c5-b32322ac5003&date=2007-7-24 21:02:11" onclick="javascript:try{showWindow({url:this.href, width:400, height: 300, title: '帖子加分'});}catch(ex){} return false;" class="float_left blockButton">帖子加分</a>
+     <a style="display:none;" id="btChk1" href="http://forum.csdn.net/PointForum/Manage/TopicManageView.aspx?forumID=2efca177-6b51-42d9-a509-0216fbca231e&topicID=f53022cf-079f-4134-b7c5-b32322ac5003&date=2007-7-24+21%3a02%3a11" class="float_left blockButton">结贴去...</a> 
+     <a class="float_left blockButton" id="btAdmin1" onmouseover="javascript:try{showMenu(event);return false}catch(ex){}">管理菜单</a>
+     <select class="float_left" onchange="changeTheme(this.value)"><option value="">页面风格切换<option value="default">标准风格<option value="old">老版本论坛</select>
+     </div></dd></dl></div>
+ <a name="replyachor"></a>
+ <table class="item replyPost" cellspacing="1"><tr><td class="main"><iframe class="replyframe" id="replyframe" name="replyframe" frameborder="0" scrolling="no" height="510px" width="100%" src="http://forum.csdn.net/PointForum/Forum/ReplyTopic.aspx?forumID=2efca177-6b51-42d9-a509-0216fbca231e&topicID=f53022cf-079f-4134-b7c5-b32322ac5003&postDate=2007-7-24+21%3a02%3a11"></iframe></td></tr></table>
+ <script language="JavaScript" type="text/javascript">/*<![CDATA[*/
+HongjunGuo_attachEvent("onload", function()
+{
+  setTimeout(function()
+  {
+   document.getElementById("Topic_Top").src="/u/AD/Topic_Top.aspx";
+   document.getElementById("Topic_Zone").src="/u/AD/Topic_Zone.aspx";
+  },100);
+});
+new Image().src="http://forum.csdn.net/Common/TopicRead.ashx?forumID=2efca177-6b51-42d9-a509-0216fbca231e&topicID=f53022cf-079f-4134-b7c5-b32322ac5003&temp="+(new Date().getTime().toString(36));
+new Image().src="";
+new Image().src="http://forum.csdn.net/PointForum/SetLatestVisitedForum.ashx?sectionid=2efca177-6b51-42d9-a509-0216fbca231e";
+var tinfo={
+pdate:"2007-07-24 21:02:11",
+sid:"2efca177-6b51-42d9-a509-0216fbca231e",
+tid:"f53022cf-079f-4134-b7c5-b32322ac5003"
+};
+/*]]>*/</script>
+<div id="CSDNPF">
+    <div class="CSDN-PHF">
+        <hr />
+        <div>
+            <a rel="mz" href="http://www.csdn.net/help/intro.htm">网站简介</a>－<a rel="mz" href="http://www.csdn.net/help/ads.htm">广告服务</a>－<a
+                rel="mz" href="http://www.csdn.net/help/sitemap.htm">网站地图</a>－<a rel="mz" href="http://www.csdn.net/help/help.htm">帮助</a>－<a
+                    rel="mz" href="http://www.csdn.net/help/contact.htm">联系方式</a>－<a rel="mz" href="http://job.csdn.net/Jobs/f9c75c9f2ad14404a604669b757b9ed0/viewcompany.aspx">诚聘英才</a>－<a
+                        rel="mz" href="http://www.csdn.net/english/">English</a>－<a href="#" onclick="window.location.href='mai'+'lto:'+'webm'+'aster@c'+'sdn.n'+'et?subject=向CSDN报告问题';return false">
+                            问题报告</a><br />
+            北京创新乐知广告有限公司 版权所有 京 ICP 证 070598 号<br />
+            世纪乐知(北京)网络技术有限公司 提供技术支持<br />
+            举报电话：13552009689<br />
+            Copyright &copy; 1999-2009, CSDN.NET, All Rights Reserved <a rel="mz" class="biaoshi"
+                href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010"></a>
+        </div>
+        <hr />
+    </div>
+</div>
+<!--user card html -->
+<div onmouseover='_stopMouseOver(event)' id='UserCard_layer' class='UserCard' style='display: none'>
+    <table border='0' cellspacing='0' cellpadding='0'>
+        <tr>
+            <td class='left' id='UserCard_left'>
+            </td>
+            <td class='right' id='UserCard_right'>
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- Dialog用的html -->
+<div id="MzBehaviorDragLayer" onmousemove="mousemovehandler(event)" onmouseup="mouseuphandler(event)"
+    style="border: medium none; margin: 0px; padding: 0px; z-index: 65000; cursor: move;
+    position: absolute; height: 235px; width: 752px; background-image: url(/u/ui/scripts/System/_resource/blank.gif);
+    left: 217px; top: 88px; display: none;">
+    <table style="background: transparent url(/u/ui/scripts/System/_resource/dashed.gif) repeat-x scroll left bottom;
+        width: 100%; height: 100%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial;
+        -moz-background-inline-policy: -moz-initial;" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="background: transparent url(/u/ui/scripts/System/_resource/dashed.gif) repeat-y scroll left top;
+                    -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;
+                    width: 2px; font-size: 1px;">
+                    &nbsp;
+                </td>
+                <td style="background: transparent url(http://topic.csdn.net/u/ui/scripts/System/_resource/dashed.gif) repeat-x scroll left top;
+                    -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">
+                    &nbsp;
+                </td>
+                <td style="background: transparent url(/u/ui/scripts/System/_resource/dashed.gif) repeat-y scroll right top;
+                    -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;
+                    width: 2px; font-size: 1px;">
+                    &nbsp;
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="lockwindow" style="display: none; border: medium none; margin: 0pt; padding: 0pt;
+    z-index: 1; left: 0px; top: 0px; height: 3000px; width: 3000px; position: absolute;
+    background-color: rgb(153, 153, 153); background-image: url(/u/ui/scripts/System/_resource/blank.gif);
+    filter: alpha(opacity=55); opacity: 0.55857;">
+</div>
+<div id="MzForm_mz_i" class="MzForm focused" style="position: absolute; z-index: 56001;
+    top: 291px; left: 256px; clip: rect(auto, auto, auto, auto); display: none;"
+    att_mzbehavior_drag="mz_j">
+    <div class="InnerMzForm png">
+        <div id="MzFormLayer_mz_i" class="MzFormLayer">
+            <table id="MzFormLayerTable_mz_i" class="MzFormLayerTable" border="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="background-image: url(/u/ui/scripts/System/_resource/MzForm/icon.gif);"
+                            onmousedown="mousedownhandler(event)" id="MzFormCaption_mz_i" class="MzFormCaption"
+                            onselectstart="return false">
+                            <div id="MzFormControlBar_mz_i" class="MzFormControlBar">
+                                <a id="MzFormButtonClose_mz_i" class="Close" href="#" onmousedown="onclosehandler(event); return false;">
+                                    <img alt="close" src="/u/ui/scripts/System/_resource/blank.gif"></a>
+                            </div>
+                            <div id="MzFormCaptionText_mz_i" class="MzFormCaptionText">
+                                abc推荐给好友</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="overflow: visible; width: 720px; height: 180px;" id="MzFormContent_mz_i"
+                                class="MzFormContent">
+                                <iframe allowtransparency="true" name="MzForm" style="width: 100%; height: 100%;"
+                                    src="" frameborder="0" scrolling="auto"></iframe>
+                                <div style="width: 100%; height: 100%; display: none">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <table id="MzFormBgLayer_mz_i" class="BgLayer" onselectstart="return false" border="0"
+            cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr class="top">
+                    <td class="corner left">
+                        &nbsp;
+                    </td>
+                    <td class="vertical center">
+                        &nbsp;
+                    </td>
+                    <td class="corner right">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr class="middle">
+                    <td class="horizontal left">
+                        &nbsp;
+                    </td>
+                    <td class="midland center">
+                        <div class="normal">
+                            &nbsp;</div>
+                        <div class="focused">
+                            &nbsp;</div>
+                    </td>
+                    <td class="horizontal right">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr class="bottom">
+                    <td class="corner left">
+                        &nbsp;
+                    </td>
+                    <td class="vertical center">
+                        &nbsp;
+                    </td>
+                    <td class="corner right">
+                        &nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- 不用梅子脚本库的加载方式 //-->
+
+<script type="text/javascript" src="/u/ui/scripts/Csdn/Forum/Globals1.js"></script>
+
+<script type="text/javascript" src="/u/ui/scripts/Csdn/Forum/UserOnline1.js"></script>
+
+<script type="text/javascript" src="/u/ui/scripts/Csdn/Forum/ModelDialog.js"></script>
+
+<script type="text/javascript" src="/u/ui/scripts/Csdn/Forum/TopicView1.js"></script>
+
+<!-- script type="text/javascript" src="http://counter.csdn.net/a/js/AreaCounter.js"></script -->
+<!-- script src="http://community.csdn.net/t/fb.js" type="text/javascript"></script -->
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+
+<script type="text/javascript">
+    _uacct = "UA-2919357-1";
+    urchinTracker();
+</script>
+
+<img alt="" src="http://counter.csdn.net/pv.aspx?id=185" border="0" width="0" height="0"
+    style="display: none" />
+
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+
+<div style="display: none">
+
+    <script language="JavaScript" type="text/javascript" src="http://ww.50bang.com/click.js?user_id=315756&l=601"
+        charset="utf-8"></script>
+
+</div>
+
+</body>
+</html>

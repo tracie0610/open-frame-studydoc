@@ -1,0 +1,360 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Language" content="UTF-8" />
+	<meta name="robots" content="all" />
+	<meta name="author" content="huheng1234@163.com,胡亨" />
+	<meta name="Copyright" content="PJBlog2 CopyRight 2005" />
+	<meta name="keywords" content="PuterJam,Blog,ASP,designing,with,web,standards,xhtml,css,graphic,design,layout,usability,accessibility,w3c,w3,w3cn" />
+	<meta name="description" content="WEB交互设计 - -  www.xyhot.com" />
+	<title>html:errors标签与ActionMessage和Struts资源文件 - WEB交互设计</title>
+	
+	<link rel="alternate" type="application/rss+xml" href="http://www.xyhot.com/feed.asp?cateID=8" title="订阅 WEB交互设计 - Java 所有文章(rss2)" />
+	<link rel="alternate" type="application/atom+xml" href="http://www.xyhot.com/atom.asp?cateID=8"  title="订阅 WEB交互设计 - Java 所有文章(atom)"  />
+	
+	<link rel="stylesheet" rev="stylesheet" href="skins/06-12-03-1/global.css" type="text/css" media="all" /><!--全局样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/06-12-03-1/layout.css" type="text/css" media="all" /><!--层次样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/06-12-03-1/typography.css" type="text/css" media="all" /><!--局部样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/06-12-03-1/link.css" type="text/css" media="all" /><!--超链接样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/06-12-03-1/UBB/editor.css" type="text/css" media="all" /><!--UBB编辑器代码-->
+
+	<!--增加高亮代码显示Begin-->
+	<link rel="stylesheet" rev="stylesheet" href="common/veisin/veisin.css" type="text/css" />
+	<!--增加高亮代码显示End-->
+
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<script type="text/javascript" src="common/common.js"></script>
+	<!--<script type="text/javascript" src="common/nicetitle.js"></script>-->
+</head>
+<body onload="initJS()" onkeydown="PressKey()">
+<a href="default.asp" accesskey="i"></a>
+<a href="javascript:history.go(-1)" accesskey="z"></a>
+
+ <div id="container">
+ <!--顶部-->
+  <div id="header">
+   <div id="blogname">WEB交互设计
+    <div id="blogTitle">-  www.xyhot.com</div>
+   </div>
+   		<div id="menu"><div id="Left"></div><div id="Right"></div><ul><li class="menuL"></li><li><a class="menuA" href="default.asp" title="日志首页">Index</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=5" title="HTML/JavaScript/CSS">HTML/JS/CSS</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=8" title="Java">Java</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=10" title="Oracle/SQLServer/MySQL/Postgrsql">DataBase</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=11" title="Ajax/RIA">Ajax/RIA</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=15" title="Linux">Linux/Unix/Shell</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=13" title="其他">Other</a></li><li class="menuDiv"></li><li><a class="menuA" href="LoadMod.asp?plugins=GuestBookForPJBlog" title="留言">GuestBook</a></li><li class="menuR"></li></ul></div>
+  </div>
+
+
+ <!--内容-->
+  <div id="Tbody">
+  <div id="mainContent">
+   <div id="innermainContent">
+       <div id="mainContent-topimg"></div>
+
+<!-----------------------Chanet提供的广告Begin-------------------->
+
+
+<!-----------------------Chanet提供的广告End---------------------->
+	           
+		<div id="Content_ContentList" class="content-width"><a name="body" accesskey="B" href="#body"></a>
+			<div class="pageContent">
+				
+					<div style="float:right;width:180px !important;width:auto">
+						  <a href="feed.asp?cateID=8" target="_blank" title="订阅所有Java的日志" accesskey="F"><img border="0" src="images/rss.png" alt="订阅所有Java的日志" style="margin-bottom:-1px"/> 订阅</a>
+						   | <a href="?id=211" title="上一篇日志: 用javasript怎样实现对一个表格操作" accesskey=","><img border="0" src="images/Cprevious.gif" alt=""/>上一篇</a> | <a href="?id=213" title="下一篇日志: （转）struts中符合MVC结构的分页实现" accesskey="."><img border="0" src="images/Cnext.gif" alt=""/>下一篇</a>
+					</div> 
+						   <img src="images/icons/1.gif" style="margin:0px 2px -4px 0px" alt=""/> <strong><a href="default.asp?cateID=8" title="查看所有Java的日志">Java</a></strong> </div>
+						   <div class="Content">
+						   <div class="Content-top"><div class="ContentLeft"></div><div class="ContentRight"></div>
+						     <h1 class="ContentTitle"><strong>html:errors标签与ActionMessage和Struts资源文件</strong></h1>
+						     <h2 class="ContentAuthor">作者:huheng1234 日期:2007-03-24</h2>
+						   </div>
+						    <div class="Content-Info">
+							  <div class="InfoOther">字体大小: <a href="javascript:SetFont('12px')" accesskey="1">小</a> <a href="javascript:SetFont('14px')" accesskey="2">中</a> <a href="javascript:SetFont('16px')" accesskey="3">大</a></div>
+							  <div class="InfoAuthor"><img src="images/weather/hn2_sunny.gif" style="margin:0px 2px -6px 0px" alt=""/><img src="images/weather/hn2_t_sunny.gif" alt=""/> <img src="images/level3.gif" style="margin:0px 2px -1px 0px" alt=""/> 
+					              
+							  </div>
+							</div>
+
+						  <div id="logPanel" class="Content-body">
+
+<span style="float:left;margin-right:5px;margin-bottom:5px;">
+
+<!--Google提供的广告begin-->
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-8347535499341833";
+/* 300x250, 创建于 08-7-22 */
+google_ad_slot = "6138849983";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+<!--Google提供的广告end-->
+</span>
+
+					             　　在Struts中我们用html:errors标签在JSP页面上输出验证过程中产生的错误信息，错误信息一般来自于消息资源文件（xxx．properties文件，一般位于classes目录下，文本文件），当然错误信息也可以是不是资源文件中的文本消息，而是自定义的文本。接下来将详细讲述。<br/><br/>　　先来看一个简单例子<br/><br/>1、资源文件错误信息来源(其格式为&nbsp;key&nbsp;=&nbsp;value&nbsp;)<br/>&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;error.test&nbsp;=&nbsp;this&nbsp;is&nbsp;a&nbsp;test&nbsp;error.<br/><br/>2、JSP页面中用于显示错误信息标签<br/><textarea name="code" class="xml"><html:errors property="testerror"/></textarea><br/><br/>3、ActionFormBean的validate()方法中产生错误信息<br/><textarea name="code" class="java">
+   ActionErrors error = new ActionErrors();
+    error.add("testerror",new ActionMessage("error.test"))
+    return error;
+</textarea><br/>　　这个例子的功能就是在ActionForm&nbsp;Bean的validate()方法中产生一条名为：testerror的错误信息，错误信息息是资源文件中key为error.test的值。然后在页面上用html:errors标签输出testerror这条错误信息。<br/>　　这是最常用的一种功能，所有的错误信息都在资源文件里面。<br/>　　有人会问，错误信息只能存放在资源文件中吗，其实不是这样。不需要资源文件也可以产生错误信息。<br/>　　我们再来看一下ActionMessage的另一种构造方法:<br/><textarea name="code" class="java">
+　　ActionMessage(String key,boolean isresource)
+</textarea><br/>　　如果isresource值为true,则表示key是资源文件中的key，产生的消息就是与key相对应的消息<br/>　　如果isresource值为false,则表示key为一条普通的消息。<br/>　　如果上面的error.add改为error.add("testerror",new&nbsp;ActonMessage("这是一条自定义消息",false",));那么页面上显示的将是：这是一条自定义消息.<br/>　　另外还可以用ActionMessage产生复合消息，比如我们要输出：xxx不能用作用户名，其中xxx是一个变量。<br/><br/>　　首先我们在资源文件中加一个条复合消息<br/>　　testmsg&nbsp;=&nbsp;{0}不能用作用户名。这里{0}是要被替换的参数。<br/>　　我们再来看一下ActionMessage的另一中构造方法<br/><textarea name="code" class="java">
+　　ActionMessage(String key,Object value0);
+</textarea><br/>　　也就是说用value0的值来替换{0}<br/>　　我们修改error.add为error.add("testerror",new&nbsp;ActonMessage("testmsg","毛泽东"))<br/>　　那么JSP页面上将显示：毛泽东不能用作用户名。<br/>　　当然在一条复合消息中也可带多个参数，参数依次为{0},{1},{2}或更多<br/>　　例如：loginUser&nbsp;=&nbsp;用户名:{0}&nbsp;姓名:{1}&nbsp;登录次数:{2}.....<br/>　　那么在产生错误消息时就用new&nbsp;ActionMessage(String&nbsp;key,Object&nbsp;value0,Object&nbsp;value1,Object&nbsp;&nbsp;value2.....)或者使用对象数组new&nbsp;ActionMessage(String&nbsp;key,Object[]&nbsp;values)<br/><textarea name="code" class="java">
+　　String[] detail = {"Admin","王晶","12"};
+　　error.add("testerror",new ActionMessage("loginUser",detail))
+</textarea>
+						   <br/>
+<span style="">
+<!--alimama提供的广告begin-->
+<script type="text/JavaScript"> 
+alimama_pid="mm_12398454_1611279_5027443"; 
+alimama_titlecolor="1F2894"; 
+alimama_descolor ="4C4C4C"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="FFFFFF"; 
+alimama_linkcolor="4C4C4C"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="10"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="16"; 
+alimama_width=658; 
+alimama_height=60; 
+alimama_type=2; 
+</script> 
+<script src="http://a.alimama.cn/inf.js" type=text/javascript> 
+</script>
+<!--alimama提供的广告end-->
+</span>
+<%
+'<div style="padding-top:0px;">
+'<!--Google提供的广告begin-->
+'<script type="text/javascript"><!--
+'google_ad_client = "pub-8347535499341833";
+'/* 468x60, 创建于 08-7-22 */
+'google_ad_slot = "9903089039";
+'google_ad_width = 468;
+'google_ad_height = 60;
+'//-->
+'</script>
+'<script type="text/javascript"
+'src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+'</script>
+'<!--Google提供的广告end-->
+'</div>
+%>
+						   </div>
+
+
+						   <div class="Content-body">		   		
+					             [本日志由 huheng1234 于 2009-01-04 10:54 PM 编辑]<br/>
+							<img src="images/From.gif" style="margin:0px 2px -4px 0px" alt=""/><strong>文章来自:</strong> <a href="http://xyhot.com/" target="_blank">本站原创</a><br/>
+							<img src="images/icon_trackback.gif" style="margin:0px 2px -4px 0px" alt=""/><strong>引用通告地址:</strong> <a href="http://www.xyhot.com/trackback.asp?tbID=212" target="_blank">http://www.xyhot.com/trackback.asp?tbID=212</a><br/>
+						    <img src="images/tag.gif" style="margin:4px 2px -4px 0px" alt=""/><strong>Tags:</strong> <a href="default.asp?tag=Struts">Struts</a><a href="http://technorati.com/tag/Struts" rel="tag" style="display:none">Struts</a> <a href="default.asp?tag=ActionMessage">ActionMessage</a><a href="http://technorati.com/tag/ActionMessage" rel="tag" style="display:none">ActionMessage</a> <a href="default.asp?tag=html%3Aerrors">html:errors</a><a href="http://technorati.com/tag/html:errors" rel="tag" style="display:none">html:errors</a> <br/>
+
+<img src="images/tag.gif" style="margin:4px 2px -4px 0px" alt=""/><strong>相关日志:</strong><br/>
+
+<div class="Content-body" id="wbc_tag"></div>
+<div style="">
+<!--alimama提供的广告begin-->
+<script type="text/JavaScript"> 
+alimama_pid="mm_12398454_1611279_5028507"; 
+alimama_titlecolor="1F2894"; 
+alimama_descolor ="4C4C4C"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="FFFFFF"; 
+alimama_linkcolor="4C4C4C"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="10"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="16"; 
+alimama_width=658; 
+alimama_height=60; 
+alimama_type=2; 
+</script> 
+<script src="http://a.alimama.cn/inf.js" type=text/javascript> 
+</script>
+<!--alimama提供的广告end-->
+</div>
+<br/>
+							
+						   </div>
+
+						   <div class="Content-bottom"><div class="ContentBLeft"></div><div class="ContentBRight"></div>评论: 1</a> | <a href="http://www.xyhot.com/trackback.asp?tbID=212" target="_blank">引用: 0</a> | 查看次数: 1640
+			</div></div></div>
+<a name="comm_top" href="#comm_top" accesskey="C"></a>
+	  <div id="MsgContent" style="width:94%;">
+      <div id="MsgHead">发表评论</div>
+      <div id="MsgBody">
+      
+      <form name="frm" action="blogcomm.asp" method="post" onsubmit="return CheckPost()" style="margin:0px;">	  
+	  <table width="100%" cellpadding="0" cellspacing="0">	  
+	  <tr><td align="right" width="70"><strong>昵　称:</strong></td><td align="left" style="padding:3px;"><input name="username" type="text" size="18" class="userpass" maxlength="24" /></td></tr>
+      <tr><td align="right" width="70"><strong>密　码:</strong></td><td align="left" style="padding:3px;"><input name="password" type="password" size="18" class="userpass" maxlength="24"/> 游客发言不需要密码.</td></tr><tr><td align="right" width="70"><strong>验证码:</strong></td><td align="left" style="padding:3px;"><input name="validate" type="text" size="4" class="userpass" maxlength="4"/> <img src="common/getcode.asp" alt="" style="margin-right:40px;"/></td></tr>
+	  <tr><td align="right" width="70" valign="top"><strong>内　容:</strong><br/>
+	  </td><td style="padding:2px;"><script language="javascript" type="text/javascript" src="common/UBBCode.js"></script><script language="javascript" type="text/javascript" src="common/UBBCode_help.js"></script><div id="UBBSmiliesPanel" class="UBBSmiliesPanel"><table cellspacing="2" cellpadding="0"><tr><td><a href="javascript:AddSmiley('[smile]')" class="Smilie" title="[smile]"><img border="0" src="images/smilies/Face_01.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[lol]')" class="Smilie" title="[lol]"><img border="0" src="images/smilies/Face_02.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[wink]')" class="Smilie" title="[wink]"><img border="0" src="images/smilies/Face_03.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[eek]')" class="Smilie" title="[eek]"><img border="0" src="images/smilies/Face_04.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[razz]')" class="Smilie" title="[razz]"><img border="0" src="images/smilies/Face_05.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[cool]')" class="Smilie" title="[cool]"><img border="0" src="images/smilies/Face_06.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[angry]')" class="Smilie" title="[angry]"><img border="0" src="images/smilies/Face_07.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[redface]')" class="Smilie" title="[redface]"><img border="0" src="images/smilies/Face_08.gif" alt=""/></a></td></tr><tr><td><a href="javascript:AddSmiley('[muteness]')" class="Smilie" title="[muteness]"><img border="0" src="images/smilies/Face_09.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[sad]')" class="Smilie" title="[sad]"><img border="0" src="images/smilies/Face_10.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[cry]')" class="Smilie" title="[cry]"><img border="0" src="images/smilies/Face_11.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[stun]')" class="Smilie" title="[stun]"><img border="0" src="images/smilies/Face_12.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[Belial]')" class="Smilie" title="[Belial]"><img border="0" src="images/smilies/Face_13.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[angel]')" class="Smilie" title="[angel]"><img border="0" src="images/smilies/Face_14.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[heart]')" class="Smilie" title="[heart]"><img border="0" src="images/smilies/Face_15.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[breakheart]')" class="Smilie" title="[breakheart]"><img border="0" src="images/smilies/Face_16.gif" alt=""/></a></td></tr><tr><td><a href="javascript:AddSmiley('[MSN]')" class="Smilie" title="[MSN]"><img border="0" src="images/smilies/Face_17.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[cat]')" class="Smilie" title="[cat]"><img border="0" src="images/smilies/Face_18.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[dog]')" class="Smilie" title="[dog]"><img border="0" src="images/smilies/Face_19.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[month]')" class="Smilie" title="[month]"><img border="0" src="images/smilies/Face_20.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[star]')" class="Smilie" title="[star]"><img border="0" src="images/smilies/Face_21.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[film]')" class="Smilie" title="[film]"><img border="0" src="images/smilies/Face_22.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[music]')" class="Smilie" title="[music]"><img border="0" src="images/smilies/Face_23.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[email]')" class="Smilie" title="[email]"><img border="0" src="images/smilies/Face_24.gif" alt=""/></a></td></tr><tr><td><a href="javascript:AddSmiley('[flower]')" class="Smilie" title="[flower]"><img border="0" src="images/smilies/Face_25.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[flower]')" class="Smilie" title="[flower]"><img border="0" src="images/smilies/Face_26.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[clock]')" class="Smilie" title="[clock]"><img border="0" src="images/smilies/Face_27.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[kiss]')" class="Smilie" title="[kiss]"><img border="0" src="images/smilies/Face_28.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[gift]')" class="Smilie" title="[gift]"><img border="0" src="images/smilies/Face_29.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[birthday]')" class="Smilie" title="[birthday]"><img border="0" src="images/smilies/Face_30.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[photo]')" class="Smilie" title="[photo]"><img border="0" src="images/smilies/Face_31.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[idea]')" class="Smilie" title="[idea]"><img border="0" src="images/smilies/Face_32.gif" alt=""/></a></td></tr><tr><td><a href="javascript:AddSmiley('[tea]')" class="Smilie" title="[tea]"><img border="0" src="images/smilies/Face_33.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[phone]')" class="Smilie" title="[phone]"><img border="0" src="images/smilies/Face_34.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[Rhug]')" class="Smilie" title="[Rhug]"><img border="0" src="images/smilies/Face_35.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[Lhug]')" class="Smilie" title="[Lhug]"><img border="0" src="images/smilies/Face_36.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[stopper]')" class="Smilie" title="[stopper]"><img border="0" src="images/smilies/Face_48.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[teeth]')" class="Smilie" title="[teeth]"><img border="0" src="images/smilies/Face_49.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[bookworm]')" class="Smilie" title="[bookworm]"><img border="0" src="images/smilies/Face_50.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[confused]')" class="Smilie" title="[confused]"><img border="0" src="images/smilies/Face_51.gif" alt=""/></a></td></tr><tr><td><a href="javascript:AddSmiley('[han&#100;clap]')" class="Smilie" title="[han&#100;clap]"><img border="0" src="images/smilies/Face_69.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[askance]')" class="Smilie" title="[askance]"><img border="0" src="images/smilies/Face_72.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[loo]')" class="Smilie" title="[loo]"><img border="0" src="images/smilies/Face_73.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[rolleyes]')" class="Smilie" title="[rolleyes]"><img border="0" src="images/smilies/Face_76.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[sleepy]')" class="Smilie" title="[sleepy]"><img border="0" src="images/smilies/Face_78.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[GoodLuck]')" class="Smilie" title="[GoodLuck]"><img border="0" src="images/smilies/Face_68.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[Party]')" class="Smilie" title="[Party]"><img border="0" src="images/smilies/Face_75.gif" alt=""/></a></td><td><a href="javascript:AddSmiley('[illness]')" class="Smilie" title="[illness]"><img border="0" src="images/smilies/Face_53.gif" alt=""/></a></td></tr></table></div><textarea id="editMask" class="editTextarea" style="width:99%;height:100px" onfocus="showUBB('Message')"></textarea><div id="editorbody" style="display:none"><div id="editorHead"></div><script>var ubbTools='<div class="editorTools"><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_bold" href="javascript:UBB_bold();void(0)" title="粗体" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/bold.gif" border="0" alt="粗体" /></a></li><li><a id="A_italic" href="javascript:UBB_italic();void(0)" title="斜体" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/italic.gif" border="0" alt="斜体" /></a></li><li><a id="A_underline" href="javascript:UBB_underline();void(0)" title="下划线" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/underline.gif" border="0" alt="下划线" /></a></li></ul></div><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_image" href="javascript:UBB_image();void(0)" title="插入图像" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/image.gif" border="0" alt="插入图像" /></a></li><li><a id="A_link" href="javascript:UBB_link();void(0)" title="超链接" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/link.gif" border="0" alt="超链接" /></a></li><li><a id="A_mail" href="javascript:UBB_mail();void(0)" title="电子邮件" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/mail.gif" border="0" alt="电子邮件" /></a></li><li><a id="A_quote" href="javascript:UBB_quote();void(0)" title="插入引用" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/quote.gif" border="0" alt="插入引用" /></a></li><li><a id="A_smiley" href="javascript:UBB_smiley();void(0)" title="表情符号" class="Toolsbutton"><img src="skins/06-12-03-1/UBB/Icons/smiley.gif" border="0" alt="表情符号" /></a></li></ul></div><div style="clear: both;display: block;height:1px;overflow:hidden"></div></div>'</script><div class="editorContent"><textarea name="Message" class="editTextarea" style="height:150px;;" cols="1" rows="1" accesskey="R"></textarea></div></div><script language="javascript" type="text/javascript">initUBB("Message")</script></td></tr>
+	  <tr><td align="right" width="70" valign="top"><strong>选　项:</strong></td><td align="left" style="padding:3px;">
+             <label for="label5"><input name="log_DisSM" type="checkbox" id="label5" value="1" />禁止表情转换</label>
+             <label for="label6"><input name="log_DisURL" type="checkbox" id="label6" value="1" />禁止自动转换链接</label>
+             <label for="label7"><input name="log_DisKey" type="checkbox" id="label7" value="1" />禁止自动转换关键字</label>
+	  </td></tr>
+          <tr>
+            <td colspan="2" align="center" style="padding:3px;">
+			  <input name="logID" type="hidden" value="212"/>
+              <input name="action" type="hidden" value="post"/>
+			  <input name="hiddenvalidate" type="hidden" value="antispam"/>
+			  <input name="submit2" type="submit" class="userbutton" value="发表评论" accesskey="S"/>
+              <input name="button" type="reset" class="userbutton" value="重写"/></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right" >
+			 虽然发表评论不用注册，但是为了保护您的发言权，建议您<a href="register.asp">注册帐号</a>. <br/> 
+	  字数限制 <b>100 字</b> | 
+	  UBB代码 <b>关闭</b> | 
+	  [img]标签 <b>关闭</b>
+
+			</td>
+          </tr>		  
+	  </table></form>
+	   </div></div>
+       <div id="mainContent-bottomimg"></div>
+   </div>
+
+   </div>
+   
+   <div id="sidebar">
+	   <div id="innersidebar">
+		     <div id="sidebar-topimg"><!--工具条顶部图象--></div>
+			  <div id="Side_Category" class="sidepanel"><h4 class="Ptitle">日志分类┃Category</h4><div class="Pcontent"><img src="images/icons/1.gif" border="0" style="margin:3px 4px -4px 0px;" alt="HTML/JavaScript/CSS"/><a class="CategoryA" href="default.asp?cateID=5" title="HTML/JavaScript/CSS">HTML/JS/CSS [82]</a> <a href="feed.asp?cateID=5" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/1.gif" border="0" style="margin:3px 4px -4px 0px;" alt="Java"/><a class="CategoryA" href="default.asp?cateID=8" title="Java">Java [86]</a> <a href="feed.asp?cateID=8" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/1.gif" border="0" style="margin:3px 4px -4px 0px;" alt="Oracle/SQLServer/MySQL/Postgrsql"/><a class="CategoryA" href="default.asp?cateID=10" title="Oracle/SQLServer/MySQL/Postgrsql">DataBase [38]</a> <a href="feed.asp?cateID=10" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/1.gif" border="0" style="margin:3px 4px -4px 0px;" alt="Ajax/RIA"/><a class="CategoryA" href="default.asp?cateID=11" title="Ajax/RIA">Ajax/RIA [9]</a> <a href="feed.asp?cateID=11" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/1.gif" border="0" style="margin:3px 4px -4px 0px;" alt="Linux"/><a class="CategoryA" href="default.asp?cateID=15" title="Linux">Linux/Unix/Shell [16]</a> <a href="feed.asp?cateID=15" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/1.gif" border="0" style="margin:3px 4px -4px 0px;" alt="其他"/><a class="CategoryA" href="default.asp?cateID=13" title="其他">Other [128]</a> <a href="feed.asp?cateID=13" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/></div><div class="Pfoot"></div></div><div id="Side_Search" class="sidepanel"><h4 class="Ptitle">Google搜索┃Search</h4><div class="Pcontent"><form style="MARGIN-bottom: 1px;border:0px" onsubmit="if (this.SearchContent.value.length<2) {alert('关键字不能少于2个子');this.SearchContent.focus();return false}" action="search.asp">
+    关键字 <input  name="SearchContent" size="15" maxlength="10" style="height:14px;"/>
+    <div style="OVERFLOW: hidden; HEIGHT: 3px"> </div>
+    类　型 <select class="userOption" name="searchType">
+    <option value="title" selected="selected">日志标题</option>
+    <option value="Content">日志内容</option>
+    <option value="Comments">日志评论</option>
+    <option value="trackback">引用通告</option>
+    </select> <input class="btn3_mouseout" type="submit" value="搜 索" style="width:46px"/>
+</form>
+<!-- alimama提供的广告Begin-->
+
+<script type="text/JavaScript"> 
+alimama_pid="mm_12398454_1611279_5027464"; 
+alimama_titlecolor="0066CC"; 
+alimama_descolor ="4C4C4C"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="FFFFFF"; 
+alimama_linkcolor="2D8930"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="10"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="31"; 
+alimama_width=180; 
+alimama_height=250; 
+alimama_type=2; 
+</script> 
+<script src="http://a.alimama.cn/inf.js" type=text/javascript> 
+</script>
+
+<!--alimama提供的广告END -->
+<!-- Search Google -->
+
+<table bgcolor="#ffffff">
+<form method="get" action="http://www.google.com/custom" target="google_window">
+<tr><td nowrap="nowrap" valign="top" align="left" height="32">
+<a href="http://www.google.com/">
+<img src="http://www.google.com/logos/Logo_25wht.gif" border="0" alt="Google" align="middle"></img></a>
+<br/>
+<label for="sbi" style="display: none">输入您的搜索字词</label>
+<input type="text" name="q" size="15" maxlength="255" value="" id="sbi" style="height:14px;margin-right:1px"></input><label for="sbb" style="display: none">提交搜索表单</label><input type="submit" name="sa" value="搜索" id="sbb" class="btn3_mouseout"></input>
+<input type="hidden" name="client" value="pub-8347535499341833"></input>
+<input type="hidden" name="forid" value="1"></input>
+<input type="hidden" name="ie" value="GB2312"></input>
+<input type="hidden" name="oe" value="GB2312"></input>
+<input type="hidden" name="cof" value="GALT:#003324;GL:1;DIV:#66CC99;VLC:FF6600;AH:center;BGC:C5DBCF;LBGC:73B59C;ALC:000000;LC:000000;T:330033;GFNT:333300;GIMP:333300;LH:50;LW:411;L:http://www.xyhot.com/skins/06-12-03-1/images/top-bg.jpg;S:http://;FORID:1"></input>
+<input type="hidden" name="hl" value="zh-CN"></input>
+</td></tr>
+</form>
+</table>
+
+<!-- Search Google --></div><div class="Pfoot"></div></div><div id="Side_NewLogForPJBlog" class="sidepanel"><h4 class="Ptitle">最新日志┃New Article</h4><div class="Pcontent"><a class="sideA" href="default.asp?id=373" title="huheng1234 于 18/01/2009 18:27:33 发表该日志
+如何理解SOA?[五]">如何理解SOA?[五]</a><a class="sideA" href="default.asp?id=372" title="huheng1234 于 18/01/2009 18:24:30 发表该日志
+如何理解SOA?[四]">如何理解SOA?[四]</a><a class="sideA" href="default.asp?id=371" title="huheng1234 于 18/01/2009 18:22:51 发表该日志
+如何理解SOA?[三]">如何理解SOA?[三]</a><a class="sideA" href="default.asp?id=370" title="huheng1234 于 18/01/2009 18:20:53 发表该日志
+如何理解SOA?[二]">如何理解SOA?[二]</a><a class="sideA" href="default.asp?id=369" title="huheng1234 于 18/01/2009 18:19:20 发表该日志
+如何理解SOA?[一]">如何理解SOA?[一]</a><a class="sideA" href="default.asp?id=368" title="huheng1234 于 14/01/2009 22:47:49 发表该日志
+struts2.0中struts.xml配置文件详...">struts2.0中struts.xml配置文件详...</a><a class="sideA" href="default.asp?id=367" title="huheng1234 于 14/01/2009 12:28:15 发表该日志
+Spring+Hibernate+Struts&nbsp;移...">Spring+Hibernate+Struts&nbsp;移...</a><a class="sideA" href="default.asp?id=366" title="huheng1234 于 14/01/2009 10:25:22 发表该日志
+Spring&nbsp;开发参考手册[CHM][下载]">Spring&nbsp;开发参考手册[CHM][下载]</a><a class="sideA" href="default.asp?id=365" title="huheng1234 于 13/01/2009 20:10:38 发表该日志
+网页颜色代码选择器全集">网页颜色代码选择器全集</a><a class="sideA" href="default.asp?id=364" title="huheng1234 于 12/01/2009 21:40:55 发表该日志
+使用Struts2.0&nbsp;拦截器">使用Struts2.0&nbsp;拦截器</a></div><div class="Pfoot"></div></div><div id="Side_HotLogForPJBlog" class="sidepanel"><h4 class="Ptitle">热门日志┃Hot Article</h4><div class="Pcontent"><a class="sideA" href="default.asp?id=133" title="亨亨哈兮 于 06/02/2007 15:46:06 发表该日志
+[JS]event.srcElement的应用">[JS]event.srcElement的应用</a><a class="sideA" href="default.asp?id=76" title="亨亨哈兮 于 30/01/2007 14:24:31 发表该日志
+[JS]页面内的超级酷浮动窗口">[JS]页面内的超级酷浮动窗口</a><a class="sideA" href="default.asp?id=70" title="亨亨哈兮 于 29/01/2007 16:06:56 发表该日志
+[JS]关闭父窗口（无提示）">[JS]关闭父窗口（无提示）</a><a class="sideA" href="default.asp?id=81" title="亨亨哈兮 于 31/01/2007 15:13:11 发表该日志
+街头霸王(格斗篇)">街头霸王(格斗篇)</a><a class="sideA" href="default.asp?id=3" title="admin 于 11/01/2007 23:53:11 发表该日志
+Javascript与ClientWidth有关的...">Javascript与ClientWidth有关的...</a><a class="sideA" href="default.asp?id=71" title="亨亨哈兮 于 29/01/2007 16:09:24 发表该日志
+[JS]删除指定ID的&nbsp;HTML&nbsp;标签">[JS]删除指定ID的&nbsp;HTML&nbsp;标签</a><a class="sideA" href="default.asp?id=64" title="亨亨哈兮 于 29/01/2007 14:59:34 发表该日志
+ASP整合的一个SQL语句类">ASP整合的一个SQL语句类</a><a class="sideA" href="default.asp?id=100" title="亨亨哈兮 于 04/02/2007 15:39:15 发表该日志
+MS&nbsp;SQL入门基础:SQL数据库的恢复">MS&nbsp;SQL入门基础:SQL数据库的恢复</a><a class="sideA" href="default.asp?id=75" title="亨亨哈兮 于 29/01/2007 16:30:40 发表该日志
+ADO.NET实用技巧两则">ADO.NET实用技巧两则</a><a class="sideA" href="default.asp?id=73" title="亨亨哈兮 于 29/01/2007 16:12:59 发表该日志
+[JS]为text框输入日期的小日历">[JS]为text框输入日期的小日历</a></div><div class="Pfoot"></div></div><div id="Side_GuestBookForPJBlogSubItem1" class="sidepanel"><h4 class="Ptitle">最新留言┃GuestBook</h4><div class="Pcontent"><a class="sideA" href="LoadMod.asp?plugins=GuestBookForPJBlog#book_7082" title="xiaoxiao 于 04/09/2008 17:38:31 发表留言
+Poi&nbsp;如何生成excel&nbsp;的工具栏部分呢?">Poi&nbsp;如何生成excel&nbsp;的工具栏部分呢?</a><a class="sideA" href="LoadMod.asp?plugins=GuestBookForPJBlog#book_7080" title="UniVista 于 07/08/2008 14:00:16 发表留言
+来抢把椅子坐坐！呵呵！">来抢把椅子坐坐！呵呵！</a></div><div class="Pfoot"></div></div><div id="Side_Comment" class="sidepanel"><h4 class="Ptitle">最新评论┃Comments</h4><div class="Pcontent">		 <div class="commentTable">
+		  <a class="sideA" href="default.asp?id=308#comm_3431" title="做人要有良心 于 12/06/2008 01:20:46 发表评论
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;徐老的博又被封住了！我不明白这些人到底是在做什么！你们这样做只能适得其反！你们可封掉一个博客，可删掉千万张贴子，但你们能封的住广大人民群众的嘴吗？！能删掉人民群众的心吗？？？？">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;徐老的博又被封住了！我不明白这些...</a><a class="sideA" href="default.asp?id=251#comm_3429" title="小林 于 02/06/2008 18:44:12 发表评论
+怎么....我以为是新的游戏画面...">怎么....我以为是新的游戏画面...</a><a class="sideA" href="default.asp?id=280#comm_3428" title="杨超 于 02/06/2008 15:01:13 发表评论
+系统找不到指定文件...">系统找不到指定文件...</a><a class="sideA" href="default.asp?id=9#comm_3427" title="1 于 16/05/2008 03:53:33 发表评论
+55">55</a><a class="sideA" href="default.asp?id=6#comm_3425" title="hehe 于 02/03/2008 21:44:23 发表评论
+真是他也">真是他也</a>
+	     </div></div><div class="Pfoot"></div></div><div id="Side_User" class="sidepanel"><h4 class="Ptitle">控制面板┃User Panel</h4><div class="Pcontent"><a href="login.asp" class="sideA" accesskey="L">登录</a><a href="register.asp" class="sideA" accesskey="U">用户注册</a></div><div class="Pfoot"></div></div>
+		     <div id="sidebar-bottomimg"></div>
+	   </div>
+   </div>
+   <div style="clear: both;height:1px;overflow:hidden;margin-top:-1px;"></div>
+  </div>
+
+  <script>document.getElementById('wbc_tag').innerHTML=' <font face="Wingdings">n</font> <a href="article.asp?id=368">struts2.0中struts.xml配置文件详解[34]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=367">Spring+Hibernate+Struts 移植Weblogic相关问题[50]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=364">使用Struts2.0 拦截器[48]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=273">struts的一些异常和错误[1501]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=268">使用Spring,Hibernate,Struts,JSF的一些错误总结[4343]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=237">程序员必备帮助文档(chm格式)[5479]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=220">理解struts流程和actionservlet [4290]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=219">STRUTS的struts--config.xml详解 [3365]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=217">servlet 和 struts 的Action的生命周期[3077]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=214">从struts的组件来看Struts 的工作原理[1651]</a><br> <font face="Wingdings">n</font> <a href="article.asp?id=213">（转）struts中符合MVC结构的分页实现[2367]</a><br>'</script>
+ <!--底部-->
+	          
+  <div id="foot">
+  <p>
+ <strong>WEB交互设计</strong> <a href="http://validator.w3.org/check/referer" target="_blank">xhtml</a> | <a href="http://jigsaw.w3.org/css-validator/validator-uri.html">css</a></p>
+    <p style="font-size:11px;">Powered By <a href="http://www.pjhome.net" target="_blank"><strong>PJBlog2 v2.6 build 02</strong></a> CopyRight 2005, Processed in <b>0.515625</b> second(s) , <b>4</b> queries
+    <br/><script src='http://s102.cnzz.com/stat.php?id=389870&web_id=389870&online=1&show=line' language='JavaScript' charset='gb2312'></script>   
+	<script language="javascript" type="text/javascript" src="http://js.users.51.la/823716.js"></script>
+	<noscript><a href="http://www.51.la/?823716" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/823716.asp" style="border:none" /></a></noscript>
+    
+    <br/><a href="http://www.miibeian.gov.cn" style="font-size:12px"><b>渝ICP备07001611号</b></a>
+
+    </p>
+   </div>
+ </div>
+<script type="text/javascript">initAccessKey()  //转换AccessKey For IE</script>
+
+<!--���Ӹ���������ʾBegin-->
+<script language="javascript" src="common/veisin/shCore.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushJScript.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushVb.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushCss.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushCSharp.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushCpp.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushDelphi.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushJava.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushPhp.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushPython.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushRuby.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushSql.js"></script>
+<script type="text/javascript" src="common/veisin/shBrushXml.js"></script>
+<script type="text/javascript">
+	dp.SyntaxHighlighter.ClipboardSwf = 'common/veisin/clipboard.swf';
+	dp.SyntaxHighlighter.HighlightAll('code');
+</script>
+<!--���Ӹ���������ʾEnd-->
+
+</body>
+</html>
