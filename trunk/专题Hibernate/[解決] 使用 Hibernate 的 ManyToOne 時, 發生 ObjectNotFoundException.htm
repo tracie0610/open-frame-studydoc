@@ -1,0 +1,427 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="-1"/>
+<style type="text/css">@import url( /jforum/templates/default/styles/style.css?1233290701640 );</style>
+<style type="text/css">@import url(/jforum/templates/default/styles/zh_TW.css?1233290701640);</style>
+<title>[解決] 使用 Hibernate 的 ManyToOne 時, 發生 ObjectNotFoundException</title>
+</head>
+<body class="zh_TW">
+
+<!--
+Original theme from phpBB (http://www.phpbb.com) subSilver
+Created by subBlue design
+http://www.subBlue.com
+
+Modifications by JForum Team
+-->
+
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table cellspacing="0" cellpadding="0" width="100%" border="0">
+				<tr>
+					<td>
+						<a href="http://www.scjp5.idv.tw"><img src="/jforum/templates/default/images/Java_logo.gif"  vspace="1" border="0" /></a>
+					</td>
+					 
+					<td width="100%" align="center" valign="middle">
+						<span class="maintitle">Java 論壇 - www.scjp5.idv.tw</span>
+						<table cellspacing="0" cellpadding="2" border="0">
+							<tr>
+								<td valign="top" nowrap="nowrap" align="center">&nbsp;
+									<img src="/jforum/templates/default/images/icon_mini_search.gif" alt="[Search]"/>
+									<span class="mainmenu"><a id="search" class="mainmenu" href="/jforum/search/filters.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D"><b>搜尋</b></a> &nbsp;
+									
+									<img src="/jforum/templates/default/images/icon_mini_recentTopics.gif" alt="[Recent Topics]" />
+									<a id="latest" class="mainmenu" href="/jforum/recentTopics/list.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D">最新主題</a> &nbsp;
+									<img src="/jforum/templates/default/images/icon_mini_members.gif" alt="[Members]" />&nbsp;
+									<a id="latest2" class="mainmenu" href="/jforum/user/list.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D">會員列表</a> &nbsp;
+									<span class="mainmenu"> <img src="/jforum/templates/default/images/icon_mini_groups.gif" alt="[Groups]" />&nbsp;<a id="backtosite" class="mainmenu" href="http://www.scjp5.idv.tw">回首頁</a>&nbsp;
+
+	
+										<br/>
+										<a id="register" class="mainmenu" href="/jforum/user/insert.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D"><img src="/jforum/templates/default/images/icon_mini_register.gif" border="0" alt="[Register]" /> 會員註冊</a>&nbsp;/&nbsp;</span>
+										<a id="login" class="mainmenu" href="/jforum/user/login.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D"><img src="/jforum/templates/default/images/icon_mini_login.gif" border="0" alt="[Login]" /> 登入</a>&nbsp; </span>
+								</td>
+							</tr>
+							<tr>
+								<td align="center">									
+									<a href="/book.web/">JWorks 原文書比價網</a><br>
+									<a href="/jforum/posts/list/0/93.page#145">SCJP 解題/Java/J2EE 諮詢服務 by Skype</a><br>									
+								</td>
+							</tr>
+						</table>
+					</td>
+					
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td>
+			<a href="http://www.books.com.tw/exep/assp.php/LeonChen/exep/prod/booksfile.php?item=0010422014"><img src="/jforum/templates/default/images/scjp6.jpg" height="150" border="0"/></a>
+		</td>		
+	</tr>
+	<tr>
+		<td>
+
+<script type="text/javascript" src="/jforum/templates/default/js/post_show.js?1233290701640"></script>
+<script type="text/javascript" src="/jforum/templates/default/js/post.js?1233290701640"></script>
+<script type="text/javascript">
+<!--
+	function karmaVote(s, postId) {
+		if (s.selectedIndex == 0) {
+			return;
+		}
+
+		if (confirm("確認您的投票？")) {
+			document.location = "/jforum/karma/insert/0/" + postId + "/" + s.value + ".page";
+		}
+		else {
+			s.selectedIndex = 0;
+		}
+	}
+
+	function karmaPointsCombo(postId)
+	{
+		document.write('<select name="karma" onchange="karmaVote(this,' + postId + ')">');
+		document.write('	<option value="">評分</option>');
+		document.write('	<option value="1">1</option>');
+		document.write('	<option value="2">2</option>');
+		document.write('	<option value="3">3</option>');
+		document.write('	<option value="4">4</option>');
+		document.write('	<option value="5">5</option>');
+		document.write('</select>');
+	}
+function showEmail(beforeAt, afterAt)
+{
+	return beforeAt + "@" + afterAt;
+}
+
+var starOn = new Image();
+starOn.src = "/jforum/templates/default/images/star_on.gif";
+
+var starOff = new Image();
+starOff.src = "/jforum/templates/default/images/star_off.gif";
+
+function writeStars(q, postId)
+{
+	for (var i = 0; i < 5; i++) {
+		var name = "star" + postId + "_" + i;
+		document.write("<img name='" + name + "' alt='*' />");
+		document.images[name].src = q > i ? starOn.src : starOff.src;
+	}
+}
+
+function addBookmark(relationType, relationId)
+{
+	var w = window.open('/jforum/bookmarks/insert/' + relationType + '/' + relationId + '.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D', 'bookmark_add', 'width="700", height="200", scrollbars="no"');
+	w.focus();
+}
+
+function supportAjax()
+{
+	if (typeof(AjaxUtils) != 'undefined') {
+		if (window.ActiveXObject) {
+			var r = new ActiveXObject("Microsoft.XMLHTTP");
+			return r != undefined;
+		}
+		else if (window.XMLHttpRequest) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+-->
+</script>
+
+<table width=100%">
+	<tr>
+		<td>
+			<table cellspacing="0" cellpadding="10" width="100%" align="center" border="0">
+				<tr>
+					<td class="bodyline">
+						<table cellspacing="2" cellpadding="2" width="100%" border="0">
+							<tr>
+								<td valign="middle" align="left" colspan="2">
+									<span class="maintitle"><a href="/jforum/posts/list/80.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D" name="top" class="maintitle" id="top">[解決] 使用 Hibernate 的 ManyToOne 時, 發生 ObjectNotFoundException</a></span>
+									&nbsp;<a href="/jforum/rss/topicPosts/80.page"><img src="/jforum/templates/default/images/xml_button.gif" border="0" alt="XML" /></a>
+								</td>
+							</tr>
+						</table>
+						
+						<table cellspacing="2" cellpadding="2" width="100%" border="0">
+							<tr>
+								<td width="8%" align="left" valign="bottom" nowrap="nowrap">
+											<a href="/jforum/posts/reply/0/80.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D" rel="nofollow" class="icon_reply nav"><img src="/jforum/images/transp.gif" alt="" /></a>
+								</td>
+			
+								<td valign="middle" align="left" colspan="0">
+									<span class="nav">
+									<a class="nav" href="/jforum/forums/list.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D">討論區首頁 </a> 
+			            			-&gt; <a class="nav" href="/jforum/forums/show/7.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D">J2EE 程式設計 </a></span>
+								</td>
+								
+			
+								<td valign="middle" align="right"></td>
+							</tr>
+						</table>
+			
+						<table class="forumline" cellspacing="1" cellpadding="3" width="100%" border="0">
+							
+							<tr>
+								<th class="thleft" nowrap="nowrap" width="150" height="26">發表人</th>
+								<th class="thright" nowrap="nowrap" width="100%">內容</th>
+							</tr>
+			
+							<!-- POST LISTING --> 
+				
+								<tr>
+									<td colspan="2">
+<div class="postinfo">
+	<div class="date">
+				<a href="/jforum/posts/list/80.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D#113">
+		<img src="/jforum/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a>07/12/2007 23:49:55
+	</div>
+	<div class="subject">&nbsp;&nbsp; &nbsp;<b>文章主題:</b> <a name="113">[解決] 使用 Hibernate 的 ManyToOne 時, 發生 ObjectNotFoundException</a></div>
+	<div class="action">
+			<script type="text/javascript">writeStars(0, 113);</script>
+
+			<a href="/jforum/posts/quote/0/113.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D" rel="nofollow" class="icon_quote"><img src="/jforum/images/transp.gif" alt="" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/jforum/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>									</td>
+								</tr>
+			
+								<tr>
+									<!-- Username -->
+			
+			
+									<td class="row1" valign="top" align="left" rowspan="2">
+<span class="genmed"><b>Leon</b></span>
+<br />
+	<script type="text/javascript">writeStars(0, "3113");</script>
+	<br/>
+
+<span class="gensmall">
+	
+	<br />
+
+<br /> 
+
+	註冊時間: 11/07/2006 22:03:51<br />
+	文章: 96
+<br />
+
+
+
+		<span class="offline">離線 </span>
+</span>
+<br />									</td>
+					
+									<!-- Message -->
+									<td class="row1" valign="top">
+										<span class="postbody">使用 Hibernate 的 ManyToOne 時, 發生 ObjectNotFoundException<br/> <span class="genmed"><b>Code:</b></span><br>
+		<div >
+		<pre>
+ ex:
+ Caused by: org.hibernate.ObjectNotFoundException: No row with the given identifier exists: &#91;tw.gov.asic.apmi.kernel.model5.bo.MainTb#&#93;
+ 	at org.hibernate.impl.SessionFactoryImpl$1.handleEntityNotFound&#40;SessionFactoryImpl.java:377&#41;
+ 	at org.hibernate.event.def.DefaultLoadEventListener.load&#40;DefaultLoadEventListener.java:145&#41;
+ 	at org.hibernate.event.def.DefaultLoadEventListener.proxyOrLoad&#40;DefaultLoadEventListener.java:195&#41;
+ </pre>
+		</div><br/> 由 [tw.gov.asic.apmi.kernel.model5.bo.MainTb#] 可以推測出<br/> 有可能這筆資料的 ManyToOne 對應欄位是空白<br/> 所以 Hibernate 找不到這筆資料<br/> <br/> 為了解決這個問題, 可以加上 org.hibernate.annotations.NotFound 的 annotation 來要求 Hibernate 忽略找不到物件的錯誤<br/> <br/> <span class="genmed"><b>Code:</b></span><br>
+		<div >
+		<pre>
+ ...
+ import org.hibernate.annotations.NotFound;
+ import org.hibernate.annotations.NotFoundAction;
+ ...
+ @Entity&#40;&#41;
+ @Table&#40;name="main_tb"&#41;
+ public class MainTb implements Serializable {
+        ...
+ 	@ManyToOne
+ 	@JoinColumn&#40;name="parentid", nullable=true&#41;
+ 	@NotFound&#40;action=NotFoundAction.IGNORE&#41;
+ 	private MainTb parent;
+        ...
+ }
+ </pre>
+		</div></span>
+			
+										<!-- Attachments -->
+									</td>
+								</tr>
+			
+					
+								<tr> 
+									<td class="row1" valign="bottom" nowrap="nowrap" height="28" width="100%">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td valign="middle" nowrap="nowrap"> 
+		<a href="/jforum/user/profile/3.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D" class="icon_profile"><img src="/jforum/images/transp.gif" alt="" /></a>
+		<a href="/jforum/pm/sendTo/3.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D" class="icon_pm"><img src="/jforum/images/transp.gif" alt="" /></a>
+
+		
+		
+		
+		
+	</td>
+
+</tr>
+</table>									</td>
+								</tr>
+					
+								<tr>
+									<td class="spacerow" colspan="2" height="1"><img src="/jforum/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+								</tr>
+							<!-- END OF POST LISTING -->
+						
+							<tr align="center">
+								<td class="catbottom" colspan="2" height="28">
+									<table cellspacing="0" cellpadding="0" border="0">
+										<tr>
+											<td align="center"><span class="gensmall">&nbsp;</span></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					
+						<table cellspacing="2" cellpadding="2" width="100%" align="center" border="0">
+							<tr>
+								<td width="8%" align="left" valign="bottom" nowrap="nowrap">
+										<a href="/jforum/posts/reply/0/80.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D" rel="nofollow" class="icon_reply nav"><img src="/jforum/images/transp.gif" alt="" /></a>
+								</td>
+								
+								<td valign="middle" align="left" colspan="0">
+									<span class="nav">
+									<a class="nav" href="/jforum/forums/list.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D">討論區首頁 </a> 
+			            			-&gt; <a class="nav" href="/jforum/forums/show/7.page;jsessionid=CF288C48873AA8EDE25B644E638FDD8D">J2EE 程式設計 </a>
+									</span>
+								</td>
+			
+								<td valign="middle" align="right"></td>
+							</tr>
+							
+							<tr>
+								<td colspan="3"><img src="/jforum/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+							</tr>
+			
+			
+							
+						</table>
+			
+						<table cellspacing="0" cellpadding="0" width="100%" border="0">
+							<tr>
+								<td align="left">
+								</td>
+								<td align="right">	<table cellspacing="0" cellpadding="0" border="0">
+		<tr>			  
+			<td nowrap="nowrap">
+				<form action="" name="f" id="f" accept-charset="UTF-8">
+					<span class="gensmall">前往:&nbsp;</span>
+					<select onchange="if(this.options[this.selectedIndex].value != -1){ document.location = '/jforum/forums/show/'+ this.options[this.selectedIndex].value +'.page'; }" name="select">
+						<option value="-1" selected="selected">選擇一個版面</option>				
+						
+							<option value="-1">&nbsp;</option>
+							<option value="-1">Java</option>
+							<option value="-1">-------------</option>
+							
+								<option value="2">SCJP</option>
+								<option value="3">Java 程式設計</option>
+								<option value="7">J2EE 程式設計</option>
+							<option value="-1">&nbsp;</option>
+							<option value="-1">讀書會</option>
+							<option value="-1">-------------</option>
+							
+								<option value="8">SCJP Java 6 專業認證手冊</option>
+								<option value="5">SCJP Java 5 專業認證手冊</option>
+								<option value="6">好書分享</option>
+							<option value="-1">&nbsp;</option>
+							<option value="-1">其他</option>
+							<option value="-1">-------------</option>
+							
+								<option value="4">站務討論區</option>
+								<option value="1">測試</option>
+					</select>
+					&nbsp;
+					<input class="liteoption" type="button" value="Go" onclick="if(document.f.select.options[document.f.select.selectedIndex].value != -1){ document.location = '/jforum/forums/show/'+ document.f.select.options[document.f.select.selectedIndex].value +'.page'; }" />
+				</form>
+			</td>
+		</tr>
+	</table>
+</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<a name="quick"></a>
+			
+</td>
+</tr>
+	<tr>
+		<td align="center">
+			<!-- Search Google -->
+			<center>
+			<form method="get" action="http://www.google.com.tw/custom" target="google_window">
+			<table bgcolor="#ffffff">
+			<tr><td nowrap="nowrap" valign="top" align="left" height="32">
+			<a href="http://www.google.com/">
+			<img src="http://www.google.com/logos/Logo_25wht.gif" border="0" alt="Google" align="middle"></img></a>
+			<input type="text" name="q" size="31" maxlength="255" value=""></input>
+			<input type="submit" name="sa" value="搜尋"></input>
+			<input type="hidden" name="client" value="pub-7806621351226554"></input>
+			<input type="hidden" name="forid" value="1"></input>
+			<input type="hidden" name="channel" value="7257690472"></input>
+			<input type="hidden" name="ie" value="big5"></input>
+			<input type="hidden" name="oe" value="big5"></input>
+			<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1;"></input>
+			<input type="hidden" name="hl" value="zh-TW"></input>
+			</td></tr></table>
+			</form>
+			</center>
+			<!-- Search Google -->		
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			
+		</td>
+	</tr>
+
+	<tr>
+		<td align="center">
+			<span class="copyright">Powered by <a class="copyright" href="http://www.jforum.net/" target="_blank">JForum 2.1.6</a> &copy; <a class="copyright" href="http://www.jforum.net/team.jsp" target="_blank">JForum Team</a></span>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<span class="copyright">系統管理員: <a class="mainmenu" href="mailto:leon.java@gmail.com">leon.java@gmail.com</a></span>
+		</td>	
+	</tr>
+</table>
+<iframe src="/jforum/templates/ping_session.jsp" height="0" width="0" frameborder="0" scrolling="no"></iframe>
+</body>
+</html>		</td>
+		<td wdith="20%" valign="top">
+			<br>
+			<br>
+			<br>		
+			<script type="text/javascript"><!--
+  				amazon_ad_tag = "jworks09-20";  amazon_ad_width = "120";  amazon_ad_height = "600";//--></script>
+			<script type="text/javascript" src="http://www.assoc-amazon.com/s/ads.js"></script>
+
+		</td>			
+	</tr>
+</table>	
