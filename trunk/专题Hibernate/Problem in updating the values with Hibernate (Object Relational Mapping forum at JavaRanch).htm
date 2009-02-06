@@ -1,0 +1,789 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="-1" />
+<style type="text/css">@import url( /templates/default/styles/style.css?1233724008948 );</style>
+<style type="text/css">@import url( /templates/default/styles/en_US.css?1233724008948 );</style>
+
+	<style type="text/css">@import url( /templates/default/styles/SyntaxHighlighter.css?1233724008948 );</style>
+
+<title>Problem in updating the values with Hibernate (Object Relational Mapping  forum at JavaRanch)</title>
+
+</head>
+<body class="en_US">
+
+<!--
+Original theme from phpBB (http://www.phpbb.com) subSilver
+Created by subBlue design
+http://www.subBlue.com
+
+Modifications by JForum Team
+-->
+<center>
+    <div align="center">
+        <a rel="nofollow" href="/forums/banner/redirect/4" target="_blank"><img src="http://www.javaranch.com/banners/images/ij8-468x60.gif
+"  border="0" alt="The most intelligent Java IDE" width="468" height="60"/></a>
+    </div>
+</center>
+
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<table cellspacing="0" cellpadding="0" width="100%" border="0">
+				<tr>
+					<td align="center">
+						<a href="/forums/list"><img src="/templates/default/images/moosefly.gif"  vspace="1" border="0" alt="[Logo]" /></a>
+                    </td>
+                    <td class="logo" valign="center">
+                        A friendly place
+					    for Java greenhorns!
+
+                    </td>
+					 
+					<td width="100%" align="center" valign="middle">
+					        <span class="boardtitle"><a id="javaranchtop" href="http://www.javaranch.com/">Java</a><a id="javaranchtop" href="http://www.javaranch.com/">Ranch</a> &raquo; <a href="/forums/list">Big Moose Saloon</a></span>
+						<table cellspacing="0" cellpadding="2" border="0">
+							<tr>
+								<td valign="top" nowrap="nowrap" align="center">&nbsp;
+									<a id="search" class="mainmenu" href="/forums/search/filters/78"><b>Search</b></a>
+ 									| <a id="faq" class="mainmenu" href="http://faq.javaranch.com/"><b>FAQ</b></a>
+									| <a id="latest" class="mainmenu" href="/forums/recentTopics/list">Recent Topics</a>
+									| <a id="hottest" class="mainmenu" href="/forums/hottestTopics/list">Hot Topics</a>
+
+									<br>
+
+
+
+										<a id="register" class="mainmenu" href="/forums/user/insert">Register</a> / </span>
+										<a id="login" class="mainmenu" href="/forums/user/login">Login</a> </span>
+										<br>
+
+									</td>
+								</tr>
+								<tr>
+									<td>
+									<!-- added to display announcements across JavaRanch -->
+									<br /><br />
+
+									<FONT size="2" face="Verdana, Arial">
+									<script language="JavaScript" src="/announcements.js"><br /></script>
+									</FONT>
+									
+									
+
+								</td>
+							</tr>
+
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+
+
+<script type="text/javascript" src="/templates/default/js/userLocalTime.js?1233724008948"></script>
+<script type="text/javascript" src="/templates/default/js/jquery.js?1233724008948"></script>
+<script type="text/javascript" src="/templates/default/js/jquery.jeditable.pack.js?1233724008948"></script>
+<script type="text/javascript" src="/templates/default/js/post_show.js?1233724008948"></script>
+<script type="text/javascript" src="/templates/default/js/post.js?1233724008948"></script>
+<script type="text/javascript" src="/templates/default/js/pagination.js?1233724008948"></script>
+
+
+
+<script type="text/javascript">
+<!--
+function showEmail(beforeAt, afterAt)
+{
+	return beforeAt + "@" + afterAt;
+}
+
+function addBookmark(relationType, relationId)
+{
+	var w = window.open('/forums/bookmarks/insert/' + relationType + '/' + relationId + '', 'bookmark_add', 'width=700, height=200, scrollbars=auto, resizable=true');
+	w.focus();
+}
+
+
+-->
+</script>
+
+
+<table cellspacing="0" cellpadding="10" width="97%" align="center" border="0">
+	<tr>
+		<td class="bodyline">
+
+<!-- google_ad_section_start -->                  
+<table cellspacing="2" cellpadding="2" width="100%" border="0" class="threadbar">
+  <tr>
+    <td align="left" valign="middle">
+        	    <a href="/forums/posts/reply/0/215214" rel="nofollow" class="nav"><img alt="Reply" src="/templates/default/images/en_US/reply.gif" width="82px" height="25px" /></a>
+	    <a href="javascript:addBookmark(2, 215214);"><img src="/templates/default/images/en_US/bookmark_it.gif" alt='Bookmark it!' width="82" height="25" /></a>
+	    <a href="#watch" onClick="watchTopic('/forums/posts/watch/0/215214', 'Please confirm if you want to start watching this topic');">
+	  <img src="/templates/default/images/en_US/watch_topic_start.gif" alt="Watch this topic" width="82" height="25" /></a>
+      <span class="nav">
+	<a class="maintitle" href="http://www.javaranch.com/">Java</a><a class="maintitle" href="http://www.javaranch.com/">Ranch</a> &raquo;
+	<a class="maintitle" href="/forums/list">Forums</a> &raquo;
+        <a class="maintitle" href="/forums/c/1/java">Java</a> &raquo;
+         <a class="maintitle" href="/forums/f-78/Object-Relational-Mapping">Object Relational Mapping </a></span>
+	&nbsp;<a href="/forums/rss/topicPosts/215214"><img src="/templates/default/images/rss.png" border="0" alt="XML" /></a>
+    </td>
+
+    <td valign="middle" align="right">
+      
+    </td>
+    
+    <td align="right">
+      <a href="/forums/jforum?module=posts&amp;action=insert&amp;forum_id=78" rel="nofollow"><img alt="New topic" src="/templates/default/images/en_US/post.gif" width="82px" height="25px" />
+      </a>
+    </td>    
+  </tr>
+</table>
+                  
+			<table id="postTable" class="forumline" cellspacing="0" cellpadding="0" width="100%" border="0">
+                                <a name="1024057">
+				</a><tr>
+					<th class="author" nowrap="nowrap" width="18%">Author</th>
+					<th class="subject"><h1>Problem in updating the values with Hibernate</h1></th>
+				</tr>
+                                </a>
+				<!-- POST LISTING --> 
+
+					<tr class="firstRowOfPost">
+						<!-- Username -->
+
+
+						<td class="row1 userPostInfo" valign="top" align="left" rowspan="2">
+<span class="authorName"><b><a href="/forums/user/profile/78394">Tejo Kumar</a></b></span>
+<br />
+
+<span class="gensmall">
+	Greenhorn
+	<br />
+
+<br /> 
+
+
+	Joined: Aug 09, 2004<br />
+	Messages: 21 
+<br />
+
+
+</span>
+<br />
+						</td>
+
+						<td colspan="2" class="row1" valign="top">
+<div class="postinfo row1">
+	<div class="date">
+		<a href="/forums/posts/list/215214#1024057">
+		<img src="/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a><span class="postdetails">posted <script>"Dec 13, 2004 05:24:00".toLocaleDateTime();</script><noscript><span class="lastPostTime">Dec 12, 2004 22:24:00</span></noscript></span>                
+
+		<a href="/forums/pm/sendTo/78394"><img alt="private message" src="/templates/default/images/en_US/icon_pm.gif" width="59px" height="18px" /></a>
+
+
+
+        </div>
+	<div class="action">		
+			<a href="/forums/posts/quote/0/1024057" rel="nofollow"><img alt="Quote" src="/templates/default/images/en_US/icon_quote.gif" width="59" height="18px" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>
+						</td>
+					</tr>
+
+					<tr class="messageRow">
+
+						<!-- Message -->
+						<td class="row1 postbody" valign="top" id="post_text_1024057">
+							<span class="postbody">
+									Hi,<br /> I am having a problem in updating the values of one form which is realated to 2 tables. When i am trying to update the values I am getting the following error message.<br />  <br /> type Exception report<br />  <br /> message <br />  <br /> description The server encountered an internal error () that prevented it from fulfilling this request.<br />  <br /> exception <br />  <br /> javax.servlet.ServletException: Exception on Hibernate data access; nested exception is: <br /> net.sf.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: 8, of class: com.b2b.datas.dto.Postaladdress<br /> org.apache.struts.action.RequestProcessor.processException(RequestProcessor.java:526)<br /> org.apache.struts.action.RequestProcessor.processActionPerform(RequestProcessor.java:467)<br /> org.apache.struts.action.RequestProcessor.process(RequestProcessor.java:274)<br /> org.apache.struts.action.ActionServlet.process(ActionServlet.java:1422)<br /> org.apache.struts.action.ActionServlet.doPost(ActionServlet.java:523)<br /> javax.servlet.http.HttpServlet.service(HttpServlet.java:717)<br /> javax.servlet.http.HttpServlet.service(HttpServlet.java:810)<br /> com.b2b.datas.filters.SessionChecking.doFilter(SessionChecking.java:50)<br /> org.displaytag.filter.ResponseOverrideFilter.doFilter(ResponseOverrideFilter.java:86)<br /> org.jboss.web.tomcat.filters.ReplyHeaderFilter.doFilter(ReplyHeaderFilter.java:75)<br />  <br /> <br /> root cause <br />  <br /> org.springframework.orm.hibernate.HibernateSystemException: Exception on Hibernate data access; nested exception is: <br /> net.sf.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: 8, of class: com.b2b.datas.dto.Postaladdress<br /> org.springframework.orm.hibernate.SessionFactoryUtils.convertHibernateAccessException(SessionFactoryUtils.java:171)<br /> org.springframework.orm.hibernate.HibernateTemplate.execute(HibernateTemplate.java:151)<br /> org.springframework.orm.hibernate.HibernateTemplate.update(HibernateTemplate.java:236)<br /> com.b2b.datas.dao.PostalAddressDAO.update(PostalAddressDAO.java:140)<br /> com.b2b.datas.web.action.PostalAddressAction.update(PostalAddressAction.java:272)<br /> sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br /> sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)<br /> sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)<br /> java.lang.reflect.Method.invoke(Method.java:324)<br /> org.apache.struts.actions.DispatchAction.dispatchMethod(DispatchAction.java:278)<br /> org.apache.struts.actions.DispatchAction.execute(DispatchAction.java:218)<br /> org.apache.struts.action.RequestProcessor.processActionPerform(RequestProcessor.java:465)<br /> org.apache.struts.action.RequestProcessor.process(RequestProcessor.java:274)<br /> org.apache.struts.action.ActionServlet.process(ActionServlet.java:1422)<br /> org.apache.struts.action.ActionServlet.doPost(ActionServlet.java:523)<br /> javax.servlet.http.HttpServlet.service(HttpServlet.java:717)<br /> javax.servlet.http.HttpServlet.service(HttpServlet.java:810)<br /> com.b2b.datas.filters.SessionChecking.doFilter(SessionChecking.java:50)<br /> org.displaytag.filter.ResponseOverrideFilter.doFilter(ResponseOverrideFilter.java:86)<br /> org.jboss.web.tomcat.filters.ReplyHeaderFilter.doFilter(ReplyHeaderFilter.java:75)<br />  <br /> <br /> root cause <br />  <br /> net.sf.hibernate.NonUniqueObjectException: a different object with the same identifier value was already associated with the session: 8, of class: com.b2b.datas.dto.Postaladdress<br /> net.sf.hibernate.impl.SessionImpl.checkUniqueness(SessionImpl.java:1673)<br /> net.sf.hibernate.impl.SessionImpl.doUpdateMutable(SessionImpl.java:1442)<br /> net.sf.hibernate.impl.SessionImpl.doUpdate(SessionImpl.java:1469)<br /> net.sf.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:1392)<br /> net.sf.hibernate.engine.Cascades$4.cascade(Cascades.java:114)<br /> net.sf.hibernate.engine.Cascades.cascade(Cascades.java:436)<br /> net.sf.hibernate.engine.Cascades.cascadeCollection(Cascades.java:526)<br /> net.sf.hibernate.engine.Cascades.cascade(Cascades.java:452)<br /> net.sf.hibernate.engine.Cascades.cascade(Cascades.java:503)<br /> net.sf.hibernate.engine.Cascades.cascade(Cascades.java:482)<br /> net.sf.hibernate.impl.SessionImpl.doUpdate(SessionImpl.java:1474)<br /> net.sf.hibernate.impl.SessionImpl.saveOrUpdate(SessionImpl.java:1392)<br /> net.sf.hibernate.engine.Cascades$4.cascade(Cascades.java:114)<br /> net.sf.hibernate.engine.Cascades.cascade(Cascades.java:436)<br /> net.sf.hibernate.engine.Cascades.cascade(Cascades.java:503)<br /> net.sf.hibernate.engine.Cascades.cascade(Cascades.java:482)<br /> net.sf.hibernate.impl.SessionImpl.doUpdate(SessionImpl.java:1474)<br /> net.sf.hibernate.impl.SessionImpl.update(SessionImpl.java:1354)<br /> org.springframework.orm.hibernate.HibernateTemplate$4.doInHibernate(HibernateTemplate.java:238)<br /> org.springframework.orm.hibernate.HibernateTemplate.execute(HibernateTemplate.java:144)<br /> org.springframework.orm.hibernate.HibernateTemplate.update(HibernateTemplate.java:236)<br /> com.b2b.datas.dao.PostalAddressDAO.update(PostalAddressDAO.java:140)<br /> com.b2b.datas.web.action.PostalAddressAction.update(PostalAddressAction.java:272)<br /> sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)<br /> sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)<br /> sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)<br /> java.lang.reflect.Method.invoke(Method.java:324)<br /> org.apache.struts.actions.DispatchAction.dispatchMethod(DispatchAction.java:278)<br /> org.apache.struts.actions.DispatchAction.execute(DispatchAction.java:218)<br /> org.apache.struts.action.RequestProcessor.processActionPerform(RequestProcessor.java:465)<br /> org.apache.struts.action.RequestProcessor.process(RequestProcessor.java:274)<br /> org.apache.struts.action.ActionServlet.process(ActionServlet.java:1422)<br /> org.apache.struts.action.ActionServlet.doPost(ActionServlet.java:523)<br /> javax.servlet.http.HttpServlet.service(HttpServlet.java:717)<br /> javax.servlet.http.HttpServlet.service(HttpServlet.java:810)<br /> com.b2b.datas.filters.SessionChecking.doFilter(SessionChecking.java:50)<br /> org.displaytag.filter.ResponseOverrideFilter.doFilter(ResponseOverrideFilter.java:86)<br /> org.jboss.web.tomcat.filters.ReplyHeaderFilter.doFilter(ReplyHeaderFilter.java:75)<br />  <br /> <br /> note The full stack trace of the root cause is available in the Apache Tomcat/5.0.28 logs.<br />  <br /> Can anyone please solve my problem, and help me with the correct approach.<br />  <br /> Thanx,<br /> Regards<br /> Tejo Kumar.
+							</span>
+
+							<!-- Attachments -->
+
+						</td>
+					</tr>
+
+
+					<tr>
+						<td class="spacerow row1" colspan="2" height="1"><img src="/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+					</tr>
+
+					<tr class="firstRowOfPost">
+						<!-- Username -->
+
+
+						<td class="row2 userPostInfo" valign="top" align="left" rowspan="3">
+<span class="authorName"><b><a href="/forums/user/profile/71044">Paul Sturrock</a></b></span>
+<br />
+
+<span class="gensmall">
+	Bartender
+	<br />
+
+<br /> 
+
+
+	Joined: Apr 14, 2004<br />
+	Messages: 6825 
+<br />
+
+
+</span>
+<br />
+						</td>
+
+						<td colspan="2" class="row2" valign="top">
+<div class="postinfo row2">
+	<div class="date">
+		<a href="/forums/posts/list/215214#1024058">
+		<img src="/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a><span class="postdetails">posted <script>"Dec 13, 2004 10:13:00".toLocaleDateTime();</script><noscript><span class="lastPostTime">Dec 13, 2004 03:13:00</span></noscript></span>                
+
+		<a href="/forums/pm/sendTo/71044"><img alt="private message" src="/templates/default/images/en_US/icon_pm.gif" width="59px" height="18px" /></a>
+
+
+
+        </div>
+	<div class="action">		
+			<a href="/forums/posts/quote/0/1024058" rel="nofollow"><img alt="Quote" src="/templates/default/images/en_US/icon_quote.gif" width="59" height="18px" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>
+						</td>
+					</tr>
+
+					<tr class="messageRow">
+
+						<!-- Message -->
+						<td class="row2 postbody" valign="top" id="post_text_1024058">
+							<span class="postbody">
+									<blockquote class="uncited">
+			<div><br /> a different object with the same identifier value was already associated with the session: 8, of class: com.b2b.datas.dto.Postaladdress<br /> </div>
+		</blockquote><br /> What you are possibly doing is modifying an object so the PK matches that of one which you have already loaded into the Session. You say you are updating a value via a form? Are you recovering the object from the database and calling update in the same session, but creating a new object to do the update possibly?
+							</span>
+
+							<!-- Attachments -->
+
+						</td>
+					</tr>
+
+						<tr>
+							<td colspan="2" class="row2" width="100%" height="28"><hr/><span class="userSignature">[<a href="http://faq.javaranch.com/view" target="_blank">JavaRanch FAQ</a>] [<a href="http://faq.javaranch.com/view?HowToAskQuestionsOnJavaRanch" target="_blank">HowToAskQuestionsOnJavaRanch</a>]</span></td>
+						</tr>
+
+					<tr>
+						<td class="spacerow row2" colspan="2" height="1"><img src="/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+					</tr>
+
+					<tr class="firstRowOfPost">
+						<!-- Username -->
+
+
+						<td class="row1 userPostInfo" valign="top" align="left" rowspan="2">
+<span class="authorName"><b><a href="/forums/user/profile/78394">Tejo Kumar</a></b></span>
+<br />
+
+<span class="gensmall">
+	Greenhorn
+	<br />
+
+<br /> 
+
+
+	Joined: Aug 09, 2004<br />
+	Messages: 21 
+<br />
+
+
+</span>
+<br />
+						</td>
+
+						<td colspan="2" class="row1" valign="top">
+<div class="postinfo row1">
+	<div class="date">
+		<a href="/forums/posts/list/215214#1024059">
+		<img src="/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a><span class="postdetails">posted <script>"Dec 13, 2004 11:13:00".toLocaleDateTime();</script><noscript><span class="lastPostTime">Dec 13, 2004 04:13:00</span></noscript></span>                
+
+		<a href="/forums/pm/sendTo/78394"><img alt="private message" src="/templates/default/images/en_US/icon_pm.gif" width="59px" height="18px" /></a>
+
+
+
+        </div>
+	<div class="action">		
+			<a href="/forums/posts/quote/0/1024059" rel="nofollow"><img alt="Quote" src="/templates/default/images/en_US/icon_quote.gif" width="59" height="18px" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>
+						</td>
+					</tr>
+
+					<tr class="messageRow">
+
+						<!-- Message -->
+						<td class="row1 postbody" valign="top" id="post_text_1024059">
+							<span class="postbody">
+									Hi Paul,<br />  <br /> Thanks for ur reply.<br /> I have solved the problem. The problem was keeping the attribute "cascade=all" of collection, set in hbm file. I have removed it and its working fine.<br />  <br /> Regards,<br /> Tejo Kumar.
+							</span>
+
+							<!-- Attachments -->
+
+						</td>
+					</tr>
+
+
+					<tr>
+						<td class="spacerow row1" colspan="2" height="1"><img src="/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+					</tr>
+
+					<tr class="firstRowOfPost">
+						<!-- Username -->
+
+
+						<td class="row2 userPostInfo" valign="top" align="left" rowspan="3">
+<span class="authorName"><b><a href="/forums/user/profile/53544">Francois Roland</a></b></span>
+<br />
+
+<span class="gensmall">
+	Ranch Hand
+	<br />
+
+<br /> 
+
+
+	Joined: Jul 24, 2003<br />
+	Messages: 34 
+<br />
+
+
+</span>
+<br />
+						</td>
+
+						<td colspan="2" class="row2" valign="top">
+<div class="postinfo row2">
+	<div class="date">
+		<a href="/forums/posts/list/215214#1024060">
+		<img src="/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a><span class="postdetails">posted <script>"Jan 20, 2005 12:44:00".toLocaleDateTime();</script><noscript><span class="lastPostTime">Jan 20, 2005 05:44:00</span></noscript></span>                
+
+		<a href="/forums/pm/sendTo/53544"><img alt="private message" src="/templates/default/images/en_US/icon_pm.gif" width="59px" height="18px" /></a>
+
+
+
+        </div>
+	<div class="action">		
+			<a href="/forums/posts/quote/0/1024060" rel="nofollow"><img alt="Quote" src="/templates/default/images/en_US/icon_quote.gif" width="59" height="18px" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>
+						</td>
+					</tr>
+
+					<tr class="messageRow">
+
+						<!-- Message -->
+						<td class="row2 postbody" valign="top" id="post_text_1024060">
+							<span class="postbody">
+									I had a similar problem. But in my case, no <textarea name="code" class="java" cols="60" rows="10"> cascade="all" </textarea> attribute was involved.<br />  <br /> What I had was a bidirectional many-to-one association. When I wanted to edit the parent object, what I was doing was storing only an array of ids in my Struts form.<br />  <br /> When I received the request, I was loading each child from Hibernate, creating a new parent object and populating its collection with the children objects before calling a saveOrUpdate method on the parent.<br />  <br /> The problem cause, as far as I understood, is that my children objects were backreferencing the parent. So, when I loaded them, I loaded the parent too into my Hibernate session. But when I was updating, I was using a detached copy of the parent. There were actually two version of the parent object, one attached to the session and one not. This is probably why Hibernate complained.<br />  <br /> There are two solutions:<br /> - either you load the parent object before updating it<br /> - or you make your association unidirectional.
+							</span>
+
+							<!-- Attachments -->
+
+						</td>
+					</tr>
+
+						<tr>
+							<td colspan="2" class="row2" width="100%" height="28"><hr/><span class="userSignature">--<br />SCJP  1.4<br />SCWCD 1.4</span></td>
+						</tr>
+
+					<tr>
+						<td class="spacerow row2" colspan="2" height="1"><img src="/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+					</tr>
+
+					<tr class="firstRowOfPost">
+						<!-- Username -->
+
+
+						<td class="row1 userPostInfo" valign="top" align="left" rowspan="3">
+<span class="authorName"><b><a href="/forums/user/profile/89325">Aaron Bartell</a></b></span>
+<br />
+
+<span class="gensmall">
+	Greenhorn
+	<br />
+
+<br /> 
+
+
+	Joined: Dec 28, 2004<br />
+	Messages: 2 
+<br />
+
+
+</span>
+<br />
+						</td>
+
+						<td colspan="2" class="row1" valign="top">
+<div class="postinfo row1">
+	<div class="date">
+		<a href="/forums/posts/list/215214#1024061">
+		<img src="/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a><span class="postdetails">posted <script>"Feb 21, 2005 02:47:00".toLocaleDateTime();</script><noscript><span class="lastPostTime">Feb 20, 2005 19:47:00</span></noscript></span>                
+
+		<a href="/forums/pm/sendTo/89325"><img alt="private message" src="/templates/default/images/en_US/icon_pm.gif" width="59px" height="18px" /></a>
+
+
+			<a href="javascript:sendEmail('aaronbartell', 'gmail.com');"><img src="/templates/default/images/icon_email.gif" alt="[Email]" /></a>
+
+
+        </div>
+	<div class="action">		
+			<a href="/forums/posts/quote/0/1024061" rel="nofollow"><img alt="Quote" src="/templates/default/images/en_US/icon_quote.gif" width="59" height="18px" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>
+						</td>
+					</tr>
+
+					<tr class="messageRow">
+
+						<!-- Message -->
+						<td class="row1 postbody" valign="top" id="post_text_1024061">
+							<span class="postbody">
+									I had the same problem and fixed it, but have no idea why the change I made fixes it.<br />  <br /> Works:<br />         try {<br />             User usr = LoginController.user();<br />             DBConn.sess().save(usr);<br />         } catch (HibernateException e) {<br />             e.printStackTrace();<br />             return "fail";<br />         }<br />  <br /> Doesn't Work:<br />         try {<br />             DBConn.sess().save(LoginController.user());<br />         } catch (HibernateException e) {<br />             e.printStackTrace();<br />             return "fail";<br />         }<br />  <br /> Odd eh?<br />  <br /> Aaron Bartell
+							</span>
+
+							<!-- Attachments -->
+
+						</td>
+					</tr>
+
+						<tr>
+							<td colspan="2" class="row1" width="100%" height="28"><hr/><span class="userSignature">Aaron Bartell<br /><a href="http://mowyourlawn.com" target="_blank" rel="nofollow">http://mowyourlawn.com</a></span></td>
+						</tr>
+
+					<tr>
+						<td class="spacerow row1" colspan="2" height="1"><img src="/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+					</tr>
+
+					<tr class="firstRowOfPost">
+						<!-- Username -->
+
+
+						<td class="row2 userPostInfo" valign="top" align="left" rowspan="2">
+<span class="authorName"><b><a href="/forums/user/profile/54420">David Harkness</a></b></span>
+<br />
+
+<span class="gensmall">
+	Ranch Hand
+	<br />
+
+<br /> 
+
+
+	Joined: Aug 07, 2003<br />
+	Messages: 1633 
+<br />
+
+
+</span>
+<br />
+						</td>
+
+						<td colspan="2" class="row2" valign="top">
+<div class="postinfo row2">
+	<div class="date">
+		<a href="/forums/posts/list/215214#1024062">
+		<img src="/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a><span class="postdetails">posted <script>"Feb 21, 2005 02:55:00".toLocaleDateTime();</script><noscript><span class="lastPostTime">Feb 20, 2005 19:55:00</span></noscript></span>                
+
+		<a href="/forums/pm/sendTo/54420"><img alt="private message" src="/templates/default/images/en_US/icon_pm.gif" width="59px" height="18px" /></a>
+
+
+			<a href="javascript:sendEmail('dharkness', 'gmail.com');"><img src="/templates/default/images/icon_email.gif" alt="[Email]" /></a>
+
+
+        </div>
+	<div class="action">		
+			<a href="/forums/posts/quote/0/1024062" rel="nofollow"><img alt="Quote" src="/templates/default/images/en_US/icon_quote.gif" width="59" height="18px" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>
+						</td>
+					</tr>
+
+					<tr class="messageRow">
+
+						<!-- Message -->
+						<td class="row2 postbody" valign="top" id="post_text_1024062">
+							<span class="postbody">
+									Aaron, are you sure that was the only difference? I would expect that most compilers would generate the exact same code in both cases since the usr variable is local to the try block.
+							</span>
+
+							<!-- Attachments -->
+
+						</td>
+					</tr>
+
+
+					<tr>
+						<td class="spacerow row2" colspan="2" height="1"><img src="/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+					</tr>
+
+					<tr class="firstRowOfPost">
+						<!-- Username -->
+
+
+						<td class="row1 userPostInfo" valign="top" align="left" rowspan="2">
+<span class="authorName"><b><a href="/forums/user/profile/43773">sajjad ahmad</a></b></span>
+<br />
+
+<span class="gensmall">
+	Ranch Hand
+	<br />
+
+<br /> 
+
+
+	Joined: Jan 23, 2003<br />
+	Messages: 51 
+<br />
+
+
+</span>
+<br />
+						</td>
+
+						<td colspan="2" class="row1" valign="top">
+<div class="postinfo row1">
+	<div class="date">
+		<a href="/forums/posts/list/215214#1024063">
+		<img src="/templates/default/images/icon_minipost_new.gif" alt="[Post New]" /></a><span class="postdetails">posted <script>"Sep 22, 2005 14:12:00".toLocaleDateTime();</script><noscript><span class="lastPostTime">Sep 22, 2005 08:12:00</span></noscript></span>                
+
+		<a href="/forums/pm/sendTo/43773"><img alt="private message" src="/templates/default/images/en_US/icon_pm.gif" width="59px" height="18px" /></a>
+
+
+			<a href="javascript:sendEmail('sajjadparacha', 'javaranch.com');"><img src="/templates/default/images/icon_email.gif" alt="[Email]" /></a>
+
+
+        </div>
+	<div class="action">		
+			<a href="/forums/posts/quote/0/1024063" rel="nofollow"><img alt="Quote" src="/templates/default/images/en_US/icon_quote.gif" width="59" height="18px" /></a>
+
+
+
+		<a class="nav" href="#top"><img src="/templates/default/images/icon_up.gif" alt="[Up]" /></a>
+	</div>
+</div>
+						</td>
+					</tr>
+
+					<tr class="messageRow">
+
+						<!-- Message -->
+						<td class="row1 postbody" valign="top" id="post_text_1024063">
+							<span class="postbody">
+									I am trying to update a child records i have following scenario<br /> master record (having one to many assciation with child table cascade=all in .hbm.xml configuration file)  ===&gt; customerInfo<br /> detail record set (having many to one assciation with master table cascade=all in .hbm.xml configuration file)  ===&gt; customerAccountsSet <br />  <br /> i do following steps to update a record<br /> 1) get the customerInfo objetc from session successfully<br /> 2) get the customerAccountsSet = customerInfo.getCustomerAccounts();<br /> 3) traying to add a new customerAccount say customerAccount1 to be saved for the first time without primery key in it<br /> 4) traying to update a customerAccount say customerAccount2 to be updated   with primery key in it<br /> 5) traying to add a delete customerAccount say customerAccount3  with primery key in it<br />  <br /> only step 5 is not executed properly as i can still see the deleted record in db , although save and update steps have been successfully completed in db.<br /> can anybody tell me whats going wrong here.code for steps 2,3,4,5 is as follows in the same order<br /> 2)Set customerAccountSet = (Set) customerInfo.getCustomerAccounts();<br /> 3)customerAccountSet.add(customerAccount);<br /> 4)customerAccountSet.add(customerAccount);<br /> 5)customerAccountSet.remove(customerAccount);
+							</span>
+
+							<!-- Attachments -->
+
+						</td>
+					</tr>
+
+
+					<tr>
+						<td class="spacerow row1" colspan="2" height="1"><img src="/templates/default/images/spacer.gif" alt="" width="1" height="1" /></td>
+					</tr>
+				<!-- END OF POST LISTING -->
+<!-- google_ad_section_end -->                  
+                                 <tr>
+                                   <td width="18%" bgcolor="#DEC7A4"><img src="/images/bunkhouse_smoke.gif"/></td>
+                                   <td width="82%" align="left" valign="top"  bgcolor="#DEC7A4">
+                                       &nbsp;<BR>
+        <div align="left">
+        <script type="text/javascript"><!--
+google_ad_client = "pub-4768842087373098";
+google_alternate_color = "DEC7A4";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "text";
+//2007-08-01: jr_last_post
+google_ad_channel = "5961139049";
+google_color_border = "DEC7A4";
+google_color_bg = "DEC7A4";
+google_color_link = "6F3C1B";
+google_color_text = "000000";
+google_color_url = "000000";
+//-->
+</script>
+<script type="text/javascript"
+           src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+                                 
+
+    </div>
+                                  &nbsp;<BR>
+                                 </td>
+                                </tr>
+  
+				<tr align="center">
+					<td class="catbottom" colspan="2" height="28">
+						<table cellspacing="0" cellpadding="0" border="0">
+							<tr>
+								<td align="center"><span class="gensmall">&nbsp;</span></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+<table cellspacing="2" cellpadding="2" width="100%" border="0" class="threadbar">
+  <tr>
+    <td align="left" valign="middle">
+        	    <a href="/forums/posts/reply/0/215214" rel="nofollow" class="nav"><img alt="Reply" src="/templates/default/images/en_US/reply.gif" width="82px" height="25px" /></a>
+	    <a href="javascript:addBookmark(2, 215214);"><img src="/templates/default/images/en_US/bookmark_it.gif" alt='Bookmark it!' width="82" height="25" /></a>
+	    <a href="#watch" onClick="watchTopic('/forums/posts/watch/0/215214', 'Please confirm if you want to start watching this topic');">
+	  <img src="/templates/default/images/en_US/watch_topic_start.gif" alt="Watch this topic" width="82" height="25" /></a>
+      <span class="nav">
+	<a class="maintitle" href="http://www.javaranch.com/">Java</a><a class="maintitle" href="http://www.javaranch.com/">Ranch</a> &raquo;
+	<a class="maintitle" href="/forums/list">Forums</a> &raquo;
+        <a class="maintitle" href="/forums/c/1/java">Java</a> &raquo;
+         <a class="maintitle" href="/forums/f-78/Object-Relational-Mapping">Object Relational Mapping </a></span>
+	&nbsp;<a href="/forums/rss/topicPosts/215214"><img src="/templates/default/images/rss.png" border="0" alt="XML" /></a>
+    </td>
+
+    <td valign="middle" align="right">
+      
+    </td>
+    
+    <td align="right">
+      <a href="/forums/jforum?module=posts&amp;action=insert&amp;forum_id=78" rel="nofollow"><img alt="New topic" src="/templates/default/images/en_US/post.gif" width="82px" height="25px" />
+      </a>
+    </td>    
+  </tr>
+</table>
+			<table width="100%" align="center">
+
+
+
+			</table>
+
+		</td>
+	</tr>
+</table>
+
+<a name="quick"></a>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	limitURLSize();
+});
+</script>
+
+</td>
+</tr>
+<tr align="center"><td>
+<span class="gensmall">
+<script>
+document.write("All times above are in your local time zone & format.");  
+document.write("The current ranch time (not your local time) is ");
+document.write("Feb 04, 2009 01:38:45".bold() + ".");
+</script><noscript>All times are in JavaRanch time: GMT-6 in summer, GMT-7 in winter</noscript> 
+</span>
+</td></tr>
+
+    <tr>
+		<td align="center">
+    <div align="center">
+        <a rel="nofollow" href="/forums/banner/redirect/5" target="_blank"><img src="http://www.javaranch.com/banners/images/ij8-468x60.gif"  border="0" alt="The most intelligent Java IDE" width="468" height="60"/></a>
+    </div>
+            <p>
+		</p></td>
+	</tr>
+</table>
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ?  "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	if (typeof _gat !== "undefined") {
+		var pageTracker = _gat._getTracker("UA-2371260-2");
+		pageTracker._trackPageview();
+
+		dt = new Date();
+		pageTracker._setVar("hour: " + dt.getHours());
+	}
+</script>
+<script src="http://java.com/js/deployJava.js" type="text/javascript"></script>
+<script src="/templates/default/js/jre-analytics.js" type="text/javascript"></script>
+<P></P><center>
+<table border="0" cellpadding="10" valign="bottom"><tr><td>
+<center>
+
+<FONT SIZE="2" FACE="Verdana, Arial">
+<A HREF="http://faq.javaranch.com/java/ContactUs">Contact Us</A> |
+Visit our <A HREF="http://www.javaranch.com/">Java</A> home page!</FONT>
+<BR>
+<FONT COLOR="#b0b0b0" size="1" FACE="Verdana, Arial">Copyright &copy; 1998-2009 <a href=http://faq.javaranch.com/java/BioPaulWheaton>Paul Wheaton</a>
+</FONT>
+</center>
+</td><td>
+<center>
+<span class="copyright">Powered by <a class="copyright" href="http://www.jforum.net/" target="_blank" rel="nofollow">JForum 2.1.8</a> &copy; <a class="copyright" href="http://www.jforum.net/team.jsp" rel="nofollow" target="_blank">JForum Team</a></span>
+</td>
+</tr></table>
+</center>
+
+<!-- SyntaxHighlighter 1.5.1 -->
+<script type="text/javascript" src="/templates/default/js/shCore.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushCss.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushJava.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushCpp.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushJScript.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushPython.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushRuby.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushSql.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushXml.js"></script>
+<script type="text/javascript" src="/templates/default/js/shBrushPlain.js"></script>
+                                                
+<!--
+  Don't bother to download these!
+  <script type="text/javascript" src="/templates/default/js/shBrushCSharp.js"></script>
+  <script type="text/javascript" src="/templates/default/js/shBrushDelphi.js"></script>
+  <script type="text/javascript" src="/templates/default/js/shBrushPhp.js"></script>
+  <script type="text/javascript" src="/templates/default/js/shBrushVb.js"></script>
+-->
+
+<script type="text/javascript">
+<!--
+dp.sh.ClipboardSwf = '/templates/default/js/clipboard.swf';
+dp.sh.HighlightAll('code');
+-->
+</script>
+
+<iframe src="/ping_session.jsp" height="0" width="0" frameborder="0" scrolling="no"></iframe>
+
+</body>
+</html>

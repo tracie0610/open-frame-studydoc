@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Perf4J 0.9.9 - Home</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+                                                    
+<script type="text/javascript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                var gaS = "%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"; document.write(unescape(gaS));</script>
+                                                        
+<script type="text/javascript">var pageTracker = _gat._getTracker("UA-5369441-1");
+                pageTracker._initData();
+                pageTracker._trackPageview();</script>
+                                                        
+<meta content="sRQSq4VA5FRMhwzFB4U3I9AtgLMtIWTdpVVO6jg1az4=" name="verify-v1"/>
+                    </head>
+  <body class="composite">
+    <div id="banner">
+                  <a href="http://www.homeaway.com" id="bannerLeft">
+    
+                                            <img src="images/homeaway_logo.png" alt="" />
+    
+            </a>
+                        <a href="index.html" id="bannerRight">
+    
+            Perf4J 0.9.9
+    
+            </a>
+            <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="breadcrumbs">
+          
+  
+
+  
+    
+            
+  
+    
+            <div class="xleft">
+        Version: 0.9.9
+              </div>
+            <div class="xright">            <a href="index.html">Home</a>
+            |
+                <a href="releases.html">Release Notes</a>
+            
+  
+
+  
+    
+            
+  
+    
+            &nbsp;| Last Published: 2009-02-01
+            </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    <div id="leftColumn">
+      <div id="navcolumn">
+           
+  
+
+  
+    
+            
+  
+    
+                   <h5>Main</h5>
+            <ul>
+              
+    <li class="none">
+              <strong>Home</strong>
+        </li>
+              
+    <li class="none">
+                    <a href="releases.html">Release Notes</a>
+          </li>
+              
+    <li class="none">
+                    <a href="downloads.html">Downloads</a>
+          </li>
+          </ul>
+              <h5>Documentation</h5>
+            <ul>
+              
+    <li class="none">
+                    <a href="devguide.html">Developer Guide</a>
+          </li>
+              
+    <li class="none">
+                    <a href="apidocs/index.html">Javadoc</a>
+          </li>
+          </ul>
+              <h5>Project Documentation</h5>
+            <ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+                    <a href="project-info.html">Project Information</a>
+                </li>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+                    <a href="project-reports.html">Project Reports</a>
+                </li>
+          </ul>
+                                                 
+                        
+                        
+            <a href="http://maven.apache.org/" title="Maven" class="poweredBy">
+                            <img alt="Maven" src="http://maven.apache.org/images/logos/maven-feather.png" />
+            </a>
+                                
+                        
+                        
+            <a href="http://www.homeaway.com" title="Homeaway" class="poweredBy">
+                            <img alt="Homeaway" src="images/homeaway_logo.png" />
+            </a>
+                               
+  
+
+  
+    
+            
+  
+    
+        </div>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>Overview</h2>
+<p>Perf4J is a set of utilities for calculating and displaying perfomance statistics for Java code. For developers who are familiar with logging frameworks such as log4j or java.util.logging, an analogy helps to describe Perf4J:</p>
+<div class="source"><pre>Perf4J is to System.currentTimeMillis() as log4j is to System.out.println()</pre>
+</div>
+<p>How is this relevant to Perf4J? Consider that before good logging frameworks were widely available, developers new to Java would often print debugging statements using System.out.println(). Later they would discover they wanted log statements to go to a dedicated file, perhaps a log file that was rolled daily. Then they would discover they wanted finer control of which log statements would be written, and they wanted it to be possible to only have some log statements written in some environments without changing any code. Thus, the full set of features that log4j provides comes out of the original desire to have a &quot;better&quot; System.out.println() for logging statements.</p>
+<p>Similarly, when new Java developers discover that they need to time specified blocks of code for performance logging and monitoring reasons, they often do something like this:</p>
+<div class="source"><pre>long start = System.currentTimeMillis();
+
+// execute the block of code to be timed
+
+System.out.println(&quot;ms for block n was: &quot; + (System.currentTimeMillis() - start));</pre>
+</div>
+<p>Later on, though, these developers find they want more information, such as aggregated performance statistics like mean, minimum, maximum, standard deviation and transactions per second over a set time span. They would like graphs of these values in real time to detect problems on a running server, or they would like to expose performance metrics through JMX. In addition, they want their timing statements to work with the common logging frameworks like log4j.</p>
+<p>Perf4J provides these features and more:</p>
+<ul><li>A simple stop watch mechanism for succinct timing statements.</li>
+<li>A command line tool for parsing log files that generates aggregated statistics and performance graphs.</li>
+<li>Easy integration with the most common logging frameworks and facades: log4j, java.util.logging, Apache Commons Logging and SLF4J.</li>
+<li>Custom log4j appenders to generate statistics and graphs in a running application (custom java.util.logging handlers coming soon).</li>
+<li>The ability to expose performance statistics as JMX attributes, and to send notifications when statistics exceed specified thresholds.</li>
+<li>A servlet for exposing performance graphs in a web application.</li>
+<li>A <a href="./apidocs/org/perf4j/aop/Profiled.html">Profiled</a>
+ annotation and a set of custom aspects that allow unobstrusive timing statements when coupled with an AOP framework such as AspectJ or Spring AOP.</li>
+<li>An extensible architecture.</li>
+</ul>
+<p>See the <a href="./devguide.html">Developer Guide</a>
+ to get started, or <a href="./downloads.html">download</a>
+ Perf4J now.</p>
+</div>
+<div class="section"><h2>What's New</h2>
+<p>We released version 0.9.9, whose main new feature is CSV formatting for easy import into Excel, on Feb 1. This version also allows you to change the attributes exposed on a Perf4J JMX MBean at runtime.</p>
+</div>
+<div class="section"><h2>What's Next</h2>
+<p>Perf4J is undergoing active development and new features are added frequently. Here's what we're currently working on:</p>
+<ul><li>A custom log4j JDBC appender to save performance data to a database.</li>
+<li>More graphing options.</li>
+<li>The ability to add StopWatch logs using the AspectJ load-time weaving even if the classes to be profiled don't have the @Profiled annotation.</li>
+</ul>
+<p>If there are missing features you would like added, please let us know on our <a href="./mail-lists.html">mailing lists</a>
+, or better yet, download the <a href="./source-repository.html">source code</a>
+ and become a contributor.</p>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2008-2009
+    
+          perf4j.org
+          
+  
+
+  
+    
+            
+  
+    
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
