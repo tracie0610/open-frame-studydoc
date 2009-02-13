@@ -1,0 +1,1142 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=GB2312" />
+<meta http-equiv="content-language" content="zh-CN" />
+<meta name="robots" content="index,follow" />
+<meta name="keywords" content="EOS, Component, Eclipse, XML, Web Services, SCA, SDO, Java EE" />
+<meta name="description" content="goCom是全球首家面向构件成长社区，其宗旨是为面向构件开发者与厂商服务，增进面向构件架构与技术交流，使面向构件开发者与厂商在这一社区获得最大程度的技术成长与积累,从而推动面向构件技术和应用平台的发展。" />
+<meta name="rating" content="普通" />
+<meta name="author" content="" />
+<meta name="copyright" content="" />
+<meta name="generator" content="XOOPS" />
+<title>一起分享 一起成长 - goCom - SOA中国第一社区</title>
+<!-- title>关于“事务”的一些收藏 - Share - 论坛 - goCom - 面向构件与SOA社区</title -->
+<link href="http://gocom.primeton.com/favicon.ico" rel="SHORTCUT ICON" />
+<link rel="stylesheet" type="text/css" media="all" href="http://gocom.primeton.com/xoops.css" />
+<link rel="stylesheet" type="text/css" media="all" href="http://gocom.primeton.com/themes/imago-04/style.css" />
+<script type="text/javascript">
+
+<!--
+//--></script><script type="text/javascript" src="http://gocom.primeton.com/include/xoops.js"></script><script type="text/javascript"><!--
+//-->
+</script>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"> </script> <script type="text/javascript"> _uacct = "UA-197155-3"; urchinTracker(); </script>
+
+<script>
+
+function window.onbeforeunload(){
+	with(window.event)
+	if(clientY<0&&clientX>document.body.clientWidth||altKey) 
+	{
+		 var http_request=new ActiveXObject("Microsoft.XMLHTTP");
+		 http_request.Open("get","/userExitGoCom.php",false);
+		 http_request.send(null);
+	}
+}
+</script>
+
+</head>
+
+<body class=RedStyle id=body>
+<!-- 新浪首页可关闭背景效果代码_START>
+<DIV id=sudsclickstreamdiv 
+style="Z-INDEX: 1; VISIBILITY: hidden; POSITION: absolute"></DIV>
+<DIV id=reStyle title=关闭背景></DIV -->
+<SCRIPT language=javascript type=text/javascript>
+sina.$("reStyle").onclick = function(){
+	document.body.className = "";
+	this.style.display = "none";
+};
+sina.$("reStyle").onmouseover = function(){this.className = "hover"};
+sina.$("reStyle").onmouseout = function(){this.className = ""};
+</SCRIPT>
+										
+																					<style type="text/css">
+<!--
+.ww1 {width:640px;background-color:#e6e6ee;border-top:1px solid #eEC9EC;border-left:1px solid #e6e6ee;}
+.ww1 td {border-right:1px solid #cccccc;border-bottom:1px solid #e6e6ee;height:25px;text-align:center;width:60px;font-size:12px;cursor:hand;}
+.ww1 td.ser {border-right:1px solid #9EC9EC;border-bottom:1px solid #9EC9EC;height:25px;text-align:center;width:140px;font-size:12px;cursor:hand;}
+.ww1 td.s {border-bottom:1px solid #FFFFFF;font-weight:bold;background-color:#FFFFFF;}
+.ww2 {width:640px;border-right:1px solid #e6e6ee;border-top:none;border-left:1px solid #e6e6ee;border-bottom:1px solid #e6e6ee;font-size:12px; padding-left:15px}
+.ww2 a:link {color:#00007f;text-decoration:none;}
+.ww2 a:visited {color:#00007f;text-decoration:none;}
+.ww2 a:hover {color:#ffffff;text-decoration:underline;}
+.ww2 a:active {color:#00007f;text-decoration:underline;}
+.dis {display:block}
+.undis {display:none}
+.aas {color: #FF0000}
+.aaa {font-family: Arial, Helvetica, sans-serif}
+.style1 {color: #FF0000}
+-->
+</style>
+<script>
+	function getNames(obj,name,tij)
+	{	
+		var p = document.getElementById(obj);
+		var plist = p.getElementsByTagName(tij);
+		var rlist = new Array();
+		for(i=0;i<plist.length;i++)
+		{
+			if(plist[i].getAttribute("name") == name)
+			{
+				rlist[rlist.length] = plist[i];
+			}
+		}
+		return rlist;
+	}
+
+		function butong_net(obj,name)
+		{
+			var p = obj.parentNode.getElementsByTagName("td");
+			var p1 = getNames(name,"f","div");
+			for(i=0;i<p1.length;i++)
+			{
+				if(obj==p[i])
+				{
+					p[i].className = "s";
+					p1[i].className = "dis";
+				}
+				else
+				{
+					p[i].className = "";
+					p1[i].className = "undis";
+				}
+			}
+		}
+</script>
+<table width=904 border=0 align=center cellpadding=0 cellspacing=0 bordercolor="#FFFFFF" bgcolor="#FFFFFF" class=frame_table_header>
+	<tr>
+	  <td width=6% rowspan="2" align=left>&nbsp;</td>
+	  <td width=6% rowspan="2" align=left>
+	<img src="http://gocom.primeton.com/themes/imago-04//gocomlogonew.gif" align=right>
+	</td>
+	<td width="90%" align=right  background="http://gocom.primeton.com/themes/imago-04/searchback.jpg">
+		<table>
+		  <tr>
+			<td>&nbsp;&nbsp;<a href="http://gocom.primeton.com/gocom_help.htm" target="_blank">网站地图</a>
+						</td>
+			<td>
+				<table style="margin:0px;" border=0><tr><td>
+				<form method=get action="http://www.google.com/search" style="margin:0px 0px 0px 0px;"><input type="hidden" name="PHPSESSID" value="970b8ed7cacc5659eb5724cc3f881da3" />
+				&nbsp;&nbsp;<input type=text name=q size=15 maxlength=255 value="">
+				<input type=hidden name=ie value=GB2312>
+				<input type=hidden name=oe value=GB2312>
+				<input type=hidden name=hl value=zh-CN>
+				<input type=submit name=btnG value="搜索">
+				<input type=hidden name=domains value="gocom.primeton.com">
+				<input type=hidden name=sitesearch value="gocom.primeton.com">
+				</form>
+				</td>
+				<td valign=center>
+				&nbsp;&nbsp;<a href="/search_article.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank"><strong><font color="#000000">高级搜索</font></strong></a><img src="/images/search.gif" border=0>
+				</td>
+				</tr>
+				</table>
+			</td>
+		  </tr>
+		</table>	</td>
+	</tr>
+	<tr>
+	<td align=right colspan=2>
+		<table width="580" height="28" border="0" cellpadding="0" cellspacing="0" class="ww1">
+			 <tr>
+			   <td width="80" class="s" onmouseover="butong_net(this,'butong_net1')">&nbsp;&nbsp;<a href="/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">首页</a></td>
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')">&nbsp;&nbsp;<a href="/modules/newbb/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">技术论坛</a></td>
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')">&nbsp;&nbsp;<a href="/modules/xoopsBlog/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">博客</a></td>
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')"><a href="/modules/ucenter/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_parent">派计划</a></td>
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')">&nbsp;&nbsp;<a href="#">产品中心</a></td>
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')">&nbsp;&nbsp;<a href="/modules/rcenter/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">资源中心</a></td>
+			   <!--td width="65" onmouseover="butong_net(this,'butong_net1')">用户中心</td-->
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')">&nbsp;&nbsp;<a href="/modules/yindan/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">银弹在线</a></td>
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')">&nbsp;&nbsp;<a href="/modules/goShop/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">商城</a></td>
+			   <td width="80" onmouseover="butong_net(this,'butong_net1')">&nbsp;</td>
+		  </tr>
+	  </table>
+			<table border="0" cellpadding="0" cellspacing="0" class="ww2">
+			 <tr>
+			   <td height="25" align="left" bgcolor="#FFFFFF">
+				 <div id=butong_net1>
+				  <div class=dis name="f">
+				   <a href="/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">goCom - SOA中国第一社区</a>
+				  </div>
+				  <div class=undis name="f">
+				   <a href="/modules/newbb/viewforum20.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">SOA和WebService</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum16.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">面向构件</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum22.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">业务流程</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum7.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">EOS</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum11.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">综合技术</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum8.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">goCom吧</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum12.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">版务区</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum13.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">商务专区</a>
+				  </div>
+				  <div class=undis name="f">
+				   <a href="/pages/922_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">SOA和WebService</a>&nbsp;|&nbsp;
+				   <a href="/pages/923_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">面向构件</a>&nbsp;|&nbsp;
+				   <a href="/pages/5019_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">业务流程</a>&nbsp;|&nbsp;
+				   <a href="/pages/924_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">EOS</a>&nbsp;|&nbsp;
+				   <a href="/pages/925_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">综合</a>
+				  </div>
+				  <div class=undis name="f">
+				   <a href="/modules/expert/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">专家组计划</a>&nbsp;|&nbsp;
+				   <a href="/modules/forumadmin/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">论坛版主计划</a>&nbsp;|&nbsp;
+				   <a href="/modules/lecturer/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">技术日讲师计划</a>
+				  </div>
+				  <div class=undis name="f">
+				   <a href="/modules/eos/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">Primeton EOS</a>&nbsp;|&nbsp;
+				   <a href="/modules/bps/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">Primeton BPS</a>
+				  </div>
+				  <div class=undis name="f">
+				   <a href="/modules/osoa?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">OSOA专区</a>&nbsp;|&nbsp;
+				   <a href="/modules/special/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">专题</a>&nbsp;|&nbsp;
+				   <a href="/modules/ecgame/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">技术日</a>&nbsp;|&nbsp;
+				   <a href="/modules/ecgame/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">活动</a>&nbsp;|&nbsp;
+				   <a href="/modules/resource/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">下载</a>
+				  </div>
+				  <!--div class=undis name="f">
+				   <a href="?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">goCom专家组</a>&nbsp;|&nbsp;
+				   <a href="?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">活跃用户</a>&nbsp;|&nbsp;
+				   <a href="?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">优秀版主</a>&nbsp;|&nbsp;
+				   <a href="?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">优秀讲师</a>&nbsp;|&nbsp;
+				  </div-->
+				  <div class=undis name="f">
+				   <a href="/modules/yindan/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">推荐阅读</a>&nbsp;|&nbsp;
+				   <a href="/pages/1009_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">封面报道</a>&nbsp;|&nbsp;
+				   <a href="/pages/1013_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">特别报道</a>&nbsp;|&nbsp;
+				   <a href="/pages/1020_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">CIO锦囊</a>&nbsp;|&nbsp;
+				   <a href="/pages/1014_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">专栏</a>&nbsp;|&nbsp;
+				   <a href="/pages/1021_1.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">公司</a>&nbsp;|&nbsp;
+				   <a href="/modules/newbb/viewforum.php?forum=67&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">银弹讨论</a>
+				  </div>
+				  <div class=undis name="f">
+				   <a href="/modules/goShop/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">最新上架</a>&nbsp;|&nbsp;
+				   <a href="/modules/goShop/?see=silver&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">银弹推荐</a>&nbsp;|&nbsp;
+				   <a href="/modules/goShop/?see=books&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">普通书籍</a>&nbsp;|&nbsp;
+				   <a href="/modules/goShop/?see=video&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">音像</a>&nbsp;|&nbsp;
+				   <a href="/modules/goShop/?see=skin&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">护肤</a>&nbsp;|&nbsp;
+				   <a href="/modules/goShop/?see=life&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">生活</a>&nbsp;|&nbsp;
+				   <a href="/modules/goShop/?see=digital&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3" target="_blank">数码</a>
+				  </div>
+			
+				 </div>
+			   </td>
+			 </tr>
+			</table>
+	</td>
+	</tr>
+	<tr>
+	<td colspan=4>
+			<hr size=1 style="color:#cccccc;">
+	</td>
+	</tr>
+</table>										
+										<!----------------------------------------------------------头部------------------------------------------------------------------------------>
+										
+										<table class=frame_table_body align=center border=0 cellpadding=0 cellspacing=0 width=904>
+										
+																						<tr><td class="td_center">
+																		<table class="hp_right_block_table_0" cellspacing="0" cellpadding="0">
+																				<tr>
+																				<td class="right_block_content"><div id="forum_header">
+<div><img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/folder-a.png" style="width: 18px; height:12px; margin: 0px;" alt="" align="middle" /> <a href="http://gocom.primeton.com/modules/newbb/index.htm">goCom - 面向构件与SOA社区 讨论区</a>&nbsp;-&nbsp;<a href="http://gocom.primeton.com/modules/newbb/viewforum11.htm">综合技术论坛</a></div>
+
+<!--<div>&nbsp;&nbsp;<img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/folder-a.png" style="width: 18px; height:12px; margin: 0px;" alt="" align="middle" /> <a href="http://gocom.primeton.com/modules/newbb/viewforum25.htm">Share</a></div>
+<div>&nbsp;&nbsp;<img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/post_content-a.png" style="width: 38px; height:17px; margin: 0px;" alt="" align="middle" /> <strong><a href="http://gocom.primeton.com/modules/newbb/titleflat_13040_25.htm">关于“事务”的一些收藏</a></strong></div>
+</div>-->
+
+<div align=center><br><a href='/modules/newbb/viewforum.php?forum=25&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b><font color=red>Share</font></b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=20&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>Eclipse</b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=34&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>WebUI</b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=75&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>数据库</b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=40&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>Java</b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=41&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>Wicket</b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=66&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>企业应用</b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=76&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>应用服务器</b></a>&nbsp;&nbsp;<a href='/modules/newbb/viewforum.php?forum=77&amp;cat_id=11&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'><b>操作系统</b></a>&nbsp;&nbsp;<br></div>
+
+<!--<br clear="all" />-->
+
+<!--
+<div style="padding: 5px;">
+正在浏览:&nbsp;
+&nbsp;1 名游客
+</div>
+<br clear="all" />
+-->
+
+
+<!--<br clear="all" />-->
+
+<!--<div style="padding: 5px;">
+
+<span style="float: left; text-align:left;">
+<a id="threadtop"></a><img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/down-a.png" style="width: 17px; height:17px; margin: 0px;" alt="" align="middle" />&nbsp;<a href="#threadbottom">到底部</a>&nbsp;&nbsp;<img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/left-a.png" style="width: 17px; height:17px; margin: 0px;" alt="" align="middle" />&nbsp;<a  href="buttonflat_ASC_13040_25_prev.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">前一个主题</a>&nbsp;&nbsp;<img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/right-a.png" style="width: 17px; height:17px; margin: 0px;" alt="" align="middle" />&nbsp;<a href="buttonflat_ASC_13040_25_next.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">下一个主题</a>
+</span>
+
+</div>-->
+
+<br clear="all" />
+
+<div>
+
+
+<div class="dropdown" style="float: right; text-align:right;">
+
+	<select
+		name="topicoption" id="topicoption"
+		class="menu"
+		onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
+	>
+		<option value="">主题选项</option>
+								<option value="/modules/newbb/item57614_57614.htm?menumode=1">点击展开</option>
+				<option value="/modules/newbb/item57614_57614.htm?menumode=2">HOVER展开</option>
+				<option value="">--------</option>
+		<option value="print.php?form=1&amp;topic_id=13040&amp;forum=25&amp;order=ASC&amp;start=0">打印主题</option>
+	</select>
+
+		<!--
+	<select
+		name="viewmode" id="viewmode"
+		class="menu"	onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.location=this.options[this.selectedIndex].value;}"
+	>
+		<option value="">浏览模式</option>
+				<option value="viewtopic.php?viewmode=thread&amp;topic_id=13040&amp;forum=25">树状显示</option>
+				<option value="viewtopic.php?viewmode=compact&amp;order=ASC&amp;topic_id=13040&amp;forum=25">简洁显示</option>
+				<option value="viewtopic.php?viewmode=flat&amp;order=DESC&amp;topic_id=13040&amp;forum=25">新的在前</option>
+			</select>-->
+
+</div>
+
+<div style="float: left; text-align:left;">
+	<span>
+	&nbsp;<a href="http://gocom.primeton.com/user.php?xoops_redirect=/modules/newbb/item57614_57614.htm">[无发表权] 请登录或者注册</a>&nbsp;&nbsp;
+	</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<span align=right valign=center>
+		版主: <a href='http://gocom.primeton.com/userinfo510.htm'><b>jiaoly</b></a> 
+		</span>
+</div>
+
+
+</div>
+
+
+<br><br>
+
+<div align=right>
+
+</div>
+<br>
+<a id="forumpost57614"></a>
+<table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+
+  <tr>
+       <th width="15%" align="left">
+					<div class="dropdown">
+					
+						<select
+							name="poster" id="poster"
+							class="menu"
+							onchange="if(this.options[this.selectedIndex].value.length >0 )	{ window.document.location=this.options[this.selectedIndex].value;}"
+						>
+							<option value="">flywhite</option>
+																					<option value="http://gocom.primeton.com/userinfo.php?uid=19180">个人资料</option>
+																				</select>
+						
+										</div>
+   	</th>
+
+    <th align="left"><div class="comTitle"><b><font color=black>关于“事务”的一些收藏</font></b>&nbsp;&nbsp;&nbsp;&nbsp;</div></th>
+    <th align="right"><div class="comTitle" style="float: right;"><!--<a href="http://gocom.primeton.com/modules/newbb/item57614_57614.htm">-->#1楼<!--</a>--></div></th>
+  </tr>
+
+  <tr>
+  	<td class="odd" valign="top" style="vertical-align:top">
+			<table width=100% style="">
+			   <tr>
+			  <td  align=left><a href="javascript:openWithSelfMain('/pmlite.php?send2=1&amp;to_userid=19180', 'pmlite', 450, 380);"><img src="/images/icons/pm.gif" alt="给作者发送短消息" /></a>&nbsp;<a href="javascript:openWithSelfMain('/userinfo19180.htm', 'pmlite', 450, 380);"><img src='/images/Male.gif' border=0 alt='给作者发送短消息'></a>&nbsp;<img src='/images/name_user.gif' alt='实名会员'>&nbsp;</td>
+			  </tr>
+			   <tr>
+			  <td ><img width=80 height=80 src="http://gocom.primeton.com/uploads/blank.gif" onclick="javascript:openWithSelfMain('/userinfo19180.htm', 'pmlite', 450, 380);" style="cursor:hand" alt="查看用户其他信息"></td>
+			  
+			  </tr>
+				<tr>
+			  <td  align=left>
+			  				<u>总分</u>&nbsp;<font color=black><b>207&nbsp;分</b></font><br>
+				<u>财富</u>&nbsp;<font color=black><b>311</b></font>&nbsp;<img alt='goCom币'  src='/images/payment.ico' width=10 height=10><br>
+				<u>威望</u>&nbsp;<font color=black><b>162</b></font><br>
+				<u>排名</u>&nbsp;<font color=black><b>第&nbsp;82&nbsp;名</b></font><br>
+				<u>段位</u>&nbsp;<a target="_blank" href="/modules/newbb/titleflat_2117_2.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3"><font color=black><img 
+				src="http://gocom.primeton.com/themes/imago-04//c2_small.gif" border=0 alt="新手必读"></font></a><br>
+								</td>
+				</tr>
+			</table>
+	</td>
+
+    <td colspan="2" class="odd">
+		
+		<div class="comText"><table width=100% style="table-layout:fixed;word-break: break-all; word-wrap: break-word;"><tr><td><p><strong>一、事务概念</strong><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp; (1):</font> <font color="#000000">事务（</font><font color="#000000">Transaction</font><font color="#000000">）是并发控制的单位，是用户定义的一个操作序列。这些操作要么都做，要么都不做，是一个不可分割的工作单位。通过事务，</font><font color="#000000">SQL Server</font><font color="#000000">能将逻辑相关的一组操作绑定在一起，以便服务器保持数据的完整性。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp; (2):</font> <font color="#000000">事务通常是以</font><font color="#000000">BEGIN TRANSACTION</font><font color="#000000">开始，以</font><font color="#000000">COMMIT</font><font color="#000000">或</font><font color="#000000">ROLLBACK</font><font color="#000000">结束。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMMIT</font><font color="#000000">表示提交，即提交事务的所有操作。具体地说就是将事务中所有对数据库的更新写回到磁盘上的物理数据库中去，事务正常结束。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ROLLBACK</font><font color="#000000">表示回滚，即在事务运行的过程中发生了某种故障，事务不能继续进行，系统将事务中对数据库的所有以完成的操作全部撤消，滚回到事务开始的状态。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp; (3):</font> <font color="#000000">事务运行的三种模式</font><font color="#000000">:</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A:</font> <font color="#000000">自动提交事务</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每条单独的语句都是一个事务。每个语句后都隐含一个</font><font color="#000000">COMMIT</font><font color="#000000">。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B:</font> <font color="#000000">显式事务</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 以</font><font color="#000000">BEGIN TRANSACTION</font><font color="#000000">显式开始，以</font><font color="#000000">COMMIT</font><font color="#000000">或</font><font color="#000000">ROLLBACK</font><font color="#000000">显式结束。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:</font> <font color="#000000">隐性事务</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在前一个事务完成时，新事务隐式启动，但每个事务仍以</font><font color="#000000">COMMIT</font><font color="#000000">或</font><font color="#000000">ROLLBACK</font><font color="#000000">显式结束。</font></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; <font color="#000000">(4):</font> <font color="#000000">事务的特性</font><font color="#000000">(ACID</font><font color="#000000">特性</font><font color="#000000">)</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A:</font> <font color="#000000">原子性</font><font color="#000000">(Atomicity)</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 事务是数据库的逻辑工作单位，事务中包括的诸操作要么全做，要么全不做。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B:</font> <font color="#000000">一致性</font><font color="#000000">(Consistency)</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 事务执行的结果必须是使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C:</font> <font color="#000000">隔离性</font><font color="#000000">(Isolation)</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一个事务的执行不能被其他事务干扰。</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D:</font> <font color="#000000">持续性</font><font color="#000000">/</font><font color="#000000">永久性</font><font color="#000000">(Durability)</font><br />
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。</font><br />
+<font color="#000000">注</font><font color="#000000">:</font><font color="#000000">事务是恢复和并发控制的基本单位。</font></p>
+<p><strong>二、事务状态</strong></p>
+<p>事务有以下几种状态：</p>
+<table class="confluenceTable">
+    <tbody>
+        <tr>
+            <th class="confluenceTh">事务状态 </th>
+            <th class="confluenceTh">说明 </th>
+        </tr>
+        <tr>
+            <td class="confluenceTd">Status.STATUS_NO_TRANSACTION </td>
+            <td class="confluenceTd">当前线程中没有事务存在 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">Status.STATUS_MARKED_ROLLBACK </td>
+            <td class="confluenceTd">当前事务已经被设置为setRollback标记 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">Status.STATUS_ACTIVE </td>
+            <td class="confluenceTd">当前事务处于运行中 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">Status.STATUS_COMPLETED </td>
+            <td class="confluenceTd">当前事务已经回滚或提交 </td>
+        </tr>
+    </tbody>
+</table>
+<p>&nbsp;下面是j2ee规范中定义的事务状态：</p>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">public</span> <span class="code-keyword">interface</span> javax.transaction.Status {
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_ACTIVE = 0;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_MARKED_ROLLBACK = 1;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_PREPARED = 2;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_COMMITTED = 3;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_ROLLEDBACK = 4;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_UNKNOWN = 5;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_NO_TRANSACTION = 6;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_PREPARING = 7;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_COMMITTING = 8;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> STATUS_ROLLING_BACK = 9;
+}</pre>
+</div>
+</div>
+<p><br clear="all" />
+</p>
+<p><strong>三、事务传播方式</strong></p>
+<p>通常在一个事务中执行的所有代码都会在这个事务中运行。但是，如果一个事务上下文已经存在，有几个选项可以指定一个事务性方法的执行行为：例如，简单地在现有的事务中继续运行（大多数情况）；或者挂起现有事务，创建一个新的事务。</p>
+<p>事务传播方式：</p>
+<table class="confluenceTable">
+    <tbody>
+        <tr>
+            <th class="confluenceTh">传播方式 </th>
+            <th class="confluenceTh">数值 </th>
+            <th class="confluenceTh">说明 </th>
+        </tr>
+        <tr>
+            <td class="confluenceTd">PROPAGATION_REQUIRED </td>
+            <td class="confluenceTd">0 </td>
+            <td class="confluenceTd">外部没有事务，启动一个新的事务；否则加入外部的事务 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">PROPAGATION_SUPPORTS </td>
+            <td class="confluenceTd">1 </td>
+            <td class="confluenceTd">外部没有事务，则运行在非事务上下文中；否则，加入外部事务 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">PROPAGATION_MANDATORY </td>
+            <td class="confluenceTd">2 </td>
+            <td class="confluenceTd">外部没有事务，抛出运行期异常；否则，加入外部事务 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">PROPAGATION_REQUIRES_NEW </td>
+            <td class="confluenceTd">3 </td>
+            <td class="confluenceTd">无论外部是否存在事务，均启动一个新事务；如果存在外部事务，则先挂起外部事务，然后启动新事务 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">PROPAGATION_NOT_SUPPORTED </td>
+            <td class="confluenceTd">4 </td>
+            <td class="confluenceTd">无论外部是否存在事务，都运行在非事务上下文中，如果外部有事务，则挂起外部事务 </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">PROPAGATION_NEVER </td>
+            <td class="confluenceTd">5 </td>
+            <td class="confluenceTd">如果外部存在事务，则抛出运行期异常，否则，运行在非事务上下文中 </td>
+        </tr>
+    </tbody>
+</table>
+<p><br clear="all" />
+<strong>四、隔离级别</strong></p>
+<p>在标准SQL规范中，定义了4个事务隔离级别，不同的隔离级别对事务的处理不同：</p>
+<ul>
+    <li>未授权读取（Read Uncommited）：允许脏读取，但不允许更新丢失。如果一个事务已经开始写数据，则另外一个数据则不允许同时进行写操作，但允许其他事务读此行数据。该隔离级别可以通过&quot;排他写锁&quot;实现。 </li>
+    <li>授权读取（Read Committed）：允许不可重复读取，但不允许脏读取。这可以通过&quot;瞬间共享读锁&quot;和&quot;排他写锁&quot;实现。读取数据的事务允许其他事务继续访问该行数据，但是未提交的写事务将会禁止其他事务访问该行。 </li>
+    <li>可重复读取（Repeatable Read）：禁止不可重复读取和脏读取，但是有时可能出现幻影数据。这可以通过&quot;共享读锁&quot;和&quot;排他写锁&quot;实现。读取数据的事务将会禁止写事务（但允许读事务），写事务则禁止任何其他事务。 </li>
+    <li>序列化（Serializable）：提供严格的事务隔离。它要求事务序列化执行，事务只能一个接着一个地执行，但不能并发执行。如果仅仅通过&quot;行级锁&quot;是无法实现事务序列化的，必须通过其他机制保证新插入的数据不会被刚执行查询操作的事务访问到。 </li>
+</ul>
+<p>隔离级别：</p>
+<table class="confluenceTable">
+    <tbody>
+        <tr>
+            <th class="confluenceTh">隔离级别 <br clear="all" />
+            </th>
+            <th class="confluenceTh">常量定义 <br clear="all" />
+            </th>
+            <th class="confluenceTh">数值 <br clear="all" />
+            </th>
+        </tr>
+        <tr>
+            <td class="confluenceTd">默认的隔离级别 <br clear="all" />
+            </td>
+            <td class="confluenceTd">ISOLATION_DEFAULT <br clear="all" />
+            </td>
+            <td class="confluenceTd">-1 <br clear="all" />
+            </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">未授权读 <br clear="all" />
+            </td>
+            <td class="confluenceTd">ISOLATION_READ_UNCOMMITTED <br clear="all" />
+            </td>
+            <td class="confluenceTd">1 <br clear="all" />
+            </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">授权读取 <br clear="all" />
+            </td>
+            <td class="confluenceTd">ISOLATION_READ_COMMITTED <br clear="all" />
+            </td>
+            <td class="confluenceTd">2 <br clear="all" />
+            </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">可重复读取 <br clear="all" />
+            </td>
+            <td class="confluenceTd">ISOLATION_REPEATABLE_READ <br clear="all" />
+            </td>
+            <td class="confluenceTd">4 <br clear="all" />
+            </td>
+        </tr>
+        <tr>
+            <td class="confluenceTd">序列化 <br clear="all" />
+            </td>
+            <td class="confluenceTd">ISOLATION_SERIALIZABLE <br clear="all" />
+            </td>
+            <td class="confluenceTd">8 <br clear="all" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p>如果在事务开始接口中不指定事务的隔离级别的话，那么就用用户在事务配置中指定的隔离级别。默认情况下，事务配置中的事务隔离级别为数据库默认的隔离级别。</p>
+<p>相关数据库的默认的隔离级别如下：</p>
+<ul>
+    <li>oracle=2（ISOLATION_READ_COMMITTED） </li>
+    <li>db2=2（ISOLATION_READ_COMMITTED） </li>
+    <li>SQLServer=2（ISOLATION_READ_COMMITTED） </li>
+    <li>informix=0（TRANSACTION_NONE） </li>
+</ul>
+<p><strong>五、事务同步</strong></p>
+<p>在事务操作过程中，提供了事务同步机制；可以在事务挂起，事务恢复，事务提交之前，事务完成之前，以及事务完成之后做其他用户自定义的扩展。</p>
+<p>可以通过事务同步注册接口把事务同步注册进来。</p>
+<p><strong>六、本地事务、全局事务（又叫JTA事务或者分布式事务）</strong></p>
+<p>- &nbsp;&nbsp; 全局事务 － 资源管理器管理和协调的事务，可以跨越多个数据库和进程。资源管理器一般使用 XA 二阶段提交协议与&quot;企业信息系统&quot;(EIS) 或数据库进行交互。<br />
+- &nbsp;&nbsp; 本地事务 － 在单个 EIS 或数据库的本地并且限制在单个进程内的事务。本地事务不涉及多个数据来源。</p>
+<p>&nbsp;&nbsp;&nbsp; 本地和全局事务都使用 javax.transaction.UserTransaction 接口划分界限，客户端必须使用此接口。本地事务不使用事务管理器，因而处理速度更快。<br />
+&nbsp;&nbsp;&nbsp; 起初，所有事务都是本地的。如果非 XA 数据源连接是事务范围中登记的第一个资源连接，当&quot;另一个&quot;XA 数据源连接加入此连接时，该非 XA 数据源连接就成为全局事务。如果另一个非 XA 数据源连接试图加入，就会产生异常。<br />
+&nbsp;&nbsp;&nbsp; J2EE开发者有两个事务管理的选择： <em>全局</em> 或 <em>本地</em> 事务。全局事务由应用服务器管理，使用JTA。局部事务是和资源相关的，比如一个和JDBC连接关联的事务。这个选择有深刻的含义。例如，全局事务可以用于多个事务性的资源（典型例子是关系数据库和消息队列）。使用局部事务，应用服务器不需要参与事务管理，并且不能帮助确保跨越多个资源（需要指出的是多数应用使用单一事务性的资源）的事务的正确性。<br />
+<strong>&nbsp;&nbsp;&nbsp; 全局事务:&nbsp;</strong> 全局事务有一个重大的缺陷，代码需要使用JTA：一个笨重的API（部分是因为它的异常模型）。此外，JTA的UserTransaction通常需要从JNDI获得，这意味着我们为了JTA，需要 <em>同时</em> 使用JNDI <em>和</em> JTA。显然全部使用全局事务限制了应用代码的重用性，因为JTA通常只在应用服务器的环境中才能使用。 以前，使用全局事务的首选方式是通过EJB的 <em>CMT</em>（<em>容器管理事务</em>）：CMT是 <strong>声明式事务管理</strong> 的一种形式（区别于 <strong>编程式事务管理</strong>）。EJB的CMT不需要任何和事务相关的JNDI查找，虽然使用EJB本身肯定需要使用JNDI。它消除了大多数（不是全部）硬编码的方式去控制事务。重大的缺陷是CMT绑定在JTA和应用服务器环境上，并且只有我们选择使用EJB实现业务逻辑，或者至少处于一个事务化EJB的外观（Facade）后才能使用它。EJB有如此多的诟病，尤其是存在其它声明式事务管理时，EJB不是一个吸引人的建议。<br />
+<strong>&nbsp;&nbsp;&nbsp; 本地事务:&nbsp;</strong> 本地事务容易使用，但也有明显的缺点：它们不能用于多个事务性资源。例如，使用JDBC连接事务管理的代码不能用于全局的JTA事务中。另一个缺点是局部事务趋向于入侵式的编程模型。</p>
+<p><strong>七、javax.transaction.Transaction、 javax.transaction.TransactionManager、 javax.transaction.UserTransaction</strong></p>
+<p>Java <sup>TM</sup>2 Platform, Enterprise Edition(J2EE)简化了分布式事务管理应用程序的编写。J2EE包括了两套规范，用来支持分布式的事务，一种是Java Transaction API(JTA)，另一种是Java Transaction Service(JTS)。JTA是一种高层的，与实现无关的，与协议无关的API，应用程序和应用服务器可以使用JTA来访问事务。JTS则规定了支持JTA的事务管理器的实现规范，在高层API之下实现了OMG Object Transaction Service(OTS) 1.1规范的Java映射。JTS使用Internet Inter-ORB Protocol(IIOP)来传播事务。作为J2EE平台实现的一部分，SUN实现了一个支持JTS的事务管理器，同时还实现了JTA。</p>
+<p>JTA和JTS让J2EE应用服务器完成事务管理，这样就使得组件开发人员摆脱了事务管理的负担。开发者只需在部署描述符中声明事务管理属性，便可以使得EJB组件参与到事务之中，由应用服务器来负责事务的管理。</p>
+<ul>
+    <li>JTS规范定义了事务管理器的实现。JTS规范中定义的事务管理器在高层支持JTA接口规范，在底层则实现了OTS1.1(CORBA Object Transaction Service)的标准Java映射。OMG使用IDL(接口定义语言)定义了事务服务语言中性的实现，JTS则对这个IDL的事务服务实现作了标准的Java映射。JTS使用OTS接口实现了互操作和移植性。OTS接口定义了一组标准的机制，使得JTS事务管理器之间可以使用IIOP(Internet InterORB协议)来生成并传播事务上下文。 </li>
+    <li>从事务管理器的角度出发，事务服务的具体实现是不需要暴露出来的，只需要定义高层接口，使得事务服务的用户可以驱动事务界限、资源获取、事务同步和事务恢复过程。JTA的目的是定义事务管理器所要求的本地Java接口，从而在企业级分布计算环境中支持事务管理。下图中的小半圆代表JTA规范。<br />
+    <img alt="" align="absMiddle" border="0" src="http://192.168.1.28:8080/download/attachments/7053733/jta.gif" /> </li>
+</ul>
+<p>J2EE事务服务的层次关系</p>
+<p>企业级Java中间件的分布式事务服务包括五层：事务管理器(Transaction Manager)、应用服务器(Application Server)、资源管理器(Resource Manager)、应用程序(Application Program)和通信资源管理器(Communication Resource Manager)。每一层都通过实现一组事务API和相关机制参与到分布式事务处理系统中。</p>
+<ul>
+    <li>事务管理器：是一个系统级的组件，是事务服务的访问点。提供了一组服务和相关的管理机制，用于支持事务划分、事务资源管理、事务同步和事务上下文的传播。 </li>
+    <li>应用服务器(或者称为TP monitor)提供了支持应用程序运行环境的基础设施，这个运行环境包括了事务状态管理。应用服务器的一个例子是EJB服务器。 </li>
+    <li>资源管理器(通过资源适配器[Resource Adapter]，资源适配器类似于数据库连接)为应用程序提供了对资源的访问。资源管理器通过实现一组事务资源接口来参与到分布式事务中。事务管理器使用这组事务资源接口在处理事务联系、事务完成和事务恢复的相关工作。资源管理器的一个例子是关系数据库服务器。 </li>
+    <li>基于组件的事务性应用运行在应用服务器环境中，需要依赖应用服务器通过事务属性声明设置所提供的事务管理支持。这种类型应用的典型例子是EJB。除此之外，一些独立的Java客户端程序需要使用应用服务器或事务管理器所提供的高层接口来控制事务界限。 </li>
+    <li>通讯资源管理器(CRM)支持事务上下文的传播和事务服务的访问请求。JTA文档中没有规定通信的要求。请参考JTS规范[2]获得有关事务管理器之间互操作的详细信息。 </li>
+</ul>
+<p>从事务管理器的角度出发，事务服务的具体实现是不需要暴露出来的，只需要定义高层接口，使得事务服务的用户可以驱动事务界限、资源获取、事务同步和事务恢复过程。JTA的目的是定义事务管理器所要求的本地Java接口，从而在企业级分布计算环境中支持事务管理。下图中的小半圆代表JTA规范。<br />
+<img alt="" align="absMiddle" border="0" src="http://192.168.1.28:8080/download/attachments/7053733/jta.gif" /></p>
+<p>JTS中规定的事务管理器的实现</p>
+<p>本节从事务管理器实现者的角度描述了实现方面的要求。如下图，事务管理器必须实现JTA接口，用于支持应用服务器和资源管理器。不要求实现对JDBC 1.0 Driver和非JTA资源管理器支持。也不要求实现对各种CORBA应用实体的支持，如事务客户端(Transactional Client)、事务服务器(Transactional Server)和恢复服务器(Recoverable Server)。</p>
+<p><img alt="" align="absMiddle" border="0" src="http://192.168.1.28:8080/download/attachments/7053733/jts.gif" /></p>
+<p>Java Transaction API</p>
+<p>Java Transaction API由三部分组成：高层的应用事务划分接口(供事务客户使用)、高层的事务管理器接口(供应用服务器使用)和X/Open XA协议的标准Java映射(供事务性资源管理器使用)。</p>
+<p>1 UserTransaction接口</p>
+<p>Javax.transaction.UserTransaction接口使得应用程序能够编程控制事务边界，开启一个全局事务并且使用调用线程与事务处理关联，提供能够编程地控制事务处理范围的应用程序。这个接口可以由Java客户端程序或者EJB来使用。</p>
+<p>1)在EJB Server中的UserTransaction支持</p>
+<p>EJB中对事务的管理有两种类型：</p>
+<p>Bean自管理事务对于自管理事务的EJB，需要从EJB上下文中获取UserTransaction的接口引用，由自己负责完成事务的开始、提交或者回滚。javax.transaction.UserTransaction方法开启一个全局事务并且使用调用线程与事务处理关联。</p>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">try</span>{
+    javax.transaction.UserTransaction userTran = ctx.getUserTransaction();
+    userTran.begin();
+    ... <span class="code-comment">//执行事务性的程序逻辑
+</span>     userTran.commit();
+} <span class="code-keyword">catch</span>(Exception e){
+    userTran.rollBack();
+    <span class="code-keyword">throw</span> <span class="code-keyword">new</span> Exception(<span class="code-quote">&quot;......&quot;</span>);
+}</pre>
+</div>
+</div>
+<p>EJB这样处理事务称为编程型事务。 由容器负责事务管理对于这样的EJB，只需在其部署描述符中指定所需的事务相关属性，便可由EJB容器代替EJB进行事务管理。这称为声明式事务。<br />
+2) 事务客户端中的UserTransaction支持 Java客户端程序需要首先通过JNDI来获得UserTransaction对象的引用，然后使用该对象的方法完成事务的开始、提交或者回滚。</p>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java">java.util.Properties env = ...
+Context ctx = <span class="code-keyword">new</span> InitialContext(env);
+Javax.transaction.UserTransaction userTran =
+(javax.transaction.UserTransaction)ctx.lookup(<span class="code-quote">&quot;javax.transaction.UserTransaction&quot;</span>);
+userTran.begin();
+<span class="code-keyword">try</span>{
+    ...
+    userTran.commit();
+} <span class="code-keyword">catch</span>(Exception e){
+    userTran.rollBack();
+    <span class="code-keyword">throw</span> <span class="code-keyword">new</span> Exception(<span class="code-quote">&quot;......&quot;</span>);
+}</pre>
+</div>
+</div>
+<p>2 TransactionManager接口<br />
+应用服务器使用javax.transaction.TransactionManager接口来代表受控的应用程序控制事务的边界，允许应用程序服务器来控制代表正在管理的应用程序的事务范围。例如，EJB容器为事务性EJB组件管理事务状态。</p>
+<p>3 Transaction接口</p>
+<p>使用Transaction接口可以执行与目标对象相关联的事务操作。</p>
+<p>4 XAResource接口</p>
+<p>Javax.transaction.xa.XAResource接口是基于X/Open CAE规范(分布式事务处理：XA规范)工业标准XA接口的Java映射。 XAResource接口定义了分布式事务处理环境(DTP)中资源管理器和事务管理器之间是如何交互的。资源管理器的资源适配器实现了XAResource接口，将事务同事务资源联系起来，类似关系数据库的一个连接。<br />
+<img alt="" align="absMiddle" border="0" src="http://192.168.1.28:8080/download/attachments/7053733/xa.gif" /></p>
+<p>5 Xid接口</p>
+<p>Javax.transaction.xa.Xid接口是X/Open事务标识符XID结构的Java映射。这个接口由事务管理器和资源管理器来使用，对于应用程序和应用服务器而言这个接口是不可见的。</p>
+<p><br clear="all" />
+&nbsp;</p>
+<p>下面是j2ee规范中定义的事务接口：</p>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">public</span> <span class="code-keyword">interface</span> javax.transaction.Transaction {
+
+     <span class="code-keyword">public</span> <span class="code-object">int</span> getStatus() <span class="code-keyword">throws</span> javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void commit() <span class="code-keyword">throws</span> javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, java.lang.SecurityException, java.lang.IllegalStateException, javax.transaction.SystemException;
+
+
+     <span class="code-keyword">public</span> void rollback() <span class="code-keyword">throws</span> java.lang.IllegalStateException, javax.transaction.SystemException;
+
+
+     <span class="code-keyword">public</span> void setRollbackOnly() <span class="code-keyword">throws</span> java.lang.IllegalStateException, javax.transaction.SystemException;
+
+
+     <span class="code-keyword">public</span> void registerSynchronization(javax.transaction.Synchronization arg0) <span class="code-keyword">throws</span> javax.transaction.RollbackException, java.lang.IllegalStateException, javax.transaction.SystemException;
+
+
+     <span class="code-keyword">public</span> <span class="code-object">boolean</span> enlistResource(javax.transaction.xa.XAResource arg0) <span class="code-keyword">throws</span> javax.transaction.RollbackException, java.lang.IllegalStateException, javax.transaction.SystemException;
+
+
+     <span class="code-keyword">public</span> <span class="code-object">boolean</span> delistResource(javax.transaction.xa.XAResource arg0, <span class="code-object">int</span> arg1) <span class="code-keyword">throws</span> java.lang.IllegalStateException, javax.transaction.SystemException;
+}</pre>
+</div>
+</div>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">public</span> <span class="code-keyword">interface</span> javax.transaction.TransactionManager {
+
+     <span class="code-keyword">public</span> <span class="code-object">int</span> getStatus() <span class="code-keyword">throws</span> javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void begin() <span class="code-keyword">throws</span> javax.transaction.NotSupportedException, javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void commit() <span class="code-keyword">throws</span> javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, java.lang.SecurityException, java.lang.IllegalStateException, javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void rollback() <span class="code-keyword">throws</span> java.lang.IllegalStateException, java.lang.SecurityException, javax.transaction.SystemException;
+
+
+     <span class="code-keyword">public</span> void setRollbackOnly() <span class="code-keyword">throws</span> java.lang.IllegalStateException, javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void setTransactionTimeout(<span class="code-object">int</span> arg0) <span class="code-keyword">throws</span> javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> javax.transaction.Transaction getTransaction() <span class="code-keyword">throws</span> javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> javax.transaction.Transaction suspend() <span class="code-keyword">throws</span> javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void resume(javax.transaction.Transaction arg0) <span class="code-keyword">throws</span> javax.transaction.InvalidTransactionException, java.lang.IllegalStateException, javax.transaction.SystemException;
+}</pre>
+</div>
+</div>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">public</span> <span class="code-keyword">interface</span> javax.transaction.UserTransaction {
+
+     <span class="code-keyword">public</span> <span class="code-object">int</span> getStatus() <span class="code-keyword">throws</span> javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void begin() <span class="code-keyword">throws</span> javax.transaction.NotSupportedException, javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void commit() <span class="code-keyword">throws</span> javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, java.lang.SecurityException, java.lang.IllegalStateException, javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void rollback() <span class="code-keyword">throws</span> java.lang.IllegalStateException, java.lang.SecurityException, javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void setRollbackOnly() <span class="code-keyword">throws</span> java.lang.IllegalStateException, javax.transaction.SystemException;
+
+     <span class="code-keyword">public</span> void setTransactionTimeout(<span class="code-object">int</span> arg0) <span class="code-keyword">throws</span> javax.transaction.SystemException;
+}</pre>
+</div>
+</div>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">public</span> <span class="code-keyword">interface</span> javax.transaction.xa.XAResource {
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMENDR<a target='_blank' href='/modules/gSpace/about_onetag.php?tagid=134&tagname=SCA&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'>SCA</a>N = 8388608;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMFAIL = 536870912;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMJOIN = 2097152;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMNOFLAGS = 0;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMONEPHASE = 1073741824;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMRESUME = 134217728;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMSTARTR<a target='_blank' href='/modules/gSpace/about_onetag.php?tagid=134&tagname=SCA&PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3'>SCA</a>N = 16777216;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMSUCCESS = 67108864;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> TMSUSPEND = 33554432;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> XA_RDONLY = 3;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> XA_OK = 0;
+
+    <span class="code-keyword">public</span> <span class="code-object">int</span> getTransactionTimeout() <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> <span class="code-object">boolean</span> setTransactionTimeout(<span class="code-object">int</span> arg0) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> <span class="code-object">boolean</span> isSameRM(javax.transaction.xa.XAResource arg0) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> javax.transaction.xa.Xid[] recover(<span class="code-object">int</span> arg0) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> <span class="code-object">int</span> prepare(javax.transaction.xa.Xid arg0) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> void forget(javax.transaction.xa.Xid arg0) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> void rollback(javax.transaction.xa.Xid arg0) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> void end(javax.transaction.xa.Xid arg0, <span class="code-object">int</span> arg1) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> void start(javax.transaction.xa.Xid arg0, <span class="code-object">int</span> arg1) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+
+    <span class="code-keyword">public</span> void commit(javax.transaction.xa.Xid arg0, <span class="code-object">boolean</span> arg1) <span class="code-keyword">throws</span> javax.transaction.xa.XAException;
+}</pre>
+</div>
+</div>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">public</span> <span class="code-keyword">interface</span> javax.transaction.xa.Xid {
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> MAXGTRIDSIZE = 64;
+
+    <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-keyword">final</span> <span class="code-object">int</span> MAXBQUALSIZE = 64;
+
+    <span class="code-keyword">public</span> <span class="code-object">int</span> getFormatId();
+
+    <span class="code-keyword">public</span> <span class="code-object">byte</span>[] getBranchQualifier();
+
+    <span class="code-keyword">public</span> <span class="code-object">byte</span>[] getGlobalTransactionId();
+}</pre>
+</div>
+</div>
+<div class="code panel" style="BORDER-TOP-WIDTH: 1px; BORDER-LEFT-WIDTH: 1px; BORDER-BOTTOM-WIDTH: 1px; BORDER-RIGHT-WIDTH: 1px">
+<div class="codeContent panelContent">
+<pre class="code-java"><span class="code-keyword">public</span> <span class="code-keyword">interface</span> javax.transaction.Synchronization {
+
+  <span class="code-keyword">public</span> void beforeCompletion();
+
+  <span class="code-keyword">public</span> void afterCompletion(<span class="code-object">int</span> arg0);
+}</pre>
+</div>
+</div></td></tr>
+				<tr><td>
+		<div class="comText">
+				<small>2008/11/17 9:33</small><br>
+		
+		<!---->
+								<br>
+		
+				<hr size=1>
+		<a href='http://gocom.primeton.com/special/forumreview/' target='_blank'>SOA中国关键任务广受认可</u></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='/modules/soablogmatch/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3' target='_blank'>SOA博客精英&nbsp;万元奖金现已发送</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://gocom.primeton.com/special/white_paper/' target='_blank'>IDC白皮书《软件商成长路线图》</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://www.sd2china2008.com/' target='_blank'>软件开发2.0技术大会</a><img src='/images/new.gif'><br><a href='http://gocom.primeton.com/modules/bps/' target='_blank'>Primeton BPS 频道火热上线</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://gocom.primeton.com/blog13860_33528.htm' target='_blank'>goCom积分调整</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://gocom.primeton.com/modules/ucenter/' target='_blank'><font color=red><u>派计划：专业、权威、影响力</u></a></font><img src='/images/new.gif'>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://gocom.primeton.com/modules/newbb/forumtopic4009_13136_82.htm' target='_blank'>SCA/SDO中文规范翻译再次启动</a><br>
+		</div>
+		</td></tr>
+		
+		</table></div>
+		
+		
+		
+
+		</td>
+  </tr>
+
+ <tr><td colspan=3 align=right>
+ <input type=button onclick="window.open('print.php?form=2&amp;forum=25&amp;topic_id=13040&amp;post_id=57614');" value="打印"> <input type=button onclick="javascript:window.location.href='appraise.php?forum=25&amp;topic_id=13040&amp;viewmode=flat&amp;order=ASC&amp;start=0&amp;post_uid=19180 &amp;ratinguse=0&amp;post_id=57614'" value="评分"> 		<input type=button onclick="javascript:window.location.href='#'" value="顶部">&nbsp;
+		<br><br>
+</td></tr>
+
+
+</table>
+
+<!--
+<br clear="all" />
+<div style="float: left; text-align:left;">
+	<a id="threadbottom"></a><img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/up-a.png" style="width: 17px; height:17px; margin: 0px;" alt="" align="middle" />&nbsp;<a href="#threadtop">回顶部</a>&nbsp;&nbsp;<img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/left-a.png" style="width: 17px; height:17px; margin: 0px;" alt="" align="middle" />&nbsp;<a href="buttonflat_ASC_13040_25_prev.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">前一个主题</a>&nbsp;&nbsp;<img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/right-a.png" style="width: 17px; height:17px; margin: 0px;" alt="" align="middle" />&nbsp;<a href="buttonflat_ASC_13040_25_next.htm?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">下一个主题</a>
+</div>-->
+
+<div align=center>
+
+</div>
+
+<br clear="all" />
+<br clear="all" />
+<div style="padding: 5px; float: left; text-align:left;">
+&nbsp;<a href="http://gocom.primeton.com/user.php?xoops_redirect=/modules/newbb/item57614_57614.htm">[无发表权] 请登录或者注册</a>&nbsp;&nbsp;
+</div>
+<br clear="all" />
+<div><form name='quick_reply' id='quick_reply' action='post.php' method='post' onsubmit='return xoopsFormValidate_quick_reply();'><input type="hidden" name="PHPSESSID" value="970b8ed7cacc5659eb5724cc3f881da3" />
+<table width='100%' class='outer' cellspacing='1'><tr><th class=blockTitle colspan='2'>发表回复</th></tr><input type='hidden' name='XOOPS_TOKEN_REQUEST' id='XOOPS_TOKEN_REQUEST' value='d0102981622e429ea9ed908d7fe58d9f' /><tr valign='top' align='left'><td class='head'>账号</td><td class='even'>用户名&nbsp;<input type='text' name='uname' id='uname' size='20' maxlength='20' value='' />
+&nbsp;密码&nbsp;<input type='password' name='pass' id='pass' size='10' maxlength='32' value='' />
+&nbsp;<input type='checkbox' name='login' value='1' checked='checked' />登录
+
+</td></tr><tr valign='top' align='left'><td class='head'>内容:</td><td class='even'><a name='moresmiley'></a><img onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/images/url.gif' alt='url' onclick='xoopsCodeUrl("message", "添加网址:", "输入网站名称:");' />&nbsp;<img onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/images/email.gif' alt='email' onclick='javascript:xoopsCodeEmail("message", "请输入Email.");' />&nbsp;<img onclick='javascript:xoopsCodeImg("message", "输入图片网址。", "请输入图片位置。", "&#039;R&#039; or &#039;r&#039; 代表右边，&#039;L&#039; or &#039;l&#039;代表左边，或空白。", "错误！请输入图片位置。");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/images/imgsrc.gif' alt='imgsrc' />&nbsp;<img onmouseover='style.cursor="hand"' onclick='javascript:openWithSelfMain("http://gocom.primeton.com/imagemanager.php?target=message","imgmanager",400,430);' src='http://gocom.primeton.com/images/image.gif' alt='image' />&nbsp;<img src='http://gocom.primeton.com/images/code.gif' onmouseover='style.cursor="hand"' alt='code' onclick='javascript:xoopsCodeCode("message", "请输入您要显示的源代码");' />&nbsp;<img onclick='javascript:xoopsCodeQuote("message", "请输入引文");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/images/quote.gif' alt='quote' /><br />
+<select id='messageSize' onchange='setVisible("xoopsHiddenText");setElementSize("xoopsHiddenText",this.options[this.selectedIndex].value);'>
+<option value='SIZE'>字体大小</option>
+<option value='xx-small'>xx-small</option>
+<option value='x-small'>x-small</option>
+<option value='small'>small</option>
+<option value='medium'>medium</option>
+<option value='large'>large</option>
+<option value='x-large'>x-large</option>
+<option value='xx-large'>xx-large</option>
+</select>
+<select id='messageFont' onchange='setVisible("xoopsHiddenText");setElementFont("xoopsHiddenText",this.options[this.selectedIndex].value);'>
+<option value='FONT'>字体</option>
+<option value='Arial'>Arial</option>
+<option value='Courier'>Courier</option>
+<option value='Georgia'>Georgia</option>
+<option value='Helvetica'>Helvetica</option>
+<option value='Impact'>Impact</option>
+<option value='Verdana'>Verdana</option>
+</select>
+<select id='messageColor' onchange='setVisible("xoopsHiddenText");setElementColor("xoopsHiddenText",this.options[this.selectedIndex].value);'>
+<option value='COLOR'>字体颜色</option>
+<option value='000000' style='background-color:#000000;color:#000000;'>#000000</option>
+<option value='000033' style='background-color:#000033;color:#000033;'>#000033</option>
+<option value='000066' style='background-color:#000066;color:#000066;'>#000066</option>
+<option value='000099' style='background-color:#000099;color:#000099;'>#000099</option>
+<option value='0000CC' style='background-color:#0000CC;color:#0000CC;'>#0000CC</option>
+<option value='0000FF' style='background-color:#0000FF;color:#0000FF;'>#0000FF</option>
+<option value='003300' style='background-color:#003300;color:#003300;'>#003300</option>
+<option value='003333' style='background-color:#003333;color:#003333;'>#003333</option>
+<option value='003366' style='background-color:#003366;color:#003366;'>#003366</option>
+<option value='003399' style='background-color:#003399;color:#003399;'>#003399</option>
+<option value='0033CC' style='background-color:#0033CC;color:#0033CC;'>#0033CC</option>
+<option value='0033FF' style='background-color:#0033FF;color:#0033FF;'>#0033FF</option>
+<option value='006600' style='background-color:#006600;color:#006600;'>#006600</option>
+<option value='006633' style='background-color:#006633;color:#006633;'>#006633</option>
+<option value='006666' style='background-color:#006666;color:#006666;'>#006666</option>
+<option value='006699' style='background-color:#006699;color:#006699;'>#006699</option>
+<option value='0066CC' style='background-color:#0066CC;color:#0066CC;'>#0066CC</option>
+<option value='0066FF' style='background-color:#0066FF;color:#0066FF;'>#0066FF</option>
+<option value='009900' style='background-color:#009900;color:#009900;'>#009900</option>
+<option value='009933' style='background-color:#009933;color:#009933;'>#009933</option>
+<option value='009966' style='background-color:#009966;color:#009966;'>#009966</option>
+<option value='009999' style='background-color:#009999;color:#009999;'>#009999</option>
+<option value='0099CC' style='background-color:#0099CC;color:#0099CC;'>#0099CC</option>
+<option value='0099FF' style='background-color:#0099FF;color:#0099FF;'>#0099FF</option>
+<option value='00CC00' style='background-color:#00CC00;color:#00CC00;'>#00CC00</option>
+<option value='00CC33' style='background-color:#00CC33;color:#00CC33;'>#00CC33</option>
+<option value='00CC66' style='background-color:#00CC66;color:#00CC66;'>#00CC66</option>
+<option value='00CC99' style='background-color:#00CC99;color:#00CC99;'>#00CC99</option>
+<option value='00CCCC' style='background-color:#00CCCC;color:#00CCCC;'>#00CCCC</option>
+<option value='00CCFF' style='background-color:#00CCFF;color:#00CCFF;'>#00CCFF</option>
+<option value='00FF00' style='background-color:#00FF00;color:#00FF00;'>#00FF00</option>
+<option value='00FF33' style='background-color:#00FF33;color:#00FF33;'>#00FF33</option>
+<option value='00FF66' style='background-color:#00FF66;color:#00FF66;'>#00FF66</option>
+<option value='00FF99' style='background-color:#00FF99;color:#00FF99;'>#00FF99</option>
+<option value='00FFCC' style='background-color:#00FFCC;color:#00FFCC;'>#00FFCC</option>
+<option value='00FFFF' style='background-color:#00FFFF;color:#00FFFF;'>#00FFFF</option>
+<option value='330000' style='background-color:#330000;color:#330000;'>#330000</option>
+<option value='330033' style='background-color:#330033;color:#330033;'>#330033</option>
+<option value='330066' style='background-color:#330066;color:#330066;'>#330066</option>
+<option value='330099' style='background-color:#330099;color:#330099;'>#330099</option>
+<option value='3300CC' style='background-color:#3300CC;color:#3300CC;'>#3300CC</option>
+<option value='3300FF' style='background-color:#3300FF;color:#3300FF;'>#3300FF</option>
+<option value='333300' style='background-color:#333300;color:#333300;'>#333300</option>
+<option value='333333' style='background-color:#333333;color:#333333;'>#333333</option>
+<option value='333366' style='background-color:#333366;color:#333366;'>#333366</option>
+<option value='333399' style='background-color:#333399;color:#333399;'>#333399</option>
+<option value='3333CC' style='background-color:#3333CC;color:#3333CC;'>#3333CC</option>
+<option value='3333FF' style='background-color:#3333FF;color:#3333FF;'>#3333FF</option>
+<option value='336600' style='background-color:#336600;color:#336600;'>#336600</option>
+<option value='336633' style='background-color:#336633;color:#336633;'>#336633</option>
+<option value='336666' style='background-color:#336666;color:#336666;'>#336666</option>
+<option value='336699' style='background-color:#336699;color:#336699;'>#336699</option>
+<option value='3366CC' style='background-color:#3366CC;color:#3366CC;'>#3366CC</option>
+<option value='3366FF' style='background-color:#3366FF;color:#3366FF;'>#3366FF</option>
+<option value='339900' style='background-color:#339900;color:#339900;'>#339900</option>
+<option value='339933' style='background-color:#339933;color:#339933;'>#339933</option>
+<option value='339966' style='background-color:#339966;color:#339966;'>#339966</option>
+<option value='339999' style='background-color:#339999;color:#339999;'>#339999</option>
+<option value='3399CC' style='background-color:#3399CC;color:#3399CC;'>#3399CC</option>
+<option value='3399FF' style='background-color:#3399FF;color:#3399FF;'>#3399FF</option>
+<option value='33CC00' style='background-color:#33CC00;color:#33CC00;'>#33CC00</option>
+<option value='33CC33' style='background-color:#33CC33;color:#33CC33;'>#33CC33</option>
+<option value='33CC66' style='background-color:#33CC66;color:#33CC66;'>#33CC66</option>
+<option value='33CC99' style='background-color:#33CC99;color:#33CC99;'>#33CC99</option>
+<option value='33CCCC' style='background-color:#33CCCC;color:#33CCCC;'>#33CCCC</option>
+<option value='33CCFF' style='background-color:#33CCFF;color:#33CCFF;'>#33CCFF</option>
+<option value='33FF00' style='background-color:#33FF00;color:#33FF00;'>#33FF00</option>
+<option value='33FF33' style='background-color:#33FF33;color:#33FF33;'>#33FF33</option>
+<option value='33FF66' style='background-color:#33FF66;color:#33FF66;'>#33FF66</option>
+<option value='33FF99' style='background-color:#33FF99;color:#33FF99;'>#33FF99</option>
+<option value='33FFCC' style='background-color:#33FFCC;color:#33FFCC;'>#33FFCC</option>
+<option value='33FFFF' style='background-color:#33FFFF;color:#33FFFF;'>#33FFFF</option>
+<option value='660000' style='background-color:#660000;color:#660000;'>#660000</option>
+<option value='660033' style='background-color:#660033;color:#660033;'>#660033</option>
+<option value='660066' style='background-color:#660066;color:#660066;'>#660066</option>
+<option value='660099' style='background-color:#660099;color:#660099;'>#660099</option>
+<option value='6600CC' style='background-color:#6600CC;color:#6600CC;'>#6600CC</option>
+<option value='6600FF' style='background-color:#6600FF;color:#6600FF;'>#6600FF</option>
+<option value='663300' style='background-color:#663300;color:#663300;'>#663300</option>
+<option value='663333' style='background-color:#663333;color:#663333;'>#663333</option>
+<option value='663366' style='background-color:#663366;color:#663366;'>#663366</option>
+<option value='663399' style='background-color:#663399;color:#663399;'>#663399</option>
+<option value='6633CC' style='background-color:#6633CC;color:#6633CC;'>#6633CC</option>
+<option value='6633FF' style='background-color:#6633FF;color:#6633FF;'>#6633FF</option>
+<option value='666600' style='background-color:#666600;color:#666600;'>#666600</option>
+<option value='666633' style='background-color:#666633;color:#666633;'>#666633</option>
+<option value='666666' style='background-color:#666666;color:#666666;'>#666666</option>
+<option value='666699' style='background-color:#666699;color:#666699;'>#666699</option>
+<option value='6666CC' style='background-color:#6666CC;color:#6666CC;'>#6666CC</option>
+<option value='6666FF' style='background-color:#6666FF;color:#6666FF;'>#6666FF</option>
+<option value='669900' style='background-color:#669900;color:#669900;'>#669900</option>
+<option value='669933' style='background-color:#669933;color:#669933;'>#669933</option>
+<option value='669966' style='background-color:#669966;color:#669966;'>#669966</option>
+<option value='669999' style='background-color:#669999;color:#669999;'>#669999</option>
+<option value='6699CC' style='background-color:#6699CC;color:#6699CC;'>#6699CC</option>
+<option value='6699FF' style='background-color:#6699FF;color:#6699FF;'>#6699FF</option>
+<option value='66CC00' style='background-color:#66CC00;color:#66CC00;'>#66CC00</option>
+<option value='66CC33' style='background-color:#66CC33;color:#66CC33;'>#66CC33</option>
+<option value='66CC66' style='background-color:#66CC66;color:#66CC66;'>#66CC66</option>
+<option value='66CC99' style='background-color:#66CC99;color:#66CC99;'>#66CC99</option>
+<option value='66CCCC' style='background-color:#66CCCC;color:#66CCCC;'>#66CCCC</option>
+<option value='66CCFF' style='background-color:#66CCFF;color:#66CCFF;'>#66CCFF</option>
+<option value='66FF00' style='background-color:#66FF00;color:#66FF00;'>#66FF00</option>
+<option value='66FF33' style='background-color:#66FF33;color:#66FF33;'>#66FF33</option>
+<option value='66FF66' style='background-color:#66FF66;color:#66FF66;'>#66FF66</option>
+<option value='66FF99' style='background-color:#66FF99;color:#66FF99;'>#66FF99</option>
+<option value='66FFCC' style='background-color:#66FFCC;color:#66FFCC;'>#66FFCC</option>
+<option value='66FFFF' style='background-color:#66FFFF;color:#66FFFF;'>#66FFFF</option>
+<option value='990000' style='background-color:#990000;color:#990000;'>#990000</option>
+<option value='990033' style='background-color:#990033;color:#990033;'>#990033</option>
+<option value='990066' style='background-color:#990066;color:#990066;'>#990066</option>
+<option value='990099' style='background-color:#990099;color:#990099;'>#990099</option>
+<option value='9900CC' style='background-color:#9900CC;color:#9900CC;'>#9900CC</option>
+<option value='9900FF' style='background-color:#9900FF;color:#9900FF;'>#9900FF</option>
+<option value='993300' style='background-color:#993300;color:#993300;'>#993300</option>
+<option value='993333' style='background-color:#993333;color:#993333;'>#993333</option>
+<option value='993366' style='background-color:#993366;color:#993366;'>#993366</option>
+<option value='993399' style='background-color:#993399;color:#993399;'>#993399</option>
+<option value='9933CC' style='background-color:#9933CC;color:#9933CC;'>#9933CC</option>
+<option value='9933FF' style='background-color:#9933FF;color:#9933FF;'>#9933FF</option>
+<option value='996600' style='background-color:#996600;color:#996600;'>#996600</option>
+<option value='996633' style='background-color:#996633;color:#996633;'>#996633</option>
+<option value='996666' style='background-color:#996666;color:#996666;'>#996666</option>
+<option value='996699' style='background-color:#996699;color:#996699;'>#996699</option>
+<option value='9966CC' style='background-color:#9966CC;color:#9966CC;'>#9966CC</option>
+<option value='9966FF' style='background-color:#9966FF;color:#9966FF;'>#9966FF</option>
+<option value='999900' style='background-color:#999900;color:#999900;'>#999900</option>
+<option value='999933' style='background-color:#999933;color:#999933;'>#999933</option>
+<option value='999966' style='background-color:#999966;color:#999966;'>#999966</option>
+<option value='999999' style='background-color:#999999;color:#999999;'>#999999</option>
+<option value='9999CC' style='background-color:#9999CC;color:#9999CC;'>#9999CC</option>
+<option value='9999FF' style='background-color:#9999FF;color:#9999FF;'>#9999FF</option>
+<option value='99CC00' style='background-color:#99CC00;color:#99CC00;'>#99CC00</option>
+<option value='99CC33' style='background-color:#99CC33;color:#99CC33;'>#99CC33</option>
+<option value='99CC66' style='background-color:#99CC66;color:#99CC66;'>#99CC66</option>
+<option value='99CC99' style='background-color:#99CC99;color:#99CC99;'>#99CC99</option>
+<option value='99CCCC' style='background-color:#99CCCC;color:#99CCCC;'>#99CCCC</option>
+<option value='99CCFF' style='background-color:#99CCFF;color:#99CCFF;'>#99CCFF</option>
+<option value='99FF00' style='background-color:#99FF00;color:#99FF00;'>#99FF00</option>
+<option value='99FF33' style='background-color:#99FF33;color:#99FF33;'>#99FF33</option>
+<option value='99FF66' style='background-color:#99FF66;color:#99FF66;'>#99FF66</option>
+<option value='99FF99' style='background-color:#99FF99;color:#99FF99;'>#99FF99</option>
+<option value='99FFCC' style='background-color:#99FFCC;color:#99FFCC;'>#99FFCC</option>
+<option value='99FFFF' style='background-color:#99FFFF;color:#99FFFF;'>#99FFFF</option>
+<option value='CC0000' style='background-color:#CC0000;color:#CC0000;'>#CC0000</option>
+<option value='CC0033' style='background-color:#CC0033;color:#CC0033;'>#CC0033</option>
+<option value='CC0066' style='background-color:#CC0066;color:#CC0066;'>#CC0066</option>
+<option value='CC0099' style='background-color:#CC0099;color:#CC0099;'>#CC0099</option>
+<option value='CC00CC' style='background-color:#CC00CC;color:#CC00CC;'>#CC00CC</option>
+<option value='CC00FF' style='background-color:#CC00FF;color:#CC00FF;'>#CC00FF</option>
+<option value='CC3300' style='background-color:#CC3300;color:#CC3300;'>#CC3300</option>
+<option value='CC3333' style='background-color:#CC3333;color:#CC3333;'>#CC3333</option>
+<option value='CC3366' style='background-color:#CC3366;color:#CC3366;'>#CC3366</option>
+<option value='CC3399' style='background-color:#CC3399;color:#CC3399;'>#CC3399</option>
+<option value='CC33CC' style='background-color:#CC33CC;color:#CC33CC;'>#CC33CC</option>
+<option value='CC33FF' style='background-color:#CC33FF;color:#CC33FF;'>#CC33FF</option>
+<option value='CC6600' style='background-color:#CC6600;color:#CC6600;'>#CC6600</option>
+<option value='CC6633' style='background-color:#CC6633;color:#CC6633;'>#CC6633</option>
+<option value='CC6666' style='background-color:#CC6666;color:#CC6666;'>#CC6666</option>
+<option value='CC6699' style='background-color:#CC6699;color:#CC6699;'>#CC6699</option>
+<option value='CC66CC' style='background-color:#CC66CC;color:#CC66CC;'>#CC66CC</option>
+<option value='CC66FF' style='background-color:#CC66FF;color:#CC66FF;'>#CC66FF</option>
+<option value='CC9900' style='background-color:#CC9900;color:#CC9900;'>#CC9900</option>
+<option value='CC9933' style='background-color:#CC9933;color:#CC9933;'>#CC9933</option>
+<option value='CC9966' style='background-color:#CC9966;color:#CC9966;'>#CC9966</option>
+<option value='CC9999' style='background-color:#CC9999;color:#CC9999;'>#CC9999</option>
+<option value='CC99CC' style='background-color:#CC99CC;color:#CC99CC;'>#CC99CC</option>
+<option value='CC99FF' style='background-color:#CC99FF;color:#CC99FF;'>#CC99FF</option>
+<option value='CCCC00' style='background-color:#CCCC00;color:#CCCC00;'>#CCCC00</option>
+<option value='CCCC33' style='background-color:#CCCC33;color:#CCCC33;'>#CCCC33</option>
+<option value='CCCC66' style='background-color:#CCCC66;color:#CCCC66;'>#CCCC66</option>
+<option value='CCCC99' style='background-color:#CCCC99;color:#CCCC99;'>#CCCC99</option>
+<option value='CCCCCC' style='background-color:#CCCCCC;color:#CCCCCC;'>#CCCCCC</option>
+<option value='CCCCFF' style='background-color:#CCCCFF;color:#CCCCFF;'>#CCCCFF</option>
+<option value='CCFF00' style='background-color:#CCFF00;color:#CCFF00;'>#CCFF00</option>
+<option value='CCFF33' style='background-color:#CCFF33;color:#CCFF33;'>#CCFF33</option>
+<option value='CCFF66' style='background-color:#CCFF66;color:#CCFF66;'>#CCFF66</option>
+<option value='CCFF99' style='background-color:#CCFF99;color:#CCFF99;'>#CCFF99</option>
+<option value='CCFFCC' style='background-color:#CCFFCC;color:#CCFFCC;'>#CCFFCC</option>
+<option value='CCFFFF' style='background-color:#CCFFFF;color:#CCFFFF;'>#CCFFFF</option>
+<option value='FF0000' style='background-color:#FF0000;color:#FF0000;'>#FF0000</option>
+<option value='FF0033' style='background-color:#FF0033;color:#FF0033;'>#FF0033</option>
+<option value='FF0066' style='background-color:#FF0066;color:#FF0066;'>#FF0066</option>
+<option value='FF0099' style='background-color:#FF0099;color:#FF0099;'>#FF0099</option>
+<option value='FF00CC' style='background-color:#FF00CC;color:#FF00CC;'>#FF00CC</option>
+<option value='FF00FF' style='background-color:#FF00FF;color:#FF00FF;'>#FF00FF</option>
+<option value='FF3300' style='background-color:#FF3300;color:#FF3300;'>#FF3300</option>
+<option value='FF3333' style='background-color:#FF3333;color:#FF3333;'>#FF3333</option>
+<option value='FF3366' style='background-color:#FF3366;color:#FF3366;'>#FF3366</option>
+<option value='FF3399' style='background-color:#FF3399;color:#FF3399;'>#FF3399</option>
+<option value='FF33CC' style='background-color:#FF33CC;color:#FF33CC;'>#FF33CC</option>
+<option value='FF33FF' style='background-color:#FF33FF;color:#FF33FF;'>#FF33FF</option>
+<option value='FF6600' style='background-color:#FF6600;color:#FF6600;'>#FF6600</option>
+<option value='FF6633' style='background-color:#FF6633;color:#FF6633;'>#FF6633</option>
+<option value='FF6666' style='background-color:#FF6666;color:#FF6666;'>#FF6666</option>
+<option value='FF6699' style='background-color:#FF6699;color:#FF6699;'>#FF6699</option>
+<option value='FF66CC' style='background-color:#FF66CC;color:#FF66CC;'>#FF66CC</option>
+<option value='FF66FF' style='background-color:#FF66FF;color:#FF66FF;'>#FF66FF</option>
+<option value='FF9900' style='background-color:#FF9900;color:#FF9900;'>#FF9900</option>
+<option value='FF9933' style='background-color:#FF9933;color:#FF9933;'>#FF9933</option>
+<option value='FF9966' style='background-color:#FF9966;color:#FF9966;'>#FF9966</option>
+<option value='FF9999' style='background-color:#FF9999;color:#FF9999;'>#FF9999</option>
+<option value='FF99CC' style='background-color:#FF99CC;color:#FF99CC;'>#FF99CC</option>
+<option value='FF99FF' style='background-color:#FF99FF;color:#FF99FF;'>#FF99FF</option>
+<option value='FFCC00' style='background-color:#FFCC00;color:#FFCC00;'>#FFCC00</option>
+<option value='FFCC33' style='background-color:#FFCC33;color:#FFCC33;'>#FFCC33</option>
+<option value='FFCC66' style='background-color:#FFCC66;color:#FFCC66;'>#FFCC66</option>
+<option value='FFCC99' style='background-color:#FFCC99;color:#FFCC99;'>#FFCC99</option>
+<option value='FFCCCC' style='background-color:#FFCCCC;color:#FFCCCC;'>#FFCCCC</option>
+<option value='FFCCFF' style='background-color:#FFCCFF;color:#FFCCFF;'>#FFCCFF</option>
+<option value='FFFF00' style='background-color:#FFFF00;color:#FFFF00;'>#FFFF00</option>
+<option value='FFFF33' style='background-color:#FFFF33;color:#FFFF33;'>#FFFF33</option>
+<option value='FFFF66' style='background-color:#FFFF66;color:#FFFF66;'>#FFFF66</option>
+<option value='FFFF99' style='background-color:#FFFF99;color:#FFFF99;'>#FFFF99</option>
+<option value='FFFFCC' style='background-color:#FFFFCC;color:#FFFFCC;'>#FFFFCC</option>
+<option value='FFFFFF' style='background-color:#FFFFFF;color:#FFFFFF;'>#FFFFFF</option>
+</select><span id='xoopsHiddenText'>范例 Example</span>
+<br />
+<img onclick='javascript:setVisible("xoopsHiddenText");makeBold("xoopsHiddenText");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/images/bold.gif' alt='bold' />&nbsp;<img onclick='javascript:setVisible("xoopsHiddenText");makeItalic("xoopsHiddenText");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/images/italic.gif' alt='italic' />&nbsp;<img onclick='javascript:setVisible("xoopsHiddenText");makeUnderline("xoopsHiddenText");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/images/underline.gif' alt='underline' />&nbsp;<img onclick='javascript:setVisible("xoopsHiddenText");makeLineThrough("xoopsHiddenText");' src='http://gocom.primeton.com/images/linethrough.gif' alt='linethrough' onmouseover='style.cursor="hand"' />&nbsp;&nbsp;<input type='text' id='messageAddtext' size='20' />&nbsp;<input type='button' onclick='xoopsCodeText("message", "xoopsHiddenText", "请输入文字。")' class='formButton' value='添加' /><br /><br /><textarea id='message' name='message' onselect="xoopsSavePosition('message');" onclick="xoopsSavePosition('message');" onkeyup="xoopsSavePosition('message');" cols='140' rows='10'></textarea><br />
+<img onclick='xoopsCodeSmilie("message", " :-D ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4d4e4c4f2.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :-) ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4d6422f04.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :-( ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4d75edb5e.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :-o ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4d8676346.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :-? ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4d99c6eaa.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " 8-) ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4daabd491.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :lol: ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4dbc14f3f.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :-x ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4dcd7b9f4.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :-P ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4ddd6835f.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :oops: ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4df1944ee.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :cry: ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4e02c5440.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :evil: ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4e1748cc9.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :roll: ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4e29bbcc7.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " ;-) ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4e398ff7b.gif' alt='' /><img onclick='xoopsCodeSmilie("message", " :idea: ");' onmouseover='style.cursor="hand"' src='http://gocom.primeton.com/uploads/smil3dbd4e7853679.gif' alt='' />&nbsp;[<a href='#moresmiley' onclick='javascript:openWithSelfMain("http://gocom.primeton.com/misc.php?action=showpopups&amp;type=smilies&amp;target=message","smilies",300,475);'>更多...</a>]</td></tr><input type='hidden' name='dohtml' id='dohtml' value='0' /><input type='hidden' name='dosmiley' id='dosmiley' value='1' /><input type='hidden' name='doxcode' id='doxcode' value='1' /><input type='hidden' name='dobr' id='dobr' value='1' /><input type='hidden' name='attachsig' id='attachsig' value='1' /><input type='hidden' name='isreply' id='isreply' value='1' /><input type='hidden' name='subject' id='subject' value='Re: 关于“事务”的一些收藏' /><input type='hidden' name='pid' id='pid' value='57614' /><input type='hidden' name='topic_id' id='topic_id' value='13040' /><input type='hidden' name='forum' id='forum' value='25' /><input type='hidden' name='viewmode' id='viewmode' value='flat' /><input type='hidden' name='order' id='order' value='ASC' /><input type='hidden' name='start' id='start' value='0' /><input type='hidden' name='contents_submit' id='contents_submit' value='1' /><tr valign='top' align='left'><td class='head'></td><td class='even'><input type='submit' class='formButton' name='submit'  id='submit' value='提交' onclick="if(document.quick_reply.message.value == 'RE' || document.quick_reply.message.value == ''){ alert('请输入快速回复的内容'); return false;}else{ document.quick_reply.submit();}" />
+</td></tr></table></form>
+
+<!-- Start Form Vaidation JavaScript //-->
+<script type='text/javascript'>
+<!--//
+function xoopsFormValidate_quick_reply() {
+	myform = window.document.quick_reply;
+return true;
+}
+//--></script>
+<!-- End Form Vaidation JavaScript //-->
+</div>
+
+<!--
+<div>
+<a href="#threadbottom" onclick="ToggleBlock('qr', this)"> <img src="http://gocom.primeton.com/modules/newbb/images/imagesets/default/schinese/t_qr-a.png" style="width: 94px; height:34px; margin: 0px;" alt="" align="middle" /></a>
+</div>
+<br clear="all" />
+<div id="qr" style="display: block;">
+
+</div>
+<br clear="all" />
+<br clear="all" />
+-->
+<!--
+<div style="float: left; text-align: left;">
+<div>您<b><font color='red'>不可</font></b>发帖.<br /></div>
+<div>您<b><font color='green'>可以</font></b>查看帖子.<br /></div>
+<div>您<b><font color='red'>不可</font></b>回复.<br /></div>
+<div>您<b><font color='red'>不可</font></b>编辑自己的帖子.<br /></div>
+<div>您<b><font color='red'>不可</font></b>删除自己的帖子.<br /></div>
+<div>您<b><font color='red'>不可</font></b>发起投票调查.<br /></div>
+<div>您<b><font color='red'>不可</font></b>在投票调查中投票.<br /></div>
+<div>您<b><font color='red'>不可</font></b>上传附件.<br /></div>
+<div>您<b><font color='red'>不可</font></b>不经审核直接发帖.<br /></div>
+</div>-->
+<!--
+
+<br clear="all" />-->
+
+<!----></td>
+																				</tr>
+																		</table>
+												</td></tr>
+										
+										</table>
+
+										<!-----------------------------------------以下是尾部--------------------->
+
+										<table class=frame_table_footer align=center border=0 cellpadding=0 cellspacing=0 width=904>
+										<tr><td>
+										<table style="border-top:solid 1px #c4c4c4;" width=100%><tr><td align=left>
+																版权归Primeton普元公司所有&nbsp;沪ICP备05008205号
+										</td><td align=center><script src='http://s23.cnzz.com/stat.php?id=729730&web_id=729730&online=1&show=line' language='JavaScript' charset='gb2312'></script></td><td align=right>						
+																<a href="/modules/growup/?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">关于goCom</a>&nbsp;|&nbsp;<a href="mailto:goCom@primeton.com">联系我们</a>&nbsp;|&nbsp;<a target="_blank"  href="http://www.primeton.com/">联系普元</a>&nbsp;|&nbsp;
+																<a target="_blank" href="/privacy.php?PHPSESSID=970b8ed7cacc5659eb5724cc3f881da3">隐私权声明</a>&nbsp;|&nbsp;<a href="http://xoops.org.cn" target="_blank">XOOPS</a>
+										</td></tr>
+										</table>
+										</td></tr>
+										</table>
+
+										
+</body>
+
+</html>
