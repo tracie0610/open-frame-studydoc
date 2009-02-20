@@ -1,0 +1,934 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><title>
+	 3.2  使用显示从一个属性文件映射的图像 - 《Struts Recipes中文版——构建稳固的商务应用策略》 - 免费试读 - book.csdn.net
+</title><meta name="keywords" content="图书,连载,免费试读,电子书,畅销书,热点书,原创,资讯,名人堂,书友会,作家,名家" /><meta name="description" content="CSDN读书频道为中国最大的开发者网络平台开辟的IT人专有读书平台，提供最新热点图书的连载，章节试读，提供书友会，读者可以在浏览图书的同时，以书会友建立出版圈子，实时讨论出版热点，建立IT图书交流社区。" /><meta http-equiv="Content-Type" content="text/html; charset=gb2312" /><link href="/css/newindex2.css" rel="stylesheet" type="text/css" />
+    <script src="/css/bookread.js" type="text/javascript"></script>
+    <link href="/css/newbookindex/arc2.css" rel="stylesheet" type="text/css" />
+    <style>
+    a:link {
+	color: #336699;
+	 
+}
+a:visited {
+	color: #666699;
+	 
+}
+ 
+a img {
+	border-width:0;
+}
+    #friendlinks #linkup{margin-top:2px; margin-left:10px}
+#friendlinks #linkup2{margin-top:2px; margin-left:10px}
+#friendlinks #linkbottom{margin-left:10px}
+#friendlinks span{ font-weight:bold; color:yellow;}
+#friendlinks a{ margin-left:5px; text-decoration:none; color:white;}
+#friendlinks{padding-top:10px; width:1000px; margin:2px auto 2px auto; height:70px; background:url(/images/newindex/friendlinks_bg.gif) repeat-x }
+
+.content h6{font-size:12px; width:100%; height:22px;text-indent:1em;font-weight:bold;text-align:left;color:black;background:url(http://remark2.csdn.net/App_Themes/Default/images/r/listpage_titbg.gif) repeat-x;line-height:29px;padding:0 5px;}
+#Ian_RemarkTop li{text-align:left;line-height:15pt;padding-top:3px;padding-bottom:3px;}
+.cDRed{display:none;}
+
+    </style>
+</head>
+<body>
+     <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-178341-4";
+urchinTracker();
+</script>
+<style>
+.CSDN-PHF
+{
+    width: 1000px;
+    margin: auto;
+    font-size: 12px;
+    text-align: left;
+    font-family: Tahoma, verdana, "Lucida Sans Unicode", sans-serif;
+}
+.CSDN-PHF a,
+.CSDN-PHF a:link,
+.CSDN-PHF a:visited,
+.CSDN-PHF a:active
+{
+    color: #003366;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: normal;
+    text-decoration: none;
+    font-family: Tahoma, verdana, "Lucida Sans Unicode", sans-serif;
+}
+
+/* CSDN Public Header style */
+#CSDNPH, #CSDNPF{text-align: center;}
+/* CSDN Public Header */
+#CSDNPH table{width: 100%; height: 20px; border: none;}
+#CSDNPH_line1{height: 20px;}
+#CSDNPH dl
+{
+    padding-left: 160px;
+    border-bottom: 3px solid #4682B4;
+    background: #FFFFFF url(http://www.csdn.net/ui/styles/public_header_footer/logo_csdn.gif) no-repeat top left;
+}
+#CSDNPH dd
+{
+    height: 60px;
+    text-align: left;
+    line-height: 20px;
+    background: url(http://www.csdn.net/ui/styles/public_header_footer/bgpheadtop.gif) no-repeat top right;
+}
+#data_for_drop_menu
+{
+    position: absolute;
+    top: 19px;
+    left: 0px;
+    width: 68px;
+    border: solid 1px #4682B4;
+    border-top: none;
+    text-align: left;
+    background-color: #FFFFFF;
+}
+#data_for_drop_menu div{padding: 1px 2px;margin: 0 2px;border-bottom: dotted 1px #D4D0C8;}
+#CSDNPHL td, #CSDNPH_line2 td{text-align: center; background-color: #4682B4;}
+#CSDNPH_line2 a:link, #CSDNPH_line2 a:visited, #CSDNPH_line2 a:hover, #CSDNPH_line2 a:active{color: #FFFFFF; padding: 0 2px;}
+#CSDNPH_line3 a{padding: 0 1px;}
+
+/* CSDN Public Footer style */
+#CSDNPF{line-height: 120%; text-align: center; overflow: hidden;}
+#CSDNPF .CSDN-PHF{text-align: center;}
+#CSDNPF .CSDN-PHF div{padding-left: 40px;}
+* html #CSDNPF hr{clear: both; height: 1px; border-top: 1px solid #4682B4;}
+#CSDNPF a.biaoshi
+{
+    left: -9%;
+    width: 40px;
+    height: 48px;
+    float: right;
+    display: block;
+    position: relative;
+    background: url(http://www.csdn.net/ui/styles/public_header_footer/biaoshi.gif) no-repeat center;
+}
+#CSDNPF a, #CSDNPF a:link, #CSDNPF a:visited, #CSDNPF a:active{color: #000000;}
+
+/* CSDN Public Header Single Line Style */
+#CSDNPHL{text-align: center; height: 20px;}
+#CSDNPHL a:link, #CSDNPHL a:visited, #CSDNPHL a:active, #CSDNPHL a:hover{color: #FFFFFF;padding: 0 1px;}.CSDN-PHF
+{
+    width: 1000px;
+    margin: auto;
+    font-size: 12px;
+    text-align: left;
+    font-family: Tahoma, verdana, "Lucida Sans Unicode", sans-serif;
+}
+.CSDN-PHF a,
+.CSDN-PHF a:link,
+.CSDN-PHF a:visited,
+.CSDN-PHF a:active
+{
+    color: #003366;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: normal;
+    text-decoration: none;
+    font-family: Tahoma, verdana, "Lucida Sans Unicode", sans-serif;
+}
+
+/* CSDN Public Header style */
+#CSDNPH, #CSDNPF{text-align: center;}
+/* CSDN Public Header */
+#CSDNPH table{width: 100%; height: 20px; border: none;}
+#CSDNPH_line1{height: 20px;}
+#CSDNPH dl
+{
+    padding-left: 160px;
+    border-bottom: 3px solid #4682B4;
+    background: #FFFFFF url(http://www.csdn.net/ui/styles/public_header_footer/logo_csdn.gif) no-repeat top left;
+}
+#CSDNPH dd
+{
+    height: 60px;
+    text-align: left;
+    line-height: 20px;
+    background: url(http://www.csdn.net/ui/styles/public_header_footer/bgpheadtop.gif) no-repeat top right;
+}
+#data_for_drop_menu
+{
+    position: absolute;
+    top: 19px;
+    left: 0px;
+    width: 68px;
+    border: solid 1px #4682B4;
+    border-top: none;
+    text-align: left;
+    background-color: #FFFFFF;
+}
+#data_for_drop_menu div{padding: 1px 2px;margin: 0 2px;border-bottom: dotted 1px #D4D0C8;}
+#CSDNPHL td, #CSDNPH_line2 td{text-align: center; background-color: #4682B4;}
+#CSDNPH_line2 a:link, #CSDNPH_line2 a:visited, #CSDNPH_line2 a:hover, #CSDNPH_line2 a:active{color: #FFFFFF; padding: 0 2px;}
+#CSDNPH_line3 a{padding: 0 1px;}
+
+/* CSDN Public Footer style */
+#CSDNPF{line-height: 120%; text-align: center; overflow: hidden;}
+#CSDNPF .CSDN-PHF{text-align: center;}
+#CSDNPF .CSDN-PHF div{padding-left: 40px;}
+* html #CSDNPF hr{clear: both; height: 1px; border-top: 1px solid #4682B4;}
+#CSDNPF a.biaoshi
+{
+    left: -9%;
+    width: 40px;
+    height: 48px;
+    float: right;
+    display: block;
+    position: relative;
+    background: url(http://www.csdn.net/ui/styles/public_header_footer/biaoshi.gif) no-repeat center;
+}
+#CSDNPF a, #CSDNPF a:link, #CSDNPF a:visited, #CSDNPF a:active{color: #000000;}
+
+/* CSDN Public Header Single Line Style */
+#CSDNPHL{text-align: center; height: 20px;}
+#CSDNPHL a:link, #CSDNPHL a:visited, #CSDNPHL a:active, #CSDNPHL a:hover{color: #FFFFFF;padding: 0 1px;}
+</style>
+<div id="CSDNPH"><div class="CSDN-PHF"><dl style="margin:0"><dd style="margin:0">
+  <div id="CSDNPH_line1">
+    <a href="http://passport.csdn.net/UserLogin.aspx">【登录】</a>
+    <a href="http://passport.csdn.net/CSDNUserRegister.aspx">【免费注册】</a>
+  </div>
+  <table id="CSDNPH_line2" border="0" cellpadding="0" cellspacing="1">
+    <tr>
+      <td><a rel="mz" href='http://www.csdn.net/'>首页</a></td>
+      <td><a rel="mz" href='http://news.csdn.net/'>新闻</a></td>
+      <td><a rel="mz" href='http://bbs.csdn.net/'>论坛</a></td>
+      <td><a rel="mz" href='http://groups.csdn.net/'>群组</a></td>
+      <td><a rel="mz" href='http://blog.csdn.net/'>Blog</a></td>
+      <td><a rel="mz" href='http://dev.csdn.net/'>文档</a></td>
+      <td><a rel="mz" href='http://download.csdn.net/'>下载</a></td>
+      <td><a rel="mz" href='http://book.csdn.net/'>读书</a></td>
+      <td><a rel="mz" href='http://tag.csdn.net/'>Tag</a></td>
+      <td><a rel="mz" href='http://wz.csdn.net/'>网摘</a></td>
+      <td><a rel="mz" href='http://search.csdn.net/'>搜索</a></td>
+      <td><a rel="mz" href='http://gforge.osdn.net.cn/'>开源</a></td>
+      <td><a rel="mz" href='http://faq.csdn.net/'>FAQ</a></td>
+      <td><a rel="mz" href='http://www.dearbook.com.cn/'>第二书店</a></td>
+      <td><a rel="mz" href='http://www.broadview.com.cn/'>博文视点</a></td>
+      <td><a rel="mz" href='http://www.programmer.com.cn/'>程序员</a></td> 
+    </tr>
+  </table>
+  <table id="CSDNPH_line3" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td><a style="color: #FF0000;">频道:</a></td>
+      <td><a rel="mz" href='http://sd.csdn.net/'>研发</a></td>
+      <td><a rel="mz" href='http://database.csdn.net/'>数据库</a></td>
+      <td><a rel="mz" href='http://middleware.csdn.net/'>中间件</a></td>
+      <td><a rel="mz" href='http://itpro.csdn.net/'>信息化</a></td>
+      <td><a rel="mz" href='http://live.csdn.net/'>视频</a></td>
+      <td><a rel="mz" href='http://dotnet.csdn.net/'>.NET</a></td>
+      <td><a rel="mz" href='http://java.csdn.net/'>Java</a></td>
+      <td><a rel="mz" href='http://gamedev.csdn.net/'>游戏</a></td>
+      <td><a rel="mz" href='http://mobile.csdn.net/'>移动</a></td>
+      <td style="width: 36px;"> </td>
+      <td><a style="color: #FF0000;">服务:</a></td>
+      <td><a rel="mz" href='http://job.csdn.net/'>人才</a></td>
+      <td><a rel="mz" href='http://prj.csdn.net/'>外包</a></td>
+      <td><a rel="mz" href='http://training.csdn.net/'>培训</a></td>
+      <td style="width: 70px;" onmouseover="$mz_.show(event, this)"><div
+        style="position:absolute; margin-top: -9px; padding-left: 5px;"><a
+        href="#" onclick="return false;">厂商专区</a><div
+        id="data_for_drop_menu" style="display: none">
+        <div><a rel="mz" href="http://www.csdn.net/bea/">BEA专区</a></div>
+        <div><a rel="mz" href="http://www.csdn.net/ianywhere/">iAnywhere</a></div>
+        <div><a rel="mz" href="http://www.csdn.net/ibmc/">IBM专区</a></div>
+        <div><a rel="mz" href="http://intel.csdn.net/">Intel专区</a></div>
+        <div><a rel="mz" href="http://www.csdn.net/ijs/">IJS专区</a></div>
+        <div><a rel="mz" href="http://sap.csdn.net/" id="a_f_p_">SAP专区</a></div>
+        <div><a rel="mz" href="http://telelogic.csdn.net/">Telelogic</a></div>
+        <div><a rel="mz" href="http://www.csdn.net/sun/">SUN专区</a></div>
+        <div><a rel="mz" href="http://windowslive.csdn.net/domains/">定制邮局</a></div>
+        <div><a rel="mz" href="http://www.dearbook.com.cn/Subject/press/reyou.aspx">人邮出版</a></div>
+        <div><a rel="mz" href="http://msclub.csdn.net/">微软专区</a></div>
+      </div></div>
+      </td>
+    </tr>
+  </table>
+</dd></dl></div>
+<script type="text/javascript">/*<![CDATA[*/
+(function()
+{
+  var $=function(id){return document.getElementById(id)};
+  var a=$("CSDNPH").getElementsByTagName("A"),i;window["$mz_"]={};
+  for(i=0;i<a.length;i++)if(a[i].href&&a[i].rel=="mz")a[i].target="_blank";
+  var a=$("CSDNPH_line2").rows[0].cells;   for(i=0, n=a.length; i<n; i++){
+  a[i].onmouseout =function(){this.style.backgroundColor=""}
+  a[i].onmouseover=function(){this.style.backgroundColor="#336699";}}
+
+  //dropdowm menu
+  $mz_.B="object"==typeof(window.createPopup);//IE5.5+
+  if($mz_.B){$mz_.pop=window.createPopup();with($mz_.pop.document.body.style){
+  border="solid 1px #4682B4";borderTop="none";margin="0 3px";fontSize="12px";}
+  $mz_.pdoc=$mz_.pop.document; var s=$mz_.pdoc.createStyleSheet();
+  $mz_.pdoc.body.innerHTML=$("data_for_drop_menu").innerHTML;
+  s.cssText = "div{line-height: 20px; border-bottom: dotted 1px #D4D0C8;}"
+  +"a{color: #003366; font-size: 12px; font-family: \u5B8B\u4F53; text-decoration: none;}";
+  $mz_.pdoc.onclick=function(){var a=$mz_.pdoc.parentWindow.event.srcElement;
+  if(a.tagName=="A"){$("a_f_p_").href = a.href; $("a_f_p_").click();}}}
+
+  $mz_.show=function(e,td){window.event?event.cancelBubble=true:e.stopPropagation();
+  if($mz_.B) $mz_.pop.show(0, 20, 70, $("data_for_drop_menu").childNodes.length*21, td);
+  else $('data_for_drop_menu').style.display='';}
+  $mz_.hide=function(){if($mz_.B)$mz_.pop.hide();else $('data_for_drop_menu').style.display='none'}
+  $mz_.mouseout=function(e){window.event?event.cancelBubble=true:e.stopPropagation();}
+  
+  if(document.addEventListener) document.addEventListener("mouseover", function(){$mz_.hide()}, false);
+  else if(document.attachEvent) document.attachEvent("onmouseover", function(){$mz_.hide()});
+
+  function getCookie(name){var arr=document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+  if(arr!=null)return unescape(arr[2]);return null;}
+
+  $mz_.logout=function(e){new Image().src=e.href; if($mz_.login_info) $mz_.log.innerHTML=$mz_.login_info;}
+  $mz_.log=$("CSDNPH_line1");$mz_.login_info=$mz_.log.innerHTML; var user=getCookie("activeUserName");
+  if(user && user!="Guest") $mz_.log.innerHTML = "欢迎 <strong>"+ user +"</strong>   "
+    +"<a href='http://job.csdn.net/Con001_ProjectManage/Job/MyResume.aspx' target='_blank'>我的简历</a> | "
+    +"<a href='http://community.csdn.net/Expert/member/MyForum.asp?typenum=1' target='_blank'>我的帖子</a> | "
+    +"<a href='http://blog.csdn.net/"+ user +"/' target='_blank'>我的Blog</a> | "
+    +"<a href='http://wz.csdn.net/my/' target='_blank'>我的网摘</a> | "
+    +"<a href='http://club.book.csdn.net/people/myclub.aspx' target='_blank'>我的书架</a> "
+    +"<a href='http://passport.csdn.net/logonout.aspx' onclick='$mz_.logout(this); return false'>【注销】</a>"
+})();
+/*]]>*/</script>
+</div>
+	<table class="top" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td><a href="http://book.csdn.net/"><img alt="" src="/images2/bookLogo.gif" /></a></td>
+				<td>
+					<div id="ad_div"></div>
+						<div class="tabs1">
+							<ul>
+							<li class="current"><a href="http://book.csdn.net/book/morelz.aspx"><span>精品连载</span></a></li>
+							<li><a href="http://club.book.csdn.net/people/myclub.aspx"><span>书友会</span></a></li>
+							<li><a href="http://club.book.csdn.net/book/bookrank.aspx"><span>图书指数榜</span></a></li>
+							<li><a href="http://club.book.csdn.net/people/putblog.aspx"><span>收藏秀</span></a></li>
+							<li><a href="http://club.book.csdn.net/people/morelist.aspx?username=bookread"><span>特色书架</span></a></li>
+							<li><a href="http://blog.csdn.net/group/bookread/" target="_blank"><span>出版圈子</span></a></li>
+							<li><a href="http://groups.csdn.net/bookread/" target="_blank"><span>读书讨论群</span></a></li>
+							<li><a href="http://blog.csdn.net/bookread/" target="_blank"><span>读书博客</span></a></li>
+							<li><a href="http://bank.csdn.net" target="_blank"><span>社区银行</span></a></li>
+							</ul>
+  		              </div>
+				</td>
+			</tr>
+		</table>
+		
+		 
+		 <script type="text/javascript">
+     function IsBlank(obj) //查看对象的值是否为空
+    {
+      if(obj.replace(/^\s+|\s+$/,"")=="")
+		  {
+		 
+		    return true; 
+		  }
+		  else
+		  {
+		   return false;
+		  }
+		  
+     }
+    function SearchBook_Top()
+    {
+      if( !IsBlank(document.getElementById("txtTopKey").value))
+      {
+           var loc;
+         var szType;
+         if(document.getElementById("searchKind1").checked==true)
+          {    
+            szType= 2
+          }
+          else if (document.getElementById("searchKind2").checked==true)
+          {
+              szType=1;
+          }
+          else if (document.getElementById("searchKind3").checked==true)
+          { 
+            szType=3;
+          }
+           else if (document.getElementById("searchKind4").checked==true)
+          { 
+            szType=4;
+          }
+           else if (document.getElementById("searchKind5").checked==true)
+          { 
+            szType=5;
+          }
+          
+          if(szType==1)
+            loc="http://book.csdn.net/book/morelz.aspx?key="+escape(document.getElementById("txtTopKey").value);
+          else if(szType==2)
+             loc="http://club.book.csdn.net/book/s.aspx?key="+escape(document.getElementById("txtTopKey").value);
+             else if(szType==3)
+             loc="http://club.book.csdn.net/tag/"+escape(document.getElementById("txtTopKey").value)+"/1.html";
+             else if(szType==5)
+               loc="http://www.baidu.com/s?wd=site%3Abook.csdn.net%20"+document.getElementById("txtTopKey").value+"&cl=3";
+             else
+                loc="http://www.google.cn/search?q=site%3Abook.csdn.net%20"+document.getElementById("txtTopKey").value;
+          if(szType<=3)
+          self.location=loc;
+          else
+          window.open(loc,"gsearch");
+        
+      } 
+    }
+  </script>
+		<div class="searchMain">
+			<dl style="border: solid 1px #5992ac; padding: 2px;">
+				<dd style="background-color:#95c4d9; padding: 5px 5px 5px 240px;">
+					 
+						<input class="searchDi" size="70" id="txtTopKey" /> <input type="image" src="/images2/search.gif"/ onclick="SearchBook_Top();return false;"/>&nbsp;&nbsp;&nbsp;&nbsp;图书品种：<font color="#FF0000"><b>235680</b></font>种<br />
+						 
+						<input type="radio" name="aa" id="searchKind1" checked="checked" /> <label for="searchKind1">书友会</label> &nbsp;
+						<input type="radio" name="aa" id="searchKind2" /> <label for="searchKind2">连载</label> &nbsp;
+					        <input type="radio" name="aa" id="searchKind3" /> <label for="searchKind3">Tag</label>&nbsp;
+					        <input type="radio" name="aa" id="searchKind4" /> <label for="searchKind4"><font color="#800080">用Google进行全文检索</font></label>&nbsp;
+					        <input type="radio" name="aa" id="searchKind5" /> <label for="searchKind5"><font color="#800080">用百度进行全文检索</font></label>
+				 
+				</dd>
+				<dt style="padding: 5px 5px 5px 245px;">
+					热门搜索：
+					<a href="http://club.book.csdn.net/book/s.aspx?key=ASP.NET">ASP.NET</a>  
+					<a href="http://club.book.csdn.net/book/s.aspx?key=Ajax">Ajax</a>  
+					<a href="http://club.book.csdn.net/book/s.aspx?key=Spring">Spring</a>  
+					<a href="http://club.book.csdn.net/book/s.aspx?key=Hibernate">Hibernate</a>  
+					<a href="http://club.book.csdn.net/book/s.aspx?key=Java">Java</a>
+				</dt>
+			</dl>
+		</div>
+<link href="/css/newindex2.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/AdFile/AdOut.aspx?adtype=bsad"></script>
+      <div id="wrapper">
+        <div id="innerWrapper">
+            <div id="mainWrappe">
+             
+            <div id="pageContent">
+                <div class="col1">
+            
+            <!-- title -->
+            <div class="arcTitle" style="width:100%;"> 
+            
+                <h1 style="width:100%;">
+                    <script src="http://wz.csdn.net/javascripts/vote.js"></script><a href="http://book.csdn.net/bookfiles/251">
+                        Struts Recipes中文版——构建稳固的商务应用策略
+                    </a>
+                </h1>
+                <div style="text-align: center; font-size: 15px">
+                    <a href="http://book.csdn.net/bookfiles/251/10025111370.shtml">
+                        3.2  使用<html:img/>显示从一个属性文件映射的图像&nbsp;
+                    </a>
+                </div>
+                <div style="text-align: center; font-size: 15px">
+                    <a class="url" href="http://book.csdn.net">http://book.csdn.net/</a>
+                    2007-1-24 14:30:00
+                </div>
+                <div class="clear">
+                </div>
+                <div style="margin: 0px auto; width: 600px; border: solid 1px #0b5f98;float:left;">
+                    <div style="float: left; width: 16px; background-color: #0b5f98; color: White; padding: 1px;">
+                        图书导读
+                    </div>
+                    <div style="float: right; width: 570px; text-align: left; line-height: 16pt; padding-left: 2px">
+                        <!--导读-->
+                        <h1 id="divCurrentNode" style="color: #b83507; width: 100%; text-align: left; font-size: 12px; padding-left: 2px">当前章节:<a href='http://book.csdn.net/bookfiles/251/10025111370.shtml'><font color='red'>3.2  使用<html:img/>显示从一个属性文件映射的图像</font></a></h1>
+                        <div id="divRelateNode" style="padding-left: 2px">
+                        <div style='float:left;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111367.shtml'>目录</a></div><div style='float:right;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111369.shtml'>3.1  使用 <html:link/> 增加应用程序的可维护性</a></div><div style='float:left;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111371.shtml'>3.3  用<bean:write/>标签编码信息</a></div><div style='float:right;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111372.shtml'>3.4  使用<bean:define/>向页面暴露信息</a></div><div style='float:left;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111373.shtml'>3.5  为简单的服务器端包含使用 <bean:include/></a></div><div style='float:right;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111374.shtml'>3.6  使用<logic:present/>标签来确定页面内容</a></div></div>
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+            <!-- main -->
+            <div id="main">
+                <div id="text">
+                  <div id="csdn_zhaig_ad_yahoo_2"></div>
+                  
+                 <link href="css.css" rel="stylesheet" type="text/css" /><h3>3.2 &nbsp;使用&lt;html:img/&gt;显示从一个属性文件映射的图像</h3>
+
+<p class=23 style='margin-left:0cm'>Rendering images mapped
+from a properties file using &lt;html:img/&gt;</p>
+
+<p class=5>◆ 问题</p>
+
+<p class=JU style='text-indent:19.0pt'>怎样使用&lt;html:img/&gt;标签来得到在一个属性文件中映射的图像引用。</p>
+
+<p class=5>◆ 背景</p>
+
+<p class=JU style='margin-top:4.0pt;text-indent:19.0pt'>&lt;html:img/&gt;是通过servlet
+引擎处理成为一个HTML &lt;img/&gt;标签的。这个标签的图像路径是依靠创建它时设置的属性来解析的。你必须 使用以下四个属性之一：src、page、action或者srcKey.src。最通用的属性src 把URL 重写应用于你指定的图像的具体的路径。Page 提供被显示图像的相对于模块的路径的URL。action附加一个显示请求的图像的命名Action，以一个(/)开始。最后，srcKey.src 引用在一个以 bundle 属性命名的资源包中的图像的URL（如果没有指定包，使用默认包）。这些是最通用的属性，通过无所不在的HTML &lt;img/&gt;标签实现，并没有包括全部的属性。</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+align —— 图像的定位。</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+alt —— 在图像显示之前用来显示的文本，或者如果图像不能被显示的时候所显示的文本。</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+height
+—— 图像的高度。</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+width —— 图像的宽度。</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+border
+—— 以像素为单位来显示的图像边界。</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+src —— 被显示的图像的位置。</p>
+
+<p class=JU style='text-indent:19.0pt;line-height:16.0pt'>Struts &lt;html:img/&gt;标签不仅支持和实现以上全部的图像属性（正如它的HTML 对应物一样），它也支持Struts 的连接和URL 操作机制。在这个方法中，我们将展示怎样使用标签的srcKey 属性来指向一个Struts 消息资源属性文件中的URL 引用，在单一的属性文件中，有效地存储所有图像引用。当应用程序中有许多图像的时候，或者有特别的为了在远程服务器上高速缓存目的的URL 链接的时候，这特别有帮助，例如Akamai等。一旦图像引用被存储在一个消息资源属性文件之内，出现重复入口的可能性被显著地减少，这使管理图像和它们的相关目录的时间大大减少。</p>
+
+<p class=5>◆ 方法</p>
+
+<p class=JU style='text-indent:19.0pt'>把图像合并到web 应用程序中是必要的。它们增加风味，给予风格，并且扩展有关页面的打印信息。外观对于用户体验是重要的，但是在应用程序被部署的前后，经营管理这些图像对于开发者来说更加重要。</p>
+
+<p class=JU style='text-align:justify;text-justify:distribute-all-lines;
+text-indent:19.0pt'>图像位置和检索是开发者的重要的考虑，但是其他的考虑也会有。这些图像本地化了吗？法国人需要一个不同的图像吗?它们的链接怎么样？Struts &lt;html:img/&gt;标签通过它</p>
+
+
+
+
+<p class=JU style='text-indent:0cm'>的丰富的属性集极好地回答了这些问题。通过在这个标签里设置一些属性，我们将展示如何实现几年前需要许多代码行才能实现的功能。</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse'>
+ <tr>
+  <td width=62 valign=top style='width:46.85pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=TS>最优方法</p>
+  </td>
+  <td width=430 valign=top style='width:322.5pt;padding:0cm 0cm 0cm 0cm'>
+  
+  <p class=TS1>在大多数情况下保持单一的图像目录。——单一图像目录应该用于大多数情况。这个目录最好位于一个于页面目录相同的级别。用无关的、嵌套的、或者多重目录来处理图像，随着应用程序的增长，这会是非常麻烦和特别不好理解的。记得这些图像最后不只是将要从页面（例如，Tile、布局模板、脚本、和CSS 目录）被访问是很重要的。</p>
+  </td>
+ </tr>
+</table>
+
+<p class=JU style='text-indent:19.0pt'>让我们看一个在Struts JSP 页面上的典型图像，解剖它，并且通过在Struts 框架之内使用属性文件来提高对页面中加入图像的理解。下面代码片断展示Struts-config.xml 文件中的一个入口，它指定一个图像资源包（对于资源包的更多信息，见方法1.5 “在配置中指定一个资源属性文件”）。</p>
+
+
+
+<p class=D2>&lt;message-resources
+parameter=&quot;resources.images&quot; key=&quot;images&quot;/&gt;</p>
+
+<p class=JU style='margin-bottom:12.0pt;text-indent:19.0pt'>在清单3.2中的JSP页面包含一个介绍消息和一个图像引用，指向以上所述资源包。</p>
+
+<p class=D1>清单3.2&nbsp; 使用Struts &lt;html:img/&gt; 标签的JSP 页面</p>
+
+<p class=D2>&lt;html:html
+locale=&quot;true&quot;&gt;</p>
+
+<p class=D2>&lt;head&gt;</p>
+
+<p class=D2>&lt;html:base/&gt;</p>
+
+<p class=D2>&lt;title&gt;&lt;bean:message
+key=&quot;imagePage.title&quot;/&gt;&lt;/title&gt;</p>
+
+<p class=D2>&lt;/head&gt;</p>
+
+<p class=D2>&lt;body&gt;</p>
+
+<p class=D2>&nbsp;&nbsp; &lt;bean:message
+key=&quot;imagePage.IntroductionMessage&quot;/&gt;&lt;br/&gt;</p>
+
+<p class=D2>&lt;html:img
+pageKey=&quot;images.foo.reallyBigImageWithLink.jpg&quot;&nbsp;&nbsp; <b>b</b></p>
+
+<p class=D2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bundle=&quot;images&quot;
+height=&quot;175&quot; width=&quot;300&quot;
+styleClass=&quot;bigimages&quot;/&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>c</b></p>
+
+<p class=D2>&lt;/body&gt;</p>
+
+<div style='border:none;border-bottom:solid windowtext 1.0pt;padding:0cm 0cm 1.0pt 0cm'>
+
+<p class=D3>&lt;/html:html&gt;</p>
+
+</div>
+
+<p class=JU style='text-indent:19.0pt'>我们已经涉及使用pageKey 属性（<b>b</b>处）的图像；随后引用一个在image
+资源包中与它的具体的键-值对相关的引用。该图像引用包含适当的页面上下文——&lt;html:img/&gt;标签在被servlet
+引擎编译的时候附加和重写上下文路径。你也将要注意到height 和width 属性（<b>c</b>处）被包括进来以便给包括在该标签功能中的“遗留的”HTML属性举例。最后styleClass （<b>c</b>处）属性引用在样式表中CSS 类——在这种情况下，即CSS 中的bigimages。</p>
+
+
+
+
+<p class=JU style='text-indent:19.0pt;line-height:17.0pt;layout-grid-mode:char'>这有显著的优点，你的图像链接通过一个主要资源包引用，这些可以被国际化，并且对其维护可以远离JSP 代码和商业逻辑。在该情况下，一个链接或者指向图像的路径被映射到一个属性文件，这个属性文件是在Strut-config.xml 文件中的一个消息资源项目指定的。当页面被显示的时候，pageKey 属性读出属性文件，处理上下文相关的图像URL，并且把CSS 类的bigimages 经由styleClass 属性附加上去。</p>
+
+<p class=5 style='line-height:17.0pt;layout-grid-mode:char'>◆ 讨论</p>
+
+<p class=JU style='text-indent:19.0pt;line-height:17.0pt;layout-grid-mode:char'>几乎没有理想的解决办法，对&lt;html:img/&gt;标签来说也是如此。大的高业务量网站时常需要图像有width 和height 属性来加快浏览器的装入过程。增加宽度和高度属性以改善速度是绝对必要的，因为没有它们，浏览器必须把时间花在下载图像上，搞清楚图像的大小然后计算页面余下的控件必须怎样放置。在图像的尺寸被指定后，就为图像创建了一个占位符并且仅仅把它插入到页面，而没有做所有的那些计算。虽然对综合的、低业务量的web 应用程序来说，这不是大问题。但是在拥有百万日点击量的网站，任何性能的增加都可能产生成千上万美金的受益。</p>
+
+<p class=JU style='text-indent:19.0pt;line-height:17.0pt;layout-grid-mode:char'>为了存储许多静态图像并记住它们，我们已经展示了怎样使用属性文件存储URL以便查找。&lt;html:img/&gt;没有办法干净地把尺寸传达到源代码。以下片断展示属性文件中的一个含有存储的图像URL 路径的项目：</p>
+
+
+
+<p class=D2>images.anotherOne.logo=/siteRoot/images/logo.gif</p>
+
+<p class=JU style='text-indent:19.0pt;line-height:17.0pt'>你可以在一个填充了size 属性的&lt;html:img/&gt;标签中使用已存储的图像。接下来的片断展示通过srcKey 属性访问该图像（因为没有指定包，默认访问消息资源属性文件）。</p>
+
+
+
+<p class=D2>&lt;html:img
+srcKey=&quot;images.anotherOne.logo&quot; width=&quot;250&quot;&nbsp;
+height=&quot;125&quot; /&gt;</p>
+
+<p class=JU style='text-indent:19.0pt;line-height:17.0pt'>页面因此必须“知道”图像装入的某些东西，并且因此开发者必须知道他使用的所有图像的尺寸。即使URL 已被正确地存储，你必须使用有点深奥的脚本来正确地把尺寸存储在文件中并且读出它。接下来的代码片断展示属性文件的入口：</p>
+
+
+
+
+
+
+<p class=D2>images.anotherOne.logo=/siteRoot/images/logo.gif</p>
+
+<p class=D2>images.anotherOne.logo.width=250</p>
+
+<p class=D2>images.anotherOne.logo.height=125</p>
+
+<p class=JU style='text-indent:19.0pt'>现在，我们将访问URL ，用它的URL 源引用来得到图像的width 和height 属性：</p>
+
+
+
+<p class=D2>&lt;bean:define
+name=&quot;logoWidth&quot;&gt;</p>
+
+<p class=D2>&nbsp;&nbsp;&nbsp;
+&lt;bean:messagekey=&quot;images.anotherOne.logo.width&quot;/&gt;</p>
+
+<p class=D2>&lt;/bean:define&gt;</p>
+
+
+
+<p class=D2>&lt;bean:define
+name=&quot;logoHeight&quot;&gt;</p>
+
+<p class=D2>&nbsp;&nbsp;&nbsp;
+&lt;bean:messagekey=&quot;images.anotherOne.logo.height&quot;/&gt;</p>
+
+<p class=D2>&lt;/bean:define&gt;</p>
+
+
+
+<p class=D2>&lt;html:img
+srcKey=&quot;images.anotherOne.logo&quot;</p>
+
+<p class=D2>&nbsp;
+width=&quot;&lt;%=logoWidth%&gt;&quot;</p>
+
+<p class=D2>&nbsp;
+height=&quot;&lt;%=logoHeight&quot; /&gt;</p>
+
+
+
+<p class=JU style='text-indent:19.0pt'>虽然这可能对一些图像起作用，在一个大的站点，里面有成百甚至上千的图像，这就变成一个维护和编码的恶梦，所以这明显是不可能的。在这种情况下最好的解决办法是，对于那些很少改变的图像仅依靠存储在属性文件中的图像路径，并且指定在标签里直接带有size 属性的其他图像，直到Struts 团体决定支持这种方法。</p>
+
+<p class=5>◆ 相关</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1.6—应用中的多个消息-资源属性文件</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.1—使用&lt;html:link/&gt;来增加应用程序的可维护性</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.4—使用&lt;bean:define/&gt;向页面暴露信息</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.6—使用&lt;logic:present/&gt;标签来确定页面内容</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.7—用&lt;logic:present/&gt;标签调试图形用户界面</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.8—为视图决策使用&lt;logic:equal/&gt;标签</p>
+
+<p class=l>n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6.3—使图像国际化</p>
+
+</div>
+                <!-- page -->
+                <div class="page" style="text-align: center">
+                    <a href="/bookfiles/251/10025111369.shtml">上一页</a>&nbsp;&nbsp;&nbsp;<a href="/bookfiles/251/index.html">首页</a>&nbsp;&nbsp;&nbsp;<a href="/bookfiles/251/10025111371.shtml">下一页</a>
+                </div>
+                <div class="content" style="text-align: right;width:99%;">
+   
+   <script type="text/javascript" src="/hi/LzReview.ashx?id= 251"></script>
+		
+<!--引用评论结束--> 
+
+                </div>
+                <div style="margin: 0px auto; width: 600px; border: solid 1px #0b5f98;float:left;">
+                    <div style="float: left; width: 16px; background-color: #0b5f98; color: White; padding: 1px;">
+                        图书导读
+                    </div>
+                    <div style="float: right; width: 570px; text-align: left; line-height: 16pt; padding-left: 2px">
+                        <!--导读-->
+                        <h1 id="divCurrentNode2" style="color: #b83507; width: 100%; text-align: left; font-size: 12px; padding-left: 2px">当前章节:<a href='http://book.csdn.net/bookfiles/251/10025111370.shtml'><font color='red'>3.2  使用<html:img/>显示从一个属性文件映射的图像</font></a></h1>
+                        <div id="divRealteNod2" style="padding-left: 2px">
+                        <div style='float:left;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111367.shtml'>目录</a></div><div style='float:right;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111369.shtml'>3.1  使用 <html:link/> 增加应用程序的可维护性</a></div><div style='float:left;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111371.shtml'>3.3  用<bean:write/>标签编码信息</a></div><div style='float:right;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111372.shtml'>3.4  使用<bean:define/>向页面暴露信息</a></div><div style='float:left;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111373.shtml'>3.5  为简单的服务器端包含使用 <bean:include/></a></div><div style='float:right;width:49%'>·<a href='http://book.csdn.net/bookfiles/251/10025111374.shtml'>3.6  使用<logic:present/>标签来确定页面内容</a></div></div>
+                    </div>
+                </div>
+                <div class="clear">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="todayCommend" style="width: 100%;">
+                <div class="title">
+                    <h5>
+                        同类图书推荐</h5>
+                </div>
+                <div class="blank6 clear">
+                </div>
+                <div id="divSameSort" class="content">
+                <li style='float:left;width:19%;list-style-type:none;margin:0;padding:0;text-align:center;'><a href='http://book.csdn.net/bookfiles/768/' title='ASP.NET Ajax网站开发从入门到精通'><img width='80px' height='112px' src='http://www.dearbook.com.cn//book/BookImage/68/TS00248723__.jpg' border=0/></a><p><a href='http://book.csdn.net/bookfiles/768/' title='ASP.NET Ajax网站开发从入门到精通'>ASP.NET Aj...</a></p></li><li style='float:left;width:19%;list-style-type:none;margin:0;padding:0;text-align:center;'><a href='http://book.csdn.net/bookfiles/767/' title='Ajax+JSP网站开发从入门到精通'><img width='80px' height='112px' src='http://www.dearbook.com.cn//book/BookImage/TS00249179__.jpg' border=0/></a><p><a href='http://book.csdn.net/bookfiles/767/' title='Ajax+JSP网站开发从入门到精通'>Ajax+JSP网...</a></p></li><li style='float:left;width:19%;list-style-type:none;margin:0;padding:0;text-align:center;'><a href='http://book.csdn.net/bookfiles/711/' title='开发者突击：Java Web主流框架整合开发（J2EE+Struts+'><img width='80px' height='112px' src='http://www.dearbook.com.cn//book/BookImage/68/TS00246447__.jpg' border=0/></a><p><a href='http://book.csdn.net/bookfiles/711/' title='开发者突击：Java Web主流框架整合开发（J2EE+Struts+'>开发者突击...</a></p></li><li style='float:left;width:19%;list-style-type:none;margin:0;padding:0;text-align:center;'><a href='http://book.csdn.net/bookfiles/614/' title='Web 2.0高级编程'><img width='80px' height='112px' src='http://www.dearbook.com.cn//book/BookImage/TS00231768__.jpg' border=0/></a><p><a href='http://book.csdn.net/bookfiles/614/' title='Web 2.0高级编程'>Web 2.0高级...</a></p></li><li style='float:left;width:19%;list-style-type:none;margin:0;padding:0;text-align:center;'><a href='http://book.csdn.net/bookfiles/588/' title='C#和.NET实战：平台、语言与框架'><img width='80px' height='112px' src='http://www.dearbook.com.cn//book/BookImage/TS00231766__.jpg' border=0/></a><p><a href='http://book.csdn.net/bookfiles/588/' title='C#和.NET实战：平台、语言与框架'>C#和.NET实...</a></p></li></div>
+            </div>
+            <!-- 评论 -->
+            <div class="clear">
+            </div>
+            <div class="todayCommend" style="width: 100%;">
+                 
+                <div class="blank6 clear">
+                </div>
+                
+            </div>
+            <!-- 今日推荐 -->
+            <div class="clear">
+            </div>
+            
+            <div id="tagad" style="text-align:left">
+             <div id="csdn_zhaig_ad_yahoo" style="width:99%;">
+                </div>
+                <script type="text/javascript">
+                ad_width=468;
+ad_height=60;
+adcss=2;
+unionuser=22;
+  
+ad_type='j';
+count=3;
+                </script>
+                   <script src="http://tagegg.csdn.net/showads.js" type="text/javascript"></script>
+                   <script src="/book/tag.js" type="text/javascript"></script>
+
+            </div>
+        </div>
+             
+            </div>
+            <div id="sidebar">
+               <div class="ad">
+                        
+                                  <script type="text/javascript" src="http://book.csdn.net/js/bookflash.js"></script>
+    <div id="focusViwer" align="left" style="width:100%"><a 
+            href="http://book.csdn.net/bookfiles/184/" 
+            target="_blank"><IMG 
+            style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-BOTTOM: #000000 1px solid" 
+            height="252" alt="重点连载书 "
+            src="http://book.csdn.net/images/flash/0711/asp_net.jpg" 
+            width="100%"><br/>Programming ASP.NET</a> </div>
+            <div>
+                          <marquee onmouseover='this.stop()' onmouseout='this.start()' scrollDelay=110 ><b></b> </marquee>
+                       </div>
+   <SCRIPT type="text/javascript">
+	<!--
+	
+	var focus_width=290;
+	var focus_height=252;
+	var text_height=20;
+	var swf_height = focus_height+text_height
+	
+	var pics='http://book.csdn.net/smallimg/081110qh.jpg|http://book.csdn.net/smallimg/081103hz.jpg|http://book.csdn.net/smallimg/081023jx.jpg|http://book.csdn.net/smallimg/ryts0821.jpg|http://book.csdn.net/smallimg/bw080721.jpg'
+	var links='http://book.csdn.net/bookfiles/829/|http://book.csdn.net/bookfiles/801/|http://book.csdn.net/bookfiles/824/|http://book.csdn.net/bookfiles/794/|http://book.csdn.net/bookfiles/757/'
+	var texts='C#高级编程(第6版) |代码之美|Linux内核完全剖析--基于0.12内核 | WCF揭秘 |梦断代码 |Python核心编程|开发者突击'	
+		var FocusFlash = new sinaFlash("http://book.csdn.net/html/index/pixviewer.swf", "focusflash", focus_width, swf_height, "7", "#cccccc", false, "High");
+	FocusFlash.addParam("allowScriptAccess", "sameDomain");
+	FocusFlash.addParam("menu", "false");
+	FocusFlash.addParam("wmode", "opaque");
+
+	FocusFlash.addVariable("pics", pics);
+	FocusFlash.addVariable("links", links);
+	FocusFlash.addVariable("texts", texts);
+	FocusFlash.addVariable("borderwidth", focus_width);
+	FocusFlash.addVariable("borderheight", focus_height);
+	FocusFlash.addVariable("textheight", text_height);
+	FocusFlash.write("focusViwer");
+	
+	//-->
+	</SCRIPT>
+
+                            
+                    </div>
+                    <div class="zhuantituijian">
+                        <dl>
+                            <dt>热点推荐</dt>
+                            <dd>
+                                <STRONG>【活动】</STRONG><A title="" href="/subject/0708action/" target=_blank><FONT color=#ff0000><STRONG>写百字读书心得 赢"万元"图书大奖</STRONG></FONT></A><BR><STRONG>【活动】</STRONG><A title="" href="/subject/0707cbi/" target=_blank><FONT color=#ff0000><STRONG>7月新的C币获取原则推出</STRONG></FONT></A><BR><STRONG>【专题】</STRONG><A title="" href="/subject/0706wg/" target="">专业网管笔记　成就资深网管</A><BR><STRONG>【专题】</STRONG><A href="/subject/0706ryasp/">重磅出击----Asp.net2.0</A><BR><STRONG>【活动】</STRONG><A title="" href="http://news.csdn.net/n/20070525/104534.html" target=_blank>6月5日与微软专家在线讨论Vista安全</A><BR><STRONG>【专题】</STRONG><A href="/subject/0705soa/">SOA袭来，技术人员如何提升自己? </A><BR><STRONG>【专题】</STRONG><A title="" href="/subject/0704jolt/" target=_blank>历届Jolt大奖全回顾。17届最新发布</A><BR><STRONG>【专题】</STRONG><A href="/manage/indexMang/editpage.aspx?name=热点推荐管理_1html1newindex1newhot.htm#">07年技术最新热点：Ruby on Rails</A><BR><STRONG>【专题】</STRONG><A title="" href="/subject/0704WhyPF/" target=_blank>徜徉在经验与科学之间</A><BR><STRONG>【专题】</STRONG><A title="" href="/subject/0704doitus/" target=_blank>时代DIY 自己动手开发自己的搜索引擎</A><BR><STRONG>【专题】</STRONG><A title="" href="/subject/0703programming/" target=_blank>O'reilly经典图书Programming系列<BR></A><STRONG>【专题】</STRONG><A title="" href="/subject/0703Excel/" target=_blank>引起众多MVP关注的Excel</A><BR><STRONG>【专题】</STRONG><A title="" href="/subject/0704aspnet/" target=_blank>征服ASP.NET2.0 Ajax Web开发技术详解</A>
+                            </dd>
+                        </dl>
+                    </div>
+                 　
+                   
+   <div class="remenTAG">
+                        <dl>
+                            <dt>热门TAG</dt>
+                            <dd style="line-height:18pt;">
+                              &nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/推荐/1.html' style='font-size: 13px; color:#545555; ' title='12' target=_blank>推荐</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/GOOD/1.html' style='font-size: 13px; color:#545555; ' title='14' target=_blank>GOOD</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/好/1.html' style='font-size: 13px; color:#545555; ' title='18' target=_blank>好</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/不错/1.html' style='font-size: 13px; color:#545555; ' title='21' target=_blank>不错</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/123/1.html' style='font-size: 13px; color:#545555; ' title='20' target=_blank>123</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/c#/1.html' style='font-size: 13px; color:#545555; ' title='14' target=_blank>c#</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/11/1.html' style='font-size: 13px; color:#545555; ' title='17' target=_blank>11</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/好书/1.html' style='font-size: 14px; color:#545555; ' title='45' target=_blank>好书</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/java/1.html' style='font-size: 13px; color:#545555; ' title='29' target=_blank>java</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/tag/1.html' style='font-size: 14px; color:#545555; ' title='48' target=_blank>tag</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/asp.net/1.html' style='font-size: 13px; color:#545555; ' title='11' target=_blank>asp.net</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/还是很不错的一本书啊，有时间一定要仔细的看看可以学到不少东西啊！/1.html' style='font-size: 13px; color:#545555; ' title='20' target=_blank>还是很不错的一本书啊，有时间一定要仔细的看看可以学到不少东西啊！</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/a/1.html' style='font-size: 13px; color:#545555; ' title='21' target=_blank>a</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/支持/1.html' style='font-size: 13px; color:#545555; ' title='11' target=_blank>支持</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://club.book.csdn.net/tag/1/1.html' style='font-size: 15px; color:#6399B0; ' title='61' target=_blank>1</a>
+                            </dd>
+                        </dl>
+                    </div>  
+                    
+                    
+<script type="text/javascript">  
+    function Du_GC(type)
+    {  
+  
+      var request_url="/UserServer/GetDataServer.aspx";       // 请求url
+       var request_pars = "type="+type //请求参数
+       var my  =   new  Ajax.Request(
+       request_url, 
+        {
+       method: 'get',
+       parameters: request_pars,
+       onComplete: Du_done
+      } );  
+    }
+    function Du_done(originalRequest)
+   {
+      var szRes=originalRequest.responseText;
+ 
+      if(szRes=="")
+         $("txtDu").innerHTML="暂无信息";
+      else
+        $("txtDu").innerHTML=szRes;
+
+    }
+    function Du_ClearStyle()
+    {
+      
+     $("liZD").className="";
+     $("liDG").className="";
+     $("liR").className="";
+    
+      
+    }
+     function Du_ShowStr(li,type)
+    {
+    Du_ClearStyle();
+       $(li).className="current";
+       Du_GC(type);
+    }
+    </script>
+ <div class="du">
+                        <div class="tabs2">
+                            <ul>
+                                <!-- CSS Tabs -->
+                                <li id="liZD"><a href="#" onclick="Du_ShowStr('liZD','reading');return false;"><span><strong>最新在读</strong></span></a></li>
+                                <li id="liDG"><a href="#" onclick="Du_ShowStr('liDG','readed');return false;"><span>最新读过</span></a></li>
+                                <li id="liR"><a href="#" onclick="Du_ShowStr('liR','review');return false;"><span>周评论最多</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="duContent">
+                            <ul id="txtDu">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <script>
+                      Du_ShowStr('liZD','reading');
+                    </script>
+                    <!--<div>
+                        <a href="#">
+                            <img alt="" src="/images2/BookRank.gif"></a></div>-->
+                    <div class="zuixinshujia">
+                        <dl>
+                            <dt>最新书架</dt>
+                            <dd>
+                                <ul>
+                                     <ul> <li><a title="" href="http://club.book.csdn.net/people/mylist600.html" target="_blank"><font color="#ff0000">Web 2.0开发利器：RoR学习书架</font></a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist687.html" target="_blank"><font color="#ff0000">最新版PHP+MySQL编程开发经典书籍</font></a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist672.html" target="_blank"><font color="#ff0000">五种移动开发平台经典书架</font></a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist642.html" target="_blank"><font color="#ff0000">SQL Server 2005学习必看的几本图书</font></a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist599.html" target="_blank"><font color="#ff0000">AJAX学习必备三本书 </font></a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist511.html" target="_blank">2006年度计算机图书分类排行榜</a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist512.html" target="_blank">2006年度.NET类图书读者评选Top10 </a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist513.html" target="_blank">2006JAVA类图书读者评选Top10 </a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist519.html" target="_blank">2006年度数据库类图书读者评选Top10 </a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist514.html" target="_blank" a="">2006年度操作系统类图书读者评选Top10</a></li> <li><a title="" href="http://club.book.csdn.net/people/mylist516.html" target="_blank" a="">2006年度设计语言类图书读者评选Top10 </a></li></ul>
+                                </ul>
+                               </dd>                           
+                        </dl>
+                    </div>
+            </div>
+            </div>
+            </div>
+            </div> <!-- 页脚 -->
+        <div id="foot">
+         <img src="/book/readbook.aspx?node=11370&bookid=251&bookname=3.2++%ca%b9%d3%c3%3chtml%3aimg%2f%3e%cf%d4%ca%be%b4%d3%d2%bb%b8%f6%ca%f4%d0%d4%ce%c4%bc%fe%d3%b3%c9%e4%b5%c4%cd%bc%cf%f1" alt="" width="0" height="0" />
+          </div>
+            <style>
+/* 页脚 */
+#CFBig {
+	width: 1000px;
+	clear: both;
+	margin: auto;
+	text-align: center;
+	font-family: Tahoma, sans-serif;
+	font-size: 12px;
+}
+#CFBig #CFContent {
+	margin: auto;
+	width: 90%;
+	text-align: center;
+}
+#CFBig #CFContent p {
+	margin: 2px;
+}
+#CFBig hr {
+	height: 1px;
+	color: #4682B4;
+}
+#CFBig #CFBiaoShi {
+	width: 40px;
+	float: right;
+}
+#CFBig a:link {
+	color: #000;
+	text-decoration: none;
+}
+#CFBig a:visited {
+	color: #000;
+	text-decoration: none;
+}
+#CFBig a:hover {
+	color: #369;
+	text-decoration: none;
+}
+#CFBig a:active {
+	color: #000;
+	text-decoration: none;
+}
+</style>
+<!-- 页脚 -->
+<div style="text-align: center"  id="foot">
+    <div id="CFBig">
+        <hr />
+        <div id="CFContent">
+            
+            <p><a href="http://www.csdn.net/help/intro.htm">网站简介</a> | <a href="http://www.csdn.net/help/ads.htm">广告服务</a> | <a href="http://www.csdn.net/help/vip.htm">VIP资费标准</a> | <a href="http://www.csdn.net/help/bankaccount.htm">银行汇款帐号</a> | <a href="http://www.csdn.net/help/sitemap.htm">网站地图</a> | <a href="http://www.csdn.net/help/help.htm">帮助</a> | <a href="http://www.csdn.net/help/contact.htm">联系方式</a> | <a href="http://job.csdn.net/Jobs/f9c75c9f2ad14404a604669b757b9ed0/viewcompany.aspx">诚聘英才</a> | <a href="http://www.csdn.net/help/english.htm">English</a> | <a href="http://www.csdn.net/help/about.htm">版权声明</a> | <a onclick="window.location.href='mai'+'lto:'+'adm'+'in@c'+'sdn.n'+'et?subject=Report To CSDN';return false" href="#">问题报告</a></p>
+            <p>北京创新乐知广告有限公司 &nbsp;&nbsp;版权所有,&nbsp;&nbsp;京 ICP 证 070598 号</p>
+            <p>世纪乐知(北京)网络技术有限公司 提供技术支持 </p>
+            <p style='font:11px'>Copyright &copy; 2000-2008, CSDN.NET, All Rights Reserved</p>
+<p><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010"><img src="http://www.csdn.net/Images/BiaoShi.gif" width="25" height="31" border="0" alt="" /></a></p>
+        </div>
+        <hr />
+    </div>
+</div>
+ 
+<script language="JavaScript" type="text/javascript" src="http://www.csdn.net/common/counter.js"></script> 
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="/css/webad.js"></script>
+<!-- /页脚 -->
+
+            <script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=115 border=0 width=0 height=0>");</script>
+            
+     </body>
+</html>
