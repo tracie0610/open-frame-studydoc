@@ -1,0 +1,463 @@
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+
+<!-- Start Google Analytics -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-131794-1";
+urchinTracker();
+</script>
+<!-- End Google Analytics -->
+
+<title>WebWork - WebWork - 
+        Select tag</title>
+
+    <style type="text/css">
+    @import "/styles/main.css";
+    @import "/styles/wiki.css";
+    </style>
+
+    <script>
+    function onLoadFunc() {
+        document.getElementById("content").style.minHeight = document.getElementById("menu").clientHeight + 'px';
+    }
+
+    function jumpToProject(select) {
+        if ("none" != select.value) {
+            window.location = "/" + select.value;
+        }
+    }
+    </script>
+
+    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+</head>
+
+<body onload="onLoadFunc()">
+
+<div id="wrap">
+
+<div id="header">
+<table border="0" width="100%">
+<tbody>
+<tr>
+<td>
+    <div id="logo">
+        <a href="/"><img src="/images/os-logo.gif" border=0></a>
+    </div>
+</td>
+
+<td>
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-6291771388053870";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "text_image";
+google_ad_channel ="1072095954";
+google_color_border = "336699";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_url = "008000";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+</td>
+<td>
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+<div id="content">
+    <h1 class="first">WebWork - WebWork - 
+        Select tag</h1>
+
+    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td valign="top" class="pagebody">
+				    <h3><a name="Selecttag-%3Cww%3Aselect%2F%3E">&lt;ww:select /&gt;</a></h3>
+
+<p>Generates a select list filled with a specified list. The "listKey" attribute is the property to pull from each item in the list to generate the value of the &lt;option&gt; tag for that item. The "listValue" attribute fills the label of the option (the display name). One great feature is that it will auto-select the appropriate option based on the "value" attribute. If the value matches the current listKey, that option will be selected (if the types match; see below).</p>
+
+<div class="code"><div class="codeContent">
+<pre class="code-xml">&lt;ww:select label=<span class="code-quote">"'Users'"</span> 
+	name=<span class="code-quote">"'userId'"</span> 
+	listKey=<span class="code-quote">"id"</span> 
+	listValue=<span class="code-quote">"name"</span> 
+	list=<span class="code-quote">"app.users"</span> 
+	value=<span class="code-quote">"app.user.id"</span> 
+	onchange=<span class="code-quote">"'chooseUser(this)'"</span>
+/&gt;</pre>
+</div></div>
+
+<p>will create the following (if getApp().getUser().getId() == 2):</p>
+<div class="code"><div class="codeContent">
+<pre class="code-xml"><span class="code-tag">&lt;tr&gt;</span>
+	<span class="code-tag">&lt;td&gt;</span>Users<span class="code-tag">&lt;/td&gt;</span>
+	<span class="code-tag">&lt;td&gt;</span>
+		<span class="code-tag">&lt;select name=<span class="code-quote">"userId"</span> onchange=<span class="code-quote">"chooseUser(this)"</span>&gt;</span>
+			<span class="code-tag">&lt;option value=<span class="code-quote">"1"</span>&gt;</span>
+				User Number One
+			<span class="code-tag">&lt;/option&gt;</span>
+			<span class="code-tag">&lt;option value=<span class="code-quote">"2"</span> selected=<span class="code-quote">"selected"</span>&gt;</span>
+				User Number Two
+			<span class="code-tag">&lt;/option&gt;</span>
+		<span class="code-tag">&lt;/select&gt;</span>
+	<span class="code-tag">&lt;td&gt;</span>
+<span class="code-tag">&lt;/tr&gt;</span></pre>
+</div></div>
+
+<p>Of course, the &lt;td&gt; formatting and such depends on the <a href="Themes.html" title="Themes">template</a> you are using.</p>
+
+<p><b>Sample Usages</b></p>
+<div class="code"><div class="codeContent">
+<pre class="code-xml">&lt;ww:select label=<span class="code-quote">"'Pets'"</span> 
+        name=<span class="code-quote">"'petIds'"</span> 
+        list=<span class="code-quote">"petDao.pets"</span> 
+        listKey=<span class="code-quote">"id"</span> 
+        listValue=<span class="code-quote">"name"</span> 
+        multiple=<span class="code-quote">"true"</span> 
+        size=<span class="code-quote">"3"</span> 
+        required=<span class="code-quote">"true"</span> 
+/&gt;
+
+&lt;ww:select label=<span class="code-quote">"'Months'"</span> 
+        name=<span class="code-quote">"'months'"</span> 
+        headerKey=<span class="code-quote">"'-1'"</span> headerValue=<span class="code-quote">"'Select Month'"</span>
+        list=<span class="code-quote">"#{'01':'Jan', '02':'Feb', [...]}"</span> 
+        value=<span class="code-quote">"selectedMonth"</span>
+        required=<span class="code-quote">"true"</span> 
+/&gt;
+
+// The month id (01, 02, ...) returned by the getSelectedMonth() call 
+// against the stack will be auto-selected</pre>
+</div></div>
+
+<p>Note: For any of the tags that use lists (select probably being the most ubiquitous), which uses the OGNL list notation (see the "months" example above), it should be noted that the map key created (in the months example, the '01', '02', etc.) is typed.  '1' is a char, '01' is a String, "1" is a String.  This is important since if the value returned by your "value" attribute is NOT the same type as the key in the "list" attribute, they WILL NOT MATCH, even though their String values may be equivalent.  If they don't match, nothing in your list will be auto-selected.</p>
+
+<p><b>Attributes</b></p>
+<table class='confluenceTable'>
+<tr>
+<th class='confluenceTh'>	Name			</th>
+<th class='confluenceTh'>	Required	</th>
+<th class='confluenceTh'>	Description	</th>
+</tr>
+<tr>
+<td class='confluenceTd'>	id				</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	HTML id attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	name 			</td>
+<td class='confluenceTd'>	<b>yes</b>		</td>
+<td class='confluenceTd'>	HTML name attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	value			</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Data to pass as field value	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	required		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Is field required for form submission	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	list			</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Iteratable source to populate from.  If the list is a Map (key, value), the Map key will become the option "value" parameter and the Map value will become the option body. </td>
+</tr>
+<tr>
+<td class='confluenceTd'>	listKey			</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Property of list objects to get field value from	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	listValue		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Property of list objects to get field content from	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	emptyOption		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Whether or not to add an empty (--) option after the header option	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	multiple		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Creates a multiple select.  The tag will pre-select multiple values if the values are passed as an Array (of appropriate types) via the value attribute.  Passing a Collection may work too?  Haven't tested this.	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	size			</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Size of the element box (# of elements to show)	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	disabled		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	HTML disabled attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	tabindex		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	HTML tabindex attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	onchange		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	HTML onchange attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	onclick 		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	HTML onclick attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	headerKey		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Key for first item in list (Cannot be empty! "'-1'" and "''" is correct, "" is bad)	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	headerValue		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Value for first item in list	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	label			</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Text used as label in template	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	labelposition	</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Alignment of label (left,right,center)	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	cssClass		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	HTML class attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	cssStyle		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	HTML style attribute	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	theme			</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Theme to use	</td>
+</tr>
+<tr>
+<td class='confluenceTd'>	template		</td>
+<td class='confluenceTd'>	no			</td>
+<td class='confluenceTd'>	Name of template to use	</td>
+</tr>
+</table>
+
+
+
+                    			    </td>
+		    </tr>
+	    </table>
+</div>
+
+
+<div id="menu">
+
+<div id="jumpTo">
+
+<select name="jump"
+                                    onchange="jumpToProject(this)"       >
+
+    <option value="none">Jump to...</option>
+
+
+            
+
+                
+                
+        <option value="webwork">WebWork</option>
+
+                    
+
+                
+                
+        <option value="quartz">Quartz</option>
+
+                    
+
+                
+                
+        <option value="oscache">OSCache</option>
+
+                    
+
+                
+                
+        <option value="osworkflow">OSWorkflow</option>
+
+                    
+
+                
+                
+        <option value="sitemesh">SiteMesh</option>
+
+                    
+
+                
+                
+        <option value="compass">Compass</option>
+
+                    
+
+                
+                
+        <option value="ognl">OGNL</option>
+
+                    
+
+                
+                
+        <option value="tonic">Tonic</option>
+
+                    
+
+                
+                
+        <option value="xwork">XWork</option>
+
+                    
+
+                
+                
+        <option value="osuser">OSUser</option>
+
+                    
+
+                
+                
+        <option value="propertyset">PropertySet</option>
+
+                    
+
+                
+                
+        <option value="oscore">OSCore</option>
+
+                    
+
+                
+                
+        <option value="clickstream">ClickStream</option>
+
+            
+</select>
+</div>
+<div class="menuGroup">
+    <h1>WebWork</h1>
+    <ul>
+        <li><a href="/webwork/">About</a></li>
+        <li><a href="/webwork/news.action">News</a></li>
+        <li><a href="/webwork/changelog.action">Changelog</a></li>
+    </ul>
+</div>
+<div class="menuGroup">
+    <h1>Evaluating WebWork</h1>
+    <ul>
+        <li><a href="/webwork/license.action">License</a></li>
+        <li><a href="/webwork/download.action">Download</a></li>
+        
+    </ul>
+</div>
+<div class="menuGroup">
+    <h1>Using WebWork</h1>
+    <ul>
+        
+        <li><a href="/webwork/documentation.action">Documentation</a></li>
+        
+        
+        <li><a href="/webwork/userForums.action">User Forums</a></li>
+        
+        <li><a href="/webwork/api">JavaDoc</a></li>
+        
+        <li><a href="/webwork/reporting.action">Reporting Issues</a></li>
+    </ul>
+</div>
+<div class="menuGroup">
+    <h1>Developing WebWork</h1>
+    <ul>
+        <li><a href="/webwork/contribute.action">How to Contribute</a></li>
+        
+        <li><a href="/webwork/devForums.action">Developer Forums</a></li>
+        
+        <li><a href="/webwork/members.action">Development Team</a></li>
+        <li><a href="/webwork/cvs.action">Source Repository</a></li>
+    </ul>
+</div>
+
+
+<p/>
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-6291771388053870";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_ad_type = "text_image";
+google_ad_channel ="1072095954";
+google_color_border = "336699";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_url = "008000";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+</div>
+
+<div id="footer">
+    <li><a href="http://forums.opensymphony.com">Forums</a></li>
+    <li><a href="http://wiki.opensymphony.com">Wiki</a></li>
+    <li><a href="http://jira.opensymphony.com">Bug Tracker</a></li>
+    <li><a href="http://opensymphony.dev.java.net">java.net</a></li>
+    <li><a href="/">Latest News</a></li>
+    <li><a href="/team.jsp">Contacting</a></li>
+    <li><a href="/involved.jsp">Getting Involved</a></li>
+    <li class="last"><a href="/sponsors.jsp">Sponsors</a></li>
+
+
+    <p/>
+
+    Copyright 2000-2005 - <a href="/team.jsp">OpenSymphony</a>
+</div>
+
+</div>
+
+</body>
+</html>
