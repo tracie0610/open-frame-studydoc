@@ -1,0 +1,840 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>对于moxie的&amp;quot;WebWork教程&amp;quot;补充 - [类型转化] - Webwork - Java - JavaEye论坛</title>
+    <meta name="description" content="moxie的WebWork教程 ( http://forum.javaeye.com/viewtopic.php?t=5964 ) 非常详细，但是好像还缺少了webwork其他一些很有特色的东西，我在这里补充一些上来，首先是类型转化：  我们知道由于HTTP协议只能传递String，如果后台的Java模型使用了其他类型的属性，必须得做一些转化工作，而这些转化代码通常却是繁琐而又无聊，WebWork提 ..." />
+    <meta name="keywords" content=" Webwork Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1237040185" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1235486423" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1234925554" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1213929026" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (1)</a>
+    
+    
+      <a href="http://app.javaeye.com/feed" title="查看我的订阅">订 阅</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/feed/all">全站动态</a>
+    </div>
+    
+    <a href="http://app.javaeye.com/" title="我的应用首页">应 用</a>
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/chat">闲 聊</a>
+      <a href="http://app.javaeye.com/links">收 藏</a>
+      <a href="http://app.javaeye.com/profile">个人资料</a>
+    </div>
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">博 客</a>
+    
+      <a href="http://app.javaeye.com/mygroup" title="查看我的圈子">圈 子</a>
+    
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1235376687" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Webwork">Webwork</a> <span class="arrow">&rarr;</span>
+    <h1>对于moxie的&amp;quot;WebWork教程&amp;quot;补充 - [类型转化]</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/Webwork'>Webwork</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/post/58036?page=2" rel="next">2</a> <a href="/post/58036?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 17762 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/10507">主题：对于moxie的&amp;quot;WebWork教程&amp;quot;补充 - [类型转化]</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_58036">
+  <td class="postauthor">
+    <ul>
+      <li class="name">QuakeWang</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://quake.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/83253/526038c7-63dc-3428-b702-10c53aa10052.jpg?1236837775" title="QuakeWang的博客: I am sailing, I am sailing" /></a></li>
+      <li>文章: 721</li>
+      <li>积分: 2026</li>
+      <li>来自: JavaEye</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-01-26 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F10507' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/191293' title='关于struts2对时间类型数据回填的问题' target='_blank'>关于struts2对时间类型数据回填的问题</a></li>
+                              <li><a href='http://www.javaeye.com/topic/9725' title='『提问』webwork的类型转换的问题（java.util.Date）' target='_blank'>『提问』webwork的类型转换的问题（java.util.Date）</a></li>
+                              <li><a href='http://www.javaeye.com/topic/150202' title='Struts2的类型转换器' target='_blank'>Struts2的类型转换器</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://struts2.group.javaeye.com" target="_blank">struts2</a></span>
+            <br/><a href="/wiki/topic/10507" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        moxie的WebWork教程 ( http://forum.javaeye.com/viewtopic.php?t=5964 ) 非常详细，但是好像还缺少了webwork其他一些很有特色的东西，我在这里补充一些上来，首先是类型转化：<br /><br />我们知道由于HTTP协议只能传递String，如果后台的Java模型使用了其他类型的属性，必须得做一些转化工作，而这些转化代码通常却是繁琐而又无聊，WebWork提供了Type Conversion功能，能够让我们从这些代码中解脱出来。<br /><br />看一个例子，<br /><br />一个Person对象，有一个出生日期的属性：<br /><pre name="code" class="java">
+public class Person {
+    private Date dateOfBirth;
+}
+</pre><br /><br />一个Action对Person做操作：<br /><pre name="code" class="java">
+public class CreatePerson implements Action {
+    private Person person;
+    
+    public String execute(); throws Exception {
+        //Do some work
+        //...
+        return SUCCESS;
+    }
+
+}
+</pre><br /><br />我们通常在页面上会限制这个日期的格式（比如yyyy-MM-dd），通过写一个WebWork的转化器，我们就可以把在页面上：&lt;input type="text" name="person.dateOfBirth" value="1949-10-01"/&gt; 这样的值直接变成了相应的Date对象。<br /><br />转换器需要扩展ognl.DefaultTypeConverter (在webwork2.1.6以后，我们可以扩展WebWorkTypeConverter这个对象，更新的代码可以参考这个： http://cvs.javaeye.com:8008/quake/getfile/jert/src/java/com/javaeye/core/webwork/converter/DateConverter.java?v=1.2 )<br /><pre name="code" class="java">
+public class DateConverter extends DefaultTypeConverter {
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");;
+
+    public Object convertValue(Map ognlContext, Object value, Class toType); {
+        Object result = null;
+        if (toType == Date.class); {
+            result = doConvertToDate(value);;
+        } else if (toType == String.class); {
+            result = doConvertToString(value);;
+        }
+        return result;
+    }
+
+    private Date doConvertToDate(Object value); {
+        Date result = null;
+
+        if (value instanceof String); {
+            try {
+                result = sdf.parse((String); value);;
+            } catch (ParseException e); {
+                throw new XworkException("Could not parse date", e);;
+            }
+        } else if (value instanceof Object[]); {
+            // let's try to convert the first element only
+            Object[] array = (Object[]); value;
+            if ((array != null); &amp;&amp; (array.length &gt;= 1);); {
+                value = array[0];
+                result = doConvertToDate(value);;
+            }
+        } else if (Date.class.isAssignableFrom(value.getClass(););); {
+            result = (Date); value;
+        }
+        return result;
+    }
+
+    private String doConvertToString(Object value); {
+        String result = null;
+        if (value instanceof Date); {
+            result = sdf.format(value);;
+        }
+        return result;
+    }
+}
+</pre><br /><br />那么WebWork是如何知道要使用这个转化器对Person的dateOfBirth做转化呢？我们有2种方法：<br />1. Class-specific conversion rules<br />写一个className-conversion.properties，这上面的例子里，我们就在Person.java所在的package下面，写一个Person-conversion.properties<br />在这个文件里面指定：<br />dateOfBirth=com.javaeye.core.webwork.converter.DateConverter<br /><br />2.&nbsp;&nbsp; Application-wide conversion rules<br />在classpath root下面写一个xwork-conversion.properties:<br />java.util.Date=com.javaeye.core.webwork.converter.DateConverter<br /><br />这样一旦写好了一个转换器以后，就能够很方便地被重用了，在这篇wiki里面，有更加详细的介绍： http://wiki.opensymphony.com/display/XW/Type+Conversion<br /><br />再举一个实际的例子：<br />在jert里面，我们希望可以给用户选择多语言，那么我们在页面上提供了一个下拉列表，选项有zh_CN和en_US，通过一个LocaleConverter，我们就可以直接把String转化成Locale对象：<br /><br />http://cvs.javaeye.com:8008/quake/getfile/jert/src/java/com/javaeye/core/webwork/converter/LocaleConverter.java?v=1.1<br /><br />结论：灵活使用转换器可以减少我们那些繁琐无聊的类型转化代码。
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li><li><a href='/adverts/128' target='_blank'>IBM Rational软件开发高峰论坛9月揭幕</a></li><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://quake.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=QuakeWang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_61659">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lyo</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://lyo.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/17/f6d02be7-425e-4567-8da2-876b8d5169f6.gif?1236831825" title="lyo的博客: lyo" /></a></li>
+      <li>文章: 491</li>
+      <li>积分: 1236</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-02-28 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F61659' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        这个DateConverter没有默认的实现? 好像简单问题复杂化了<img src="/images/smiles/icon_sad.gif"/>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://lyo.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://lyo.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=lyo" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://lyo.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_61659' class='post_rate_box'><a href='#' onclick='rate_post(61659, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(61659, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_61909">
+  <td class="postauthor">
+    <ul>
+      <li class="name">moxie</li>
+      <li>等级: <img src="/images/dimd1.gif" alt="一钻会员" title="一钻会员"/></li>
+      <li><a href='http://moxie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/229/f1d974c6-d8ad-4f60-86f1-bf8c8683f373.jpg?1236831845" title="moxie的博客: moxie" /></a></li>
+      <li>文章: 121</li>
+      <li>积分: 1076</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-01 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F61909' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        如果你不自己设置DateConvert，你的date格式为new SimpleDateFormat()
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://moxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=moxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_61909' class='post_rate_box'><a href='#' onclick='rate_post(61909, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(61909, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62176">
+  <td class="postauthor">
+    <ul>
+      <li class="name">lyo</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://lyo.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/17/f6d02be7-425e-4567-8da2-876b8d5169f6.gif?1236831825" title="lyo的博客: lyo" /></a></li>
+      <li>文章: 491</li>
+      <li>积分: 1236</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-03 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62176' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">moxie 写道</div><div class="quote_div">如果你不自己设置DateConvert，你的date格式为new SimpleDateFormat()</div><br />好，我试试<br /><img src="/images/smiles/icon_smile.gif"/>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://lyo.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://lyo.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=lyo" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://lyo.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62176' class='post_rate_box'><a href='#' onclick='rate_post(62176, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62176, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62711">
+  <td class="postauthor">
+    <ul>
+      <li class="name">yufan_shi</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://yufan-shi.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="yufan_shi的博客: yufan_shi" /></a></li>
+      <li>文章: 62</li>
+      <li>积分: 357</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62711' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        如果有一个类，有很多子类，我可以在参数里指定Action的自动使用某个子类型吗？<br />如<br />class Child {}<br /><br />class Son extends Child<br /><br />class Daughter extends Child<br /><br />class SomeAction {<br />&nbsp;&nbsp; Child child;<br />}<br /><br /><br />我可以在form里通过某个filed指定child的实例应该用Son或者Daughter类创建吗？特别是当Child为abstract的时候，我们肯定必须使用某个子类的。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://yufan-shi.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://yufan-shi.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=yufan_shi" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://yufan-shi.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62711' class='post_rate_box'><a href='#' onclick='rate_post(62711, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62711, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62786">
+  <td class="postauthor">
+    <ul>
+      <li class="name">yufan_shi</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://yufan-shi.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="yufan_shi的博客: yufan_shi" /></a></li>
+      <li>文章: 62</li>
+      <li>积分: 357</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62786' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        指定类型的问题解决了，通过写了一个扩展自WebWorkTypeConverter的自定义转换器，然后结合form里把指定的属性设置为需要转型的子类型而完成的。<br />我在xwork-default-conversions.properties里配置了一个全局的类型转换器。（不知道为什么，Action级别的根据field的配置始终行不通，是不是这个文件里不能配置成someField.someObject=xxx.converter?）<br /><br />转换器的核心代码如下：<br /><pre name="code" class="java">
+    /* (non-Javadoc);
+     * @see com.opensymphony.webwork.util.WebWorkTypeConverter#convertFromString(java.util.Map, java.lang.String[], java.lang.Class);
+     */
+    public Object convertFromString(Map context, String[] values, Class toClass); {
+        try {
+            return Class.forName(values[0]);.newInstance();;
+        } catch (Exception e); {
+            return values;
+        } 
+    }
+
+    /* (non-Javadoc);
+     * @see com.opensymphony.webwork.util.WebWorkTypeConverter#convertToString(java.util.Map, java.lang.Object);
+     */
+    public String convertToString(Map context, Object o); {
+        return o.getClass();.getName();;
+    }
+</pre><br />部分标单如下：<br /><pre name="code" class="java">
+&lt;ww:select label="'Select One Discount Type'" name="'coupon.discount'"
+	list="#{'com.alpaq.icoupon.core.entity.discount.AmountDiscount':'Amount Discount', 'com.alpaq.icoupon.core.entity.discount.PercentageDiscount':'Percent Discount'}" onchange="'switchDiscountType(this);;'"/&gt;
+
+&lt;ww:textfield label="'Amount Discount Value'"  name="'coupon.discount.amount'" /&gt;
+&lt;ww:textfield label="'Percent Discount Value(without %);'" id="typePDInput" name="'coupon.discount.percent'" disabled="'true'"/&gt;
+
+</pre><br />不过，我发现这么一来虽然能把类型转换成期望的子类型，但是，该类型的field还是不能被设置。如以上标单中的coupon.discount.amount,并不能设置action里coupon属性的discount属性的amount属性。。。<br /><br /><br />另外，我还单独模仿Jert里的PrametersInterceptor写了一个Interceptor来吧coupon.discount放到coupon.discount.amount的前头，不然会出现异常。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://yufan-shi.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://yufan-shi.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=yufan_shi" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://yufan-shi.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62786' class='post_rate_box'><a href='#' onclick='rate_post(62786, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62786, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62838">
+  <td class="postauthor">
+    <ul>
+      <li class="name">wolfsquare</li>
+      <li>等级: <img src="/images/dimd1.gif" alt="一钻会员" title="一钻会员"/></li>
+      <li><a href='http://wolfsquare.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/467/ac581c49-f939-4ed3-97cf-fa88588bb864.gif?1236831851" title="wolfsquare的博客: wolfsquare" /></a></li>
+      <li>文章: 582</li>
+      <li>积分: 879</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62838' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        问问Quake Wang:<br />如果我在界面上有两种格式的日期怎么办?<br />例如一种短格式: SimpleDateFormat("yyyy-mm-dd"),一种长格式SimpleDateFormat("yyyy-mm-dd hh:MM:ss")
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://wolfsquare.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://wolfsquare.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=wolfsquare" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://wolfsquare.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62838' class='post_rate_box'><a href='#' onclick='rate_post(62838, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62838, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62873">
+  <td class="postauthor">
+    <ul>
+      <li class="name">QuakeWang</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://quake.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/83253/526038c7-63dc-3428-b702-10c53aa10052.jpg?1236837775" title="QuakeWang的博客: I am sailing, I am sailing" /></a></li>
+      <li>文章: 721</li>
+      <li>积分: 2026</li>
+      <li>来自: JavaEye</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62873' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        To yufan_shi<br />&nbsp; 我把回复你的email贴这里了，不知道其他人是否有其他方法：<br /><br />首先如果你有多种Coupon的话，那么应该有一个CouponFactory，能够根据不同的<br />值，创建出不同的Coupon实例，比如： DefaultCoupon，ElectricCoupon等等, 那<br />么可以按照jert里的例子，用一个Intercetpor来首先绑定couponType(当然也可以<br />是couponTypeId这样的属性名，这样就可以重用jert里的那个Interceptor了）:<br /><pre name="code" class="java">
+Action.setCouponType(String couponType); { this.coupon =
+CouponFactory.getCoupon(couponType);;
+}
+</pre><br />对于discount的多态，我们可以在action里面添加helper method:<br /><pre name="code" class="java">
+setDiscountAmount(Double amout); {
+((AmountDiscount); coupon.getDiscount(););.setAmout(amout);;
+}
+</pre><br />这样可以去掉if else的判断，但是需要在action多写helper method, 我觉得这个<br />问题，你也可以去webwork的mailist问问看，看看其他人是否有好的解决方法。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://quake.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=QuakeWang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62873' class='post_rate_box'><a href='#' onclick='rate_post(62873, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62873, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62874">
+  <td class="postauthor">
+    <ul>
+      <li class="name">QuakeWang</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://quake.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/83253/526038c7-63dc-3428-b702-10c53aa10052.jpg?1236837775" title="QuakeWang的博客: I am sailing, I am sailing" /></a></li>
+      <li>文章: 721</li>
+      <li>积分: 2026</li>
+      <li>来自: JavaEye</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62874' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        To wolfsquare<br />你说的这个问题，可以根据你的应用情况，看哪种方式是比较常见的转换规则，那么把这个规则定成<br /><div class="quote_title">引用</div><div class="quote_div"><br />2. Application-wide conversion rules <br />在classpath root下面写一个xwork-conversion.properties: <br />java.util.Date=com.javaeye.core.webwork.converter.DateConverter <br /></div><br /><br />另外的一个转换，可以写成Class-specific conversion rules :<br />otherDate=com.javaeye.core.webwork.converter.OtherDateConverter
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://quake.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=QuakeWang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62874' class='post_rate_box'><a href='#' onclick='rate_post(62874, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62874, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62908">
+  <td class="postauthor">
+    <ul>
+      <li class="name">yufan_shi</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://yufan-shi.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="yufan_shi的博客: yufan_shi" /></a></li>
+      <li>文章: 62</li>
+      <li>积分: 357</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%AF%B9%E4%BA%8Emoxie%E7%9A%84%26quot%3BWebWork%E6%95%99%E7%A8%8B%26quot%3B%E8%A1%A5%E5%85%85+-+%5B%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96%5D&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62908' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">Quake Wang 写道</div><div class="quote_div">To yufan_shi<br />&nbsp; 我把回复你的email贴这里了，不知道其他人是否有其他方法：<br /><br />首先如果你有多种Coupon的话，那么应该有一个CouponFactory，能够根据不同的<br />值，创建出不同的Coupon实例，比如： DefaultCoupon，ElectricCoupon等等, 那<br />么可以按照jert里的例子，用一个Intercetpor来首先绑定couponType(当然也可以<br />是couponTypeId这样的属性名，这样就可以重用jert里的那个Interceptor了）:<br /><pre name="code" class="java">
+Action.setCouponType(String couponType); { this.coupon =
+CouponFactory.getCoupon(couponType);;
+}
+</pre><br />对于discount的多态，我们可以在action里面添加helper method:<br /><pre name="code" class="java">
+setDiscountAmount(Double amout); {
+((AmountDiscount); coupon.getDiscount(););.setAmout(amout);;
+}
+</pre><br />这样可以去掉if else的判断，但是需要在action多写helper method, 我觉得这个<br />问题，你也可以去webwork的mailist问问看，看看其他人是否有好的解决方法。</div><br />想了一下，也许可以通过spring注入一个discountFactory,并且在spring里配置好TypeID和ClassName的对应关系，然后，就能通过discountFactory动态的创建子类型了，以后要增加什么新的子类型，也不需要修改任何Java代码，只要改一下spring的配置文件。<br />对于这些属性对象的属性的动态绑定，可能只能采用你说的这种方法；现在我的本本不再我手上，还没有试过在改成用factory在setTypeId()里绑定子类型的方法后，用coupon.discount.amount能否成功绑定.
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://yufan-shi.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://yufan-shi.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=yufan_shi" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://yufan-shi.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62908' class='post_rate_box'><a href='#' onclick='rate_post(62908, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62908, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/post/58036?page=2" rel="next">2</a> <a href="/post/58036?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Webwork'>Webwork</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="mobile">移动编程和手机开发</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+  
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form>	
+</div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":10507, "type":type}});
+    }
+
+
+      var scroll_to = $("p_58036");
+      if(scroll_to) {
+        document.observe("dom:loaded", function() {Element.scrollTo(scroll_to);});
+      }
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" onclick="$('chat_iframe').src='/chat/widget';return false;">闲聊一下 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
