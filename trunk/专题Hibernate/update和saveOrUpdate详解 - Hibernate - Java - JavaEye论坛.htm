@@ -1,0 +1,778 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>update和saveOrUpdate详解 - Hibernate - Java - JavaEye论坛</title>
+    <meta name="description" content="先来点概念：  在Hibernate中，最核心的概念就是对PO的状态管理。一个PO有三种状态：  1、未被持久化的VO 此时就是一个内存对象VO，由JVM管理生命周期  2、已被持久化的PO，并且在Session生命周期内 此时映射数据库数据，由数据库管理生命周期  3、曾被持久化过，但现在和Session已经detached了，以VO的身份在运行 这种和Session已经detached的PO还能 ..." />
+    <meta name="keywords" content=" Hibernate Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1237354968" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1235486423" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1234925554" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1213929026" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (3)</a>
+    
+    
+      <a href="http://app.javaeye.com/feed" title="查看我的订阅">订 阅</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/feed/all">全站动态</a>
+    </div>
+    
+    <a href="http://app.javaeye.com/" title="我的应用首页">应 用</a>
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/chat">闲 聊</a>
+      <a href="http://app.javaeye.com/links">收 藏</a>
+      <a href="http://app.javaeye.com/profile">个人资料</a>
+    </div>
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">博 客</a>
+    
+      <a href="http://app.javaeye.com/mygroup" title="查看我的圈子">圈 子</a>
+    
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1235376687" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Hibernate">Hibernate</a> <span class="arrow">&rarr;</span>
+    <h1>update和saveOrUpdate详解</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/Webwork'>Webwork</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/2712?page=2" rel="next">2</a> <a href="/topic/2712?page=3">3</a> <a href="/topic/2712?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 40989 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/2712">主题：update和saveOrUpdate详解</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_12786">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/44783/d14fa926-08e5-3a6d-9579-31b294c28cf8.jpg?1236834506" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>文章: 5715</li>
+      <li>积分: 2095</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-01-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F2712' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/2632' title='saveOrupdate方法如何使用？' target='_blank'>saveOrupdate方法如何使用？</a></li>
+                              <li><a href='http://www.javaeye.com/topic/9392' title='Inside Liberator JDO &amp;amp; JDO2系列二 -- Detach/Attach' target='_blank'>Inside Liberator JDO &amp;amp; JDO2系列二 -- Detach/Attach</a></li>
+                              <li><a href='http://www.javaeye.com/topic/204669' title='hibernate的各种保存方式的区别' target='_blank'>hibernate的各种保存方式的区别</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://hibernate.group.javaeye.com" target="_blank">Hibernate</a></span>
+            <br/><a href="/wiki/topic/2712" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        先来点概念：<br /><br />在Hibernate中，最核心的概念就是对PO的状态管理。一个PO有三种状态：<br /><br />1、未被持久化的VO<br />此时就是一个内存对象VO，由JVM管理生命周期<br /><br />2、已被持久化的PO，并且在Session生命周期内<br />此时映射数据库数据，由数据库管理生命周期<br /><br />3、曾被持久化过，但现在和Session已经detached了，以VO的身份在运行<br />这种和Session已经detached的PO还能够进入另一个Session，继续进行PO状态管理，此时它就成为PO的第二种状态了。<span style="color: red">这种PO实际上是跨了Session进行了状态维护的。</span><br /><br />在传统的JDO1.x中，PO只有前面两种状态，一个PO一旦脱离PM，就丧失了状态了，不再和数据库数据关联，成为一个纯粹的内存VO，它即使进入一个新的PM，也不能恢复它的状态了。<br /><br />Hibernate强的地方就在于，一个PO脱离Session之后，还能保持状态，再进入一个新的Session之后，就恢复状态管理的能力，但此时状态管理需要使用session.update或者session.saveOrUpdate，这就是Hibernate Reference中提到的“requires a slightly different programming model ”<br /><br />现在正式进入本话题：<br /><br /><span style="color: red">简单的来说，update和saveOrUpdate是用来对跨Session的PO进行状态管理的。</span><br /><br />假设你的PO不需要跨Session的话，那么就不需要用到，例如你打开一个Session，对PO进行操作，然后关闭，之后这个PO你也不会再用到了，那么就不需要用update。<br /><br />因此，我们来看看：<br /><pre name="code" class="java">Foo foo=sess.load(Foo.class,id);; 
+foo.setXXX(xxx);; 
+sess.flush();;
+sess.commit();; </pre><br /><br />PO对象foo的操作都在一个Session生命周期内完成，因此不需要显式的进行sess.update(foo)这样的操作。Hibernate会自动监测到foo对象已经被修改过，因此就向数据库发送一个update的sql。当然如果你非要加上sess.update(foo)也不会错，只不过这样做没有任何必要。<br /><br />而跨Session的意思就是说这个PO对象在Session关闭之后，你还把它当做一个VO来用，后来你在Session外面又修改了它的属性，然后你又想打开一个Session，把VO的属性修改保存到数据库里面，那么你就需要用update了。<br /><br /><pre name="code" class="java">// in the first session 
+Cat cat = (Cat); firstSession.load(Cat.class, catId);; 
+Cat potentialMate = new Cat();; 
+firstSession.save(potentialMate);; 
+
+// in a higher tier of the application 
+cat.setMate(potentialMate);; 
+
+// later, in a new session 
+secondSession.update(cat);;  // update cat 
+secondSession.update(mate);; // update mate</pre><br /><br />cat和mate对象是在第一个session中取得的，在第一个session关闭之后，他们就成了PO的第三种状态，和Session已经detached的PO，此时他们的状态信息仍然被保留下来了。当他们进入第二个session之后，立刻就可以进行状态的更新。但是由于对cat的修改操作：cat.setMate(potentialMate); 是在Session外面进行的，Hibernate不可能知道cat对象已经被改过了，第二个Session并不知道这种修改，因此一定要显式的调用secondSession.update(cat); 通知Hibernate，cat对象已经修改了，你必须发送update的sql了。<br /><br />所以update的作用就在于此，它只会被用于当一个PO对象跨Session进行状态同步的时候才需要写。而一个PO对象当它不需要跨Session进行状态管理的时候，是不需要写update的。<br /><br />再谈谈saveOrUpdate的用场：<br /> <br />saveOrUpdate和update的区别就在于在跨Session的PO状态管理中，Hibernate对PO采取何种策略。<br /><br />例如当你写一个DAOImpl的时候，让cat对象增加一个mate，如下定义：<br /><pre name="code" class="java">public void addMate(Cat cat, Mate mate); {
+    Session session = ...;
+    Transacton tx = ...;
+    session.update(cat);;
+    cat.addMate(mate);;
+    tx.commit();;
+    session.close();;
+};</pre><br /><br />显然你是需要把Hibernate的操作封装在DAO里面的，让业务层的程序员和Web层的程序员不需要了解Hibernate，直接对DAO进行调用。<br /><br />此时问题就来了：上面的代码运行正确有一个必要的前提，那就是方法调用参数cat对象必须是一个已经被持久化过的PO，也就是来说，它应该首先从数据库查询出来，然后才能这样用。但是业务层的程序员显然不知道这种内部的玄妙，如果他的业务是现在增加一个cat，然后再增加它的mate，他显然会这样调用，new一个cat对象出来，然后就addMate：<br /><br /><pre name="code" class="java">Cat cat = new Cat();;
+cat.setXXX();;
+daoimpl.addMate(cat,mate);;</pre><br /><br />但是请注意看，这个cat对象只是一个VO，它没有被持久化过，它还不是PO，它没有资格调用addMate方法，因此调用addMate方法不会真正往数据库里面发送update的sql，这个cat对象必须先被save到数据库，在真正成为一个PO之后，才具备addMate的资格。<br /><br />你必须这样来操作：<br /><br /><pre name="code" class="java">Cat cat = new Cat();;
+cat.setXXX();;
+daoimpl.addCat(cat);;
+daoimpl.addMate(cat, mate);;</pre><br /><br />先持久化cat，然后才能对cat进行其他的持久化操作。因此要求业务层的程序员必须清楚cat对象处于何种状态，到底是第一种，还是第三种。如果是第一种，就要先save，再addMate；如果是第三种，就直接addMate。<br /><br />但是最致命的是，如果整个软件分层很多，业务层的程序员他拿到这个cat对象也可能是上层Web应用层传递过来的cat，他自己也不知道这个cat究竟是VO，没有被持久化过，还是已经被持久化过，那么他根本就没有办法写程序了。<br /><br />所以这样的DAOImpl显然是有问题的，它会对业务层的程序员造成很多编程上的陷阱，业务层的程序员必须深刻的了解他调用的每个DAO对PO对象进行了何种状态管理，必须深刻的了解他的PO对象在任何时候处于什么确切的状态，才能保证编程的正确性，显然这是做不到的，但是有了saveOrUpdate，这些问题就迎刃而解了。<br /><br />现在你需要修改addMate方法：<br /><br /><pre name="code" class="java">public void addMate(Cat cat, Mate mate); {
+    Session session = ...;
+    Transacton tx = ...;
+    session.saveOrUpdate(cat);;
+    cat.addMate(mate);;
+    tx.commit();;
+    session.close();;
+};</pre><br /><br />如上，如果业务层的程序员传进来的是一个已经持久化过的PO对象，那么Hibernate会更新cat对象(假设业务层的程序员在Session外面修改过cat的属性)，如果传进来的是一个新new出来的对象，那么向数据库save这个PO对象。<br /><br />BTW: Hibernate此时究竟采取更新cat对象，还是save cat对象，取决于unsave-value的设定。<br /><br />这样，业务层的程序员就不必再操心PO的状态问题了，对于他们来说，不管cat是new出来的对象，只是一个VO也好；还是从数据库查询出来的的PO对象也好，全部都是直接addMate就OK了：<br /><br /><pre name="code" class="java">daoimple.addMate(cat, mate);;</pre><br /><br />这便是saveOrUpdate的作用。
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li><li><a href='/adverts/128' target='_blank'>IBM Rational软件开发高峰论坛9月揭幕</a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_13433">
+  <td class="postauthor">
+    <ul>
+      <li class="name">hijack</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://hijack.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="hijack的博客: hijack" /></a></li>
+      <li>文章: 89</li>
+      <li>积分: 367</li>
+      <li>来自: Mars</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-02-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F13433' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        net.sf.hibernate.HibernateException: Another object was associated with this id (the object with the given id was already loaded):<br /><br />我使用saveOrUpdate出现这种错误，什么原因？
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://hijack.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=hijack" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_13433' class='post_rate_box'><a href='#' onclick='rate_post(13433, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(13433, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_13485">
+  <td class="postauthor">
+    <ul>
+      <li class="name">hijack</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://hijack.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="hijack的博客: hijack" /></a></li>
+      <li>文章: 89</li>
+      <li>积分: 367</li>
+      <li>来自: Mars</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-02-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F13485' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        还有困惑的，既然有saveOrUpdate的智能处理，那么干吗还要有update和save这两个函数那？往达人指点
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://hijack.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=hijack" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_13485' class='post_rate_box'><a href='#' onclick='rate_post(13485, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(13485, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_13493">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jbaggio</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://jbaggio.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/1365/c14e8b15-1de3-478d-9549-4d7aa2c904a4.jpg?1236831899" title="jbaggio的博客: jbaggio" /></a></li>
+      <li>文章: 254</li>
+      <li>积分: 1123</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-02-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F13493' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        说不上指点，只是我的猜想。<br />我猜，gavinking并非第一次写api的时候就想到要有这样三个函数。而是刚开始的时候就只有save，update。写到后来应用的时候觉得有这样一个saveOrUpdate多好，于是就加了一个。而以前的save，update表达很清楚（起码直接用saveOrUpdate给别人一种“我不知道到底是save还是update的感觉”），于是也不重构api了。所以saveOrUpdate诞生了。。。。。<br />&nbsp;<img src="/images/smiles/icon_smile.gif"/>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jbaggio.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jbaggio.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jbaggio" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jbaggio.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_13493' class='post_rate_box'><a href='#' onclick='rate_post(13493, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(13493, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_13494">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jbaggio</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://jbaggio.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/1365/c14e8b15-1de3-478d-9549-4d7aa2c904a4.jpg?1236831899" title="jbaggio的博客: jbaggio" /></a></li>
+      <li>文章: 254</li>
+      <li>积分: 1123</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-02-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F13494' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">hijack 写道</div><div class="quote_div">net.sf.hibernate.HibernateException: Another object was associated with this id (the object with the given id was already loaded):<br /><br />我使用saveOrUpdate出现这种错误，什么原因？</div><br /><br />是saveOrUpdate直接造成的这个错误吗？<br />怎么看起来像是你重复session.load了同一个持久对象？<br />起码也要贴个什么代码出来嘛。。。。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jbaggio.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jbaggio.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jbaggio" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jbaggio.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_13494' class='post_rate_box'><a href='#' onclick='rate_post(13494, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(13494, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_13531">
+  <td class="postauthor">
+    <ul>
+      <li class="name">hijack</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://hijack.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="hijack的博客: hijack" /></a></li>
+      <li>文章: 89</li>
+      <li>积分: 367</li>
+      <li>来自: Mars</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-02-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F13531' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">jaqwolf 写道</div><div class="quote_div"><br />是saveOrUpdate直接造成的这个错误吗？<br />怎么看起来像是你重复session.load了同一个持久对象？<br />起码也要贴个什么代码出来嘛。。。。</div><br /><br />我是用Spring框架的，Spring使用拦截(Aspect)来管理HibernateTransaction,而HibernateTemplate来管理HibernateSession的开关<br />eg:<br /><br /><pre name="code" class="java">
+public class ADaoImpl extends HibernateDaoSupport implements ADao{
+          public  void saveA(final A a);{
+                   this.getHibernateTemplate();.saveOrUpdate(a);;
+          }
+          .....
+}
+</pre><br /><br /><br />测试代码：<br /><pre name="code" class="java">
+A testA = aDaoImpl.findByName(...);;
+testA.setXXX(...);
+aDaoImpl.saveA(testA);;
+</pre><br /><br />第一次，save成功，但第二次update不行，有异常
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://hijack.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=hijack" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_13531' class='post_rate_box'><a href='#' onclick='rate_post(13531, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(13531, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_13532">
+  <td class="postauthor">
+    <ul>
+      <li class="name">hijack</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://hijack.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="hijack的博客: hijack" /></a></li>
+      <li>文章: 89</li>
+      <li>积分: 367</li>
+      <li>来自: Mars</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-02-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F13532' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">jaqwolf 写道</div><div class="quote_div"><br />怎么看起来像是你重复session.load了同一个持久对象？<br /></div><br /><br />怎样避免load同一个持久对象？<br />用session.flush()????
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://hijack.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=hijack" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://hijack.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_13532' class='post_rate_box'><a href='#' onclick='rate_post(13532, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(13532, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_13593">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jbaggio</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://jbaggio.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/1365/c14e8b15-1de3-478d-9549-4d7aa2c904a4.jpg?1236831899" title="jbaggio的博客: jbaggio" /></a></li>
+      <li>文章: 254</li>
+      <li>积分: 1123</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-02-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F13593' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        如何避免重复load我也不知道，session中有一个函数contains看解释有可能是干这个事情的，但我没有尝试过，你可以试一下。<br />不过我觉得怎么会重新load呢？如果我已经load了一次，自然不会再load同一个持久对象啊。。。<br /><br />flush不是干这个事情的，flush相当于connection.commit()。<br />你的代码我看不出有什么问题，你把saveOrUpdate改成save试试。。。。<br />估计你也试过了，要不打开sql_show=true，看看hibernate产生了那些sql，，，也可一帮助你除错。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jbaggio.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jbaggio.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jbaggio" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jbaggio.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_13593' class='post_rate_box'><a href='#' onclick='rate_post(13593, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(13593, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_16705">
+  <td class="postauthor">
+    <ul>
+      <li class="name">heaven</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://heaven.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/1190/332b5b2f-aa54-41fb-8f07-2a5fc9f0758e.gif?1236831894" title="heaven的博客: heaven" /></a></li>
+      <li>文章: 55</li>
+      <li>积分: 373</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-03-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F16705' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        saveOrUpdate()完成了如下工作： <br /><br />如果对象已经在这个session中持久化过了，什么都不用做 <br /><br />如果对象没有标识值，调用save()来保存它 <br /><br />如果对象的标识值与unsaved-value中的条件匹配，调用save()来保存它 <br /><br />如果对象使用了版本(version或timestamp),那么除非设置unsaved-value="undefined",版本检查会发生在标识符检查之前. <br /><br />如果这个session中有另外一个对象具有同样的标识符，抛出一个异常
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://heaven.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://heaven.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=heaven" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://heaven.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_16705' class='post_rate_box'><a href='#' onclick='rate_post(16705, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(16705, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_24962">
+  <td class="postauthor">
+    <ul>
+      <li class="name">donny75</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://donny75.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="donny75的博客: donny75" /></a></li>
+      <li>文章: 13</li>
+      <li>积分: 232</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-05-12 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+update%E5%92%8CsaveOrUpdate%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F24962' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">引用</div><div class="quote_div">flush不是干这个事情的，flush相当于connection.commit()。</div><br />那么请问session.commit()是干什么用的？
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://donny75.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://donny75.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=donny75" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://donny75.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_24962' class='post_rate_box'><a href='#' onclick='rate_post(24962, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(24962, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/2712?page=2" rel="next">2</a> <a href="/topic/2712?page=3">3</a> <a href="/topic/2712?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Hibernate'>Hibernate</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="mobile">移动编程和手机开发</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+  
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form>	
+</div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":2712, "type":type}});
+    }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" onclick="$('chat_iframe').src='/chat/widget';return false;">闲聊一下 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
