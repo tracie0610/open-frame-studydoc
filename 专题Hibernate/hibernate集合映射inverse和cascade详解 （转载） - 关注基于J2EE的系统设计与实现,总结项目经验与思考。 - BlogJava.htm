@@ -1,0 +1,858 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head id="Head"><title>
+	hibernate集合映射inverse和cascade详解 （转载） - 关注基于J2EE的系统设计与实现,总结项目经验与思考。 - BlogJava
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta id="metaKeywords" name="keywords" content="hibernate集合映射inverse和cascade详解 （转载）" /><link id="MainCss" type="text/css" rel="stylesheet" href="http://www.blogjava.net/Skins/green/style.css" /><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.blogjava.net/NeonWay/rss.aspx" /></head>
+<body>
+    <form name="Form1" method="post" action="68659.html" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=PyW-m2hLmppJ9byT1bYEqw2&amp;t=633595624754539605" type="text/javascript"></script>
+
+<script language=JavaScript>
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language=JavaScript>function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="/ScriptResource.axd?d=keXr1l0ODizNGwpG5umihnLbiZlZFmnBNv9PADikeydJNFn_nnzWP6nCtj5LEvCjoGqazIbHl5iuU6pakvSNXw2&amp;t=633595624754539605" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=keXr1l0ODiwWLTaLPM0Wf405seaw-kJY_J94dRUexb3hftiy5dT0X5GxWLiqANj30&amp;t=633065726440000000" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=keXr1l0ODiwWLTaLPM0Wf405seaw-kJY_J94dRUexb1YLr7RQriMsNXsDWOxc8wQub8O_qeSuZ41&amp;t=633065726440000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+        
+<table align=center width="90%" cellspacing=0 cellpadding=5 border=0 bgcolor=white style="border-bottom:solid 1px #CCCCCC">
+<tr>
+	<td colspan=2 class=banner height=100 background="/skins/green/images/bg_banner.jpg">
+	
+<div id="header">
+	<span>
+		<a id="Header2_HeaderTitle" href="http://www.blogjava.net/NeonWay/">关注基于J2EE的系统设计与实现,总结项目经验与思考。</a><br/>
+		<div class=sub>spring、hibernate、webwork框架实践与探索。</div>
+	</span>
+</div>
+	</td>
+</tr>
+
+<tr>
+	<td style="padding-left:10px" height=35>
+	
+<b><a id="MyLinks2_HomeLink" class="listitem" href="http://www.blogjava.net/">BlogJava</a></b> | 
+<b><a id="MyLinks2_MyHomeLink" class="listitem" href="http://www.blogjava.net/NeonWay/">首页</a></b> | 
+<b><a id="MyLinks2_NewPostLink" class="listitem" href="http://www.blogjava.net/NeonWay/admin/EditPosts.aspx?opt=1">发新随笔</a></b> | 
+<b><a id="MyLinks2_NewArticleLink" class="listitem" href="/EnterMyBlog.aspx?NewArticle=1">发新文章</a></b> | 
+<b><a id="MyLinks2_ContactLink" accesskey="9" class="listitem" href="http://www.blogjava.net/NeonWay/contact.aspx?id=1">联系</a></b> | 
+<b><a id="MyLinks2_Syndication" class="listitem" href="http://www.blogjava.net/NeonWay/rss">聚合</a></b><a id="MyLinks2_XMLLink" href="http://www.blogjava.net/NeonWay/rss"><img src="http://www.blogjava.net/images/xml.gif" style="border-width:0px;" /></a> | 
+<b><a id="MyLinks2_Admin" class="listitem" href="http://www.blogjava.net/NeonWay/admin/EditPosts.aspx">管理</a></b>
+
+	</td>
+	<td align=right style="padding-right:20px" width="30%">
+	
+随笔：42
+文章：1
+评论：41
+引用：0
+	</td>
+</tr>
+
+</table>
+<table align=center width="90%" cellspacing=0 cellpadding=0 border=0>
+<tr>
+	<td valign=top width="75%" style="padding:0">
+		<table align=center width="100%" height=1400 cellspacing=0 cellpadding=5 border=0 bgcolor=white class=index>
+		<tr>
+			<td class=banner valign=top>
+			
+					
+<div class="block">
+	<h1 class="block_title"><a id="viewpost1_TitleUrl" href="http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html">hibernate集合映射inverse和cascade详解 （转载）</a></h1>
+	<div class="post">
+		<div class="postcontent">
+			
+		<font size="2">﻿4. hibernate如何根据pojo来更新数据库<br /><br />4.0 在commit/flush之前，hibernate不会对pojo对象作神秘的处理。<br />4.0.1 在select查询出pojo时，hibernate根据“字段--属性”的对应关系，用字段的值填充pojo的属性；<br />然后根据“关系标记”生成sql语句从relationTable中查询出满足条件的relationPojo，并把这些relatinPojo<br />放到“关系属性”中。这个过程是机械的。<br /><br />4.0.2 在pojo对象被查出来后，到commit(或flush)之前，它将是一个普通的java对象，hibernate不会做额外的手脚。<br />比如，不会限制你设置一个属性的值为null或其它任何值<br />在集合类Set的add(object)操作时， 不会改变object的值，不会检查参数object是否是一个pojo对象<br />设置mainPojo的一个“桥属性”的值，不会自动设置relationPojo的对应的“桥属性”的值。<br />执行session.delete(pojo)时，pojo本身没有变化，他的属性值也没有变化。<br />执行session.save(pojo)时，如果pojo的id不是hibernate或数据库生成,则它的值没有变化。<br />如果pojo的id是hibernate或数据库生成，则hibernate会把id给pojo设上去。<br /><br />extend: 对lazy=true的set，hibernate在进行set的操作(调用java.util.Set中声明的方法)时<br />会先inialize这个set，仅此而已。而inialize仅仅是从数据库中捞出set的数据。 <br />如果一个set已经被inialize了，那么对它进行的操作就是java.util.Set接口中定义的语义。<br /><br />另外，如果id由hibernate来生成，那么在save(pojo)时，hibernate会改变该pojo，会设置它的id，这<br />可能改变该pojo的hashCode，详细地讨论见帖《》<br /><br />mapping文件中标记的某些属性及pojo对象的操作会对数据库操作产生影响，这些影响都是在commit时才会起作用。<br />而在commit前pojo的状态不受它们的影响。<br /><br />不过，待commit之时，将由hibernate完全掌控，它好像知道pojo对象从创建到commit这中间的所有变化。<br /><br /><br />4.01. 关联更新<br />"关系标记"对应的属性是一个pojo或一个pojo的集合，修改“关系属性”的值能会导致更新mainTable表，也可能会更新relationTable表。<br /><br />这种更新暂叫“关联更新”。<br /><br /><br />4.1.inverse属性的作用（假定没有设置cascade属性） <br />4.1.1 “只有集合标记（set/map/list/array/bag）才有inverse属性”。<br />————不妨以标记set为例，具体为“一个地区（Address表）的学校（School表）” -- address.schoolSet。<br /><br />4.1.2 “set的inverse属性决定是否把对set的改动反映到数据库中去。<br />inverse=false————反映；inverse=true————不反映”<br />inverse属性默认为false<br /><br />对&lt;one-to-many&gt;和&lt;many-to-many&gt;子标记，这两条都适用。<br />不管是对set做什么操作，4.1.2都适用。<br /><br />4.1.3当inverse=false时，hibernate如何将对set的改动反映到数据库中：<br /><br />对set的操作主要有：（1）新增元素 address.getSchoolSet().add(oneSchool);<br />（2）删除元素 address.getSchoolSet().remove(oneSchool);<br />（3）删除set address.setSchoolSet(null);<br />（4）设新set address.setSchoolSet( newSchoolSet);<br />（5）转移set otherSchoolSet = otherAddress.getSchoolSet();<br />otherAddress.setSchoolSet(null);<br />address.setSchoolSet(otherSchoolSet);<br />（6）改变set中元素的属性的值 如果是改变key属性，这会导致异常<br />如果改变的是普通的属性，则hibernate认为set没有变化（在后面可以看出缘由）。<br />所以这种情形不予考虑。<br /><br />改变set后，hibernate对数据库的操作根据是&lt;one-to-many&gt;关系还是&lt;many-to-many&gt;关系而有不同。<br /><br />对one-to-many，对school set的改动，会改变表SCHOOL中的数据:<br />#SCHOOL_ID是school表的主键，SCHOOL_ADDRESS是school表中的地址栏位<br />#表School的外键为SCHOOL_ADDRESS，它对应表Address的主键ADDRESS_ID<br />（11）insert oneSchool———— sqlInsertRowString: <br />update SCHOOL set SCHOOL_ADDRESS=? where SCHOOL_ID=? <br />(仅仅update foreign-key的值。)<br />（22）delete oneSchool———— sqlDeleteRowString: <br />update SCHOOL set SCHOOL_ADDRESS=null where SCHOOL_ID=?<br />（很奇怪，把foreign-key设置为null不知道有什么实际意义？）<br />（33）delete 属于某一address的所有school ————sqlDeleteString：<br />update SCHOOL set SCHOOL_ADDRESS=null where SCHOOL_ADDRESS=?<br />（44）update ————sqlUpdateRowString：""， no need<br /><br />对many-to-many，对school set的改动，会改变关系表ADDRESS_SCHOOL中的数据:<br />#“地区————学校”的关系为多对多的关系有点牵强，只是为了方便与上面的one-to-many作比较<br />#假设有一个关系表ADDRESS_SCHOOL，有两个字段ADDRESS_ID, SCHOOL_ID，<br />#这两个字段分别对应ADDRESS和SCHOOL两表的key<br />（11）insert的SQL语句为： insert into ADDRESS_SCHOOL(ADDRESS_ID, SCHOOL_ID) <br />values(?,?)<br />（22）delete的SQL语句为： delete from ADDRESS_SCHOOL <br />where ADDRESS_ID=? AND SCHOOL_ID=?<br />（33）delete all的SQL语句为： delete from ADDRESS_SCHOOL<br />where ADDRESS_ID=?<br />（44）update的sql语句为 ————sqlUpdateRowString：<br />update ADDRESS_SCHOOL set ADDRESS_ID=?<br />where ADDRESS_ID=? AND SCHOOL_ID=?<br /><br />对set的操作(1),hibernate会执行(11)sqlInsertRowString<br />对set的操作(2),hibernate会执行(22)sqlDeleteRowString<br />对set的操作(3),hibernate会执行(33)sqlDeleteString<br />对set的操作(4),老的schoolSet因为没有所属的address,所以被全部delete掉，即先执行(33)sqlDeleteString<br />然后新增新的schoolSet,即再执行sqlInsertRowString<br />对set的操作(5)，实际上就是将set从一个pojo转移到另一pojo：<br />首先，执行sqlDeleteString，删除掉otherAddress所属的school<br />然后，执行sqlDeleteString，删除掉address原先的school<br />最后，执行sqlInsertRowString，将otherSchoolSet新增给address<br /><br />总结：（1）对one-to-many而言，改变set，会让hibernate执行一系列的update语句， 不会delete/insert数据<br />（2）对many-to-many而言，改变set,只修改关系表的数据，不会影响many-to-many的另一方。<br />（3）虽然one-to-many和many-to-many的数据库操作不一样，但目的都是一个：维护数据的一致性。执行的sql都<br />只涉及到“桥字段”，不会考虑或改变其他的字段，所以对set的操作(6)是没有效果地。<br />extend:对list,可能还会维护index字段。<br /><br />4.1.4 “inverse与cascade没有什么关系，互无牵扯。”<br />commit后，这两个属性发挥作用的时机不同，hibernate会根据对pojo对象的改动，及cascade属性的设置，<br />生成一系列的Action，比如UpdateAction,DeleteAction,InsertAction等，每个Action都有execute方法以执行对应的sql语句。<br />待所有这些Action都生成好了后，hibernate再一起执行它们，在执行sql前，inverse属性起作用，<br />当inverse=true时，不执行sql；当inverse=false时，执行sql。<br /><br />4.1.5 inverse的默认值为false，所以inverse属性默认会进行“关联更新”。<br /><br />4.1.6 建议：只对set + many-to-many设置inverse=false，其他的标记不考虑inverse属性。<br />  糟糕的是，不设置inverse属性时，inverse默认为false。<br /><br />4.2. 级联（cascade）属性的作用： <br />4.2.1 只有“关系标记”才有cascade属性：many-to-one，one-to-one ，any, <br />set(map, bag, idbag, list, array) + one-to-many(many-to-many)<br /><br />4.2.2 级联指的是当主控方执行操作时，关联对象（被动方）是否同步执行同一操作。<br />pojo和它的关系属性的关系就是“主控方 -- 被动方”的关系，如果关系属性是一个set，那么被动方就是set中的一个一个元素，。<br />比如：学校（School）有三个属性：地区(Address),校长（TheMaster）和学生(Set， 元素为Student)<br />执行session.delete(school)时，级联决定是否执行session.delete(Address),session.delete(theMaster)，<br />是否对每个aStudent执行session.delete(aStudent)。<br /><br />extend:这点和inverse属性是有区别的。见4.3.<br /><br />4.2.3 一个操作因级联cascade可能触发多个关联操作。前一个操作叫“主控操作”，后一个操作叫“关联操作”。<br />cascade属性的可选值：<br />all : 所有情况下均进行关联操作。<br />none：所有情况下均不进行关联操作。这是默认值。<br />save-update:在执行save/update/saveOrUpdate时进行关联操作。<br />delete：在执行delete时进行关联操作。 <br /><br />具体执行什么“关联操作”是根据“主控操作”来的：<br />“主控操作”       “关联操作”<br />session.saveOrUpdate --&gt; session.saveOrUpdate (执行saveOrUpdate实际上会执行save或者update)<br />session.save ----&gt; session.saveOrUpdate<br />session.udpate --&gt; session.saveOrUpdate<br />session.delete --&gt; session.delete<br /><br />4.2.4 主控操作和关联操作的先后顺序是“先保存one，再保存many；先删除many，再删除one；先update主控方，再update被动方”<br />对于one-to-one，当其属性constrained="false"（默认值）时，它可看作one-to-many关系；<br />  当其属性constrained="true"时，它可看作many-to-one关系；<br />对many-to-many，它可看作one-to-many。<br /><br />比如：学校（School）有三个属性：地区(Address),校长（TheMaster，其constrained="false"）和学生(Set， 元素为Student) <br />当执行session.save(school)时，<br />实际的执行顺序为：session.save(Address);<br />session.save(school);<br />session.save(theMaster);<br />for( 对每一个student ){<br />session.save(aStudent);<br />}<br /><br />当执行session.delete(school)时，<br />实际的执行顺序为：session.delete(theMaster);<br />for( 对每一个student ){<br />session.delete(aStudent);<br />}<br />session.delete(school);<br />session.delete(Address);<br /><br />当执行session.update(school)时，<br />实际的执行顺序为：session.update(school);<br />session.saveOrUpdate(Address);<br />session.saveOrUpdate(theMaster);<br />for( 对每一个student ){<br />session.saveOrUpdate(aStudent);<br />}<br />注意：update操作因级联引发的关联操作为saveOrUpdate操作，而不是update操作。<br />saveOrUpdate与update的区别是：前者根据操作对象是保存了还是没有保存，而决定执行update还是save<br /><br />extends: 实际中，删除学校不会删除地区，即地区的cascade一般设为false<br />另外，many-to-many关系很少设置cascade=true，而是设置inverse=false。这个反映了cascade和inverse的区别。见4.3<br /><br />4.2.6 cascade的默认值为false，所以inverse属性默认会进行“关联更新”。<br /><br />4.2.7 总结：级联（cascade）就是操作一个对象时，对它的属性（其cascade=true）也进行这个操作。<br /><br /><br />4.3 inverse和cascade的比较<br />这两个属性本身互不影响，但起的作用有些类似，都能引发对关系表的更新。<br /><br />4.3.1 inverse只对set+one-to-many(或many-to-many)有效，对many-to-one, one-to-one无效。<br />cascade对关系标记都有效。<br /><br />4.3.2 inverse对集合对象整体起作用，cascade对集合对象中的一个一个元素起作用，如果集合为空，那么cascade不会引发关联操作。<br />比如将集合对象置为null， school.setStudentSet(null)<br />inverse导致hibernate执行:udpate STUDENT set SCHOOL_ID=null where SCHOOL_ID=?<br />cascade则不会执行对STUDENT表的关联更新， 因为集合中没有元素。<br /><br />再比新增一个school, session.save(school)<br />inverse导致hibernate执行：<br />for( 对(school的每一个student ){<br />udpate STUDENT set SCHOOL_ID=? where STUDENT_ID=? //将学生的school_id改为新的school的id<br />}<br />cascade导致hibernate执行：<br />for( 对school的每一个student ){<br />session.save(aStudent); //对学生执行save操作<br />}<br /><br />extends:如果改变集合中的部分元素（比如新增一个元素），<br />inverse: hibernate先判断哪些元素改变了，对改变的元素执行相应的sql<br />cascade: 它总是对集合中的每个元素执行关联操作。<br />（在关联操作中，hibernate会判断操作的对象是否改变）<br /><br />4.3.2 两个起作用的时机不同：<br />cascade：在对主控方操作时，级联发生。<br />inverse: 在flush时（commit会自动执行flush)，对session中的所有set，hibernate判断每个set是否有变化，<br />对有变化的set执行相应的sql，执行之前，会有个判断：if( inverse == true ) return;<br /><br />可以看出cascade在先，inverse在后。<br /><br />4.3.3 inverse 对set + one-to-many 和 set + many-to-many 起的作用不同。hibernate生成的sql不同。<br />对one-to-many，hibernate对many方的数据库表执行update语句。<br />对many-to-many, hibernate对关系表执行insert/update/delte语句，注意不是对many方的数据库表而是关系表。<br /><br />cascase 对set都是一致的，不管one-to-many还是many-to-many。都简单地把操作传递到set中的每个元素。所以它总是更新many<br />方的数据库表。<br /><br />4.3.4 建议：只对set + many-to-many设置inverse=false，其他的标记不考虑inverse属性，都设为inverse=true。<br />  <br />  对cascade，一般对many-to-one，many-to-many，constrained=true的one-to-one 不设置级联删除。<br /><br />引自：<a href="http://bbs.tech.ccidnet.com/simple/index.php?t144447.html">http://bbs.tech.ccidnet.com/simple/index.php?t144447.html</a></font>
+
+		</div>
+		<div class="itemdesc">
+			发表于 2006-09-09 10:00 <a href='http://www.blogjava.net/NeonWay/'>王彦锋的技术实践</a> 阅读(7840) <a href='#Post'>评论(8)</a> &nbsp;<a href="http://www.blogjava.net/NeonWay/admin/EditPosts.aspx?postid=68659">编辑</a> &nbsp;<a href="http://www.blogjava.net/NeonWay/AddToFavorite.aspx?id=68659">收藏</a>  所属分类: <a href='http://www.blogjava.net/NeonWay/category/7515.html'>java</a> 、<a href='http://www.blogjava.net/NeonWay/category/7516.html'>J2EE</a> 
+		</div>
+	</div>
+	<div class="seperator">&nbsp;</div>
+	<img src ="http://www.blogjava.net/NeonWay/aggbug/68659.html?webview=1" width = "1" height = "1" />
+	
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html"
+dc:identifier="http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html"
+dc:title="hibernate集合映射inverse和cascade详解 （转载）"
+trackback:ping="http://www.blogjava.net/NeonWay/services/trackbacks/68659.aspx" />
+</rdf:RDF>
+-->
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    <a name="pagedcomment"></a>
+<div class="post">
+<a name="评论" />
+<div class="moreinfo">
+	<div class="moreinfotitle">
+		评论
+	</div>
+	
+	
+			<div class="comments">
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）" href="/NeonWay/archive/2006/09/09/68659.html#132259">#</a>&nbsp;<a name="132259"></a>re: hibernate集合映射inverse和cascade详解 （转载）
+				</div>
+				<div class="comment_content">e</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl01_NameLink" href="http://e" target="_blank">e</a> 评论于 2007-07-25 12:10&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;e&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=e" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl01_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl01$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl01_EditLink"></a></div>
+			</div>
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）" href="/NeonWay/archive/2006/09/09/68659.html#132260">#</a>&nbsp;<a name="132260"></a>re: hibernate集合映射inverse和cascade详解 （转载）
+				</div>
+				<div class="comment_content">null</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl02_NameLink" href="http://e" target="_blank">e</a> 评论于 2007-07-25 12:10&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;e&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=e" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl02_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl02$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl02_EditLink"></a></div>
+			</div>
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）[未登录]" href="/NeonWay/archive/2006/09/09/68659.html#177400">#</a>&nbsp;<a name="177400"></a>re: hibernate集合映射inverse和cascade详解 （转载）[未登录]
+				</div>
+				<div class="comment_content">什么乱七八糟的...本来挺简单的东西,让你搞这么复杂...误人子弟!!!你快点死了算了..</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl03_NameLink" target="_blank">aaa</a> 评论于 2008-01-24 05:40&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;aaa&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=aaa" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl03_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl03$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl03_EditLink"></a></div>
+			</div>
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）" href="/NeonWay/archive/2006/09/09/68659.html#200848">#</a>&nbsp;<a name="200848"></a>re: hibernate集合映射inverse和cascade详解 （转载）
+				</div>
+				<div class="comment_content">兄弟，你的本意思是好的，可是里边错误不少啊。还是改改吧，要不真象楼上说的那样就不好了啊</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl04_NameLink" href="http://hi.baidu.com/forjava" target="_blank">珍</a> 评论于 2008-05-16 11:58&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;珍&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e7%8f%8d" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl04_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl04$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl04_EditLink"></a></div>
+			</div>
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）" href="/NeonWay/archive/2006/09/09/68659.html#207040">#</a>&nbsp;<a name="207040"></a>re: hibernate集合映射inverse和cascade详解 （转载）
+				</div>
+				<div class="comment_content">写的啥哦.弄得那么复杂...</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl05_NameLink" target="_blank">dddd</a> 评论于 2008-06-11 10:12&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;dddd&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=dddd" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl05_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl05$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl05_EditLink"></a></div>
+			</div>
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）[未登录]" href="/NeonWay/archive/2006/09/09/68659.html#234832">#</a>&nbsp;<a name="234832"></a>re: hibernate集合映射inverse和cascade详解 （转载）[未登录]
+				</div>
+				<div class="comment_content">呵呵，博主有些地方确实说得太多反而没表达清楚。</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl06_NameLink" target="_blank">球球</a> 评论于 2008-10-17 10:15&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;球球&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e7%90%83%e7%90%83" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl06_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl06$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl06_EditLink"></a></div>
+			</div>
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）" href="/NeonWay/archive/2006/09/09/68659.html#237851">#</a>&nbsp;<a name="237851"></a>re: hibernate集合映射inverse和cascade详解 （转载）
+				</div>
+				<div class="comment_content">我觉得说的还好啊<br><br>能理解意思</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl07_NameLink" href="http://hi.baidu.com/lawten" target="_blank">lawten</a> 评论于 2008-10-31 17:32&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;lawten&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=lawten" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl07_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl07$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl07_EditLink"></a></div>
+			</div>
+		
+			<div class="comment">
+				<div class="comment_title">
+					<a title="permalink: re: hibernate集合映射inverse和cascade详解 （转载）" href="/NeonWay/archive/2006/09/09/68659.html#252668">#</a>&nbsp;<a name="252668"></a>re: hibernate集合映射inverse和cascade详解 （转载）<a name="Post"></a>
+				</div>
+				<div class="comment_content">very good!!</div>
+				<div class="comment_footer"><a id="AjaxHolder_Comments_CommentList_ctl08_NameLink" target="_blank">passerby</a> 评论于 2009-01-28 23:49&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;passerby&quot;)" href="/NeonWay/archive/2006/09/09/68659.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=passerby" target="_blank">更多评论</a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl08_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl08$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl08_EditLink"></a></div>
+			</div>
+		
+			</div>
+		
+</div>
+</div>
+<div class="seperator">&nbsp;</div>
+
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<STYLE>.userData { BEHAVIOR: url(#default#userdata) }
+	</STYLE>
+<DIV class="userData" id="CommentsPersistDiv"></DIV>
+
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+<div id="divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px"><a href="http://news.cnblogs.com/">IT新闻</a>&nbsp;&nbsp;<a href="/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</a>&nbsp;&nbsp;</div>
+<div class="commentform">
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br />
+<a name="Feedback"></a>
+	<TABLE cellSpacing="1" cellPadding="1" border="0">
+		<TR>
+			<TD colSpan="3" height="5">
+<script type="text/javascript"><!--
+google_ad_client = "pub-4210569241504288";
+/* BlogJava_CommentBox_UP_08-11-8 */
+google_ad_slot = "9466389251";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<br/><br/></TD>
+		</TR>
+		<TR>
+			<TD width="75"></TD>
+			<TD></TD>
+			<TD></TD>
+		</TR>
+		<TR>
+			<TD width="55">标题</TD>
+			<TD><input name="AjaxHolder$PostComment$tbTitle" type="text" value="re: hibernate集合映射inverse和cascade详解 （转载）" id="AjaxHolder_PostComment_tbTitle" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color:Red;visibility:hidden;">请输入标题</span></TD>
+		</TR>
+		<TR>
+			<TD>姓名</TD>
+			<TD><input name="AjaxHolder$PostComment$tbName" type="text" id="AjaxHolder_PostComment_tbName" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color:Red;visibility:hidden;">请输入你的姓名</span></TD>
+		</TR>
+		<TR>
+			<TD>主页</TD>
+			<TD><input name="AjaxHolder$PostComment$tbUrl" type="text" id="AjaxHolder_PostComment_tbUrl" class="commenttb" style="width:320" /></TD>
+			<TD><FONT face="宋体"></FONT></TD>
+		</TR>
+		<tr>
+			<td align="left" colSpan="3">
+				<table id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<td colspan="3">
+							<span id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color:Red;display:none;">请输入验证码</span>
+							<span id="AjaxHolder_PostComment_lblImage" style="color:Red;font-weight:bold;"></span>
+						</td>
+		</tr>
+		<tr>
+			<td width="78">验证码</td>
+			<td><input name="AjaxHolder$PostComment$CodeNumberTextBox" type="text" id="AjaxHolder_PostComment_CodeNumberTextBox" />*&nbsp;&nbsp;<img src="http://www.blogjava.net/Modules/CaptchaImage/JpegImage.aspx?cacheid=20090318130357"/></td>
+			<td align="left"></td>
+		</tr>
+	</table>
+	
+			</td>
+		</tr>
+		<TR>
+			<TD colSpan="3">内容(请不要发表任何与政治相关的内容)
+				<span id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color:Red;visibility:hidden;">请输入评论内容</span><BR>
+				<textarea name="AjaxHolder$PostComment$tbComment" rows="10" cols="50" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')" style="Width:480;Height:220"></textarea></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+		<span id="AjaxHolder_PostComment_Message" style="color:Red;"></span>
+		</td>
+		<TR>
+			<TD colSpan="3"><input id="AjaxHolder_PostComment_chkRemember" type="checkbox" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1" /><label for="AjaxHolder_PostComment_chkRemember">Remember Me?</label></TD>
+		</TR>
+		<TR>
+			<TD height="23"><input type="submit" name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" class="commentButton" />
+				</TD>
+			<td colSpan="2" height="23">&nbsp;
+				<a id="AjaxHolder_PostComment_lnkLogin" href="http://www.blogjava.net/login.aspx?ReturnURL=http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html&amp;SourceURL=/NeonWay/archive/2006/09/09/68659.html">登录</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_linkLoginComment" OnClick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" href="http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html?login=1#Post">使用高级评论</a>&nbsp;&nbsp;<a href="http://www.blogjava.net/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<A href="#Top">返回页首</A>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_lbRestore" OnClick="Restore('AjaxHolder_PostComment_tbComment'); return false;" href="/NeonWay/archive/2006/09/09/68659.html#Post">恢复上次提交</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+		</TR>
+		<TR>
+			<TD colSpan="3"><label class="CtrlEnter">[使用Ctrl+Enter键可以直接提交]</label></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5">&nbsp;</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="1">
+			<script type="text/javascript" src="http://a4.yeshj.com/page/148/" ></script>
+			<script type="text/JavaScript">show_a4_zone("Z1");</script>
+			</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;padding-left:0px;">
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl01_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2007/01/25/95855.html">在java中严格校验日期正确性</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl02_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2007/01/22/95243.html">java里抽象类和接口的区别 </a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl03_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2007/01/15/93872.html">spring事务探索 </a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl04_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2007/01/15/93859.html">理解 java中String</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl05_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/11/15/81328.html">关于网页采集</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl06_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/09/09/68662.html">Hibernate中对Session管理</a>
+			</li>
+		
+			<li style='list-style:none;display:none'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl07_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html">hibernate集合映射inverse和cascade详解 （转载）</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl08_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/08/09/62627.html">quartz学习总结：</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl09_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/07/26/60112.html">把java本地程序配置在windows服务来运行</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl10_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/07/12/57877.html">使java程序只运行一次</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</TD>
+		</TR>
+	
+		<TR>
+			<TD colSpan="3">相关链接:<script  type="text/javascript">
+	function GetMeta(ametaName){
+	var METAs = document.getElementsByTagName("meta"); 
+	for (var i=0; i<METAs.length; i++) { 
+	if(METAs[i].name.toLowerCase()==ametaName){return (METAs[i].content);}
+	};
+	return "";
+	}
+	var title = document.title;
+	document.write("<div id=\"a4_ads_output\">");
+	document.write("<script type='text/javascript' src='http://a4.yeshj.com/adwords/EN017?num=5&title="+ encodeURIComponent(title) +"&tag="+ encodeURIComponent(GetMeta("keywords")) +"'></scri"+"pt>");
+	document.write("</div>");
+	</script></TD>
+		</TR>	
+
+		<TR>
+			<TD colSpan="3" height="5">网站导航:<div id="blogsite">
+			<a href="http://www.cnblogs.com">博客园</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://www.blogjava.net">BlogJava</a>&nbsp;&nbsp;
+			<a href="http://www.cnweblog.com">博客生活</a>&nbsp;&nbsp;
+			<a href="http://www.cnitblog.com">IT博客网</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com">C++博客</a>&nbsp;&nbsp;
+			<a href="http://www.phpweblog.net">PHP博客</a>&nbsp;&nbsp;
+			<a href="http://space.cnblogs.com">博客园社区</a>
+			<br/>
+			<a href="http://www.manageblog.net">管理博客</a>&nbsp;&nbsp;
+			<a href="http://www.teachblog.net">教师博客</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://www.astroblog.cn/">天文博客</a>&nbsp;&nbsp;
+			<a href="http://www.cnautoblog.com/">汽车博客</a>&nbsp;&nbsp;
+			<a href="http://www.zuqiublog.com/">足球博客</a>&nbsp;&nbsp;
+			<a href="http://www.gupiaoblog.com/">股票博客</a>&nbsp;&nbsp;
+			<a href="http://www.etronblog.com/">电子博客</a>&nbsp;&nbsp;<a href="/NeonWay/archive/2006/09/09/68659.html?opt=admin">管理</a>
+			</div></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+				</TD>
+		</TR>		
+	</TABLE>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+
+</div>
+
+				
+			</td>
+		</tr>
+		</table>
+	</td>
+	<td valign=top style="border-left:solid 1px #CCCCCC">
+		<table align=center width="100%" height=1400 cellspacing=0 cellpadding=5 border=0 bgcolor=white>
+		<tr>
+			<td class=banner valign=top style="padding-top:0px">
+			
+			<table width="100%" height="200">
+			<tr>
+				<td><table id="Calendar2_entryCal" cellspacing="0" cellpadding="1" title="Calendar" border="0" style="color:#CC0099;border-color:White;border-width:1px;border-style:solid;font-family:Verdana;font-size:12px;height:100%;width:100%;border-collapse:collapse;">
+	<tr><td colspan="7" style="background-color:White;"><table cellspacing="0" border="0" style="color:#FF6600;font-family:Verdana;font-size:12px;width:100%;border-collapse:collapse;">
+		<tr><td valign="bottom" style="width:15%;"><a href="javascript:__doPostBack('Calendar2$entryCal','V2404')" style="color:#CC0099" title="Go to the previous month">&lt;</a></td><td align="center" style="width:70%;">2006年9月</td><td align="right" valign="bottom" style="width:15%;"><a href="javascript:__doPostBack('Calendar2$entryCal','V2465')" style="color:#CC0099" title="Go to the next month">&gt;</a></td></tr>
+	</table></td></tr><tr><th align="center" abbr="日" scope="col" style="background-color:White;font-family:Arial;font-size:12px;font-weight:normal;">日</th><th align="center" abbr="一" scope="col" style="background-color:White;font-family:Arial;font-size:12px;font-weight:normal;">一</th><th align="center" abbr="二" scope="col" style="background-color:White;font-family:Arial;font-size:12px;font-weight:normal;">二</th><th align="center" abbr="三" scope="col" style="background-color:White;font-family:Arial;font-size:12px;font-weight:normal;">三</th><th align="center" abbr="四" scope="col" style="background-color:White;font-family:Arial;font-size:12px;font-weight:normal;">四</th><th align="center" abbr="五" scope="col" style="background-color:White;font-family:Arial;font-size:12px;font-weight:normal;">五</th><th align="center" abbr="六" scope="col" style="background-color:White;font-family:Arial;font-size:12px;font-weight:normal;">六</th></tr><tr><td align="center" style="color:#303030;width:14%;">27</td><td align="center" style="color:#303030;width:14%;">28</td><td align="center" style="color:#303030;width:14%;">29</td><td align="center" style="color:#303030;width:14%;">30</td><td align="center" style="color:#303030;width:14%;">31</td><td align="center" style="width:14%;">1</td><td align="center" style="width:14%;">2</td></tr><tr><td align="center" style="width:14%;">3</td><td align="center" style="width:14%;">4</td><td align="center" style="width:14%;">5</td><td align="center" style="width:14%;">6</td><td align="center" style="width:14%;">7</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/NeonWay/archive/2006/09/08.html"><u>8</u></a></td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/NeonWay/archive/2006/09/09.html"><u>9</u></a></td></tr><tr><td align="center" style="width:14%;">10</td><td align="center" style="width:14%;">11</td><td align="center" style="width:14%;">12</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/NeonWay/archive/2006/09/13.html"><u>13</u></a></td><td align="center" style="width:14%;">14</td><td align="center" style="width:14%;">15</td><td align="center" style="width:14%;">16</td></tr><tr><td align="center" style="width:14%;">17</td><td align="center" style="width:14%;">18</td><td align="center" style="width:14%;">19</td><td align="center" style="width:14%;">20</td><td align="center" style="width:14%;">21</td><td align="center" style="width:14%;">22</td><td align="center" style="width:14%;">23</td></tr><tr><td align="center" style="width:14%;">24</td><td align="center" style="width:14%;">25</td><td align="center" style="width:14%;">26</td><td align="center" style="width:14%;">27</td><td align="center" style="width:14%;">28</td><td align="center" style="width:14%;">29</td><td align="center" style="width:14%;">30</td></tr><tr><td align="center" style="color:#303030;width:14%;">1</td><td align="center" style="color:#303030;width:14%;">2</td><td align="center" style="color:#303030;width:14%;">3</td><td align="center" style="color:#303030;width:14%;">4</td><td align="center" style="color:#303030;width:14%;">5</td><td align="center" style="color:#303030;width:14%;">6</td><td align="center" style="color:#303030;width:14%;">7</td></tr>
+</table></td>
+			</tr>
+			</table>
+				
+			
+<h3>常用链接</h3>
+<ul>
+		<li><a id="SingleColumn1_ctl00_repeaterLinks_ctl01_lnkLinkItem" href="http://www.blogjava.net/NeonWay/MyPosts.html">我的随笔</a></li>
+	
+		<li><a id="SingleColumn1_ctl00_repeaterLinks_ctl02_lnkLinkItem" href="http://www.blogjava.net/NeonWay/MyComments.html">我的评论</a></li>
+	
+		<li><a id="SingleColumn1_ctl00_repeaterLinks_ctl03_lnkLinkItem" href="http://www.blogjava.net/NeonWay/OtherPosts.html">我的参与</a></li>
+	
+		<li><a id="SingleColumn1_ctl00_repeaterLinks_ctl04_lnkLinkItem" href="http://www.blogjava.net/NeonWay/RecentComments.html">最新评论</a></li>
+	</ul>
+<H3>留言簿<span style="font-size:11px;font-weight:normal;">(1)</span></H3>
+<ul>
+	<li>
+		<a id="SingleColumn1_ctl01_lnkMessages" href="http://www.blogjava.net/NeonWay/Contact.aspx?id=1">给我留言</a>
+	<li>
+		<a id="SingleColumn1_ctl01_lnkPublicMsgView" href="http://www.blogjava.net/NeonWay/default.aspx?opt=msg">查看公开留言</a>
+	<li>
+		<a id="SingleColumn1_ctl01_lnkPrivateMsgView" href="http://www.blogjava.net/NeonWay/admin/MyMessages.aspx">查看私人留言</a>
+	</li>
+</ul>
+
+<H3>我参与的团队</H3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1_ctl02_TeamList_ctl01_lnkTeam" href="http://zzJava.blogjava.net">郑州Java小组(0/0)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+		<h1 class = "listtitle">随笔分类</h1>
+		
+				<ul class = "list" type="square">
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/NeonWay/category/7517.html">html(5)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to html(5)" class="listitem" href="http://www.blogjava.net/NeonWay/category/7517.html/rss">(rss)</a></li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" class="listitem" href="http://www.blogjava.net/NeonWay/category/7516.html">J2EE(12)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to J2EE(12)" class="listitem" href="http://www.blogjava.net/NeonWay/category/7516.html/rss">(rss)</a></li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" class="listitem" href="http://www.blogjava.net/NeonWay/category/7515.html">java(13)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to java(13)" class="listitem" href="http://www.blogjava.net/NeonWay/category/7515.html/rss">(rss)</a></li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" class="listitem" href="http://www.blogjava.net/NeonWay/category/7518.html">javascript</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to javascript" class="listitem" href="http://www.blogjava.net/NeonWay/category/7518.html/rss">(rss)</a></li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link" class="listitem" href="http://www.blogjava.net/NeonWay/category/8257.html">数据库相关(6)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to 数据库相关(6)" class="listitem" href="http://www.blogjava.net/NeonWay/category/8257.html/rss">(rss)</a></li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link" class="listitem" href="http://www.blogjava.net/NeonWay/category/7519.html">生活随笔(1)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to 生活随笔(1)" class="listitem" href="http://www.blogjava.net/NeonWay/category/7519.html/rss">(rss)</a></li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_Link" class="listitem" href="http://www.blogjava.net/NeonWay/category/7520.html">网上拾贝(非技术)(7)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_RssLink" title="Subscribe to 网上拾贝(非技术)(7)" class="listitem" href="http://www.blogjava.net/NeonWay/category/7520.html/rss">(rss)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class = "listtitle">随笔档案</h1>
+		
+				<ul class = "list" type="square">
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2007/01.html">2007年1月 (5)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/12.html">2006年12月 (2)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/11.html">2006年11月 (4)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/09.html">2006年9月 (4)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl05_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/08.html">2006年8月 (5)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl06_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/07.html">2006年7月 (5)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl07_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/06.html">2006年6月 (2)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl08_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/05.html">2006年5月 (4)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl09_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/04.html">2006年4月 (2)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl10_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/03.html">2006年3月 (6)</a> </li>
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl11_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archive/2006/02.html">2006年2月 (3)</a> </li>
+			
+				</ul>
+			
+	
+		<h1 class = "listtitle">文章档案</h1>
+		
+				<ul class = "list" type="square">
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/NeonWay/archives/2006/03.html">2006年3月 (1)</a> </li>
+			
+				</ul>
+			
+	
+		<h1 class = "listtitle">相册</h1>
+		
+				<ul class = "list" type="square">
+			
+				<li class = "listitem"><a id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/NeonWay/gallery/11542.html">photo</a> </li>
+			
+				</ul>
+			
+	
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0 || evt.type =='click')
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location=url;
+				return false;
+			}
+		}
+</script>
+<H3>搜索</H3>
+<ul>
+	<li>
+		<li><input style="WIDTH: 130px" type="text" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/NeonWay')">&nbsp;<input onclick="SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/NeonWay')" type="button" value="搜索" name="sa">
+	</li>
+</ul>
+
+<H3>积分与排名</H3>
+<ul>
+	<li>
+		积分 -
+		34212
+	<li>
+		排名 -
+		321
+	</li>
+</ul>
+
+<h3>最新评论
+	<a id="SingleColumn1__249ee05_RSSHyperlink1" href="http://www.blogjava.net/NeonWay/CommentsRSS.aspx"><img src="/images/xml.gif" style="border-width:0px;" /></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__249ee05_CommentList_ctl01_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2009/01/28/68659.html#252668">1. re: hibernate集合映射inverse和cascade详解 （转载）</a>
+			</li>
+			<li style="word-break:break-all">
+				very good!!
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--passerby</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__249ee05_CommentList_ctl02_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2008/12/12/95855.html#246007">2. re: 在java中严格校验日期正确性</a>
+			</li>
+			<li style="word-break:break-all">
+				你试试这个时间 2008-01-01 05:1C<br>最后一位是个字母
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--julycoolboy</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__249ee05_CommentList_ctl03_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2008/11/08/32959.html#239394">3. re: 解决桌面反转的问题</a>
+			</li>
+			<li style="word-break:break-all">
+				桌面反转<br>
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--茵</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__249ee05_CommentList_ctl04_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2008/10/31/68659.html#237851">4. re: hibernate集合映射inverse和cascade详解 （转载）</a>
+			</li>
+			<li style="word-break:break-all">
+				我觉得说的还好啊<br><br>能理解意思
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--lawten</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__249ee05_CommentList_ctl05_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2008/10/17/68659.html#234832">5. re: hibernate集合映射inverse和cascade详解 （转载）[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				呵呵，博主有些地方确实说得太多反而没表达清楚。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--球球</li>
+		
+			</ul>
+		
+</div>
+
+<h3>阅读排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__22c7213_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html">1. hibernate集合映射inverse和cascade详解 （转载）(7840)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__22c7213_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/08/04/61773.html">2. 关于 java 连接oracle的 Io 异常: Got minus one from a read call(4649)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__22c7213_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/08/09/62627.html">3. quartz学习总结：(1351)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__22c7213_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/05/29/48717.html">4. log4j配置详解(1277)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__22c7213_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/12/21/89194.html">5. Servlet和Filter的url匹配以及url-pattern详解(1235)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>评论排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__1b53d13_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/09/09/68659.html">1. hibernate集合映射inverse和cascade详解 （转载）(8)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__1b53d13_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/06/16/53234.html">2. 调用window.close()方法时，如何屏蔽关闭窗口的提示？(5)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__1b53d13_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/07/26/60112.html">3. 把java本地程序配置在windows服务来运行(4)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__1b53d13_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/08/04/61773.html">4. 关于 java 连接oracle的 Io 异常: Got minus one from a read call(4)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__1b53d13_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/NeonWay/archive/2006/08/15/63617.html">5. 使用XHTML 1.0 Strict中需要特别注意的地方:(4)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+			
+			<br>
+			
+<div class="footer">
+	Powered by: <a href="http://www.cnblogs.com">博客园</a><br>模板提供：<a href="http://blog.hjenglish.com">沪江博客</a><br>
+	Copyright &copy;2009 王彦锋的技术实践
+</div>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+<br>
+
+<!-- 页面内因素 -->
+
+
+
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/script/ShowHidden.js"></script>
+	<span style="display:none"><script language="javascript" src="http://count4.51yes.com/click.aspx?id=48843620&logo=1"></script></span>
+</body>
+</html>

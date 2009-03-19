@@ -1,0 +1,768 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>关于unsaved-value 的再问。 - Hibernate - Java - JavaEye论坛</title>
+    <meta name="description" content="unsaved-value是表示一个对象是新的还是旧的，如果unsaved-value＝none　那么就是新的，就会被insert到数据库中，如果unsaved-value＝any　就是说明对象是从数据库中load的，被update到数据库中。  我的问题是：unsaved-value是由我们来强制说明这个对象是新的还是旧的，那如果我把一个对象的unsaved-value设置为any，那我要new  ..." />
+    <meta name="keywords" content=" Hibernate Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1237354968" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1235486423" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1234925554" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1213929026" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (3)</a>
+    
+    
+      <a href="http://app.javaeye.com/feed" title="查看我的订阅">订 阅</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/feed/all">全站动态</a>
+    </div>
+    
+    <a href="http://app.javaeye.com/" title="我的应用首页">应 用</a>
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/chat">闲 聊</a>
+      <a href="http://app.javaeye.com/links">收 藏</a>
+      <a href="http://app.javaeye.com/profile">个人资料</a>
+    </div>
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">博 客</a>
+    
+      <a href="http://app.javaeye.com/mygroup" title="查看我的圈子">圈 子</a>
+    
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1235376687" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Hibernate">Hibernate</a> <span class="arrow">&rarr;</span>
+    <h1>关于unsaved-value 的再问。</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/Webwork'>Webwork</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/1604?page=2" rel="next">2</a> <a href="/topic/1604?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 29190 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/1604">主题：关于unsaved-value 的再问。</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_7460">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ywang</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://ywang.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="ywang的博客: ywang" /></a></li>
+      <li>文章: 2</li>
+      <li>积分: 307</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2003-11-25 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F1604' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/27369' title='saveorUpdate与unsaved-value，save，update，delete总结' target='_blank'>saveorUpdate与unsaved-value，save，update，delete总结</a></li>
+                              <li><a href='http://www.javaeye.com/topic/7484' title='这样的对象是否持久化了呢？' target='_blank'>这样的对象是否持久化了呢？</a></li>
+                              <li><a href='http://www.javaeye.com/topic/495' title='几个0ne to one ,hibernate的问题？' target='_blank'>几个0ne to one ,hibernate的问题？</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://hibernate.group.javaeye.com" target="_blank">Hibernate</a></span>
+            <br/><a href="/wiki/topic/1604" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        unsaved-value是表示一个对象是新的还是旧的，如果unsaved-value＝none　那么就是新的，就会被insert到数据库中，如果unsaved-value＝any　就是说明对象是从数据库中load的，被update到数据库中。<br /><br />我的问题是：unsaved-value是由我们来强制说明这个对象是新的还是旧的，那如果我把一个对象的unsaved-value设置为any，那我要new 一个对象，把他save到数据库中，怎么做呢？我感觉这不是矛盾了吗？主要是我们在写配置文件的时候怎么能说一个对象就一定是new的还是load的？<br /><br />我查过过去的一些帖子，都是讲到unsaved-value是什么表示什么意思，我还不是不懂，希望大家教我。
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li><li><a href='/adverts/128' target='_blank'>IBM Rational软件开发高峰论坛9月揭幕</a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ywang.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ywang.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=ywang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://ywang.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_7465">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/44783/d14fa926-08e5-3a6d-9579-31b294c28cf8.jpg?1236834506" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>文章: 5715</li>
+      <li>积分: 2095</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/online.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2003-11-26 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F7465' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        当你显式的使用session.save()或者session.update()操作一个对象的时候，实际上是用不到unsaved-value的。某些情况下(父子表关联保存)，当你在程序中并没有显式的使用save或者update一个持久对象，那么Hibernate需要判断被操作的对象究竟是一个已经持久化过的持久对象，是一个尚未被持久化过的内存临时对象。例如：<br /><br /><pre name="code" class="java">Session session = ...;
+Transaction tx = ...;
+
+Parent parent = (Parent); session.load(Parent.class, id);;
+
+Child child = new Child();;
+child.setParent(parent);;
+child.setName("sun");;
+
+parent.addChild(child);;
+s.update(parent);;
+
+s.flush();;
+tx.commit();;
+s.close();;</pre><br /><br />在上例中，程序并没有显式的session.save(child); 那么Hibernate需要知道child究竟是一个临时对象，还是已经在数据库中有的持久对象。如果child是一个新创建的临时对象(本例中就是这种情况)，那么Hibernate应该自动产生session.save(child)这样的操作，如果child是已经在数据库中有的持久对象，那么Hibernate应该自动产生session.update(child)这样的操作。<br /><br />因此我们需要暗示一下Hibernate，究竟child对象应该对它自动save还是update。在上例中，显然我们应该暗示Hibernate对child自动save，而不是自动update。那么Hibernate如何判断究竟对child是save还是update呢？它会取一下child的主键属性 child.getId() ，这里假设id是 java.lang.Integer类型的。如果取到的Id值和hbm映射文件中指定的unsave-value相等，那么Hibernate认为child是新的内存临时对象，发送save，如果不相等，那么Hibernate认为child是已经持久过的对象，发送update。<br /><br />unsaved-value="null" (默认情况，适用于大多数对象类型主键 Integer/Long/String/...)<br /><br />当Hibernate取一下child的Id，取出来的是null(在上例中肯定取出来的是null)，和unsaved-value设定值相等，发送save(child)<br /><br />当Hibernate取一下child的id，取出来的不是null，那么和unsaved-value设定值不相等，发送update(child)<br /><br />例如下面的情况：<br /><br /><pre name="code" class="java">Session session = ...;
+Transaction tx = ...;
+
+Parent parent = (Parent); session.load(Parent.class, id);;
+Child child = (Child); session.load(Child.class, childId);;
+
+child.setParent(parent);;
+child.setName("sun");;
+
+parent.addChild(child);;
+s.update(parent);;
+
+s.flush();;
+tx.commit();;
+s.close();;</pre><br /><br />child已经在数据库中有了，是一个持久化的对象，不是新创建的，因此我们希望Hibernate发送update(child)，在该例中，Hibernate取一下child.getId()，和unsave-value指定的null比对一下，发现不相等，那么发送update(child)。<br /><br />BTW: parent对象不需要操心，因为程序显式的对parent有load操作和update的操作，不需要Hibernate自己来判断究竟是save还是update了。我们要注意的只是child对象的操作。另外unsaved-value是定义在Child类的主键属性中的。<br /><br /><pre name="code" class="java">&lt;class name="Child" table="child"&gt;
+&lt;id column="id" name="id" type="integer" unsaved-value="null"&gt;
+  &lt;generator class="identity"/&gt;
+&lt;/id&gt;
+...
+&lt;/class&gt;</pre><br /><br />如果主键属性不是对象型，而是基本类型，如int/long/double/...，那么你需要指定一个数值型的unsaved-value，例如：<br /><br /><pre name="code" class="java">unsaved-null="0"</pre><br /><br />在此提醒大家，很多人以为对主键属性定义为int/long，比定义为Integer/Long运行效率来得高，认为基本类型不需要进行对象的封装和解构操作，因此喜欢把主键定义为int/long的。但实际上，Hibernate内部总是把主键转换为对象型进行操作的，就算你定义为int/long型的，Hibernate内部也要进行一次对象构造操作，返回给你的时候，还要进行解构操作，效率可能反而低也说不定。因此大家一定要扭转一个观点，在Hibernate中，主键属性定义为基本类型，并不能够比定义为对象型效率来的高，而且也多了很多麻烦，因此建议大家使用对象型的Integer/Long定义主键。<br /><br />unsaved-value="none"和<br />unsaved-value="any"<br /><br />主主要用在主键属性不是通过Hibernate生成，而是程序自己setId()的时候。<br /><br />在这里多说一句，强烈建议使用Hibernate的id generator，或者你可以自己扩展Hibernate的id generator，特别注意不要使用有实际含义的字段当做主键来用！例如用户类User，很多人喜欢用用户登陆名称做为主键，这是一个很不好的习惯，当用户类和其他实体类有关联关系的时候，万一你需要修改用户登陆名称，一改就需要改好几张表中的数据。偶合性太高，而如果你使用无业务意义的id generator，那么修改用户名称，就只修改user表就行了。<br /><br />由这个问题引申出来，如果你严格按照这个原则来设计数据库，那么你基本上是用不到手工来setId()的，你用Hibernate的id generator就OK了。因此你也不需要了解当<br /><br />unsaved-value="none"和<br />unsaved-value="any"<br /><br />究竟有什么含义了。如果你非要用assigned不可，那么继续解释一下：<br /><br />unsaved-value="none" 的时候，由于不论主键属性为任何值，都不可能为none，因此Hibernate总是对child对象发送update(child)<br /><br />unsaved-value="any" 的时候，由于不论主键属性为任何值，都肯定为any，因此Hibernate总是对child对象发送save(child)<br /><br />大多数情况下，你可以避免使用assigned，只有当你使用复合主键的时候不得不手工setId()，这时候需要你自己考虑究竟怎么设置unsaved-value了，根据你自己的需要来定。<br /><br />BTW: Gavin King强烈不建议使用composite-id，强烈建议使用UserType。<br /><br />因此，如果你在系统设计的时候，遵循如下原则：<br /><br /><span style="color: red">1、使用Hibernate的id generator来生成无业务意义的主键，不使用有业务含义的字段做主键，不使用assigned。<br /><br />2、使用对象类型(String/Integer/Long/...)来做主键，而不使用基础类型(int/long/...)做主键<br /><br />3、不使用composite-id来处理复合主键的情况，而使用UserType来处理该种情况。</span><br /><br />那么你永远用的是unsaved-value="null" ，不可能用到any/none/..了。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_7465' class='post_rate_box'><a href='#' onclick='rate_post(7465, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(7465, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_7499">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ywang</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://ywang.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="ywang的博客: ywang" /></a></li>
+      <li>文章: 2</li>
+      <li>积分: 307</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2003-11-26 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F7499' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        十分感谢robbin的回答，我已经明白了 unsaved-value的意思了。<br />对于复合主键的部分我还是不够明白，我自己会去查些资料找找答案的。<br />再次感谢你的答案。~！<br />^_^
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ywang.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ywang.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=ywang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://ywang.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_7499' class='post_rate_box'><a href='#' onclick='rate_post(7499, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(7499, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_7505">
+  <td class="postauthor">
+    <ul>
+      <li class="name">我会试一下</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://jackzhuo.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/139/b79020ff-e168-4079-91a1-04126699113b.gif?1236831840" title="我会试一下的博客: 我会试一下" /></a></li>
+      <li>文章: 45</li>
+      <li>积分: 412</li>
+      <li>来自: 广州</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2003-11-26 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F7505' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        是个好贴!
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jackzhuo.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jackzhuo.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=%E6%88%91%E4%BC%9A%E8%AF%95%E4%B8%80%E4%B8%8B" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jackzhuo.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_7505' class='post_rate_box'><a href='#' onclick='rate_post(7505, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(7505, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_11905">
+  <td class="postauthor">
+    <ul>
+      <li class="name">edgeloner</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://edgeloner.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/108/0b5d16f2-a297-44a7-8911-ff70749472b1.jpg?1236831837" title="edgeloner的博客: 暂定名" /></a></li>
+      <li>文章: 63</li>
+      <li>积分: 301</li>
+      <li>来自: 廣東深圳</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-01-11 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F11905' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        精辟，要的就是这样的贴。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://edgeloner.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://edgeloner.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=edgeloner" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://edgeloner.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_11905' class='post_rate_box'><a href='#' onclick='rate_post(11905, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(11905, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_12546">
+  <td class="postauthor">
+    <ul>
+      <li class="name">xmnkl</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://xmnkl.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="xmnkl的博客: xmnkl" /></a></li>
+      <li>文章: 17</li>
+      <li>积分: 235</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-01-16 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F12546' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        1、那么，你的意思是说只有在assigned的情况下，unsaved-value才是起作用的吗？<br />&nbsp; 2、还有一点我不太明白，再文中提到显式的使用update和save，那么这种情况是不是就对于下面例子中cat的改变是隐式的，因为对于cat并没有具体说是用save还是update方法。<br />（animal和cat是一对多的关系）<br />&nbsp;&nbsp;&nbsp; <div class="quote_title">引用</div><div class="quote_div">Query query=session.createQuery("select&nbsp; Animal&nbsp; from Animal as animal where type=:type");<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; query.setCharacter("type",'s');<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Iterator it=query.iterate() ;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(it.hasNext())<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Animal animal=(Animal)it.next() ;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Animal name is:"+animal.getId()&nbsp; );<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set set=animal.getCats() ;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Iterator its=set.iterator() ;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(its.hasNext() ) <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { <br />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cat cat=(Cat)its.next();<br />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cat.setName("mimi");<br />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; animal.getCats().add(cat);<br />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; session.saveOrUpdate(animal);<br />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tx.commit();<br />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</div>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://xmnkl.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://xmnkl.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=xmnkl" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://xmnkl.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_12546' class='post_rate_box'><a href='#' onclick='rate_post(12546, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(12546, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_18670">
+  <td class="postauthor">
+    <ul>
+      <li class="name">WFoxd</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://wfoxd.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="WFoxd的博客: WFoxd" /></a></li>
+      <li>文章: 4</li>
+      <li>积分: 211</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-03-24 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F18670' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        高，太好了
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://wfoxd.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://wfoxd.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=WFoxd" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://wfoxd.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_18670' class='post_rate_box'><a href='#' onclick='rate_post(18670, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(18670, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_19811">
+  <td class="postauthor">
+    <ul>
+      <li class="name">ddd3500</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://ddd3500.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="ddd3500的博客: ddd3500" /></a></li>
+      <li>文章: 21</li>
+      <li>积分: 248</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-04-02 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F19811' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        谢谢！
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://ddd3500.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://ddd3500.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=ddd3500" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://ddd3500.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_19811' class='post_rate_box'><a href='#' onclick='rate_post(19811, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(19811, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_21265">
+  <td class="postauthor">
+    <ul>
+      <li class="name">liloboy</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://liloboy.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="liloboy的博客: liloboy" /></a></li>
+      <li>文章: 55</li>
+      <li>积分: 304</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-04-12 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F21265' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        好帖!<br />有个问题,<br />我用native(实际上的DB是MSSQL和Firebird),unsaved-value用什么,java type=long,(不管是null还是0[Insert的都用update的不是用insert])<br />是否Model Class的Constructor里面要设置一下并且unsaved-value=null|0|-1?<br /><br />我用uuid.hex的unsaved-value不用设置也正确的.
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://liloboy.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://liloboy.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=liloboy" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://liloboy.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_21265' class='post_rate_box'><a href='#' onclick='rate_post(21265, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(21265, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_24543">
+  <td class="postauthor">
+    <ul>
+      <li class="name">show90</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://show90.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="show90的博客: show90" /></a></li>
+      <li>文章: 16</li>
+      <li>积分: 232</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-05-09 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Eunsaved-value+%E7%9A%84%E5%86%8D%E9%97%AE%E3%80%82&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F24543' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        妙。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://show90.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://show90.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=show90" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://show90.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_24543' class='post_rate_box'><a href='#' onclick='rate_post(24543, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(24543, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/1604?page=2" rel="next">2</a> <a href="/topic/1604?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Hibernate'>Hibernate</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="mobile">移动编程和手机开发</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+  
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form>	
+</div>
+
+<script type="text/javascript">
+dp.SyntaxHighlighter.HighlightAll('code', true, true);
+  
+fix_image_size($$('div.postbody img'), 760);
+
+function rate_post(id, type) {
+  Element.update('post_rate_box_' + id, '提交中...');
+  new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});	
+}
+
+function rate_topic(type) {
+  Element.update('topic_rate_box', '提交中...');
+  new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":1604, "type":type}});
+    }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" onclick="$('chat_iframe').src='/chat/widget';return false;">闲聊一下 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
