@@ -1,0 +1,49 @@
+if(typeof(A4page) == 'undefined') A4page = {}; A4page.Zone = [];
+A4page.Zone["Z1"]={"zonecode":"Z1",content:[{ "aid":"25612", "zid":"747",	"title":"<font color=red><b>博汇数码招聘Java高级研发工程师（广州）</b></font>",	"link":"http://job.cnblogs.com/offer/609/",	"advtype":"T",	"source":"",	"adFormCode":"Z1",  "protected":false },{ "aid":"24655", "zid":"747",	"title":"<font color=red><b>沪江网技术部招聘新成员啦！</b></font>",	"link":"http://job.cnblogs.com/enterprise/285/",	"advtype":"T",	"source":"",	"adFormCode":"Z1",  "protected":false }]};
+
+function show_a4_zone(zonecode)
+{
+		if(A4page.Zone[zonecode].content[0].advtype == "T"){
+
+			for (var i=0, post; post = A4page.Zone[zonecode].content[i]; i++) {
+
+				if(zonecode.substring(0,1) == "H")
+					document.write("<a href=\"http://a4.yeshj.com/rd/"+ post.aid +"/\" target=\"_blank\">" + post.title +"</a>&nbsp;&nbsp;");
+				else
+					document.write("<a href=\"http://a4.yeshj.com/rd/"+ post.aid +"/\" target=\"_blank\">" + post.title +"</a><br/>");
+			}			
+
+		}	else if (A4page.Zone[zonecode].content[0].advtype == "P"){
+
+			if( A4page.Zone[zonecode].content.length == 1 ){
+
+				document.write("<a href=\"http://a4.yeshj.com/rd/"+ A4page.Zone[zonecode].content[0].aid +"/\" target=\"_blank\"><img src=\""+ A4page.Zone[zonecode].content[0].source +"\" border=\"0\"></a>");
+
+			}else{
+
+				for (var i=0, post; post = A4page.Zone[zonecode].content[i]; i++) {
+						document.write("<a href=\"http://a4.yeshj.com/rd/"+ post.aid +"/\" target=\"_blank\"><img src=\""+ post.source +"\" border=\"0\"></a><br/><br/>");
+				}						
+			}
+
+		}else if (A4page.Zone[zonecode].content[0].advtype == "F"){
+
+			document.write(ConvertUbb(A4page.Zone[zonecode].content[0].source));
+
+		}
+}
+
+function ConvertUbb(Source){
+	//定义ubb转换参数
+	var flash_ubb = /\[flash=(\d*),(\d*)\](\S*)\[\/flash\]/igm;
+	var flash_html= "<OBJECT codeBase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,22,0\" "
+	+ " classid=\"clsid:d27CDB6E-AE6D-11cf-96B8-444553540000\" "
+	+ "width=$1 height=$2>"
+	+ "<PARAM NAME=movie VALUE=\"$3\">"
+	+ "<PARAM NAME=quality VALUE=high>"
+	+ "<embed src=\"$3\" width=$1 height=$2 quality=high name=index type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"/>"
+	+ "</OBJECT>";
+	//执行转换
+	Source=Source.replace(flash_ubb, flash_html );
+	return Source;
+}

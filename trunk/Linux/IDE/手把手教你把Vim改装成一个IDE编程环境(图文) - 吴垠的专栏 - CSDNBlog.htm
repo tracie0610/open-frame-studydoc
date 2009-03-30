@@ -1,0 +1,1279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0058)http://blog.csdn.net/wooin/archive/2007/10/31/1858917.aspx -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META name="author" content="Lazy Fox">
+    <META name="Copyright" content="Csdn">
+    <META name="description" content="本文主要介绍了在Linux平台下将gvim配置成一个集成编译环境(IDE), 主要以C语言为例子. 由于断断续续用业余时间写了一个多月, 可能会有写的不太通顺的地方, 但应该不影响阅读, 如果有什么看不懂的地方, 可以给我留言, 我们一起探讨. 该文其实还没写完, 还有几个plugin想介绍, 但目前工作比较忙, 现把写完的这部分发出来, 剩下来的以后有空了一定补上.">
+    <META name="keywords" content="Lazy Fox,vim, gvim, vi, IDE, Linux">
+    <LINK rel="Shortcut Icon" href="http://profile.csdn.net/wooin/picture/1.ico">
+    <LINK href="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/Cogitation_1.css" type="text/css" rel="stylesheet" media="all"><LINK href="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/csdn_favbykimi.css" type="text/css" rel="stylesheet" media="all"><SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/jquery-1.2.3.pack.js"></SCRIPT><SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/jquery.highlighter.js"></SCRIPT><SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/highlighter.js"></SCRIPT><LINK href="http://blog.csdn.net/wooin/rss.aspx" title="RSS" type="application/rss+xml" rel="alternate">
+    <TITLE>
+        手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog</TITLE>
+<LINK href="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/webimPopup.css" rel="stylesheet" type="text/css"><LINK type="text/css" rel="stylesheet" href="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/impopmenu.css"><SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/getflashserver.php" charset="utf-8"></SCRIPT><SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/mystats_more.js"></SCRIPT><SCRIPT src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/webimPopup.js" type="text/javascript"></SCRIPT></HEAD><BODY id="defaultuser">
+    <DIV id="csdnblog_allwrap">
+        <FORM name="Form1" method="post" action="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog.htm" id="Form1">
+<INPUT type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="">
+
+        
+<DIV id="csdnblog_midwrap">
+    <DIV id="csdnblog_header">
+        
+        <H1><A id="Header1_HeaderTitle" href="http://blog.csdn.net/wooin/">吴垠的专栏</A></H1><H2>因缘合成，无有实体，犹如过眼云烟，虚而不实，求不得，拿不走</H2>
+        
+        <UL id="personalnav"><LI><A href="http://passport.csdn.net/UserLogin.aspx">登录</A></LI><LI><A href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</A></LI></UL>
+        
+        <UL id="blogsearchsty"><LI><INPUT id="inputSearch" type="text" class="bolgsearch" onkeydown="return keyb(event)"></LI><LI class="selectsty"><SELECT name="Search:ddlSearchScope" id="Search_ddlSearchScope"><OPTION value="all">全站</OPTION><OPTION value="wooin">当前博客</OPTION></SELECT></LI><LI><INPUT type="button" onclick="checkNull()" value="搜索" class="bolggobtn"></LI></UL>
+        
+        <UL id="menu"><LI><A href="http://hi.csdn.net/wooin">空间</A></LI><LI><A href="http://blog.csdn.net/wooin" class="on">博客</A></LI><LI><A href="http://hi.csdn.net/wooin/profile/contactlist/1.html">好友</A></LI><LI><A href="http://album.hi.csdn.net/" target="_blank">相册</A></LI><LI><A href="http://hi.csdn.net/wooin/profile/notebook/1.html" class="last">留言</A></LI></UL>
+    </DIV>
+    <DIV id="csdnblog_sidebar">
+        <DIV class="gutter">
+            <DIV class="aboutauthor">
+                <DL>
+                    
+                    <DT>用户操作</DT><DD class="middle"><A href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/Messages/wooin.ashx" target="_blank">[即时聊天]</A> <A href="http://passport.csdn.net/UserLogin.aspx?from=http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=wooin" target="_blank">[发私信]</A> <A href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/AddFriends/wooin.ashx" target="_blank">[加为好友]</A></DD><DT>    <A href="http://hi.csdn.net/wooin">Lazy Fox</A><SPAN>ID：<A href="http://hi.csdn.net/wooin">wooin</A></SPAN></DT><DD class="middle">    <A href="http://hi.csdn.net/wooin"><IMG src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/1_wooin.jpg" alt=""></A></DD><DD class="middle">    <A href="http://profile.csdn.net/8/E4/edit.html"></A></DD><DD>    共<EM>235167</EM>次访问，排名<EM>343</EM>，<A href="http://hi.csdn.net/wooin/profile/contactlist/1.html">好友</A><EM>7</EM>人，<A href="http://hi.csdn.net/wooin/profile/concernedlist/1.html">关注者</A><EM>22</EM>人。<BR></DD><DD>    </DD><DT>wooin的文章</DT><DD>原创 36 篇</DD><DD>翻译 0 篇</DD><DD>转载 76 篇</DD><DD>评论 471 篇</DD> 
+                    
+                    <DT>Lazy Fox的公告</DT><DD><IMG border="0" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/o_email.jpg">
+
+
+
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-0732889889893080";
+google_ad_width = 120;
+google_ad_height = 240;
+google_ad_format = "120x240_as";
+google_cpa_choice = "CAEaCL1rXLEkRJ9HUAVQNFAvUC1QR1AIUAM";
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/show_ads.js">
+</SCRIPT><SCRIPT src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/expansion_embed.js"></SCRIPT><SCRIPT src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/test_domain.js"></SCRIPT><SCRIPT>window.google_render_ad();</SCRIPT><INS style="display:inline-table;border:none;height:240px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><INS style="display:block;border:none;height:240px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><IFRAME allowtransparency="true" frameborder="0" height="240" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="120"></IFRAME></INS></INS></DD>
+
+                    
+                    <DT>文章分类</DT><DD><DIV class="publiclist_sidebar"><UL><LI><A href="http://blog.csdn.net/wooin/category/156075.aspx">C &amp; C++</A><A href="http://blog.csdn.net/wooin/category/156075.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/wooin/category/206135.aspx">Firefox Dev Maillist</A><A href="http://blog.csdn.net/wooin/category/206135.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/wooin/category/156101.aspx">Linux</A><A href="http://blog.csdn.net/wooin/category/156101.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/wooin/category/394214.aspx">Microwindows/Nano-X</A><A href="http://blog.csdn.net/wooin/category/394214.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/wooin/category/156099.aspx">Movie</A><A href="http://blog.csdn.net/wooin/category/156099.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/wooin/category/158180.aspx">Other</A><A href="http://blog.csdn.net/wooin/category/158180.aspx/rss">(RSS)</A></LI><LI><A href="http://blog.csdn.net/wooin/category/163964.aspx">VB</A><A href="http://blog.csdn.net/wooin/category/163964.aspx/rss">(RSS)</A></LI></UL></DIV></DD><DT>收藏</DT><DD><DIV class="publiclist_sidebar"><UL><LI><A href="http://blog.csdn.net/wooin/category/170680.aspx">C &amp; C++</A></LI><LI><A href="http://blog.csdn.net/wooin/category/170681.aspx">Linux</A></LI><LI><A href="http://blog.csdn.net/wooin/category/170682.aspx">Other</A></LI><LI><A href="http://blog.csdn.net/wooin/category/172247.aspx">VB</A></LI><LI><A href="http://blog.csdn.net/wooin/category/176461.aspx">宗教历史</A></LI></UL></DIV></DD><DT>相册</DT><DD><A href="http://blog.csdn.net/wooin/Gallery/186410.aspx">ico</A></DD><DD><A href="http://blog.csdn.net/wooin/Gallery/170112.aspx">ME</A></DD><DT>Linux</DT><DD><A href="http://www.mozilla.net.cn/" target="_blank">Firefox 中文官方网站</A></DD><DD><A href="http://www.firefoxcn.com/" target="_blank">Firefox中文网 <IMG border="0" src="http://www.firefoxcn.com/images/firefoxlogo.gif" width="150" height="50"></A></DD><DD><A href="http://www.firefox.net.cn/" target="_blank">Mozilla Firefox中文社区</A></DD><DD><A href="http://blog.csdn.net/zcatlinux/" target="_blank">ZCLinux --资讯与技术社区 <IMG border="0" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/o_zcatlogo5.gif"></A></DD><DT>存档</DT><DD><DIV class="publiclist_sidebar"><UL><LI><A href="http://blog.csdn.net/wooin/archive/2008/09.aspx">2008年09月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2008/08.aspx">2008年08月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2008/06.aspx">2008年06月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2008/05.aspx">2008年05月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2008/04.aspx">2008年04月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2008/03.aspx">2008年03月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2008/02.aspx">2008年02月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2008/01.aspx">2008年01月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2007/12.aspx">2007年12月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2007/11.aspx">2007年11月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2007/10.aspx">2007年10月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2007/08.aspx">2007年08月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2007/07.aspx">2007年07月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2007/06.aspx">2007年06月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2007/05.aspx">2007年05月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/12.aspx">2006年12月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/11.aspx">2006年11月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/10.aspx">2006年10月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/08.aspx">2006年08月(1)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/07.aspx">2006年07月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/06.aspx">2006年06月(3)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/05.aspx">2006年05月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/04.aspx">2006年04月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/02.aspx">2006年02月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2006/01.aspx">2006年01月(2)</A></LI><LI><A href="http://blog.csdn.net/wooin/archive/2005/11.aspx">2005年11月(2)</A></LI></UL></DIV></DD>
+
+                    
+                    <DT>软件项目交易</DT><DD><IFRAME style="margin:0;　padding:0; width: 180px; height: 32px;" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/CsdnBlogPage.htm" frameborder="0" scrolling="no"></IFRAME></DD>
+                    
+                    <SPAN id="SubscriptionList"><DT>订阅我的博客</DT><DD><A href="http://blog.csdn.net/wooin/Rss.aspx"><IMG border="0" alt="XML聚合" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/xml.gif"></A>&nbsp;&nbsp;<A href="http://feeds.feedsky.com/csdn.net/wooin" target="_blank"><IMG border="0" alt="FeedSky" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/feedsky.gif"></A></DD><DD><A href="http://www.xianguo.com/subscribe.php?url=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到鲜果" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_xianguo.jpg"></A></DD><DD><A href="http://fusion.google.com/add?feedurl=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到Google" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_google.gif"></A></DD><DD><A href="http://www.zhuaxia.com/add_channel.php?url=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到抓虾" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_zhuaxia.gif"></A></DD><DD><A href="http://www.bloglines.com/sub/http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到BlogLines" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_bloglines.gif"></A></DD><DD><A href="http://add.my.yahoo.com/rss?url=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到Yahoo" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_yahoo.gif"></A></DD><DD><A href="http://rss.gougou.com/find_rss.jsp?url=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到GouGou" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_gougou.gif"></A></DD><DD><A href="http://www.pageflakes.com/subscribe.aspx?url=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到飞鸽" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_pageflakes.gif"></A></DD><DD><A href="http://www.rojo.com/add-subscription?resource=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到Rojo" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_rojo.gif"></A></DD><DD><A href="http://www.newsgator.com/ngs/subscriber/subfext.aspx?url=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到newsgator" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_newsgator.gif"></A></DD><DD><A href="http://www.netvibes.com/subscribe.php?url=http://blog.csdn.net/wooin/Rss.aspx" target="_blank"><IMG border="0" alt="订阅到netvibes" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/rss_netvibes.gif"></A></DD></SPAN>
+                </DL>
+            </DIV>
+        </DIV>
+    </DIV>
+    
+    <DIV id="csdnblog_content">
+        <DIV class="gutter">
+            
+                    
+<DIV class="default_contents">
+    <DIV class="user_article">
+        <SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/LoadFeedbackCount.js"></SCRIPT>
+        <H1 class="title_txt"><IMG src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/authorship.gif" border="0" width="15" height="16" alt="原创">&nbsp;手把手教你把Vim改装成一个IDE编程环境(图文)<CITE class="fav_csdnstylebykimi"><A href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</A></CITE></H1>
+<DIV class="blogstory">
+    <SCRIPT>function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</SCRIPT><P><FONT size="5">手把手教你把Vim改装成一个IDE编程环境(图文)<BR></FONT></P>
+<TABLE style="WIDTH: 650px; HEIGHT: 174px" border="0">
+    <TBODY>
+        <TR>
+            <TD width="80">By:</TD>
+            <TD>吴垠</TD>
+        </TR>
+        <TR>
+            <TD>Date:</TD>
+            <TD>2007-09-07</TD>
+        </TR>
+        <TR>
+            <TD>Version:</TD>
+            <TD>0.5</TD>
+        </TR>
+        <TR>
+            <TD>Email:</TD>
+            <TD>lazy.fox.wu#gmail.com</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top">Homepage:<BR></TD>
+            <TD style="VERTICAL-ALIGN: top">http://blog.csdn.net/wooin<BR></TD>
+        </TR>
+        <TR>
+            <TD valign="top">Copyright:</TD>
+            <TD>该文章版权由吴垠和他可爱的老婆小包子所有。可在非商业目的下任意传播和复制。对于商业目的下对本文的任何行为需经作者同意。<BR>联系方式：lazy.fox.wu#gmail.com</TD>
+        </TR>
+    </TBODY>
+</TABLE>
+<HR><!--水平线-->
+<TABLE style="WIDTH: 585px; HEIGHT: 24785px" border="0">
+    <TBODY>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">1<BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">写在前面<BR></TD>
+        </TR>
+        <TR>
+            <TD valign="top" width="30"><BR></TD>
+            <TD>Linux下编程一直被诟病的一点是: 没有一个好用的IDE, 但是听说Linux牛人, 黑客之类的也都不用IDE. 但是对我等从Windows平台转移过来的Coder来说, 一个好用的IDE是何等的重要啊, 估计很多人就是卡在这个门槛上了, &quot;工欲善其事, 必先利其器&quot;嘛, 我想如果有一个很好用的IDE, 那些Linux牛人也会欢迎的. 这都是劳动人民的美好愿望罢了, 我今天教大家把gvim改装成一个简易IDE, 说它&quot;简易&quot;是界面上看起来&quot;简易&quot;, 但功能绝对不比一个好的IDE差, 该有的功能都有, 不该有的功能也有, 你就自己没事偷着乐吧, 下面我开始介绍今天的工作了.<BR><BR>本文会教你:<BR>1.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#2">中文帮助手册的安装</A><BR>2.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#3">vim编程常用命令</A><BR>3.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#4">语法高亮</A><BR>4.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#5">在程序中跳来跳去: Ctags 的使用</A><BR>5.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#6">教你高效地浏览源码 -- 插件: TagList</A><BR>6.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#7">文件浏览器和窗口管理器 -- 插件: WinManager</A><BR>7.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#8">Cscope 的使用</A><BR>8.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#9">QuickFix 窗口</A><BR>9.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#10">快速浏览和操作Buffer -- 插件: MiniBufExplorer</A><BR>10.&nbsp; <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#11">c/h文件间相互切换 -- 插件: A</A><BR>11. <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#12">在工程中查找 -- 插件: Grep</A><BR>12. <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#13">高亮的书签 -- 插件: VisualMark</A><BR>13. <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#14">自动补全</A><BR>14. <A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#15">加速你的补全 -- 插件: SuperTab</A><A href="file:///C:/Documents%20and%20Settings/Administrator/%E6%A1%8C%E9%9D%A2/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#17"></A><BR><BR>本文不会教你:<BR>1.&nbsp; 如何使用vim. 本文不会从零开始教你如何使用vim, 如果你是第一次接触vim, <BR>&nbsp;&nbsp; 建议你先看看其他的vim入门的教程, 或者在shell下输入命令: vimtutor, <BR>&nbsp;&nbsp; 这是一个简单的入门教程.<BR>2.&nbsp; 编程技巧.<BR>3.&nbsp; vim脚本的编写.<BR><BR>我的工作环境是: Fedora Core 5<BR>gvim是自己编译的7.0, 如果你还没有安装gvim, 请看我的这篇文章<A href="http://blog.csdn.net/wooin/archive/2006/12/30/1468797.aspx"><SPAN style="COLOR: rgb(0,0,0)">&lt;在Redhat Linux 9中编译和配置gvim 7.0&gt;</SPAN></A><BR>由于本人一直从事C语言工作, 所以下面这些例子都是在C语言程序中演示的, 其他语言的没有试过, 如果有朋友在别的语言下有问题, 可以跟我讨论一些, 我会尽量帮助你们的.<BR><BR>本文用的示范源码是vim7.1的源码, 可以在<SPAN style="COLOR: rgb(0,0,0)">www.vim.org</SPAN>下载到源码包:vim-7.1.tar.bz2, 你也可以不用下载, 就用你自己程序的源码, 关系不大的. 我把源码解压在我的home目录下: ~/vim71<BR><BR>下面对文中的一些名字定义一下:<BR>1. 文中用到的一些用&lt;&gt;括起来的符号比如&lt;C-T&gt;, &lt;C-S-A&gt;, 之类的, 你可以用下面的命令看看解释:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help keycodes <BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            2. 文中说的一些路径, 比如:<BR>&nbsp; ~/.vim/plugin<BR>&nbsp; ~/.vim/doc<BR>&nbsp; ~/.vim/syntax<BR>&nbsp; 如果你没有, 就自己创建.<BR>3. 文中说到的.vimrc文件都是指 ~/.vimrc<BR><BR>先给大家看张图片, 我是vim的界面, 解解馋先^_^<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_01.png"><BR>(--- 图1 ---)<BR>对照上图的图标, 我在本文中将教会你以下这些功能:
+            <TABLE style="WIDTH: 75.33&percnt;; HEIGHT: 235px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 10&percnt;">1<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top">简洁明了的Buffer浏览和操作<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">2<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top">文件浏览器<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">3<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top">tag浏览器<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">4<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top">高亮的书签<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">5<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top">更丰富的语法高亮<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">6<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top">成员变量的下拉, 自动补全<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR></TD>
+        </TR>
+        <TR>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">2<A name="2"></A></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">中文帮助手册的安装</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top">vim自带的帮助手册是英文的, 对平时编程的人来说没有多大阅读困难, 何况还有&quot;星级译王&quot;呢, 可偏偏有一帮人将其翻译成了中文, 可偏偏我又挡不住诱惑将它安装了, 唉.......又痛失一个学习英文的好机会, 下不为例.<BR>大家看看我的中文帮助界面吧:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_02.png"><BR>(--- 图2 ---)<BR>安装方法: &nbsp; <BR>在下面的网站下载中文帮助的文件包:<BR>http://vimcdoc.sf.net&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; (English)<BR>http://vcd.gro.clinux.org&nbsp;&nbsp;&nbsp; (中文)<BR><BR>下载的文件包应该是类似这样的: vimcdoc-1.5.0.tar.gz<BR>解压后其中有个doc文件夹, 将其中的内容全部复制到~/.vim/doc, 或者vim安装目录下的doc目录中, 此时vim中的help信息已经是中文的了.<BR>注意:<BR>a. 如果无法显示中文, 在~/.vimrc中增加下面这句试试:<BR>&nbsp;&nbsp; set helplang=cn<BR>b. 帮助文件的文本是utf-8编码的, 如果想用vim直接查看, 需要在~/.vimrc中设置:<BR>&nbsp;&nbsp; set encoding=utf-8<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">3<A name="3"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">vim编程常用命令</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top">建议先看看帮助手册中的下面章节, 其中有关tags文件的部分你可以先跳过, 在后面的章节中会讲到, 到时候你在回来看看, 就觉得很简单了:<BR>
+            <TABLE style="WIDTH: 255px; HEIGHT: 52px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help usr_29<BR>:help usr_30<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            下面是我常用的一些命令, 放在这里供我备忘:<BR>
+            <TABLE style="WIDTH: 484px; HEIGHT: 248px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 10&percnt;">&percnt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">跳转到配对的括号去</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">[[</TD>
+                        <TD style="VERTICAL-ALIGN: top">跳转到代码块的开头去(但要求代码块中&#39;{&#39;必须单独占一行)</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">gD</TD>
+                        <TD style="VERTICAL-ALIGN: top">跳转到局部变量的定义处</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">&#39;&#39;</TD>
+                        <TD style="VERTICAL-ALIGN: top">跳转到光标上次停靠的地方, 是两个&#39;, 而不是一个&quot;</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">mx</TD>
+                        <TD style="VERTICAL-ALIGN: top">设置书签,x只能是a-z的26个字母</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">`x</TD>
+                        <TD style="VERTICAL-ALIGN: top">跳转到书签处(&quot;`&quot;是1左边的键)</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">&gt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">增加缩进,&quot;x&gt;&quot;表示增加以下x行的缩进</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">&lt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">减少缩进,&quot;x&lt;&quot;表示减少以下x行的缩进</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            &nbsp;&nbsp;&nbsp;&nbsp; <BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">4<A name="4"></A></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">语法高亮</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top">写程序没有语法高亮将是一件多么痛苦的事情啊, 幸亏vim的作者是个程序员(如果不是, 那可NB大了), 提供了语法高亮功能, 在上面的图片中大家也可以看到那些注释, 关键字, 字符串等, 都用不同颜色显示出来了, 要做到这样, 首先要在你的 ~/.vimrc 文件中增加下面几句话:<BR>
+            <TABLE style="WIDTH: 20&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">syntax enable<BR>syntax on</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            再重新启动vim, 并打开一个c程序文件, 是不是觉得眼前突然色彩缤纷了起来...<BR>如果你不喜欢这个配色方案你可以在&quot;编辑-&gt;配色方案&quot;(gvim)中选择一个你满意的配色方案, 然后在~/.vimrc文件中增加下面这句:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">colorscheme desert</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            desert是我喜欢的配色方案, 你可以改成你的. 如果菜单中的配色方案你还不满意(你也太花了吧), 没关系, 在 vim.org 上跟你一样的人很多, 他们做了各种各样的颜色主题, 你可以下载下来一个一个的试, 多地可以看到你眼花. 如果这样你还不满意(你还真是XXXX), 没关系, vim的作者早想到会有你这种人了, 你可以创建你自己的颜色主题, 把下面的这篇文档好好学习一些一下吧:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help syntax.txt</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>更炫的语法高亮:<BR>你可能会发现很多东西没有高亮起来, 比如运算符号, 各种括号, 函数名, 自定义类型等, 但是看上面的图片, 我的运算符号和函数名都加亮了^_^, 想知道为什么吗? 哇哈哈哈哈.... 让我来教你吧 ...<BR><BR>主要的思路是新建一个语法文件, 在文件中定义你要高亮的东东, 想高亮什么就高亮什么, 用vim就是这么自信. 所谓的语法文件就是vim用来高亮各种源文件的一个脚本, vim靠这个脚本的描述来使文件中的不同文本显示不同的颜色, 比如C语言的语法文件放在类似于这样的一个路径中:<BR>/usr/share/vim/vim64/syntax/c.vim<BR>其他语言的语法文件也可以在这个路径中找到, 你的也许不在这个路径中, 不管它, 在你自己的HOME下新建一个语法文件, 新建一个空文件:<BR>~/.vim/syntax/c.vim<BR>在其中加入<BR>
+            <TABLE style="WIDTH: 461px; HEIGHT: 688px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(51,51,51)">
+                        <PRE><FONT color="#18ca12">&quot;========================================================</FONT><BR><FONT color="#18ca12">&quot; Highlight All Function</FONT><BR><FONT color="#18ca12">&quot;========================================================</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>   <SPAN style="COLOR: rgb(255,255,255)">cFunction</SPAN> <FONT color="#ffa500">&quot;\&lt;</FONT><FONT color="#ffa500">[a-zA-Z_][a-zA-Z_0-9]</FONT><FONT color="#ffa500">*\&gt;</FONT><FONT color="#ffa500">[^()]</FONT><FONT color="#ffa500">*)(&quot;</FONT><SPAN style="COLOR: rgb(255,255,255)">me=e-2</SPAN><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>   <SPAN style="COLOR: rgb(255,255,255)">cFunction</SPAN> <FONT color="#ffa500">&quot;\&lt;</FONT><FONT color="#ffa500">[a-zA-Z_][a-zA-Z_0-9]</FONT><FONT color="#ffa500">*\&gt;\s*(&quot;</FONT><SPAN style="COLOR: rgb(255,255,255)">me=e-1</SPAN><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cFunction</SPAN>        <FONT color="#ffa0a0"><STRONG>gui</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#cd5c5c">NONE</FONT> <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#B5A1FF<BR><BR></FONT><FONT color="#18ca12">&quot;========================================================</FONT><BR><FONT color="#18ca12">&quot; Highlight All Math Operator</FONT><BR><FONT color="#18ca12">&quot;========================================================</FONT><BR><FONT color="#18ca12">&quot; C math operators</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>       <SPAN style="COLOR: rgb(255,255,255)">cMathOperator</SPAN>     <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;</FONT><FONT color="#ffa500">[-+\*/&percnt;=]</FONT><FONT color="#ffa500">&quot;</FONT><BR><FONT color="#18ca12">&quot; C pointer operators</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>       <SPAN style="COLOR: rgb(255,255,255)">cPointerOperator</SPAN>  <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;-&gt;</FONT><FONT color="#ffdead">\|</FONT><FONT color="#ffa500">\.&quot;</FONT><BR><FONT color="#18ca12">&quot; C logical   operators - boolean results</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>       <SPAN style="COLOR: rgb(255,255,255)">cLogicalOperator</SPAN>  <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;</FONT><FONT color="#ffa500">[!&lt;&gt;]</FONT><FONT color="#ffa500">=\=&quot;</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>      <SPAN style="COLOR: rgb(255,255,255)"> cLogicalOperator</SPAN>  <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;==&quot;</FONT><BR><FONT color="#18ca12">&quot; C bit operators</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>       <SPAN style="COLOR: rgb(255,255,255)">cBinaryOperator</SPAN>   <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;</FONT><FONT color="#ffdead">\(</FONT><FONT color="#ffa500">&amp;</FONT><FONT color="#ffdead">\|</FONT><FONT color="#ffa500">|</FONT><FONT color="#ffdead">\|</FONT><FONT color="#ffa500">\^</FONT><FONT color="#ffdead">\|</FONT><FONT color="#ffa500">&lt;&lt;</FONT><FONT color="#ffdead">\|</FONT><FONT color="#ffa500">&gt;&gt;</FONT><FONT color="#ffdead">\)</FONT><FONT color="#ffa500">=\=&quot;</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>       <SPAN style="COLOR: rgb(255,255,255)">cBinaryOperator</SPAN>   <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;\~&quot;</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>       <SPAN style="COLOR: rgb(255,255,255)">cBinaryOperatorError</SPAN> <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;\~=&quot;</FONT><BR><FONT color="#18ca12">&quot; More C logical operators - highlight in preference to binary</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>       <SPAN style="COLOR: rgb(255,255,255)">cLogicalOperator</SPAN>  <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;&amp;&amp;</FONT><FONT color="#ffdead">\|</FONT><FONT color="#ffa500">||&quot;</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>match</STRONG></FONT>      <SPAN style="COLOR: rgb(255,255,255)"> cLogicalOperatorError</SPAN> <FONT color="#ffdead">display</FONT> <FONT color="#ffa500">&quot;</FONT><FONT color="#ffdead">\(</FONT><FONT color="#ffa500">&amp;&amp;</FONT><FONT color="#ffdead">\|</FONT><FONT color="#ffa500">||</FONT><FONT color="#ffdead">\)</FONT><FONT color="#ffa500">=&quot;</FONT><BR><FONT color="#ffff00"><BR></FONT><FONT color="#18ca12">&quot; Math Operator</FONT><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cMathOperator</SPAN>            <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#3EFFE2</FONT><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cPointerOperator</SPAN>         <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#3EFFE2</FONT><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cLogicalOperator</SPAN>         <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#3EFFE2</FONT><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cBinaryOperator</SPAN>          <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#3EFFE2</FONT><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cBinaryOperatorError</SPAN>     <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#3EFFE2</FONT><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cLogicalOperator</SPAN>         <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#3EFFE2</FONT><BR><FONT color="#f0e68c"><STRONG>hi</STRONG></FONT> <SPAN style="COLOR: rgb(255,255,255)">cLogicalOperatorError</SPAN>    <FONT color="#ffa0a0"><STRONG>guifg</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)">=</SPAN><FONT color="#ffa0a0">#3EFFE2</FONT><BR></PRE>
+                        </TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>再打开你的C文件看看, 是不是又明亮了许多. 还有一个压箱底的要告诉你, 如果你自己增加了一个类型或者结构之类的, 怎么让它也象&quot;int&quot;, &quot;void&quot;这样高亮起来呢? 再在上面的文件~/.vim/syntax/c.vim中添加下面的东东:
+            <TABLE style="WIDTH: 437px; HEIGHT: 108px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(51,51,51)">
+                        <PRE><FONT color="#18ca12">&quot;========================================================</FONT><BR><FONT color="#18ca12">&quot; My Own DataType</FONT><BR><FONT color="#18ca12">&quot;========================================================</FONT><BR><FONT color="#f0e68c"><STRONG>syn</STRONG></FONT> <FONT color="#ffa0a0"><STRONG>keyword</STRONG></FONT><SPAN style="COLOR: rgb(255,255,255)"> cType       My_Type_1 My_Type_2 My_Type_3</SPAN></PRE>
+                        </TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            这样你自己的类型My_Type_1, My_Type_2, My_Type_3就也可以向&quot;int&quot;一样高亮起来了, 这样的缺点是每增加一个类型, 就要手动在这里添加一下, 如果有人知道更简单的方法请一定一定要告诉我, 用下面的地址:<BR>
+            <TABLE style="WIDTH: 70.68&percnt;; HEIGHT: 65px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 25&percnt;; BACKGROUND-COLOR: rgb(204,204,204)">Email<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: lazy.fox.wu#gmail.com<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Homepage</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: http://blog.csdn.net/wooin</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">5<A name="5"></A></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">在程序中跳来跳去: Ctags 的使用</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top">哇, 这下可厉害了, Tag文件(标签文件)可是程序员的看家宝呀, 你可以不用它, 但你不能不知道它, 因为Linux内核源码都提供了&quot;make tags&quot;这个选项. 下面我们就来介绍Tag文件.<BR><BR>tags文件是由ctags程序产生的一个索引文件, ctags程序其是叫&quot;Exuberant Ctags&quot;, 是Unix上面ctags程序的替代品, 并且比它功能强大, 是大多数Linux发行版上默认的ctags程序. 那么tags文件是做什么用的呢? 如果你在读程序时看了一个函数调用, 或者一个变量, 或者一个宏等等, 你想知道它们的定义在哪儿, 怎么办呢? 用grep? 那会搜出很多不相干的地方. 现在流行用是的&lt;C-]&gt;, 谁用谁知道呀, 当光标在某个函数或变量上时, 按下&quot;Ctrl+]&quot;, 光标会自动跳转到其定义处, 够厉害吧, 你不用再羡慕Visual Studio的程序员了, 开始羡慕我吧~_~.<BR><BR>你现在先别急着去按&lt;C-]&gt;, 你按没用的, 要不要我干什么呀, 你现在要做的是查查你电脑里有没有ctags这个程序, 如果有, 是什么版本的, 如果是Ctags 5.5.4, 就象我一样, 你最好去装一个Ctags 5.6, 这个在后面的自动补全章节中会用到. 在这个网站: http://ctags.sourceforge.net, 下载一个类似 ctags-5.6.tar.gz 的文件下来(现在好像5.7版的也出来了, 不过我还没用过):<BR><BR>用下面的命令解压安装:<BR>
+            <TABLE style="WIDTH: 298px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">$ tar -xzvf ctags-5.6.tar.gz<BR>$ cd ctags-5.6<BR>$ make<BR># make install&nbsp;&nbsp; <SPAN style="COLOR: rgb(0,153,0)">// 需要root权限</SPAN></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>然后去你的源码目录, 如果你的源码是多层的目录, 就去最上层的目录, 在该目录下运行命令: ctags -R<BR>我现在以 vim71 的源码目录做演示<BR>
+            <TABLE style="WIDTH: 40&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">$ cd /home/wooin/vim71<BR>$ ctags -R<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            此时在/home/wooin/vim71目录下会生成一个 tags 文件, 现在用vim打开 /home/wooin/vim71/src/main.c<BR>
+            <TABLE style="WIDTH: 50.03&percnt;; HEIGHT: 42px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">$ vim /home/wooin/vim71/src/main.c<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            再在vim中运行命令:<BR>
+            <TABLE style="WIDTH: 50.35&percnt;; HEIGHT: 42px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:set tags=/home/wooin/vim71/tags<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            该命令将tags文件加入到vim中来, 你也可以将这句话放到~/.vimrc中去, 如果你经常在这个工程编程的话.<BR>下面要开始真刀实枪的开干了, 如下图, 将光标放在setmouse()函数上<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_04.png"><BR>(--- 图3 ---)<BR><BR>此时按下&lt;C-]&gt;, 光标会自动跳到setmouse()函数的定义处, 见下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_05.png"><BR>(--- 图4 ---)<BR><BR>如果此时你还想再跳回刚才的位置, 你还可以按&lt;C-T&gt;, 这样又跳回到setmouse()函数被调用的地方了, 变量, 结构, 宏, 等等, 都可以的, 赶快试试吧.....<BR><BR>此时在回头学习一下第3节中说的vim手册吧<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help usr_29</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>不过还有一个小瑕疵, 你修改程序后, 比如增加了函数定义, 删除了变量定义, tags文件不能自动rebuild, 你必须手动再运行一下命令:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">$ ctags -R<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            使tags文件更新一下, 不过让人感到欣慰的是vim不用重新启动, 正在编写的程序也不用退出, 马上就可以又正确使用&lt;C-]&gt;和&lt;C-T&gt;了. 如果有人知道更简单的方法请一定一定要告诉我, 用下面的地址:<BR>
+            <TABLE style="WIDTH: 65.06&percnt;; HEIGHT: 65px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 25&percnt;; BACKGROUND-COLOR: rgb(204,204,204)">Email<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: lazy.fox.wu#gmail.com<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Homepage</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: http://blog.csdn.net/wooin</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">6.<A name="6"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">教你高效地浏览源码 -- 插件: TagList<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(0,0,0)"></SPAN>
+            <TABLE style="WIDTH: 100&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(0,0,0)">下载地址</SPAN></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(0,0,0)">http://www.vim.org/scripts/script.php?script_id=273</SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">版本</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">4.4</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">安装</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">在 ~/.vim 目录下解压taglist_xx.zip</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">手册</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help taglist.txt</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(0,0,0)"></SPAN><BR>在Windows平台上用过Source Insight看程序的人肯定很熟悉代码窗口左边那个Symbol窗口, 那里面列出了当前文件中的所有宏, 全局变量, 函数名等, 在查看代码时用这个窗口总揽全局, 切换位置相当方便, 今天告诉你一个vim的插件: Taglist, 可以同样实现这个功能.<BR><BR>上一节已经告诉你ctags的用法了, ctags的基本原理是将程序程序中的一些关键字(比如:函数名, 变量名等)的名字, 位置等信息通过一个窗口告诉你, 如果你已经安装好taglist, 则可以用下面的命令看看taglist自带的帮助文件:<BR>
+            <TABLE style="WIDTH: 230px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help taglist.txt</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            下面是我翻译的其中的第一段&quot;Overview&quot;, 供大家现了解一下taglist, 翻译的不好, 请指教:<BR>&quot;Tab List&quot;是一个用来浏览源代码的Vim插件, 这个插件可以让你高效地浏览各种不同语言编写的的源代码, &quot;Tag List&quot;有以下一些特点:<BR>&nbsp;&nbsp;&nbsp; * 在Vim的一个垂直或水平的分割窗口中显示一个文件中定义的tags(函数, 类, 结构,<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 变量, 等)<BR>&nbsp;&nbsp;&nbsp; * 在GUI Vim中, 可以选择把tags显示在下拉菜单和弹出菜单中<BR>&nbsp;&nbsp;&nbsp; * 当你在多个源文件/缓冲区间切换时, taglist窗口会自动进行相应地更新. <BR>&nbsp;&nbsp;&nbsp; &nbsp; 当你打开新文件时, 新文件中定义的tags会被添加到已经存在的文件列表中, <BR>&nbsp;&nbsp;&nbsp; &nbsp; 并且所有文件中定义的tags会以文件名来分组显示<BR>&nbsp;&nbsp;&nbsp; * 当你在taglist窗口中选中一个tag名时, 源文件中的光标会自动跳转到该tag的定<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 义处<BR>&nbsp;&nbsp;&nbsp; * 自动高亮当前的tag名<BR>&nbsp;&nbsp;&nbsp; * 按类型分组各tag, 并且将各组显示在一个可折叠的树形结构中<BR>&nbsp;&nbsp;&nbsp; * 可以显示tag的原始类型和作用域<BR>&nbsp;&nbsp;&nbsp; * 在taglist窗口可选择显示tag的原始类型替代tag名<BR>&nbsp;&nbsp;&nbsp; * tag列表可以按照tag名, 或者时间进行排序<BR>&nbsp;&nbsp;&nbsp; * 支持以下语言的源文件: Assembly, ASP, Awk, Beta, C,<BR>&nbsp;&nbsp;&nbsp; &nbsp; C++, C#, Cobol, Eiffel, Erlang, Fortran, HTML, Java, Javascript, Lisp,<BR>&nbsp;&nbsp;&nbsp; &nbsp; Lua, Make, Pascal, Perl, PHP, Python, Rexx, Ruby, Scheme, Shell, Slang,<BR>&nbsp;&nbsp;&nbsp; &nbsp; SML, Sql, TCL, Verilog, Vim and Yacc.<BR>&nbsp;&nbsp;&nbsp; * 可以很简单的扩展支持新的语言. 对新语言支持的修改也很简单.<BR>&nbsp;&nbsp;&nbsp; * 提供了一些函数, 可以用来在Vim的状态栏或者在窗口的标题栏显示当前的tag名<BR>&nbsp;&nbsp;&nbsp; * taglist中的文件和tags的列表可以在被保存和在vim会话间加载<BR>&nbsp;&nbsp;&nbsp; * 提供了一些用来取得tag名和原始类型的命令<BR>&nbsp;&nbsp;&nbsp; * 在控制台vim和GUI vim中都可以使用<BR>&nbsp;&nbsp;&nbsp; * 可以和winmanager插件一起使用. winmanager插件可以让你同时使用文件浏览器, <BR>&nbsp;&nbsp;&nbsp; &nbsp; 缓冲区浏览器和taglist插件, 就像一个IDE一样.<BR>&nbsp;&nbsp;&nbsp; * 可以在Unix和MS-Windows系统中使用<BR><BR>首先请先在你的~/.vimrc文件中添加下面两句:<BR>
+            <TABLE style="WIDTH: 40&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">let Tlist_Show_One_File=1<BR>let Tlist_Exit_OnlyWindow=1<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            此时用vim打开一个c源文件试试:<BR>
+            <TABLE style="WIDTH: 40.99&percnt;; HEIGHT: 42px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">$ vim ~/vim/src/main.c<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            进入vim后用下面的命令打开taglist窗口, 如图5:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:Tlist</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_i.png"><BR>(--- 图5 ---)<BR>左边的窗口就是前面介绍的TagList窗口, 其中列出了main.c文件中的tag, 并且按照&quot;typedef&quot;, &quot;variable&quot;, &quot;function&quot;等进行了分类. 将光标移到VimMain上, 如图中左边红色的方框, 按下回车后, 源程序会自动跳转到VimMain的定义处, 如图中右边的红色方框. 这就是TagList最基本也是最常用的操作. 再教你一个常用的操作, 你在浏览TagList窗口时, 如果还不想让源码跳转, 但是想看看tag在源码中完整的表达, 可以将光标移到你想要看的tag上, 如图中上边黄色的方框, 然后按下空格键, 在下面的命令栏中, 如图下边黄色的方框, 会显示该tag在源码中完整的写法, 而不会跳转到源码处.<BR><BR>TagList插件我就介绍到这里, 其实它还有很多用法和设置, 我没法一一地教你了, 好在TagList有一份详细的帮助手册, 用下面的命令打开手册, 好好学习一下吧:<BR>
+            <TABLE style="WIDTH: 230px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help taglist.txt</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">7.<A name="7"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">文件浏览器和窗口管理器 -- 插件: WinManager<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(0,0,0)"></SPAN>
+            <TABLE style="WIDTH: 100&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(0,0,0)">下载地址</SPAN> </TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(0,0,0)">http://www.vim.org/scripts/script.php?script_id=95</SPAN> </TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">版本 </TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">2.x </TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">安装 </TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">在 ~/.vim 目录下解压winmanager.zip </TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">手册 </TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help winmanager </TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)"><BR>在图1中大家可以看到在图标2标识的地方是一个文件浏览器, 里面列出了当前目录中的文件, 可以通过这个浏览器来浏览工程中的源文件, 是不是越来越像常见的IDE了, 当光标停在某个文件或文件夹的时候, 按下回车, 可以打开该文件或文件夹.<BR>这个东东是怎么调出来的呢? 其实这个也是由插件实现的, 这个插件是netrw.vim, 只不过你不用下载和安装, 这个插件已经是标准的vim插件, 已经随vim一起安装进你的系统里了, 现在先简单演示一下, 进入&quot;~/vim71&quot;文件夹后运行vim, 然后在vim中运行命令:<BR></SPAN></SPAN>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">:e ~/vim71</SPAN></SPAN></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">你将在vim看到如下图所示的界面:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_j.png"><BR></SPAN></SPAN>(--- 图6 ---)<BR><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">在该界面上你可以用下面的一些命令来进行常用的目录和文件操作:<BR></SPAN></SPAN>
+            <TABLE style="WIDTH: 571px; HEIGHT: 304px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 10&percnt;"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">&lt;F1&gt;</SPAN></SPAN></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">显示帮助</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">&lt;cr&gt; </SPAN></SPAN></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">如果光标下是目录, 则进入该目录; 如果光标下文件, 则打开该文件</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">-<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">返回上级目录</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">c<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">切换vim 当前工作目录正在浏览的目录</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">d<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">创建目录</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">D<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">删除目录或文件</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">i<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">切换显示方式</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">R<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">文件或目录重命名</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">s<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">选择排序方式</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">x<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">定制浏览方式, 使用你指定的程序打开该文件<BR></SPAN></SPAN></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)"><BR>我这里不是教你怎么用netrw.vim插件, 而是要教你通过WinManager插件来将TagList窗口和netrw窗口整合起来, 就像图1中的图标2和3组成的那个效果<BR>现在在你的~/.vimrc中增加下面两句<BR></SPAN></SPAN>
+            <TABLE style="WIDTH: 541px; HEIGHT: 42px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">let g:winManagerWindowLayout=&#39;FileExplorer|TagList&#39;<BR>nmap wm :WMToggle&lt;cr&gt;</SPAN></SPAN></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">然后重启vim, 打开~/vim71/src/main.c, 在normal状态下输入&quot;wm&quot;, 你将看到图7的样子:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_k.png"><BR></SPAN></SPAN>(--- 图7 ---)<BR><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">其中左上边是netrw窗口, 左下边是TagList窗口, 当再次输入&quot;wm&quot;命令时这两个窗口又关闭了.<BR><BR>WinManager的功能主要就是我介绍的这些, 但是它还有其他一些高级功能, 还可以支持其他几个插件, 如果你觉得我介绍的还不够你用, 建议你把它的帮助手册好好研究一下, 用下面的命令可以调出帮助手册:<BR></SPAN></SPAN>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">:help winmanager</SPAN></SPAN></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)"><BR></SPAN></SPAN></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">8.<A name="8"></A></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">Cscope 的使用</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top">这下更厉害了, 用Cscope自己的话说 - &quot;你可以把它当做是超过频的ctags&quot;, 其功能和强大程度可见一斑吧, 关于它的介绍我就不详细说了, 如果你安装好了前文介绍的中文帮助手册, 用下面的命令看看介绍吧:<BR>
+            <TABLE style="WIDTH: 192px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help if_cscop.txt<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            我在这里简单摘抄一点, 供还在犹豫的朋友看看:<BR>Cscope 是一个交互式的屏幕下使用的工具，用来帮助你:<BR>* 无须在厚厚的程序清单中翻来翻去就可以认识一个 C 程序的工作原理。<BR>* 无须熟悉整个程序就可以知道清楚程序 bug 所要修改的代码位置。<BR>* 检查提议的改动 (如添加一个枚举值) 可能会产生的效果。<BR>* 验证所有的源文件都已经作了需要的修改；例如给某一个现存的函数添加一个参数。<BR>* 在所有相关的源文件中对一个全局变量改名。<BR>* 在所有相关的位置将一个常数改为一个预处理符号。<BR><BR>它被设计用来回答以下的问题:<BR>* 什么地方用到了这个符号？<BR>* 这是在什么地方定义的？<BR>* 这个变量在哪里被赋值？<BR>* 这个全局符号的定义在哪里？<BR>* 这个函数在源文件中的哪个地方？<BR>* 哪些函数调用了这个函数？<BR>* 这个函数调用了哪些函数？<BR>* 信息 &quot;out of space&quot; 从哪来？<BR>* 这个源文件在整个目录结构中处于什么位置？<BR>* 哪些文件包含这个头文件？<BR><BR>安装Cscope:<BR>如果你的系统中有cscope命令, 则可以跳过这一小段, 如果没有, 就先跟着我一起安装一个吧.<BR>在Cscope的主页: http://cscope.sourceforge.net 下载一个源码包, 解压后编译安装:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"># ./configure<BR># make<BR># make install<SPAN style="COLOR: rgb(0,153,0)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 需要root权限</SPAN> </TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>先在~/vimrc中增加一句:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:set cscopequickfix=s-,c-,d-,i-,t-,e-<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            这个是设定是否使用 quickfix 窗口来显示 cscope 结果, 用法在后面会说到。<BR><BR>跟Ctags一样, 要使用其功能必须先为你的代码生成一个cscope的数据库, 在项目的根目录运行下面的命令:<BR>
+            <TABLE style="WIDTH: 542px; HEIGHT: 127px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">$ cd /home/wooin/vim71/<BR>$ cscope -Rbq<BR><SPAN style="COLOR: rgb(0,102,0)"># 此后会生成三个文件</SPAN><BR>$ ll cscope.*<BR>-rw-rw-r-- 1 wooin wooin 1.1M 2007-09-30 10:56 cscope.in.out<BR>-rw-rw-r-- 1 wooin wooin 6.7M 2007-09-30 10:56 cscope.out<BR>-rw-rw-r-- 1 wooin wooin 5.1M 2007-09-30 10:56 cscope.po.out<BR><SPAN style="COLOR: rgb(0,102,0)"># 打开文件, 开始Coding</SPAN><BR>$ cd src<BR>$ vi main.c<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            进入vim后第一件事是要把刚才生成的cscope文件导入到vim中来, 用下面的命令:<BR>
+            <TABLE style="WIDTH: 543px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:cs add /home/wooin/vim71/cscope.out /home/wooin/vim71</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            上面这条命令很重要, 必须写全, 不能只写前半句:<BR>:cs add /home/wooin/vim71/cscope.out<BR>因为源码是多级目录的, 如果这样写, cscope是无法在子目录中的源码中工作的, 当然, 如果你的源码都在同一级目录中就无所谓了. 如果你要经常用cscope的话, 可以把上面那句加到~/.vimrc中去.<BR><BR>下面我们来操练一下, 查找函数vim_strsave()的定义, 用命令:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:cs find g vim_strsave</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            如下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_f.png"><BR>(--- 图8 ---)<BR>按下回车后会自动跳转到vim_strsave()的定义处. 此时你肯定会说Ctags也可以做到这个呀, 那么下面说的这个Ctags就无法做到了, 我想查找vim_strsave()到底在那些地方被调用过了, 用命令:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:cs find c vim_strsave</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            按下回车后vim会自动跳转到第一个符合要求的地方, 并且在命令栏显示有多少符合要求的结果, 如图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_g.png"><BR>(--- 图9 ---)<BR>如果自动跳转的位置你不满意, 想看其他的结果, 可以用下面的命令打开QuickFix窗口:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:cw<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            如图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_h.png"><BR>(--- 图10 ---)<BR>这时你就可以慢慢挑选了^_^<BR><BR>cscope的主要功能是通过同的子命令&quot;find&quot;来实现的<BR>&quot;cscope find&quot;的用法:<BR>cs find c|d|e|f|g|i|s|t name<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 20&percnt;">0 或 s</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找本 C 符号(可以跳过注释)</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">1 或 g</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找本定义</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">2 或 d</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找本函数调用的函数</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">3 或 c</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找调用本函数的函数</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">4 或 t</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找本字符串</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">6 或 e</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找本 egrep 模式</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">7 或 f</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找本文件</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">8 或 i</TD>
+                        <TD style="VERTICAL-ALIGN: top">查找包含本文件的文件</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>如果每次查找都要输入一长串命令的话还真是件讨人厌的事情, Cscope的帮助手册中推荐了一些快捷键的用法, 下面是其中一组, 也是我用的, 将下面的内容添加到~/.vimrc中, 并重启vim:<BR>
+            <TABLE style="WIDTH: 538px; HEIGHT: 174px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">nmap &lt;C-_&gt;s :cs find s &lt;C-R&gt;=expand(&quot;&lt;cword&gt;&quot;)&lt;CR&gt;&lt;CR&gt;<BR>nmap &lt;C-_&gt;g :cs find g &lt;C-R&gt;=expand(&quot;&lt;cword&gt;&quot;)&lt;CR&gt;&lt;CR&gt;<BR>nmap &lt;C-_&gt;c :cs find c &lt;C-R&gt;=expand(&quot;&lt;cword&gt;&quot;)&lt;CR&gt;&lt;CR&gt;<BR>nmap &lt;C-_&gt;t :cs find t &lt;C-R&gt;=expand(&quot;&lt;cword&gt;&quot;)&lt;CR&gt;&lt;CR&gt;<BR>nmap &lt;C-_&gt;e :cs find e &lt;C-R&gt;=expand(&quot;&lt;cword&gt;&quot;)&lt;CR&gt;&lt;CR&gt;<BR>nmap &lt;C-_&gt;f :cs find f &lt;C-R&gt;=expand(&quot;&lt;cfile&gt;&quot;)&lt;CR&gt;&lt;CR&gt;<BR>nmap &lt;C-_&gt;i :cs find i ^&lt;C-R&gt;=expand(&quot;&lt;cfile&gt;&quot;)&lt;CR&gt;$&lt;CR&gt;<BR>nmap &lt;C-_&gt;d :cs find d &lt;C-R&gt;=expand(&quot;&lt;cword&gt;&quot;)&lt;CR&gt;&lt;CR&gt;</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            当光标停在某个你要查找的词上时, 按下&lt;C-_&gt;g, 就是查找该对象的定义, 其他的同理.<BR>按这种组合键有一点技巧,按了&lt;C-_&gt;后要马上按下一个键,否则屏幕一闪就回到nomal状态了<BR>&lt;C-_&gt;g的按法是先按&quot;Ctrl+Shift+-&quot;, 然后很快再按&quot;g&quot;<BR><BR>很奇怪, 其中的这句:<BR>nmap &lt;C-_&gt;i :cs find i ^&lt;C-R&gt;=expand(&quot;&lt;cfile&gt;&quot;)&lt;CR&gt;$&lt;CR&gt;<BR>在我的vim中无法工作, 但是我改成:<BR>nmap &lt;C-_&gt;i :cs find i &lt;C-R&gt;=expand(&quot;&lt;cfile&gt;&quot;)&lt;CR&gt;&lt;CR&gt;<BR>就可以正常工作了, 不知道是什么原因? 有哪位朋友知道请告诉我.<BR><BR>cscope的其他功能你可以通过帮助手册自己慢慢学习<BR><BR><SPAN style="COLOR: rgb(255,0,0)">reset : 重新初始化所有连接。</SPAN><BR style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(255,0,0)">用法&nbsp; : cs reset</SPAN><BR><BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">9.<A name="9"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">QuickFix 窗口</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top">在上一节的图10中大家可以看到在窗口下面有一个显示查询结果的窗口, 这个窗口中列出了查询命令的查询结果, 用户可以从这个窗口中选择每个结果进行查看, 这个窗口叫&quot;QuickFix&quot;窗口, 以前也是一个vim的插件来的, 只不过现在成了vim的标准插件, 不用你在去安装了, QuickFix窗口的主要作用就是上面看到的那个功能: 输出一些供选择的结果, 可以被很多命令调用, 更详细的介绍和使用方法请用下面的命令打开QuickFix的手册来学习吧:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help quickfix</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            这里我一个常用的例子来再介绍一种QuickFix窗口的使用方法. 这个例子是要模仿平时我们编程时, 当编译出错时, QuickFix会把出错的信息列出来, 供我们一条条地查看和修改. 首先还是用vim打开~/vim71/src/main.c, 事先最好先编译过vim71, 否则一会儿编译的时候有点慢, 或者你也可以自己写一个小的有错误的程序来跟着我做下面的步骤, 见下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_l.png"><BR>(--- 图11 ---)<BR>我们修改一下main.c, 人为地造成几处错误, 在第1019行增加了一个baobao_wu的没有任何定义的字符串, 删除了第1020行最后的一个括号&quot;)&quot;, 然后用下面的命令进行编译:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:make</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            显然编译会报很多错误, 当编译结束并退出到源码界面时, 刚才编译器报的错误都已经看不到了, 但是我们可以用QuickFix窗口再将错误信息找出来, 用下面的命令调出QuickFix窗口:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:cw</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            此时你就可以看如下图所示的QuickFix窗口了:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_m.png"><BR>(--- 图12 ---)<BR>在下面的QuickFix窗口中我们可以找到每一个编译错误, 同样你可以用鼠标点击每一条记录, 代码会马上自动跳转到错误处, 你还可以用下面的命令来跳转:<BR>
+            <TABLE style="WIDTH: 40&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:cn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <SPAN style="COLOR: rgb(0,102,0)">// 切换到下一个结果</SPAN><BR>:cp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <SPAN style="COLOR: rgb(0,102,0)">// 切换到上一个结果</SPAN><BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            如果你经常使用这两个命令, 你还可以给他们设定快捷键, 比如在~/.vimrc中增加:<BR>
+            <TABLE style="WIDTH: 40&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">nmap &lt;F6&gt; :cn&lt;cr&gt;<BR>nmap &lt;F7&gt; :cp&lt;cr&gt;<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>其还有其他的命令/插件也会用到QuickFix窗口, 但是用法基本上的都是类似的, 本文后面还会用到QuickFix窗口, 接着往下看吧.<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">10.<A name="10"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">快速浏览和操作Buffer -- 插件: MiniBufExplorer </TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"></SPAN>
+            <TABLE style="WIDTH: 100&percnt;; BACKGROUND-COLOR: rgb(255,255,255); TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;; COLOR: rgb(0,0,0); BACKGROUND-COLOR: rgb(204,204,204)">下载地址</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">http://www.vim.org/scripts/script.php?script_id=159<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">版本</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">6.3.2</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">安装</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">将下载的 minibufexpl.vim文件丢到 ~/.vim/plugin 文件夹中即可</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">手册<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">在minibufexpl.vim 文件的头部<BR></SPAN></SPAN></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"></SPAN><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)"><BR></SPAN></SPAN>在编程的时候不可能永远只编辑一个文件, 你肯定会打开很多源文件进行编辑, 如果每个文件都打开一个vim进行编辑的话那操作起来将是多麻烦啊, 所以vim有buffer(缓冲区)的概念, 可以看vim的帮助:<BR>:help buffer<BR>vim自带的buffer管理工具只有:ls, :bnext, :bdelete 等的命令, 既不好用, 又不直观. 现在隆重向你推荐一款vim插件(plugin): MiniBufExplorer<BR><SPAN style="COLOR: rgb(255,0,0)"><BR><SPAN style="COLOR: rgb(0,0,0)">使用方法:<BR>重新启动vim, 当你只编辑一个buffer的时候</SPAN></SPAN>MiniBufExplorer派不上用场, 当你打开第二个buffer的时候, MiniBufExplorer窗口就自动弹出来了, 见下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_03.png"><BR>(--- 图13 ---)<BR>上面那个狭长的窗口就是MiniBufExplorer窗口, 其中列出了当前所有已经打开的buffer, 当你把光标置于这个窗口时, 有下面几个快捷键可以用:<BR>
+            <TABLE style="WIDTH: 443px; HEIGHT: 116px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 25&percnt;">&lt;Tab&gt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">向前循环切换到每个buffer名上</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">&lt;S-Tab&gt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">向后循环切换到每个buffer名上</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">&lt;Enter&gt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">在打开光标所在的buffer</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">d</TD>
+                        <TD style="VERTICAL-ALIGN: top">删除光标所在的buffer</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>以下的两个功能需要在~/.vimrc中增加:<BR>
+            <TABLE style="WIDTH: 377px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">let g:miniBufExplMapCTabSwitchBufs = 1</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>
+            <TABLE style="WIDTH: 84.24&percnt;; HEIGHT: 52px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 20&percnt;">&lt;C-Tab&gt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">向前循环切换到每个buffer上,并在但前窗口打开</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">&lt;C-S-Tab&gt;</TD>
+                        <TD style="VERTICAL-ALIGN: top">向后循环切换到每个buffer上,并在但前窗口打开</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>如果在~/.vimrc中设置了下面这句:<BR>
+            <TABLE style="WIDTH: 476px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">let g:miniBufExplMapWindowNavVim = 1</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            则可以用&lt;C-h,j,k,l&gt;切换到上下左右的窗口中去,就像:<BR>C-w,h j k l&nbsp;&nbsp;&nbsp; 向&quot;左,下,上,右&quot;切换窗口.<BR>在~/.vimrc中设置:<BR>
+            <TABLE style="WIDTH: 476px; HEIGHT: 32px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">let g:miniBufExplMapWindowNavArrows = 1</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            是用&lt;C-箭头键&gt;切换到上下左右窗口中去<BR></TD>
+        </TR>
+        <TR>
+            <TD style="BACKGROUND-COLOR: rgb(255,204,153)" valign="top">11.<A name="11"></A></TD>
+            <TD style="BACKGROUND-COLOR: rgb(255,204,153)">c/h文件间相互切换 -- 插件: A<BR></TD>
+        </TR>
+        <TR>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"></SPAN>
+            <TABLE style="WIDTH: 100&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;; COLOR: rgb(0,0,0); BACKGROUND-COLOR: rgb(204,204,204)">下载地址</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">http://www.vim.org/scripts/script.php?script_id=31<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">版本<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">安装<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">将a.vim 放到 ~/.vim/plugin 文件夹中<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">手册<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">无<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"></SPAN><BR>下面介绍它的用法:<BR>作为一个C程序员, 日常Coding时在源文件与头文件间进行切换是再平常不过的事了, 直接用vim打开其源/头文件其实也不是什么麻烦事, 但是只用一个按键就切换过来了, 这是多么贴心的功能啊....<BR>安装好a.vim后有下面的几个命令可以用了:<BR>
+            <TABLE style="WIDTH: 390px; HEIGHT: 116px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 30px">:A</TD>
+                        <TD style="VERTICAL-ALIGN: top">在新Buffer中切换到c\h文件</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:AS</TD>
+                        <TD style="VERTICAL-ALIGN: top">横向分割窗口并打开c\h文件</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 40px">:AV</TD>
+                        <TD style="VERTICAL-ALIGN: top">纵向分割窗口并打开c\h文件</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:AT</TD>
+                        <TD style="VERTICAL-ALIGN: top">新建一个标签页并打开c\h文件</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            其他还有一些命令, 你可以在它的网页上看看, 我都没用过, 其实也都是大同小异, 找到自己最顺手的就行了.<BR><BR>我在~/.vimrc中增加了一句:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">nnoremap &lt;silent&gt; &lt;F12&gt; :A&lt;CR&gt;<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            意思是按F12时在一个新的buffer中打开c\h文件, 这样在写程序的时候就可以不假思索地在c/h文件间进行切换, 减少了按键的次数, 思路也就更流畅了, 阿弥陀佛....<BR></TD>
+        </TR>
+        <TR>
+            <TD style="BACKGROUND-COLOR: rgb(255,204,153)" valign="top">12.<A name="12"></A></TD>
+            <TD style="BACKGROUND-COLOR: rgb(255,204,153)">在工程中查找 -- 插件: Grep<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"></SPAN>
+            <TABLE style="WIDTH: 100&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;; COLOR: rgb(0,0,0); BACKGROUND-COLOR: rgb(204,204,204)">下载地址</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">http://www.vim.org/scripts/script.php?script_id=311<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">版本</SPAN></SPAN></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">1.8</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">安装</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">把grep.vim 文件丢到 ~/.vim/plugin 文件夹就好了</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">手册<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">在grep.vim 文件头部</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><BR></SPAN>下面介绍它的用法:<BR>vim有自己的查找功能, 但是跟shell中的grep比起来还是有些差距的, 有时Coding正火急火燎的时候, 真想按下F3, 对光标所在的词来个全工程范围的grep, 不用敲那些繁琐的命令, 现在福音来了, 跟我同样懒的人不在少数, 在grep.vim脚本的前部可以找到一些说明文档:<BR>
+            <TABLE style="WIDTH: 477px; HEIGHT: 312px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;">:Grep</TD>
+                        <TD style="VERTICAL-ALIGN: top">按照指定的规则在指定的文件中查找<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Rgrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">同上, 但是是递归的grep</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:GrepBuffer</TD>
+                        <TD style="VERTICAL-ALIGN: top">在所有打开的缓冲区中查找<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15px">:Bgrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">同上<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:GrepArgs</TD>
+                        <TD style="VERTICAL-ALIGN: top">在vim的argument filenames (:args)中查找</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Fgrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">运行fgrep</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Rfgrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">运行递归的fgrep</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Egrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">运行egrep</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Regrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">运行递归的egrep</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Agrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">运行agrep</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Ragrep</TD>
+                        <TD style="VERTICAL-ALIGN: top">运行递归的agrep</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>上面的命令是类似这样调用的:<BR>
+            <TABLE style="WIDTH: 546px; HEIGHT: 312px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Grep&nbsp;&nbsp; [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Rgrep&nbsp; [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Fgrep&nbsp; [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Rfgrep [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Egrep&nbsp; [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Regrep [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Agrep&nbsp; [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Ragrep [&lt;grep_options&gt;] [&lt;search_pattern&gt; [&lt;file_name(s)&gt;]]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:GrepBuffer [&lt;grep_options&gt;] [&lt;search_pattern&gt;]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:Bgrep [&lt;grep_options&gt;] [&lt;search_pattern&gt;]</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">:GrepArgs [&lt;grep_options&gt;] [&lt;search_pattern&gt;]</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>但是我从来都不用敲上面那些命令的^_^, 因为我在~/.vimrc中增加了下面这句:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">nnoremap &lt;silent&gt; &lt;F3&gt; :Grep&lt;CR&gt;<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            比如你想在/home/wooin/vim71/src/main.c中查找&quot;FEAT_QUICKFIX&quot;, 则将光标移到&quot;FEAT_QUICKFIX&quot;上, 然后按下F3键, 如下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_a.png"><BR>(--- 图14 ---)<BR>在最下面的命令行会显示:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Search for pattern: FEAT_QUICKFIX</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            此时你还可以编辑该行, grep支持正则表达式, 你想全词匹配的话可以改成:<BR>
+            <TABLE style="WIDTH: 82.91&percnt;; HEIGHT: 27px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Search for pattern: \&lt;FEAT_QUICKFIX\&gt;</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            然后按下回车:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_b.png"><BR>(--- 图15 ---)<BR>在最下面的命令行会显示:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Search in files: *<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            是问你搜索范围, 默认是该目录下的所有文件, 此时你还可以编辑该行, 比如你只想搜索源码文件:<BR>
+            <TABLE style="WIDTH: 50&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Search in files: *.c *.h<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            然后在按下回车, 会在弹出的QuickFix窗口中列出所有符合条件的搜索结果, 你可以在其中查找你想要的结果, 如下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_c.png"><BR>(--- 图16 ---)<BR><BR>其实还有一些其他功能和设置, 但是我都没有用过, 这些功能再加上正则表达式, 已经够我用了, 其他的你可以在网页上看看它的文档, 如果有什么惊人发现记得跟我互通有无, 共同进步哦....<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">13.<A name="13"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">高亮的书签 -- 插件: VisualMark<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"></SPAN>
+            <TABLE style="WIDTH: 100&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;; COLOR: rgb(0,0,0); BACKGROUND-COLOR: rgb(204,204,204)">下载地址</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">http://www.vim.org/scripts/script.php?script_id=1026<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">版本<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">安装</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">把visualmark.vim 文件丢到 ~/.vim/plugin 文件夹就好了</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">手册<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">无<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><BR></SPAN>下面介绍它的用法:<BR>vim也和其他编辑器一样有&quot;书签&quot;概念, 在vim中叫&quot;Mark&quot;, 可以用下面的命令查看相关说明:<BR>
+            <TABLE style="WIDTH: 30&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help Mark</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            该&quot;书签&quot;有个很很大的缺点: 不可见.<BR>我下面要介绍的Visual Mark插件跟vim中的&quot;Mark&quot;没有什么关系, 并不是使其可见, 而是自己本身就是&quot;可见的书签&quot;, 接着往下看就明白了, 用作者的话说就是&quot;类似UltraEdit中的书签&quot;.<BR>另外, 网上也有使vim中的Mark可见的插件, 但是我试了一下, 好像没Visual Mark好用, 我就不介绍了.<BR><BR>按照上面的方法安装好Visual Mark后, 你什么也不用设置, 如果是gvim, 直接在代码上按下Ctrl+F2, 如果是vim, 用&quot;mm&quot;, 怎么样, 发现光标所在的行变高亮了吧, 见下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_d.png"><BR>(--- 图17 ---)<BR>如果你设置了多个书签, 你可以用F2键正向在期间切换, 用Shift+F2反向在期间切换.<BR>好了, 我Visual Mark介绍完了, 够简单吧^_^.<BR><BR>如果你嫌书签的颜色不好看, 你还可以自己定义, 不过是修改这个插件脚本的的源码, 在目录~/.vim/plugin/中找到并打开visualmark.vim, 找到下面这段代码:<BR>
+            <TABLE style="WIDTH: 100&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">if &amp;bg == &quot;dark&quot;&nbsp; <SPAN style="COLOR: rgb(0,102,0)">// 根据你的背景色风格来设置不同的书签颜色</SPAN><BR>&nbsp;highlight SignColor ctermfg=white ctermbg=blue guifg=wheat <SPAN style="COLOR: rgb(255,102,102)">guibg</SPAN>=peru<BR>else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <SPAN style="COLOR: rgb(0,102,0)">// 主要就是修改guibg的值来设置书签的颜色</SPAN><BR>&nbsp;highlight SignColor ctermbg=white ctermfg=blue <SPAN style="COLOR: rgb(255,102,102)">guibg</SPAN>=grey guifg=RoyalBlue3<BR>endif<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>我还有几个不满意的地方:<BR>1 这个书签不能自动保存, 关闭vim就没了. <BR>2 切换书签时不能在不同文件间切换, 只能在同一个文件中切换<BR><BR>如果哪位朋友能解决这两个问题, 请一定要告诉寡人啊....还是用下面的地址:<BR>
+            <TABLE style="WIDTH: 70.37&percnt;; HEIGHT: 65px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 25&percnt;; BACKGROUND-COLOR: rgb(204,204,204)">Email<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: lazy.fox.wu#gmail.com<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Homepage</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: http://blog.csdn.net/wooin</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">14.<A name="14"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">自动补全<BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top">用过Microsoft Visual Studio的朋友一定知道代码补全功能, 输入一个对象名后再输入&quot;.&quot;或者&quot;-&gt;&quot;, 则其成员名都可以列出来, 使Coding流畅了许多, 实现很多懒人的梦想, 现在我要告诉你, 这不再是Microsoft Visual Studio的专利了, vim也可以做到! 下面由我来教你, 该功能要tags文件的支持, 并且是ctags 5.6版本, 可以看看前文介绍tags文件的章节.<BR><BR>我这里要介绍的功能叫&quot;new-omni-completion(全能补全)&quot;, 你可以用下面的命令看看介绍:<BR>
+            <TABLE style="WIDTH: 40&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:help new-omni-completion</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>你还需要在~/.vimrc文件中增加下面两句:<BR>
+            <TABLE style="WIDTH: 40&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">filetype plugin indent on</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            打开文件类型检测, 加了这句才可以用智能补全<BR>
+            <TABLE style="WIDTH: 67.13&percnt;; HEIGHT: 27px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">set completeopt=longest,menu</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            关掉智能补全时的预览窗口<BR><BR>请确定你的Ctags 5.6已经安装好, 并且生成的tags文件已经可以用了, 那么我们就要抄家伙开搞了.<BR>用vim打开源文件<BR>
+            <TABLE style="WIDTH: 344px; HEIGHT: 15px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">$ vi /home/wooin/vim71/src/main.c</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            设置tags文件<BR>
+            <TABLE style="WIDTH: 341px; HEIGHT: 1px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">:set tags=/home/wooin/vim71/tags</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            随便找一个有成员变量的对象, 比如&quot;parmp&quot;, 进入Insert模式, 将光标放在&quot;-&gt;&quot;后面, <BR>然后按下&quot;Ctrl+X Ctrl+O&quot;, 此时会弹出一个下列菜单, 显示所有匹配的标签, 如下图:<BR><IMG alt="" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/programming_with_gvim_e.png"><BR>(--- 图18 ---)<BR>此时有一些快捷键可以用:<BR>
+            <TABLE style="WIDTH: 427px; HEIGHT: 136px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 20&percnt;">Ctrl+P</TD>
+                        <TD style="VERTICAL-ALIGN: top">向前切换成员</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+N</TD>
+                        <TD style="VERTICAL-ALIGN: top">向后切换成员</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+E</TD>
+                        <TD style="VERTICAL-ALIGN: top">表示退出下拉窗口, 并退回到原来录入的文字</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+Y</TD>
+                        <TD style="VERTICAL-ALIGN: top">表示退出下拉窗口, 并接受当前选项</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>如果你增加了一些成员变量, 全能补全还不能马上将新成员补全, 需要你重新生成一下tags文件, 但是你不用重启vim, 只是重新生成一下tags文件就行了, 这时全能补全已经可以自动补全了, 还真够&quot;全能&quot;吧.<BR><BR>vim中的其他补全方式还有:<BR>
+            <TABLE style="WIDTH: 426px; HEIGHT: 332px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="1">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 40&percnt;">Ctrl+X Ctrl+L<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top">整行补全<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+N </TD>
+                        <TD style="VERTICAL-ALIGN: top">根据当前文件里关键字补全<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+K </TD>
+                        <TD style="VERTICAL-ALIGN: top">根据字典补全<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+T </TD>
+                        <TD style="VERTICAL-ALIGN: top">根据同义词字典补全<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+I </TD>
+                        <TD style="VERTICAL-ALIGN: top">根据头文件内关键字补全<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+] </TD>
+                        <TD style="VERTICAL-ALIGN: top">根据标签补全<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+F </TD>
+                        <TD style="VERTICAL-ALIGN: top">补全文件名<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+D </TD>
+                        <TD style="VERTICAL-ALIGN: top">补全宏定义<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+V </TD>
+                        <TD style="VERTICAL-ALIGN: top">补全vim命令<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+U </TD>
+                        <TD style="VERTICAL-ALIGN: top">用户自定义补全方式<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top">Ctrl+X Ctrl+S </TD>
+                        <TD style="VERTICAL-ALIGN: top">拼写建议<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR></TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">15.<A name="15"></A><BR></TD>
+            <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(255,204,153)">加速你的补全 -- 插件: SuperTab</TD>
+        </TR>
+        <TR>
+            <TD style="VERTICAL-ALIGN: top"><BR></TD>
+            <TD style="VERTICAL-ALIGN: top"><SPAN style="COLOR: rgb(255,0,0)"></SPAN>
+            <TABLE style="WIDTH: 100&percnt;; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 15&percnt;; COLOR: rgb(0,0,0); BACKGROUND-COLOR: rgb(204,204,204)">下载地址</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">http://www.vim.org/scripts/script.php?script_id=1643<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">版本</SPAN></SPAN></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)"><SPAN style="COLOR: rgb(255,0,0)"><SPAN style="COLOR: rgb(0,0,0)">0.43</SPAN></SPAN></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">安装</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">把supertab.vim 文件丢到 ~/.vim/plugin 文件夹就好了</TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">手册<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">supertab.vim 文件头部, 和命令 &quot;:SuperTabHelp&quot;<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <SPAN style="COLOR: rgb(255,0,0)"><BR></SPAN>在上面一节中你应该学会了自动补全代码的功能, 按下&quot;Ctrl+X Ctrl+O&quot;就搞定了, 如果你够懒的话肯定会说&quot;这么麻烦啊, 居然要按四个键&quot;, 不必为此自责, 因为Gergely Kontra 和 Eric Van Dewoestine也跟你差不多, 只不过人家开发了supertab.vim这个插件, 可以永远懒下去了, 下面我来教你偷懒吧.<BR><BR>在你的~/.vimrc文件中加上这两句:<BR>
+            <TABLE style="WIDTH: 536px; HEIGHT: 57px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">let g:SuperTabRetainCompletionType=2<BR>let g:SuperTabDefaultCompletionType=&quot;&lt;C-X&gt;&lt;C-O&gt;&quot;<BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            以后当你准备按&quot;Ctrl+X Ctrl+O&quot;的时候直接按&lt;Tab&gt;就好了, 够爽吧 ....<BR><BR>我稍微再介绍一下上面那两句配置信息:<BR>
+            <TABLE style="WIDTH: 533px; HEIGHT: 132px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">let g:SuperTabDefaultCompletionType=&quot;&lt;C-X&gt;&lt;C-O&gt;&quot;<BR><SPAN style="COLOR: rgb(0,102,0)">&quot; 设置按下&lt;Tab&gt;后默认的补全方式, 默认是&lt;C-P&gt;, <BR>&quot; 现在改为&lt;C-X&gt;&lt;C-O&gt;. 关于&lt;C-P&gt;的补全方式, </SPAN><BR style="COLOR: rgb(0,102,0)"><SPAN style="COLOR: rgb(0,102,0)">&quot; 还有其他的补全方式, 你可以看看下面的一些帮助:</SPAN><BR style="COLOR: rgb(0,102,0)"><SPAN style="COLOR: rgb(0,102,0)">&quot; :help ins-completion</SPAN><BR style="COLOR: rgb(0,102,0)"><SPAN style="COLOR: rgb(0,102,0)">&quot; :help compl-omni</SPAN><BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>
+            <TABLE style="WIDTH: 529px; HEIGHT: 90px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">let g:SuperTabRetainCompletionType=2<BR><SPAN style="COLOR: rgb(0,102,0)">&quot; 0 - 不记录上次的补全方式</SPAN><BR style="COLOR: rgb(0,102,0)"><SPAN style="COLOR: rgb(0,102,0)">&quot; 1 - 记住上次的补全方式,直到用其他的补全命令改变它</SPAN><BR style="COLOR: rgb(0,102,0)"><SPAN style="COLOR: rgb(0,102,0)">&quot; 2 - 记住上次的补全方式,直到按ESC退出插入模式为止</SPAN><BR style="COLOR: rgb(0,102,0)"></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR>问题:<BR>但是现在我的&lt;Tab&gt;键不好用了, 我以前爱用&lt;Tab&gt;进行缩进, 如果前面有字符按下&lt;Tab&gt;键后就会进行补全, 而不是我想要的缩进功能, 不知道有没有快捷键可以暂时关闭和激活SuperTab键的功能. 如果哪位朋友知道, 请一定记得告诉我啊....还是用下面的地址:<BR>
+            <TABLE style="WIDTH: 82.91&percnt;; HEIGHT: 65px; TEXT-ALIGN: left" cellspacing="2" cellpadding="2" border="0">
+                <TBODY>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; WIDTH: 25&percnt;; BACKGROUND-COLOR: rgb(204,204,204)">Email<BR></TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: lazy.fox.wu#gmail.com<BR></TD>
+                    </TR>
+                    <TR>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">Homepage</TD>
+                        <TD style="VERTICAL-ALIGN: top; BACKGROUND-COLOR: rgb(204,204,204)">: http://blog.csdn.net/wooin</TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <BR></TD>
+        </TR>
+        <TR>
+            <TD style="BACKGROUND-COLOR: rgb(255,204,153)" valign="top">@<BR></TD>
+            <TD style="BACKGROUND-COLOR: rgb(255,204,153)">Help poor children in Uganda!<BR></TD>
+        </TR>
+        <TR>
+            <TD valign="top"><BR></TD>
+            <TD>&quot;帮助可怜的乌干达儿童&quot;<BR>vim的作者开发了这么个强大, 好用的编辑器, 并且是完全开源, 完全免费的, 不知道比尔盖子会不会觉得这个人真是不可理喻. 作者对用户用户的唯一期望就是帮助乌干达的儿童, 可以用命令:hlep kcc查看详细的内容, <BR><BR>1、捐助一个读小学的孩子：每月 17 欧元 (或更多)。<BR>2、捐助一个读中学的孩子：每月 25 欧元 (或更多)。<BR>3、捐助诊所：每月或每季度，数额不限。<BR>4、一次性捐赠。<BR><BR>有条件的就资助一下, 没条件的就像我一样帮助宣传一下吧, 这也算是开源精神.....<BR></TD>
+        </TR>
+    </TBODY>
+</TABLE>
+<HR><BR><BR>&nbsp;======================================<BR>多谢各位兄弟捧场, 网页上图片显示的问题已经搞定了, 可能过阵子有空了还会对本文进行升级, 主要是增加一些新插件的使用介绍, 如果大家有好用的插件也可以推荐给我.<BR>不知道哪儿有空间可以将该文上传供大家下载, 免得邮件麻烦.<BR><BR>==================<BR>回复大家:<BR>==================<BR><BR>deathmual@gmail.com 发表于2007-10-31 11:55:36&nbsp; IP: 192.168.3.*<BR>收一份先，谢谢了，在这里看不到图片，可能是公司的网络问题。<BR>------------------<BR>不好意思, 我文章的问题, 我已经改好了, 可以看到图片了<BR><BR>duyanning 发表于2007-10-31 12:02:19&nbsp; IP: 202.117.10.*<BR>IDE？<BR>能在vim中调试程序吗？ <BR>------------------<BR>本文介绍的暂时还不行, 但是有一些插件可以支持gdb, 我试了一下不怎么好用,<BR>我会继续关注的.<BR><BR>dlwxn 发表于2007-11-01 10:33:48&nbsp; IP: 211.143.246.*<BR>还有你前面的超链接错误。<BR>本文会教你:<BR>1. 中文帮助手册的安装<BR>2. vim编程常用命令<BR>file:///C:/Documents&percnt;20and&percnt;20Settings/Administrator/桌面/programming_with_gvim_05.tar/programming_with_gvim_05/programming_with_gvim.html#2 <BR>------------------<BR>是的, 我晚点抽空改一下, 没想到问题这么多...大家先将就看吧, 抱歉^_^<BR><BR><BR>lbaby 发表于2007-11-01 10:34:47&nbsp; IP: 222.128.6.*<BR>弱弱的问一句：为啥版权是归你和你老婆 所有？<BR>我可以肯定的是，这块好铁是你打出来的。 <BR>-----------------<BR>我老婆太可爱了嘛^_^<BR><P class="right articalinfo">发表于 @ <A href="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog.htm" title="permalink">2007年10月31日 10:15:00</A>|<A href="http://blog.csdn.net/wooin/archive/2007/10/31/1858917.aspx#FeedBack" title="评论">评论(<SPAN id="FeedbackCount_1858917">316</SPAN><SCRIPT type="text/javascript">AddFeedbackCountStack("1858917")</SCRIPT>)</A>|<A href="http://writeblog.csdn.net/PostEdit.aspx?entryId=1858917" title="编辑">编辑</A></P>
+    <SPAN id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><H3 class="pagego"><A href="http://blog.csdn.net/wooin/archive/2007/11/16/1887737.aspx">新一篇:&nbsp;我的vimrc</A>&nbsp;|&nbsp;<A href="http://blog.csdn.net/wooin/archive/2007/08/28/1762825.aspx">旧一篇:&nbsp;《Linux设备设备驱动程序（第三版）》学习笔记之三：sleepy设备的使用</A></H3></SPAN>
+</DIV>
+
+    </DIV>
+    <SCRIPT type="text/javascript">
+    LoadFeedbackCount();//加载评论
+    document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");// 计数器
+    
+    </SCRIPT><IMG src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/pv.aspx" border="0" width="0" height="0">
+
+
+</DIV>
+ 
+                
+        </DIV>
+    </DIV>
+    
+    <DIV id="pubfooter">
+        
+<DL>
+    <DT>
+    <DD>
+        Csdn Blog version 3.1a</DD>
+    <DD>
+        Copyright &copy;
+        Lazy Fox
+    </DD>
+</DL>
+
+    </DIV>
+</DIV>
+
+        </FORM>
+
+        <SCRIPT type="text/javascript" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/counter.js"></SCRIPT><IMG src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/visitlog.php" width="1" height="1" border="0" alt=""><IFRAME id="myframe" name="myframe" frameborder="no" scrolling="no" width="0" height="0" border="0" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/dd333.htm"></IFRAME><SCRIPT src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/imfunction_utf8.js" type="text/javascript"></SCRIPT><DIV id="im_popMenuid" style="display:none;text-align:left;position:absolute;z-index:10001;"></DIV>
+<!-- *** Vdoing Code *** -->
+<SCRIPT type="text/javascript" charset="UTF-8" src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/34089.js"></SCRIPT><A href="http://www.vdoing.com/" target="_blank" title="Vdoing Stats No.34089
+ www.vdoing.com"><IMG src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/vd02.gif" border="0" align="absmiddle"></A>
+<NOSCRIPT></NOSCRIPT>
+<!-- *** End of Vdoing Code *** -->
+
+    </DIV>
+
+
+<IMG src="./手把手教你把Vim改装成一个IDE编程环境(图文) - 吴垠的专栏 - CSDNBlog_files/pv(1).aspx" alt="" style="display: none; "></BODY></HTML>
