@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>ubuntu8.10安装eclipse tomcat - 一生一火花 - JavaEye技术网站</title>
+    <meta name="description" content="最近换到ubuntu上高开发 一来开发的java程序就不存在os切换问题（windows换的linux经常出问题） 二来熟悉一下linux系统（对windows厌倦了）  由于对linux权限不熟 安装eclipse时遇到了很多问题 一一列出当作备忘 ：）  下载eclipse到本机，解压时其权限貌似是root的 而登录用户是xuly 把eclipse文件夹修改属主 chown -R xuly:xu ..." />
+    <meta name="keywords" content="  ubuntu8.10安装eclipse tomcat" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="一生一火花" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1238125352" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/red.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1235486423" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1234925554" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">应 用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">博 客</a>
+    
+      <a href="http://app.javaeye.com/mygroup" title="查看我的圈子">圈 子</a>
+    
+    <a href="http://app.javaeye.com/profile">设 置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">一生一火花</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://xuliangyong.javaeye.com</a></div>
+      </div>
+      
+      <div>
+      <script type="text/javascript">
+      alimama_pid="mm_11101199_1050715_2348996"; 
+      alimama_titlecolor="0000FF"; 
+      alimama_descolor ="000000"; 
+      alimama_bgcolor="FFFFFF"; 
+      alimama_bordercolor="E6E6E6"; 
+      alimama_linkcolor="008000"; 
+      alimama_bottomcolor="FFFFFF"; 
+      alimama_anglesize="0"; 
+      alimama_bgpic="0"; 
+      alimama_icon="0"; 
+      alimama_sizecode="11"; 
+      alimama_width=760; 
+      alimama_height=90; 
+      alimama_type=2; 
+      </script>
+      <script src="http://a.alimama.cn/inf.js" type=text/javascript>
+      </script>  
+    </div>
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/308705" class="next">ubuntu8.10配置nginx</a>
+      |
+      <a href="/blog/305904" class="pre">集中兵力应付大数据量</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2008</span><span class='sep_year'>-</span><span class='month'>12</span><span class='sep_month'>-</span><span class='day'>30</span></div>
+    <h3 class='type_original' title='原创'><a href="/blog/306927">ubuntu8.10安装eclipse tomcat</a></h3>
+        
+  </div>
+
+  <div class="blog_content">
+    最近换到ubuntu上高开发<br />一来开发的java程序就不存在os切换问题（windows换的linux经常出问题）<br />二来熟悉一下linux系统（对windows厌倦了）<br /><br />由于对linux权限不熟 安装eclipse时遇到了很多问题 一一列出当作备忘 ：）<br /><br />下载eclipse到本机，解压时其权限貌似是root的 而登录用户是xuly<br />把eclipse文件夹修改属主<br /><pre name="code" class="java">chown -R xuly:xuly eclipse</pre><br />权限也修改<br /><pre name="code" class="java">chmod 755 eclipse</pre><br />为什么要改这两句？ 我也说不清楚 主要怕运行eclispe时出问题吧<br /><br />另外一个问题是在配置tomcat到eclipse时产生的权限问题<br />安装tomcat是没有修改权限和属主 默认是root<br />这样以xuly用户登录并配置tomcat是会出现<br /><pre name="code" class="java">catalina.policy permission denied</pre><br />这么个错误<br />修改权限和属主为xuly后搞定！<br /><br />
+  </div>
+
+  
+
+  
+
+  <div class="blog_bottom">
+    <ul>
+      <li>13:59</li>
+      <li>浏览 (250)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=ubuntu8.10%E5%AE%89%E8%A3%85eclipse+tomcat&amp;user_favorite%5Burl%5D=http%3A%2F%2Fxuliangyong.javaeye.com%2Fblog%2F306927' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/306927" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  
+  
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(link) {
+    var quote_user = $(link).previous(0).innerHTML;
+    var quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+  }
+</script>
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://xuliangyong.javaeye.com'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/17297/56a6baa9-87b3-313c-a559-fe0f01157cd0.jpg?1236832388" title="xly_971223的博客: 一生一火花" /></a></div>
+            <div id="blog_owner_name">xly_971223</div>
+          </div>
+          
+            <div id="twitter_decorate">&nbsp;</div>
+            <div id="twitter" class="twitter clearfix">
+              
+@<a href='http://robbin.javaeye.com' target='_blank'>robbin</a> 怎么样了？宣判了没？
+<br/><em><a href="http://xuliangyong.javaeye.com/blog/chat/7350">2009-03-11</a>
+ 通过<a href='http://fins.javaeye.com/blog/338082'>JE Talker</a>
+ <a href="http://robbin.javaeye.com/blog/chat/7302">回复 robbin</a>
+</em>
+       <a href="http://app.javaeye.com/chat?twitter%5Bbody%5D=%40xly_971223+&amp;twitter%5Breply_to_id%5D=7350" title="回复这个闲聊"><img alt="Reply_twitter" src="http://www.javaeye.com/images/app/reply_twitter.gif?1232617931" /></a>
+              <div class="right"><a href="/blog/chat">&gt;&gt;更多闲聊</a></div>
+            </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 125050 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 北京</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=xly_971223" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=xly_971223" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客</h5>
+              
+                <div class="left">
+                  <div class="clearfix"><div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div></div>
+                  <a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a>
+                </div>
+              
+                <div class="left">
+                  <div class="clearfix"><div class="logo"><a href='http://woodenmoon1.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="woodenmoon1的博客: " /></a></div></div>
+                  <a href='http://woodenmoon1.javaeye.com' target='_blank'>woodenmoon1</a>
+                </div>
+              
+                <div class="left">
+                  <div class="clearfix"><div class="logo"><a href='http://sjc2028.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="sjc2028的博客: " /></a></div></div>
+                  <a href='http://sjc2028.javaeye.com' target='_blank'>sjc2028</a>
+                </div>
+              
+                <div class="left">
+                  <div class="clearfix"><div class="logo"><a href='http://nature123.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="nature123的博客: nature123" /></a></div></div>
+                  <a href='http://nature123.javaeye.com' target='_blank'>nature123</a>
+                </div>
+              
+              <div class="left" id="more_user_visits"><a href="/blog/user_visits">&gt;&gt;更多访客</a></div>
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (172)</a></li>
+                
+                  <li><a href="/category/46687">java (22)</a></li>
+                
+                  <li><a href="/category/52380">linux (1)</a></li>
+                
+                  <li><a href="/category/54676">项目管理 (1)</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="blog_album">
+                <h5>我的相册</h5>
+                <div class="picture_thumb" style="float: none">
+                  <div><span class='thumb_box'><a href='/album'><img alt="C5b0e206-307c-3f61-aa60-9cfd71c61bb3-thumb" src="http://www.javaeye.com/upload/picture/pic/12185/c5b0e206-307c-3f61-aa60-9cfd71c61bb3-thumb.jpg?1208499634" /></a></span></div>
+                  <span>u=3528569133,1587051000&gp=38.jpg<br/> <a href="/album">共 2 张</a></span>
+                </div>
+              </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿 <span style='font-weight:normal;font-size:12px;padding-left:20px;'><a href="/blog/guest_book">&gt;&gt;更多留言</a></span></h5>
+                <ul>
+                  
+                    <li>
+                      LZ这个线程池感觉好像有些问题，共享资源是同一个队列，但是添加任务的时候对队列做了 ...<br/>
+                      -- by <a href="/blog/guest_book#2323">autoinspired</a>
+                    </li>
+                  
+                    <li>
+                      nhn技术面试内容提供给小弟一下吧，本月15号有个技术面试，据说是上机测试，迷茫呀 ...<br/>
+                      -- by <a href="/blog/guest_book#2138">pinliang6</a>
+                    </li>
+                  
+                    <li>
+                      http://www.javaeye.com/topic/104432task. ...<br/>
+                      -- by <a href="/blog/guest_book#2123">uniquejava</a>
+                    </li>
+                  
+                </ul>
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (71)</li>
+                
+                  <li><a href="/blog/pdf">我的书籍</a> (1) </li>
+                                                <li><a href="/blog/forum">我的论坛帖子</a> (825)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (2)</li>
+                
+                  <li><a href="/blog/solution">我解决的问题</a> (1) </li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://drools.group.javaeye.com">Drools</a></li>
+                
+                  <li><a href="http://english.group.javaeye.com">英语学习</a></li>
+                
+                  <li><a href="http://Originality.group.javaeye.com">盘古党</a></li>
+                
+              </ul>
+            </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-03">2009-03</a> (6)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-02">2009-02</a> (10)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-01">2009-01</a> (9)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/82955#comments" title="struts2 乱码">struts2 乱码</a><br/>
+                    高人也，我用好使了<br/>
+                    -- by <a href='http://f-tcl.javaeye.com' target='_blank'>f_tcl</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/216866#comments" title="jstl c:forEach嵌套使用">jstl c:forEach嵌套使用</a><br/>
+                    ${${}}这样的嵌套可以不?<br/>
+                    -- by <a href='http://luojiy.javaeye.com' target='_blank'>luojiy</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/145114#comments" title="js --- 单击按钮出现对话框代码(透明)">js --- 单击按钮出现对话 ...</a><br/>
+                    呵呵好东西顶了...<br/>
+                    -- by <a href='http://sech.javaeye.com' target='_blank'>sech</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/347338#comments" title="用struts2实现 ‘XX分钟前’ 日期显示">用struts2实现 ‘XX分钟 ...</a><br/>
+                    自解：我困扰在使用Freemarker的list指令不能与Struts2的date ...<br/>
+                    -- by <a href='http://netfork.javaeye.com' target='_blank'>netfork</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/347338#comments" title="用struts2实现 ‘XX分钟前’ 日期显示">用struts2实现 ‘XX分钟 ...</a><br/>
+                    收工太早了啊。这个标签是不是不能用在iterator中啊？如果是要格式化list中 ...<br/>
+                    -- by <a href='http://netfork.javaeye.com' target='_blank'>netfork</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/309741">终于-----降薪了</a></li>
+                
+                  <li><a href="/blog/277866">hibernate 3.3采用新的缓存方法</a></li>
+                
+                  <li><a href="/blog/222781">刚上班一个月 遭遇新公司倒闭 相当郁闷</a></li>
+                
+                  <li><a href="/blog/236682">最近面试的几家公司</a></li>
+                
+                  <li><a href="/blog/215723">仿造的acegi threadlocal</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://xuliangyong.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://xuliangyong.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://xuliangyong.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" onclick="$('chat_iframe').src='/chat/widget';return false;">闲聊一下 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>

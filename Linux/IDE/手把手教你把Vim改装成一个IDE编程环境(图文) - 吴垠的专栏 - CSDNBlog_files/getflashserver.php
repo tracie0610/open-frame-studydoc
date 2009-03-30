@@ -1,0 +1,1 @@
+im_onGetFlashServer('http://211.100.30.67:8080/flashIM/wdkstatus', '2');

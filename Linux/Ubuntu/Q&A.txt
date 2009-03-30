@@ -1,0 +1,76 @@
+
+
+
+
+
+问：不知道网通在LINUX上怎么上网 
+
+答：如是网通宽带，在Ubuntu 8.10中可通过pppoeconf命令或在NetworkManager（网络管理器）中的DSL面板中进行设定。
+
+
+
+
+
+问：我想在Linux中限制  只允许某个IP telnet进去.其他IP不可以.
+192.168.0.18
+
+我在 /etc/xinetd.d/telnet
+这个配置文件中加了一行
+o_access=192.168.0.18
+
+然后重启xinetd服务...
+
+虚拟机外面的系统是XP IP为 ... ］
+
+
+答：要对telnet进来的IP地址进行限制，可通过hosts.allow和hosts.deny来实现，即只允许某个IP访问in.telnetd服务：
+1、用命令sudo vi /etc/hosts.allow 来编辑该文件，加入一行：
+in.telnetd : 192.168.0.18
+2、用命令sudo vi /etc/hosts.deny 来编辑该文件，加入一行：
+ALL:ALL
+3、sudo /etc/init.d/xinetd restart来重启telnetd服
+
+
+
+
+问：为什么linux 没碎片整理  
+难道真的是不需要 
+
+答：这与文件系统的相关细节有关.简单来说,windows与Linux系统产生的碎片不太一样，Linux产生的是内部碎片，它与块的大小有关，内部碎片主要是造成磁盘空间的浪费。而windows的磁盘碎片整理功能所整理的碎片不是这个碎片，也无法对这个碎片进行操作，它所对应的碎片概念是外部碎片。外部磁盘碎片是因为文件被分散保存到整个磁盘的不同地方，而不是连续地保存在磁盘连续的簇中形成的。Windows的虚拟内存管理、临时文件使用等会产生大量外部碎片，外部磁盘碎片会影响系统性能。
+有一种说法，linux文件系统在磁盘还有5%空闲空间的情况下是不需要碎片整理的。而在实际使用中，磁盘在还有8%左右未使用时就会有警告产生，所以碎片整理基本上是不用考虑的。
+
+
+
+
+
+问：貌似LINUX不用安装杀毒软件吧？ 
+
+答：对个人应用而言，只要安全设置得当，的确不用安装额外的杀毒软件。不过，不用安装不代表Linux上没有杀毒软件噢。免费的桌面级杀毒软件有Avira AntiVir Personal 、Free avast! Linux Home Edition 等。
+
+
+
+高清晰PDF《鸟哥的私房菜》（服务器架设篇）
+
+高清晰PDF《鸟哥的私房菜》（服务器版）下载。
+
+单击下载（解压密码：linuxeden）
+
+《Linux命令速查手册》(最新版)火爆下载！
+
+《Linux命令速查手册》(最新版)下载。
+
+
+《Ubuntu Linux入门 - 第三版2008 》日均下载超1万人次
+http://code.google.com/p/ubuntu-china/downloads/detail?name=Ubuntu%20Linux%E5%85%A5%E9%97%A8%20-%20%E7%AC%AC%E4%B8%89%E7%89%882008.zip&can=2&q=
+
+ubuntu-china开源项目第二个牛鼻下载（日均近8000次）
+Linux宝典2008版 
+http://code.google.com/p/ubuntu-china/downloads/detail?name=Linux%E5%AE%9D%E5%85%B82008%E7%89%88.zip&can=2&q=
+
+《Ubuntu Linux入门 - 第三版2008》
+
+http://code.google.com/p/ubuntu-china/downloads/detail?name=Ubuntu%20Linux%E5%85%A5%E9%97%A8%20-%20%E7%AC%AC%E4%B8%89%E7%89%882008.zip&can=2&q=
+
+
+
+
