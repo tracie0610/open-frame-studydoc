@@ -1,0 +1,502 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="utf-8">
+<head>
+<title>Linux服务器系统备份与系统恢复技巧_Page3-Linux公社-Linux|Ubuntu|Fedora|新闻|下载|教程|安装|SUSE|Linux发行版|编程|服务器</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+<meta name="description" content="Linux,redhat,suse,ubuntu,SQL,PHP,SITE,unix,FreeBSD,board,mysql,apache"/>
+<meta name="keywords" content="Linux,ubuntu,Fedora,红旗Linux,suse,SQL,PHP,mysql,apache,Linux公社"/>
+<meta name="generator" content="Linux公社"/>
+<meta name="generator" content="Linux"/>
+<link rel="stylesheet" href="../../style/systems/style.css" type="text/css"/>
+<script type="text/javascript" src="../../inc/head.js"></script>
+<script type="text/javascript">
+var imgMaxWidth=600;
+var urlPrefix="../../";
+</script>
+<script type="text/javascript" src="../../inc/show.js"></script>
+</head>
+<body>
+<div class="twidth">
+<div id="sitehead">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<table width="100%">
+	<tr align="center"><td width="160">
+	<a href="http://www.linuxidc.com/"><IMG style="FILTER: chroma(color=#FFFFFF)" src="../../pic/logo.jpg" border=0></a>
+	</td><td>
+	<div style="text-align: center"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" width="468" height="60"><param name="width" value="468" /><param name="height" value="60" /><param name="src" value="http://www.linuxidc.com/linuxidc468t.swf" /><embed type="application/x-shockwave-flash" width="468" height="60" src="http://www.linuxidc.com/linuxidc468t.swf"></embed></object></div>
+	</td><td width="100" style="line-height:120%">
+	<a href="#" onclick="javascript:window.external.addFavorite('http://www.linuxidc.com/','Linux公社-Linux|Ubuntu|Fedora|新闻|下载|教程|安装|SUSE|Linux发行版|编程|服务器')">加入收藏</a><br/>
+	<a href="../../sitemap.aspx">网站地图</a><br/>
+	<a href="../../search.aspx">网站搜索</a><br/>
+	
+		<script type="text/javascript" src="../../inc/language.js"></script>
+	
+	</td>
+	</tr></table>
+</div>
+</div>
+<div id="navbar">
+<div class="l"></div>
+<div class="r"></div>
+<div class="m">
+	<script type="text/javascript" src="../../inc/popmenu.js" charset="utf-8"></script><a href="../../index.htm" class="first">首页</a><a href="../../it/index.htm">Linux新闻</a><a href="../../Linuxit/index.htm">Linux技术交流</a><a href="../../MySql/index.htm">数据库技术</a><a href="../../RedLinux/index.htm">Linux编程学习</a><a href="../../Apache/index.htm" class="thisclass">服务器应用</a><a href="../../Unix/index.htm">Linux网络安全</a><a href="../../download/index.htm">Linux下载</a><a href="../../Linuxrz/index.htm">Linux认证</a><a href="../../theme/index.htm">Linux主题</a><a href="../../digi/index.htm">数码</a><a href="../../mobile/index.htm">手机</a><a href="../../hardware/index.htm">硬件</a><a href="../../nbook/index.htm">笔记本</a><a href="../../audio/index.htm">随身听</a>
+
+</div>
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" id="navsub" bgcolor="#F3F3F3">
+<tr>
+<td width="2%" class="l"></td>
+<td width="35%" class="m">
+	&nbsp;<a href="../../index.htm">首页</a> → <a href="../../Apache/index.htm">服务器应用</a></td>
+<td width="2%" class="r">
+<td width="61%" style="text-align:right; padding-right:2px">
+<div  align="center"><script type="text/javascript" language="javaScript" src="/system/system2.js"></script></div>
+</tr>
+</table>
+
+
+<table id="middle" width="100%" cellspacing="0" cellpadding="0" style="table-layout:fixed">
+<tr><td valign="top">
+	<div class="mframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">阅读内容</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm" id="bodyTd">
+		<div id="printBody" style="word-break:break-all;">
+		<br/><div align="center"><h1 class="aTitle">Linux服务器系统备份与系统恢复技巧</h1></div>
+		
+		<table width="97%" align="center">
+			<tr>
+			<td width="120">[日期：2007-03-13]</td>
+			<td align="center">来源：<a href="http://www.linuxidc.com/" target="_blank">linuxidc</a>&nbsp; 作者：Linux</td>
+			<td width="100" align="right">
+			</td></tr>
+			<tr>
+			  <td colspan="3"><div align="center">
+			    <script type="text/javascript" language="javaScript" src="/system/system1.js"></script>
+			    </div></td>
+			  </tr>
+		</table>
+		<div id="content"><!--IWMS_AD_BEGIN--><table border="0" width="97%" align="center"><tbody><tr><td colspan="3"><div align="center"><script src="../../system/system60.js" type="text/javascript" language="javaScript"></script></div></td></tr></tbody></table><!--IWMS_AD_END-->　　要指定哪些档案应该包含在您的 backup profile， 在 ``/'' 目录文件夹旁的核对图示上敲一下左键。这会确定所有的档案及这个目录下所有东西都会备份。然後，在文件夹旁的小 ``+''符号上敲一下左键，资料夹会展开，显示档案及以下的目录。您可以排除掉所不想备份的档案;只要在您想排除的每一个档案或目录旁的核对符号上敲一下左键。例如，一个完全备份应该包含已标记的所有档案及目录，要排除 ``/proc'' (一个伪装档案系统，包含您目前运作系统的资料)，``/mnt'' ( 位於CD-ROM下面的目录，软碟机，网路分享常被挂载在此)，而且如果您是 Squid 使用者，``/var/spool/squid'' (Squid的快取资料档)。一旦您选好了合适的档案，在您建立好的备份 profile 上按一下左键，然後在“Files &gt;&gt;” 钮上按一下左键将选好的档案移进您的备份 profile。 <BR>　　注意: 如果您的伺服器资料到巨大到无法实际存放到磁带中，您需要建立分别的备份 profiles，备份组中每部份一个。 <BR>　　实际进行备份时，将磁带放入，从 “File” 选单中选择 “Mount Tape” (或是用滑鼠敲一下看起来像磁带的图示)。 <BR>　　这样会 “挂载” 磁带 (事实上，因为磁带机是字元装置，事实上无法挂载它 -- 其实 KDat 只是先回带，试着去读取开头资讯，如果成功，找寻磁带机上符合的索引。否则，KDat 会提醒您格式化磁带。 <BR>　　(注意: 如果 KDat 持续反映没有磁带在磁带机但事实上有，您应该确定在参数中指定的磁带机名称正确，在选单栏中用滑鼠敲一下 “Edit” 选项然後选择“User Preferences”.) <BR>　　一旦 KDat 已经挂载好磁带，在您开始备份前必须选择备份的 profile。当打算开始备份，只要在您要的备份 profile上敲一下右键，然後在“Backup”上敲一下左键。KDat 会先显示一个对话框告诉您有关您所选择备份 profile 的细节 ;在“Ok” 上敲一下左键就会开始备份。 <BR>　　当备份开始进行，KDat 会显示一个有各种状态资讯的对话框 (经过时间，备份大小，备份比率，估计剩馀时间，档案数量及总共写入 bytes 数)，以及已经备份档案的列表。一个包含好几 gigabyte 资料的完全备份可能需要花上好几个小时。必要的话，在备份过程中任何时候您可以在“Abort” 钮上敲一下左键放弃备份。 <BR>　　一旦备份完成，您可以在选单栏中选择 “Edit”，再选 “Unmount Tape”以解挂载磁带，或在磁带图示上敲一下，这样磁带会回带然後跳出。 <BR>　　无疑地， 比例行备份更重要的事就是当问题发生後能让重要档案正常恢复 ! </div>
+		
+		<div class="pager" style="text-align:center"><a href="../../Linux/2007-03/2455p2.htm">上一页</a><a href="../../Linux/2007-03/2455.htm">1</a><a href="../../Linux/2007-03/2455p2.htm">2</a><span class="p_current">3</span>&nbsp; <input type="text" id="goPage" value="1"/><a href="javascript:pager.Jump();">GO</a><script type="text/javascript" src="../../inc/pager.js"></script><script type="text/javascript">var pager=new iwmsPager(3,3,true);</script></div>
+		<table id="dlPages" cellspacing="0" Align="center" border="0" width="95%" style="clear:both">
+	<tr>
+		<td colspan="2" height="20">【内容导航】</td>
+	</tr><tr>
+		<td height="20" width="50%">
+				第1页：<a href="../../Linux/2007-03/2455.htm" >Linux服务器系统备份与系统恢复技巧</a>
+			</td><td height="20" width="50%">
+				第2页：<a href="../../Linux/2007-03/2455p2.htm" >Linux服务器系统备份与系统恢复技巧</a>
+			</td>
+	</tr><tr>
+		<td height="20" width="50%">
+				第3页：<a href="../../Linux/2007-03/2455p3.htm" class="highlight">Linux服务器系统备份与系统恢复技巧</a>
+			</td>
+	</tr>
+</table>
+		</div>
+<div  align="center">
+<table border=1 cellpadding=0 cellspacing=0 style="border-collapse: collapse" bordercolor="#CC0000">
+<tr>
+<td><script type="text/javascript" language="javaScript" src="/system/system3.js"></script><br/><script type="text/javascript" language="javaScript" src="/system/system4.js"></script></td>
+</tr>
+</table></div><br/>
+		<div style="padding-right:20px;text-align:right;clear:both">
+		</div>
+		<div style="padding-left:20px;clear:both">
+			上一篇：<a href="../../Linux/2007-03/2449.htm">linux下如何使用ftp解述</a><br/>
+			下一篇：<a href="../../Linux/2007-03/2461.htm">Ubuntu Linux 上架构Web网站服务器教程</a><br/><br/><div><script type="text/javascript" language="javaScript" src="/upload/britepic3.js"></script></div>
+		</div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+
+	<div class="mframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">相关资讯</span> &nbsp; &nbsp; &nbsp;
+		<a href="../../search.aspx?Where=Nkey&amp;Keyword=Linux" target="_blank">Linux</a>&nbsp; 
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<table width='100%'><tr><td width='50%' valign='top'><ul class='nl'><li><a href="../../Linux/2007-03/2341.htm"  target="_blank" >Linux下安装和使用杀毒软件AntiVir</a>&nbsp; <span class="gray">(03/10/2007 13:31:51)</span></li>
+<li><a href="../../Linux/2007-03/2338.htm"  target="_blank" >跨越边界: Lisp编程语言之美</a>&nbsp; <span class="gray">(03/10/2007 13:23:37)</span></li>
+<li><a href="../../Linux/2007-03/2336.htm"  target="_blank" >怎样降低Linux 内存开销</a>&nbsp; <span class="gray">(03/10/2007 13:17:41)</span></li>
+</ul></td><td width='50%' valign='top'><ul class='nl'><li><a href="../../Linux/2007-03/2340.htm"  target="_blank" >用机器生成的音乐来监控Linux 计算机的办法</a>&nbsp; <span class="gray">(03/10/2007 13:29:09)</span></li>
+<li><a href="../../Linux/2007-03/2337.htm"  target="_blank" >教你在Linux桌面环境下运行Photoshop的方法</a>&nbsp; <span class="gray">(03/10/2007 13:20:54)</span></li>
+<li><a href="../../Linux/2007-03/2335.htm"  target="_blank" >Linux学习笔记</a>&nbsp; <span class="gray">(03/10/2007 13:16:21)</span></li>
+</ul></td></tr></table>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+
+		<span class="tt">相关图片</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<div class="imgList"><ul><li style="width:25%"><a href="../../Linux/2009-03/19172.htm"  target="_blank"  title="Linux邮件服务器反垃圾策略的设置过程"><img src="../../upload/2009_03/090331063283171t.jpg" alt="Linux邮件服务器反垃圾策略的设置过程" width="120" height="90"/>Linux邮件服务器反垃</a></li><li style="width:25%"><a href="../../Linux/2009-03/19055.htm"  target="_blank"  title="Linux DNS的负载均衡及子域委派[图文]"><img src="../../upload/2009_03/090324143685846t.jpg" alt="Linux DNS的负载均衡及子域委派[图文]" width="120" height="90"/>Linux DNS的负载均衡</a></li><li style="width:25%"><a href="../../Linux/2009-03/18859.htm"  target="_blank"  title="用Linux上的cacti去监控Windows服务器"><img src="../../upload/2009_03/090313150881651t.jpg" alt="用Linux上的cacti去监控Windows服务器" width="120" height="90"/>用Linux上的cacti去监</a></li><li style="width:25%"><a href="../../Linux/2009-03/18835.htm"  target="_blank"  title="Linux平台下的PHP与JSP环境配置"><img src="../../upload/2009_03/090311184897651t.jpg" alt="Linux平台下的PHP与JSP环境配置" width="120" height="90"/>Linux平台下的PHP与JS</a></li><li style="width:25%"><a href="../../Linux/2009-03/18795.htm"  target="_blank"  title="Symark公布新版Unix/Linux权限管理软件"><img src="../../upload/2009_03/090309171550462t.jpg" alt="Symark公布新版Unix/Linux权限管理软件" width="120" height="90"/>Symark公布新版Unix/L</a></li><li style="width:25%"><a href="../../Linux/2009-03/18754.htm"  target="_blank"  title="RHEL5下搭建Sendmail及Dovecot邮件服务器"><img src="../../upload/2009_03/090306120514351t.jpg" alt="RHEL5下搭建Sendmail及Dovecot邮件服务器" width="120" height="90"/>RHEL5下搭建Sendmail</a></li><li style="width:25%"><a href="../../Linux/2009-03/18751.htm"  target="_blank"  title="用Ubuntu建立无线网络的adhoc主机"><img src="../../upload/2009_03/090306105126441t.jpg" alt="用Ubuntu建立无线网络的adhoc主机" width="120" height="90"/>用Ubuntu建立无线网络</a></li><li style="width:25%"><a href="../../Linux/2009-03/18663.htm"  target="_blank"  title="Vmware环境下Linux与ARM开发板的NFS系统搭建[图文]"><img src="../../upload/2009_03/09030107074286t.jpg" alt="Vmware环境下Linux与ARM开发板的NFS系统搭建[图文]" width="120" height="90"/>Vmware环境下Linux与A</a></li></ul></div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+	<div class="mframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">本文评论</span>
+		 &nbsp; &nbsp; &nbsp;
+		 <a href="../../remark.aspx?id=2455" target="_blank" style="cursor:hand">全部评论</a>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	
+	<div class="mframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">发表评论</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<form id="remarkForm" action="../../remark.aspx?id=2455" method="post" onsubmit="return checkRemark();" style="padding:5px">
+			<div style="width:220px;float:right;height:140px;overflow:auto">
+				<ul style="list-style-type:square;;margin-left:1em;line-height:150%">
+				<li>尊重网上道德，遵守中华人民共和国的各项有关法律法规</li>
+				<li>承担一切因您的行为而直接或间接导致的民事或刑事法律责任</li>
+				<li>本站管理人员有权保留或删除其管辖留言中的任意内容</li>
+				<li>本站有权在网站内转载或引用您的评论</li>
+				<li>参与本评论即表明您已经阅读并接受上述条款</li>
+				</ul>
+			</div>
+			<script type="text/javascript" language="javascript">
+			function checkRemark()
+			{
+			var form=document.getElementById("remarkForm");
+			var remarkSize = 200;
+			if (form.body.value=="")
+			{	alert("请填写评论内容");
+				form.body.focus();
+				return false;
+			}
+			if (form.username.value=="")
+			{	alert("请填写姓名");
+				form.username.focus();
+				return false;
+			}
+			if (form.body.value.length>remarkSize)
+			{	form.body.value = form.body.value.substr(0,remarkSize);
+				showLen(form.body);
+				form.body.focus();
+				alert("评论内容不可以超过"+remarkSize+"字,已帮你删除多余部分");
+				return false;
+			}
+			if (form.username.value.length>10)
+			{	alert("姓名不可以超过10个字");
+				form.username.focus();
+				return false;
+			}
+			form.submit.disabled=true;
+			form.vcode.value = VCode("Linux服务器系统备份与系统恢复技巧");
+			return true;
+			}
+			function showLen(obj)
+			{
+				document.getElementById("bodyLen").value=obj.value.length;
+			}
+			</script>
+			<input type="radio" name="face" value="1" checked="checked"/><img src="../../pic/face1.gif" 
+			alt=""/><input type="radio" name="face" value="2"/><img src="../../pic/face2.gif" 
+			alt=""/><input type="radio" name="face" value="3"/><img src="../../pic/face3.gif" 
+			alt=""/><input type="radio" name="face" value="4"/><img src="../../pic/face4.gif" 
+			alt=""/><input type="radio" name="face" value="5"/><img src="../../pic/face5.gif" 
+			alt=""/><input type="radio" name="face" value="6"/><img src="../../pic/face6.gif" 
+			alt=""/><input type="radio" name="face" value="7"/><img src="../../pic/face7.gif" 
+			alt=""/><input type="radio" name="face" value="8"/><img src="../../pic/face8.gif" 
+			alt=""/><input type="radio" name="face" value="9"/><img src="../../pic/face9.gif" alt=""/><br/>
+			<input type="radio" name="face" value="10"/><img src="../../pic/face10.gif" 
+			alt=""/><input type="radio" name="face" value="11"/><img src="../../pic/face11.gif" 
+			alt=""/><input type="radio" name="face" value="12"/><img src="../../pic/face12.gif" 
+			alt=""/><input type="radio" name="face" value="13"/><img src="../../pic/face13.gif" 
+			alt=""/><input type="radio" name="face" value="14"/><img src="../../pic/face14.gif" 
+			alt=""/><input type="radio" name="face" value="15"/><img src="../../pic/face15.gif" 
+			alt=""/><input type="radio" name="face" value="16"/><img src="../../pic/face16.gif" 
+			alt=""/><input type="radio" name="face" value="17"/><img src="../../pic/face17.gif" 
+			alt=""/><input type="radio" name="face" value="18"/><img src="../../pic/face18.gif" alt=""/><br/>
+			<div style="padding-top:5px">
+			点评：
+			<textarea name="body" cols="36" rows="4" onkeydown="showLen(this)" onkeyup="showLen(this)"></textarea> 字数<input type="text" id="bodyLen" size="3" readonly="readonly" style="border-width:0;background:transparent;"/>
+			</div>
+			<div style="padding-top:5px">
+			姓名：
+			<input type="text" id="i_username" name="username" value="" maxlength="15" size="10"/>
+			<input type="submit" name="submit" id="i_submit" value=" 发 表 "/>
+			</div>
+			<script type="text/javascript">
+			var remarkmember = true;
+			var allowremark = true;
+			if (remarkmember){
+				document.getElementById("i_username").readonly=true;
+				document.write("(限会员登录后发表评论)");
+			}
+			if (!allowremark){
+				document.getElementById("i_submit").disabled=true;
+			}
+			</script>
+			<script type="text/javascript" src="../../inc/clientDate.js"></script>
+			<input type="hidden" name="vcode" value=""/>
+		</form>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+	<iframe src="../../frm_hit.aspx?id=2455&disp=1" style="visibility:hidden;height:0;width:0"></iframe>
+</td>
+  <td width="24" rowspan="2" valign="top" bordercolor="EFEFEF" ><div align="center"><span style="line-height:25px"><br />
+    L<br />
+    I<br />
+    N<br />
+    U<br />
+    X<br />
+    公<br />
+    社<br />
+    </span></div></td>
+<td width="330" style="padding-left:5px" valign="top">
+
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">GOOGLE搜索</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+<!-- SiteSearch Google -->
+<form method="get" action="http://www.google.com/custom" target="google_window">
+<table border="0" bgcolor="#000000">
+<tr><td nowrap="nowrap" valign="top" align="left" height="32">
+<a href="http://www.google.com/">
+<img src="http://www.google.com/logos/Logo_25blk.gif" border="0" alt="Google" align="middle"></img></a>
+<br/>
+<input type="hidden" name="domains" value="www.linuxidc.com"></input>
+<label for="sbi" style="display: none">输入您的搜索字词</label>
+<input type="text" name="q" size="45" maxlength="255" value="" id="sbi"></input>
+<label for="sbb" style="display: none">提交搜索表单</label>
+<input type="submit" name="sa" value="搜索" id="sbb"></input>
+</td></tr>
+<tr>
+<td nowrap="nowrap">
+<table>
+<tr>
+<td>
+<input type="radio" name="sitesearch" value="" id="ss0"></input>
+<label for="ss0" title="搜索网络"><font size="-1" color="#ffffff">Web</font></label></td>
+<td>
+<input type="radio" name="sitesearch" value="www.linuxidc.com" checked id="ss1"></input>
+<label for="ss1" title="搜索 www.linuxidc.com"><font size="-1" color="#ffffff">www.linuxidc.com</font></label></td>
+</tr>
+</table>
+<input type="hidden" name="client" value="pub-5195587195407606"></input>
+<input type="hidden" name="forid" value="1"></input>
+<input type="hidden" name="channel" value="8038128456"></input>
+<input type="hidden" name="ie" value="GB2312"></input>
+<input type="hidden" name="oe" value="GB2312"></input>
+<input type="hidden" name="safe" value="active"></input>
+<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;LH:50;LW:146;L:http://www.linuxidc.com/pic/logo.jpg;S:http://www.linuxidc.com/;FORID:1"></input>
+<input type="hidden" name="hl" value="zh-CN"></input>
+</td></tr></table>
+</form>
+<!-- SiteSearch Google -->
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">最新资讯</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<ul class="nl">
+<li><a href="../../Linux/2009-04/19193.htm" target="_blank">经济低迷 Linux受宠</a></li>
+<li><a href="../../Linux/2009-04/19192.htm" target="_blank">细看新一代SUSE Linux Enterprise 11</a></li>
+<li><a href="../../Linux/2009-04/19191.htm" target="_blank">Linux内核模块编程入门</a></li>
+<li><a href="../../Linux/2009-04/19190.htm" target="_blank">Linux下溢出漏洞利用学习</a></li>
+<li><a href="../../Linux/2009-03/19189.htm" target="_blank">Ubuntu下如何用蓝牙连接手机和蓝牙鼠标</a></li>
+<li><a href="../../Linux/2009-03/19188.htm" target="_blank">流线设计 疑似iPhone三代真机曝光</a></li>
+<li><a href="../../Linux/2009-03/19187.htm" target="_blank" title="阿根廷黑客盯上中国Windows用户 如想安全改用Linux系统">阿根廷黑客盯上中国Windows用户 如想安全改用Linux</a></li>
+<li><a href="../../Linux/2009-03/19186.htm" target="_blank">Novell推SUSE Linux Enterprise 11 受产业追捧</a></li>
+<li><a href="../../Linux/2009-03/19185.htm" target="_blank">微软TomTom达成专利和解</a></li>
+<li><a href="../../Linux/2009-03/19184.htm" target="_blank">CentOS 5.3 已经发布</a></li>
+<li><a href="../../Linux/2009-03/19183.htm" target="_blank">实例讲解C++中CopyFileEx函数的简单用法</a></li>
+<li><a href="../../Linux/2009-03/19182.htm" target="_blank">如何使用ESX修复Linux虚拟机重启只读模式？</a></li>
+<li><a href="../../Linux/2009-03/19181.htm" target="_blank">日清发布顶级闪光灯Di866 有彩屏的闪光灯</a></li>
+<li><a href="../../Linux/2009-03/19180.htm" target="_blank">iPhone版Skype将于今天正式发布[多图]</a></li>
+<li><a href="../../Linux/2009-03/19179.htm" target="_blank">美眉新宠 索尼爱立信C510耀眼白色登场</a></li>
+<li><a href="../../Linux/2009-03/19178.htm" target="_blank">SUSE Linux Enterprise 11中国正式发布</a></li>
+<li><a href="../../Linux/2009-03/19177.htm" target="_blank">网友试用Ubuntu 9.04 Beta版最新测评[图文]</a></li>
+<li><a href="../../Linux/2009-03/19176.htm" target="_blank">命令导向让Unix系统命令一气呵成</a></li>
+<li><a href="../../Linux/2009-03/19175.htm" target="_blank">Linux下at与cron自动化工作的异同</a></li>
+<li><a href="../../Linux/2009-03/19174.htm" target="_blank">体验开源变色龙SUSE Linux Enterprise Server 11</a></li>
+</ul>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt"></span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<div  align="center"><script type="text/javascript" language="javaScript" src="/upload/britepic2.js"></script></div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt"> </span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<div align="center"><script type="text/javascript" language="javaScript" src="/upload/britepic.js"></script></div>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+	<div class="lframe">
+	<div class="tl"></div>
+	<div class="tr"></div>
+	<div class="tm">
+		<span class="tt">本周热门</span>
+	</div>
+	<div class="wrapper">
+	<div class="ml"></div>
+	<div class="mr"></div>
+	<div class="mm">
+		<ul class="nl">
+<li><a href="../../Linux/2007-10/8062.htm" target="_blank">Linux下VSFTP配置全攻略</a></li>
+<li><a href="../../Linux/2007-11/9151.htm" target="_blank">Ubuntu vsftpd 安装配置</a></li>
+<li><a href="../../Linux/2008-02/11055.htm" target="_blank">Linux服务器使用SSH的命令</a></li>
+<li><a href="../../Linux/2007-03/2537.htm" target="_blank">linux Sendmail配置简明教程</a></li>
+<li><a href="../../Linux/2007-04/3164.htm" target="_blank">RAID配置图解教程</a></li>
+<li><a href="../../Linux/2008-10/16773.htm" target="_blank">asterisk安装实录之CentOS 5.2安装[多图]</a></li>
+<li><a href="../../Linux/2008-01/10894.htm" target="_blank">Fedora 8 下配置 vsftpd 服务器</a></li>
+<li><a href="../../Linux/2007-10/8146.htm" target="_blank">Apache安装图解教程(不是for Linux而是for windows)</a></li>
+<li><a href="../../Linux/2007-03/2430.htm" target="_blank">Linux ftp服务启动方法</a></li>
+<li><a href="../../Linux/2008-01/10679.htm" target="_blank">不重启Linux服务器关闭SeLinux的方法</a></li>
+<li><a href="../../Linux/2007-10/8368.htm" target="_blank">Debian下用Vsftpd架建FTP服务器</a></li>
+<li><a href="../../Linux/2008-10/16772.htm" target="_blank">CentOS下asterisk安装详细实录</a></li>
+<li><a href="../../Linux/2007-08/6946.htm" target="_blank">linux下ftp/telnet服务开启（图）</a></li>
+<li><a href="../../Linux/2008-12/17703.htm" target="_blank">Ubuntu 8.10安装Samba与Windows共享实战指南[图文]</a></li>
+<li><a href="../../Linux/2007-10/8418.htm" target="_blank">Linux下配置Samba服务器全过程</a></li>
+<li><a href="../../Linux/2009-01/17930.htm" target="_blank">迅闪Linux虚拟盘服务器安装全程图解</a></li>
+<li><a href="../../Linux/2007-12/9521.htm" target="_blank">使用openswan在Linux下构建IPSec VPN过程</a></li>
+<li><a href="../../Linux/2007-11/9269.htm" target="_blank">Linux下配置端口映射的详细过程</a></li>
+<li><a href="../../Linux/2007-03/2669.htm" target="_blank">linux 域名解析的配置</a></li>
+<li><a href="../../Linux/2008-06/13391.htm" target="_blank">使用pcAnywhere 11.5远程连线到Linux主机[图文]</a></li>
+<li><a href="../../Linux/2007-11/9166.htm" target="_blank">Linux下通过iptables配置工具限制ip访问服务器</a></li>
+<li><a href="../../Linux/2007-09/7738.htm" target="_blank">sendmail配置</a></li>
+<li><a href="../../Linux/2007-09/7645.htm" target="_blank">Linux下/etc/resolv.conf 配置DNS客户</a></li>
+<li><a href="../../Linux/2008-03/11972.htm" target="_blank">Linux环境下Snmp配置帮助学习</a></li>
+<li><a href="../../Linux/2008-06/13813.htm" target="_blank">在Linux中打开端口的方法</a></li>
+</ul>
+	</div>
+	</div>
+	<div class="bl"></div>
+	<div class="br"></div>
+	<div class="bm"></div>
+	</div>
+
+</td></tr>
+</table>
+
+<div id="footer">
+<a href="http://www.linuxidc.com/aboutus.htm">Linux公社简介</a> - <a href="http://www.linuxidc.com/adsense.htm">广告服务</a> - <a href="http://www.linuxidc.com/sitemap.aspx">网站地图</a> - <a href="http://www.linuxidc.com/help.htm">帮助信息</a> - <a href="http://www.linuxidc.com/contactus.htm">联系我们</a><br />Copyright &copy; 2006-2010　<a href="http://www.linuxidc.com/">Linux公社</a>　All rights reserved 浙ICP备08016794号
+	
+
+	<div class="menuskin" id="popmenu" onmouseover="clearhidemenu();highlightmenu(event,'on')" onmouseout="highlightmenu(event,'off');dynamichide(event)" style="Z-index:100"></div>
+	<script type="text/javascript" src="../../inc/menu.js" charset="utf-8"></script>
+	<script type="text/javascript">
+	jsdone=true;
+	</script>
+
+
+</div>
+</div>
+<script type="text/javascript" language="javaScript" src="/linuxren/linuxren1.js"></script>
+<script type="text/javascript" language="javaScript" src="/linuxren/linuxren2.js"></script>
+<script type="text/javascript" language="javaScript" src="/linuxren/linuxren3.js"></script>
+</body>
+</html>

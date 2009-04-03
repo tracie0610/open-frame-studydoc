@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Ubuntu Linux系统备份与还原实用命令技巧 - ZDNet China - Where Technology Means Business</title>
+<META name="Keywords" content="还原,备份,Ubuntu,Linux">
+<META name="Description" content="tar cvpzf backup.tgz --exclude=/proc --exclude=/home/username/Desktop--exclude=/lost+found --exclude=/backup.tgz --exclude=/mnt --exclude=/sys /">
+<link href="http://icon.zdnet.com.cn/product/css/b_product/article/zdheader.css" rel="stylesheet" type="text/css" />
+<link href="http://icon.zdnet.com.cn/product/css/b_product/article/main_server.css" rel="stylesheet" type="text/css" />
+<link href="http://icon.zdnet.com.cn/product/css/b_product/article/article.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://icon.zdnet.com.cn/product/css/b_product/article/mainjs.js"></script>
+</head>
+
+<body>
+<!--header start-->
+<div class="headu2">
+								<div class="nav1st">
+								<div class="zdnetlogo"><a href="http://www.zdnet.com.cn/" title="至顶网(ZDNet.com.cn)-中国最大的企业级IT资源门户-技术成就商务">至顶网(ZDNet.com.cn)-中国最大的企业级IT资源门户-技术成就商务</a></div>
+								<div class="a_nav">
+								<ul>
+								<li><a href="http://www.zdnet.com.cn/"><strong>首页</strong></a></li>
+								<li><a href="http://net.zdnet.com.cn/"><strong>网络</strong></a></li>
+								<li><a href="http://security.zdnet.com.cn/"><strong>安全</strong></a></li>
+								<li><a href="http://stor-age.zdnet.com.cn/"><strong>存储</strong></a></li>
+								
+								<li><a href="http://server.zdnet.com.cn/"><strong>服务器</strong></a></li>
+								<li><a href="http://soft.zdnet.com.cn/"><strong>软件</strong></a></li>
+								<li><a href="http://product.zdnet.com.cn/"><strong>桌面产品</strong></a></li>
+								<li><a href="http://builder.zdnet.com.cn/"><strong>开发</strong></a></li>
+								<li><a href="http://cweek.zdnet.com.cn/"><strong>企业管理</strong></a></li>
+								<li><a href="http://www.itpapers.com.cn/"><strong>白皮书</strong></a></li>
+								
+								<li><a href="http://www.esmb.com.cn/"><strong>中小企业</strong></a></li>
+								<li><a href="http://news.zdnet.com.cn/"><strong>新闻</strong></a></li>
+								<li><a href="http://download.zdnet.com.cn/"><strong>下载</strong></a></li>
+								<li><a href="http://bbs.zdnet.com.cn/" target="_self"><strong>社区</strong></a></li>
+                <li class="nobod"><a href="http://space.zdnet.com.cn/html/expert.html" target="_self"><strong>专家博客</strong></a></li>
+								</ul>
+								</div>
+								<div class="website">
+								
+								<a href="http://www.cnetnews.com.cn/" target="_blank">CNETNews</a> <a href="http://it.ccgp.gov.cn/" target="_blank">政府采购</a> <a href="http://www.zdnet.com.cn/industryunion/industry_union.htm" target="_blank" class="red">网站联盟</a>
+								</div>
+								
+								</div>
+<!--header end-->
+    
+<!--banner start-->
+<div class="ad_top">
+    	<!--/* OpenX Javascript Tag v2.4.7 */-->
+
+<!--/*
+  * lb Software story01.
+  */-->
+
+<script type='text/javascript'><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://am.zdnet.com.cn/www/delivery/ajs.php':'http://am.zdnet.com.cn/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=189&amp;block=1&amp;blockcampaign=1");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></script><noscript><a href='http://am.zdnet.com.cn/www/delivery/ck.php?n=a35ac6f6&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://am.zdnet.com.cn/www/delivery/avw.php?zoneid=189&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a35ac6f6' border='0' alt='' /></a></noscript>
+
+    	<!--/* OpenX Javascript Tag v2.4.7 */-->
+
+<!--/*
+  * lb Software story button01.
+  */-->
+
+<script type='text/javascript'><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://am.zdnet.com.cn/www/delivery/ajs.php':'http://am.zdnet.com.cn/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=195&amp;block=1");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></script><noscript><a href='http://am.zdnet.com.cn/www/delivery/ck.php?n=a624c8e3&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://am.zdnet.com.cn/www/delivery/avw.php?zoneid=195&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a624c8e3' border='0' alt='' /></a></noscript>
+    </div>
+<!--banner end-->
+    
+<!--navigator start-->
+    
+<div class="second_box">
+    	<ul class="newstopchanl">
+        	<a href="http://soft.zdnet.com.cn/"><img src="http://icon.zdnet.com.cn/product/pic/b_product/soft_head.gif" alt="软件频道" /></a>
+            <li><a href="#" class="red">VMware第三季度收入增长90%</a></li>
+            <li><a href="#">Sun中国存储目标：扩大在服务</a></li>
+            <li><a href="#">高性能计算进入“巴塞罗那”代</a></li>
+        </ul>
+        <div class="second_nav">
+        	<ul class="rgnew">
+				<li class="on"><h4><a href="http://product.zdnet.com.cn/b_product/product_list_soft.shtml" target="_blank">软件产品</a></h4></li>
+                <li><h4><a href="http://bbs.zdnet.com.cn/index.php?gid=43" target="_blank">社区</a></h4></li>
+			</ul>
+        	<ul class="second_con">
+                <li><h4><a href="http://soft.zdnet.com.cn/"><span>软件首页</span></a></h4></li>
+				<li><h4><a href="http://soft.zdnet.com.cn/software_zone/windows-linux-unix.shtml"><span>操作系统</span></a></h4></li>
+				<li><h4><a href="http://soft.zdnet.com.cn/software_zone/sqlserver-oracle-db2-mysql.shtml"><span>数据库</span></a></h4></li>
+				<li><h4><a href="http://soft.zdnet.com.cn/software_zone/soa-middleware.shtml"><span>中间件</span></a></h4></li>
+				<li><h4><a href="http://soft.zdnet.com.cn/software_zone/apps.shtml"><span>应用软件</span></a></h4></li>
+				<li><h4><a href="http://soft.zdnet.com.cn/software_zone/crm-erp.shtml"><span>管理软件</span></a></h4></li>
+				<li><h4 class="nobdg"><a href="http://soft.zdnet.com.cn/software_zone/saas-webos.shtml"><span>Web应用</span></a></h4></li>
+            </ul>
+        	
+    </div>
+        <div class="sonnav">
+		
+		</div>
+        
+        <div class="fix"></div>
+    </div>
+    <script type='text/javascript'> 
+cpro_client='dengshoudong_cpr';
+cpro_cbd='#trans'; 
+cpro_cbg='#trans'; 
+cpro_ctitle='#0000ff'; 
+cpro_cdesc='#444444'; 
+cpro_curl='#008000'; 
+cpro_cflush='#e10900'; 
+cpro_at='text_image'; 
+cpro_161=4; 
+cpro_flush=4; 
+cpro_uap=1; 
+cpro_w=960; 
+cpro_h=60; 
+cpro_template='text_default_960_60'; 
+</script>
+<div style="width:948px; overflow:hidden;"><script language='JavaScript' type='text/javascript' src='http://cpro.baidu.com/cpro/ui/cp.js'></script></div>
+    
+    
+    
+
+
+<!--navigator end-->
+
+   <div class="mainbody"><!--主框架-->
+     <div class="left"><!--左-->
+     <h2 class="daohang">您的位置：<a href="http://soft.zdnet.com.cn/" title="软件首页" target="_blank">软件首页</a> / <a href="http://soft.zdnet.com.cn/software_zone/list-156-0-0-0-1.htm" target="_blank">操作系统</a> /<a href="http://soft.zdnet.com.cn/software_zone/2007/1008/540062.shtml" target="_blank"> Ubuntu Linux系统备份与还原实用命令技巧</a></h2>
+          <div class="titou">
+            <h2>Ubuntu Linux系统备份与还原实用命令技巧</h2>
+             <h3>ZDNet 软件频道       <span class="lan">更新时间：</span>2007-10-08         <span class="lan">作者：</span>赛迪网         <span class="lan">来源：</span>赛迪网</h3><h2 class="key">本文关键词：<a href="http://soft.zdnet.com.cn/software_zone/list-0-0-59695-1-1.htm" target="_blank">还原</a>  <a href="http://soft.zdnet.com.cn/software_zone/list-0-0-68299-1-1.htm" target="_blank">备份</a>  <a href="http://soft.zdnet.com.cn/software_zone/list-0-0-76787-1-1.htm" target="_blank">Ubuntu</a>  <a href="http://soft.zdnet.com.cn/software_zone/list-0-0-56718-1-1.htm" target="_blank">Linux</a>  </h2>
+          </div>
+          <div class="content"><!--正文-->
+         <SPAN class=a14c id=zoom>&nbsp; 
+<P>将username替换成你的用户名 
+<P>备份系统 
+<P>su -s －H 
+<P>cd /home/username/Desktop 
+<P>tar cvpzf backup.tgz --exclude=/proc --exclude=/home/username/Desktop--exclude=/lost+found --exclude=/backup.tgz --exclude=/mnt --exclude=/sys / 
+<P>
+<P>解释一下，exclude就是排除。这个tar命令将系统重要文件备份并放到Desktop下面。 
+<P>还原系统 
+<P>tar backup.tgz -C //home/username/Desktop </P></SPAN><div align="right">
+		 </div>
+</div>
+          <div class="mai">
+          [an error occurred while processing this directive]
+                      		<div class="fix"></div>
+                        </div>
+      <div class="cl"></div>
+     </div>
+     <div class="ss-right">
+<!--mpu start-->
+<div class="rflash">
+<!--/* OpenX Javascript Tag v2.4.7 */-->
+
+<!--/*
+  * mpu Software story01.
+  */-->
+
+<script type='text/javascript'><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://am.zdnet.com.cn/www/delivery/ajs.php':'http://am.zdnet.com.cn/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=202&amp;block=1&amp;blockcampaign=1");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></script><noscript><a href='http://am.zdnet.com.cn/www/delivery/ck.php?n=a0e5613d&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://am.zdnet.com.cn/www/delivery/avw.php?zoneid=202&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a0e5613d' border='0' alt='' /></a></noscript>
+</div>
+<!--mpu end-->
+          
+              <div class="rtop1"><!--技术关注部分-->
+                <div class="rtop11">技术关注</div>
+														 <div class="rtopcontent"><span class="green_title">当前技术类目：</span>
+						                  <div class="jshg"><a href="###">GNU/Linux</a></div>
+						                   <dl><dt>GNU/Linux本类技术关注比例：</dt>
+						                  	<dd> <cite>第<strong>4</strong>位</cite>软件关注排行：4<img src="http://icon.zdnet.com.cn/product/pic/b_product/article/greendown.jpg" />1</dd>
+						                  	<dd><cite>第<strong>4</strong>位</cite>企业级技术关注度：4--</dd>
+						           				</dl>
+				           			 		 </div><div class="jsgz_down"><h2>GNU/Linux技术相关文章：</h2>
+				                 <div class="wen_jsgz">文章类型<span class="flot_right_j">收录数量</span></div><div><cite><strong>40</strong>篇</cite> <span class="jsgz_down_span">GNU/Linux的解决方案：</span></div> <div><cite class="color_b"><strong>14</strong>篇</cite> <span class="jsgz_down_span color_b">GNU/Linux的成功案例：</span></div><div><cite><strong>6</strong>篇</cite> <span class="jsgz_down_span">GNU/Linux的相关产品：</span></div>	<div class="fix"></div>
+				 								</div>
+				 								<div style="background:url(../images/card_u3.jpg) repeat-y 0px -258px; padding:8px 5px 0 8px; text-align:right; clear:both;">
+				 								<img src="http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=tf&c=19&mc=imp&pli=579396&pi=0&ord=[timestamp]&rtu=-1">
+				 								<!--/* OpenX Javascript Tag v2.4.7 */-->
+
+<!--/*Server HP Inner Page(TechNode ntel Logo)
+  */-->
+
+<script type='text/javascript'><!--//<![CDATA[
+   var m3_u = (location.protocol=='https:'?'https://am.zdnet.com.cn/www/delivery/ajs.php':'http://am.zdnet.com.cn/www/delivery/ajs.php');
+   var m3_r = Math.floor(Math.random()*99999999999);
+   if (!document.MAX_used) document.MAX_used = ',';
+   document.write ("<scr"+"ipt type='text/javascript' src='"+m3_u);
+   document.write ("?zoneid=374");
+   document.write ('&amp;cb=' + m3_r);
+   if (document.MAX_used != ',') document.write ("&amp;exclude=" + document.MAX_used);
+   document.write ("&amp;loc=" + escape(window.location));
+   if (document.referrer) document.write ("&amp;referer=" + escape(document.referrer));
+   if (document.context) document.write ("&context=" + escape(document.context));
+   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
+   document.write ("'><\/scr"+"ipt>");
+//]]>--></script><noscript><a href='http://am.zdnet.com.cn/www/delivery/ck.php?n=a4e3ceec&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://am.zdnet.com.cn/www/delivery/avw.php?zoneid=374&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a4e3ceec' border='0' alt='' /></a></noscript></div>
+				 								<div class="n_img"><img src="http://icon.zdnet.com.cn/product/pic/b_product/article/bottom_jsgz.jpg" /></div>
+				       				</div>
+
+          <div class="rtop1">
+		          	<div class="rtop11 bbb">产品关注</div>
+		          	<div class="rtopcontent"><div class="x_g_c_img"><a href="http://product.zdnet.com.cn/OS/index109212.shtml target="_blank">
+		          		<img src="http://img2.zdnet.com.cn/product/0/684/ceQ2CSozyI5U.jpg" alt="RHEL 5" width="102" height="77" border="0" /></a></div>
+				          <div class="x_g_c_right">
+				            <h2><a href="http://product.zdnet.com.cn/OS/index109212.shtml" target="_blank" title="RHEL 5"><strong>RHEL 5</strong></a></h2>
+				             	<a href="http://product.zdnet.com.cn/110/109212/param.shtml" target="_blank">参数</a>
+											<a href="http://product.zdnet.com.cn/110/109212/case.shtml" target="_blank">方案/案例</a>
+											<a href="http://product.zdnet.com.cn/110/109212/news.shtml" target="_blank">文章/新闻</a>
+											<a href="http://product.zdnet.com.cn/110/109212/skill.shtml" target="_blank">技巧</a>
+				            </ul>
+				          </div><div class="fix"></div>
+				        </div>
+				      <div class="jsgz_down">
+							<h2>更多相关产品：</h2>
+              <h3 class="p2"><a href="http://product.zdnet.com.cn/OS/index109211.shtml" target="_blank" title="RHEL 4">RHEL 4</a></h3>
+					              <p class="h3p2"><a href="http://product.zdnet.com.cn/110/109211/param.shtml" target="_blank">参数</a>
+					              <a href="http://product.zdnet.com.cn/110/109211/case.shtml" target="_blank">方案/案例</a>
+					              <a href="http://product.zdnet.com.cn/110/109211/news.shtml" target="_blank">文章/新闻</a>
+					              <a href="http://product.zdnet.com.cn/110/109211/skill.shtml" target="_blank">技巧</a></p></div><div><img src="http://icon.zdnet.com.cn/product/pic/b_product/bottom_jsgz.jpg" /></div>
+          						</div>
+          <div class="divh2"><h2>软件频道 <a href="http://soft.zdnet.com.cn/software_zone/list-0-0-59695-1-1.htm" target="_blank">还原</a> 最新报道</h2></div>
+          <div class="rtop2">
+             <ul class="key"><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1115/635741.shtml" target="_blank">Windows XP 丢失还原点的终极解决办法</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1115/635463.shtml" target="_blank">Win XP操作系统的最另类还原技巧</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1115/634683.shtml" target="_blank">Windows XP操作系统的最另类还原技巧</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1114/632621.shtml" target="_blank">需定制你想要的WindowsXP系统还原按(2)</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1114/632616.shtml" target="_blank">需定制你想要的WindowsXP系统还原按(1)</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1103/603304.shtml" target="_blank">拒绝死板 操作系统还原有高招</a></li></ul>
+          </div><div class="divh2"><h2>软件频道 <a href="http://soft.zdnet.com.cn/software_zone/list-0-0-68299-1-1.htm" target="_blank">备份</a> 最新报道</h2></div>
+          <div class="rtop2">
+             <ul class="key"><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1114/632657.shtml" target="_blank">最全面的宝贵数据备份解决方案(4)</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1114/632654.shtml" target="_blank">最全面的宝贵数据备份解决方案(3)</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1114/632649.shtml" target="_blank">最全面的宝贵数据备份解决方案(2)</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1114/632645.shtml" target="_blank">最全面的宝贵数据备份解决方案(1)</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1107/616740.shtml" target="_blank">必备：手工备份Windows XP的注册表</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1107/616737.shtml" target="_blank">手工备份Windows XP的注册表</a></li></ul>
+          </div><div class="divh2"><h2>软件频道 <a href="http://soft.zdnet.com.cn/software_zone/list-0-0-76787-1-1.htm" target="_blank">Ubuntu</a> 最新报道</h2></div>
+          <div class="rtop2">
+             <ul class="key"><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1021/569106.shtml" target="_blank">玩转Ubuntu Linux之加密文件系统篇 （4）</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1021/569102.shtml" target="_blank">玩转Ubuntu Linux之加密文件系统篇 （3）</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1021/569101.shtml" target="_blank">玩转Ubuntu Linux之加密文件系统篇 （2）</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1021/569099.shtml" target="_blank">玩转Ubuntu Linux之加密文件系统篇 （1）</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1019/566880.shtml" target="_blank">在Ubuntu 6.10 上安装Lotus Notes 7 （4）</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1019/566874.shtml" target="_blank">在Ubuntu 6.10 上安装Lotus Notes 7 （3）</a></li></ul>
+          </div><div class="divh2"><h2>软件频道 <a href="http://soft.zdnet.com.cn/software_zone/list-0-0-56718-1-1.htm" target="_blank">Linux</a> 最新报道</h2></div>
+          <div class="rtop2">
+             <ul class="key"><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1218/686115.shtml" target="_blank">Windows与Linux齐头并进 Unix服务器渐被蚕食</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1218/686101.shtml" target="_blank">[图]微软Office 2007已成功通过Wine运行在Linux上</a></li><li><a href="http://soft.zdnet.com.cn/software_zone/2007/1114/633194.shtml" target="_blank">微软支持的Novell Linux客户数达到60家</a></li></ul>
+          </div>
+
+          <div class="xiangguan">
+             <h2>相关文档</h2>
+            <ul class="xiang"><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_case.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14812.shtml">路由器和防火墙软件coyote Linux配置指南</a></li><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_paper.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14801.shtml">Linux两种简单替代“花生壳”软件的办法</a></li><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_paper.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14804.shtml">Ubuntu Linux系统上安装IE浏览器的方法</a></li><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_paper.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14819.shtml">详细讲解配置Linux系统下的动态DNS服务</a></li><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_solution.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14802.shtml">Redhat Linux 9下最简单的WebMail实现方案</a></li><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_paper.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14800.shtml">Linux操作系统下动态库的生成及链接方法</a></li><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_paper.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14799.shtml">Linux操作系统下C开发环境的构成与安装</a></li><li><img src="http://icon.zdnet.com.cn/product/pic/b_product/icon_paper.jpg" /><a target="_blank" href="http://itpapers.zdnet.com.cn/itpaper/detail/2/14798.shtml">Linux操作系统下aMule工具配置实用技巧</a></li></ul>
+          </div>
+          <div class="cl"></div>
+     </div>
+       <div class="cl"></div>
+   </div>
+
+
+
+
+
+<!--footer start-->
+<div id="zdfooter">
+<script type='text/javascript'> 
+cpro_client='dengshoudong_cpr';
+cpro_cbd='#trans'; 
+cpro_cbg='#trans'; 
+cpro_ctitle='#0000ff'; 
+cpro_cdesc='#444444'; 
+cpro_curl='#008000'; 
+cpro_cflush='#e10900'; 
+cpro_at='text_image'; 
+cpro_161=4; 
+cpro_flush=4; 
+cpro_uap=1; 
+cpro_w=960; 
+cpro_h=60; 
+cpro_template='text_default_960_60'; 
+</script>
+<div style="width:948px; overflow:hidden;"><script language='JavaScript' type='text/javascript' src='http://cpro.baidu.com/cpro/ui/cp.js'></script></div>
+	<div class="leadbtm">
+		<a id="f" href="http://www.zdnet.com.cn"></a>		
+		<div id="infoblock">
+		<a href="http://www.xcar.com.cn" class="normallink">爱卡汽车网</a> &#124; 
+		<a href="http://www.cnetnews.com.cn" class="normallink">CNET科技资讯网</a> &#124; 
+		<a href="http://www.cweek.com.cn" class="normallink">CWEEK</a> &#124; 
+		<a href="http://www.fengniao.com" class="normallink">蜂鸟网</a> &#124; 
+		<a href="http://www.gamespot.com.cn" class="normallink">GameSpot China</a> &#124; 
+		<a href="http://www.pcpro.com.cn" class="normallink">个人电脑</a> &#124; 
+		<a href="http://www.builder.com.cn" class="normallink">开发者在线</a> &#124; 
+		<a href="http://www.pchome.net" class="normallink">PChome</a> &#124; 
+		<a href="http://www.solidot.org" class="normallink">Solidot</a> &#124; 
+		<a href="http://www.spn.com.cn" class="normallink">SPN</a> &#124; <br />
+		<a href="http://www.projectorpro.cn" class="normallink">投影顾问网</a> &#124; 
+		<a href="http://www.ea3w.com.cn" class="normallink">万维家电网</a> &#124; 
+		<a href="http://www.netfriends.com.cn" class="normallink">网友世界</a> &#124; 
+		<a href="http://www.xiyuit.com" class="normallink">西域IT</a> &#124; 
+		<a href="http://www.zdnet.com.cn" class="normallink">ZDNet China</a> &#124; 
+		<a href="http://www.zol.com.cn" class="normallink">中关村在线</a> &#124; 
+		<a href="http://www.esmb.com.cn" class="normallink">中小企业成长网</a>
+	
+		  <div class="services">
+				<ul><base target="_blank" />
+					<li><a href="/i/zdnet/div/contact.shtml">联系我们</a> | </li>
+					<li><a href="/i/zdnet/div/site_nav.shtml">网站导航</a> | </li>
+					<li><a href="/i/zdnet/div/introd.shtml">网站简介</a> | </li>
+					<li><a href="/i/zdnetnews/div/links/links_all.htm">友情链接</a> | </li>
+					<li><a href="http://www.zdnet.com.cn/zdnet/links/links_reg.php">申请自助链接</a></li>
+			</ul>
+				<div class="networkFooter">
+							<a href="http://www.cnetnetworks.com.cn/" target="_blank">CNET Networks</a><script language="javascript">document.write("旗下网站: <select name=\"menu\" id=\"form_menu\" ><option selected value=\"\">选择网站</option><option value=\"http://www.bnet.com\">BNET</option><option value=\"http://www.cnet.com\">CNET.com</option><option value=\"http://www.download.com\">CNET Download.com</option><option value=\"http://www.news.com\">CNET News.com</option><option value=\"http://reviews.cnet.com\">CNET Reviews</option><option value=\"http://shopper.cnet.com\">CNET Shopper.com</option><option value=\"http://www.gamespot.com\">GameSpot</option><option value=\"http://www.mp3.com\">MP3.com</option><option value=\"http://www.mysimon.com\">mySimon</option><option value=\"http://www.release1-0.com\">Release 1.0</option><option value=\"http://www.search.com\">Search.com</option><option value=\"http://techrepublic.com.com/\">TechRepublic</option><option value=\"http://www.tv.com\">TV.com</option><option value=\"http://www.webshots.com\">Webshots</option><option value=\"http://www.zdnet.com\">ZDNet</option></select> <a onClick=\"window.location=document.getElementById('form_menu').options[document.getElementById('form_menu').selectedIndex].value;\"><img src=\"http://i.i.com.com/cnwk.1d/i/go_button.gif\" class=\"go-btn\" align=\"absmiddle\" /></a>");</script>
+										<noscript>
+										<div id="cnwk-ftr2" align="left" style="clear:left;"><a href="http://www.bnet.com/">BNET</a> | <a href="http://www.cnet.com/">CNET.com</a> | <a href="http://www.cnetchannel.com/main/default.aspx">CNET Channel</a> |
+										<a href="http://www.gamespot.com/">GameSpot</a> | <a href="http://www.cnetnetworks.com/advertise/properties/international.html">International Media</a> | <a href="http://www.mp3.com/">MP3.com</a> | <a href="http://www.mysimon.com/2001-1_8-0.html">mySimon</a> |
+										<a href="http://www.search.com/">Search.com</a> | <a href="http://techrepublic.com.com/">TechRepublic</a> | <a href="http://www.tv.com/">TV.com</a> | <a href="http://www.webshots.com/">Webshots</a> | <a href="http://www.zdnet.com/">ZDNet</a>
+										</div>
+										</noscript>
+	
+	
+					</select>
+	
+				</div>
+		  </div><!-- //services -->
+
+
+				<div class="f_copy"><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001021500016"><img src="http://icon.zdnet.com.cn/zdnet/pic/gs.gif" /></a>Copyright &copy; 1997-2007 CNET Networks 版权所有。 ZDNet 是CNET Networks公司注册服务商标。<br />中华人民共和国电信与信息服务业务经营许可证编号：京ICP证010391号
+				</div>
+		</div>
+	</div>
+	<div class="fix"></div>
+</div>
+<script language="javascript" src="http://pv.zdnet.com.cn/js/pv.js"></script>
+ <script src="http://dw-cn.com.com/js/dw.js"></script>
+ <script>
+ 
+   DW.pageParams = {
+     siteid: 71
+   };
+   
+   DW.clear();
+   
+</script>
+<!--footer end-->
+	
+	
+	
+    
+	
+	<div class="fix"></div>
+</div>
+
+
+
+</body>
+</html>

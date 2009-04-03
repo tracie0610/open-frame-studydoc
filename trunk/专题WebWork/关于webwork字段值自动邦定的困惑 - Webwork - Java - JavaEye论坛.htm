@@ -1,0 +1,912 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>关于webwork字段值自动邦定的困惑 - Webwork - Java - JavaEye论坛</title>
+    <meta name="description" content="下面是我向moxie请教时的提问: 引用moxie，您好！  	看了你的&lt;webwork教程&gt;获益良多,我使用webwork也有一段时间了,但最近一直碰到一个问题,总无法解决,特向你请教:  	在你的教程中讲到了Field driven action, 并举了一个用户注册的例子, 其中页面上的user.name值可以被WW自动邦定到action中的user对象中. 在你的例子中,getU ..." />
+    <meta name="keywords" content=" Webwork Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1238487520" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1235486423" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1235376687" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Webwork">Webwork</a> <span class="arrow">&rarr;</span>
+    <h1>关于webwork字段值自动邦定的困惑</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/Webwork'>Webwork</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/6103?page=2" rel="next">2</a> <a href="/topic/6103?page=3">3</a> <a href="/topic/6103?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 18413 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/6103">主题：关于webwork字段值自动邦定的困惑</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_29887">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F6103' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/13917' title='WebWork2&amp;amp;Struts1.1(1):ForumBean' target='_blank'>WebWork2&amp;amp;Struts1.1(1):ForumBean</a></li>
+                              <li><a href='http://www.javaeye.com/topic/287086' title='关于支持RESTful的思考' target='_blank'>关于支持RESTful的思考</a></li>
+                              <li><a href='http://www.javaeye.com/topic/290482' title='S.H.E.D. 0.9b 发布' target='_blank'>S.H.E.D. 0.9b 发布</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://liferay.group.javaeye.com" target="_blank">liferay</a></span>
+            <br/><a href="/wiki/topic/6103" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        下面是我向moxie请教时的提问:<br /><div class="quote_title">引用</div><div class="quote_div">moxie，您好！<br /><br />	看了你的&lt;webwork教程&gt;获益良多,我使用webwork也有一段时间了,但最近一直碰到一个问题,总无法解决,特向你请教:<br /><br />	在你的教程中讲到了Field driven action, 并举了一个用户注册的例子, 其中页面上的user.name值可以被WW自动邦定到action中的user对象中. 在你的例子中,getUser()方法返回的是一个new User()对象,但如果是修改用户属性,此时getUser()应该返回用户正在编辑的user, 那么getUser()如何得到该对象呢? 在我想来有两个方法:<br />	一是当要修改用户属性时,先将要修改的user保存在session中,那么getUser()方法就可以从session中取得正在编辑的user, 这种方法有其局限性, 我不太喜欢; <br />第二种方法是在getUser()方法内部,直接从ActionContext中取得userId参数,并调用service的getUserById()方法来取得user, 但这种做法我总感觉不够优雅, 这个问题困扰我很久了,一直不知如何是好? 不知你有没有更好的方法?</div><br /><br />下面是moxie的回复:<br /><div class="quote_title">引用</div><div class="quote_div">jxb，您好！<br />&nbsp;&nbsp;&nbsp; 我想你应该是没有完全理解ValueStack(值堆栈，在XWork中，它是OgnlValueStack)。当你提交一个表单到action中，在它执行之前，由框架去取得你的Action，并实例化这个Action对象，再将这个Action对象放入它的值堆栈中。<br />&nbsp;&nbsp;&nbsp; 这时候，你在做编辑的时候，它一定会有原始的数据，假设这个数据对象就是user，同时假设这个数据就是从数据库中取得的。<br />&nbsp;&nbsp; 你要编辑这个user对象的数据，当然你的视图（也许是页面）要获取原始的数据。如何获取？你可以通过EL(表达式语言)从OgnlValueStack中获取。你的EL：user.username，它就是相当于调用Action对象的getUser().getUsername();方法。通过这种方式，你可以在视图中取得原始数据。<br />&nbsp; 到这里，我想你都能明白。但请注意下面：<br />&nbsp; 在你对原始数据进行更新时，你希望这个更新的数据同步到user对象中。这时，你仍然是通过EL，进行值的设置（注意：前面是值的获取）。你的EL：user.username，它这是相当于调用代码：getUse.setUsername(你更新的值)。<br /><br />WebWork的简洁、灵活，很多都是来源于EL和ValueStack。<br /><br />不知道我的回答是否能解决你的问题，更好的解决方式是通过简单的代码来实现，你可以写一些程序来验证，当然，如果有疑问我也可以帮忙完善。</div><br /><br />谢谢moxie的及时回复, 但可能我没有表达清楚我的问题,我想再用代码重新说明一下,同时为了再次得到moxie的及时回复,我特地将这个问题拿到论坛中请大家帮我解域,也免得邮件来邮件去的,等得我心焦^_^<br /><pre name="code" class="java">	//user.detail.vm
+
+	&lt;input type="text" name="user.name" value="$!user.name"/&gt;
+	&lt;input type="hidden" name="userId" value="$!user.id"/&gt;</pre><br /><pre name="code" class="java">	//ViewUserAction.java
+
+	private User user;
+	private String userId;
+
+	public String execute(); {
+		return SUCCESS;
+	}
+	public void setUserId(String userId); { this.userId = userId; }
+
+	public User getUser(); { 
+		if (user == null); {
+			user = userService.getUserById(userId);;
+			//采用第一种方法时才需要下面的语句
+			ActionContext.getActionContext();.getSession();.put("__user__", user);;
+		}
+		return user;
+	}</pre><br /><pre name="code" class="java">	//CreateUserAction.java
+
+	//创建一个空的用户对象
+	private User user = userService.createUser();;
+
+	public String execute(); {
+		userService.save(user);;
+		return SUCCESS;
+	}
+
+	public User getUser(); { return user;}</pre><br /><pre name="code" class="java">	//ModifyUserAction.java
+
+	private User user;
+	
+	public String execute(); {
+		userService.save(user);;
+		return SUCCESS;
+	}
+
+	public User getUser(); {
+		//方法1:
+		//当用户进入user.detail.vm时,ViewUserAction.java已将用户
+		//正在查看的对象保存到了session中所以现在可以取出
+		return (User);ActionContext.getActionContext();.getSession();.get("__user__");;
+
+		//方法2:
+		if (user == null); {
+			String userId = getParameter("userId");;
+			user = userService.getUserById(userId);;
+		}
+		return user;
+	}</pre><br />&nbsp;&nbsp;&nbsp; 我的问题是: 在ModifyUserAction.java中getUser()方法应该如何实现? <br />&nbsp;&nbsp;&nbsp; 我给出的方法1有特定的限制,比如只能允许用户在一个页面中一次只能修改一个用户的信息, 另外ViewUserAction与ModifyUserAction也有一种隐含的藕合,所以我不愿意采用该方法,第二种方法要我自己从parameters中取出userId这个参数,然后转换为user对象, 因为页面中有许多参数存在于parameters中,其它参数都可以由webwork自动邦定,可为什么userId这个参数要这么特殊呢? 这就是我觉得不爽的地方. 另外我也想到能不能用interceptor解决,感觉这个interceptor做出并不能通用,所以和第二种方案还是同一回事.
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/128' target='_blank'>IBM Rational软件开发高峰论坛9月揭幕</a></li><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29894">
+  <td class="postauthor">
+    <ul>
+      <li class="name">billyu</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://billyu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/5271/bb057914-8aba-415e-a576-720f25bb2370.gif?1236831984" title="billyu的博客: billyu" /></a></li>
+      <li>文章: 76</li>
+      <li>积分: 399</li>
+      <li>来自: 广州</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29894' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        其实你只要将你传递的参数userId更改成user.userId就行了<br /><pre name="code" class="java">
+         user = userService.getUserById(user.getUserId(););; 
+
+</pre>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://billyu.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://billyu.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=billyu" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://billyu.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29894' class='post_rate_box'><a href='#' onclick='rate_post(29894, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29894, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29897">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29897' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        我认为你的方法行不通,因为user对象的userId还没有被ParameterInteceptor邦定到user中, 除非有两个ParameterInteceptor, 前一个负责邦定id, 后一个负责邦定其它参数, 或者ParameterInteceptor在邦定参数时能设定顺序, 也就是能先邦定id, 再邦定其它参数. 不过都是瞎想,行不通.
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29897' class='post_rate_box'><a href='#' onclick='rate_post(29897, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29897, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29900">
+  <td class="postauthor">
+    <ul>
+      <li class="name">billyu</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://billyu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/5271/bb057914-8aba-415e-a576-720f25bb2370.gif?1236831984" title="billyu的博客: billyu" /></a></li>
+      <li>文章: 76</li>
+      <li>积分: 399</li>
+      <li>来自: 广州</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29900' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">jxb8901 写道</div><div class="quote_div">我认为你的方法行不通,因为user对象的userId还没有被ParameterInteceptor邦定到user中, 除非有两个ParameterInteceptor, 前一个负责邦定id, 后一个负责邦定其它参数, 或者ParameterInteceptor在邦定参数时能设定顺序, 也就是能先邦定id, 再邦定其它参数. 不过都是瞎想,行不通.</div><br /><br />我都测试过了，怎会不行呢？<br />比如因为你修改一个用户的资料时候，肯定要有ID传过来，如果你传的是userId,那你肯定要自己转换，如果你传的是user.userId,系统会自动帮你将这参数绑定到你的变量user中去。<br />例如<br /><pre name="code" class="java">http://localhost:8080/edit_user.action?user.userId=12345</pre>你在edit_user.action中<br />直接写<br /><pre name="code" class="java">user = getUserById(user.getUserId(););;</pre>就行了
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://billyu.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://billyu.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=billyu" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://billyu.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29900' class='post_rate_box'><a href='#' onclick='rate_post(29900, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29900, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29901">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29901' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        不知能不能把你的getUser()的代码贴出来,我们对着代码好说话一点, 这样空谈半天, 可能都说的不是同一回事.<br /><br />能把getUser()的代码贴出来吗? 而且你测试至少应该传两个参数:user.userId,user.name
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29901' class='post_rate_box'><a href='#' onclick='rate_post(29901, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29901, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29908">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29908' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        zgd为什么把回复给删掉了? 我还正在想总算有人看得懂我的问题呢(很担心我表达不清) ^_^
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29908' class='post_rate_box'><a href='#' onclick='rate_post(29908, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29908, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29913">
+  <td class="postauthor">
+    <ul>
+      <li class="name">zgd</li>
+      <li>等级: <img src="/images/dimd1.gif" alt="一钻会员" title="一钻会员"/></li>
+      <li><a href='http://zgd.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="zgd的博客: zgd" /></a></li>
+      <li>文章: 218</li>
+      <li>积分: 789</li>
+      <li>来自: 广州</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29913' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        给你抓到了<img src="/images/smiles/icon_redface.gif"/> <br />我看了后来你的回帖<br />觉得我的问题跟你的问题好像有出入<br />所以自己开了一篇新帖了<br /><br />下面是删掉的原贴<br />--------------------------------------------------------<br />如果User是一个hibernate的PO的话 <br />把它放在httpSession里不失为一种好方法 <br />页面里直接对httpSession里的user操作 <br />当进行saveAction的时候 <br />从httpSession里拿到的user就能直接用hibernateSession.update回数据库 <br />这也是那个webwork2+hiberate的demo adminapp里的做法 <br />ps，adminapp在这里http://wiki.opensymphony.com/display/WW/Examples <br /><br />但是比较严重的问题就是不能同时打开两个修改user的页面，另外就是如果不在使用完以后立刻删除该httpSession变量的话就是持续占有服务器内存 <br /><br />如果不用httpSession的话，就必须把user里不需要显示到页面的属性用hidden记录下来，但是如果user有list（一对多或多对多关系）那怎么办呢？这似乎无法解决，折中的解决办法就是把主键id写到hidden里，然后在saveAction里使用select&amp;update的方法（这里可以构造一个formBean），这也并不优雅
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://zgd.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://zgd.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=zgd" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://zgd.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29913' class='post_rate_box'><a href='#' onclick='rate_post(29913, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29913, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29914">
+  <td class="postauthor">
+    <ul>
+      <li class="name">billyu</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://billyu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/5271/bb057914-8aba-415e-a576-720f25bb2370.gif?1236831984" title="billyu的博客: billyu" /></a></li>
+      <li>文章: 76</li>
+      <li>积分: 399</li>
+      <li>来自: 广州</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29914' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        你的意思是否是user_detail.jsp 中可以进行用户资料的更改，但是保存是在另外一个页面user_save,<br />问题是当从user_detail导航到user_save的时候，user_save如何取到user_detail页更改过的user,由user_save负责将这个user存储到数据库。对吗？<br />不知道我的理解是不是正确？
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://billyu.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://billyu.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=billyu" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://billyu.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29914' class='post_rate_box'><a href='#' onclick='rate_post(29914, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29914, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29921">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29921' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        不完全正确.<br />1.user_save是一个action类,不是页面<br />2.不是说user_save如何取到user_detail中的user, 而是说user_detail中的字段值如何自动邦定到user_save中的一个user对象, 其实邦定是webwork自动完成的, 关键是userid如何转换为数据库中的user对象. <br />如果你没用过webwork,可能不太能理解我提的问题, 如果你愿意的话我可以发一段代码给你.(还是代码好说话)
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29921' class='post_rate_box'><a href='#' onclick='rate_post(29921, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29921, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29926">
+  <td class="postauthor">
+    <ul>
+      <li class="name">moxie</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://moxie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/229/f1d974c6-d8ad-4f60-86f1-bf8c8683f373.jpg?1236831845" title="moxie的博客: moxie" /></a></li>
+      <li>文章: 121</li>
+      <li>积分: 1106</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29926' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        To:jxb8901<br />你的问题我能明白，我想是我的回答太抽象，让你误解了。现写的演示代码如下：<br /><br />//xwork.xml:<br /><pre name="code" class="java">
+    &lt;package name="cuid" extends="webwork-default" namespace="/cuid"&gt;
+    	&lt;default-interceptor-ref name="params"/&gt;
+    	
+    	&lt;action name="listAllUsers" class="example.cuid.ListAllUsersAction" &gt;
+    		&lt;result name="success" type="velocity"&gt;
+    			&lt;param name="location"&gt;/cuid/listAllUsers.vm&lt;/param&gt;
+    		&lt;/result&gt;
+    	&lt;/action&gt;
+    	&lt;action name="viewUser" class="example.cuid.ViewUserAction" &gt;
+    		&lt;result name="success" type="velocity"&gt;
+    			&lt;param name="location"&gt;/cuid/editUser.vm&lt;/param&gt;
+    		&lt;/result&gt;
+    	&lt;/action&gt;
+    	&lt;action name="updateUser" class="example.cuid.UpdateUserAction" &gt;
+    		&lt;result name="success" type="chain"&gt;
+    			&lt;param name="actionName"&gt;listAllUsers&lt;/param&gt;
+				&lt;param name="namespace"&gt;/cuid&lt;/param&gt;
+    		&lt;/result&gt;
+    	&lt;/action&gt;
+    &lt;/package&gt;
+
+</pre><br /><br /><br />ListAllUsersAction.java<br /><pre name="code" class="java">
+
+/*
+ * Created on 2004-7-8
+ * ListAllUsersAction.java
+ */
+package example.cuid;
+
+import com.opensymphony.xwork.Action;
+
+import example.register.User;
+
+/**
+ * @author moxie-qac
+ *         achqian@yahoo.com.cn
+ * 
+ */
+public class ListAllUsersAction implements Action{
+	private User[] users;
+
+	/* (non-Javadoc);
+	 * @see com.opensymphony.xwork.Action#execute();
+	 */
+	public String execute(); throws Exception {
+		UserService userService = UserService.getUserService();;
+		users = userService.ListAllUsers();;
+		return SUCCESS;
+	}
+	
+	public User[] getUsers();{
+		return users;
+	}
+
+}
+</pre><br /><br />ViewUserAction.java<br /><pre name="code" class="java">
+/*
+ * Created on 2004-7-8
+ * ViewUserAction.java
+ */
+package example.cuid;
+
+import com.opensymphony.xwork.Action;
+
+import example.register.User;
+
+/**
+ * @author moxie-qac
+ *         achqian@yahoo.com.cn
+ * 
+ */
+public class ViewUserAction implements Action{
+	private String userId;
+	private User user;
+
+	/* (non-Javadoc);
+	 * @see com.opensymphony.xwork.Action#execute();
+	 */
+	public String execute(); throws Exception {
+		UserService userService = UserService.getUserService();;
+		user = userService.getUserById(userId);;
+		return SUCCESS;
+	}
+	
+	public void setUserId(String userId);{
+		this.userId = userId;
+	}
+	
+	public User getUser();{
+		return user;
+	}
+
+}
+
+</pre><br /><br />UpdateUserAction.java<br /><pre name="code" class="java">
+/*
+ * Created on 2004-7-8
+ * UpdateUserAction.java
+ */
+package example.cuid;
+
+import com.opensymphony.xwork.Action;
+
+import example.register.User;
+
+/**
+ * @author moxie-qac
+ *         achqian@yahoo.com.cn
+ * 
+ */
+public class UpdateUserAction implements Action{
+	private User user = new User();;
+
+	/* (non-Javadoc);
+	 * @see com.opensymphony.xwork.Action#execute();
+	 */
+	public String execute(); throws Exception {
+		UserService userService = UserService.getUserService();;
+		userService.update(user);;
+		return SUCCESS;
+	}
+	
+	public User getUser();{
+		return user;
+	}
+}
+
+</pre>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://moxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=moxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29926' class='post_rate_box'><a href='#' onclick='rate_post(29926, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29926, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/6103?page=2" rel="next">2</a> <a href="/topic/6103?page=3">3</a> <a href="/topic/6103?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Webwork'>Webwork</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="mobile">移动编程和手机开发</option>
+<option value="Python">Python</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":6103, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" onclick="$('chat_iframe').src='/chat/widget';return false;">闲聊一下 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
