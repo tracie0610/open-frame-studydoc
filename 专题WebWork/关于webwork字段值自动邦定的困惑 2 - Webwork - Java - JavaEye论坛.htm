@@ -1,0 +1,920 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>关于webwork字段值自动邦定的困惑 - Webwork - Java - JavaEye论坛</title>
+    <meta name="description" content="下面是我向moxie请教时的提问: 引用moxie，您好！  	看了你的&lt;webwork教程&gt;获益良多,我使用webwork也有一段时间了,但最近一直碰到一个问题,总无法解决,特向你请教:  	在你的教程中讲到了Field driven action, 并举了一个用户注册的例子, 其中页面上的user.name值可以被WW自动邦定到action中的user对象中. 在你的例子中,getU ..." />
+    <meta name="keywords" content=" Webwork Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1238487520" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1235486423" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1235376687" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Webwork">Webwork</a> <span class="arrow">&rarr;</span>
+    <h1>关于webwork字段值自动邦定的困惑</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/Webwork'>Webwork</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><a href="/topic/6103?page=1" class="prev_page" rel="prev start">&laquo; 上一页</a> <a href="/topic/6103?page=1" rel="prev start">1</a> <span class="current">2</span> <a href="/topic/6103?page=3" rel="next">3</a> <a href="/topic/6103?page=3" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 18413 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/6103">主题：关于webwork字段值自动邦定的困惑</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_29927">
+  <td class="postauthor">
+    <ul>
+      <li class="name">moxie</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://moxie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/229/f1d974c6-d8ad-4f60-86f1-bf8c8683f373.jpg?1236831845" title="moxie的博客: moxie" /></a></li>
+      <li>文章: 121</li>
+      <li>积分: 1106</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29927' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        UserService.java<br /><pre name="code" class="java">
+/*
+ * Created on 2004-7-8
+ * UserService.java
+ */
+package example.cuid;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import example.register.User;
+
+/**
+ * @author moxie-qac
+ *         achqian@yahoo.com.cn
+ * 
+ */
+public class UserService {
+	private static UserService userService = null;
+	private static Map users = new HashMap();;
+	static {
+		User user_1 = new User();;
+		user_1.setId("1");;
+		user_1.setUsername("user_1");;
+		
+		User user_2 = new User();;
+		user_2.setId("2");;
+		user_2.setUsername("user_2");;
+		
+		User user_3 = new User();;
+		user_3.setId("3");;
+		user_3.setUsername("user_3");;
+		
+		users.put(user_1.getId();,user_1);;
+		users.put(user_2.getId();,user_2);;
+		users.put(user_3.getId();,user_3);;
+	}
+	
+	private UserService();{
+	}
+	public static UserService getUserService();{
+		if(userService == null);{
+			userService = new UserService();;
+		}
+		return userService;
+	}
+	
+	public User[] ListAllUsers();{
+		Collection collUses = users.values();;
+		User[] arrUsers = new User[collUses.size();];
+		collUses.toArray(arrUsers);;
+		return arrUsers;
+	}
+	
+	public User getUserById(String userId);{
+		return (User); users.get(userId);;
+	}
+	
+	public void update(User user);{
+		users.put(user.getId();,user);;
+	}
+
+}
+
+</pre><br /><br />editUser.vm<br /><pre name="code" class="java">
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Edit user&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+Edit:&lt;p&gt;
+&lt;form name="form1" action="$req.contextPath/cuid/updateUser.action" method="POST"&gt;
+UserId:&lt;input type="text" name="user.id" value="$user.id"&gt;&lt;br&gt;
+UserName:&lt;input type="text" name="user.username" value="$user.username"&gt;
+&lt;p&gt;
+&lt;input type="submit" name="submit"&gt;&amp;amp;&amp;amp;
+&lt;input type="reset" name="restet"&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+
+</pre><br /><br /><br />listAllUsers.vm<br /><pre name="code" class="java">
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;List all users&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+List all users:
+
+&lt;table width="70%"&gt;
+&lt;tr&gt;&lt;td&gt;userId&lt;/td&gt;&lt;td&gt;username&lt;/td&gt;&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+#foreach( $user in $users );
+&lt;tr&gt;  &lt;td&gt;$user.id&lt;/td&gt;  &lt;td&gt;$user.username&lt;/td&gt;  &lt;td&gt;&lt;a href="$req.contextPath/cuid/viewUser.action?userId=$user.id"&gt;[ EDIT ]&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+#end
+&lt;/body&gt;
+
+</pre>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://moxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=moxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29927' class='post_rate_box'><a href='#' onclick='rate_post(29927, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29927, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29943">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29943' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        明白了, moxie的方法是可行的. <br />我的错误在于对hibernate的认识不足(因为我的问题是在webwork+sprint+hibernate的组合框架中产生的,我现在是就是论事). <br />之前我认为要update一个PO对象, 必需经过下面的步骤: 1.根据ID从数据库中取出PO; 2.根据页面中的数据更新PO(这一步由webwork自动完成); 3.保存到数据库. <br />实际上在hibernate中也可以用下面的步骤更新PO: 1.新产生一个PO, 该PO没有任何数据值; 2.用页面数据更新PO, 这里页面中的数据包括PO的ID值; 3.保存到数据库,因为hibernate根据PO的ID可以判断是update还是insert. <br /><br />说到这里,我又发现moxie的方法只能对付一次更新PO所有值的情况, 如果在某次更新中只修改用户密码(页面中只有两个值user.id, user.password), 这时用moxie的方法, 会将user的其它值比如user.name清空, 这不是我想要的. <br /><br />另外,一般User对象是一个接口, 它有getId() 方法, 但没有setId()方法(因为id是由hibernate设置的,不是一个公有方法) , 这时moxie的方法也行不通<br /><br />所以问题还是没解决. ~~
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29943' class='post_rate_box'><a href='#' onclick='rate_post(29943, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29943, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29947">
+  <td class="postauthor">
+    <ul>
+      <li class="name">moxie</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://moxie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/229/f1d974c6-d8ad-4f60-86f1-bf8c8683f373.jpg?1236831845" title="moxie的博客: moxie" /></a></li>
+      <li>文章: 121</li>
+      <li>积分: 1106</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29947' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">jxb8901 写道</div><div class="quote_div">moxie的方法只能对付一次更新PO所有值的情况, 如果在某次更新中只修改用户密码(页面中只有两个值user.id, user.password), 这时用moxie的方法, 会将user的其它值比如user.name清空, 这不是我想要的. <br /></div><br />这个时候，你可以在页面将user.name设置为hidden就ok了。<br /><br /><div class="quote_title">jxb8901 写道</div><div class="quote_div"><br />另外,一般User对象是一个接口, 它有getId() 方法, 但没有setId()方法(因为id是由hibernate设置的,不是一个公有方法) , 这时moxie的方法也行不通 <br /></div><br />这时，也许你的领域对象就不能完全充当ForBean的作用了，你就要考虑是否需要DTO去传递数据。<br /><br />我这个例子也只是做演示用，实际开发的需求也许会很复杂，但采用一些小的技巧，我想都能满足要求的。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://moxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=moxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29947' class='post_rate_box'><a href='#' onclick='rate_post(29947, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29947, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_29952">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F29952' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">moxie 写道</div><div class="quote_div"><div class="quote_title">jxb8901 写道</div><div class="quote_div">moxie的方法只能对付一次更新PO所有值的情况, 如果在某次更新中只修改用户密码(页面中只有两个值user.id, user.password), 这时用moxie的方法, 会将user的其它值比如user.name清空, 这不是我想要的. <br /></div><br />这个时候，你可以在页面将user.name设置为hidden就ok了。</div><br />如果出现zgd所说的用户有一对多关系(比如user.getRoles()), 这种方法还是不适用.<br /><div class="quote_title">moxie 写道</div><div class="quote_div"><div class="quote_title">jxb8901 写道</div><div class="quote_div"><br />另外,一般User对象是一个接口, 它有getId() 方法, 但没有setId()方法(因为id是由hibernate设置的,不是一个公有方法) , 这时moxie的方法也行不通 <br /></div><br />这时，也许你的领域对象就不能完全充当ForBean的作用了，你就要考虑是否需要DTO去传递数据。</div><br />没有好的办法时看来只能折中了. ~~
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_29952' class='post_rate_box'><a href='#' onclick='rate_post(29952, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(29952, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_30039">
+  <td class="postauthor">
+    <ul>
+      <li class="name">QuakeWang</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://quake.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/83253/526038c7-63dc-3428-b702-10c53aa10052.jpg?1236837775" title="QuakeWang的博客: I am sailing, I am sailing" /></a></li>
+      <li>文章: 737</li>
+      <li>积分: 2066</li>
+      <li>来自: JavaEye</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-09 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F30039' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        我不明白为什么不先load一次，再做更新，这样不就可以避免你说的所有问题了吗？<br /><br />通常一定要先load一次，否则的话，你怎么处理要更新的数据正好被别人删除等异常情况？<br /><br />一对多关系的通常维护关系都是设置在多的一段（inverse="true"），更新不会影响到其对应多的元素。<br /><br />嫌代码麻烦的话，写一个abstract class，然后所有的View, Create, Update, Delete User action都extends它就可以了：<br /><pre name="code" class="java">
+public abstract class UserAction implements Action{
+    private User user;
+    private String userId; 
+
+    public User getUser(); {
+        if(user != null); return user;
+        
+        if(userId != null); {
+            user = getUserService();.loadUserById(userId);;
+            //if user == null throw can not find user exception
+        }else{
+            user = new User();;
+        }
+        return user;
+    }
+}
+</pre>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://quake.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=QuakeWang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_30039' class='post_rate_box'><a href='#' onclick='rate_post(30039, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(30039, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_30181">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jxb8901</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://jxb8901.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="jxb8901的博客: jxb8901" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 689</li>
+      <li>来自: shenzhen</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-12 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F30181' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">Quake Wang 写道</div><div class="quote_div">我不明白为什么不先load一次，再做更新，这样不就可以避免你说的所有问题了吗？<br /><br />通常一定要先load一次，否则的话，你怎么处理要更新的数据正好被别人删除等异常情况？<br /></div><br />我的意思并不是说不要先load, 事实上肯定应该先load一次. (但moxie的代码是不用先load的,这样会有我在回贴中说的问题), 另外楼上的getUser()的代码在实际使用中会有问题, 因为getUser()方法的第一次调用必定是发生在ParameterInterceptor中对页面参数实行自动邦定的过程中,也就是若页面中有参数user.name时,就会先调用getUser()方法,但此时userId可能还未被ParameterInterceptor邦定到action的userId字段中,所以若要getUser()能正常工作,只有两个方法:1.userId字段的值不依赖于自动邦定,自已从ActionContext中取得,2.做一个通用的IdInterceptor在ParameterInterceptor之前先邦定userId字段. 而方法1就是我说的不够优雅的方法,为什么偏偏这个ID字段要我自己去取呢?<br /><br />我现在的做法是:<br /><pre name="code" class="java">private User user;
+
+public String create();
+{
+	userService.saveUser(user);;
+	return SUCCESS;
+}
+
+public String modify();
+{
+	User oldUser = userService.getUserById(getUser();.getId(););;
+	//...手工将user中的字段值复制到oldUser中.
+	//...以前不想嫌麻烦,但有时候还必须如此.因为可精确限定只修改哪些字段
+
+	userService.saveUser(oldUser);;
+	return SUCCESS;
+}
+
+public User getUser();
+{
+	if (user == null); user = userService.createUser();;
+	return user;
+}</pre>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jxb8901.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jxb8901" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jxb8901.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_30181' class='post_rate_box'><a href='#' onclick='rate_post(30181, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(30181, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_30207">
+  <td class="postauthor">
+    <ul>
+      <li class="name">guty</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://guty.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="guty的博客: guty" /></a></li>
+      <li>文章: 51</li>
+      <li>积分: 436</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-12 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F30207' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        这个问题就是没有好办法，除非改写Webwork赋值的这一段代码，首先检查是否存在xxx.id参数，如果有就load,然后set其他的参数。<br /><br /><br /><div class="quote_title">jxb8901 写道</div><div class="quote_div"><div class="quote_title">Quake Wang 写道</div><div class="quote_div">我不明白为什么不先load一次，再做更新，这样不就可以避免你说的所有问题了吗？<br /><br />通常一定要先load一次，否则的话，你怎么处理要更新的数据正好被别人删除等异常情况？<br /></div><br />我的意思并不是说不要先load, 事实上肯定应该先load一次. (但moxie的代码是不用先load的,这样会有我在回贴中说的问题), 另外楼上的getUser()的代码在实际使用中会有问题, 因为getUser()方法的第一次调用必定是发生在ParameterInterceptor中对页面参数实行自动邦定的过程中,也就是若页面中有参数user.name时,就会先调用getUser()方法,但此时userId可能还未被ParameterInterceptor邦定到action的userId字段中,所以若要getUser()能正常工作,只有两个方法:1.userId字段的值不依赖于自动邦定,自已从ActionContext中取得,2.做一个通用的IdInterceptor在ParameterInterceptor之前先邦定userId字段. 而方法1就是我说的不够优雅的方法,为什么偏偏这个ID字段要我自己去取呢?<br /><br />我现在的做法是:<br /><pre name="code" class="java">private User user;
+
+public String create();
+{
+	userService.saveUser(user);;
+	return SUCCESS;
+}
+
+public String modify();
+{
+	User oldUser = userService.getUserById(getUser();.getId(););;
+	//...手工将user中的字段值复制到oldUser中.
+	//...以前不想嫌麻烦,但有时候还必须如此.因为可精确限定只修改哪些字段
+
+	userService.saveUser(oldUser);;
+	return SUCCESS;
+}
+
+public User getUser();
+{
+	if (user == null); user = userService.createUser();;
+	return user;
+}</pre></div>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://guty.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://guty.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=guty" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://guty.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_30207' class='post_rate_box'><a href='#' onclick='rate_post(30207, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(30207, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_30273">
+  <td class="postauthor">
+    <ul>
+      <li class="name">zgd</li>
+      <li>等级: <img src="/images/dimd1.gif" alt="一钻会员" title="一钻会员"/></li>
+      <li><a href='http://zgd.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="zgd的博客: zgd" /></a></li>
+      <li>文章: 218</li>
+      <li>积分: 789</li>
+      <li>来自: 广州</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-13 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F30273' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        http://forum.javaeye.com/viewtopic.php?t=6108
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://zgd.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://zgd.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=zgd" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://zgd.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_30273' class='post_rate_box'><a href='#' onclick='rate_post(30273, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(30273, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_30611">
+  <td class="postauthor">
+    <ul>
+      <li class="name">QuakeWang</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://quake.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/83253/526038c7-63dc-3428-b702-10c53aa10052.jpg?1236837775" title="QuakeWang的博客: I am sailing, I am sailing" /></a></li>
+      <li>文章: 737</li>
+      <li>积分: 2066</li>
+      <li>来自: JavaEye</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-16 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F30611' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">jxb8901 写道</div><div class="quote_div"><div class="quote_title">Quake Wang 写道</div><div class="quote_div">我不明白为什么不先load一次，再做更新，这样不就可以避免你说的所有问题了吗？<br /><br />通常一定要先load一次，否则的话，你怎么处理要更新的数据正好被别人删除等异常情况？<br /></div><br />我的意思并不是说不要先load, 事实上肯定应该先load一次. (但moxie的代码是不用先load的,这样会有我在回贴中说的问题), 另外楼上的getUser()的代码在实际使用中会有问题, 因为getUser()方法的第一次调用必定是发生在ParameterInterceptor中对页面参数实行自动邦定的过程中,也就是若页面中有参数user.name时,就会先调用getUser()方法,但此时userId可能还未被ParameterInterceptor邦定到action的userId字段中,所以若要getUser()能正常工作,只有两个方法:1.userId字段的值不依赖于自动邦定,自已从ActionContext中取得,2.做一个通用的IdInterceptor在ParameterInterceptor之前先邦定userId字段. 而方法1就是我说的不够优雅的方法,为什么偏偏这个ID字段要我自己去取呢?</div><br /><br />明白了，是我理解错了，前面的代码是如你所分析的那样会出现问题。但是我觉得ID字段做特殊处理，没有什么不太方便的地方，按照你的第一种方法，做一下修改，不要从session里面读取，改到从parameters里面读取：<br /><br /><pre name="code" class="java">
+public abstract class UserAction implements Action{
+    private User user;
+    private UserService userService;
+        
+    public User getUser(); {
+        if(user != null); return user;
+       
+        if(ActionContext.getContext();.getParameters();.get("userId"); != null); {
+            user = getUserService();.loadUserById(ActionContext.getContext();.getParameters();.get("userId"););;
+            //if user == null throw can not find user exception
+        }else{
+            user = new User();;
+        }
+        return user;
+    }
+} 
+
+public class CreateUserAction extends UserAction {   
+    public String execute(); {
+        getUserService();.create(getUser(););;
+        return SUCCESS;
+    }
+}
+
+public class UpdateUserAction extends UserAction {   
+    public String execute(); {
+        getUserService();.update(getUser(););;
+        return SUCCESS;
+    }
+}
+
+public class DeleteUserAction extends UserAction {   
+    public String execute(); {
+        getUserService();.delete(getUser(););;
+        return SUCCESS;
+    }
+}
+</pre><br /><br />这样的代码我觉得很简洁了。<br /><br />用你说的第二种方法也是不错的选择，自己写一个interceptor，取代掉默认的ParametersInterceptor，先遍历一下，如果有parameter name endsWith Id，那么先stack.setValue。然后再遍历第2次，把所有的parameter set一下。这样的做法唯一的缺点就是需要2次遍历。<br /><br />不知道大家有没有其他更好的做法。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://quake.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=QuakeWang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://quake.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_30611' class='post_rate_box'><a href='#' onclick='rate_post(30611, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(30611, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_31292">
+  <td class="postauthor">
+    <ul>
+      <li class="name">andiyang</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://andiyang.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="andiyang的博客: andiyang" /></a></li>
+      <li>文章: 95</li>
+      <li>积分: 409</li>
+      <li>来自: Hangzhou/Xi'an</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2004-07-22 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%85%B3%E4%BA%8Ewebwork%E5%AD%97%E6%AE%B5%E5%80%BC%E8%87%AA%E5%8A%A8%E9%82%A6%E5%AE%9A%E7%9A%84%E5%9B%B0%E6%83%91&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F31292' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        其实规根到底是OGNL的功劳，我对他做了一些扩展<br /><pre name="code" class="java"> public Object findValue(String expr, Object context); {
+        try {
+            return Ognl.getValue(OgnlUtil.compile(expr);, context);;
+        } catch (OgnlException e); {
+            return null;
+        }
+    }
+	/**
+	 * 动态装订数据
+	 * @param fieldName
+	 * @param value
+	 * @param destObject
+	 */
+	public void setValue(String fieldName, Object value, Object destObject); {
+		java.util.Map context = Ognl.createDefaultContext(destObject);;
+		OgnlUtil.setProperty(fieldName, value, destObject, context);;
+	}</pre>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://andiyang.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://andiyang.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=andiyang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://andiyang.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_31292' class='post_rate_box'><a href='#' onclick='rate_post(31292, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(31292, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><a href="/topic/6103?page=1" class="prev_page" rel="prev start">&laquo; 上一页</a> <a href="/topic/6103?page=1" rel="prev start">1</a> <span class="current">2</span> <a href="/topic/6103?page=3" rel="next">3</a> <a href="/topic/6103?page=3" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Webwork'>Webwork</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="mobile">移动编程和手机开发</option>
+<option value="Python">Python</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":6103, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" onclick="$('chat_iframe').src='/chat/widget';return false;">闲聊一下 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+document.write("<a href='http://ad.ccw.com.cn/adClick.asp?adID=1839&positionID=101&url=http%3A%2F%2Fwww.ccw.com.cn%2Fkehu%2FNovell090402%2Findex.shtml' target='_blank'><img  alt='' src='http://imgs.ccw.com.cn/200904/090402_Novell_product_200_60.gif' width='200' height='60' border=0></a>");

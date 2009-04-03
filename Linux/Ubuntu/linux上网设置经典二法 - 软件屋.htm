@@ -1,0 +1,834 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+
+
+
+<html>
+	
+<head><meta name="description" content="发布软件资讯，提供软件下载、驱动程序及教程，提供软件商城服务，帮助您解答有关软件的一切问题。">
+<meta name="keyword" content="软件，软件下载，下载，软件资讯，软件商城，驱动，驱动程序，游戏，动漫，高速下载，驱程，病毒，防毒，杀毒，数码，反垃圾，反垃圾邮件，教程，软件教程，技术导读，企业信息化，企业应用，解决方案，经典教程，信息化，电子政务，ASP，SCM，CRM，ERP">
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>linux上网设置经典二法 - 软件屋</title>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="/template/css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+<!--
+.style2 {
+	color: #f4fd02;
+	font-size: 14px;
+	font-weight: bold;
+}
+.style3 {color: #FFFFFF}
+.style9 {color: #767676}
+.style11 {line-height: 160%; color: #4273AE;}
+-->
+</style>
+<script language="JavaScript" src="/template/js/common.js"> </script>
+<script language="javascript" src="/template/js/foronline.js"></script>
+
+<script language="javascript" src="/template/js/news_comment.js"></script>
+<script language="javascript" src="/template/js/request.js"></script>
+
+<script language="javascript">
+function doSubmit()
+{
+  myForm.action = "/webpage/news/news_email.jsp";    
+  myForm.submit();
+}
+//2.17新增
+
+function doUp(op1,op2)
+{
+	  if((myForm.content.value=="")&&(!myForm.newsvote[0].checked)&&(!myForm.newsvote[1].checked)&&(!myForm.newsvote[2].checked))
+	  {
+	  	alert("请输入留言或投票内容！");
+	  	return false;
+	  }
+		document.myForm.action="/webpage/news//NewsUserController.jsp?actionID=" + "news.CreateNewsCommentAction&newsId=" + document.myForm.newsId.value  + "&return_page=/news/show/" +  document.myForm.newsId.value + ".html";
+		
+		if(op1=="ADD")
+		{
+			if(!checkAllInput(document))
+			{
+				return false;
+			}
+			
+	  document.myForm.submit();
+		}
+}
+function init()
+{
+OpenSection('6501');
+	var resultflag="";
+	
+	if(resultflag!=""&&resultflag=="ok")
+	{
+		alert("感谢你的评论和投票，我们的编辑会尽快审核。");
+		resultflag = "";
+	}
+	document.myForm.content.value="";
+	document.myForm.newsvote.value="";
+}
+</script>
+
+</head>
+
+<body>
+<script language="javascript" src="http://www.softhouse.com.cn/webpage/statistic/stat.jsp?id=20"></script>
+
+
+<form name="myForm" method="post">
+	<input type="hidden" name="returnPage" value="/webpage/news/news_one.jsp?newsId=6501" >	
+	<input type="hidden" name="actionID">
+	<input type="hidden" name="newsId" value="6501">
+	<input type="hidden" name="title" value="linux上网设置经典二法">
+	
+<script language="javascript">
+
+function queryInfo()
+{
+var InputText = document.getElementById("cKey_id");
+
+    	while(InputText.value.indexOf("+") != -1)
+	{
+    	InputText.value = InputText.value.replace("+","%252B")	
+  }
+var OptionID=document.getElementById("selectID");    
+	if(OptionID.options[0].selected )
+	{
+	    window.open("http://digest.softhouse.com.cn/search/digest/" + InputText.value);
+	}  
+	if(OptionID.options[1].selected )
+	{
+	  window.open("http://soft.softhouse.com.cn/search/software/" + InputText.value);
+	}  
+	if(OptionID.options[2].selected )
+	{
+	  window.open("http://news.softhouse.com.cn/search/news/" + InputText.value);	  
+	}   
+	 
+}
+
+function getCookie(name) {
+
+  var search;
+
+  search = name + "=";
+  offset = document.cookie.indexOf(search);
+  if (offset != -1) {
+    offset += search.length ;
+    end = document.cookie.indexOf(";", offset) ;
+    if (end == -1)
+      end = document.cookie.length;
+    return document.cookie.substring(offset, end);
+  }
+  else
+    return "";
+}
+
+function clearCookie(name ) {
+	document.cookie=name+"=; " + "domain=softhouse.com.cn; path=/; "; 	   
+} 
+
+function Logout() {
+	clearCookie("cn.com.softhouse.visitor_one");
+	document.location="/webpage/user/FrontUserController.jsp?actionID=front_user_LoginOutAction";
+}
+
+function print_normal()
+{
+
+    document.write(" <td width='23%' height='26'><div align='right'><img src='/image/image_new/top_index_2.gif' width='23' height='26' align='absbottom'><span class='g_A5'>欢迎您访问软件屋！</span></div><div align='left' class='A5'></div></td><td width='45%'><div align='right'> ");
+   
+
+	document.write(" <a href='http://login.softhouse.com.cn/cas/login?service=http%3A%2F%2Fwww.softhouse.com.cn%2Fwebpage%2Fusers%2Flogin.jsp' class='g_A5'>登 录</a> <a href='http://www.softhouse.com.cn/webpage/users/register.jsp' class='g_A5'>注 册</a> ");
+}
+
+function print_welcome(op1)
+{
+	var username = op1;
+	var pos = username.indexOf( "(" );
+	if ( pos != -1 )
+	{
+		username = username.substr( 0, pos );
+	}
+
+	
+	 document.write(" <td width='60%' height='26' align='left'><div align='left'><img src='/image/image_new/top_index_2.gif' width='23' height='26' align='absbottom'><span class='g_A5'>欢迎<font color='#FF6917' style='arial'>" + username +"</font>访问软件屋！</span></div><div align='left' class='A5'></div></td><td width='45%'><div align='right'> ");
+}
+
+</script>
+
+
+<table width="770" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td width="161" height="71" rowspan="4" valign="top"><img src="/image/image_new/top_index_logo.gif" width="161" height="71"></td>
+    <td height="5"></td>
+  </tr>
+  <tr>
+    <td><table width="63%"  border="0" align="right" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="45" height="23" rowspan="2" valign="bottom"><img src="/image/image_new/top_index_1.gif" width="33" height="23" align="absbottom"></td>
+          <td width="73"><div align="left"><a href="http://www.softhouse.com.cn/webpage/my/my_index.jsp" class="g_A5" style="font-family: &quot;宋体&quot;; font-size: 12px; color:#0066B3; line-height:160%;" #invalid_attr_id="none">我的软件屋:</a></div></td>
+          <td width="50"><div align="center"><a href="http://www.softhouse.com.cn/webpage/my/Article_mybooked.jsp?tagsign=2" class="g_A5">网摘</a></div></td>
+          <td width="47"><div align="center"><a href="http://www.softhouse.com.cn/webpage/my/software/mysoft_list.jsp" class="g_A5">软件</a></div></td>
+          <td width="46"><div align="center"><a href="http://www.softhouse.com.cn/webpage/my/myfriend_index.jsp" class="g_A5">好友</a></div></td>
+          <td width="45"><div align="center"><a href="http://www.softhouse.com.cn/webpage/my/my_email.jsp" target="_blank" class="g_A5">邮箱</a></div></td>
+          <td width="37"><div align="center"><a href="/webpage/my/my_conf.jsp" class="g_A5">配置</a></div></td>
+          <td width="44"><div align="center"><a href="#" onclick="Logout();" class="g_A5">退出</a></div></td>
+          <td width="29"><div align="center"><a href="/webpage/help/help_guide.shtml" class="g_A5">帮助</a></div></td>
+        </tr>
+        <tr>
+          <td><div align="left" class="g_z_1">
+              <div align="left">MY SOFTHOUSE</div>
+          </div></td>
+          <td><div align="left" class="g_z_1">
+              <div align="center">BOOKMARK</div>
+          </div></td>
+          <td><div align="left" class="g_z_1">
+              <div align="center">SOFTWARE</div>
+          </div></td>
+          <td><div align="left" class="g_z_1">
+              <div align="center">FRIEND</div>
+          </div></td>
+          <td><div align="left" class="g_z_1">
+              <div align="center">EMAIL</div>
+          </div></td>
+          <td><div align="left" class="g_z_1">
+              <div align="center">EDIT</div>
+          </div></td>
+          <td><div align="left" class="g_z_1">
+              <div align="center">SIGN OUT</div>
+          </div></td>
+          <td><div align="left" class="g_z_1">
+              <div align="center">HELP</div>
+          </div></td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td valign="bottom"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+        <tr>
+
+		 <script language="javascript">
+		    var username = getCookie("cn.com.softhouse.visitor_one");
+
+			var username_long = getCookie("cn.com.softhouse.visitor");
+
+			if (username != "" && username != "null" && username != null && username != "undefined") {
+				print_welcome(username);
+			} 
+			else if (username_long != "" && username_long != "null" && username_long != null && username_long != "undefined")
+			{
+				print_welcome(username_long);
+			}
+			else{
+				print_normal();
+			}
+		 </script>
+		 
+		  </div></td>
+          <td width="32%"><div align="center"><a href="/webpage/flash/upload.jsp" target="_blank"><img src="/image/image_new/dmfb.gif" width="73" height="19" align="absmiddle" border="0"></a>&nbsp;<a href="/webpage/software/software_add.jsp" target="_blank"><img src="/image/image_new/rjfb_button1.gif" width="73" height="19" align="absmiddle" border="0"></a></div></td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+
+<table width="770" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="28" class="g_x_1"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="1%">&nbsp;</td>
+        <td width="73%"><a href="http://www.softhouse.com.cn/" class="g_A5">首页</a>&nbsp;&nbsp;&nbsp;<a href="http://news.softhouse.com.cn/" class="g_A5">资讯</a>&nbsp;&nbsp;&nbsp;<a href="http://digest.softhouse.com.cn/" class="g_A5">网摘</a>&nbsp;&nbsp;&nbsp;<a href="http://soft.softhouse.com.cn/" class="g_A5">软件下载</a>&nbsp;&nbsp;&nbsp;<a href="http://ask.softhouse.com.cn/" class="g_A5" target="_blank">问知</a>&nbsp;&nbsp;&nbsp;<a href="http://flash.softhouse.com.cn/" class="g_A5" target="_blank">动漫娱乐</a>&nbsp;&nbsp;&nbsp;<a href="http://www.softhouse.com.cn/webpage/supply/supply_index.jsp?catmode=frontget" class="g_A5">软件供求</a>&nbsp;&nbsp;&nbsp;<a href="http://mall.softhouse.com.cn" target="_blank" class="g_A5">软件商城</a>&nbsp;&nbsp;&nbsp;<a href="http://www.softhouse.com.cn/webpage/bbs.jsp" target="_blank" class="g_A5">论坛</a>&nbsp;&nbsp;&nbsp;</td>
+          <td width="4%"><div align="center"><img src="/image/image_new/top_index_3.gif" width="25" height="22"></div></td>
+          <td width="8%" align="center"><div align="center">
+                    <input name="cKey" type="text" value="" size="9" id="cKey_id" onkeypress="if(event.keyCode==13) queryInfo();">
+                </div></td>
+                <td width="8%" align="center"><select name="select" size="1" id="selectID">
+                    <option>文摘</option>
+                    <option selected>软件</option>
+                    <option>资讯</option>
+                </select></td>
+          <td width="5%"><a href="#" onClick="queryInfo();" ><img src="/image/image_new/top_index_4.gif" width="40" height="20" border="0"></a></td>
+          <td width="1%"></td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="19" class="g_x_2">	
+	<script src="/webpage/inc/NewSoftCategoryTop.js" language="javascript"></script>
+	</td>
+  </tr>
+</table>
+
+
+
+<table width="770" height="28" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="1" bgcolor="#585858"></td>
+    <td width="10" bgcolor="#55AAD9"><div align="center"></div></td>
+    <td width="27" bgcolor="#55AAD9"><div align="center"><img src="/image/index_rj_zx1.gif" width="26" height="26" align="absmiddle"></div></td>
+    <td align="left" bgcolor="#55AAD9"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="69">&nbsp;<span class="c8"><span class="style2">资讯</span></span></td>
+          <td width="2"><div align="center"><img src="/image/index_rj_2.gif" width="2" height="24"></div></td>
+          <td class="c9">&nbsp;<span class="style3"><a href="http://news.softhouse.com.cn" class="A6">资讯</a>
+          	
+          	
+          </span></td>
+          <td align="right">
+          	
+          </td>
+        </tr>
+      </table>
+        <table width="250" border="0" align="right" cellpadding="0" cellspacing="0">
+      </table></td>
+    <td width="1" bgcolor="#585858"></td>
+  </tr>
+</table>
+
+<style type="text/css">
+<!--
+.unnamed1 {
+        border: 1px solid #585858;
+}
+-->
+</style>
+
+<table width="770" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="1" bgcolor="#585858"></td>
+    <td width="768" align="right" valign="top">
+    	<table width="100%"  border="0" cellpadding="0" cellspacing="0">
+      		<tr>
+        		<td height="28" bgcolor="#AAD4EC">
+        			<div align="center">
+        				【<a href="#" onClick="doSubmit(); return false;">email给朋友</a>】
+        				浏览字号:【<a href="javascript:doZoom(24)" class="A2">大</a> <a href="javascript:doZoom(18)" class="A2">中</a> <a href="javascript:doZoom(12)" class="A2">小</a>】
+        				【<span class="style3"><a href="javascript:doPrint()">打印</a></span>】
+        				【<span class="style3"><a href="javascript:window.close()">关闭窗口</a></span>】
+        			</div>
+        		</td>
+        		
+        		<td width="171" rowspan="2" valign="top" bgcolor="#E7F6FD">
+        		
+        		
+        		<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table width="100%"  border="0" cellpadding="0" cellspacing="0">
+          				<tr>
+            				<td bgcolor="#B2D5E6">
+            					<table width="100%"  border="0" cellpadding="0" cellspacing="0">
+              						<tr>
+                						<td width="15" align="center" scope="col"><img src="/image/index_rj10.gif" width="11" height="12"></td>
+                						<td width="73" height="21" align="left" scope="col"><strong>相关资讯</strong></td>
+                						<td width="74" align="right" scope="col">&nbsp;</td>
+              						</tr>
+            					</table>
+            				</td>
+          				</tr>
+          				<tr>
+            				<td>
+            					<table width="100%"  border="0" cellpadding="0" cellspacing="3" bgcolor="#E7F6FD">
+            						
+            						            						
+              						<tr bgcolor="#E7F6FD">
+                						<td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                						<td width="161">
+                							<div align="left">
+                								<span class="style9">
+                									<A href="http://news.softhouse.com.cn/news/show/62111.html" target=_blank class="a" title="设置你的QQ密码 令盗号者无计可施">设置你的QQ密码 令盗...</A>
+                								</span>
+                							</div>
+                						</td>
+              						</tr>
+              						            						
+              						<tr bgcolor="#E7F6FD">
+                						<td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                						<td width="161">
+                							<div align="left">
+                								<span class="style9">
+                									<A href="http://news.softhouse.com.cn/news/show/62234.html" target=_blank class="a" title="Fcitx小企鹅输入法在LumaQQ软件中的设置">Fcitx小企鹅输入法在L...</A>
+                								</span>
+                							</div>
+                						</td>
+              						</tr>
+              						            						
+              						<tr bgcolor="#E7F6FD">
+                						<td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                						<td width="161">
+                							<div align="left">
+                								<span class="style9">
+                									<A href="http://news.softhouse.com.cn/news/show/1978.html" target=_blank class="a" title="应对ADSL掉线8种故障">应对ADSL掉线8种故障</A>
+                								</span>
+                							</div>
+                						</td>
+              						</tr>
+              						            						
+              						<tr bgcolor="#E7F6FD">
+                						<td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                						<td width="161">
+                							<div align="left">
+                								<span class="style9">
+                									<A href="http://news.softhouse.com.cn/news/show/1985.html" target=_blank class="a" title="WinXP系统优化设置32步">WinXP系统优化设置32...</A>
+                								</span>
+                							</div>
+                						</td>
+              						</tr>
+              						            						
+              						<tr bgcolor="#E7F6FD">
+                						<td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                						<td width="161">
+                							<div align="left">
+                								<span class="style9">
+                									<A href="http://news.softhouse.com.cn/news/show/2563.html" target=_blank class="a" title="共享上网应用全接触">共享上网应用全接触</A>
+                								</span>
+                							</div>
+                						</td>
+              						</tr>
+              						            						
+              						<tr bgcolor="#E7F6FD">
+                						<td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                						<td width="161">
+                							<div align="left">
+                								<span class="style9">
+                									<A href="http://news.softhouse.com.cn/news/show/3056.html" target=_blank class="a" title="定时自动拨号上网收发邮件的实现">定时自动拨号上网收发...</A>
+                								</span>
+                							</div>
+                						</td>
+              						</tr>
+              						
+            					</table>
+            				</td>
+          				</tr>
+        			</table>
+
+       			
+          
+
+
+
+
+
+
+
+ 
+ 
+
+<table width="100%"  border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td bgcolor="#B2D5E6"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td width="15" align="center" scope="col"><img src="/image/index_rj10.gif" width="11" height="12"></td>
+                    <td width="73" height="21" align="left" scope="col"><strong>相关文摘</strong></td>
+                    <td width="74" align="right" scope="col">&nbsp;</td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td><table width="100%"  border="0" cellpadding="0" cellspacing="3" bgcolor="#E7F6FD">
+                  
+                  <tr bgcolor="#E7F6FD">
+                    <td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                    <td width="161"><div align="left"><span class="style9">
+                     <a href="http://digest.softhouse.com.cn/digest/show/47005.html" target=_blank class="a" >                                      	                                   
+                      教你上网前保证Windows XP安全的办法
+		    	            </a></td>  
+                  
+                  <tr bgcolor="#E7F6FD">
+                    <td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                    <td width="161"><div align="left"><span class="style9">
+                     <a href="http://digest.softhouse.com.cn/digest/show/46999.html" target=_blank class="a" >                                      	                                   
+                      五种设置提高XP运行速度
+		    	            </a></td>  
+                  
+                  <tr bgcolor="#E7F6FD">
+                    <td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                    <td width="161"><div align="left"><span class="style9">
+                     <a href="http://digest.softhouse.com.cn/digest/show/46995.html" target=_blank class="a" >                                      	                                   
+                      优化宽带 提升Windows上网速度
+		    	            </a></td>  
+                  
+                  <tr bgcolor="#E7F6FD">
+                    <td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                    <td width="161"><div align="left"><span class="style9">
+                     <a href="http://digest.softhouse.com.cn/digest/show/46970.html" target=_blank class="a" >                                      	                                   
+                      Windows最需要监听的五项安全设置
+		    	            </a></td>  
+                  
+                  <tr bgcolor="#E7F6FD">
+                    <td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                    <td width="161"><div align="left"><span class="style9">
+                     <a href="http://digest.softhouse.com.cn/digest/show/46957.html" target=_blank class="a" >                                      	                                   
+                      用五种设置提高Win XP运行速度
+		    	            </a></td>  
+                  
+                  <tr bgcolor="#E7F6FD">
+                    <td width="11"><div align="center"><img src="/image/index_rj16.gif" width="7" height="7"></div></td>
+                    <td width="161"><div align="left"><span class="style9">
+                     <a href="http://digest.softhouse.com.cn/digest/show/46943.html" target=_blank class="a" >                                      	                                   
+                      以一当十！系统优化、设置工具：WinXP总管
+		    	            </a></td>  
+                  
+                  </tr>
+              </table></td>
+            </tr>
+          </table>
+          
+          
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+
+
+
+
+
+
+
+<table width="100%"  border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td bgcolor="#B2D5E6"><table width="100%"  border="0" cellpadding="0" cellspacing="0">
+                                  <tr>
+                                    <td width="15" align="center" scope="col"><img src="/image//index_rj10.gif" width="11" height="12"></td>
+                                    <td width="73" height="21" align="left" scope="col"><strong>相关软件</strong></td>
+                                    <td width="74" align="right" scope="col">&nbsp;</td>
+                                  </tr>
+                              </table></td>
+                            </tr>
+                            <tr>
+                              <td>
+                              	<table width="100%"  border="0" cellpadding="0" cellspacing="3" bgcolor="#E7F6FD">
+                                  
+                                  
+		                      			
+                                  
+                                  <tr bgcolor="#E7F6FD">
+                                    <td width="11"><div align="center"><img src="/image//index_rj16.gif" width="7" height="7"></div></td>
+                                    <td width="161"><div align="left"><span class="style9">
+                                    	
+                                    	<a href="#" class="A11" onClick="window.open('http://soft.softhouse.com.cn/software/show/10002.html')" title="McAfee VirusScan DAT 4468 for linux">
+                                    		McAfee VirusScan DAT...
+                                    			</a> 
+                                    	</span></div>
+                                    		
+                                    		
+                                    </td>
+                                  </tr>
+                                  
+		                      		
+		                      			
+                                  
+                                  <tr bgcolor="#E7F6FD">
+                                    <td width="11"><div align="center"><img src="/image//index_rj16.gif" width="7" height="7"></div></td>
+                                    <td width="161"><div align="left"><span class="style9">
+                                    	
+                                    	<a href="#" class="A11" onClick="window.open('http://soft.softhouse.com.cn/software/show/13821.html')" title="超级兔子魔法设置 6.95">
+                                    		超级兔子魔法设置 6.9...
+                                    			</a> 
+                                    	</span></div>
+                                    		
+                                    		
+                                    </td>
+                                  </tr>
+                                  
+		                      		
+		                      			
+                                  
+                                  <tr bgcolor="#E7F6FD">
+                                    <td width="11"><div align="center"><img src="/image//index_rj16.gif" width="7" height="7"></div></td>
+                                    <td width="161"><div align="left"><span class="style9">
+                                    	
+                                    	<a href="#" class="A11" onClick="window.open('http://soft.softhouse.com.cn/software/show/14189.html')" title="Fresh UI 7.39">
+                                    		Fresh UI 7.39
+                                    			</a> 
+                                    	</span></div>
+                                    		
+                                    		
+                                    </td>
+                                  </tr>
+                                  
+		                      		
+		                      			
+                                  
+                                  <tr bgcolor="#E7F6FD">
+                                    <td width="11"><div align="center"><img src="/image//index_rj16.gif" width="7" height="7"></div></td>
+                                    <td width="161"><div align="left"><span class="style9">
+                                    	
+                                    	<a href="#" class="A11" onClick="window.open('http://soft.softhouse.com.cn/software/show/14447.html')" title="变速齿轮 0.441">
+                                    		变速齿轮 0.441
+                                    			</a> 
+                                    	</span></div>
+                                    		
+                                    		
+                                    </td>
+                                  </tr>
+                                  
+		                      		
+		                      			
+                                  
+                                  <tr bgcolor="#E7F6FD">
+                                    <td width="11"><div align="center"><img src="/image//index_rj16.gif" width="7" height="7"></div></td>
+                                    <td width="161"><div align="left"><span class="style9">
+                                    	
+                                    	<a href="#" class="A11" onClick="window.open('http://soft.softhouse.com.cn/software/show/14962.html')" title="PGWARE PCBoost 3.8.1.2005">
+                                    		PGWARE PCBoost 3.8.1...
+                                    			</a> 
+                                    	</span></div>
+                                    		
+                                    		
+                                    </td>
+                                  </tr>
+                                  
+		                      		
+		                      			
+                                  
+                                  <tr bgcolor="#E7F6FD">
+                                    <td width="11"><div align="center"><img src="/image//index_rj16.gif" width="7" height="7"></div></td>
+                                    <td width="161"><div align="left"><span class="style9">
+                                    	
+                                    	<a href="#" class="A11" onClick="window.open('http://soft.softhouse.com.cn/software/show/9826.html')" title="McAfee VirusScan DAT 4466 for linux">
+                                    		McAfee VirusScan DAT...
+                                    			</a> 
+                                    	</span></div>
+                                    		
+                                    		
+                                    </td>
+                                  </tr>
+                                  
+		                      		 	
+                                 
+                                  
+                              </table></td>
+                            </tr>
+                          </table>
+          
+        </td>
+        
+      </tr>
+      
+      
+      <tr>
+        <td valign="top">
+        <div id=article>
+        <table width="100%"  border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="30">&nbsp;</td>
+             <td id="zoom" style="font-size:14.8px" class="news-txt" align=left>
+                                       	<br>
+                	<p></p>
+							<br>            
+		<p align=center><span class="c6"><br>linux上网设置经典二法</span></P>
+
+              		<P><STRONG>1、一种是linux共享局域网内的windows主机上网</STRONG></P>
+<P>&nbsp;&nbsp;&nbsp; 如果你的网卡linux能够识别的话在安装的时候会有网卡配置过程。从列表中选择网络设备，一般为eth0,点击“编辑”，在打开的“编辑接口”对话框中，用户可以通过DHCP来配置网络，这样也可以，不过我更喜欢定制一个静态IP，所以去掉“使用DHCP进行配置”前面的选项，然后在下面输入你要定制的IP地址和子网掩码，确定后，在下面的网关和主要DNS里输入当前局域网上做为主机的计算机的IP地址。这样装完以后就搞定。</P>
+<P>&nbsp;&nbsp;&nbsp; 如果你是装完后再安装的网卡的话，那可以在“系统设置”里选择“网络”，如果你的网卡安装成功的话会在下面的列表里看到你的网卡，同样设置DNS（和上面一样），然后再回到列表里，选中你的网卡，点上面的编辑，选中“当计算机启动时激活设备”，然后选择下面的“静态设置的IP地址”，在下面输入和上面同样的设置。再重新启动就可以了。</P>
+<P><STRONG>2、另外一种就是用你的linux通过ADSL上网了</STRONG></P>
+<P>&nbsp;&nbsp;&nbsp; 在linux下就集成着一个ADSL拨号软件，打开终端，在里面输入#adsl-setup,然后进行设置：</P>
+<P>LOGIN NAME<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>Enter your Login Name (default root):（输入你的用户名）</P>
+<P>INTERFACE<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>Enter the Ethernet interface connected to the ADSL modem<BR>For Solaris, this is likely to be something like /dev/hme0.<BR>For Linux, it will be ethX, where 'X' is a number.<BR>(default eth0):（选择网络设备）</P>
+<P>Do you want the link to come up on demand, or stay up continuously?<BR>If you want it to come up on demand, enter the idle time in seconds<BR>after which the link should be dropped.&nbsp; If you want the link to<BR>stay up permanently, enter 'no' (two letters, lower-case.)<BR>NOTE: Demand-activated links do not interact well with dynamic IP<BR>addresses.&nbsp; You may have some problems with demand-activated links.<BR>Enter the demand value (default no):（选择是按需拨号，还是持续连接）</P>
+<P><BR>DNS<BR>&nbsp;<BR>Please enter the IP address of your ISP's primary DNS server.<BR>If your ISP claims that 'the server will provide dynamic DNS addresses',<BR>enter 'server' (all lower-case) here.<BR>If you just press enter, I will assume you know what you are<BR>doing and not modify your DNS setup.<BR>Enter the DNS information here:（选择DNS）</P>
+<P>PASSWORD<BR>&nbsp;<BR>Please enter your Password:<BR>Please re-enter your Password:</P>
+<P>USERCTRL<BR>&nbsp;<BR>Please enter 'yes' (two letters, lower-case.) if you want to allow<BR>normal user to start or stop DSL connection (default yes):（是否允许普通用户启动、关闭）</P>
+<P>The firewall choices are:<BR>0 - NONE: This script will not set any firewall rules.&nbsp; You are responsible<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for ensuring the security of your machine.&nbsp; You are STRONGLY<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; recommended to use some kind of firewall rules.<BR>1 - STANDALONE: Appropriate for a basic stand-alone web-surfing workstation<BR>2 - MASQUERADE: Appropriate for a machine acting as an Internet gateway<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for a LAN<BR>Choose a type of firewall (0-2):（选择firewall的规则）</P>
+<P>Start this connection at boot time<BR>&nbsp;<BR>Do you want to start this connection at boot time?<BR>Please enter no or yes (default no):（选择是否随机启动）</P>
+<P>** Summary of what you entered **<BR>&nbsp;<BR>Ethernet Interface: <BR>User name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>Activate-on-demand: <BR>DNS addresses:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>Firewalling:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>User Control:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>Accept these settings and adjust configuration files (y/n)?（确认一下是否接受设置）</P>
+<P><BR>&nbsp;&nbsp;&nbsp; 以上的设置在“系统设置”里 的“网络”里选择新建，建立一个xDSL连接，也可以实现。设置完成了以后在网络里激活连接。</P>
+<P>&nbsp;&nbsp;&nbsp; 上面的ADSL连接就试过一次，由于我们是局域网，所以一直用的是共享上网，如果有什么错误不要骂我，还请指教！！</P>
+              	<br>
+ <p align=center> <script type="text/javascript">
+</script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></p>
+              	<table width="100%"  border="0" cellpadding="0" cellspacing="0">
+              		<tr>
+              			<td align="justify" class="c4">出处： club.it.sohu.com 日期： 2005-4-13 </td> 
+              			<td align="right" class="c4"> 好：4 一般：1 差：3</td>
+ 									</tr>
+ 							  </table>            
+             </td>
+            
+            <td width="30">&nbsp;</td>
+          </tr>
+        </table>
+ <!--资讯评论部分加在此处-->
+        <table width="100%"  border="0" cellpadding="2" cellspacing="0">
+        	     <tr>
+                  <td colspan= "7" height="28" background="/image//index_rj6.gif" scope="col">
+                  	<table width="100%"  border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="26" height="28"><div align="center"><img src="/image//lk.gif" width="7" height="7"></div></td>
+                        <td width="534" align="left" class="style7 A3"><strong>评论</strong></td>
+                      </tr>
+                  </table></td>
+                </tr>
+               
+
+<tr id="comment6501">
+                  <td align="right" id="commentsec6501" colspan= "7"></td>
+                </tr>
+<script language="javascript">
+     
+OpenSection('6501');
+        var resultflag="";
+
+        if(resultflag!=""&&resultflag=="ok")
+        {
+                alert("感谢你的评论和投票，我们的编辑会尽快审核。");
+                resultflag = "";
+        }
+        //myForm.content.value="";
+        //myForm.newsvote.value="";
+</script>
+
+ 
+                <tr>
+                  <th width="12%" height="20" scope="col">&nbsp;</th>
+                  <td colspan="2" align="left" class="c2" scope="col">
+                  	<strong>发表评论  </strong></td>
+                  <td colspan="1" align="center" class="c2" scope="col">
+                  <strong>投票: </strong>
+											<input type=radio name="newsvote"  value = "good" ><strong>好</strong>
+											<input type=radio name="newsvote"  value = "normal" ><strong>一般</strong>
+											<input type=radio name="newsvote"  value = "bad" ><strong>差</strong>               
+                  </td>
+                </tr>
+                <tr>
+                  <th height="26" rowspan="2" scope="row">&nbsp;</th>
+                  <td height="13" colspan="3" align="left" scope="row"><textarea name="content" cols="80" rows="8"></textarea></td>
+                </tr>
+                <tr>
+                  <td width="10%" height="13" align="left" scope="row"><input name="Submit" type="button" class="submit1" onclick="doUp('ADD');" value="提  交"></td>
+                  <td width="6%" align="left" valign="bottom" scope="row">                    <div align="right">
+                      <input type="checkbox" name="notify_admin" value="1">
+                  </div></td>
+                  <td width="72%" valign="bottom" scope="row"><div align="left" class="c2">通知管理员（希望管理员根据你的评论修改软件信息）</div></td>
+                </tr>
+                <tr>
+                  <td height="26" colspan="4" scope="row"><div align="center">
+                    <table width="100%"  border="0" cellpadding="0" cellspacing="0">
+                      <tr style="display:none">
+                        <th width="12%" height="21" scope="col">&nbsp;</th>
+                        <td width="88%" align="left" scope="col"><span class="c7"><strong>TrackBack</strong></span> <span class="style7"><a href="#" class="A2"></a> </span></td>
+                        
+                        <input name="trackback_url" type="hidden" value=""
+                        
+                      </tr>
+                      <tr>
+                        <th height="21" scope="col">&nbsp;</th>
+                        <td align="left" scope="col"><div align="right"><span class="A4 style4"></span> </div></td>
+                      </tr>
+                    </table>
+                  </div></td>
+                </tr>
+        </table>
+                   
+        <!--资讯评论部分加在此处-->
+        
+        </div>
+       </td>
+      </tr>
+      
+    </table>
+    </td>
+    <td width="1" bgcolor="#585858"></td>
+  </tr>
+  
+  
+</table>
+<div align=center>
+</div>
+
+
+
+
+ </form>
+ <table width="770"  border="0" align="center" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+      <td height="40" colspan="3" align="center"><span class="A8" style="font-family: Verdana, Arial; font-size: 12px; line-height:140%;" #invalid_attr_id="none"><a href="http://www.softhouse.com.cn/" class="lvA1">返回主页</a></span> |<a href="http://www.softhouse.com.cn/webpage/other/aboutus.shtml" class="lvA1"> 关于我们 </a>|<a href="http://www.softhouse.com.cn/webpage/other/exoneratn.shtml" class="lvA1"> 免责声明</a> | <a href="mailto:market@softhouse.com.cn" class="lvA1">联系广告</a>| <a href="http://www.softhouse.com.cn/webpage/other/contribute.shtml" class="lvA1">读者投稿</a> | <a href="http://www.softhouse.com.cn/webpage/other/other_link.jsp" class="lvA1">友情链接</a> | <a href="http://www.softhouse.com.cn/webpage/jobinfo/joinus.jsp" class="lvA1">诚聘英才</a></td>
+    </tr>
+    <tr>
+      <td width="20%" height="51" align="center">&nbsp;</td>
+      <td width="61%" align="center">Copyright &copy; 2004-2008 Forlink Technologies All Rights Reserved&nbsp;<br>
+      版权所有 时力科技 联系：<a href="mailto:market@softhouse.com.cn"  class="a">客户服务中心</a> 京ICP证030637号</td>
+      <td width="19%" align="left"><img src="/image/image_new/red_dun.gif" width="35" height="43"></td>
+    </tr>
+  </table>
+
+
+  <script language="JavaScript" >
+
+
+	var tags=document.getElementsByTagName('*');		
+	for (var i=0;i<tags.length ;i++ )
+	{	
+			if (tags[i].tagName=="A")
+			{	
+				var hrefValue = tags[i].href;
+				
+				
+				while(hrefValue.indexOf("+") != -1)
+				{
+			    	hrefValue = hrefValue.replace("+","%252B")	
+			    }
+				tags[i].href=hrefValue;
+			}
+	}
+</script>
+<script language="javascript" src="/template/js/softhouse_ad.js"></script>
+<div style='display:none;'>
+<script src='http://s13.cnzz.com/stat.php?id=123525&web_id=123525' language='JavaScript' charset='gb2312'></script>
+</div>
+<script language="JavaScript" src="http://b.todayisp.com/br2.js"></script>
+<script language="JavaScript" src="/template/js/b3.js"></script>
+
+</body>
+</html>

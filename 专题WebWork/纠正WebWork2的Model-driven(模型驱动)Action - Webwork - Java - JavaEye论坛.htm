@@ -1,0 +1,851 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>纠正WebWork2的Model-driven(模型驱动)Action - Webwork - Java - JavaEye论坛</title>
+    <meta name="description" content="引自《WebWork教程》 引用 另一类是Model-Driven（模型驱动的）Action “它很像Struts的FormBean，但在WebWork中，只要普通Java对象就可以充当模型部分。  Model-Driven（模型驱动的）Action要求我们的Action实现com.opensymphony.xwork. ModelDriven接口，  它有一个方法：Object getModel( ..." />
+    <meta name="keywords" content=" Webwork Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1238481496" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1235486423" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1235376687" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Webwork">Webwork</a> <span class="arrow">&rarr;</span>
+    <h1>纠正WebWork2的Model-driven(模型驱动)Action</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/Webwork'>Webwork</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/12505?page=2" rel="next">2</a> <a href="/topic/12505?page=3">3</a> <a href="/topic/12505?page=4">4</a> <a href="/topic/12505?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 21230 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/12505">主题：纠正WebWork2的Model-driven(模型驱动)Action</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_72389">
+  <td class="postauthor">
+    <ul>
+      <li class="name">moxie</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://moxie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/229/f1d974c6-d8ad-4f60-86f1-bf8c8683f373.jpg?1236831845" title="moxie的博客: moxie" /></a></li>
+      <li>文章: 121</li>
+      <li>积分: 1106</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F12505' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/12444' title='webwork model driven的一个问题' target='_blank'>webwork model driven的一个问题</a></li>
+                              <li><a href='http://www.javaeye.com/topic/12460' title='使用 Webwork2 的 Model 驱动时的问题：' target='_blank'>使用 Webwork2 的 Model 驱动时的问题：</a></li>
+                              <li><a href='http://www.javaeye.com/topic/129994' title='webwork的action实现了ModelDriven接口,但是在action中域对象得不到值' target='_blank'>webwork的action实现了ModelDriven接口,但是在action中域对象得不到值</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://hangzhou.group.javaeye.com" target="_blank">杭州javaeyer</a></span>
+            <br/><a href="/wiki/topic/12505" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        引自《WebWork教程》<br /><div class="quote_title">引用</div><div class="quote_div"><br />另一类是Model-Driven（模型驱动的）Action<br />“它很像Struts的FormBean，但在WebWork中，只要普通Java对象就可以充当模型部分。<br /> Model-Driven（模型驱动的）Action要求我们的Action实现com.opensymphony.xwork. ModelDriven接口，<br /> 它有一个方法：Object getModel();，我们用这个方法返回我们的模型对象就可以了。”<br /></div><br />这个的解释是错误的！！<br /><br />我们可以根据Action属性的不同将它分为两类：Field-Driven（字段驱动） Action和Model-Driven（模型驱动） Action。<br /> 一、Field-Driven（字段驱动）Action，Action拥有自己的属性，这些属性一般是Java的基本类型。表单字段直接和Action的属性 对应。<br />比如用户注册的Action:<br /><pre name="code" class="java">
+RegisterAction.java
+ public class RegisterAction implements Action{
+ 	private String userName;
+ 	private String password;
+ 	private String email;
+ 	
+ 	public String execute(); throws Exception{
+ 	//执行用户注册操作
+ 	}
+ 	......
+ 	get();/set();方法
+ 	..........
+ 	
+ }
+ 
+ 页面register.html中会有：
+ ......
+ &lt;input name="userName"&gt;
+ .......
+</pre><br />二、Model-Driven（模型驱动）Action，Action通过get方法暴露一个模型类，表单字段和模型类的属性对应。<br /><span style="color: red"><br />Model-Driven概念与com.opensymphony.xwork.ModelDriven接口没有直接关系的。我们的Action不实现com.opensymphony.xwork.ModelDriven接口也有可能是Model-Driven。</span><br /> 例如：<br /><pre name="code" class="java">
+User.java
+ 
+ public class User{
+ 	private String userName;
+ 	private String password;
+ 	private String email;
+ 	......
+ 	get();/set();方法
+ 	..........
+ }
+ 
+ RegisterAction.java
+ public class RegisterAction implements Action{
+ 	private User user = new User();;
+ 	
+ 	public String execute(); throws Exception{
+ 	//执行用户注册操作
+ 	}
+ 	public User getUser();{
+ 		return user;
+ 	}
+ }
+ 
+ 
+ 页面register.html中会有：
+ ......
+ &lt;input name="user.userName"&gt;
+ .......
+</pre><br /> Model-Driven会通过OGNL的表达式语言来存取数据。例如：在注册时，表达式语言user.userName将会 执行getUser.setUserName()。<br /> <br /> <strong>那com.opensymphony.xwork.ModelDriven接口又是做什么的呢？</strong><br />&nbsp; 它会将Object getModel()取得的Model放到ValueStack中。可以理解为将这个Model的属性追加到Action中。它主要是作用是实现类似Struts的FormBean功能。<br /> <br /><strong>总结：</strong>如果将Model-Driven（模型驱动）Action认为是实现com.opensymphony.xwork.ModelDriven接口的观点是错误的，Model-Driven和com.opensymphony.xwork.ModelDriven接口并没有直接的关系。我们在实际应用中一般是将Model-Driven和Field-Driven结合在一起使用，并不需要将这两个概念完全区分开来。
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li><li><a href='/adverts/128' target='_blank'>IBM Rational软件开发高峰论坛9月揭幕</a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://moxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=moxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72415">
+  <td class="postauthor">
+    <ul>
+      <li class="name">kenny</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://kenny.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="kenny的博客: kenny" /></a></li>
+      <li>文章: 41</li>
+      <li>积分: 324</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72415' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        没有看明白，好像是一样的。&nbsp;<img src="/images/smiles/icon_confused.gif"/> <br /><br />可以结合起来一起用？ 也就是说即往Model里填充，也往Action里填充数据？<br /><br />唉，太灵活也不好，以后都搞不清楚数据是怎么进来的。&nbsp;&nbsp;<img src="/images/smiles/icon_biggrin.gif"/>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://kenny.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://kenny.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=kenny" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://kenny.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72415' class='post_rate_box'><a href='#' onclick='rate_post(72415, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72415, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72420">
+  <td class="postauthor">
+    <ul>
+      <li class="name">rootsoso</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://rootsoso.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/8554/1a279a0d-9b48-432b-b3e1-eb49232b37f2.gif?1236832047" title="rootsoso的博客: 随机思考" /></a></li>
+      <li>文章: 188</li>
+      <li>积分: 224</li>
+      <li>来自: 马勒隔壁</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72420' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">moxie 写道</div><div class="quote_div">引自《WebWork教程》<br /><div class="quote_title">引用</div><div class="quote_div"><br />另一类是Model-Driven（模型驱动的）Action<br />“它很像Struts的FormBean，但在WebWork中，只要普通Java对象就可以充当模型部分。<br /> Model-Driven（模型驱动的）Action要求我们的Action实现com.opensymphony.xwork. ModelDriven接口，<br /> 它有一个方法：Object getModel();，我们用这个方法返回我们的模型对象就可以了。”<br /></div><br />这个的解释是错误的！！<br /><br />我们可以根据Action属性的不同将它分为两类：Field-Driven（字段驱动） Action和Model-Driven（模型驱动） Action。<br /> 一、Field-Driven（字段驱动）Action，Action拥有自己的属性，这些属性一般是Java的基本类型。表单字段直接和Action的属性 对应。<br />比如用户注册的Action:<br /><pre name="code" class="java">
+RegisterAction.java
+ public class RegisterAction implements Action{
+ 	private String userName;
+ 	private String password;
+ 	private String email;
+ 	
+ 	public String execute(); throws Exception{
+ 	//执行用户注册操作
+ 	}
+ 	......
+ 	get();/set();方法
+ 	..........
+ 	
+ }
+ 
+ 页面register.html中会有：
+ ......
+ &lt;input name="userName"&gt;
+ .......
+</pre><br />二、Model-Driven（模型驱动）Action，Action通过get方法暴露一个模型类，表单字段和模型类的属性对应。<br /> 例如：<br /><pre name="code" class="java">
+User.java
+ 
+ public class User{
+ 	private String userName;
+ 	private String password;
+ 	private String email;
+ 	......
+ 	get();/set();方法
+ 	..........
+ }
+ 
+ RegisterAction.java
+ public class RegisterAction implements Action{
+ 	private User user = new User();;
+ 	
+ 	public String execute(); throws Exception{
+ 	//执行用户注册操作
+ 	}
+ 	public User getUser();{
+ 		return user;
+ 	}
+ }
+ 
+ 
+ 页面register.html中会有：
+ ......
+ &lt;input name="user.userName"&gt;
+ .......
+</pre><br /> Model-Driven会通过OGNL的表达式语言来存取数据。例如：在注册时，表达式语言user.userName将会 执行getUser.setUserName()。<br /> <br /> <strong>那com.opensymphony.xwork.ModelDriven接口又是做什么的呢？</strong><br />&nbsp; 它会将Object getModel()取得的Model放到ValueStack中。可以理解为将这个Model的属性追加到Action中。它主要是作用是实现类似Struts的FormBean功能。<br /> <br /><strong>总结：</strong>如果只是实现com.opensymphony.xwork.ModelDriven接口，就将Action当做是Model-Driven（模型驱动）Action的观点是错误的。我们在实际应用中一般是将Model-Driven和Field-Driven结合在一起使用。而com.opensymphony.xwork.ModelDriven接口一般很少会用到。</div><br /><br />提出点疑问<br /><br />首先,在使用Field-Driven（字段驱动）时也可以用Domain模型吧?<br />比如这样<br /><br /><pre name="code" class="java">public class RegisterAction implements Action{ 
+        private User user;        
+        public String execute(); throws Exception{ 
+        //执行用户注册操作 
+        } 
+        ...... 
+        get();/set();方法 
+        .......... 
+        
+} </pre><br /><br />在表单中可以<br /><br /><pre name="code" class="java">&lt;input name="user.userName"&gt; </pre><br /><br />相对于Model-Driven（模型驱动）而言所做的变化也并不是太大,并且相应的属性也能够得到正确的填充
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://rootsoso.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://rootsoso.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=rootsoso" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://rootsoso.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72420' class='post_rate_box'><a href='#' onclick='rate_post(72420, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72420, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72425">
+  <td class="postauthor">
+    <ul>
+      <li class="name">kenny</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://kenny.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="kenny的博客: kenny" /></a></li>
+      <li>文章: 41</li>
+      <li>积分: 324</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72425' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        好像不行吧。<br /><br />我看ModelDrivenInterceptor里得判断是否是ModelDriven才决定如何做，否则要这个拦截器何用？<br /><pre name="code" class="java">
+        if (action instanceof ModelDriven); {
+            ModelDriven modelDriven = (ModelDriven); action;
+            OgnlValueStack stack = invocation.getStack();;
+            stack.push(modelDriven.getModel(););;
+        }</pre>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://kenny.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://kenny.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=kenny" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://kenny.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72425' class='post_rate_box'><a href='#' onclick='rate_post(72425, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72425, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72432">
+  <td class="postauthor">
+    <ul>
+      <li class="name">rootsoso</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://rootsoso.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/8554/1a279a0d-9b48-432b-b3e1-eb49232b37f2.gif?1236832047" title="rootsoso的博客: 随机思考" /></a></li>
+      <li>文章: 188</li>
+      <li>积分: 224</li>
+      <li>来自: 马勒隔壁</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72432' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        我试过可以的,OGNL可以自动的在&lt;interceptor-ref name="params"/&gt;中根据表单中user.userName这个field而在stack中转化为getUser().getUserName(),然后填充这个user的userName的属性的值
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://rootsoso.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://rootsoso.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=rootsoso" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://rootsoso.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72432' class='post_rate_box'><a href='#' onclick='rate_post(72432, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72432, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72454">
+  <td class="postauthor">
+    <ul>
+      <li class="name">moxie</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://moxie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/229/f1d974c6-d8ad-4f60-86f1-bf8c8683f373.jpg?1236831845" title="moxie的博客: moxie" /></a></li>
+      <li>文章: 121</li>
+      <li>积分: 1106</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72454' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">rootsoso 写道</div><div class="quote_div"><br />提出点疑问<br /><br />首先,在使用Field-Driven（字段驱动）时也可以用Domain模型吧?<br />比如这样<br /><br /><pre name="code" class="java">public class RegisterAction implements Action{ 
+        private User user;        
+        public String execute(); throws Exception{ 
+        //执行用户注册操作 
+        } 
+        ...... 
+        get();/set();方法 
+        .......... 
+        
+} </pre><br /></div><br />如果你在Field-Driven（字段驱动）时也可以用Domain模型。那么你的Action即是Field-Driven也是Mode-Driven。<br /><strong><br />我这篇贴子主要是想说明“Mode-Driven （模型驱动的）Action这个概念和com.opensymphony.xwork.ModelDriven接口是没有直接关系的”</strong>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://moxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=moxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72454' class='post_rate_box'><a href='#' onclick='rate_post(72454, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72454, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72469">
+  <td class="postauthor">
+    <ul>
+      <li class="name">downpour</li>
+      <li>等级: <img src="/images/dimd4.gif" alt="四钻会员" title="四钻会员"/></li>
+      <li><a href='http://downpour.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="downpour的博客: downpour" /></a></li>
+      <li>文章: 933</li>
+      <li>积分: 1918</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-21 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72469' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        说白了，实现了ModelDriven接口的Action，不仅在Action的成员变量中会有值，同时也会放到ValueStack里面去。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://downpour.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://downpour.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=downpour" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://downpour.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72469' class='post_rate_box'><a href='#' onclick='rate_post(72469, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72469, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72634">
+  <td class="postauthor">
+    <ul>
+      <li class="name">javacme</li>
+      <li>等级: <img src="/images/star1.gif" alt="一星会员" title="一星会员"/></li>
+      <li><a href='http://javacme.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="javacme的博客: javacme" /></a></li>
+      <li>文章: 4</li>
+      <li>积分: 138</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-23 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72634' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        我觉得夏昕的webworkguide中对驱动模式的描述更容易理解，也更合理。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://javacme.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://javacme.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=javacme" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://javacme.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72634' class='post_rate_box'><a href='#' onclick='rate_post(72634, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72634, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72819">
+  <td class="postauthor">
+    <ul>
+      <li class="name">hongsoft</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://hongsoft.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/34602/fde96169-8706-3dcc-8eec-524f903078f0.gif?1236833517" title="hongsoft的博客: 业务流程平台" /></a></li>
+      <li>文章: 164</li>
+      <li>积分: 444</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-25 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72819' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        我认为是这样的:<br /><br />1)moxie举的例子,还是属于Property-Driven<br />2)ModelDriven接口是ModelDriven的标志<br /><br />但我们应该这么理解:<br />1)ModelDriven模式并不能从代码上为我们节省工作量,就如moxie举的例子而言,不用ModelDriven模式代码更少<br />2)ModelDriven模式实现了真正的MVC,结构更加清晰
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://hongsoft.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://hongsoft.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=hongsoft" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://hongsoft.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72819' class='post_rate_box'><a href='#' onclick='rate_post(72819, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72819, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_72826">
+  <td class="postauthor">
+    <ul>
+      <li class="name">moxie</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://moxie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/229/f1d974c6-d8ad-4f60-86f1-bf8c8683f373.jpg?1236831845" title="moxie的博客: moxie" /></a></li>
+      <li>文章: 121</li>
+      <li>积分: 1106</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-04-25 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E7%BA%A0%E6%AD%A3WebWork2%E7%9A%84Model-driven%28%E6%A8%A1%E5%9E%8B%E9%A9%B1%E5%8A%A8%29Action&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F72826' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">javacme 写道</div><div class="quote_div">我觉得夏昕的webworkguide中对驱动模式的描述更容易理解，也更合理。</div><br />但是这样的理解是错误的！我以前也是这样理解的，但后来我发现自己理解错了，所了就写了这篇文章。<br /><div class="quote_title">引用</div><div class="quote_div"><br />夏昕文档：<br />Webwork中，提供了两种Action驱动模式：<br />1． Property-Driven<br />2． Model-Driven<br />上面的示例中，我们应用了Model-Driven 的Action 驱动模式。对于这种模式，相信大<br />家已经比较熟悉。<br />下面介绍一下Property-Driven驱动模式。<br />Model-Driven 是通过Model 对象（上例中的LoginInfo）贯穿整个MVC 流程，而<br />Property-Driven，顾名思义， 是由Property（属性）作为贯穿MVC流程的信息携带者。<br />Property固然无法独立存在，它必须依附于一个对象。在Model-Driven模式中，实际上<br />这些属性被独立封装到了一个值对象，也就是所谓的Model。而Property-Driven中，属性将<br />依附在Action对象中。<br /></div><br />你再仔细看看官方的说明：<div class="quote_title">引用</div><div class="quote_div"><br />2 types of Actions possible:<br /><br />Model-driven<br />Action has methods returning your model classes (myAction.getPet())<br />Fields in the view are fields of your model<br />Views refer directly to your model (property='pet.name')<br />Excellent because it allows model reuse<br /><br />Field-driven<br />Action has fields of its own, which are fields in the view<br />execute() collates fields and interacts with the model<br />Views refer to action fields (property='name')<br />Useful where form is not parallel to model<br /></div>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://moxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=moxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://moxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_72826' class='post_rate_box'><a href='#' onclick='rate_post(72826, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(72826, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/12505?page=2" rel="next">2</a> <a href="/topic/12505?page=3">3</a> <a href="/topic/12505?page=4">4</a> <a href="/topic/12505?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Webwork'>Webwork</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java</option>
+<option value="Ruby">Ruby</option>
+<option value="AJAX">AJAX</option>
+<option value="mobile">移动编程和手机开发</option>
+<option value="Python">Python</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="Agile">软件开发和项目管理</option>
+<option value="Industry">行业解决方案</option>
+<option value="company">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":12505, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" onclick="$('chat_iframe').src='/chat/widget';return false;">闲聊一下 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
