@@ -1,0 +1,1 @@
+var google_host="www.ubuntuchina.com";var google_charset="utf-8";var google_hl="";var google_lr="";
