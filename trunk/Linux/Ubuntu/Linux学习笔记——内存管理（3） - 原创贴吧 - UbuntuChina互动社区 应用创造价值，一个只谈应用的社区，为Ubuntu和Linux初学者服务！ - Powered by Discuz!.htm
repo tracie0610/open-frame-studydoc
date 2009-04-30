@@ -1,0 +1,544 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Linux学习笔记——内存管理（3） - 原创贴吧 -  UbuntuChina互动社区 应用创造价值，一个只谈应用的社区，为Ubuntu和Linux初学者服务！ - Powered by Discuz!</title>
+<meta name="keywords" content="Ubhuntu中文社区,Ubuntu中文论坛,Ubuntu入门'学习'应用'技巧、经验 , Ubuntu开发经验、技巧,Linux入门、提高、学习、应用技巧、经验 ,原创,教程,学习资源,Linux入门,Ubuntu入门 ,LPI教程 ,LPI考试,RHCE教程，RHCE教材,RHCE考试,Linux职位,高级职位" />
+<meta name="description" content=" UbuntuChina互动社区 Linux Kernel Note
+Title: 内存管理
+kernel version: 2.4.*
+——casual0402
+——2009.04.21
+
+————————————–cut-line
+
+（续）数据结构和函数
+
+现在开始 ... - Discuz! Board" />
+<meta name="generator" content="Discuz! 6.0.0" />
+<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+<meta name="copyright" content="2001-2007 Comsenz Inc." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<link rel="archives" title="UbuntuChina互动社区" href="http://www.ubuntuchina.com/archiver/" />
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_1.css" />
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_1_append.css" />
+<script type="text/javascript">var IMGDIR = 'images/default';var attackevasive = '0';var gid = 0;gid = parseInt('36');var fid = parseInt('38');var tid = parseInt('6789');</script>
+<script src="include/javascript/common.js" type="text/javascript"></script>
+<script src="include/javascript/menu.js" type="text/javascript"></script>
+<script src="include/javascript/ajax.js" type="text/javascript"></script>
+</head>
+
+<body onkeydown="if(event.keyCode==27) return false;">
+
+	<div id="append_parent"></div><div id="ajaxwaitid"></div>
+	<div class="wrap">
+		<div id="header">
+			<h2><a href="index.php" title="UbuntuChina互动社区"><img src="images/default/logo.gif" alt="UbuntuChina互动社区" border="0" /></a></h2>
+			<div id="ad_headerbanner"></div>
+		</div>
+		<div id="menu">
+					<span class="frameswitch">
+			<script type="text/javascript">
+			if(top == self) {
+							document.write('<a href="frame.php?frameon=yes" target="_top" class="frameon">分栏模式<\/a>');
+			} else {
+				document.write('<a href="frame.php?frameon=no" target="_top" class="frameoff">平板模式<\/a>');
+			}
+			</script>
+			</span>
+		
+			<ul>
+							<li><cite><a href="space.php?action=viewpro&amp;uid=5837">frankswu</a></cite></li>
+				<li><a href="logging.php?action=logout&amp;formhash=e484b517" class="notabs">退出</a></li>
+				<li><a href="pm.php" target="_blank">短消息</a></li>			
+			<li><a href="member.php?action=list">会员</a></li>			<li><a href="search.php?srchfid=38">搜索</a></li>													<li><a href="my.php?item=threads">我的话题</a></li><li><a href="my.php?item=grouppermission">我的权限</a></li>				<li><a href="memcp.php">控制面板</a></li>								<li><a href="magic.php">道具</a></li>																<li><a href="faq.php">帮助</a></li>
+			</ul>
+		</div>
+<script src="include/javascript/viewthread.js" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);</script>
+
+<div id="foruminfo">
+	<div id="nav">
+		<a href="index.php" id="forumlist" onmouseover="showMenu(this.id)" class="dropmenu">UbuntuChina互动社区</a> &raquo; <a href="forumdisplay.php?fid=38">原创贴吧</a> &raquo; Linux学习笔记——内存管理（3）	</div>
+	<div id="headsearch">
+			<script src="forumdata/cache/google_var.js" type="text/javascript"></script>
+		<script src="include/javascript/google.js" type="text/javascript"></script>
+			</div>
+</div>
+
+<div id="ad_text"></div>
+
+	<div class="maintable" id="pmprompt">
+
+<div class="box" id="pmprompt">
+	<bgsound src="images/sound/pm_1.wav" />	<span class="headactions">
+		<a href="pm.php" target="_blank">[查看详情]</a>
+		<a href="pm.php?action=noprompt" onclick="ajaxget(this.href, 'pmprompt', null, null, 'none');doane(event);">[不再提示]</a>	</span>
+	<h4>您有<span id="newpmnum">1</span> 条新短消息&nbsp;</h4>
+	<table summary="New PM" cellspacing="0" cellpadding="5">
+
+			<tbody id="pmrow_6284">
+			<tr>
+				<td width="13%" nowrap valign="top">
+					<span class="bold">来自: </span>系统消息				</td>
+				<td>
+					<span class="bold" nowrap>标题:</span>
+											<a href="pm.php?action=view&amp;pmid=6284&amp;pmprompt=yes" target="_blank" onclick="ajaxget(this.href, 'pm_6284', null, null, '', 'hidelastpm(6284)');doane(event);">frankswu，您好，感谢您的注册，请阅读以下内容。 ...</a>
+										<div id="pm_6284" style="display: none">
+											</div>
+				</td>
+			</tr>
+		</tbody>
+	
+	</table>
+</div>
+
+<script type="text/javascript">
+
+lastpmid = null;
+function hidelastpm(pmid) {
+	if(lastpmid && lastpmid != pmid) {
+		changedisplay($('pm_'+lastpmid), 'none');
+	}
+	lastpmid = pmid;
+}
+
+</script></div>
+
+<div class="pages_btns">
+	<div class="threadflow"><a href="redirect.php?fid=38&amp;tid=6789&amp;goto=nextoldset"> &lsaquo;&lsaquo; 上一主题</a> | <a href="redirect.php?fid=38&amp;tid=6789&amp;goto=nextnewset">下一主题 &rsaquo;&rsaquo;</a></div>
+				<span class="postbtn" id="newspecial" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu(this.id)"><a href="post.php?action=newthread&amp;fid=38&amp;extra="><img src="images/default/newtopic.gif" border="0" alt="发新话题" title="发新话题" /></a></span>
+		<span class="replybtn"><a href="post.php?action=reply&amp;fid=38&amp;tid=6789&amp;extra="><img src="images/default/reply.gif" border="0" alt="" /></a></span></div>
+
+	<ul class="popupmenu_popup newspecialmenu" id="newspecial_menu" style="display: none">
+		<li><a href="post.php?action=newthread&amp;fid=38&amp;extra=">发新话题</a></li>
+				<li class="trade"><a href="post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=2">发布商品</a></li>						<li class="debate"><a href="post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=5">发布辩论</a></li>					</ul>
+
+<form method="post" name="modactions">
+	<input type="hidden" name="formhash" value="e484b517" />
+	<div class="mainbox viewthread">
+		<span class="headactions">
+											<a href="my.php?item=favorites&amp;tid=6789" id="ajax_favorite" onclick="ajaxmenu(event, this.id, 3000, 0)">收藏</a>
+			<a href="my.php?item=subscriptions&amp;subadd=6789" id="ajax_subscription" onclick="ajaxmenu(event, this.id, 3000, null, 0)">订阅</a>
+			<a href="misc.php?action=emailfriend&amp;tid=6789" id="emailfriend" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">推荐</a>
+				<a href="viewthread.php?action=printable&amp;tid=6789" target="_blank" class="notabs">打印</a>
+		</span>
+		<h1>Linux学习笔记——内存管理（3）		</h1>
+							<table id="pid18365" summary="pid18365" cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="postauthor">
+					<a name="newpost"></a> <a name="lastpost"></a>					<cite>											<a href="space.php?uid=3684" target="_blank" id="userinfo18365" class="dropmenu" onmouseover="showMenu(this.id)">casual0402</a></cite>
+						<p>一苇</p>													<div class="avatar"><img src="customavatars/3684.gif" width="102" height="100" border="0" alt="" /></div>												<p><em>版主</em></p>
+						<p><img src="images/default/star_level3.gif" alt="Rank: 7" /><img src="images/default/star_level2.gif" alt="Rank: 7" /><img src="images/default/star_level1.gif" alt="Rank: 7" /></p>
+																		
+						<ul>
+												<li class="pm"><a href="pm.php?action=send&amp;uid=3684" target="_blank" id="ajax_uid_18365" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">发短消息</a></li>
+						<li class="buddy"><a href="my.php?item=buddylist&amp;newbuddyid=3684&amp;buddysubmit=yes" target="_blank" id="ajax_buddy_0" onclick="ajaxmenu(event, this.id, null, 0)">加为好友</a></li>
+
+																					<li class="offline">当前离线
+														</li>
+						
+						</ul>
+									</td>
+				<td class="postcontent" >
+					<div class="postinfo">
+						<strong title="复制帖子链接到剪贴板" id="postnum_18365" onclick="setcopy('http://www.ubuntuchina.com/viewthread.php?tid=6789&amp;page=1#pid18365', '帖子链接已经复制到剪贴板')">1<sup>#</sup></strong>
+													<em onclick="$('postmessage_18365').className='t_bigfont'">大</em>							<em onclick="$('postmessage_18365').className='t_msgfont'">中</em>
+							<em onclick="$('postmessage_18365').className='t_smallfont'">小</em>												发表于 2009-4-25 14:00&nbsp;																					<a href="viewthread.php?tid=6789&amp;page=1&amp;authorid=3684">只看该作者</a>
+																		</div>
+					<div id="ad_thread2_0"></div>
+					<div class="postmessage defaultpost">
+												<div id="ad_thread3_0"></div><div id="ad_thread4_0"></div>
+													<h2>Linux学习笔记——内存管理（3）</h2>
+						
+						
+																											<div id="postmessage_18365" class="t_msgfont"><font face="AlMateen ">Linux Kernel Note</font><br />
+<font face="AlMateen ">Title: </font><font face="AlMateen ">内存管理</font><br />
+<font face="AlMateen ">kernel version: 2.4.*</font><br />
+——<font face="AlMateen "><a href="http://www.casual0402.cn/2009/04/25/" target="_blank">casual0402</a></font><br />
+——<font face="AlMateen ">2009.04.21</font><br />
+<br />
+<font face="AlMateen ">————————————–cut-line</font><br />
+<br />
+<font face="AlMateen ">（续）数据结构和函数</font><br />
+<br />
+<font face="AlMateen ">现在开始接触的是用于虚存管理的数据结构和函数。</font><br />
+<br />
+<font face="AlMateen ">通常，一个进程所需要使用的虚存空间是离散的各个区间，而区间的数据结构是</font><font face="AR PL UMing CN,serif "><font face="AlMateen ">/include/linux/mm.h</font></font><font face="AlMateen ">中定义的：</font><br />
+<font face="AlMateen ">38/* </font><br />
+<font face="AlMateen ">39 * This struct defines a memory VMM memory area. There is one of these </font><br />
+<font face="AlMateen ">40 * per VM-area/task.&nbsp;&nbsp;A VM area is any part of the process virtual memory </font><br />
+<font face="AlMateen ">41 * space that has a special rule for the page-fault handlers (ie a shared </font><br />
+<font face="AlMateen ">42 * library, the executable area etc). </font><br />
+<font face="AlMateen ">43 */ </font><br />
+<font face="AlMateen ">44struct vm_area_struct { </font><br />
+<font face="AlMateen ">45&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct mm_struct * vm_mm;&nbsp; &nbsp;&nbsp; &nbsp; /* The address space we belong to. */ </font><br />
+<font face="AlMateen ">46&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long vm_start;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* Our start address within vm_mm. */ </font><br />
+<font face="AlMateen ">47&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long vm_end;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* The first byte after our end address </font><br />
+<font face="AlMateen ">48&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; within vm_mm. */ </font><br />
+<font face="AlMateen ">49 </font><br />
+<font face="AlMateen ">50&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* linked list of VM areas per task, sorted by address */ </font><br />
+<font face="AlMateen ">51&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct *vm_next; </font><br />
+<font face="AlMateen ">52 </font><br />
+<font face="AlMateen ">53&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;pgprot_t vm_page_prot;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* Access permissions of this VMA. */ </font><br />
+<font face="AlMateen ">54&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long vm_flags;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* Flags, listed below. */ </font><br />
+<font face="AlMateen ">55 </font><br />
+<font face="AlMateen ">56&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;rb_node_t vm_rb; </font><br />
+<font face="AlMateen ">57 </font><br />
+<font face="AlMateen ">58&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">59&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* For areas with an address space and backing store, </font><br />
+<font face="AlMateen ">60&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* one of the address_space-&gt;i_mmap{,shared} lists, </font><br />
+<font face="AlMateen ">61&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* for shm areas, the list of attaches, otherwise unused. </font><br />
+<font face="AlMateen ">62&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">63&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct *vm_next_share; </font><br />
+<font face="AlMateen ">64&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct **vm_pprev_share; </font><br />
+<font face="AlMateen ">65 </font><br />
+<font face="AlMateen ">66&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* Function pointers to deal with this struct. */ </font><br />
+<font face="AlMateen ">67&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_operations_struct * vm_ops; </font><br />
+<font face="AlMateen ">68 </font><br />
+<font face="AlMateen ">69&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* Information about our backing store: */ </font><br />
+<font face="AlMateen ">70&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long vm_pgoff;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* Offset (within vm_file) in PAGE_SIZE </font><br />
+<font face="AlMateen ">71&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; units, *not* PAGE_CACHE_SIZE */ </font><br />
+<font face="AlMateen ">72&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct file * vm_file;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* File we map to (can be NULL). */ </font><br />
+<font face="AlMateen ">73&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long vm_raend;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* XXX: put full readahead info here. */ </font><br />
+<font face="AlMateen ">74&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;void * vm_private_data;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* was vm_pte (shared mem) */ </font><br />
+<font face="AlMateen ">75}; </font><br />
+<font face="AlMateen "> 45</font><font face="AlMateen ">行是定义了一个指向</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">结构体的指针，该结构体稍后了解。</font><font face="AlMateen ">vm_start</font><font face="AlMateen ">和</font><font face="AlMateen ">vm_end</font><font face="AlMateen ">是这一段</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">的开始和结束位置，然而</font><font face="AlMateen ">vm_end</font><font face="AlMateen ">是该</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">之后的第一个地址，不属于本</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">。</font><br />
+<font face="AlMateen "> 51</font><font face="AlMateen ">行定义了一个指向</font><font face="AlMateen ">vm_area_struct</font><font face="AlMateen ">结构体的指针</font><font face="AlMateen ">vm_next</font><font face="AlMateen ">。这是由于进程使用的区间是离散的，所以各个区间需要形成链表来保持联系，这里的</font><font face="AlMateen ">vm_next</font><font face="AlMateen ">便是指向下一片</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">的；该链表是按地址排序的。</font><br />
+<font face="AlMateen "> 53</font><font face="AlMateen ">行的</font><font face="AlMateen ">pgprot_t vm_page_prot</font><font face="AlMateen ">显然是本</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">的保护信息，</font><font face="AlMateen ">pgprot_t</font><font face="AlMateen ">在之前有谈过。</font><br />
+<font face="AlMateen "> 54</font><font face="AlMateen ">行的</font><font face="AlMateen ">vm_flags</font><font face="AlMateen ">是本</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">的标志，如下：</font><br />
+<font face="AlMateen ">77/* </font><br />
+<font face="AlMateen ">78 * vm_flags.. </font><br />
+<font face="AlMateen ">79 */ </font><br />
+<font face="AlMateen ">80#define VM_READ&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;0×00000001&nbsp; &nbsp;&nbsp; &nbsp;/* currently active flags */ </font><br />
+<font face="AlMateen ">81#define VM_WRITE&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0×00000002 </font><br />
+<font face="AlMateen ">82#define VM_EXEC&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;0×00000004 </font><br />
+<font face="AlMateen ">83#define VM_SHARED&nbsp; &nbsp;&nbsp; &nbsp; 0×00000008 </font><br />
+<font face="AlMateen ">84 </font><br />
+<font face="AlMateen ">85#define VM_MAYREAD&nbsp; &nbsp;&nbsp; &nbsp;0×00000010&nbsp; &nbsp;&nbsp; &nbsp;/* limits for mprotect() etc */ </font><br />
+<font face="AlMateen ">86#define VM_MAYWRITE&nbsp; &nbsp;&nbsp;&nbsp;0×00000020 </font><br />
+<font face="AlMateen ">87#define VM_MAYEXEC&nbsp; &nbsp;&nbsp; &nbsp;0×00000040 </font><br />
+<font face="AlMateen ">88#define VM_MAYSHARE&nbsp; &nbsp;&nbsp;&nbsp;0×00000080 </font><br />
+<font face="AlMateen ">89 </font><br />
+<font face="AlMateen ">90#define VM_GROWSDOWN&nbsp; &nbsp; 0×00000100&nbsp; &nbsp;&nbsp; &nbsp;/* general info on the segment */ </font><br />
+<font face="AlMateen ">91#define VM_GROWSUP&nbsp; &nbsp;&nbsp; &nbsp;0×00000200 </font><br />
+<font face="AlMateen ">92#define VM_SHM&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0×00000400&nbsp; &nbsp;&nbsp; &nbsp;/* shared memory area, don’t swap out */ </font><br />
+<font face="AlMateen ">93#define VM_DENYWRITE&nbsp; &nbsp; 0×00000800&nbsp; &nbsp;&nbsp; &nbsp;/* ETXTBSY on write attempts.. */ </font><br />
+<font face="AlMateen ">94 </font><br />
+<font face="AlMateen ">95#define VM_EXECUTABLE&nbsp; &nbsp;0×00001000 </font><br />
+<font face="AlMateen ">96#define VM_LOCKED&nbsp; &nbsp;&nbsp; &nbsp; 0×00002000 </font><br />
+<font face="AlMateen ">97#define VM_IO&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0×00004000&nbsp; &nbsp;&nbsp; &nbsp;/* Memory mapped I/O or similar */ </font><br />
+<font face="AlMateen ">98 </font><br />
+<font face="AlMateen ">99&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* Used by sys_madvise() */ </font><br />
+<font face="AlMateen ">100#define VM_SEQ_READ&nbsp; &nbsp;&nbsp;&nbsp;0×00008000&nbsp; &nbsp;&nbsp; &nbsp;/* App will access data sequentially */ </font><br />
+<font face="AlMateen ">101#define VM_RAND_READ&nbsp; &nbsp; 0×00010000&nbsp; &nbsp;&nbsp; &nbsp;/* App will not benefit from clustered reads */ </font><br />
+<font face="AlMateen ">102 </font><br />
+<font face="AlMateen ">103#define VM_DONTCOPY&nbsp; &nbsp;&nbsp;&nbsp;0×00020000&nbsp; &nbsp;&nbsp; &nbsp;/* Do not copy this vma on fork */ </font><br />
+<font face="AlMateen ">104#define VM_DONTEXPAND&nbsp; &nbsp;0×00040000&nbsp; &nbsp;&nbsp; &nbsp;/* Cannot expand with mremap() */ </font><br />
+<font face="AlMateen ">105#define VM_RESERVED&nbsp; &nbsp;&nbsp;&nbsp;0×00080000&nbsp; &nbsp;&nbsp; &nbsp;/* Don’t unmap it from swap_out */ </font><br />
+<font face="AlMateen ">106 </font><br />
+<font face="AlMateen ">107#ifndef VM_STACK_FLAGS </font><br />
+<font face="AlMateen ">108#define VM_STACK_FLAGS&nbsp;&nbsp;0×00000177 </font><br />
+<font face="AlMateen ">109#endif </font><br />
+<font face="AlMateen "> 80 </font><font face="AlMateen ">～ </font><font face="AlMateen ">83</font><font face="AlMateen ">行分别表示页是否可以被读、写、执行和共享。</font><br />
+<font face="AlMateen "> 85 </font><font face="AlMateen ">～ </font><font face="AlMateen ">88</font><font face="AlMateen ">行表示可以对</font><font face="AlMateen ">80 </font><font face="AlMateen ">～ </font><font face="AlMateen ">83</font><font face="AlMateen ">行的标志进行设置。</font><br />
+<font face="AlMateen "> 95</font><font face="AlMateen ">行表示该页含可执行代码。</font><br />
+<font face="AlMateen "> 96</font><font face="AlMateen ">行表示该页被锁。</font><br />
+<br />
+<font face="AlMateen ">其它标志均有注释。</font><br />
+<font face="AR PL UMing CN,serif "><br />
+</font><font face="AlMateen ">在这里一般会有个疑惑，一个</font><font face="AR PL UMing CN,serif "><font face="AlMateen ">vm_area</font></font><font face="AlMateen ">可能包含很多个内存页，为什么只有一个</font><font face="AR PL UMing CN,serif "><font face="AlMateen ">vm_page_prot</font></font><font face="AlMateen ">和</font><font face="AR PL UMing CN,serif "><font face="AlMateen ">vm_flags</font></font><font face="AlMateen ">呢？这是因为同一片</font><font face="AR PL UMing CN,serif "><font face="AlMateen ">vm_area</font></font><font face="AlMateen ">的所有页面都必须保持相同的保护信息和状态标志。</font><br />
+<br />
+<font face="AlMateen ">现在回到</font><font face="AlMateen ">vm_area_struct</font><font face="AlMateen ">。</font><br />
+<font face="AlMateen "> 56</font><font face="AlMateen ">行是 </font><font face="AlMateen ">rb_node_t vm_rb; rb_node_t</font><font face="AlMateen ">是红黑树</font><font face="AlMateen ">(red-black tree)</font><font face="AlMateen ">节点类型。红黑树的结构如下：</font><br />
+<font face="AlMateen ">100typedef struct rb_node_s </font><br />
+<font face="AlMateen ">101{ </font><br />
+<font face="AlMateen ">102&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct rb_node_s * rb_parent; </font><br />
+<font face="AlMateen ">103&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;int rb_color; </font><br />
+<font face="AlMateen ">104#define RB_RED&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; 0 </font><br />
+<font face="AlMateen ">105#define RB_BLACK&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1 </font><br />
+<font face="AlMateen ">106&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct rb_node_s * rb_right; </font><br />
+<font face="AlMateen ">107&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct rb_node_s * rb_left; </font><br />
+<font face="AlMateen ">108} </font><br />
+<font face="AlMateen ">109rb_node_t; </font><br />
+<br />
+<font face="AlMateen ">之所以使用红黑树是因为使用链表搜索的话每次都要从头开始，会影响效率。</font><br />
+<font face="AlMateen "> 63 </font><font face="AlMateen ">～ </font><font face="AlMateen ">64</font><font face="AlMateen ">行为共享内存中的前后区间：</font><br />
+<font face="AlMateen ">58&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">59&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* For areas with an address space and backing store, </font><br />
+<font face="AlMateen ">60&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* one of the address_space-&gt;i_mmap{,shared} lists, </font><br />
+<font face="AlMateen ">61&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* for shm areas, the list of attaches, otherwise unused. </font><br />
+<font face="AlMateen ">62&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">63&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct *vm_next_share; </font><br />
+<font face="AlMateen ">64&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct **vm_pprev_share; </font><br />
+<font face="AlMateen "> 67</font><font face="AlMateen ">行定义了一个</font><font face="AlMateen ">vm_ops</font><font face="AlMateen ">，指向的是一个</font><font face="AlMateen ">vm_oprations_struct</font><font face="AlMateen ">结构体，该结构体在</font><font face="AlMateen ">/include/linux/mm.h</font><font face="AlMateen ">有定义：</font><br />
+<font face="AlMateen ">128/* </font><br />
+<font face="AlMateen ">129 * These are the virtual MM functions - opening of an area, closing and </font><br />
+<font face="AlMateen ">130 * unmapping it (needed to keep files on disk up-to-date etc), pointer </font><br />
+<font face="AlMateen ">131 * to the functions called when a no-page or a wp-page exception occurs. </font><br />
+<font face="AlMateen ">132 */ </font><br />
+<font face="AlMateen ">133struct vm_operations_struct { </font><br />
+<font face="AlMateen ">134&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;void (*open)(struct vm_area_struct * area); </font><br />
+<font face="AlMateen ">135&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;void (*close)(struct vm_area_struct * area); </font><br />
+<font face="AlMateen ">136&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct page * (*nopage)(struct vm_area_struct * area, unsigned long address, int unused); </font><br />
+<font face="AlMateen ">137}; </font><br />
+<br />
+<font face="AlMateen ">显然可见</font><font face="AlMateen ">vm_ops</font><font face="AlMateen ">是一个指针，可以执行操作函数作用在该</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">上。其中</font><font face="AlMateen ">open</font><font face="AlMateen ">和</font><font face="AlMateen ">close</font><font face="AlMateen ">用于打开、关闭虚存空间。而当请求页面不在内存中调用</font><font face="AlMateen ">nopage</font><font face="AlMateen ">。</font><br />
+<font face="AlMateen "> vm_area_struct</font><font face="AlMateen ">后面的成员都有注释。</font><br />
+<br />
+<font face="AlMateen ">————————————–cut-line</font><br />
+<br />
+<br />
+<font face="AlMateen ">在了解</font><font face="AlMateen ">vm_area_struct</font><font face="AlMateen ">的开始，我们提到了</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">。</font><br />
+<font face="AlMateen ">206struct mm_struct { </font><br />
+<font face="AlMateen ">207&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct * mmap;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* list of VMAs */ </font><br />
+<font face="AlMateen ">208&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;rb_root_t mm_rb; </font><br />
+<font face="AlMateen ">209&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct * mmap_cache;&nbsp; &nbsp;&nbsp;&nbsp;/* last find_vma result */ </font><br />
+<font face="AlMateen ">210&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;pgd_t * pgd; </font><br />
+<font face="AlMateen ">211&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;atomic_t mm_users;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* How many users with user space? */ </font><br />
+<font face="AlMateen ">212&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;atomic_t mm_count;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* How many references to “struct mm_struct” (users count as 1) */ </font><br />
+<font face="AlMateen ">213&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;int map_count;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* number of VMAs */ </font><br />
+<font face="AlMateen ">214&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct rw_semaphore mmap_sem; </font><br />
+<font face="AlMateen ">215&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;spinlock_t page_table_lock;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* Protects task page tables and mm-&gt;rss */ </font><br />
+<font face="AlMateen ">216 </font><br />
+<font face="AlMateen ">217&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct list_head mmlist;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* List of all active mm’s.&nbsp;&nbsp;These are globally strung </font><br />
+<font face="AlMateen ">218&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; * together off init_mm.mmlist, and are protected </font><br />
+<font face="AlMateen ">219&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; * by mmlist_lock </font><br />
+<font face="AlMateen ">220&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; */ </font><br />
+<font face="AlMateen ">221 </font><br />
+<font face="AlMateen ">222&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long start_code, end_code, start_data, end_data; </font><br />
+<font face="AlMateen ">223&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long start_brk, brk, start_stack; </font><br />
+<font face="AlMateen ">224&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long arg_start, arg_end, env_start, env_end; </font><br />
+<font face="AlMateen ">225&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long rss, total_vm, locked_vm; </font><br />
+<font face="AlMateen ">226&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long def_flags; </font><br />
+<font face="AlMateen ">227&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long cpu_vm_mask; </font><br />
+<font face="AlMateen ">228&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long swap_address; </font><br />
+<font face="AlMateen ">229 </font><br />
+<font face="AlMateen ">230&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned dumpable:1; </font><br />
+<font face="AlMateen ">231 </font><br />
+<font face="AlMateen ">232&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* Architecture-specific MM context */ </font><br />
+<font face="AlMateen ">233&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;mm_context_t context; </font><br />
+<font face="AlMateen ">234}; </font><br />
+<font face="AlMateen "> 207</font><font face="AlMateen ">行的</font><font face="AlMateen ">mmap</font><font face="AlMateen ">指向虚存区间链表。</font><br />
+<font face="AlMateen "> 208</font><font face="AlMateen ">行是指向红黑树。</font><br />
+<font face="AlMateen "> 209</font><font face="AlMateen ">行的</font><font face="AlMateen ">mmap_cache</font><font face="AlMateen ">指向最后一次使用的虚存区间，因为虚存区间有若干个内存页，下一次请求的内存页很可能还在该区间。</font><br />
+<font face="AlMateen "> 210</font><font face="AlMateen ">行的</font><font face="AlMateen ">pgd</font><font face="AlMateen ">显然是进程的页面目录，当内核调度一个进程运行时，将该指针转换为物理地址并写入控制寄存器</font><font face="AlMateen ">CR3</font><font face="AlMateen ">。</font><br />
+<font face="AlMateen "> 211</font><font face="AlMateen ">行的</font><font face="AlMateen ">mm_users</font><font face="AlMateen ">表示用户空间中有多少用户。而</font><font face="AlMateen ">212</font><font face="AlMateen ">行的</font><font face="AlMateen ">mm_count</font><font face="AlMateen ">表示该</font><font face="AlMateen ">mm_count</font><font face="AlMateen ">结构的被引用数。</font><br />
+<font face="AlMateen "> 213</font><font face="AlMateen ">行</font><font face="AlMateen ">map_count</font><font face="AlMateen ">表示</font><font face="AlMateen ">vm_area</font><font face="AlMateen ">的个数。</font><br />
+<font face="AlMateen "> 214</font><font face="AlMateen ">和</font><font face="AlMateen ">215</font><font face="AlMateen ">是一些状态控制，进行诸如锁定等状态控制。</font><br />
+<font face="AlMateen "> 217</font><font face="AlMateen ">行是</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">链表。</font><br />
+<br />
+<font face="AlMateen ">余下部分用途较显然。</font><br />
+<br />
+<br />
+<font face="AlMateen ">从</font><font face="AlMateen ">mm_users</font><font face="AlMateen ">和</font><font face="AlMateen ">mm_count</font><font face="AlMateen ">我们可以知道一个</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">允许被多个进程引用，但是一个进程只能使用一个</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">结构。</font><br />
+<br />
+<font face="AlMateen ">至此，我们了解到以下几点。</font><br />
+<font face="AlMateen "> 1</font><font face="AlMateen ">。虚存方面是由</font><font face="AlMateen ">vm_area_struct</font><font face="AlMateen ">和</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">进行处理的。</font><font face="AlMateen ">32</font><font face="AlMateen ">位的计算机可以形成</font><font face="AlMateen ">4G</font><font face="AlMateen ">的虚存空间，其中</font><font face="AlMateen ">3</font><font face="AlMateen ">～</font><font face="AlMateen ">4G</font><font face="AlMateen ">的虚存空间用作内核空间，其余用作用户空间。</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">是用户空间抽象，位于虚存管理的高层。而</font><font face="AlMateen ">vm_area_struct</font><font face="AlMateen ">则是从属于</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">。一个进程允许有多个</font><font face="AlMateen ">vma</font><font face="AlMateen ">，这些虚存区间构成链表以及红黑树，在</font><font face="AlMateen ">vma</font><font face="AlMateen ">个数较少的时候使用链表操作，个数多的时候使用红黑树操作。</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">中的</font><font face="AlMateen ">mmap</font><font face="AlMateen ">指向</font><font face="AlMateen ">vma</font><font face="AlMateen ">链表，而</font><font face="AlMateen ">map_count</font><font face="AlMateen ">则指示有多少个</font><font face="AlMateen ">vma</font><font face="AlMateen ">。当一个进程进入运行时，进程所对应的</font><font face="AlMateen ">mm_struct</font><font face="AlMateen ">中的</font><font face="AlMateen ">pgd</font><font face="AlMateen ">（页面目录）被写入控制寄存器</font><font face="AlMateen ">CR3</font><font face="AlMateen ">，于是页式映射机制的源头</font><font face="AlMateen ">CR3</font><font face="AlMateen ">就有内容了。</font><br />
+<font face="AlMateen "> 2</font><font face="AlMateen ">。在</font><font face="AlMateen ">CR3</font><font face="AlMateen ">被设置以后，便可以进行页式映射了。负责将虚拟地址映射为物理地址的内存管理单元从</font><font face="AlMateen ">CR3</font><font face="AlMateen ">读出数据，然后结合</font><font face="AlMateen ">pgd</font><font face="AlMateen ">等内容完成映射。</font><br />
+<br />
+<br />
+<font face="AlMateen ">此外，如果要通过进程的虚拟地址找到所属区间以及相应的</font><font face="AlMateen ">vma</font><font face="AlMateen ">结构可以使用</font><font face="AlMateen ">find_vma</font><font face="AlMateen ">：</font><br />
+<font face="AlMateen ">666/* Look up the first VMA which satisfies&nbsp;&nbsp;addr &lt; vm_end,&nbsp;&nbsp;NULL if none. */ </font><br />
+<font face="AlMateen ">667struct vm_area_struct * find_vma(struct mm_struct * mm, unsigned long addr) </font><br />
+<font face="AlMateen ">668{ </font><br />
+<font face="AlMateen ">669&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct *vma = NULL; </font><br />
+<font face="AlMateen ">670 </font><br />
+<font face="AlMateen ">671&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if (mm) { </font><br />
+<font face="AlMateen ">672&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* Check the cache first. */ </font><br />
+<font face="AlMateen ">673&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* (Cache hit rate is typically around 35%.) */ </font><br />
+<font face="AlMateen ">674&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; vma = mm-&gt;mmap_cache; </font><br />
+<font face="AlMateen ">675&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; if (!(vma &amp;&amp; vma-&gt;vm_end &gt; addr &amp;&amp; vma-&gt;vm_start &lt;= addr)) { </font><br />
+<font face="AlMateen ">676&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;rb_node_t * rb_node; </font><br />
+<font face="AlMateen ">677 </font><br />
+<font face="AlMateen ">678&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;rb_node = mm-&gt;mm_rb.rb_node; </font><br />
+<font face="AlMateen ">679&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;vma = NULL; </font><br />
+<font face="AlMateen ">680 </font><br />
+<font face="AlMateen ">681&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;while (rb_node) { </font><br />
+<font face="AlMateen ">682&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct vm_area_struct * vma_tmp; </font><br />
+<font face="AlMateen ">683 </font><br />
+<font face="AlMateen ">684&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;vma_tmp = rb_entry(rb_node, struct vm_area_struct, vm_rb); </font><br />
+<font face="AlMateen ">685 </font><br />
+<font face="AlMateen ">686&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;if (vma_tmp-&gt;vm_end &gt; addr) { </font><br />
+<font face="AlMateen ">687&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; vma = vma_tmp; </font><br />
+<font face="AlMateen ">688&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; if (vma_tmp-&gt;vm_start &lt;= addr) </font><br />
+<font face="AlMateen ">689&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break; </font><br />
+<font face="AlMateen ">690&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; rb_node = rb_node-&gt;rb_left; </font><br />
+<font face="AlMateen ">691&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;} else </font><br />
+<font face="AlMateen ">692&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; rb_node = rb_node-&gt;rb_right; </font><br />
+<font face="AlMateen ">693&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;} </font><br />
+<font face="AlMateen ">694&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (vma) </font><br />
+<font face="AlMateen ">695&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;mm-&gt;mmap_cache = vma; </font><br />
+<font face="AlMateen ">696&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; } </font><br />
+<font face="AlMateen ">697&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;} </font><br />
+<font face="AlMateen ">698&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;return vma; </font><br />
+<font face="AlMateen ">699} </font><br />
+<br />
+<font face="AlMateen ">首先通过查找</font><font face="AlMateen ">mmap_cache</font><font face="AlMateen ">，如果不是，则在链表中或者红黑树中搜索。如果返回</font><font face="AlMateen ">0</font><font face="AlMateen ">，表示还没有创建</font><font face="AlMateen ">vma</font><font face="AlMateen ">，这时候就需要创建一个新的虚存区间结构。</font></div>
+
+							
+							
+							
+													</div>
+													<div class="signatures" style="maxHeightIE: 100px;">
+								<a href="http://www.casual0402.cn" target="_blank"><font color="blue"><strong>一苇</strong></font></a>							</div>
+															</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="postauthor">
+								<div class="popupmenu_popup userinfopanel" id="userinfo18365_menu" style="display: none;">
+										<dl><dt>UID</dt><dd>3684&nbsp;</dd><dt>帖子</dt><dd>315&nbsp;</dd><dt>精华</dt><dd><a href="digest.php?authorid=3684">17</a>&nbsp;</dd><dt>积分</dt><dd>999&nbsp;</dd><dt>阅读权限</dt><dd>100&nbsp;</dd><dt>在线时间</dt><dd>64 小时&nbsp;</dd><dt>注册时间</dt><dd>2008-12-26&nbsp;</dd><dt>最后登录</dt><dd>2009-4-25&nbsp;</dd></dl>
+											<p><a href="http://www.casual0402.cn/" target="_blank">查看个人网站</a></p>
+										<p><a href="space.php?action=viewpro&amp;uid=3684" target="_blank">查看详细资料</a></p>
+									</div>
+							</td>
+			<td class="postcontent">
+				<div class="postactions">
+										<p>
+																			<a href="post.php?action=reply&amp;fid=38&amp;tid=6789&amp;repquote=18365&amp;extra=&amp;page=1">引用</a>
+																			<a href="magic.php?action=user&amp;pid=18365" target="_blank">使用道具</a>
+																			<a href="misc.php?action=report&amp;fid=38&amp;tid=6789&amp;pid=18365&amp;page=1" id="ajax_report_18365" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">报告</a>
+																															<a href="###" onclick="fastreply('回复 # 的帖子', 'postnum_18365')">回复</a>
+												<strong onclick="scroll(0,0)" title="顶部">TOP</strong>
+					</p>
+					<div id="ad_thread1_0"></div>
+				</div>
+			</td>
+		</tr>
+		</table>
+		</div>
+</form>
+
+<div class="pages_btns">
+	<div class="threadflow"><a href="redirect.php?fid=38&amp;tid=6789&amp;goto=nextoldset"> &lsaquo;&lsaquo; 上一主题</a> | <a href="redirect.php?fid=38&amp;tid=6789&amp;goto=nextnewset">下一主题 &rsaquo;&rsaquo;</a></div>
+				<span class="postbtn" id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu(this.id)"><a href="post.php?action=newthread&amp;fid=38&amp;extra="><img src="images/default/newtopic.gif" border="0" alt="发新话题" title="发新话题" /></a></span>
+		<span class="replybtn"><a href="post.php?action=reply&amp;fid=38&amp;tid=6789&amp;extra="><img src="images/default/reply.gif" border="0" alt="" /></a></span></div>
+
+	<script src="include/javascript/post.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	var postminchars = parseInt('10');
+	var postmaxchars = parseInt('10000');
+	var disablepostctrl = parseInt('0');
+	function validate(theform) {
+		if (theform.message.value == "" && theform.subject.value == "") {
+			alert("请完成标题或内容栏。");
+			theform.message.focus();
+			return false;
+		} else if (theform.subject.value.length > 80) {
+			alert("您的标题超过 80 个字符的限制。");
+			theform.subject.focus();
+			return false;
+		}
+		if (!disablepostctrl && ((postminchars != 0 && theform.message.value.length < postminchars) || (postmaxchars != 0 && theform.message.value.length > postmaxchars))) {
+			alert("您的帖子长度不符合要求。\n\n当前长度: "+theform.message.value.length+" 字节\n系统限制: "+postminchars+" 发送到 "+postmaxchars+" 字节");
+			return false;
+		}
+		if(!fetchCheckbox('parseurloff')) {
+			theform.message.value = parseurl(theform.message.value, 'bbcode');
+		}
+		theform.replysubmit.disabled = true;
+		return true;
+	}
+	</script>
+	<form method="post" id="postform" action="post.php?action=reply&amp;fid=38&amp;tid=6789&amp;extra=&amp;replysubmit=yes" onSubmit="return validate(this)">
+		<input type="hidden" name="formhash" value="e484b517" />
+		<div id="quickpost" class="box">
+			<span class="headactions"><a href="member.php?action=credits&amp;view=forum_reply&amp;fid=38" target="_blank">查看积分策略说明</a></span>
+			<h4>快速回复主题</h4>
+			<div class="postoptions">
+				<h5>选项</h5>
+				<p><label><input class="checkbox" type="checkbox" name="parseurloff" id="parseurloff" value="1"> 禁用 URL 识别</label></p>
+				<p><label><input class="checkbox" type="checkbox" name="smileyoff" id="smileyoff" value="1"> 禁用 <a href="faq.php?action=message&amp;id=32" target="_blank">表情</a></label></p>
+				<p><label><input class="checkbox" type="checkbox" name="bbcodeoff" id="bbcodeoff" value="1"> 禁用 <a href="faq.php?action=message&amp;id=18" target="_blank">Discuz!代码</a></label></p>
+								<p><label><input class="checkbox" type="checkbox" name="usesig" value="1" > 使用个人签名</label></p>
+				<p><label><input class="checkbox" type="checkbox" name="emailnotify" value="1"> 接收新回复邮件通知</label></p>
+			</div>
+			<div class="postform">
+				<h5><label>标题
+				<input type="text" name="subject" value="" tabindex="1"></label></h5>
+				<p><label>内容</label>
+				<textarea rows="7" cols="80" class="autosave" name="message" id="message" onKeyDown="ctlent(event);" tabindex="2"></textarea>
+				</p>
+				<p class="btns">
+					<button type="submit" name="replysubmit" id="postsubmit" value="replysubmit" tabindex="3">发表帖子</button>[完成后可按 Ctrl+Enter 发布]&nbsp;
+					<a href="###" id="previewpost" onclick="$('postform').action=$('postform').action + '&previewpost=yes';$('postform').submit();">预览帖子</a>&nbsp;
+					<a href="###" id="restoredata" title="恢复上次自动保存的数据" onclick="loadData()">恢复数据</a>&nbsp;
+					<a href="###" onclick="$('postform').reset()">清空内容</a>
+				</p>
+			</div>
+							<div class="smilies">
+					<div id="smilieslist"></div>
+					<script type="text/javascript">ajaxget('post.php?action=smilies', 'smilieslist');</script>
+				</div>
+						<script type="text/javascript">
+				var textobj = $('message');
+				window.onbeforeunload = function () {saveData(textobj.value)};
+				if(is_ie >= 5 || is_moz >= 2) {
+					lang['post_autosave_none'] = "没有可以恢复的数据！";
+					lang['post_autosave_confirm'] = "此操作将覆盖当前帖子内容，确定要恢复数据吗？";
+				} else {
+					$('restoredata').style.display = 'none';
+				}
+			</script>
+		</div>
+	</form>
+	<script type="text/javascript">
+		function modaction(action) {
+			if(!action) {
+				return;
+			}
+			if(!in_array(action, ['delpost', 'banpost'])) {
+				window.location=('topicadmin.php?tid=6789&fid=38&action='+ action +'&sid=FfpW9G');
+			} else {
+				document.modactions.action = 'topicadmin.php?action='+ action +'&fid=38&tid=6789&page=1;'
+				document.modactions.submit();
+			}
+		}
+	</script>
+	<div id="footfilter" class="box">
+					<select onchange="if(this.options[this.selectedIndex].value != '') {
+		window.location=('forumdisplay.php?fid='+this.options[this.selectedIndex].value+'&amp;sid=FfpW9G') }">
+		<option value="">最近访问的版块 ...</option>
+		<option value="8">新手入门</option><option value="74">系统管理</option><option value="78">RHEL/CentOS/Fedora交流区</option><option value="67">茶余饭后</option><option value="89">Ubuntu 9.04专区</option><option value="80">《开源实用技术文摘》</option><option value="15">软件应用</option><option value="19">新闻播报</option><option value="44">新书快讯</option><option value="9">安装配置</option>		</select>
+	</div>
+	<div class="popupmenu_popup" id="forumlist_menu" style="display: none">
+		<dl><dt><a href="index.php?gid=72">UbuntuChina原创图书读者论坛</a></dt><dd><ul><li><a href="forumdisplay.php?fid=81">Linux读书月活动专区</a></li><li><a href="forumdisplay.php?fid=82">社区图书《Ubuntu实战技巧精粹》专区</a></li><li><a href="forumdisplay.php?fid=73">社区图书《完美应用Ubuntu》读者专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=5">社区管理</a></dt><dd><ul><li><a href="forumdisplay.php?fid=40">互动专区</a></li><li class="sub"><a href="forumdisplay.php?fid=42">线下活动和自助活动</a></li><li class="sub"><a href="forumdisplay.php?fid=43">有奖活动</a></li><li><a href="forumdisplay.php?fid=41">社区建设</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=48">社区新知</a></dt><dd><ul><li><a href="forumdisplay.php?fid=89">Ubuntu 9.04专区</a></li><li><a href="forumdisplay.php?fid=19">新闻播报</a></li><li><a href="forumdisplay.php?fid=51">新软快递</a></li><li><a href="forumdisplay.php?fid=44">新书快讯</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=7">初学者专区</a></dt><dd><ul><li><a href="forumdisplay.php?fid=8">新手入门</a></li><li><a href="forumdisplay.php?fid=52">硬件驱动</a></li><li><a href="forumdisplay.php?fid=9">安装配置</a></li><li><a href="forumdisplay.php?fid=15">软件应用</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=11">桌面应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=10">美化专区</a></li><li><a href="forumdisplay.php?fid=12">办公应用</a></li><li><a href="forumdisplay.php?fid=14">娱乐天堂</a></li><li><a href="forumdisplay.php?fid=54">聊天世界</a></li><li><a href="forumdisplay.php?fid=13">图形图像</a></li><li><a href="forumdisplay.php?fid=74">系统管理</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=55">企业应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=23">服务器管理</a></li><li><a href="forumdisplay.php?fid=56">数据库管理</a></li><li><a href="forumdisplay.php?fid=57">架站指南</a></li><li><a href="forumdisplay.php?fid=58">安全防护</a></li><li><a href="forumdisplay.php?fid=22">虚拟化专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=59">开发应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=61">Web开发</a></li><li><a href="forumdisplay.php?fid=62">嵌入开发</a></li><li><a href="forumdisplay.php?fid=16">系统开发</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=18">开源杂志</a></dt><dd><ul><li><a href="forumdisplay.php?fid=80">《开源实用技术文摘》</a></li><li><a href="forumdisplay.php?fid=20">《Full Cirle》中文版</a></li><li><a href="forumdisplay.php?fid=64">《PHPer》专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=75">其他Linux发行版</a></dt><dd><ul><li><a href="forumdisplay.php?fid=76">Debian交流区</a></li><li><a href="forumdisplay.php?fid=77">SUSE/OpenSUSE交流区</a></li><li><a href="forumdisplay.php?fid=78">RHEL/CentOS/Fedora交流区</a></li><li><a href="forumdisplay.php?fid=79">国产发行版红旗交流区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=36">分享专区</a></dt><dd><ul><li class="current"><a href="forumdisplay.php?fid=38">原创贴吧</a></li><li><a href="forumdisplay.php?fid=39">Linux认证和职业专区</a></li><li class="sub"><a href="forumdisplay.php?fid=85">Linux类职位招聘和求职专区</a></li><li><a href="forumdisplay.php?fid=37">Linux/Ubuntu学习资源大全</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=65">社区茶馆</a></dt><dd><ul><li><a href="forumdisplay.php?fid=66">音乐分享</a></li><li><a href="forumdisplay.php?fid=67">茶余饭后</a></li></ul></dd></dl>	</div>
+
+<script type="text/javascript">
+var maxpage = 1;
+if(maxpage > 1) {
+	document.onkeyup = function(e){
+		e = e ? e : window.event;
+		var tagname = is_ie ? e.srcElement.tagName : e.target.tagName;
+		if(tagname == 'INPUT' || tagname == 'TEXTAREA') return;
+		actualCode = e.keyCode ? e.keyCode : e.charCode;
+					}
+}
+</script>
+
+</div>
+
+
+<div id="ad_footerbanner1"></div><div id="ad_footerbanner2"></div><div id="ad_footerbanner3"></div>
+
+<div id="footer">
+	<div class="wrap">
+		<div id="footlinks">
+			<p>当前时区 GMT+8, 现在时间是 2009-4-26 10:43 <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备07039416</a></p>
+			<p>
+				<a href="member.php?action=clearcookies&amp;formhash=e484b517">清除 Cookies</a>
+				- <a href="mailto:hxl2000@gmail.com">联系我们</a> - <a href="http://www.UbuntuChina.com/" target="_blank">UbuntuChina互动社区（2006－2009）</a>
+				 - <a href="archiver/" target="_blank">Archiver</a>								- <span class="scrolltop" onclick="window.scrollTo(0,0);">TOP</span>
+							</p>
+		</div>
+
+		<a href="http://www.discuz.net" target="_blank" title="Powered by Discuz!"><img src="images/default/discuz_icon.gif" border="0" alt="Discuz!" /></a>
+		<p id="copyright">
+			Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>6.0.0</em>			&copy; 2001-2007 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>
+		</p>			<p id="debuginfo">Processed in 0.059444 second(s), 7 queries.</p>
+			</div>
+</div>
+</body>
+</html><script src="include/javascript/msn.js" type="text/javascript"></script>

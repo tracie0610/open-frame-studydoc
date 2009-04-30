@@ -1,0 +1,1483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="zh-cn" xml:lang="zh-cn">
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-language" content="zh-cn" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="resource-type" content="document" />
+<meta name="distribution" content="global" />
+<meta name="copyright" content="2000, 2002, 2005, 2007 phpBB Group" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<title>Ubuntu中文论坛 &bull; 查看主题 - [原创] wubi 安装 ubuntu 以及备份、克隆、移动使用 （08.05.07更新）</title>
+
+<link rel="stylesheet" href="./styles/UbuntuCN/theme/stylesheet.css" type="text/css" />
+
+<script type="text/javascript">
+// <![CDATA[
+
+function popup(url, width, height, name)
+{
+	if (!name)
+	{
+		name = '_popup';
+	}
+
+	window.open(url.replace(/&amp;/g, '&'), name, 'height=' + height + ',resizable=yes,scrollbars=yes,width=' + width);
+	return false;
+}
+
+function jumpto()
+{
+	var page = prompt('填入您想前往的页数:', '1');
+	var perpage = '15';
+	var base_url = './viewtopic.php?f=77&amp;t=113953';
+
+	if (page !== null && !isNaN(page) && page > 0)
+	{
+		document.location.href = base_url.replace(/&amp;/g, '&') + '&start=' + ((page - 1) * perpage);
+	}
+}
+
+/**
+* Find a member
+*/
+function find_username(url)
+{
+	popup(url, 760, 570, '_usersearch');
+	return false;
+}
+
+/**
+* Mark/unmark checklist
+* id = ID of parent container, name = name prefix, state = state [true/false]
+*/
+function marklist(id, name, state)
+{
+	var parent = document.getElementById(id);
+	if (!parent)
+	{
+		eval('parent = document.' + id);
+	}
+
+	if (!parent)
+	{
+		return;
+	}
+
+	var rb = parent.getElementsByTagName('input');
+	
+	for (var r = 0; r < rb.length; r++)
+	{
+		if (rb[r].name.substr(0, name.length) == name)
+		{
+			rb[r].checked = state;
+		}
+	}
+}
+
+
+	/**
+	* Play quicktime file by determining it's width/height
+	* from the displayed rectangle area
+	*
+	* Only defined if there is a file block present.
+	*/
+	function play_qt_file(obj)
+	{
+		var rectangle = obj.GetRectangle();
+
+		if (rectangle)
+		{
+			rectangle = rectangle.split(',')
+			var x1 = parseInt(rectangle[0]);
+			var x2 = parseInt(rectangle[2]);
+			var y1 = parseInt(rectangle[1]);
+			var y2 = parseInt(rectangle[3]);
+
+			var width = (x1 < 0) ? (x1 * -1) + x2 : x2 - x1;
+			var height = (y1 < 0) ? (y1 * -1) + y2 : y2 - y1;
+		}
+		else
+		{
+			var width = 200;
+			var height = 0;
+		}
+
+		obj.width = width;
+		obj.height = height + 16;
+
+		obj.SetControllerVisible(true);
+
+		obj.Play();
+	}
+
+// ]]>
+</script>
+
+<script type="text/javascript" src="./styles/UbuntuCN/theme/highslide/highslide-full.js"></script>
+<link rel="stylesheet" href="./styles/UbuntuCN/theme/highslide.css" type="text/css" />
+
+<script type="text/javascript">
+        hs.showCredits = 0;
+        hs.graphicsDir = './styles/UbuntuCN/theme/highslide/graphics/';
+        hs.align = 'center';
+        hs.transitions = ['expand', 'crossfade'];
+        hs.outlineType = 'glossy-dark';
+        hs.wrapperClassName = 'glossy-dark';
+        hs.fadeInOut = true;
+        hs.dimmingOpacity = 0.3;
+        //hs.padToMinWidth = true;
+
+        if (hs.addSlideshow) hs.addSlideshow({
+            interval: 5000,
+            repeat: false,
+            useControls: true,
+            fixedControls: 'fit',
+            overlayOptions: {
+                opacity: .6,
+                position: 'bottom center',
+                hideOnMouseOut: true
+            }
+        });
+
+</script>
+
+
+<link rel="alternate" type="application/rss+xml" title="Ubuntu中文论坛 RSS" href="./feed.php" />
+<link rel="alternate" type="application/atom+xml" title="Ubuntu中文论坛 Atom" href="./feed.php?type=atom" />			
+</head>
+<body class="ltr">
+
+<a name="top"></a>
+
+<div id="wrapheader">
+
+	<div id="logodesc">
+
+			 <div id="mastWrapper">
+			 <div id="masthead">	
+    <!--////////////////////////////////////////////////////////////-->
+    <a id="logo" href="./" style="position:absolute;display:block;width:454px;height:90px;"></a> 
+    <!--////////////////////////////////////////////////////////////-->
+				<div id="nav1">
+                                  <ul>
+					<li><a href="http://irc.ubuntu.org.cn/">ChatIRC</a></li>
+					<li><a href="http://blog.ubuntu.org.cn/">Blog</a></li>
+					<li><a href="http://paste.ubuntu.org.cn">Paste</a></li>
+                                         <li><a href="http://www.ubuntu.org.cn/">Ubuntu</a></li>
+                                         <li><a href="http://wiki.ubuntu.org.cn">Wiki</a></li>
+					 <li><a href="http://linux.ubuntu.org.cn">Linux</a></li> 
+                                         <li id="current"><a href="http://forum.ubuntu.org.cn">Forum</a></li> 
+                                         <li><a href="http://python.ubuntu.org.cn">Python</a></li>
+
+                                  </ul>
+                                </div></div></div>
+<div id='sitesearch'>
+<!-- SiteSearch Google -->
+<form method="get" action="http://www.google.cn/search" target="google_window">
+
+<input type="text" name="as_q" size="31" maxlength="255" value=""/>
+<input type="submit" name="sa" value="搜索"/>
+<input name="as_sitesearch" value="ubuntu.org.cn" type="hidden"/>
+<input name="newwindow" value="1" type="hidden"/>
+<input name="complete" value="1" type="hidden"/>
+<input name="forid" value="zh-CN" type="hidden"/>
+<input type="hidden" name="num" value="10"/>
+<input name="btnG" value="Google+%E6%90%9C%E7%B4%A2&" type="hidden"/>
+<input name="as_ft" value="1" type="hidden"/>
+<input name="as_qdr" value="all" type="hidden"/>
+<input name="as_occt" value="any" type="hidden"/>
+<input name="as_dt" value="i" type="hidden"/>
+</form>
+<!-- SiteSearch Google -->
+</div>
+
+
+
+
+	</div>
+
+	<div id="menubar">
+		<table width="100%" cellspacing="0">
+		<tr>
+			<td class="genmed">
+				<a href="./ucp.php?mode=login"><img src="./styles/UbuntuCN/theme/images/icon_mini_login.gif" width="12" height="13" alt="*" /> 登录</a>&nbsp; &nbsp;<a href="./ucp.php?mode=register"><img src="./styles/UbuntuCN/theme/images/icon_mini_register.gif" width="12" height="13" alt="*" /> 注册</a>
+								</td>
+			<td class="genmed" align="right">
+				<a href="./faq.php"><img src="./styles/UbuntuCN/theme/images/icon_mini_faq.gif" width="12" height="13" alt="*" /> FAQ</a>
+									<!--
+					 -->
+								</td>
+		</tr>
+<!--
+		</table>
+	</div>
+
+	<div id="datebar">
+		<table width="100%" cellspacing="0">
+
+		<tr>
+			<td class="gensmall"></td>
+			<td class="gensmall" align="right">现在的时间是 2009-04-18  15:13<br /></td>
+		</tr>
+-->
+		</table>
+	</div>
+
+</div>
+
+<div id="wrapcentre">
+
+	
+	<br style="clear: both;" />
+
+	<table class="tablebg" width="100%" cellspacing="1" cellpadding="0" style="margin-top: 5px;">
+	<tr>
+		<td class="row1">
+			<p class="breadcrumbs"><a href="./index.php">论坛首页</a> &#187; <a href="./viewforum.php?f=141">系统安装区</a> &#187; <a href="./viewforum.php?f=77">系统安装和升级</a></p>
+			<p class="datetime">当前时区为 UTC + 8 小时</p>
+		</td>
+	</tr>
+	</table>
+	<br />
+<div id="pageheader">
+	<h2><a class="titles" href="./viewtopic.php?f=77&amp;t=113953&amp;start=0">[原创] wubi 安装 ubuntu 以及备份、克隆、移动使用 （08.05.07更新）</a></h2>
+<!--
+	<p class="moderators">版主: <a href="./memberlist.php?mode=group&amp;g=988">Ubuntu中文</a></p>
+-->
+	<p class="skills"><script type="text/javascript" src="./styles/UbuntuCN/template/skills.js" ></script></p>
+</div>
+
+<br clear="all" /><br />
+
+<div id="pagecontent">
+
+	<table width="100%" cellspacing="1">
+	<tr>
+		<td align="left" valign="middle" nowrap="nowrap">
+		<a href="./posting.php?mode=post&amp;f=77"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/button_topic_new.gif" alt="发表新帖" title="发表新帖" /></a>&nbsp;<a href="./posting.php?mode=reply&amp;f=77&amp;t=113953"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/button_topic_reply.gif" alt="回复这个主题" title="回复这个主题" /></a>		</td>
+					<td class="nav" valign="middle" nowrap="nowrap">&nbsp;分页： <strong>1</strong> / <strong>17</strong><br /></td>
+			<td class="gensmall" nowrap="nowrap">&nbsp;[ 249 篇帖子 ]&nbsp;首贴: <img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" />&nbsp;</td>
+			<td class="gensmall" width="100%" align="right" nowrap="nowrap"><b><a href="#" onclick="jumpto(); return false;" title="点击前往页面…">前往页数</a> <strong>1</strong><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=15">2</a><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=30">3</a><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=45">4</a><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=60">5</a> ... <a href="./viewtopic.php?f=77&amp;t=113953&amp;start=240">17</a> &nbsp;<a href="./viewtopic.php?f=77&amp;t=113953&amp;start=15">下一页</a></b></td>
+			</tr>
+	</table>
+
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr>
+		<td class="cat">
+			<table width="100%" cellspacing="0">
+			<tr>
+				<td class="nav" nowrap="nowrap">&nbsp;
+				<a href="./viewtopic.php?f=77&amp;t=113953&amp;start=0&amp;view=print" title="打印预览">打印预览</a>				</td>
+				<td class="nav" align="right" nowrap="nowrap"><a href="./viewtopic.php?f=77&amp;t=113953&amp;view=previous">上一个主题</a> | <a href="./viewtopic.php?f=77&amp;t=113953&amp;view=next">下一个主题</a>&nbsp;</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+
+	<table class="tablebg" width="100%" cellspacing="1">
+			<tr>
+			<th>作者</th>
+			<th>内容</th>
+		</tr>
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p688275"></a>
+				1&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=15744">ptptptptptpt</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> [原创] wubi 安装 ubuntu 以及备份、克隆、移动使用 （08.05.07更新）</div><div style="float: right;"><a href="./viewtopic.php?p=688275#p688275"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-07  21:52&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=15744_1226289169.png" width="128" height="85" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-09-19  18:16<br /><b>帖子:</b> 2947				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">注1：本文内容适用于 ubuntu-8.04-desktop-i386.iso ，部分内容适用于其它版本 ubuntu 。<br />注2：之前已有过一种移动 ubuntu 方案，见这里 <!-- l --><a class="postlink-local" href="http://forum.ubuntu.org.cn/viewtopic.php?t=29692&amp;highlight=">viewtopic.php?t=29692&amp;highlight=</a><!-- l --> 。<br />注3：在某些细节上有不止一种实现方法，本文只提供一种可行的。若明白原理，则不必拘泥。<br /><br /><br />wubi 原本是一个第三方工具软件，现已被收入 ubuntu 官方 iso。它为 ubuntu 提供了一种独特的安装方式 —— 在 windows 下像安装一个应用程序一样来安装 ubuntu 系统。<span style="color: red">这种方式的好处是：无需专门为 ubuntu 分区；采用 GRUB4DOS 而非 GNU GRUB 作为引导器，不写硬盘 mbr，对现有系统无影响，出了问题在 windows 下就可修复。</span><br /><br />wubi 与虚拟机有本质区别。wubi 安装是在现有的分区中创建磁盘映像文件（虚拟硬盘），将 ubuntu 系统文件写入其中，启动时将其挂载为根文件系统。一般的根文件系统是由一个或几个分区构成，而这里只是硬盘中的一些文件。<span style="color: red">这就意味着：通过复制这些文件，即可轻松实现系统克隆；将映像文件存入移动硬盘，稍加配置，就变成了可移动的 ubuntu 系统。</span> <br /><br /><br /><span style="font-weight: bold"><span style="color: blue">用 wubi 安装一个 ubuntu 系统</span></span><br /><br />下载 ubuntu-8.04-desktop-i386.iso 。我是从这里下的： <!-- m --><a class="postlink" href="http://tw.releases.ubuntu.com/8.04/ubuntu-8.04-desktop-i386.iso">http://tw.releases.ubuntu.com/8.04/ubun ... p-i386.iso</a><!-- m --> 。<br /><br /><span style="color: #FF0000">确保各分区根目录下没有 menu.lst 文件 和 ubuntu 文件夹（别忘了查看隐藏文件和系统文件），有的话请改名或删除，否则可能冲突 —— 这是 wubi 的一个 bug 。</span><br /><br />在 win xp 下，用虚拟光驱加载 ubuntu-8.04-desktop-i386.iso ，双击运行其中的 umenu.exe ，选择 install inside windows ，然后有几个参数需要设定：<br /><br />  ★ ubuntu 安装分区：建议选择内置硬盘中的分区，而不要选U盘或移动硬盘，以保证更快的速度和更高的成功率。理论上不会影响硬盘上原有的文件，但我不能为您担保 ^_^ 。分区格式可以是 ntfs 或 fat32 ，两者各有优缺点 —— ntfs 支持更多高级特性，但它是微软私有的文件系统格式；fat32 适应性强，大多数操作系统都能读写，但特性比较落后，文件最大不能超过 4 GB。 <br />  ★ 安装大小：即磁盘映像的大小，如果你需要安装很多软件并且磁盘空间足够，可以选择大一些，反之可以选小些以方便移动。 <br />  ★ 语言、用户名及密码 <br /><br />此时需联网，因为有少量文件要从网上下载。 <br /><br />设好后点 安装 ，过一会将提示重启。这时可以看到，在您选择安装 ubuntu 的分区中，多了一个名为“ubuntu”的文件夹 —— 磁盘映像文件就在其中。<br /><br />重启后选择 ubuntu ，即可启动安装程序。若不能正常启动，则在屏幕左上角出现“ Press `ESC' to enter the menu ”时，按 esc 键，进入启动菜单，选择 第二项 或 第三项 或 第四项 试试。 <br /><br />安装过程是自动的，无需用户干涉。<br /><br />装好后重启，选择 ubuntu ，即可进入刚装好的系统。<br /><br />安装各种软件，使之成为一个日常可用的比较顺手的系统，具体做法相信每人各有一套，不再赘述。<br /><br /><br /><span style="font-weight: bold"><span style="color: blue">轻松备份</span></span><br /><br />因为系统就装在“ubuntu”文件夹中，所以只需将此文件夹备份即可。<br /><br /><br /><span style="font-weight: bold"><span style="color: blue">为 系统克隆 和 移动使用 做准备</span></span><br /><br />注：8.04以来，很多朋友反映，不做这一步似乎也可以。这得益于 linux 越来越强的硬件适应能力。然而，我还是坚持做这一步，因为它在官方 live cd 中仍旧存在，我相信 ubuntu 开发组保留它肯定是有理由的。<br /><br />1. 安装两个软件以增强硬件检测能力。设置好源，连上网络，运行命令<br />sudo apt-get update <br />sudo apt-get install discover1 xresprobe <br /><br />2. 将附件中 S03xconfig.sh 复制到 /etc/rc2.d/ 并修改其权限使“可执行”。假设 S03xconfig.sh 存放在 /xxx/ 目录下：<br />sudo cp /xxx/S03xconfig.sh /etc/rc2.d/<br />sudo chmod  +x  /etc/rc2.d/S03xconfig.sh <br /><br />这是一个自动配置 X 的脚本，功能比较简陋，只是尽量保证能启动到图形界面。ubuntu 系统中有个“硬件驱动”程序，可以从源中检索、安装硬件驱动，将它加以改进，再配合预先下载的驱动程序包，应该能实现开机自动检测、安装闭源显卡驱动，获得更好的显示性能。这个工作目前没时间做，有兴趣的朋友可以试试。<br /><br />3. 在 ubuntu 文件夹中创建一个名为 ubuntu804 的记号文件。<br /><br /><br /><span style="font-weight: bold"><span style="color: blue">系统克隆</span></span><br /><br />另一台装有 win xp 的电脑（称之为 目标机 ），想装一个 ubuntu ，不必再从头开始，直接克隆一个即可。操作步骤如下：<br /><br />（1）将“ubuntu”文件夹复制到目标机某分区根目录。假如复制失败，请注意 fat32 分区文件大小不能超过 4G 。<br /><br />记下该分区的 UUID 。一个获得 UUID 的方法：在目标机上启动 ubuntu live cd ，运行命令 sudo ls -l /dev/disk/by-uuid ，即可看到各分区对应的 UUID 。<br /><br />（2）设置启动。将附件中的 grldr 、 menu.lst 复制到目标机 c 盘根目录（保险起见可以往每个分区都复制一份）；用记事本打开 menu.lst ，将其中的“xxxxxxxxxxxxxxxxxxxx”换成刚才记下的 UUID ；调整“文件夹选项”使显示 系统文件 和 隐藏文件，应看到 C 盘有个 boot.ini ，修改其属性，去掉“只读”；打开它，在最后添一行 c:\grldr = GRUB4DOS ，可酌情修改 timeout ，示例如下： <br /><br />[boot loader] <br />timeout=10 <br />default=multi(0)disk(0)rdisk(0)partition(1)\WINDOWS <br />[operating systems] <br />multi(0)disk(0)rdisk(0)partition(1)\WINDOWS=&quot;Microsoft Windows XP Professional&quot; /noexecute=optin /fastdetect <br />c:\grldr = GRUB4DOS <br /><br />保存后重启，选择 GRUB4DOS 即可进入 ubuntu 启动菜单。<br /><br /><br /><span style="font-weight: bold"><span style="color: blue">移动使用</span></span><br /><br />把系统装入移动硬盘随身携带，在任何支持 usb 启动的电脑上从移动硬盘启动，即可用上自己的 ubuntu 。操作步骤如下：<br /><br />（1）将“ubuntu”文件夹复制到移动硬盘某分区根目录。假如复制失败，请注意 fat32 分区文件大小不能超过 4G 。<br /><br />记下该分区的 UUID 。在 ubuntu 中运行命令 sudo ls -l /dev/disk/by-uuid ，即可看到各分区对应的 UUID 。<br /><br />（2）设置启动。也就是把移动硬盘做成启动盘，而且是 USB-HDD 模式的、可以启动到 GRUB 环境的启动盘。这其中方法很多，问题也很多，不同电脑 USB 启动成功率各异，您可以去 无忧启动论坛 的相应版块看一看。本文仅给出一种方法，成与不成看人品。<br /><br />将附件中的 grldr 、 menu.lst 复制到移动硬盘某分区根目录（保险起见可以往每个分区都复制一份）；用记事本打开 menu.lst ，将其中的“xxxxxxxxxxxxxxxxxxxx”换成刚才记下的 UUID ；在 Windows 2k/xp/2003 下，运行附件中 grubinst-1.1-bin-w32-2008-01-01 目录下的 grubinst_gui.exe ，在“磁盘”处选中移动硬盘，点击“安装”即可。 <br /><br />从移动硬盘启动，可以看到 ubuntu 启动菜单。<br /><br /><br /><span style="color: red">附：启动菜单说明</span><br /><br />1 标准模式启动<br />2 用 ACPI 临时解决方案启动（仅当您出现 ACPI 问题时）<br />3 用安全图形模式启动（仅当您出现显示问题时）<br />4 单用户启动（修复某些系统故障时）<br />5 内存测试<br /><br /><br />---</div>
+
+											<br clear="all" /><br />
+
+						<table class="tablebg" width="100%" cellspacing="1">
+						<tr>
+							<td class="row3"><b class="genmed">附件: </b></td>
+						</tr>
+													<tr>
+								<td class="row2">			<span class="gensmall"><b>文件注释:</b> 08.05.07</span><br />
+					<span class="genmed">
+				<img src="./styles/UbuntuCN/imageset/icon_topic_attach.gif" width="14" height="18" alt="" title="" /> 				<a href="./download/file.php?id=33305">fj.zip</a> [166.92 KiB]
+			</span><br />
+			<span class="gensmall">被下载 2721 次</span>
+		
+		<br />
+	</td>
+							</tr>
+												</table>
+											<span class="signature"><br /><br />_________________<br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?f=77&amp;t=176612" class="postlink">本地的帮会太没有礼貌了！画个圈圈诅咒你们。</a></span>
+												<br /><br />
+							<span class="gensmall">最后由 <a href="./memberlist.php?mode=viewprofile&amp;u=15744">ptptptptptpt</a> 编辑于 2008-05-09  16:04，总共编辑了 20 次</span>
+						
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688275&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688275&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688275&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688275&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688275&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=15744"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row2">
+			<td align="left" valign="middle">
+				<a name="p688306"></a>
+				2&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=8735">soliton</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688306#p688306"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-07  22:20&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row2">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=8735.jpg" width="128" height="117" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-05-13  14:00<br /><b>帖子:</b> 335				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">wubi还对windows启动做修改呢？</div>
+
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688306&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688306&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688306&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688306&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688306&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row2">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=8735"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p688538"></a>
+				3&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=15744">ptptptptptpt</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688538#p688538"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-08  6:57&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=15744_1226289169.png" width="128" height="85" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-09-19  18:16<br /><b>帖子:</b> 2947				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">只是修改 boot.ini</div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?f=77&amp;t=176612" class="postlink">本地的帮会太没有礼貌了！画个圈圈诅咒你们。</a></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688538&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688538&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688538&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688538&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688538&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=15744"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row2">
+			<td align="left" valign="middle">
+				<a name="p688539"></a>
+				4&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=23250">skyx</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688539#p688539"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-08  7:02&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row2">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=23250.jpg" width="120" height="90" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-12-23  13:46<br /><b>帖子:</b> 8805<br /><b>地址:</b> Azores Islands				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody"><img src="./images/smilies/icon_eek.gif" alt=":shock:" title="Shocked" /></div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://www.verycd.com/groups/@g2214375/" class="postlink">linux大型软件下载基地，點這裏!</a><br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?t=41662&amp;postdays=0&amp;postorder=asc&amp;start=1" class="postlink">安裝software</a><br />no security measure is worth anything if an attacker has physical access to the machine</span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688539&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688539&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688539&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688539&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688539&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row2">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=23250"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p688549"></a>
+				5&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=15744">ptptptptptpt</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688549#p688549"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-08  7:21&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=15744_1226289169.png" width="128" height="85" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-09-19  18:16<br /><b>帖子:</b> 2947				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">sky 同学总是无比 shocked</div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?f=77&amp;t=176612" class="postlink">本地的帮会太没有礼貌了！画个圈圈诅咒你们。</a></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688549&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688549&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688549&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688549&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688549&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=15744"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row2">
+			<td align="left" valign="middle">
+				<a name="p688570"></a>
+				6&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=64678">sammysun</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688570#p688570"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-08  8:16&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row2">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=64678_1230596807.jpg" width="108" height="128" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2007-12-08  23:33<br /><b>帖子:</b> 2488<br /><b>地址:</b> SCUT-guangzhou				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">不同的电脑的驱动不同怎么办？ <img src="./images/smilies/icon_mad.gif" alt=":x" title="Mad" /></div>
+
+											<span class="signature"><br /><br />_________________<br /><span style="color: #FF8000"><span style="font-size: 150%; line-height: normal">Ubuntu立功了！！！不要给Windows任何机会，我们不是一个人在战斗，不是一个人...</span></span></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688570&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688570&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688570&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688570&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688570&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row2">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=64678"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p688582"></a>
+				7&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=45445">luojie-dune</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688582#p688582"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-08  8:42&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=45445_1232687990.png" width="48" height="48" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2007-07-30  18:28<br /><b>帖子:</b> 8699<br /><b>地址:</b> 沙丘				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody"><div class="quotetitle">sammysun 写道:</div><div class="quotecontent">不同的电脑的驱动不同怎么办？ <img src="./images/smilies/icon_mad.gif" alt=":x" title="Mad" /></div>
+<br />
+<br />都装啊-----windows也支持的---自动检测显卡。
+<br />不过linux自带的驱动已经可以应付日常的使用了。</div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?t=76090/" class="postlink"><span style="color: #408000">移动软件包: WINDOWS与Linux文档/数据交流</span></a><br />所有我在此论坛发表的文章隶属 <a href="http://zh.wikipedia.org/wiki/GNU%E8%87%AA%E7%94%B1%E6%96%87%E6%A1%A3%E8%AE%B8%E5%8F%AF%E8%AF%81" class="postlink">GNU自由文档许可证（GFDL）協議</a></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688582&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688582&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688582&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688582&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688582&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=45445"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row2">
+			<td align="left" valign="middle">
+				<a name="p688611"></a>
+				8&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=57808">yaska</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688611#p688611"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-08  9:05&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row2">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=57808.jpg" width="96" height="96" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2007-10-28  21:35<br /><b>帖子:</b> 997				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">还要做U盘启动盘</div>
+
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688611&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688611&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688611&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688611&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688611&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row2">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=57808"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p688890"></a>
+				9&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=15744">ptptptptptpt</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=688890#p688890"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-08  12:34&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=15744_1226289169.png" width="128" height="85" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-09-19  18:16<br /><b>帖子:</b> 2947				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody"><div class="quotetitle">sammysun 写道:</div><div class="quotecontent">不同的电脑的驱动不同怎么办？ <img src="./images/smilies/icon_mad.gif" alt=":x" title="Mad" /></div>
+<br />
+<br />请参考这里  <!-- m --><a class="postlink" href="http://forum.ubuntu.org.cn/viewtopic.php?t=29692">http://forum.ubuntu.org.cn/viewtopic.php?t=29692</a><!-- m --></div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?f=77&amp;t=176612" class="postlink">本地的帮会太没有礼貌了！画个圈圈诅咒你们。</a></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=688890&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=688890&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=688890&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=688890&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=688890&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=15744"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row2">
+			<td align="left" valign="middle">
+				<a name="p690400"></a>
+				10&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=78271">caijiamx</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=690400#p690400"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-09  14:10&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row2">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2008-03-28  19:20<br /><b>帖子:</b> 85				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">这个 不是吧
+<br />我的怎么不能啊
+<br />我用wubi后 重启后 有 install ubuntu 选项 
+<br />安装之后 XP就挂了。。。。</div>
+
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=690400&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=690400&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=690400&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=690400&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=690400&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row2">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=78271"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p691294"></a>
+				11&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=15744">ptptptptptpt</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=691294#p691294"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-10  8:03&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=15744_1226289169.png" width="128" height="85" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-09-19  18:16<br /><b>帖子:</b> 2947				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody"><div class="quotetitle">caijiamx 写道:</div><div class="quotecontent">这个 不是吧<br />我的怎么不能啊<br />我用wubi后 重启后 有 install ubuntu 选项 <br />安装之后 XP就挂了。。。。</div>
+<br />
+<br />不会吧，能详细说一下吗？？哪里获得的 wubi ？ 什么版本？？ 操作过程？？</div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?f=77&amp;t=176612" class="postlink">本地的帮会太没有礼貌了！画个圈圈诅咒你们。</a></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=691294&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=691294&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=691294&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=691294&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=691294&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=15744"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row2">
+			<td align="left" valign="middle">
+				<a name="p700222"></a>
+				12&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=15744">ptptptptptpt</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=700222#p700222"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-16  12:20&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row2">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=15744_1226289169.png" width="128" height="85" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-09-19  18:16<br /><b>帖子:</b> 2947				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">自己顶一下。。。</div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://forum.ubuntu.org.cn/viewtopic.php?f=77&amp;t=176612" class="postlink">本地的帮会太没有礼貌了！画个圈圈诅咒你们。</a></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=700222&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=700222&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=700222&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=700222&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=700222&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row2">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=15744"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p700247"></a>
+				13&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=22524">andrew_t</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=700247#p700247"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-16  12:55&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2006-12-14  3:00<br /><b>帖子:</b> 614				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">路过顶一下，不错...</div>
+
+											<span class="signature"><br /><br />_________________<br /><a href="http://www.linuxforum.net/doc/smartq-grand.html" class="postlink">提问的智慧</a></span>
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=700247&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=700247&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=700247&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=700247&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=700247&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=22524"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row2">
+			<td align="left" valign="middle">
+				<a name="p701077"></a>
+				14&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=59279">restar</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=701077#p701077"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-16  23:25&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row2">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2007-11-06  13:38<br /><b>帖子:</b> 123				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">支持，我一直在移动硬盘上使用UBUNTU，就是根据你以前的那个帖子做的。
+<br />
+<br />现在全新的安装方式还没有试过，等24日出正式版后再试。</div>
+
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=701077&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=701077&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=701077&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=701077&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=701077&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row2">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=59279"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+	<table class="tablebg" width="100%" cellspacing="1">
+	<tr class="row1">
+			<td align="left" valign="middle">
+				<a name="p701252"></a>
+				15&nbsp;楼&nbsp;
+				<b class="postauthor">
+							<a href="./memberlist.php?mode=viewprofile&amp;u=34582">冲浪板</a>			
+			
+			</b>
+			</td>
+			<td width="100%" height="25">
+				<table width="100%" cellspacing="0">
+				<tr>
+									<td class="gensmall" width="100%"><div style="float: left;">&nbsp;<b>文章标题 :</b> </div><div style="float: right;"><a href="./viewtopic.php?p=701252#p701252"><img src="./styles/UbuntuCN/imageset/icon_post_target.gif" width="12" height="9" alt="帖子" title="帖子" /></a><b>发表于 :</b> 2008-04-17  7:55&nbsp;</div></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr class="row1">
+			<td valign="top" class="profile">
+				<table cellspacing="4" align="center" width="150">
+							<tr>
+					<td><img src="./download/file.php?avatar=34582.jpg" width="26" height="33" alt="头像" /></td>
+				</tr>
+							</table>
+
+				<span class="postdetails">
+					<br /><b>注册:</b> 2007-05-06  8:19<br /><b>帖子:</b> 3760				</span>
+
+			</td>
+			<td valign="top">
+				<table width="100%" cellspacing="5">
+				<tr>
+					<td>
+					
+						<div class="postbody">对于ntfs分区，需要一个grldr.mbr.....</div>
+
+					<br clear="all" /><br />
+						<table width="100%" cellspacing="0">
+						<tr valign="middle">
+							<td class="gensmall" align="left">
+                                                                <a href="./prs.php?mode=vote&amp;s=1&amp;p=701252&amp;t=113953&amp;f=77" title="一般"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="一般" title="一般" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=2&amp;p=701252&amp;t=113953&amp;f=77" title="还行"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="还行" title="还行" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=3&amp;p=701252&amp;t=113953&amp;f=77" title="不错"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="不错" title="不错" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=4&amp;p=701252&amp;t=113953&amp;f=77" title="很好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="很好" title="很好" /></a>
+                                                                        <a href="./prs.php?mode=vote&amp;s=5&amp;p=701252&amp;t=113953&amp;f=77" title="非常好"><img src="./styles/UbuntuCN/imageset/prs_star_v_00.gif" width="16" height="18" alt="非常好" title="非常好" /></a>
+                                                                							</td>
+							<td class="gensmall" align="right">
+														</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="profile"><strong><a href="#wrapheader">页首</a></strong></td>
+			<td><div class="gensmall" style="float: left;">&nbsp;<a href="./memberlist.php?mode=viewprofile&amp;u=34582"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/icon_user_profile.gif" alt="用户资料" title="用户资料" /></a> &nbsp;</div> <div class="gensmall" style="float: right;">&nbsp;</div></td>
+			</tr>
+
+	<tr>
+		<td class="spacer" colspan="2" height="1"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+	</tr>
+	</table>
+
+	<table width="100%" cellspacing="1" class="tablebg">
+	<tr align="center">
+		<td class="cat"><form name="viewtopic" method="post" action="./viewtopic.php?f=77&amp;t=113953&amp;start=0"><span class="gensmall">显示帖子 :</span> <select name="st" id="st"><option value="0" selected="selected">全部帖子</option><option value="1">1天</option><option value="7">7天</option><option value="14">2周</option><option value="30">1个月</option><option value="90">3个月</option><option value="180">6个月</option><option value="365">1年</option></select>&nbsp;<span class="gensmall">排序</span> <select name="sk" id="sk"><option value="a">作者</option><option value="t" selected="selected">发表时间</option><option value="s">文章标题</option></select> <select name="sd" id="sd"><option value="a" selected="selected">升序</option><option value="d">降序</option></select>&nbsp;<input class="btnlite" type="submit" value="GO" name="sort" /></form></td>
+	</tr>
+	</table>
+
+	<table width="100%" cellspacing="1">
+	<tr>
+		<td align="left" valign="middle" nowrap="nowrap">
+		<a href="./posting.php?mode=post&amp;f=77"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/button_topic_new.gif" alt="发表新帖" title="发表新帖" /></a>&nbsp;<a href="./posting.php?mode=reply&amp;f=77&amp;t=113953"><img src="./styles/UbuntuCN/imageset/zh_cmn_hans/button_topic_reply.gif" alt="回复这个主题" title="回复这个主题" /></a>		</td>
+					<td class="nav" valign="middle" nowrap="nowrap">&nbsp;分页： <strong>1</strong> / <strong>17</strong><br /></td>
+			<td class="gensmall" nowrap="nowrap">&nbsp;[ 249 篇帖子 ]&nbsp;首贴: <img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" /><img src="./styles/UbuntuCN/imageset/prs_star_s_00.gif" width="8" height="9" alt="" title="" />&nbsp;</td>
+			<td class="gensmall" width="100%" align="right" nowrap="nowrap"><b><a href="#" onclick="jumpto(); return false;" title="点击前往页面…">前往页数</a> <strong>1</strong><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=15">2</a><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=30">3</a><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=45">4</a><span class="page-sep">, </span><a href="./viewtopic.php?f=77&amp;t=113953&amp;start=60">5</a> ... <a href="./viewtopic.php?f=77&amp;t=113953&amp;start=240">17</a> &nbsp;<a href="./viewtopic.php?f=77&amp;t=113953&amp;start=15">下一页</a></b></td>
+			</tr>
+	</table>
+
+</div>
+
+
+<div id="pagefooter"></div>
+
+<br clear="all" />
+
+<table class="tablebg" width="100%" cellspacing="1" cellpadding="0" style="margin-top: 5px;">
+	<tr>
+		<td class="row1">
+			<p class="breadcrumbs"><a href="./index.php">论坛首页</a> &#187; <a href="./viewforum.php?f=141">系统安装区</a> &#187; <a href="./viewforum.php?f=77">系统安装和升级</a></p>
+			<p class="datetime">当前时区为 UTC + 8 小时</p>
+		</td>
+	</tr>
+	</table>
+<br clear="all" />
+
+<table width="100%" cellspacing="1">
+<tr>
+	<td width="40%" valign="top" nowrap="nowrap" align="left"></td>
+	<td align="right" valign="top" nowrap="nowrap"><span class="gensmall">您 <strong>不能</strong> 在这个版面发表主题<br />您 <strong>不能</strong> 在这个版面回复主题<br />您 <strong>不能</strong> 在这个版面编辑帖子<br />您 <strong>不能</strong> 在这个版面删除帖子<br />您 <strong>不能</strong> 在这个版面提交附件<br /></span></td>
+</tr>
+</table>
+
+<br clear="all" />
+
+<table width="100%" cellspacing="0">
+<tr>
+	<td></td>
+	<td align="right">	<form method="post" name="jumpbox" action="./viewforum.php" onsubmit="if(document.jumpbox.f.value == -1){return false;}">
+
+	<table cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td nowrap="nowrap"><span class="gensmall">前往 :</span>&nbsp;<select name="f" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
+
+					<option value="-1">选择一个版面</option>
+		<option value="-1">------------------</option>			<option value="140">公告/注意事项</option>
+					<option value="1">&nbsp; &nbsp;新闻和通知</option>
+					<option value="95">&nbsp; &nbsp;软件推荐</option>
+					<option value="127">&nbsp; &nbsp;校园社团支持</option>
+					<option value="128">&nbsp; &nbsp;&nbsp; &nbsp;华东校区</option>
+					<option value="129">&nbsp; &nbsp;&nbsp; &nbsp;华南校区</option>
+					<option value="130">&nbsp; &nbsp;&nbsp; &nbsp;华北校区</option>
+					<option value="131">&nbsp; &nbsp;&nbsp; &nbsp;华中校区</option>
+					<option value="132">&nbsp; &nbsp;&nbsp; &nbsp;东北校区</option>
+					<option value="133">&nbsp; &nbsp;&nbsp; &nbsp;西南校区</option>
+					<option value="134">&nbsp; &nbsp;&nbsp; &nbsp;西北校区</option>
+					<option value="135">&nbsp; &nbsp;&nbsp; &nbsp;港澳台校区</option>
+					<option value="136">&nbsp; &nbsp;&nbsp; &nbsp;国外校区</option>
+					<option value="141">系统安装区</option>
+					<option value="120">&nbsp; &nbsp;教学和常见问答</option>
+					<option value="48">&nbsp; &nbsp;初学者园地</option>
+					<option value="77" selected="selected">&nbsp; &nbsp;系统安装和升级</option>
+					<option value="52">&nbsp; &nbsp;&nbsp; &nbsp;新立得和软件源</option>
+					<option value="139">&nbsp; &nbsp;启动和引导</option>
+					<option value="116">&nbsp; &nbsp;网卡问题以及网络和拨号</option>
+					<option value="126">&nbsp; &nbsp;笔记本、UMPC、MID支持</option>
+					<option value="42">&nbsp; &nbsp;常用硬件支持</option>
+					<option value="85">&nbsp; &nbsp;系统架构支持</option>
+					<option value="142">配置美化区</option>
+					<option value="8">&nbsp; &nbsp;字体美化和中文支持</option>
+					<option value="24">&nbsp; &nbsp;&nbsp; &nbsp;个人配置文件存放点</option>
+					<option value="94">&nbsp; &nbsp;3 D 桌面</option>
+					<option value="33">&nbsp; &nbsp;桌面主题和壁纸</option>
+					<option value="12">&nbsp; &nbsp;屏幕抓图</option>
+					<option value="143">软件使用</option>
+					<option value="35">&nbsp; &nbsp;办公、图像、机械电子设计等</option>
+					<option value="68">&nbsp; &nbsp;&nbsp; &nbsp;Vim和Emacs</option>
+					<option value="73">&nbsp; &nbsp;因特网相关软件</option>
+					<option value="74">&nbsp; &nbsp;影音多媒体</option>
+					<option value="121">&nbsp; &nbsp;Wine及其分支</option>
+					<option value="34">&nbsp; &nbsp;游戏和游戏模拟器</option>
+					<option value="65">&nbsp; &nbsp;虚拟机和虚拟化</option>
+					<option value="122">&nbsp; &nbsp;其它类软件</option>
+					<option value="144">服务器管理</option>
+					<option value="54">&nbsp; &nbsp;服务器基础应用</option>
+					<option value="43">&nbsp; &nbsp;网站架设</option>
+					<option value="44">&nbsp; &nbsp;数据库管理</option>
+					<option value="124">&nbsp; &nbsp;服务器维护和硬件相关</option>
+					<option value="145">程序设计区</option>
+					<option value="21">&nbsp; &nbsp;Shell脚本</option>
+					<option value="88">&nbsp; &nbsp;软件/网站开发</option>
+					<option value="63">&nbsp; &nbsp;&nbsp; &nbsp;Python/Php/Perl</option>
+					<option value="70">&nbsp; &nbsp;&nbsp; &nbsp;C/C++/Java</option>
+					<option value="97">&nbsp; &nbsp;内核及嵌入式开发</option>
+					<option value="56">&nbsp; &nbsp;编译或打包</option>
+					<option value="80">&nbsp; &nbsp;Ubuntu 错误报告</option>
+					<option value="137">&nbsp; &nbsp;开源小工具</option>
+					<option value="146">版本支持</option>
+					<option value="49">&nbsp; &nbsp;Ubuntu 9.04</option>
+					<option value="50">&nbsp; &nbsp;Ubuntu 8.04 LTS</option>
+					<option value="86">&nbsp; &nbsp;老旧版本支持</option>
+					<option value="147">衍生发行版</option>
+					<option value="28">&nbsp; &nbsp;Hiweed发行版</option>
+					<option value="38">&nbsp; &nbsp;Kubuntu</option>
+					<option value="39">&nbsp; &nbsp;Xubuntu</option>
+					<option value="103">&nbsp; &nbsp;Ubuntu衍生版</option>
+					<option value="105">&nbsp; &nbsp;其它类Unix OS发行版</option>
+					<option value="155">&nbsp; &nbsp;&nbsp; &nbsp;Arch发行版</option>
+					<option value="148">感想区</option>
+					<option value="101">&nbsp; &nbsp;深度PK版</option>
+					<option value="112">&nbsp; &nbsp;Ubuntu故事</option>
+					<option value="153">&nbsp; &nbsp;Full Circle 开源杂志</option>
+					<option value="149">分享交流区</option>
+					<option value="27">&nbsp; &nbsp;Ubuntu 光盘分享</option>
+					<option value="31">&nbsp; &nbsp;同城交流</option>
+					<option value="152">&nbsp; &nbsp;线下活动专版</option>
+					<option value="150">归档区</option>
+					<option value="17">&nbsp; &nbsp;翻译版</option>
+					<option value="123">&nbsp; &nbsp;归档贴</option>
+					<option value="151">站务区</option>
+					<option value="100">&nbsp; &nbsp;Ubuntu 中文网上商店</option>
+					<option value="16">&nbsp; &nbsp;论坛管理</option>
+		
+		</select>&nbsp;<input class="btnlite" type="submit" value="GO" /></td>
+	</tr>
+	</table>
+
+	</form>
+</td>
+</tr>
+</table>
+
+</div>
+
+<!--
+	We request you retain the full copyright notice below including the link to www.phpbb.com.
+	This not only gives respect to the large amount of time given freely by the developers
+	but also helps build interest, traffic and use of phpBB3. If you (honestly) cannot retain
+	the full copyright we ask you at least leave in place the "Powered by phpBB" line, with
+	"phpBB" linked to www.phpbb.com. If you refuse to include even this then support on our
+	forums may be affected.
+
+	The phpBB Group : 2006
+//-->
+
+<div id="wrapfooter">
+		<span class="gensmall">软件应可免费取得，软件工具在各种语言环境下皆可使用，且不会有任何功能上的差异；<br />人们应有定制和修改软件的自由，且方式不受限制，只要他们自认为合适。</span><br />
+	<span class="copyright">Powered by <a href="http://www.phpbb.com/">phpBB</a> &copy; 2000, 2002, 2005, 2007 phpBB Group
+	<br />简体中文语系由 <a href="http://www.phpbbchina.com/creditinfo">PHPBB中文翻译小组</a> 维护制作</span>
+</div>
+
+</body>
+</html>

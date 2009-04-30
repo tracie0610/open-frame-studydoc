@@ -1,0 +1,633 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Linux学习笔记——内存管理（2） - 原创贴吧 -  UbuntuChina互动社区 应用创造价值，一个只谈应用的社区，为Ubuntu和Linux初学者服务！ - Powered by Discuz!</title>
+<meta name="keywords" content="Ubhuntu中文社区,Ubuntu中文论坛,Ubuntu入门'学习'应用'技巧、经验 , Ubuntu开发经验、技巧,Linux入门、提高、学习、应用技巧、经验 ,原创,教程,学习资源,Linux入门,Ubuntu入门 ,LPI教程 ,LPI考试,RHCE教程，RHCE教材,RHCE考试,Linux职位,高级职位" />
+<meta name="description" content=" UbuntuChina互动社区 Linux Kernel Note
+Title: 内存管理
+kernel version: 2.4.*
+——casual0402
+——2009.04.20
+
+————————————–cut-line
+
+1.数据结构和函数
+
+众所周知，l ... - Discuz! Board" />
+<meta name="generator" content="Discuz! 6.0.0" />
+<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+<meta name="copyright" content="2001-2007 Comsenz Inc." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<link rel="archives" title="UbuntuChina互动社区" href="http://www.ubuntuchina.com/archiver/" />
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_1.css" />
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_1_append.css" />
+<script type="text/javascript">var IMGDIR = 'images/default';var attackevasive = '0';var gid = 0;gid = parseInt('36');var fid = parseInt('38');var tid = parseInt('6788');</script>
+<script src="include/javascript/common.js" type="text/javascript"></script>
+<script src="include/javascript/menu.js" type="text/javascript"></script>
+<script src="include/javascript/ajax.js" type="text/javascript"></script>
+</head>
+
+<body onkeydown="if(event.keyCode==27) return false;">
+
+	<div id="append_parent"></div><div id="ajaxwaitid"></div>
+	<div class="wrap">
+		<div id="header">
+			<h2><a href="index.php" title="UbuntuChina互动社区"><img src="images/default/logo.gif" alt="UbuntuChina互动社区" border="0" /></a></h2>
+			<div id="ad_headerbanner"></div>
+		</div>
+		<div id="menu">
+					<span class="frameswitch">
+			<script type="text/javascript">
+			if(top == self) {
+							document.write('<a href="frame.php?frameon=yes" target="_top" class="frameon">分栏模式<\/a>');
+			} else {
+				document.write('<a href="frame.php?frameon=no" target="_top" class="frameoff">平板模式<\/a>');
+			}
+			</script>
+			</span>
+		
+			<ul>
+							<li><cite><a href="space.php?action=viewpro&amp;uid=5837">frankswu</a></cite></li>
+				<li><a href="logging.php?action=logout&amp;formhash=e484b517" class="notabs">退出</a></li>
+				<li><a href="pm.php" target="_blank">短消息</a></li>			
+			<li><a href="member.php?action=list">会员</a></li>			<li><a href="search.php?srchfid=38">搜索</a></li>													<li><a href="my.php?item=threads">我的话题</a></li><li><a href="my.php?item=grouppermission">我的权限</a></li>				<li><a href="memcp.php">控制面板</a></li>								<li><a href="magic.php">道具</a></li>																<li><a href="faq.php">帮助</a></li>
+			</ul>
+		</div>
+<script src="include/javascript/viewthread.js" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);</script>
+
+<div id="foruminfo">
+	<div id="nav">
+		<a href="index.php" id="forumlist" onmouseover="showMenu(this.id)" class="dropmenu">UbuntuChina互动社区</a> &raquo; <a href="forumdisplay.php?fid=38">原创贴吧</a> &raquo; Linux学习笔记——内存管理（2）	</div>
+	<div id="headsearch">
+			<script src="forumdata/cache/google_var.js" type="text/javascript"></script>
+		<script src="include/javascript/google.js" type="text/javascript"></script>
+			</div>
+</div>
+
+<div id="ad_text"></div>
+
+	<div class="maintable" id="pmprompt">
+
+<div class="box" id="pmprompt">
+	<bgsound src="images/sound/pm_1.wav" />	<span class="headactions">
+		<a href="pm.php" target="_blank">[查看详情]</a>
+		<a href="pm.php?action=noprompt" onclick="ajaxget(this.href, 'pmprompt', null, null, 'none');doane(event);">[不再提示]</a>	</span>
+	<h4>您有<span id="newpmnum">1</span> 条新短消息&nbsp;</h4>
+	<table summary="New PM" cellspacing="0" cellpadding="5">
+
+			<tbody id="pmrow_6284">
+			<tr>
+				<td width="13%" nowrap valign="top">
+					<span class="bold">来自: </span>系统消息				</td>
+				<td>
+					<span class="bold" nowrap>标题:</span>
+											<a href="pm.php?action=view&amp;pmid=6284&amp;pmprompt=yes" target="_blank" onclick="ajaxget(this.href, 'pm_6284', null, null, '', 'hidelastpm(6284)');doane(event);">frankswu，您好，感谢您的注册，请阅读以下内容。 ...</a>
+										<div id="pm_6284" style="display: none">
+											</div>
+				</td>
+			</tr>
+		</tbody>
+	
+	</table>
+</div>
+
+<script type="text/javascript">
+
+lastpmid = null;
+function hidelastpm(pmid) {
+	if(lastpmid && lastpmid != pmid) {
+		changedisplay($('pm_'+lastpmid), 'none');
+	}
+	lastpmid = pmid;
+}
+
+</script></div>
+
+<div class="pages_btns">
+	<div class="threadflow"><a href="redirect.php?fid=38&amp;tid=6788&amp;goto=nextoldset"> &lsaquo;&lsaquo; 上一主题</a> | <a href="redirect.php?fid=38&amp;tid=6788&amp;goto=nextnewset">下一主题 &rsaquo;&rsaquo;</a></div>
+				<span class="postbtn" id="newspecial" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu(this.id)"><a href="post.php?action=newthread&amp;fid=38&amp;extra="><img src="images/default/newtopic.gif" border="0" alt="发新话题" title="发新话题" /></a></span>
+		<span class="replybtn"><a href="post.php?action=reply&amp;fid=38&amp;tid=6788&amp;extra="><img src="images/default/reply.gif" border="0" alt="" /></a></span></div>
+
+	<ul class="popupmenu_popup newspecialmenu" id="newspecial_menu" style="display: none">
+		<li><a href="post.php?action=newthread&amp;fid=38&amp;extra=">发新话题</a></li>
+				<li class="trade"><a href="post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=2">发布商品</a></li>						<li class="debate"><a href="post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=5">发布辩论</a></li>					</ul>
+
+<form method="post" name="modactions">
+	<input type="hidden" name="formhash" value="e484b517" />
+	<div class="mainbox viewthread">
+		<span class="headactions">
+											<a href="my.php?item=favorites&amp;tid=6788" id="ajax_favorite" onclick="ajaxmenu(event, this.id, 3000, 0)">收藏</a>
+			<a href="my.php?item=subscriptions&amp;subadd=6788" id="ajax_subscription" onclick="ajaxmenu(event, this.id, 3000, null, 0)">订阅</a>
+			<a href="misc.php?action=emailfriend&amp;tid=6788" id="emailfriend" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">推荐</a>
+				<a href="viewthread.php?action=printable&amp;tid=6788" target="_blank" class="notabs">打印</a>
+		</span>
+		<h1>Linux学习笔记——内存管理（2）		</h1>
+							<table id="pid18364" summary="pid18364" cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="postauthor">
+					<a name="newpost"></a> <a name="lastpost"></a>					<cite>											<a href="space.php?uid=3684" target="_blank" id="userinfo18364" class="dropmenu" onmouseover="showMenu(this.id)">casual0402</a></cite>
+						<p>一苇</p>													<div class="avatar"><img src="customavatars/3684.gif" width="102" height="100" border="0" alt="" /></div>												<p><em>版主</em></p>
+						<p><img src="images/default/star_level3.gif" alt="Rank: 7" /><img src="images/default/star_level2.gif" alt="Rank: 7" /><img src="images/default/star_level1.gif" alt="Rank: 7" /></p>
+																		
+						<ul>
+												<li class="pm"><a href="pm.php?action=send&amp;uid=3684" target="_blank" id="ajax_uid_18364" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">发短消息</a></li>
+						<li class="buddy"><a href="my.php?item=buddylist&amp;newbuddyid=3684&amp;buddysubmit=yes" target="_blank" id="ajax_buddy_0" onclick="ajaxmenu(event, this.id, null, 0)">加为好友</a></li>
+
+																					<li class="offline">当前离线
+														</li>
+						
+						</ul>
+									</td>
+				<td class="postcontent" >
+					<div class="postinfo">
+						<strong title="复制帖子链接到剪贴板" id="postnum_18364" onclick="setcopy('http://www.ubuntuchina.com/viewthread.php?tid=6788&amp;page=1#pid18364', '帖子链接已经复制到剪贴板')">1<sup>#</sup></strong>
+													<em onclick="$('postmessage_18364').className='t_bigfont'">大</em>							<em onclick="$('postmessage_18364').className='t_msgfont'">中</em>
+							<em onclick="$('postmessage_18364').className='t_smallfont'">小</em>												发表于 2009-4-25 13:59&nbsp;																					<a href="viewthread.php?tid=6788&amp;page=1&amp;authorid=3684">只看该作者</a>
+																		</div>
+					<div id="ad_thread2_0"></div>
+					<div class="postmessage defaultpost">
+												<div id="ad_thread3_0"></div><div id="ad_thread4_0"></div>
+													<h2>Linux学习笔记——内存管理（2）</h2>
+						
+						
+																											<div id="postmessage_18364" class="t_msgfont"><font face="AlMateen ">Linux Kernel Note</font><br />
+<font face="AlMateen ">Title: </font><font face="AlMateen ">内存管理</font><br />
+<font face="AlMateen ">kernel version: 2.4.*</font><br />
+——<font face="AlMateen "><a href="http://www.casual0402.cn/2009/04/25/" target="_blank">casual0402</a></font><br />
+——<font face="AlMateen ">2009.04.20</font><br />
+<br />
+<font face="AlMateen ">————————————–cut-line</font><br />
+<br />
+<font face="AlMateen ">1.</font><font face="AlMateen ">数据结构和函数</font><br />
+<br />
+<font face="AlMateen ">众所周知，</font><font face="AlMateen ">linux</font><font face="AlMateen ">下有许多与</font><font face="AlMateen ">ANSI C</font><font face="AlMateen ">不同的数据类型，比如</font><font face="AlMateen ">pid_t</font><font face="AlMateen ">；这些类型实际上是通过一层或者若干层的</font><font face="AlMateen ">typedef</font><font face="AlMateen ">定义而实现的，这样做的一个主要原因是为了可移植性的实现，而这样做的影响是看类型即可以很直观地知道用于何处，比如</font><font face="AlMateen ">pid_t</font><font face="AlMateen ">显然是一个进程</font><font face="AlMateen ">id</font><font face="AlMateen ">的类型；另外一个影响便是，编译内核需要使用相应的</font><font face="AlMateen ">gcc</font><font face="AlMateen ">编译器。</font><br />
+<br />
+<br />
+<font face="AlMateen ">那么，在内存管理</font><font face="AlMateen ">(1)</font><font face="AlMateen ">中提到的</font><font face="AlMateen ">PGD</font><font face="AlMateen ">、</font><font face="AlMateen ">PMD</font><font face="AlMateen ">、</font><font face="AlMateen ">PT</font><font face="AlMateen ">等是什么呢？在</font><font face="AlMateen ">include/asm-i386/page.h</font><font face="AlMateen ">中有如下代码：</font><br />
+<font face="AlMateen ">36/* </font><br />
+<font face="AlMateen ">37 * These are used to make use of C type-checking.. </font><br />
+<font face="AlMateen ">38 */ </font><br />
+<font face="AlMateen ">39#if CONFIG_X86_PAE </font><br />
+<font face="AlMateen ">40typedef struct { unsigned long pte_low, pte_high; } pte_t; </font><br />
+<font face="AlMateen ">41typedef struct { unsigned long long pmd; } pmd_t; </font><br />
+<font face="AlMateen ">42typedef struct { unsigned long long pgd; } pgd_t; </font><br />
+<font face="AlMateen ">43#define pte_val(x)&nbsp; &nbsp;&nbsp; &nbsp;((x).pte_low | ((unsigned long long)(x).pte_high &lt;&lt; 32))</font><br />
+<br />
+<font face="AlMateen ">在开启了</font><font face="AlMateen ">PAE</font><font face="AlMateen ">模式的情况下，</font><font face="AlMateen ">pgd_t</font><font face="AlMateen ">、</font><font face="AlMateen ">pmd_t</font><font face="AlMateen ">都是长整形变量，而</font><font face="AlMateen ">pte_t</font><font face="AlMateen ">分为</font><font face="AlMateen ">pte_low</font><font face="AlMateen ">和</font><font face="AlMateen ">pte_high</font><font face="AlMateen ">两个部分。</font><font face="AlMateen ">PTE</font><font face="AlMateen ">是指</font><font face="AlMateen ">page table entry</font><font face="AlMateen ">，即某个具体的页表项，指向一张具体的内存页。但是一个内存页并不需要</font><font face="AlMateen ">32</font><font face="AlMateen ">位全部使用，因为每张内存页大小都为</font><font face="AlMateen ">4KB</font><font face="AlMateen ">，所以从地址</font><font face="AlMateen ">0</font><font face="AlMateen ">开始，每间隔</font><font face="AlMateen ">4KB</font><font face="AlMateen ">为一张内存页。所以，内存页的首地址的低</font><font face="AlMateen ">12</font><font face="AlMateen ">位都为</font><font face="AlMateen ">0</font><font face="AlMateen ">，我们只需要高</font><font face="AlMateen ">20</font><font face="AlMateen ">位来指向一个内存页基址，低</font><font face="AlMateen ">12</font><font face="AlMateen ">位用来设置页面状态和权限。另外，还有一个宏用来读取</font><font face="AlMateen ">pte_t</font><font face="AlMateen ">类型的成员。</font><br />
+<br />
+<font face="AlMateen ">而没有开启</font><font face="AlMateen ">PAE</font><font face="AlMateen ">模式的情况如下：</font><br />
+<font face="AlMateen ">44#else </font><br />
+<font face="AlMateen ">45typedef struct { unsigned long pte_low; } pte_t; </font><br />
+<font face="AlMateen ">46typedef struct { unsigned long pmd; } pmd_t; </font><br />
+<font face="AlMateen ">47typedef struct { unsigned long pgd; } pgd_t; </font><br />
+<font face="AlMateen ">48#define pte_val(x)&nbsp; &nbsp;&nbsp; &nbsp;((x).pte_low) </font><br />
+<font face="AlMateen ">49#endif</font><br />
+<br />
+<br />
+<font face="AlMateen ">有了</font><font face="AlMateen ">PMD</font><font face="AlMateen ">等结构后就有地方存储地址信息了，那么如何获取这些信息呢？见如下几个宏：</font><br />
+<font face="AlMateen ">54#define pmd_val(x)&nbsp; &nbsp;&nbsp; &nbsp;((x).pmd) </font><br />
+<font face="AlMateen ">55#define pgd_val(x)&nbsp; &nbsp;&nbsp; &nbsp;((x).pgd) </font><br />
+<font face="AlMateen ">56#define pgprot_val(x)&nbsp; &nbsp;((x).pgprot) </font><br />
+<font face="AlMateen ">57 </font><br />
+<font face="AlMateen ">58#define __pte(x) ((pte_t) { (x) } ) </font><br />
+<font face="AlMateen ">59#define __pmd(x) ((pmd_t) { (x) } ) </font><br />
+<font face="AlMateen ">60#define __pgd(x) ((pgd_t) { (x) } ) </font><br />
+<font face="AlMateen ">61#define __pgprot(x)&nbsp; &nbsp;&nbsp;&nbsp;((pgprot_t) { (x) } )</font><br />
+<font face="AlMateen "> 54</font><font face="AlMateen ">行到</font><font face="AlMateen ">56</font><font face="AlMateen ">行是读取成员变量的宏，而</font><font face="AlMateen ">58</font><font face="AlMateen ">行到</font><font face="AlMateen ">61</font><font face="AlMateen ">行则是进行类型转换。这里出现了一个</font><font face="AlMateen ">pgprot</font><font face="AlMateen ">，展开为</font><font face="AlMateen ">page protection</font><font face="AlMateen ">，页面保护。</font><font face="AlMateen ">pgprot</font><font face="AlMateen ">对应着上文提到的页面状态和权限，从而实现页面的保护机制：</font><br />
+<font face="AlMateen ">52typedef struct { unsigned long pgprot; } pgprot_t;</font><br />
+<br />
+<br />
+<font face="AlMateen ">具体的</font><font face="AlMateen ">pgprot_t</font><font face="AlMateen ">在</font><font face="AlMateen ">/include/asm-i386/pgtable.h</font><font face="AlMateen ">中定义：</font><br />
+<font face="AlMateen ">187#define _PAGE_PRESENT&nbsp; &nbsp;0×001 </font><br />
+<font face="AlMateen ">188#define _PAGE_RW&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;0×002 </font><br />
+<font face="AlMateen ">189#define _PAGE_USER&nbsp; &nbsp;&nbsp; &nbsp;0×004 </font><br />
+<font face="AlMateen ">190#define _PAGE_PWT&nbsp; &nbsp;&nbsp; &nbsp; 0×008 </font><br />
+<font face="AlMateen ">191#define _PAGE_PCD&nbsp; &nbsp;&nbsp; &nbsp; 0×010 </font><br />
+<font face="AlMateen ">192#define _PAGE_ACCESSED&nbsp;&nbsp;0×020 </font><br />
+<font face="AlMateen ">193#define _PAGE_DIRTY&nbsp; &nbsp;&nbsp;&nbsp;0×040 </font><br />
+<font face="AlMateen ">194#define _PAGE_PSE&nbsp; &nbsp;&nbsp; &nbsp; 0×080&nbsp; &nbsp;/* 4 MB (or 2MB) page, Pentium+, if present.. */ </font><br />
+<font face="AlMateen ">195#define _PAGE_GLOBAL&nbsp; &nbsp; 0×100&nbsp; &nbsp;/* Global TLB entry PPro+ */ </font><br />
+<font face="AlMateen ">196 </font><br />
+<font face="AlMateen ">197#define _PAGE_PROTNONE&nbsp;&nbsp;0×080&nbsp; &nbsp;/* If not present */</font><br />
+<br />
+<font face="AlMateen ">显然，</font><font face="AlMateen ">pgprot_t</font><font face="AlMateen ">的位设置都是在低</font><font face="AlMateen ">12</font><font face="AlMateen ">位，而</font><font face="AlMateen ">PTE</font><font face="AlMateen ">的指针部分是高</font><font face="AlMateen ">20</font><font face="AlMateen ">位，共同构成了</font><font face="AlMateen ">32</font><font face="AlMateen ">位。那么，二者是如何构成</font><font face="AlMateen ">32</font><font face="AlMateen ">位的页面表表项呢？我们自然而然想到了</font><font face="AlMateen ">20</font><font face="AlMateen ">位左移</font><font face="AlMateen ">12</font><font face="AlMateen ">位再与</font><font face="AlMateen ">pgprot_t</font><font face="AlMateen ">的低</font><font face="AlMateen ">12</font><font face="AlMateen ">位相或，在</font><font face="AlMateen ">pgtable.h</font><font face="AlMateen ">中是由宏</font><font face="AlMateen ">mk_pte</font><font face="AlMateen ">来完成的：</font><br />
+<font face="AlMateen ">309#define mk_pte(page, pgprot)&nbsp; &nbsp; __mk_pte((page) - mem_map, (pgprot))</font><br />
+<br />
+<font face="AlMateen ">而我们自然又遇到了</font><font face="AlMateen ">__mk_pte</font><font face="AlMateen ">。那么</font><font face="AlMateen ">__mk_pte</font><font face="AlMateen ">是什么呢？在</font><font face="AlMateen ">/include/asm-i386/pgtable-2level.h</font><font face="AlMateen ">中它一个宏：</font><br />
+<font face="AlMateen ">63#define __mk_pte(page_nr,pgprot) __pte(((page_nr) &lt;&lt; PAGE_SHIFT) | pgprot_val(pgprot))</font><br />
+<br />
+<font face="AlMateen ">以上为</font><font face="AlMateen ">63</font><font face="AlMateen ">行单行。而在</font><font face="AlMateen ">/include/asm-i386/page.h</font><font face="AlMateen ">中对</font><font face="AlMateen ">PAGE_SHIFT</font><font face="AlMateen ">进行了宏定义：</font><br />
+<font face="AlMateen ">5#define PAGE_SHIFT&nbsp; &nbsp;&nbsp; &nbsp;12 </font><br />
+<br />
+<font face="AlMateen ">所以实现的是将内存页面编号左移</font><font face="AlMateen ">12</font><font face="AlMateen ">位再与保护字段</font><font face="AlMateen ">pgprot</font><font face="AlMateen ">相或得到了</font><font face="AlMateen ">pte</font><font face="AlMateen ">页面表项。另外在上述中出现了</font><font face="AlMateen ">__pte()</font><font face="AlMateen ">，它的原型为： </font><font face="AlMateen ">58#define __pte(x) ((pte_t) { (x) } ) </font><font face="AlMateen ">，即进行类型转换。而</font><font face="AlMateen ">pgprot_val(pgprot)</font><font face="AlMateen ">的原型为： </font><font face="AlMateen ">56#define pgprot_val(x)&nbsp; &nbsp;((x).pgprot) </font><font face="AlMateen ">，与 </font><font face="AlMateen ">52typedef struct { unsigned long pgprot; } pgprot_t; </font><font face="AlMateen ">相对应则易知是获得某个</font><font face="AlMateen ">pgprot_t</font><font face="AlMateen ">类型变量的成员变量</font><font face="AlMateen ">pgprot</font><font face="AlMateen ">。</font><br />
+<br />
+<font face="AlMateen ">最后就剩下一个</font><font face="AlMateen ">mem_map</font><font face="AlMateen ">了。我们先来了解一下</font><font face="AlMateen ">/include/linux/mm.h</font><font face="AlMateen ">中的</font><font face="AlMateen ">page</font><font face="AlMateen ">结构。</font><br />
+<br />
+<font face="AlMateen ">首先，先看一段前置说明：</font><br />
+<font face="AlMateen ">139/* </font><br />
+<font face="AlMateen ">140 * Each physical page in the system has a struct page associated with </font><br />
+<font face="AlMateen ">141 * it to keep track of whatever it is we are using the page for at the </font><br />
+<font face="AlMateen ">142 * moment. Note that we have no way to track which tasks are using </font><br />
+<font face="AlMateen ">143 * a page. </font><br />
+<font face="AlMateen ">144 * </font><br />
+<font face="AlMateen ">145 * Try to keep the most commonly accessed fields in single cache lines </font><br />
+<font face="AlMateen ">146 * here (16 bytes or greater).&nbsp;&nbsp;This ordering should be particularly </font><br />
+<font face="AlMateen ">147 * beneficial on 32-bit processors. </font><br />
+<font face="AlMateen ">148 * </font><br />
+<font face="AlMateen ">149 * The first line is data used in page cache lookup, the second line </font><br />
+<font face="AlMateen ">150 * is used for linear searches (eg. clock algorithm scans). </font><br />
+<font face="AlMateen ">151 * </font><br />
+<font face="AlMateen ">152 * TODO: make this structure smaller, it could be as small as 32 bytes. </font><br />
+<font face="AlMateen ">153 */ </font><br />
+<br />
+<font face="AlMateen ">简略说下，就是</font><font face="AlMateen ">page</font><font face="AlMateen ">结构是与物理内存页相联系的，从而进行状态跟踪；其次，最经常访问的结构体内的成员字段应该保持在</font><font face="AlMateen ">16</font><font face="AlMateen ">位或者更大的单条缓冲线上——显然，这样有利于高速访问。接着来看</font><font face="AlMateen ">page</font><font face="AlMateen ">结构体的定义：</font><br />
+<font face="AlMateen ">154typedef struct page { </font><br />
+<font face="AlMateen ">155&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct list_head list;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; /* -&gt;mapping has some page lists. */ </font><br />
+<font face="AlMateen ">156&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct address_space *mapping;&nbsp;&nbsp;/* The inode (or …) we belong to. */ </font><br />
+<font face="AlMateen ">157&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long index;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* Our offset within mapping. */ </font><br />
+<font face="AlMateen ">158&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct page *next_hash;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* Next page sharing our hash bucket in </font><br />
+<font face="AlMateen ">159&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; the pagecache hash table. */ </font><br />
+<font face="AlMateen ">160&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;atomic_t count;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* Usage count, see below. */ </font><br />
+<font face="AlMateen ">161&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long flags;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* atomic flags, some possibly </font><br />
+<font face="AlMateen ">162&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; updated asynchronously */ </font><br />
+<font face="AlMateen ">163&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct list_head lru;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* Pageout list, eg. active_list; </font><br />
+<font face="AlMateen ">164&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; protected by pagemap_lru_lock !! */ </font><br />
+<font face="AlMateen ">165&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct page **pprev_hash;&nbsp; &nbsp;&nbsp; &nbsp; /* Complement to *next_hash. */ </font><br />
+<font face="AlMateen ">166&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct buffer_head * buffers;&nbsp; &nbsp;/* Buffer maps us to a disk block. */ </font><br />
+<font face="AlMateen ">167 </font><br />
+<font face="AlMateen ">168&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">169&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* On machines where all RAM is mapped into kernel address space, </font><br />
+<font face="AlMateen ">170&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* we can simply calculate the virtual address. On machines with </font><br />
+<font face="AlMateen ">171&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* highmem some memory is mapped into kernel virtual memory </font><br />
+<font face="AlMateen ">172&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* dynamically, so we need a place to store that address. </font><br />
+<font face="AlMateen ">173&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* Note that this field could be 16 bits on x86 … <img src="http://www.casual0402.cn/wp-includes/images/smilies/icon_wink.gif" border="0" onclick="zoom(this)" onload="attachimg(this, 'load')" alt="" /> </font><br />
+<font face="AlMateen ">174&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* </font><br />
+<font face="AlMateen ">175&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* Architectures with slow multiplication can define </font><br />
+<font face="AlMateen ">176&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* WANT_PAGE_VIRTUAL in asm/page.h </font><br />
+<font face="AlMateen ">177&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">178#if defined(CONFIG_HIGHMEM) || defined(WANT_PAGE_VIRTUAL) </font><br />
+<font face="AlMateen ">179&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;void *virtual;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;/* Kernel virtual address (NULL if </font><br />
+<font face="AlMateen ">180&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; not kmapped, ie. highmem) */ </font><br />
+<font face="AlMateen ">181#endif /* CONFIG_HIGMEM || WANT_PAGE_VIRTUAL */ </font><br />
+<font face="AlMateen ">182} mem_map_t; </font><br />
+<br />
+<font face="AlMateen ">当我们看到最后一行（</font><font face="AlMateen ">182</font><font face="AlMateen ">行）的时候会有种恍然大悟的感觉—— </font><font face="AlMateen ">mem_map_t</font><font face="AlMateen ">。于是我们就会联想</font><font face="AlMateen ">mem_map</font><font face="AlMateen ">是这么一个类型的变量。</font><br />
+<br />
+<font face="AlMateen ">实际上，</font><font face="AlMateen ">mem_map</font><font face="AlMateen ">是一个全局变量（目前为止是），而且是一个指向</font><font face="AlMateen ">page</font><font face="AlMateen ">结构数组的指针；系统在初始化时根据物理内存的大小创建该数组。每一个数组元素都对应一张物理内存页。从软件方面来讲，页面表项的高</font><font face="AlMateen ">20</font><font face="AlMateen ">位是物理页面的编号，即</font><font face="AlMateen ">mem_map</font><font face="AlMateen ">数组的索引下标，通过该下标可以访问到与物理页面对应的</font><font face="AlMateen ">page</font><font face="AlMateen ">结构。而从硬件方面来讲，页面表项的高</font><font face="AlMateen ">20</font><font face="AlMateen ">位再与</font><font face="AlMateen ">12</font><font face="AlMateen ">个</font><font face="AlMateen ">0</font><font face="AlMateen ">结合则构成了</font><font face="AlMateen ">32</font><font face="AlMateen ">位，即每张物理页面的基址。</font><br />
+<br />
+<font face="AlMateen "> mem_map</font><font face="AlMateen ">映射着全部的物理内存页，而其本身则分为不同的区，比如</font><font face="AlMateen ">ZONE_DMA</font><font face="AlMateen ">、</font><font face="AlMateen ">ZONE_NORMAL</font><font face="AlMateen ">和</font><font face="AlMateen ">ZONE_HIGHMEM</font><font face="AlMateen ">等。其中</font><font face="AlMateen ">ZONE_DMA</font><font face="AlMateen ">是供</font><font face="AlMateen ">DMA</font><font face="AlMateen ">使用的；</font><font face="AlMateen ">ZONE_HIGHMEM</font><font face="AlMateen ">是用于处理物理地址超过</font><font face="AlMateen ">1G</font><font face="AlMateen ">的存储空间。</font><br />
+<br />
+<font face="AlMateen ">事实上，三个管理区是这么分配的：</font><font face="AlMateen ">0 </font><font face="AlMateen ">～ </font><font face="AlMateen ">16MB</font><font face="AlMateen ">分配给</font><font face="AlMateen ">ZONE_DMA</font><font face="AlMateen ">，</font><font face="AlMateen ">16 </font><font face="AlMateen ">～ </font><font face="AlMateen ">896MB</font><font face="AlMateen ">分配给</font><font face="AlMateen ">ZONE_NORMAL</font><font face="AlMateen ">，最后，</font><font face="AlMateen ">896MB</font><font face="AlMateen ">以上的分配给</font><font face="AlMateen ">ZONE_HIGHMEM</font><font face="AlMateen ">。那么，为什么要这么分配呢？这是由于某些硬件只能特定地访问</font><font face="AlMateen ">0 </font><font face="AlMateen ">～ </font><font face="AlMateen ">16MB</font><font face="AlMateen ">来执行</font><font face="AlMateen ">DMA</font><font face="AlMateen ">模式；有些机器的配置使得物理内存页面无法总是保持被内核地址映射，这时需要使用</font><font face="AlMateen ">ZONE_HIGHMEM</font><font face="AlMateen ">进行动态映射；而其余的就是可以被正常映射的。</font><br />
+<br />
+<font face="AlMateen ">那么，为什么这里是</font><font face="AlMateen ">896MB</font><font face="AlMateen ">呢，而不是上文提的</font><font face="AlMateen ">1GB</font><font face="AlMateen ">？这是由于内核不仅为</font><font face="AlMateen ">highmem</font><font face="AlMateen ">预留了空间，也为</font><font face="AlMateen ">fixmap</font><font face="AlMateen ">和</font><font face="AlMateen ">vmalloc</font><font face="AlMateen ">预留了虚存空间。</font><br />
+<font face="AlMateen "> OK</font><font face="AlMateen ">，那内核中的虚拟地址是什么？虚拟地址其实就是逻辑地址——与物理地址相对应。</font><br />
+<br />
+<font face="AlMateen ">我们不妨来看看物理地址和内核中虚拟地址在内核空间的关系：</font><br />
+<font face="AlMateen ">128#define PAGE_OFFSET&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ((unsigned long)__PAGE_OFFSET) </font><br />
+<font face="AlMateen ">…</font><br />
+<font face="AlMateen ">132#define __pa(x)&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;((unsigned long)(x)-PAGE_OFFSET) </font><br />
+<font face="AlMateen ">133#define __va(x)&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;((void *)((unsigned long)(x)+PAGE_OFFSET)) </font><br />
+<font face="AlMateen "> pa</font><font face="AlMateen ">表示</font><font face="AlMateen ">physical address</font><font face="AlMateen ">，即物理地址，而</font><font face="AlMateen ">va</font><font face="AlMateen ">表示虚拟地址</font><font face="AlMateen ">virtual address</font><font face="AlMateen ">。这里，我们不得不去看看</font><font face="AlMateen ">__PAGE_OFFSET</font><font face="AlMateen ">：</font><br />
+<font face="AlMateen ">68/* </font><br />
+<font face="AlMateen ">69 * This handles the memory map.. We could make this a config </font><br />
+<font face="AlMateen ">70 * option, but too many people screw it up, and too few need </font><br />
+<font face="AlMateen ">71 * it. </font><br />
+<font face="AlMateen ">72 * </font><br />
+<font face="AlMateen ">73 * A __PAGE_OFFSET of 0xC0000000 means that the kernel has </font><br />
+<font face="AlMateen ">74 * a virtual address space of one gigabyte, which limits the </font><br />
+<font face="AlMateen ">75 * amount of physical memory you can use to about 950MB. </font><br />
+<font face="AlMateen ">76 * </font><br />
+<font face="AlMateen ">77 * If you want more physical memory than this then see the CONFIG_HIGHMEM4G </font><br />
+<font face="AlMateen ">78 * and CONFIG_HIGHMEM64G options in the kernel configuration. </font><br />
+<font face="AlMateen ">79 */ </font><br />
+<font face="AlMateen ">80 </font><br />
+<font face="AlMateen ">81#define __PAGE_OFFSET&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;(0xC0000000) </font><br />
+<br />
+<font face="AlMateen ">前置注释有一堆，而宏定义只有一行。在</font><font face="AlMateen ">32</font><font face="AlMateen ">位机器上，通过</font><font face="AlMateen ">linux</font><font face="AlMateen ">内核的页式映射可以实现</font><font face="AlMateen ">4GB</font><font face="AlMateen ">的逻辑地址（虚拟地址）。而在</font><font face="AlMateen ">4G</font><font face="AlMateen ">字节中，</font><font face="AlMateen ">0xC0000000</font><font face="AlMateen ">到</font><font face="AlMateen ">0xFFFFFFFF</font><font face="AlMateen ">的这</font><font face="AlMateen ">1G</font><font face="AlMateen ">最高的逻辑地址用于内核本身，称之为“内核空间”；而较低的</font><font face="AlMateen ">3G</font><font face="AlMateen ">字节空间为用户空间。注意，这里的是虚的、逻辑地址。</font><br />
+<br />
+<font face="AlMateen ">于是我们知道了</font><font face="AlMateen ">__PAGE_OFFSET</font><font face="AlMateen ">是用户空间和内核空间在虚地址上的分界。然而，物理地址始终是从</font><font face="AlMateen ">0×00000000</font><font face="AlMateen ">开始的；所以对于内核空间来说，</font><font face="AlMateen ">pa</font><font face="AlMateen ">与</font><font face="AlMateen ">va</font><font face="AlMateen ">就相差了一个</font><font face="AlMateen ">PAGE_OFFSET</font><font face="AlMateen ">。而同时，</font><font face="AlMateen ">PAGE_OFFSET</font><font face="AlMateen ">也代表着用户空间的上限。</font><br />
+<br />
+<font face="AlMateen ">到这里，我们了解了内核空间只能“线性映射”</font><font face="AlMateen ">1GB“</font><font face="AlMateen ">的物理地址，如果没有</font><font face="AlMateen ">ZONE_HIGHMEM</font><font face="AlMateen ">来管理高于</font><font face="AlMateen ">1GB</font><font face="AlMateen ">的物理地址，那么这些内存就会浪费掉了。于是系统初始化时预留了</font><font face="AlMateen ">128MB</font><font face="AlMateen ">的虚存来用于将来可能的映射。以上是对于</font><font face="AlMateen ">x86</font><font face="AlMateen ">体系结构而言，对于其它体系，物理内存可以全部被映射，</font><font face="AlMateen ">ZONE_HIGHMEM</font><font face="AlMateen ">为空。</font><br />
+<br />
+<br />
+<font face="AlMateen ">现在回到内存管理区。</font><font face="AlMateen ">/include/linux/mmzone.h</font><font face="AlMateen ">中有如下数据结构用于管理区：</font><br />
+<font face="AlMateen ">（代码有点长，分段来看）</font><br />
+<font face="AlMateen ">39/* </font><br />
+<font face="AlMateen ">40 * On machines where it is needed (eg PCs) we divide physical memory </font><br />
+<font face="AlMateen ">41 * into multiple physical zones. On a PC we have 3 zones: </font><br />
+<font face="AlMateen ">42 * </font><br />
+<font face="AlMateen ">43 * ZONE_DMA&nbsp; &nbsp;&nbsp; &nbsp; &lt; 16 MB&nbsp; &nbsp;&nbsp; &nbsp; ISA DMA capable memory </font><br />
+<font face="AlMateen ">44 * ZONE_NORMAL&nbsp;&nbsp;16-896 MB&nbsp; &nbsp;&nbsp; &nbsp; direct mapped by the kernel </font><br />
+<font face="AlMateen ">45 * ZONE_HIGHMEM&nbsp;&nbsp;&gt; 896 MB&nbsp; &nbsp;&nbsp; &nbsp; only page cache and user processes </font><br />
+<font face="AlMateen ">46 */ </font><br />
+<br />
+<font face="AlMateen ">这里的前置注释说明了三个管理区的分布。</font><br />
+<font face="AlMateen ">47typedef struct zone_struct { </font><br />
+<font face="AlMateen ">48&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">49&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* Commonly accessed fields: </font><br />
+<font face="AlMateen ">50&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">51&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;spinlock_t&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;lock; </font><br />
+<font face="AlMateen ">52&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;free_pages; </font><br />
+<br />
+<font face="AlMateen ">这里是经常访问的字段。这里遇到了</font><font face="AlMateen ">spinlock_t</font><font face="AlMateen ">这个数据类型，在</font><font face="AlMateen ">/include/asm-i386/spinlock.h</font><font face="AlMateen ">中有定义：</font><br />
+<font face="AlMateen ">22/* </font><br />
+<font face="AlMateen ">23 * Your basic SMP spinlocks, allowing only a single CPU anywhere </font><br />
+<font face="AlMateen ">24 */ </font><br />
+<font face="AlMateen ">25 </font><br />
+<font face="AlMateen ">26typedef struct { </font><br />
+<font face="AlMateen ">27&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;volatile unsigned int lock; </font><br />
+<font face="AlMateen ">28#if SPINLOCK_DEBUG </font><br />
+<font face="AlMateen ">29&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned magic; </font><br />
+<font face="AlMateen ">30#endif </font><br />
+<font face="AlMateen ">31} spinlock_t; </font><br />
+<br />
+<font face="AlMateen ">由注释我们可以知道这是用来控制</font><font face="AlMateen ">SMP</font><font face="AlMateen ">使用的，仅允许单</font><font face="AlMateen ">CPU</font><font face="AlMateen ">工作。</font><br />
+<br />
+<font face="AlMateen ">而</font><font face="AlMateen ">free_pages</font><font face="AlMateen ">表示着该区目前拥有的空闲页数。</font><br />
+<font face="AlMateen ">53&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">54&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* We don’t know if the memory that we’re going to allocate will be freeable </font><br />
+<font face="AlMateen ">55&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* or/and it will be released eventually, so to avoid totally wasting several </font><br />
+<font face="AlMateen ">56&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* GB of ram we must reserve some of the lower zone memory (otherwise we risk </font><br />
+<font face="AlMateen ">57&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* to run OOM on the lower zones despite there’s tons of freeable ram </font><br />
+<font face="AlMateen ">58&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* on the higher zones). </font><br />
+<font face="AlMateen ">59&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">60&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;zone_watermarks_t&nbsp; &nbsp;&nbsp; &nbsp; watermarks[MAX_NR_ZONES]; </font><br />
+<br />
+<font face="AlMateen ">由前置注释可知这是为了保留一些低端内存。我们在这里又遇到了一个新的数据类型：</font><br />
+<font face="AlMateen ">34typedef struct zone_watermarks_s { </font><br />
+<font face="AlMateen ">35&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long min, low, high; </font><br />
+<font face="AlMateen ">36} zone_watermarks_t; </font><br />
+<br />
+<font face="AlMateen ">62&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">63&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* The below fields are protected by different locks (or by </font><br />
+<font face="AlMateen ">64&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* no lock at all like need_balance), so they’re longs to </font><br />
+<font face="AlMateen ">65&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* provide an atomic granularity against each other on </font><br />
+<font face="AlMateen ">66&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* all architectures. </font><br />
+<font face="AlMateen ">67&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">68&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;need_balance; </font><br />
+<font face="AlMateen ">69&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* protected by the pagemap_lru_lock */ </font><br />
+<font face="AlMateen ">70&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;nr_active_pages, nr_inactive_pages; </font><br />
+<font face="AlMateen ">71&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* protected by the pagecache_lock */ </font><br />
+<font face="AlMateen ">72&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;nr_cache_pages; </font><br />
+<br />
+<font face="AlMateen ">75&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">76&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* free areas of different sizes </font><br />
+<font face="AlMateen ">77&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">78&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;free_area_t&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; free_area[MAX_ORDER];</font><br />
+<br />
+<font face="AlMateen ">引入</font><font face="AlMateen ">free_area_t</font><font face="AlMateen ">：</font><br />
+<font face="AlMateen ">27typedef struct free_area_struct { </font><br />
+<font face="AlMateen ">28&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct list_head&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;free_list; </font><br />
+<font face="AlMateen ">29&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;*map; </font><br />
+<font face="AlMateen ">30} free_area_t;</font><br />
+<br />
+<font face="AlMateen ">这里</font><font face="AlMateen ">free_area[MAX_ORDER]</font><font face="AlMateen ">是一组队列，用于分配不连续的内存块。队列的实现是通过</font><font face="AlMateen ">free_area_t</font><font face="AlMateen ">类型中的成员</font><font face="AlMateen ">struct list_head&nbsp;&nbsp;free_list</font><font face="AlMateen ">，可参加</font><font face="AlMateen ">list.h</font><font face="AlMateen ">。</font><br />
+<font face="AlMateen ">80&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">81&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* wait_table&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;— the array holding the hash table </font><br />
+<font face="AlMateen ">82&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* wait_table_size&nbsp; &nbsp;&nbsp; &nbsp;— the size of the hash table array </font><br />
+<font face="AlMateen ">83&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* wait_table_shift&nbsp; &nbsp;&nbsp;&nbsp;— wait_table_size </font><br />
+<font face="AlMateen ">84&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;== BITS_PER_LONG (1 &lt;&lt; wait_table_bits) </font><br />
+<font face="AlMateen ">85&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* </font><br />
+<font face="AlMateen ">86&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* The purpose of all these is to keep track of the people </font><br />
+<font face="AlMateen ">87&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* waiting for a page to become available and make them </font><br />
+<font face="AlMateen ">88&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* runnable again when possible. The trouble is that this </font><br />
+<font face="AlMateen ">89&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* consumes a lot of space, especially when so few things </font><br />
+<font face="AlMateen ">90&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* wait on pages at a given time. So instead of using </font><br />
+<font face="AlMateen ">91&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* per-page waitqueues, we use a waitqueue hash table. </font><br />
+<font face="AlMateen ">92&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* </font><br />
+<font face="AlMateen ">93&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* The bucket discipline is to sleep on the same queue when </font><br />
+<font face="AlMateen ">94&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* colliding and wake all in that wait queue when removing. </font><br />
+<font face="AlMateen ">95&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* When something wakes, it must check to be sure its page is </font><br />
+<font face="AlMateen ">96&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* truly available, a la thundering herd. The cost of a </font><br />
+<font face="AlMateen ">97&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* collision is great, but given the expected load of the </font><br />
+<font face="AlMateen ">98&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* table, they should be so rare as to be outweighed by the </font><br />
+<font face="AlMateen ">99&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* benefits from the saved space. </font><br />
+<font face="AlMateen ">100&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* </font><br />
+<font face="AlMateen ">101&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* __wait_on_page() and unlock_page() in mm/filemap.c, are the </font><br />
+<font face="AlMateen ">102&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* primary users of these fields, and in mm/page_alloc.c </font><br />
+<font face="AlMateen ">103&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* free_area_init_core() performs the initialization of them. </font><br />
+<font face="AlMateen ">104&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">105&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;wait_queue_head_t&nbsp; &nbsp;&nbsp; &nbsp; * wait_table; </font><br />
+<font face="AlMateen ">106&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;wait_table_size; </font><br />
+<font face="AlMateen ">107&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;wait_table_shift; </font><br />
+<br />
+<font face="AlMateen ">一些管理区信息如下：</font><br />
+<font face="AlMateen ">109&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">110&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* Discontig memory support fields. </font><br />
+<font face="AlMateen ">111&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">112&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct pglist_data&nbsp; &nbsp;&nbsp; &nbsp;*zone_pgdat; </font><br />
+<font face="AlMateen ">113&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct page&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; *zone_mem_map; </font><br />
+<font face="AlMateen ">114&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;zone_start_paddr; </font><br />
+<font face="AlMateen ">115&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;zone_start_mapnr; </font><br />
+<font face="AlMateen "> 112</font><font face="AlMateen ">表示的是该管理区所在的存储节点；</font><font face="AlMateen ">113</font><font face="AlMateen ">显然是一张内存映射表；</font><font face="AlMateen ">114</font><font face="AlMateen ">是该管理区的物理起始地址，而</font><font face="AlMateen ">115</font><font face="AlMateen ">表示的是在</font><font face="AlMateen ">mem_map</font><font face="AlMateen ">中的起始下标。显然这些都可以直接从变量名看出来。</font><br />
+<font face="AlMateen ">117&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;/* </font><br />
+<font face="AlMateen ">118&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;* rarely used fields: </font><br />
+<font face="AlMateen ">119&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*/ </font><br />
+<font face="AlMateen ">120&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;char&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;*name; </font><br />
+<font face="AlMateen ">121&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;size; </font><br />
+<font face="AlMateen ">122&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;realsize; </font><br />
+<font face="AlMateen ">123} zone_t; </font><br />
+<font face="AlMateen "> 120</font><font face="AlMateen ">表示的是管理区的名字，</font><font face="AlMateen ">121</font><font face="AlMateen ">表示的是管理区的大小，</font><font face="AlMateen ">122</font><font face="AlMateen ">表示的是管理区实用大小。</font><br />
+<br />
+<br />
+<font face="AlMateen ">当多</font><font face="AlMateen ">CPU</font><font face="AlMateen ">引入之后，</font><font face="AlMateen ">NUMA(Non-Uniform Memory Architecture)</font><font face="AlMateen ">结构体系出现了，即非匀质存储结构。于是，每个</font><font face="AlMateen ">CPU</font><font face="AlMateen ">都有自己的物理地址，并且有一个公共的物存模块。这样有时候会出现</font><font face="AlMateen ">CPU</font><font face="AlMateen ">请求的内存块无法在自己管辖的物理地址模块获得，也不能手伸太长去其它</font><font face="AlMateen ">CPU</font><font face="AlMateen ">管理的模块，那么就需要到公共模块请求。同时，新的物理页面管理机制也进行了修正。</font><br />
+<br />
+<font face="AlMateen ">在</font><font face="AlMateen ">NUMA</font><font face="AlMateen ">下，我们称</font><font face="AlMateen ">CPU</font><font face="AlMateen ">请求的一片连续物理内存页为</font><font face="AlMateen ">node</font><font face="AlMateen ">（节点）。而且，此时的</font><font face="AlMateen ">mem_map</font><font face="AlMateen ">不再是全局变量，而是从属于具体节点；管理区也不再高高在上，也是被节点所拥有，每个存储节点至少有两个管理区。从而在</font><font face="AlMateen ">zone_struct</font><font face="AlMateen ">上便有了</font><font face="AlMateen ">pglist_data</font><font face="AlMateen ">数据结构，在</font><font face="AlMateen ">/include/linux/mmzone.h</font><font face="AlMateen ">定义：</font><br />
+<font face="AlMateen ">142/* </font><br />
+<font face="AlMateen ">143 * The pg_data_t structure is used in machines with CONFIG_DISCONTIGMEM </font><br />
+<font face="AlMateen ">144 * (mostly NUMA machines?) to denote a higher-level memory zone than the </font><br />
+<font face="AlMateen ">145 * zone_struct denotes. </font><br />
+<font face="AlMateen ">146 * </font><br />
+<font face="AlMateen ">147 * On NUMA machines, each NUMA node would have a pg_data_t to describe </font><br />
+<font face="AlMateen ">148 * it’s memory layout. </font><br />
+<font face="AlMateen ">149 * </font><br />
+<font face="AlMateen ">150 * XXX: we need to move the global memory statistics (active_list, …) </font><br />
+<font face="AlMateen ">151 *&nbsp; &nbsp;&nbsp; &nbsp;into the pg_data_t to properly support NUMA. </font><br />
+<font face="AlMateen ">152 */ </font><br />
+<font face="AlMateen ">153struct bootmem_data; </font><br />
+<font face="AlMateen ">154typedef struct pglist_data { </font><br />
+<font face="AlMateen ">155&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;zone_t node_zones[MAX_NR_ZONES]; </font><br />
+<font face="AlMateen ">156&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;zonelist_t node_zonelists[GFP_ZONEMASK+1]; </font><br />
+<font face="AlMateen ">157&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;int nr_zones; </font><br />
+<font face="AlMateen ">158&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct page *node_mem_map; </font><br />
+<font face="AlMateen ">159&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long *valid_addr_bitmap; </font><br />
+<font face="AlMateen ">160&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct bootmem_data *bdata; </font><br />
+<font face="AlMateen ">161&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long node_start_paddr; </font><br />
+<font face="AlMateen ">162&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long node_start_mapnr; </font><br />
+<font face="AlMateen ">163&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;unsigned long node_size; </font><br />
+<font face="AlMateen ">164&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;int node_id; </font><br />
+<font face="AlMateen ">165&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;struct pglist_data *node_next; </font><br />
+<font face="AlMateen ">166} pg_data_t; </font><br />
+<br />
+<font face="AlMateen ">首先看看</font><font face="AlMateen ">158</font><font face="AlMateen ">行</font><font face="AlMateen ">struct page *node_mem_map</font><font face="AlMateen ">，由于每个节点有一片的内存页，这里的</font><font face="AlMateen ">node_mem_map</font><font face="AlMateen ">便是用来映射表示它们的（</font><font face="AlMateen ">page</font><font face="AlMateen ">结构数组）；接着看首行，</font><font face="AlMateen ">155</font><font face="AlMateen ">行</font><font face="AlMateen ">zone_t&nbsp; &nbsp;node_zones[MAX_NR_ZONES]</font><font face="AlMateen ">是该节点所拥有的管理区，同时在</font><font face="AlMateen ">zone_struct</font><font face="AlMateen ">也有一行</font><font face="AlMateen ">struct pglist_data&nbsp; &nbsp;&nbsp; &nbsp;*zone_pgdat</font><font face="AlMateen ">，指向所属节点</font><font face="AlMateen ">pglist_data</font><font face="AlMateen ">数据结构。</font><br />
+<br />
+<font face="AlMateen ">————————————–cut-line&nbsp;&nbsp;–</font><font face="AlMateen ">以上数据结构用于物理内存页面管理</font><font face="AlMateen ">–2009-04-20</font><font face="AlMateen ">晚</font></div>
+
+							
+							
+							
+													</div>
+													<div class="signatures" style="maxHeightIE: 100px;">
+								<a href="http://www.casual0402.cn" target="_blank"><font color="blue"><strong>一苇</strong></font></a>							</div>
+															</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="postauthor">
+								<div class="popupmenu_popup userinfopanel" id="userinfo18364_menu" style="display: none;">
+										<dl><dt>UID</dt><dd>3684&nbsp;</dd><dt>帖子</dt><dd>315&nbsp;</dd><dt>精华</dt><dd><a href="digest.php?authorid=3684">17</a>&nbsp;</dd><dt>积分</dt><dd>999&nbsp;</dd><dt>阅读权限</dt><dd>100&nbsp;</dd><dt>在线时间</dt><dd>64 小时&nbsp;</dd><dt>注册时间</dt><dd>2008-12-26&nbsp;</dd><dt>最后登录</dt><dd>2009-4-25&nbsp;</dd></dl>
+											<p><a href="http://www.casual0402.cn/" target="_blank">查看个人网站</a></p>
+										<p><a href="space.php?action=viewpro&amp;uid=3684" target="_blank">查看详细资料</a></p>
+									</div>
+							</td>
+			<td class="postcontent">
+				<div class="postactions">
+										<p>
+																			<a href="post.php?action=reply&amp;fid=38&amp;tid=6788&amp;repquote=18364&amp;extra=&amp;page=1">引用</a>
+																			<a href="magic.php?action=user&amp;pid=18364" target="_blank">使用道具</a>
+																			<a href="misc.php?action=report&amp;fid=38&amp;tid=6788&amp;pid=18364&amp;page=1" id="ajax_report_18364" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">报告</a>
+																															<a href="###" onclick="fastreply('回复 # 的帖子', 'postnum_18364')">回复</a>
+												<strong onclick="scroll(0,0)" title="顶部">TOP</strong>
+					</p>
+					<div id="ad_thread1_0"></div>
+				</div>
+			</td>
+		</tr>
+		</table>
+		</div>
+</form>
+
+<div class="pages_btns">
+	<div class="threadflow"><a href="redirect.php?fid=38&amp;tid=6788&amp;goto=nextoldset"> &lsaquo;&lsaquo; 上一主题</a> | <a href="redirect.php?fid=38&amp;tid=6788&amp;goto=nextnewset">下一主题 &rsaquo;&rsaquo;</a></div>
+				<span class="postbtn" id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu(this.id)"><a href="post.php?action=newthread&amp;fid=38&amp;extra="><img src="images/default/newtopic.gif" border="0" alt="发新话题" title="发新话题" /></a></span>
+		<span class="replybtn"><a href="post.php?action=reply&amp;fid=38&amp;tid=6788&amp;extra="><img src="images/default/reply.gif" border="0" alt="" /></a></span></div>
+
+	<script src="include/javascript/post.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	var postminchars = parseInt('10');
+	var postmaxchars = parseInt('10000');
+	var disablepostctrl = parseInt('0');
+	function validate(theform) {
+		if (theform.message.value == "" && theform.subject.value == "") {
+			alert("请完成标题或内容栏。");
+			theform.message.focus();
+			return false;
+		} else if (theform.subject.value.length > 80) {
+			alert("您的标题超过 80 个字符的限制。");
+			theform.subject.focus();
+			return false;
+		}
+		if (!disablepostctrl && ((postminchars != 0 && theform.message.value.length < postminchars) || (postmaxchars != 0 && theform.message.value.length > postmaxchars))) {
+			alert("您的帖子长度不符合要求。\n\n当前长度: "+theform.message.value.length+" 字节\n系统限制: "+postminchars+" 发送到 "+postmaxchars+" 字节");
+			return false;
+		}
+		if(!fetchCheckbox('parseurloff')) {
+			theform.message.value = parseurl(theform.message.value, 'bbcode');
+		}
+		theform.replysubmit.disabled = true;
+		return true;
+	}
+	</script>
+	<form method="post" id="postform" action="post.php?action=reply&amp;fid=38&amp;tid=6788&amp;extra=&amp;replysubmit=yes" onSubmit="return validate(this)">
+		<input type="hidden" name="formhash" value="e484b517" />
+		<div id="quickpost" class="box">
+			<span class="headactions"><a href="member.php?action=credits&amp;view=forum_reply&amp;fid=38" target="_blank">查看积分策略说明</a></span>
+			<h4>快速回复主题</h4>
+			<div class="postoptions">
+				<h5>选项</h5>
+				<p><label><input class="checkbox" type="checkbox" name="parseurloff" id="parseurloff" value="1"> 禁用 URL 识别</label></p>
+				<p><label><input class="checkbox" type="checkbox" name="smileyoff" id="smileyoff" value="1"> 禁用 <a href="faq.php?action=message&amp;id=32" target="_blank">表情</a></label></p>
+				<p><label><input class="checkbox" type="checkbox" name="bbcodeoff" id="bbcodeoff" value="1"> 禁用 <a href="faq.php?action=message&amp;id=18" target="_blank">Discuz!代码</a></label></p>
+								<p><label><input class="checkbox" type="checkbox" name="usesig" value="1" > 使用个人签名</label></p>
+				<p><label><input class="checkbox" type="checkbox" name="emailnotify" value="1"> 接收新回复邮件通知</label></p>
+			</div>
+			<div class="postform">
+				<h5><label>标题
+				<input type="text" name="subject" value="" tabindex="1"></label></h5>
+				<p><label>内容</label>
+				<textarea rows="7" cols="80" class="autosave" name="message" id="message" onKeyDown="ctlent(event);" tabindex="2"></textarea>
+				</p>
+				<p class="btns">
+					<button type="submit" name="replysubmit" id="postsubmit" value="replysubmit" tabindex="3">发表帖子</button>[完成后可按 Ctrl+Enter 发布]&nbsp;
+					<a href="###" id="previewpost" onclick="$('postform').action=$('postform').action + '&previewpost=yes';$('postform').submit();">预览帖子</a>&nbsp;
+					<a href="###" id="restoredata" title="恢复上次自动保存的数据" onclick="loadData()">恢复数据</a>&nbsp;
+					<a href="###" onclick="$('postform').reset()">清空内容</a>
+				</p>
+			</div>
+							<div class="smilies">
+					<div id="smilieslist"></div>
+					<script type="text/javascript">ajaxget('post.php?action=smilies', 'smilieslist');</script>
+				</div>
+						<script type="text/javascript">
+				var textobj = $('message');
+				window.onbeforeunload = function () {saveData(textobj.value)};
+				if(is_ie >= 5 || is_moz >= 2) {
+					lang['post_autosave_none'] = "没有可以恢复的数据！";
+					lang['post_autosave_confirm'] = "此操作将覆盖当前帖子内容，确定要恢复数据吗？";
+				} else {
+					$('restoredata').style.display = 'none';
+				}
+			</script>
+		</div>
+	</form>
+	<script type="text/javascript">
+		function modaction(action) {
+			if(!action) {
+				return;
+			}
+			if(!in_array(action, ['delpost', 'banpost'])) {
+				window.location=('topicadmin.php?tid=6788&fid=38&action='+ action +'&sid=FfpW9G');
+			} else {
+				document.modactions.action = 'topicadmin.php?action='+ action +'&fid=38&tid=6788&page=1;'
+				document.modactions.submit();
+			}
+		}
+	</script>
+	<div id="footfilter" class="box">
+					<select onchange="if(this.options[this.selectedIndex].value != '') {
+		window.location=('forumdisplay.php?fid='+this.options[this.selectedIndex].value+'&amp;sid=FfpW9G') }">
+		<option value="">最近访问的版块 ...</option>
+		<option value="8">新手入门</option><option value="74">系统管理</option><option value="78">RHEL/CentOS/Fedora交流区</option><option value="67">茶余饭后</option><option value="89">Ubuntu 9.04专区</option><option value="80">《开源实用技术文摘》</option><option value="15">软件应用</option><option value="19">新闻播报</option><option value="44">新书快讯</option><option value="9">安装配置</option>		</select>
+	</div>
+	<div class="popupmenu_popup" id="forumlist_menu" style="display: none">
+		<dl><dt><a href="index.php?gid=72">UbuntuChina原创图书读者论坛</a></dt><dd><ul><li><a href="forumdisplay.php?fid=81">Linux读书月活动专区</a></li><li><a href="forumdisplay.php?fid=82">社区图书《Ubuntu实战技巧精粹》专区</a></li><li><a href="forumdisplay.php?fid=73">社区图书《完美应用Ubuntu》读者专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=5">社区管理</a></dt><dd><ul><li><a href="forumdisplay.php?fid=40">互动专区</a></li><li class="sub"><a href="forumdisplay.php?fid=42">线下活动和自助活动</a></li><li class="sub"><a href="forumdisplay.php?fid=43">有奖活动</a></li><li><a href="forumdisplay.php?fid=41">社区建设</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=48">社区新知</a></dt><dd><ul><li><a href="forumdisplay.php?fid=89">Ubuntu 9.04专区</a></li><li><a href="forumdisplay.php?fid=19">新闻播报</a></li><li><a href="forumdisplay.php?fid=51">新软快递</a></li><li><a href="forumdisplay.php?fid=44">新书快讯</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=7">初学者专区</a></dt><dd><ul><li><a href="forumdisplay.php?fid=8">新手入门</a></li><li><a href="forumdisplay.php?fid=52">硬件驱动</a></li><li><a href="forumdisplay.php?fid=9">安装配置</a></li><li><a href="forumdisplay.php?fid=15">软件应用</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=11">桌面应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=10">美化专区</a></li><li><a href="forumdisplay.php?fid=12">办公应用</a></li><li><a href="forumdisplay.php?fid=14">娱乐天堂</a></li><li><a href="forumdisplay.php?fid=54">聊天世界</a></li><li><a href="forumdisplay.php?fid=13">图形图像</a></li><li><a href="forumdisplay.php?fid=74">系统管理</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=55">企业应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=23">服务器管理</a></li><li><a href="forumdisplay.php?fid=56">数据库管理</a></li><li><a href="forumdisplay.php?fid=57">架站指南</a></li><li><a href="forumdisplay.php?fid=58">安全防护</a></li><li><a href="forumdisplay.php?fid=22">虚拟化专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=59">开发应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=61">Web开发</a></li><li><a href="forumdisplay.php?fid=62">嵌入开发</a></li><li><a href="forumdisplay.php?fid=16">系统开发</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=18">开源杂志</a></dt><dd><ul><li><a href="forumdisplay.php?fid=80">《开源实用技术文摘》</a></li><li><a href="forumdisplay.php?fid=20">《Full Cirle》中文版</a></li><li><a href="forumdisplay.php?fid=64">《PHPer》专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=75">其他Linux发行版</a></dt><dd><ul><li><a href="forumdisplay.php?fid=76">Debian交流区</a></li><li><a href="forumdisplay.php?fid=77">SUSE/OpenSUSE交流区</a></li><li><a href="forumdisplay.php?fid=78">RHEL/CentOS/Fedora交流区</a></li><li><a href="forumdisplay.php?fid=79">国产发行版红旗交流区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=36">分享专区</a></dt><dd><ul><li class="current"><a href="forumdisplay.php?fid=38">原创贴吧</a></li><li><a href="forumdisplay.php?fid=39">Linux认证和职业专区</a></li><li class="sub"><a href="forumdisplay.php?fid=85">Linux类职位招聘和求职专区</a></li><li><a href="forumdisplay.php?fid=37">Linux/Ubuntu学习资源大全</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=65">社区茶馆</a></dt><dd><ul><li><a href="forumdisplay.php?fid=66">音乐分享</a></li><li><a href="forumdisplay.php?fid=67">茶余饭后</a></li></ul></dd></dl>	</div>
+
+<script type="text/javascript">
+var maxpage = 1;
+if(maxpage > 1) {
+	document.onkeyup = function(e){
+		e = e ? e : window.event;
+		var tagname = is_ie ? e.srcElement.tagName : e.target.tagName;
+		if(tagname == 'INPUT' || tagname == 'TEXTAREA') return;
+		actualCode = e.keyCode ? e.keyCode : e.charCode;
+					}
+}
+</script>
+
+</div>
+
+
+<div id="ad_footerbanner1"></div><div id="ad_footerbanner2"></div><div id="ad_footerbanner3"></div>
+
+<div id="footer">
+	<div class="wrap">
+		<div id="footlinks">
+			<p>当前时区 GMT+8, 现在时间是 2009-4-26 10:43 <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备07039416</a></p>
+			<p>
+				<a href="member.php?action=clearcookies&amp;formhash=e484b517">清除 Cookies</a>
+				- <a href="mailto:hxl2000@gmail.com">联系我们</a> - <a href="http://www.UbuntuChina.com/" target="_blank">UbuntuChina互动社区（2006－2009）</a>
+				 - <a href="archiver/" target="_blank">Archiver</a>								- <span class="scrolltop" onclick="window.scrollTo(0,0);">TOP</span>
+							</p>
+		</div>
+
+		<a href="http://www.discuz.net" target="_blank" title="Powered by Discuz!"><img src="images/default/discuz_icon.gif" border="0" alt="Discuz!" /></a>
+		<p id="copyright">
+			Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>6.0.0</em>			&copy; 2001-2007 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>
+		</p>			<p id="debuginfo">Processed in 0.061868 second(s), 7 queries.</p>
+			</div>
+</div>
+</body>
+</html><script src="include/javascript/msn.js" type="text/javascript"></script>
