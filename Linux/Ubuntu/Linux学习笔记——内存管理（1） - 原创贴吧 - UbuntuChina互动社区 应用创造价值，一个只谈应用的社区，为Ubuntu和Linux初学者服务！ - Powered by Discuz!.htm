@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Linux学习笔记——内存管理（1） - 原创贴吧 -  UbuntuChina互动社区 应用创造价值，一个只谈应用的社区，为Ubuntu和Linux初学者服务！ - Powered by Discuz!</title>
+<meta name="keywords" content="Ubhuntu中文社区,Ubuntu中文论坛,Ubuntu入门'学习'应用'技巧、经验 , Ubuntu开发经验、技巧,Linux入门、提高、学习、应用技巧、经验 ,原创,教程,学习资源,Linux入门,Ubuntu入门 ,LPI教程 ,LPI考试,RHCE教程，RHCE教材,RHCE考试,Linux职位,高级职位" />
+<meta name="description" content=" UbuntuChina互动社区 Linux Kernel Note
+Title: 内存管理
+kernel version: 2.4.*
+——casual0402
+——2009.04.20
+
+————————————–cut-line
+
+1。基本框架（此处主要谈页式内 ... - Discuz! Board" />
+<meta name="generator" content="Discuz! 6.0.0" />
+<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+<meta name="copyright" content="2001-2007 Comsenz Inc." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<link rel="archives" title="UbuntuChina互动社区" href="http://www.ubuntuchina.com/archiver/" />
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_1.css" />
+	<link rel="stylesheet" type="text/css" href="forumdata/cache/style_1_append.css" />
+<script type="text/javascript">var IMGDIR = 'images/default';var attackevasive = '0';var gid = 0;gid = parseInt('36');var fid = parseInt('38');var tid = parseInt('6787');</script>
+<script src="include/javascript/common.js" type="text/javascript"></script>
+<script src="include/javascript/menu.js" type="text/javascript"></script>
+<script src="include/javascript/ajax.js" type="text/javascript"></script>
+</head>
+
+<body onkeydown="if(event.keyCode==27) return false;">
+
+	<div id="append_parent"></div><div id="ajaxwaitid"></div>
+	<div class="wrap">
+		<div id="header">
+			<h2><a href="index.php" title="UbuntuChina互动社区"><img src="images/default/logo.gif" alt="UbuntuChina互动社区" border="0" /></a></h2>
+			<div id="ad_headerbanner"></div>
+		</div>
+		<div id="menu">
+					<span class="frameswitch">
+			<script type="text/javascript">
+			if(top == self) {
+							document.write('<a href="frame.php?frameon=yes" target="_top" class="frameon">分栏模式<\/a>');
+			} else {
+				document.write('<a href="frame.php?frameon=no" target="_top" class="frameoff">平板模式<\/a>');
+			}
+			</script>
+			</span>
+		
+			<ul>
+							<li><cite><a href="space.php?action=viewpro&amp;uid=5837">frankswu</a></cite></li>
+				<li><a href="logging.php?action=logout&amp;formhash=e484b517" class="notabs">退出</a></li>
+				<li><a href="pm.php" target="_blank">短消息</a></li>			
+			<li><a href="member.php?action=list">会员</a></li>			<li><a href="search.php?srchfid=38">搜索</a></li>													<li><a href="my.php?item=threads">我的话题</a></li><li><a href="my.php?item=grouppermission">我的权限</a></li>				<li><a href="memcp.php">控制面板</a></li>								<li><a href="magic.php">道具</a></li>																<li><a href="faq.php">帮助</a></li>
+			</ul>
+		</div>
+<script src="include/javascript/viewthread.js" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1);</script>
+
+<div id="foruminfo">
+	<div id="nav">
+		<a href="index.php" id="forumlist" onmouseover="showMenu(this.id)" class="dropmenu">UbuntuChina互动社区</a> &raquo; <a href="forumdisplay.php?fid=38">原创贴吧</a> &raquo; Linux学习笔记——内存管理（1）	</div>
+	<div id="headsearch">
+			<script src="forumdata/cache/google_var.js" type="text/javascript"></script>
+		<script src="include/javascript/google.js" type="text/javascript"></script>
+			</div>
+</div>
+
+<div id="ad_text"></div>
+
+	<div class="maintable" id="pmprompt">
+
+<div class="box" id="pmprompt">
+	<bgsound src="images/sound/pm_1.wav" />	<span class="headactions">
+		<a href="pm.php" target="_blank">[查看详情]</a>
+		<a href="pm.php?action=noprompt" onclick="ajaxget(this.href, 'pmprompt', null, null, 'none');doane(event);">[不再提示]</a>	</span>
+	<h4>您有<span id="newpmnum">1</span> 条新短消息&nbsp;</h4>
+	<table summary="New PM" cellspacing="0" cellpadding="5">
+
+			<tbody id="pmrow_6284">
+			<tr>
+				<td width="13%" nowrap valign="top">
+					<span class="bold">来自: </span>系统消息				</td>
+				<td>
+					<span class="bold" nowrap>标题:</span>
+											<a href="pm.php?action=view&amp;pmid=6284&amp;pmprompt=yes" target="_blank" onclick="ajaxget(this.href, 'pm_6284', null, null, '', 'hidelastpm(6284)');doane(event);">frankswu，您好，感谢您的注册，请阅读以下内容。 ...</a>
+										<div id="pm_6284" style="display: none">
+											</div>
+				</td>
+			</tr>
+		</tbody>
+	
+	</table>
+</div>
+
+<script type="text/javascript">
+
+lastpmid = null;
+function hidelastpm(pmid) {
+	if(lastpmid && lastpmid != pmid) {
+		changedisplay($('pm_'+lastpmid), 'none');
+	}
+	lastpmid = pmid;
+}
+
+</script></div>
+
+<div class="pages_btns">
+	<div class="threadflow"><a href="redirect.php?fid=38&amp;tid=6787&amp;goto=nextoldset"> &lsaquo;&lsaquo; 上一主题</a> | <a href="redirect.php?fid=38&amp;tid=6787&amp;goto=nextnewset">下一主题 &rsaquo;&rsaquo;</a></div>
+				<span class="postbtn" id="newspecial" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu(this.id)"><a href="post.php?action=newthread&amp;fid=38&amp;extra="><img src="images/default/newtopic.gif" border="0" alt="发新话题" title="发新话题" /></a></span>
+		<span class="replybtn"><a href="post.php?action=reply&amp;fid=38&amp;tid=6787&amp;extra="><img src="images/default/reply.gif" border="0" alt="" /></a></span></div>
+
+	<ul class="popupmenu_popup newspecialmenu" id="newspecial_menu" style="display: none">
+		<li><a href="post.php?action=newthread&amp;fid=38&amp;extra=">发新话题</a></li>
+				<li class="trade"><a href="post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=2">发布商品</a></li>						<li class="debate"><a href="post.php?action=newthread&amp;fid=38&amp;extra=&amp;special=5">发布辩论</a></li>					</ul>
+
+<form method="post" name="modactions">
+	<input type="hidden" name="formhash" value="e484b517" />
+	<div class="mainbox viewthread">
+		<span class="headactions">
+											<a href="my.php?item=favorites&amp;tid=6787" id="ajax_favorite" onclick="ajaxmenu(event, this.id, 3000, 0)">收藏</a>
+			<a href="my.php?item=subscriptions&amp;subadd=6787" id="ajax_subscription" onclick="ajaxmenu(event, this.id, 3000, null, 0)">订阅</a>
+			<a href="misc.php?action=emailfriend&amp;tid=6787" id="emailfriend" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">推荐</a>
+				<a href="viewthread.php?action=printable&amp;tid=6787" target="_blank" class="notabs">打印</a>
+		</span>
+		<h1>Linux学习笔记——内存管理（1）		</h1>
+							<table id="pid18363" summary="pid18363" cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="postauthor">
+					<a name="newpost"></a> <a name="lastpost"></a>					<cite>											<a href="space.php?uid=3684" target="_blank" id="userinfo18363" class="dropmenu" onmouseover="showMenu(this.id)">casual0402</a></cite>
+						<p>一苇</p>													<div class="avatar"><img src="customavatars/3684.gif" width="102" height="100" border="0" alt="" /></div>												<p><em>版主</em></p>
+						<p><img src="images/default/star_level3.gif" alt="Rank: 7" /><img src="images/default/star_level2.gif" alt="Rank: 7" /><img src="images/default/star_level1.gif" alt="Rank: 7" /></p>
+																		
+						<ul>
+												<li class="pm"><a href="pm.php?action=send&amp;uid=3684" target="_blank" id="ajax_uid_18363" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">发短消息</a></li>
+						<li class="buddy"><a href="my.php?item=buddylist&amp;newbuddyid=3684&amp;buddysubmit=yes" target="_blank" id="ajax_buddy_0" onclick="ajaxmenu(event, this.id, null, 0)">加为好友</a></li>
+
+																					<li class="offline">当前离线
+														</li>
+						
+						</ul>
+									</td>
+				<td class="postcontent" >
+					<div class="postinfo">
+						<strong title="复制帖子链接到剪贴板" id="postnum_18363" onclick="setcopy('http://www.ubuntuchina.com/viewthread.php?tid=6787&amp;page=1#pid18363', '帖子链接已经复制到剪贴板')">1<sup>#</sup></strong>
+													<em onclick="$('postmessage_18363').className='t_bigfont'">大</em>							<em onclick="$('postmessage_18363').className='t_msgfont'">中</em>
+							<em onclick="$('postmessage_18363').className='t_smallfont'">小</em>												发表于 2009-4-25 13:56&nbsp;																					<a href="viewthread.php?tid=6787&amp;page=1&amp;authorid=3684">只看该作者</a>
+																		</div>
+					<div id="ad_thread2_0"></div>
+					<div class="postmessage defaultpost">
+												<div id="ad_thread3_0"></div><div id="ad_thread4_0"></div>
+													<h2>Linux学习笔记——内存管理（1）</h2>
+						
+						
+																											<div id="postmessage_18363" class="t_msgfont"><font face="AlMateen ">Linux Kernel Note</font><br />
+<font face="AlMateen ">Title: </font><font face="AlMateen ">内存管理</font><br />
+<font face="AlMateen ">kernel version: 2.4.*</font><br />
+——<font face="AlMateen "><a href="http://www.casual0402.cn/2009/04/21/" target="_blank">casual0402</a></font><br />
+——<font face="AlMateen ">2009.04.20</font><br />
+<br />
+<font face="AlMateen ">————————————–cut-line</font><br />
+<br />
+<font face="AlMateen "><strong>1</strong></font><font face="AlMateen "><strong>。基本框架</strong>（此处主要谈页式内存管理）</font><br />
+<font face="AlMateen "> 4G</font><font face="AlMateen ">是一个比较敏感的字眼，早些日子，大多数机器（或者说操作系统）支持的内存上限都是这个数字。为什么呢？</font><br />
+<br />
+<font face="AlMateen ">之所以说是早些日子，因为现在</font><font face="AlMateen ">64</font><font face="AlMateen ">位的计算机已经很多了，而对于</font><font face="AlMateen ">32</font><font face="AlMateen ">位的计算机而言，页式管理是这么进行的，逻辑地址格式如下：</font><br />
+<font face="AlMateen "> 0 </font><font face="AlMateen ">－ </font><font face="AlMateen ">11</font><font face="AlMateen ">位：页内偏移 </font><font face="AlMateen ">OFFSET</font><br />
+<font face="AlMateen "> 12</font><font face="AlMateen ">－ </font><font face="AlMateen ">21</font><font face="AlMateen ">位：页面表偏移 </font><font face="AlMateen ">PT</font><br />
+<font face="AlMateen "> 22</font><font face="AlMateen ">－ </font><font face="AlMateen ">31</font><font face="AlMateen ">位：页面目录偏移 </font><font face="AlMateen ">PGD</font><br />
+<br />
+<font face="AlMateen ">寻址过程如下：</font><br />
+<font face="AlMateen "> 1</font><font face="AlMateen ">）操作系统从寄存器</font><font face="AlMateen ">CR3 </font><font face="AlMateen ">获得当前页面目录指针（基地址）；</font><br />
+<font face="AlMateen "> 2</font><font face="AlMateen ">）基地址＋页面目录偏移</font><font face="AlMateen ">-&gt;</font><font face="AlMateen ">页面表指针（基地址）；</font><br />
+<font face="AlMateen "> 3</font><font face="AlMateen ">）页面表指针＋页面表偏移</font><font face="AlMateen ">-&gt;</font><font face="AlMateen ">内存页基址；</font><br />
+<font face="AlMateen "> 4</font><font face="AlMateen ">）内存页基址＋页内偏移</font><font face="AlMateen ">-&gt;</font><font face="AlMateen ">具体物理内存单元。</font><br />
+<br />
+<font face="AlMateen ">显然，</font><font face="AlMateen ">12</font><font face="AlMateen ">位的页内偏移可以寻址</font><font face="AlMateen ">4K</font><font face="AlMateen ">，所以一张内存页为</font><font face="AlMateen ">4K</font><font face="AlMateen ">；而总共可寻内存为</font><font face="AlMateen ">4G </font><font face="AlMateen ">＝ </font><font face="AlMateen ">2^10 * 2^10 * 2^12</font><font face="AlMateen ">；因此在</font><font face="AlMateen ">32</font><font face="AlMateen ">位机器上内存上限一般为</font><font face="AlMateen ">4G</font><font face="AlMateen ">。</font><br />
+<br />
+<br />
+<font face="AlMateen ">而操作系统是需要支持不同的平台的，比如</font><font face="AlMateen ">32</font><font face="AlMateen ">位，比如</font><font face="AlMateen ">64</font><font face="AlMateen ">位等。所以，</font><font face="AlMateen ">linux</font><font face="AlMateen ">统一使用页式三层映射：</font><font face="AlMateen ">PGD </font><font face="AlMateen ">－ </font><font face="AlMateen ">PMD </font><font face="AlMateen ">－ </font><font face="AlMateen ">PT </font><font face="AlMateen ">－ </font><font face="AlMateen ">OFFSET</font><font face="AlMateen ">。</font><br />
+<font face="AlMateen "> PAE</font><font face="AlMateen ">是地址扩充功能（</font><font face="AlMateen ">Physical Address Extension</font><font face="AlMateen ">）的缩写，如果将内存管理设置为</font><font face="AlMateen ">PAE</font><font face="AlMateen ">模式，这时候就需要三层映射了。</font><br />
+<br />
+<br />
+<font face="AlMateen ">三层映射架构是如何实现双层映射的？</font><font face="AlMateen ">linux</font><font face="AlMateen ">在暗地里“弄虚作假”了一番，有点类似领导让</font><font face="AlMateen ">linux</font><font face="AlMateen ">给三层映射一个重要位置，但是在</font><font face="AlMateen ">32</font><font face="AlMateen ">位计算机的地盘里就“阳奉阴违”了，只给三层映射一个有名无权的虚职。那么这个虚职是怎么实现的呢？</font><br />
+<br />
+<font face="AlMateen ">首先，开启了</font><font face="AlMateen ">PAE</font><font face="AlMateen ">模式的计算机是真切需要三层映射的，所以它不会给三层映射虚职，而是需要三层映射机制去做实事的；而</font><font face="AlMateen ">32</font><font face="AlMateen ">位计算机如果没有开启</font><font face="AlMateen ">PAE</font><font face="AlMateen ">模式，那么它是不需要三层映射的，双层映射是它更喜欢的。所以，首先是判断什么情况下给三层映射虚职——</font><br />
+<font face="AlMateen ">109/* </font><br />
+<font face="AlMateen ">110 * The Linux x86 paging architecture is ‘compile-time dual-mode’, it </font><br />
+<font face="AlMateen ">111 * implements both the traditional 2-level x86 page tables and the </font><br />
+<font face="AlMateen ">112 * newer 3-level PAE-mode page tables. </font><br />
+<font face="AlMateen ">113 */ </font><br />
+<font face="AlMateen ">114#ifndef __ASSEMBLY__ </font><br />
+<font face="AlMateen ">115#if CONFIG_X86_PAE </font><br />
+<font face="AlMateen ">116# include &lt;asm/pgtable-3level.h&gt; </font><br />
+<font face="AlMateen ">117 </font><br />
+<font face="AlMateen ">118/* </font><br />
+<font face="AlMateen ">119 * Need to initialise the X86 PAE caches </font><br />
+<font face="AlMateen ">120 */ </font><br />
+<font face="AlMateen ">121extern void pgtable_cache_init(void); </font><br />
+<font face="AlMateen ">122 </font><br />
+<font face="AlMateen ">123#else </font><br />
+<font face="AlMateen ">124# include &lt;asm/pgtable-2level.h&gt;</font><br />
+<br />
+<font face="AlMateen ">从第一段的注释说明我们可以知道</font><font face="AlMateen ">Linux x86</font><font face="AlMateen ">的页式映射机制在编译时可以选择使用传统的双层映射和新的</font><font face="AlMateen ">PAE</font><font face="AlMateen ">模式下的三层映射。而从接下来的代码可以知道，如果对</font><font face="AlMateen ">CONFIG_X86_PAE</font><font face="AlMateen ">进行了预处理，即开启了</font><font face="AlMateen ">PAE</font><font face="AlMateen ">模式，那么就使用</font><font face="AlMateen ">pgtable-3level.h</font><font face="AlMateen ">，并且对</font><font face="AlMateen ">X86 PAE caches</font><font face="AlMateen ">进行初始化，而如果没有，则包含</font><font face="AlMateen ">pgtable-2level.h</font><font face="AlMateen ">，即使用双层映射。</font><br />
+<br />
+<font face="AlMateen "> pgtable-2level.h</font><font face="AlMateen ">实现的双层映射：</font><br />
+<font face="AlMateen ">4/* </font><br />
+<font face="AlMateen ">5 * traditional i386 two-level paging structure: </font><br />
+<font face="AlMateen ">6 */ </font><br />
+<font face="AlMateen ">7 </font><br />
+<font face="AlMateen ">8#define PGDIR_SHIFT&nbsp; &nbsp;&nbsp;&nbsp;22 </font><br />
+<font face="AlMateen ">9#define PTRS_PER_PGD&nbsp; &nbsp; 1024 </font><br />
+<font face="AlMateen ">10 </font><br />
+<font face="AlMateen ">11/* </font><br />
+<font face="AlMateen ">12 * the i386 is two-level, so we don’t really have any </font><br />
+<font face="AlMateen ">13 * PMD directory physically. </font><br />
+<font face="AlMateen ">14 */ </font><br />
+<font face="AlMateen ">15#define PMD_SHIFT&nbsp; &nbsp;&nbsp; &nbsp; 22 </font><br />
+<font face="AlMateen ">16#define PTRS_PER_PMD&nbsp; &nbsp; 1</font><br />
+<br />
+<font face="AlMateen ">从</font><font face="AlMateen ">11</font><font face="AlMateen ">行到</font><font face="AlMateen ">14</font><font face="AlMateen ">行的注释我们可以知道这里并没有让</font><font face="AlMateen ">PMD</font><font face="AlMateen ">实际存在。</font><font face="AlMateen ">PGDIR_SHIFT</font><font face="AlMateen ">是</font><font face="AlMateen ">PGD</font><font face="AlMateen ">的偏移量——这里的偏移量是指位于</font><font face="AlMateen ">32</font><font face="AlMateen ">位中的几位，显然是</font><font face="AlMateen ">22</font><font face="AlMateen ">位，即第</font><font face="AlMateen ">23</font><font face="AlMateen ">位。而</font><br />
+<font face="AlMateen "> PTRS_PER_PGD</font><font face="AlMateen ">是</font><font face="AlMateen ">pointers per PGD</font><font face="AlMateen ">，即每个</font><font face="AlMateen ">PGD</font><font face="AlMateen ">位段能表示的指针。这里是</font><font face="AlMateen ">1024</font><font face="AlMateen ">，显然需要</font><font face="AlMateen ">10</font><font face="AlMateen ">位，那么</font><font face="AlMateen ">PGD</font><font face="AlMateen ">就是从位</font><font face="AlMateen ">22</font><font face="AlMateen ">到位</font><font face="AlMateen ">31</font><font face="AlMateen ">，即第</font><font face="AlMateen ">23</font><font face="AlMateen ">位到第</font><font face="AlMateen ">32</font><font face="AlMateen ">位。</font><br />
+<br />
+<font face="AlMateen ">于是很显然我们可以了解到</font><font face="AlMateen ">PMD</font><font face="AlMateen ">在这里是虚设的，挂了个虚职。因为</font><font face="AlMateen ">PTRS_PER_PMD</font><font face="AlMateen ">为</font><font face="AlMateen ">1</font><font face="AlMateen ">，那么占用的是</font><font face="AlMateen ">0</font><font face="AlMateen ">位，因为</font><font face="AlMateen ">2^0 = 1</font><font face="AlMateen ">。</font><br />
+<br />
+<font face="AlMateen ">到这里，我们知道什么人的地盘上给三层映射挂虚职，怎么设置这个虚职的。而三层映射如果真干起了实事，本质其实和双层映射差不多，只不过多了几个位而已。</font></div>
+
+							
+							
+							
+													</div>
+													<div class="signatures" style="maxHeightIE: 100px;">
+								<a href="http://www.casual0402.cn" target="_blank"><font color="blue"><strong>一苇</strong></font></a>							</div>
+															</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="postauthor">
+								<div class="popupmenu_popup userinfopanel" id="userinfo18363_menu" style="display: none;">
+										<dl><dt>UID</dt><dd>3684&nbsp;</dd><dt>帖子</dt><dd>315&nbsp;</dd><dt>精华</dt><dd><a href="digest.php?authorid=3684">17</a>&nbsp;</dd><dt>积分</dt><dd>999&nbsp;</dd><dt>阅读权限</dt><dd>100&nbsp;</dd><dt>在线时间</dt><dd>64 小时&nbsp;</dd><dt>注册时间</dt><dd>2008-12-26&nbsp;</dd><dt>最后登录</dt><dd>2009-4-25&nbsp;</dd></dl>
+											<p><a href="http://www.casual0402.cn/" target="_blank">查看个人网站</a></p>
+										<p><a href="space.php?action=viewpro&amp;uid=3684" target="_blank">查看详细资料</a></p>
+									</div>
+							</td>
+			<td class="postcontent">
+				<div class="postactions">
+										<p>
+																			<a href="post.php?action=reply&amp;fid=38&amp;tid=6787&amp;repquote=18363&amp;extra=&amp;page=1">引用</a>
+																			<a href="magic.php?action=user&amp;pid=18363" target="_blank">使用道具</a>
+																			<a href="misc.php?action=report&amp;fid=38&amp;tid=6787&amp;pid=18363&amp;page=1" id="ajax_report_18363" onclick="ajaxmenu(event, this.id, 9000000, null, 0)">报告</a>
+																															<a href="###" onclick="fastreply('回复 # 的帖子', 'postnum_18363')">回复</a>
+												<strong onclick="scroll(0,0)" title="顶部">TOP</strong>
+					</p>
+					<div id="ad_thread1_0"></div>
+				</div>
+			</td>
+		</tr>
+		</table>
+		</div>
+</form>
+
+<div class="pages_btns">
+	<div class="threadflow"><a href="redirect.php?fid=38&amp;tid=6787&amp;goto=nextoldset"> &lsaquo;&lsaquo; 上一主题</a> | <a href="redirect.php?fid=38&amp;tid=6787&amp;goto=nextnewset">下一主题 &rsaquo;&rsaquo;</a></div>
+				<span class="postbtn" id="newspecialtmp" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu(this.id)"><a href="post.php?action=newthread&amp;fid=38&amp;extra="><img src="images/default/newtopic.gif" border="0" alt="发新话题" title="发新话题" /></a></span>
+		<span class="replybtn"><a href="post.php?action=reply&amp;fid=38&amp;tid=6787&amp;extra="><img src="images/default/reply.gif" border="0" alt="" /></a></span></div>
+
+	<script src="include/javascript/post.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	var postminchars = parseInt('10');
+	var postmaxchars = parseInt('10000');
+	var disablepostctrl = parseInt('0');
+	function validate(theform) {
+		if (theform.message.value == "" && theform.subject.value == "") {
+			alert("请完成标题或内容栏。");
+			theform.message.focus();
+			return false;
+		} else if (theform.subject.value.length > 80) {
+			alert("您的标题超过 80 个字符的限制。");
+			theform.subject.focus();
+			return false;
+		}
+		if (!disablepostctrl && ((postminchars != 0 && theform.message.value.length < postminchars) || (postmaxchars != 0 && theform.message.value.length > postmaxchars))) {
+			alert("您的帖子长度不符合要求。\n\n当前长度: "+theform.message.value.length+" 字节\n系统限制: "+postminchars+" 发送到 "+postmaxchars+" 字节");
+			return false;
+		}
+		if(!fetchCheckbox('parseurloff')) {
+			theform.message.value = parseurl(theform.message.value, 'bbcode');
+		}
+		theform.replysubmit.disabled = true;
+		return true;
+	}
+	</script>
+	<form method="post" id="postform" action="post.php?action=reply&amp;fid=38&amp;tid=6787&amp;extra=&amp;replysubmit=yes" onSubmit="return validate(this)">
+		<input type="hidden" name="formhash" value="e484b517" />
+		<div id="quickpost" class="box">
+			<span class="headactions"><a href="member.php?action=credits&amp;view=forum_reply&amp;fid=38" target="_blank">查看积分策略说明</a></span>
+			<h4>快速回复主题</h4>
+			<div class="postoptions">
+				<h5>选项</h5>
+				<p><label><input class="checkbox" type="checkbox" name="parseurloff" id="parseurloff" value="1"> 禁用 URL 识别</label></p>
+				<p><label><input class="checkbox" type="checkbox" name="smileyoff" id="smileyoff" value="1"> 禁用 <a href="faq.php?action=message&amp;id=32" target="_blank">表情</a></label></p>
+				<p><label><input class="checkbox" type="checkbox" name="bbcodeoff" id="bbcodeoff" value="1"> 禁用 <a href="faq.php?action=message&amp;id=18" target="_blank">Discuz!代码</a></label></p>
+								<p><label><input class="checkbox" type="checkbox" name="usesig" value="1" > 使用个人签名</label></p>
+				<p><label><input class="checkbox" type="checkbox" name="emailnotify" value="1"> 接收新回复邮件通知</label></p>
+			</div>
+			<div class="postform">
+				<h5><label>标题
+				<input type="text" name="subject" value="" tabindex="1"></label></h5>
+				<p><label>内容</label>
+				<textarea rows="7" cols="80" class="autosave" name="message" id="message" onKeyDown="ctlent(event);" tabindex="2"></textarea>
+				</p>
+				<p class="btns">
+					<button type="submit" name="replysubmit" id="postsubmit" value="replysubmit" tabindex="3">发表帖子</button>[完成后可按 Ctrl+Enter 发布]&nbsp;
+					<a href="###" id="previewpost" onclick="$('postform').action=$('postform').action + '&previewpost=yes';$('postform').submit();">预览帖子</a>&nbsp;
+					<a href="###" id="restoredata" title="恢复上次自动保存的数据" onclick="loadData()">恢复数据</a>&nbsp;
+					<a href="###" onclick="$('postform').reset()">清空内容</a>
+				</p>
+			</div>
+							<div class="smilies">
+					<div id="smilieslist"></div>
+					<script type="text/javascript">ajaxget('post.php?action=smilies', 'smilieslist');</script>
+				</div>
+						<script type="text/javascript">
+				var textobj = $('message');
+				window.onbeforeunload = function () {saveData(textobj.value)};
+				if(is_ie >= 5 || is_moz >= 2) {
+					lang['post_autosave_none'] = "没有可以恢复的数据！";
+					lang['post_autosave_confirm'] = "此操作将覆盖当前帖子内容，确定要恢复数据吗？";
+				} else {
+					$('restoredata').style.display = 'none';
+				}
+			</script>
+		</div>
+	</form>
+	<script type="text/javascript">
+		function modaction(action) {
+			if(!action) {
+				return;
+			}
+			if(!in_array(action, ['delpost', 'banpost'])) {
+				window.location=('topicadmin.php?tid=6787&fid=38&action='+ action +'&sid=FfpW9G');
+			} else {
+				document.modactions.action = 'topicadmin.php?action='+ action +'&fid=38&tid=6787&page=1;'
+				document.modactions.submit();
+			}
+		}
+	</script>
+	<div id="footfilter" class="box">
+					<select onchange="if(this.options[this.selectedIndex].value != '') {
+		window.location=('forumdisplay.php?fid='+this.options[this.selectedIndex].value+'&amp;sid=FfpW9G') }">
+		<option value="">最近访问的版块 ...</option>
+		<option value="8">新手入门</option><option value="74">系统管理</option><option value="78">RHEL/CentOS/Fedora交流区</option><option value="67">茶余饭后</option><option value="89">Ubuntu 9.04专区</option><option value="80">《开源实用技术文摘》</option><option value="15">软件应用</option><option value="19">新闻播报</option><option value="44">新书快讯</option><option value="9">安装配置</option>		</select>
+	</div>
+	<div class="popupmenu_popup" id="forumlist_menu" style="display: none">
+		<dl><dt><a href="index.php?gid=72">UbuntuChina原创图书读者论坛</a></dt><dd><ul><li><a href="forumdisplay.php?fid=81">Linux读书月活动专区</a></li><li><a href="forumdisplay.php?fid=82">社区图书《Ubuntu实战技巧精粹》专区</a></li><li><a href="forumdisplay.php?fid=73">社区图书《完美应用Ubuntu》读者专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=5">社区管理</a></dt><dd><ul><li><a href="forumdisplay.php?fid=40">互动专区</a></li><li class="sub"><a href="forumdisplay.php?fid=42">线下活动和自助活动</a></li><li class="sub"><a href="forumdisplay.php?fid=43">有奖活动</a></li><li><a href="forumdisplay.php?fid=41">社区建设</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=48">社区新知</a></dt><dd><ul><li><a href="forumdisplay.php?fid=89">Ubuntu 9.04专区</a></li><li><a href="forumdisplay.php?fid=19">新闻播报</a></li><li><a href="forumdisplay.php?fid=51">新软快递</a></li><li><a href="forumdisplay.php?fid=44">新书快讯</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=7">初学者专区</a></dt><dd><ul><li><a href="forumdisplay.php?fid=8">新手入门</a></li><li><a href="forumdisplay.php?fid=52">硬件驱动</a></li><li><a href="forumdisplay.php?fid=9">安装配置</a></li><li><a href="forumdisplay.php?fid=15">软件应用</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=11">桌面应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=10">美化专区</a></li><li><a href="forumdisplay.php?fid=12">办公应用</a></li><li><a href="forumdisplay.php?fid=14">娱乐天堂</a></li><li><a href="forumdisplay.php?fid=54">聊天世界</a></li><li><a href="forumdisplay.php?fid=13">图形图像</a></li><li><a href="forumdisplay.php?fid=74">系统管理</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=55">企业应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=23">服务器管理</a></li><li><a href="forumdisplay.php?fid=56">数据库管理</a></li><li><a href="forumdisplay.php?fid=57">架站指南</a></li><li><a href="forumdisplay.php?fid=58">安全防护</a></li><li><a href="forumdisplay.php?fid=22">虚拟化专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=59">开发应用</a></dt><dd><ul><li><a href="forumdisplay.php?fid=61">Web开发</a></li><li><a href="forumdisplay.php?fid=62">嵌入开发</a></li><li><a href="forumdisplay.php?fid=16">系统开发</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=18">开源杂志</a></dt><dd><ul><li><a href="forumdisplay.php?fid=80">《开源实用技术文摘》</a></li><li><a href="forumdisplay.php?fid=20">《Full Cirle》中文版</a></li><li><a href="forumdisplay.php?fid=64">《PHPer》专区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=75">其他Linux发行版</a></dt><dd><ul><li><a href="forumdisplay.php?fid=76">Debian交流区</a></li><li><a href="forumdisplay.php?fid=77">SUSE/OpenSUSE交流区</a></li><li><a href="forumdisplay.php?fid=78">RHEL/CentOS/Fedora交流区</a></li><li><a href="forumdisplay.php?fid=79">国产发行版红旗交流区</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=36">分享专区</a></dt><dd><ul><li class="current"><a href="forumdisplay.php?fid=38">原创贴吧</a></li><li><a href="forumdisplay.php?fid=39">Linux认证和职业专区</a></li><li class="sub"><a href="forumdisplay.php?fid=85">Linux类职位招聘和求职专区</a></li><li><a href="forumdisplay.php?fid=37">Linux/Ubuntu学习资源大全</a></li></ul></dd></dl><dl><dt><a href="index.php?gid=65">社区茶馆</a></dt><dd><ul><li><a href="forumdisplay.php?fid=66">音乐分享</a></li><li><a href="forumdisplay.php?fid=67">茶余饭后</a></li></ul></dd></dl>	</div>
+
+<script type="text/javascript">
+var maxpage = 1;
+if(maxpage > 1) {
+	document.onkeyup = function(e){
+		e = e ? e : window.event;
+		var tagname = is_ie ? e.srcElement.tagName : e.target.tagName;
+		if(tagname == 'INPUT' || tagname == 'TEXTAREA') return;
+		actualCode = e.keyCode ? e.keyCode : e.charCode;
+					}
+}
+</script>
+
+</div>
+
+
+<div id="ad_footerbanner1"></div><div id="ad_footerbanner2"></div><div id="ad_footerbanner3"></div>
+
+<div id="footer">
+	<div class="wrap">
+		<div id="footlinks">
+			<p>当前时区 GMT+8, 现在时间是 2009-4-26 10:52 <a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备07039416</a></p>
+			<p>
+				<a href="member.php?action=clearcookies&amp;formhash=e484b517">清除 Cookies</a>
+				- <a href="mailto:hxl2000@gmail.com">联系我们</a> - <a href="http://www.UbuntuChina.com/" target="_blank">UbuntuChina互动社区（2006－2009）</a>
+				 - <a href="archiver/" target="_blank">Archiver</a>								- <span class="scrolltop" onclick="window.scrollTo(0,0);">TOP</span>
+							</p>
+		</div>
+
+		<a href="http://www.discuz.net" target="_blank" title="Powered by Discuz!"><img src="images/default/discuz_icon.gif" border="0" alt="Discuz!" /></a>
+		<p id="copyright">
+			Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>6.0.0</em>			&copy; 2001-2007 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a>
+		</p>			<p id="debuginfo">Processed in 0.043462 second(s), 8 queries.</p>
+			</div>
+</div>
+</body>
+</html><script src="include/javascript/msn.js" type="text/javascript"></script>
