@@ -1,0 +1,679 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>希望PDF之家-技术文章-PDF开发篇
+			-iText经验总结</title>
+		<meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
+		<meta name="CODE_LANGUAGE" Content="C#">
+		<meta name="vs_defaultClientScript" content="JavaScript">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+		<link href="Article/Article.css" rel="stylesheet" type="text/css">
+	</HEAD>
+	<body background="images/bg.jpg" MS_POSITIONING="GridLayout">
+		<form name="Form1" method="post" action="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&amp;AID=318e1f34-ade6-4130-bdb6-c6a24f1a3a80" id="Form1">
+<input type="hidden" name="__VIEWSTATE" value="dDwtMzU3OTM3MjEyO3Q8cDxsPENJRDtBSUQ7PjtsPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODszMThlMWYzNC1hZGU2LTQxMzAtYmRiNi1jNmEyNGYxYTNhODA7Pj47bDxpPDA+Oz47bDx0PDtsPGk8MT47aTwxMj47aTwxMz47aTwxND47aTwxNT47aTwxNj47PjtsPHQ8cDxsPF8hSXRlbUNvdW50Oz47bDxpPDA+Oz4+Ozs+O3Q8O2w8aTwzPjs+O2w8dDxwPDtwPGw8b25jbGljazs+O2w8amF2YXNjcmlwdDoKe2lmKGRvY3VtZW50LmZvcm1zWzBdLkFyY1NlYXJjaDFfdHh0S2V5LnZhbHVlPT0nJyl7CmFsZXJ0KCfmkJzntKLmnaHku7bkuI3og73kuLrnqbonKVw7CnJldHVybiBmYWxzZVw7Cn19Oz4+Pjs7Pjs+Pjt0PHA8bDxfIUl0ZW1Db3VudDs+O2w8aTwxMD47Pj47bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1PjtpPDY+O2k8Nz47aTw4PjtpPDk+Oz47bDx0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7OWM4MzE0YmYtOWU1Ni00OGQzLWI5NGEtNDE0YjgyMmI1ZWJiO+W+quW6j+a4kOi/m+WtpuS5oGlUZXh0U2hhcjs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODtiODE5ZGY4YS1hNThlLTQ3YjAtOWJlYS1iN2ZmYWU5YTEwNjk75b6q5bqP5riQ6L+b5a2m5LmgaVRleHRTaGFyOz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4Ozc4ZDg1MTY0LWIzYWYtNGIyYS04ZTI0LWFiMDQ1M2Y2MzM3Mjvlvqrluo/muJDov5vlrabkuaBpVGV4dFNoYXI7Pjs7Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7NWQ3ZjM1MWUtMzgyYi00MzY2LTgzN2QtZTFiNWVjYWRmYWUwO+W+quW6j+a4kOi/m+WtpuS5oGlUZXh0U2hhcjs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODsxZTU3NTc4OS05ZWI4LTRiNzEtOGNlMC0zMDc1NTY4MWZkMTk75b6q5bqP5riQ6L+b5a2m5LmgaVRleHRTaGFyOz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4OzhmYjQ2OTIwLTRkMTQtNGZlZS1iODY5LTk2YmVjZDY3ODUzYzvlvqrluo/muJDov5vlrabkuaBpVGV4dFNoYXI7Pjs7Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7MTY2OGE0OTEtZTJhNy00Yjg0LTkyNDktNjRlMjc4MzRkNjk5O2lUZXh0U2hhcnDkuI5UcnVlOz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4OzhkZTc1YTljLTRlYTgtNDUwYS1iNDVkLTNmNTA2ZjA0ZjNmNTvlvqrluo/muJDov5vlrabkuaBpVGV4dFNoYXI7Pjs7Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7YmQzZDdiZjMtMTJhNS00NDBiLWIzYTMtNjg0MmE0ZmY0Yjc0O+W+quW6j+a4kOi/m+WtpuS5oGlUZXh0U2hhcjs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODtiNmM5Yjk1ZC1jODhlLTRiZTEtYTY2NS0xZTExMzNjYzRjNmI75b6q5bqP5riQ6L+b5a2m5LmgaVRleHRTaGFyOz47Oz47Pj47Pj47dDxwPGw8XyFJdGVtQ291bnQ7PjtsPGk8MTA+Oz4+O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47aTw2PjtpPDc+O2k8OD47aTw5Pjs+O2w8dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4OzFmOTI0MmQ3LWU1ZWUtNDc3Yi1hOTJjLTg5ZmVjZWFhMTc5NTvkuIDkuKrnroDljZXnmoRQREbmlofku7bnu5PmnoTnmoTliIbmnpA7OTY4MTs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODtmNWZlNTJkZC04NDE5LTRiYWEtYWIxYy1lYTNmMjY5NTIxMzI755SoQyPliLbkvZxQREbmlofku7blhajmlLvnlaU7ODEzODs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODs5ZTFhMzUzZi0xNTJkLTRmZjMtOWM1My1jOTNlOTQzOGJjNjE7V29yZOi9rOaNolBERuagvOW8j+eahEMj5oiWOzczNDc7Pjs7Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7OGU2Y2MyNWMtYTAzYi00OTFiLWIzZTgtNWYxOWExMGY0M2VjO3BkZk1ha2Vy5paH56ug77yaUERG5YqgOzY0Mzk7Pjs7Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7OGY1OGQ4YTgtMTg5ZS00NDk3LWIzNWYtODUyNjFkNmE4MTk1O1BERuaWh+S7tuWKoOWvhuS7v+ecnzs2MzE5Oz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4OzhjZDhmMzFmLWNhZmItNDVhZC1iMWUxLWIwM2JkYzE3YjNiMDtQSFDnmoRGREbmlofmoaPmlK/mjIE7NTE5OTs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODsxNjhjMzE2OC05ODlhLTRmMWEtYTgwMS03NmE4Y2ZiNjRiNTk75pW05ZCIUERG5ZKMSmF2YeaKgOacrzs0NzMyOz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4OzIwNmRiYzEwLWFlMTctNDBiNy1iZDg3LThiODU3OWE2ZmRkNTvlnKhXZWLlupTnlKjkuK3liqjmgIHliJvlu7pQREbmloc7NDY3NDs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODtmZDM1NzI3Yi05MmM1LTRjZmUtYjJiZi1lY2RkYjEzMmY3ZDY75oCO5qC355SoaVJlcG9ydOWItuS9nFdlYjs0MTkzOz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4OzljODMxNGJmLTllNTYtNDhkMy1iOTRhLTQxNGI4MjJiNWViYjvlvqrluo/muJDov5vlrabkuaBpVGV4dFNoYXI7NDAwOTs+Ozs+Oz4+Oz4+O3Q8cDxsPF8hSXRlbUNvdW50Oz47bDxpPDEwPjs+PjtsPGk8MD47aTwxPjtpPDI+O2k8Mz47aTw0PjtpPDU+O2k8Nj47aTw3PjtpPDg+O2k8OT47PjtsPHQ8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODs0NWZlNTk5Yy1hMDNlLTQyMmMtODgxYy0wZjA3OTVkNThlYzE75LuOcGRm5paH5qGj5Lit5o+Q5Y+W5Ye65paH5pysOzY7Pjs7Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7YWE0YWE5NmYtNDFkOS00MjY4LTgyMDEtNDYzMDAyNzk0ZDliO+WuouaIt+err+iHquWKqOaJk+WNsFBERihQcmluOzI7Pjs7Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8QDxiZjUxYTViNi03OGE1LTRmYTMtOTMxMC0xNmUwNGFlZThjNzg7ZGE1M2NhNWEtODI0OC00OWRhLTlmZDQtMTllMzQzZDM0NGM1O1BERmxpYuW8gOWPke+8muWIm+W7uui2heaWh+acrOWFgzsyOz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4OzlkNWJhZDk0LTMxYmYtNDk4NC1iNjY0LTQ5MGFmMTcyODc5ODvmtYXosIhQREZsaWLkuK3mlofovpPlh7rvvIjkuIDvvIk7Mjs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODsxOGM1NTVmZC04YzhiLTRmNDEtODZmZS1lODA3Y2QzMTM0OGI7eG1s55qE6L2s5o2i5LmLcGRmIDEgKHg7MTs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODtkOTFkNzNlNC03OTA1LTRkZWQtOWQ3OS00OGE4ZWRjNzgwZGQ7eG1s55qE6L2s5o2i5LmLcGRmIDIgICg7MTs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODs1YTBkZjJjNi03OTNjLTQxNDUtYTQ1Yi00ZGJkOGUzMWI0OGM7d29yZOi9rHBkZjsxOz47Oz47Pj47dDw7bDxpPDA+Oz47bDx0PEA8YmY1MWE1YjYtNzhhNS00ZmEzLTkzMTAtMTZlMDRhZWU4Yzc4O2Q0N2IyYjcyLTUzZTMtNDg3MS1iZDg5LWE5YTVjYjI4MzliNjtQREZCb3jkvb/nlKjnroDku4s7MTs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODtlZWY1YjRiMC1iMDA1LTQ2YjUtOWZiNi01ODk5N2I4M2NhNDU7aVRleHRTaGFycCDkuK3mloflrZflnos7MDs+Ozs+Oz4+O3Q8O2w8aTwwPjs+O2w8dDxAPGJmNTFhNWI2LTc4YTUtNGZhMy05MzEwLTE2ZTA0YWVlOGM3ODs5NTg5YWE0MC1iMjY5LTQ0ZmYtOGNmZi1iM2U5YjljMjUyZDk75rex5bqm5a6J5YWo77ya5oqA5pyv5LiT5a626K+m5bC96Kej5p6QQWQ7MDs+Ozs+Oz4+Oz4+O3Q8cDxwPGw8Q291bnQ7PjtsPDE1MTk3MDQ7Pj47Pjs7Pjs+Pjs+PjtsPHJkU2NvcmUwO3JkU2NvcmUxO3JkU2NvcmUxO3JkU2NvcmUyO3JkU2NvcmUyO3JkU2NvcmUzO3JkU2NvcmUzO3JkU2NvcmU0O3JkU2NvcmU0O3JkU2NvcmU1O3JkU2NvcmU1O0FyY1NlYXJjaDE6YnRuU2VhcmNoOz4+AAp1Qjqoc9vRPYwIzbbtFRO8O7A=" />
+			
+			
+			<div align="center">
+				
+<LINK href="head/head.css" type="text/css" rel="stylesheet">
+<table class="tableHead" cellSpacing="0" cellPadding="0" align="center" background="head/bgColor.gif"
+	ID="Table16">
+	<tr>
+		<td vAlign="middle" align="left" width="205"><A href="index.aspx"><IMG src="Head/logo.gif" border="0"></A>
+		</td>
+		<td width="707">
+			<table style="FONT-SIZE: 12px; FONT-FAMILY: 宋体" cellSpacing="0" cellPadding="0" width="100%"
+				align="center" border="0" height="80px" ID="Table17">
+				<tr>
+					<td vAlign="bottom" align="center" width="76"><A href="NewsIndex.aspx" target="_blank"><IMG src="Head/1.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="78"><A href="ProductIndex.aspx" target="_blank"><IMG src="Head/2.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="78"><A href="ArIndex.aspx" target="_blank"><IMG src="Head/3.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="78"><A href="ShopCar.aspx" target="_blank"><IMG src="Head/4.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="78"><A href="Partner.aspx" target="_blank"><IMG src="Head/5.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="78"><A href="Qa.aspx" target="_blank"><IMG src="Head/6.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="78"><A href="NewsLetter2009001.htm" target="_blank"><IMG src="Head/7.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="78"><A href="PDFForum.aspx" target="_blank"><IMG src="Head/8.gif" border="0"></A></td>
+					<td width="1"></td>
+					<td vAlign="bottom" align="center" width="77"><A href="ResIndex.aspx" target="_blank"><IMG src="Head/9.gif" border="0"></A></td>
+				</tr>
+				<tr>
+					<td vAlign="bottom" align="center"><A href="NewsIndex.aspx" target="_blank">新闻资讯</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="ProductIndex.aspx" target="_blank">控件产品</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="ArIndex.aspx" target="_blank">技术文章</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="ShopCar.aspx" target="_blank">购物车</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="Partner.aspx" target="_blank">合作伙伴</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="Qa.aspx" target="_blank">问题解答</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="NewsLetter2009001.htm" target="_blank">电子简报</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="PDFForum.aspx" target="_blank">PDF论坛</A></td>
+					<td vAlign="bottom" width="1">|</td>
+					<td vAlign="bottom" align="center"><A href="ResIndex.aspx" target="_blank">资源下载</A></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+			
+				<table border="1px" bordercolor=#c7c7c7 cellspacing=0 cellpadding=0>
+					<tr>
+						<td class="tdBorder">
+							<!--当前位置+二级菜单//-->
+							<table cellPadding="0" cellSpacing="0" class="table1">				
+								<tr>
+									<td class="tdCurrentLoc" width="45">
+										<img height="25" src="Article/arrow1.gif" width="40">
+									</td>
+									<td class="tdCurrentLoc" width="290" align="left">
+										您现在的位置：技术文章&gt;PDF开发篇
+									</td>
+									<td class="tdCurrentLoc" width="450" align="right">
+										<a href="ArIndex.aspx">首页</a>|<a href="ArcClass.aspx?CID=accbb826-8932-4f70-94cd-4abbf22fac64">解决方案</a>|<a href="ArcClass.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78">PDF开发篇</a>|<a href="ArcClass.aspx?CID=5c532c51-5fa1-49f3-88d7-118394a9868a">PDF应用篇</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="tdSep" colspan="3">
+									</td>
+								</tr>
+							</table>
+							<!--当前位置+二级菜单结束//-->
+							<!--主体//-->
+							<!--主体//-->
+							<table cellPadding="0" cellSpacing="0" class="table1" bgcolor="#ffffff">
+								<tr>
+									<!--主体左侧//-->
+									<td class="tdleft">
+										<table class="tableleft" cellpadding="2" cellspacing="0">
+											<!--文章//-->
+											<tr>
+												<td>
+													<table class="tablearticle" cellpadding="0" cellspacing="0">
+														<tr>
+															<td class="tdarctitle">
+																<p><font color="#003399"><strong>iText经验总结</strong></font></p>
+																<p>发布日期：2007-9-28
+																	作者：风
+																	出处：http://www.blogjava.net</p>
+															</td>
+														</tr>
+														<tr>
+															<td class="tdarccontent">
+																<P>&nbsp;</P>
+<P>因为前些日子在一个项目中用到了iText，稍有收获，便总结于此，以供他人所需。<BR><BR>iText是一个比较底层的pdf库，很多项目的pdf操作都是以它为基础的。像spring，以及另一个比较有名的报表工具jasperreports。简单的pdf报表输出用它比较合适，比较复杂的话使用起来就比较困难了，你要手工编写太多的代码。<BR><BR>比较好的是iText网站上提供相当多的示例代码，比较容易入门。我这里只说一些在它的文档里并没有直接讲到的东西。<BR><BR>1 关于Document<BR><BR>Document的几种构造函数：<BR>public Document(); <BR>public Document(Rectangle pageSize); <BR>public Document(Rectangle pageSize, <BR>int marginLeft, <BR>int marginRight, <BR>int marginTop, <BR>int marginBottom); <BR>下面两种比较有用，如果是你想定义纸张大小和边缘的时候。对于Margin，iText上提到&#8220;You can also change the margins while you are adding content. Note that the changes will only be noticed on the NEXT page. If you want the margins mirrored (odd and even pages), you can do this with this method: setMarginMirroring(true). &#8221;不过，对于table似乎并不好使。table并不会了理会你设定的margin，如果想改变它的magin还是需要去改变它的宽度（setWidth）。<BR><BR>2 pdf表单<BR><BR>使用PdfStamper是可以填充pdf表单的，这样就给出了一种很好的报表生成思路。<BR>word制作报表样式--&gt;acrobat转pdf--&gt;itext填充数据--&gt;输出pdf <BR>这做非常简单，因为可以比较容易的控制pdf的样式。我对于Java的报表工具了解的并不多，不过在jasperreports，即使用GUI工具做一个样式比较复杂的报表也不是怎么容易。比如有那种斜线的表头，比较花哨的嵌套表格。这样的情况还是比较多见的，客户不会关系你实现起来是否困难。不过想要使用这种方式也有不足的地方。首先是acrobat把word转化成pdf的时候，格式总是保持不好，特别的是字体。然后是文件的体积这样生成的pdf会比直接用iText生成的pdf文件大很多，acrobat在pdf里加入了太多无用的信息。初次使用iText填充Adobe Designer生成的pdf表单时会有点小麻烦。在Designer中设计了一个name的text文本框的绑定名为name。照着iText中例子使用使用PdfStamper的setField方法去这样写form.setField("name", "XXXX");并不会成功。原因是Adobe Designer生成的表单名都是具有层次的，它可能是这个样子form1[0].#subform[0].name[0]。不过我们可以用一个方法把它们列出来，只要做一次就知道结构了，可以使用类似下面的代码：<BR>PdfReader reader = new PdfReader("form.pdf"); <BR>PdfStamper stamp = new PdfStamper(reader, new FileOutputStream("registered_flat.pdf")); <BR>AcroFields form = stamp.getAcroFields(); <BR>for (Iterator it = form.getFields().keySet().iterator(); it <BR>.hasNext();) { <BR>System.out.println(it.next()); <BR>} <BR>如果直接用iText编程生成的表单就不会有这样的问题，设定的什么名字就是什么名字。<BR><BR>3 表单元素<BR><BR>pdf并不像html那样具有良好清晰的结构，而是一个有层次的文档类型。在它的maillist里，作者说明了iText虽然可以操作现存的pdf文件但是没办法去还原它的结构的。没办法像html一样，能从一个pdf文件获得一个清晰的&#8220;源文件&#8221;的。关于层次，可以从iText上得到详细的讲述，获取去看看pdf规范。表单和普通文本是不在一个层上的。没办法适用对待文本表各一样把它们简单的add进Document对象。获取一个cb直接去用绝对定位的方法可以加入表单元素，不过很多的时候因为排版并不能那么简单的去做。就是在html中布局一样可以使用表格定位。想把一个表单元素加入cell，要借助cell的setCellEvent方法。以一个checkbox为例。新建一个类CheckBoxForm，实现PdfPCellEvent接口。需要实现一个cellLayout的方法。<BR>&nbsp; public void cellLayout(PdfPCell cell, Rectangle position, PdfContentByte[] canvases)<BR>position可以好好利用，它包含当前cell的位置信息，你可以用它来确定自己checkbox的位置。<BR>position.top()-position.bottom()就能得到高position.right()-position.left()可以得到长，如果需要这两个值得花可以如此计算。下面的代码就是定义一个宽度为a的checkbox的rectangle 。它在cell中水平居中，垂直也居中。<BR>&nbsp; &nbsp; float bo = (position.top()-position.bottom()-a)/2;<BR>&nbsp; &nbsp; float ao = (position.right()-position.left()-a)/2; &nbsp; &nbsp; <BR>&nbsp; &nbsp; Rectangle rectangle = new Rectangle(position.left() + ao, position<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .bottom() + bo, position.left() +ao+ a, position.bottom()+ bo + a);<BR>然后把它加入Document<BR>&nbsp; &nbsp; RadioCheckField tf = new RadioCheckField(writer, rectangle, fieldname,<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "f");<BR>&nbsp; &nbsp; tf.setCheckType(RadioCheckField.TYPE_SQUARE);<BR>&nbsp; &nbsp; tf.setBorderWidth(1);<BR>&nbsp; &nbsp; tf.setBorderColor(Color.black);<BR>&nbsp; &nbsp; tf.setBackgroundColor(Color.white); &nbsp; &nbsp; &nbsp; <BR>&nbsp; &nbsp; try {<BR>&nbsp; &nbsp; &nbsp; &nbsp; PdfFormField field = tf.getCheckField(); &nbsp; &nbsp; &nbsp; &nbsp; <BR>&nbsp; &nbsp; &nbsp; &nbsp; writer.addAnnotation(field);<BR>&nbsp; &nbsp; } catch (IOException e) {<BR>&nbsp; &nbsp; &nbsp; &nbsp; e.printStackTrace();<BR>&nbsp; &nbsp; } catch (DocumentException e) {<BR>&nbsp; &nbsp; &nbsp; &nbsp; e.printStackTrace();<BR>&nbsp; &nbsp; }<BR>其它的元素与此类似。<BR><BR>4 PdfPTable和Table<BR><BR>说不上哪种更好用，有时候不能不使用PdfPTable。可惜它只有setColspan方法，没有setRowspan。嵌套的时候也有区别，PdfPTable是用addcell（）加入嵌套表的，table则有一个更明了的方法insertTable（）。PdfPTable想进行设置border之类的操作要先获得一个默认cell，<BR>pdfPTableName.getDefaultCell().setBorder(Rectangle.NO_BORDER);//设置无框的表<BR>另外在PdfPTable中，一些修饰属性会因为设置的时机不正确而没有效果。如，适用cell的构造函数加入了文本，在cell的setVerticalAlignment（）fangfa去设定垂直对齐方式就不会有效。还有一个有意思的不同是table默认外边框是加粗的，而PdfPTable则一样粗细。<BR><BR>5 字体<BR><BR>iText的例子有很多足够用，给出一些pdf的字体名称和编码，如果想使用内嵌字体的话。<BR>语言 PDF 字体名 <BR>简体中文 STSong-Light <BR>繁体中文 MHei-Medium <BR>MSung-Light <BR>日语 HeiseiKakuGo-W5 <BR>HeiseiMin-W3 <BR>韩语 HYGoThic-Medium <BR>HYSMyeongJo-Medium <BR><BR>字符集 编码 <BR>简体中文 UniGB-UCS2-H <BR>UniGB-UCS2-V <BR>繁体中文 UniCNS-UCS2-H <BR>UniCNS-UCS2-V <BR>日语 UniJIS-UCS2-H <BR>UniJIS-UCS2-V <BR>UniJIS-UCS2-HW-H <BR>UniJIS-UCS2-HW-V <BR>韩语 UniKS-UCS2-H <BR>UniKS-UCS2-H <BR>必须要有Asian的包才可以用，也可以使用TrueType字体。<BR></P>
+																<FONT face="宋体"></FONT>
+															</td>
+														</tr>
+														<tr>
+															<td class="tdarcbottom">
+																发布人：管理员
+																【报告错误】·【推荐好友】·【打印文章】
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td class="tdSep1"></td>
+											</tr>								
+											<!--文章结束//-->
+											<tr>
+												<td>
+			 										<!--评论//-->
+													<table class="tableremark" cellpadding="0" cellspacing="0">
+														<tr>
+															<td align="left"><strong>相关评论</strong></td>
+															<td align="right"><strong> 本文现有 0 条评论 评分人数: 0 平均分: 0</strong></td>
+														</tr>
+														
+													</table>
+													<!--评论结束//-->									
+												</td>
+											</tr>
+											<tr>
+												<td class="tdSep2"></td>
+											</tr>
+			 								<!--您的评论//-->
+											<tr>
+												<td>
+												<table class="tableyourremark" cellpadding="0" cellspacing="0">
+													<tr>
+														<td class="tdyourremarktitle"><strong>相关评论</strong></td>
+													</tr>
+													<tr>
+														<td>
+															用户名：<input name="txtUser" type="text" value="游客" maxlength="20" id="txtUser" class="input" />
+															密&nbsp;&nbsp;码：<input name="txtPassword" type="password" maxlength="20" id="txtPassword" class="input" />
+														</td>
+													</tr>
+													<tr>
+														<td>
+															说明：输入正确的用户名和密码才能参与评论。如果您不是本站会员，你可以<a href="URegAggrement.aspx" target="_blank">注册</a>为本站会员。 
+															<BR>注意：文章中的链接、内容等需要修改的错误，请用<FONT color=red>报告错误</FONT>，以利文档及时修改。 
+														</td>
+													</tr>
+													<tr>
+														<td class="tdyourremarkcontent">
+															<input id="rdScore0" type="radio" name="rdScore" value="rdScore0" checked="checked" /><label for="rdScore0">不评分</label>
+															<input id="rdScore1" type="radio" name="rdScore" value="rdScore1" /><label for="rdScore1">1</label>
+															<input id="rdScore2" type="radio" name="rdScore" value="rdScore2" /><label for="rdScore2">2</label>
+															<input id="rdScore3" type="radio" name="rdScore" value="rdScore3" /><label for="rdScore3">3</label>
+															<input id="rdScore4" type="radio" name="rdScore" value="rdScore4" /><label for="rdScore4">4</label>
+															<input id="rdScore5" type="radio" name="rdScore" value="rdScore5" /><label for="rdScore5">5</label>
+														</td>
+													</tr>
+													<tr>
+														<td class="tdyourremarkcontent">
+															<textarea name="txtRemark" id="txtRemark" class="MInput"></textarea>
+														</td>
+													</tr>
+													<tr>
+														<td class="tdyourremarkcontent">
+															<input type="submit" name="btnSubmitRemark" value="发表评论" id="btnSubmitRemark" class="btnSubmitRemark" />
+															注意：请不要在评论中含与内容无关的广告链接，违者封ID 
+														</td>
+													</tr>
+												</table>
+												</td>
+											</tr>
+											<!--您的评论结束//-->
+											
+										</table>
+									</td>
+									<!--主体左侧结束//-->
+									<TD width="2" bgColor="#ffffff"></TD>
+									<!--主体右侧//-->
+									<td vAlign="top" width="170"><!--bgColor="#f0f0f0"-->
+										<table bgcolor="#E3E8EB" cellspacing="1">
+											<tr>
+												<td bgColor="#F9FAFE">
+													<TABLE id="Table11" cellSpacing="0" cellPadding="0" width="100%" align="center" border="0">
+														<TBODY>
+															<TR>
+																<TD height="4"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE cellSpacing="0" cellPadding="0" width="100%" background="Article/05index_x2_r92_c7.jpg"
+														border="0">
+														<TBODY>
+															<TR>
+																<TD width="18"><IMG height="26" src="Article/05index_x2_r92_c5.jpg" width="3" border="0"></TD>
+																<TD><SPAN>文章搜索</SPAN></TD>
+																<TD vAlign="bottom" width="90"><IMG height="13" src="Article/05index_x2_r94_c27.jpg" width="90" border="0"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													
+<TABLE cellSpacing="0" cellPadding="2" width="170" border="0">
+	<TBODY>
+		<TR>
+			<TD align="left" colspan="2">
+				<input name="ArcSearch1:txtKey" type="text" id="ArcSearch1_txtKey" />
+			</TD>
+		</TR>
+		<tr>
+			<td>
+			</td>
+			<td align="right">
+				<input type="image" name="ArcSearch1:btnSearch" id="ArcSearch1_btnSearch" onclick="javascript:
+{if(document.forms[0].ArcSearch1_txtKey.value==''){
+alert('搜索条件不能为空');
+return false;
+}}" src="News\images\search.jpg" alt="" border="0" />
+			</td>
+		</tr>
+		<TR>
+			<TD height="10" colspan="2"></TD>
+		</TR>
+	</TBODY>
+</TABLE>
+										
+													<TABLE cellSpacing="0" cellPadding="0" width="100%" border="0">
+														<TBODY>
+															<TR>
+																<TD bgColor="#dfdfdf" height="1"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE cellSpacing="0" cellPadding="0" width="100%" background="Article/05index_x2_r92_c7.jpg"
+														border="0">
+														<TBODY>
+															<TR>
+																<TD width="18"><IMG height="26" src="Article/05index_x2_r92_c5.jpg" width="3" border="0"></TD>
+																<TD><SPAN>推荐文章</SPAN></TD>
+																<TD vAlign="bottom" width="90"><IMG height="13" src="Article/05index_x2_r94_c27.jpg" width="90" border="0"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE cellSpacing="0" cellPadding="2" width="100%" border="0">
+														<TBODY>
+															<TR>
+																<TD height="10"></TD>
+															</TR>
+															<TR >
+																<TD>
+																	<table  cellpadding="0" cellspacing="0">
+																		
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=9c8314bf-9e56-48d3-b94a-414b822b5ebb" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=b819df8a-a58e-47b0-9bea-b7ffae9a1069" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=78d85164-b3af-4b2a-8e24-ab0453f63372" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=5d7f351e-382b-4366-837d-e1b5ecadfae0" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=1e575789-9eb8-4b71-8ce0-30755681fd19" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=8fb46920-4d14-4fee-b869-96becd67853c" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=1668a491-e2a7-4b84-9249-64e27834d699" target="_blank">
+																							iTextSharp与True
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=8de75a9c-4ea8-450a-b45d-3f506f04f3f5" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=bd3d7bf3-12a5-440b-b3a3-6842a4ff4b74" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																						<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=b6c9b95d-c88e-4be1-a665-1e1133cc4c6b" target="_blank">
+																							循序渐进学习iTextShar
+																						</a>
+																				</td>
+																			</tr>
+																			
+																	</table>
+																
+																</TD>
+															</TR>
+															<TR>
+																<TD height="10"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE height="5" cellSpacing="0" cellPadding="0" width="100%" border="0">
+														<TBODY>
+															<TR>
+																<TD height="5"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE cellSpacing="0" cellPadding="0" width="100%" border="0">
+														<TBODY>
+															<TR>
+																<TD bgColor="#dfdfdf" height="1"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE cellSpacing="0" cellPadding="0" width="100%" background="Article/05index_x2_r92_c7.jpg"
+														border="0">
+														<TBODY>
+															<TR>
+																<TD width="18"><IMG height="26" src="Article/05index_x2_r92_c5.jpg" width="3" border="0"></TD>
+																<TD><SPAN>热门点击</SPAN></TD>
+																<TD vAlign="bottom" width="90"><IMG height="13" src="Article/05index_x2_r94_c27.jpg" width="90" border="0"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE cellSpacing="0" cellPadding="2" width="100%" border="0">
+														<TBODY>
+															<TR>
+																<TD height="10"></TD>
+															</TR>
+															<TR>
+																<TD>
+																	<table class="tableright2" cellpadding="0" cellspacing="0">
+																		
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=1f9242d7-e5ee-477b-a92c-89feceaa1795" target="_blank">
+																					一个简单的PDF文件结构的分析(<font color="red">9681</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=f5fe52dd-8419-4baa-ab1c-ea3f26952132" target="_blank">
+																					用C#制作PDF文件全攻略(<font color="red">8138</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=9e1a353f-152d-4ff3-9c53-c93e9438bc61" target="_blank">
+																					Word转换PDF格式的C#或(<font color="red">7347</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=8e6cc25c-a03b-491b-b3e8-5f19a10f43ec" target="_blank">
+																					pdfMaker文章：PDF加(<font color="red">6439</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=8f58d8a8-189e-4497-b35f-85261d6a8195" target="_blank">
+																					PDF文件加密仿真(<font color="red">6319</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=8cd8f31f-cafb-45ad-b1e1-b03bdc17b3b0" target="_blank">
+																					PHP的FDF文档支持(<font color="red">5199</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=168c3168-989a-4f1a-a801-76a8cfb64b59" target="_blank">
+																					整合PDF和Java技术(<font color="red">4732</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=206dbc10-ae17-40b7-bd87-8b8579a6fdd5" target="_blank">
+																					在Web应用中动态创建PDF文(<font color="red">4674</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=fd35727b-92c5-4cfe-b2bf-ecddb132f7d6" target="_blank">
+																					怎样用iReport制作Web(<font color="red">4193</font>)</a>
+																				</td>
+																			</tr>
+																			
+																			<tr>
+																				<td>
+																					<img src="Article/arrow.gif" border="0">
+																					<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=9c8314bf-9e56-48d3-b94a-414b822b5ebb" target="_blank">
+																					循序渐进学习iTextShar(<font color="red">4009</font>)</a>
+																				</td>
+																			</tr>
+																			
+																	</table>
+																
+																</TD>
+															</TR>
+															<TR>
+																<TD height="10"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>								
+													<TABLE cellSpacing="0" cellPadding="0" width="100%" background="Article/05index_x2_r92_c7.jpg"
+														border="0">
+														<TBODY>
+															<TR>
+																<TD width="18"><IMG height="26" src="Article/05index_x2_r92_c5.jpg" width="3" border="0"></TD>
+																<TD><SPAN class="black12pxb">热门评论</SPAN></TD>
+																<TD vAlign="bottom" width="90"><IMG height="13" src="Article/05index_x2_r94_c27.jpg" width="90" border="0"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+													<TABLE cellSpacing="0" cellPadding="2" width="100%" border="0">
+														<TBODY>
+															<TR>
+																<TD height="10"></TD>
+															</TR>
+															<TR>
+																<TD>
+																	<table cellpadding="0" cellspacing="0">
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=45fe599c-a03e-422c-881c-0f0795d58ec1"  target="_blank">
+																					从pdf文档中提取出文本(<font color="red">6</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=aa4aa96f-41d9-4268-8201-463002794d9b"  target="_blank">
+																					客户端自动打印PDF(Prin(<font color="red">2</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=da53ca5a-8248-49da-9fd4-19e343d344c5"  target="_blank">
+																					PDFlib开发：创建超文本元(<font color="red">2</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=9d5bad94-31bf-4984-b664-490af1728798"  target="_blank">
+																					浅谈PDFlib中文输出（一）(<font color="red">2</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=18c555fd-8c8b-4f41-86fe-e807cd31348b"  target="_blank">
+																					xml的转换之pdf 1 (x(<font color="red">1</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=d91d73e4-7905-4ded-9d79-48a8edc780dd"  target="_blank">
+																					xml的转换之pdf 2  ((<font color="red">1</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=5a0df2c6-793c-4145-a45b-4dbd8e31b48c"  target="_blank">
+																					word转pdf(<font color="red">1</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=d47b2b72-53e3-4871-bd89-a9a5cb2839b6"  target="_blank">
+																					PDFBox使用简介(<font color="red">1</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=eef5b4b0-b005-46b5-9fb6-58997b83ca45"  target="_blank">
+																					iTextSharp 中文字型(<font color="red">0</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																		<tr>
+																			<td>
+																				<img src="Article/arrow.gif" border="0">
+																				<a href="Article.aspx?CID=bf51a5b6-78a5-4fa3-9310-16e04aee8c78&AID=9589aa40-b269-44ff-8cff-b3e9b9c252d9"  target="_blank">
+																					深度安全：技术专家详尽解析Ad(<font color="red">0</font>)
+																				</a>
+																			</td>
+																		</tr>
+																		
+																	</table>													
+																</TD>
+															</TR>
+															<TR>
+																<TD height="10"></TD>
+															</TR>
+														</TBODY>
+													</TABLE>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<!--主体右侧结束//-->
+								</tr>
+							</table>						
+						</td>
+					</tr>
+				</table>				
+			
+				
+<link href="foot/style.css" rel="stylesheet" type="text/css">
+<!--
+<table cellpadding="0" cellspacing="0" id="foottable1">
+	<tr>
+		<td id="foottd1"></td>
+	</tr>
+	<tr>
+		<td id="foottd2">
+			<table cellSpacing="0" cellPadding="0" id="foottable2">
+				<tr>
+					<td width="8" id="foottd3"></td>
+					<td id="foottd5"><a href="aboutus.aspx" target="_blank">公司介绍</a> | <a href="sitemap.aspx" target="_blank">
+							网站地图</a> | <a href="links.aspx" target="_blank">友情链接</a> | <a href="contact.aspx" target="_blank">
+							联系我们</a> | <a href="joinus.aspx" target="_blank">加盟我们</a> | <a href="law.aspx" target="_blank">
+							法律声明</a></td>
+					<td id="foottd4"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td id="foottd6">
+			<a href="http://www.hope.com.cn" target="_blank">北京中科希望软件股份有限公司</a>版权所有<BR>
+			Copyright ? 2006 京ICP备******号
+		</td>
+	</tr>
+</table>
+-->
+<table cellSpacing="0" cellPadding="0" align="center" width="785px">
+	<tr>
+		<td height="3"></td>
+	</tr>
+	<tr>
+		<td width="785px" height="3px" bgcolor="#4798ed">
+		</td>
+	</tr>
+	<tr>
+		<td height="5">
+		</td>
+	</tr>
+	<tr vAlign="middle" height="60">
+		<td>
+			<div class="text" style="COLOR: #9b9b9b" align="center"><a href="HelpMain.aspx?file=about.htm" target="_blank">关于我们</a>
+				| <a href="SiteMap.aspx">网站地图 </a>| <a href="links.aspx">友情链接 </a>| <a href="HelpMain.aspx?file=contact.htm" target="_blank">
+					联系我们</a> |<a href="HelpMain.aspx?file=Service.htm">客户服务</a> |<a href="law.aspx" target="_blank">
+					法律声明</a><br>
+				<br>
+				<a href="http://www.hope.com.cn" target="_blank">北京中科希望软件股份有限公司</a>版权所有<BR>
+				Copyright &copy; 2006 <a href="http://www.miibeian.gov.cn">京ICP备06032405号</a>
+			</div>
+		</td>
+	</tr>
+</table>
+
+			</div>
+		</form>
+	</body>
+</HTML>

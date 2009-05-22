@@ -1,0 +1,899 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<!-- saved from url=(0060)http://www.blogjava.net/rosen/archive/2008/12/07/244858.html -->
+<HTML><HEAD id="Head"><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><TITLE>
+	利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava
+</TITLE><META id="metaKeywords" name="keywords" content="利用 iText 实现 PDF 报表下载"><META name="verify-v1" content="pmMQ9161SoctN+e2ERPF8C5Rtz9HvjgD1YwF50gmxaI="><LINK id="MainCss" type="text/css" rel="stylesheet" href="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/style.css"><LINK id="SecondaryCss" type="text/css" rel="stylesheet" href="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/customcss.aspx"><LINK id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.blogjava.net/rosen/rss.aspx"><STYLE>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</STYLE><STYLE>.userData { BEHAVIOR: url(#default#userdata) }
+	</STYLE></HEAD><BODY>
+    <FORM name="Form1" method="post" action="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava.htm" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<DIV>
+<INPUT type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<INPUT type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<INPUT type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="">
+</DIV>
+
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</SCRIPT>
+
+
+<SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/WebResource.axd" type="text/javascript"></SCRIPT>
+
+<SCRIPT language="JavaScript">
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</SCRIPT>
+												<SCRIPT language="JavaScript">function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</SCRIPT>
+<SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/ScriptResource.axd" type="text/javascript"></SCRIPT>
+<SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/ScriptResource(1).axd" type="text/javascript"></SCRIPT>
+<SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/ScriptResource(2).axd" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</SCRIPT>
+
+        <SCRIPT type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT><SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/ga.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+var pageTracker = _gat._getTracker("UA-887492-1");
+pageTracker._trackPageview();
+</SCRIPT>
+<DIV id="top">
+	
+<DIV>
+	<TABLE>
+		<TBODY><TR>
+			<TD class="HeaderTitles">
+				<H1 class="HeaderTitle"><A id="Header1_HeaderTitle" class="HeaderMainTitle" href="http://www.blogjava.net/rosen/"><B>一路北漂来</B></A></H1>
+				<P id="tagline">生活在这里，要学会麻木，对任何事情的麻木，苟且的活着。</P>
+			</TD>
+		</TR>
+	</TBODY></TABLE>
+</DIV>
+<DIV class="HeaderBar">
+	<TABLE id="HeaderBar" class="HeaderBar" cellpadding="0" cellspacing="0">
+		<TBODY><TR>
+			<TD class="HeaderBarTab" nowrap="">
+&nbsp;
+<A id="Header1_MyLinks1_HomeLink" href="http://www.blogjava.net/">BlogJava</A>&nbsp;::
+<A id="Header1_MyLinks1_MyHomeLink" href="http://www.blogjava.net/rosen/">首页</A>&nbsp;::
+&nbsp;::
+&nbsp;::
+<A id="Header1_MyLinks1_Syndication" href="http://www.blogjava.net/rosen/rss">聚合</A>
+<A id="Header1_MyLinks1_XMLLink" class="XMLLink" href="http://www.blogjava.net/rosen/rss"><IMG src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/xml.gif" style="border-width:0px;"></A>&nbsp;::
+<A id="Header1_MyLinks1_Admin" href="http://www.blogjava.net/rosen/admin/EditPosts.aspx">管理</A>&nbsp;::
+
+</TD>
+			<TD><IMG id="Header1_BlueTab" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/BlueTabRight.gif" align="absmiddle" style="border-width:0px;"></TD>
+			<TD class="HeaderBarTabBack" nowrap="" width="100&percnt;">
+				
+<DIV class="BlogStatsBar">
+	<TABLE class="BlogStatsBar">
+		<TBODY><TR>
+			<TD width="100&percnt;">
+			</TD>
+			<TD class="BlogStatsBar" nowrap="">
+				&nbsp;
+				78 
+				随笔&nbsp;::
+				2 文章
+				::
+				387 评论
+				::
+				1 Trackbacks
+			</TD>
+		</TR>
+	</TBODY></TABLE>
+</DIV>
+
+			</TD>
+		</TR>
+	</TBODY></TABLE>
+</DIV>
+
+</DIV>
+<DIV id="leftmenu" style="display: inline; ">
+	
+	    
+		
+<H3>公告</H3>
+<DIV class="News">
+	
+		<SCRIPT language="javascript" type="text/javascript" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/298319.js">
+		</SCRIPT><A href="http://www.51.la/?00298319" target="_blank"><IMG alt="51.la 专业、免费、强健的访问统计" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/icon_7.gif" style="border:none"></A>
+<IMG style="width:0px;height:0px" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/go.asp">
+		<NOSCRIPT></NOSCRIPT>
+		<BR>
+		<A rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/cn/">
+				<IMG alt="Creative Commons License" style="border-width:0" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/by-&">
+		</A>
+		<A href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.blogjava.net/rosen" id="clustrMapsLink">
+				<IMG src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/index2.php" style="border:0px;" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onerror="this.onerror=null; this.src=&#39;http://clustrmaps.com/images/clustrmaps-back-soon.jpg&#39;; document.getElementById(&#39;clustrMapsLink&#39;).href=&#39;http://clustrmaps.com&#39;;">
+		</A>
+
+</DIV>
+
+		
+<H3>常用链接</H3>
+<UL>
+		<LI><A id="SingleColumn1_ctl00_repeaterLinks_ctl01_lnkLinkItem" href="http://www.blogjava.net/rosen/MyPosts.html">我的随笔</A></LI>
+	
+		<LI><A id="SingleColumn1_ctl00_repeaterLinks_ctl02_lnkLinkItem" href="http://www.blogjava.net/rosen/MyComments.html">我的评论</A></LI>
+	
+		<LI><A id="SingleColumn1_ctl00_repeaterLinks_ctl03_lnkLinkItem" href="http://www.blogjava.net/rosen/OtherPosts.html">我的参与</A></LI>
+	
+		<LI><A id="SingleColumn1_ctl00_repeaterLinks_ctl04_lnkLinkItem" href="http://www.blogjava.net/rosen/RecentComments.html">最新评论</A></LI>
+	</UL>
+		<H3>随笔分类<SPAN style="font-size:11px;font-weight:normal">(79)</SPAN></H3>
+		
+				<UL>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" href="http://www.blogjava.net/rosen/category/13739.html">db4o 中文项目(10)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to db4o 中文项目(10)" href="http://www.blogjava.net/rosen/category/13739.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" href="http://www.blogjava.net/rosen/category/2689.html">Java EE 服务器端(13)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to Java EE 服务器端(13)" href="http://www.blogjava.net/rosen/category/2689.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" href="http://www.blogjava.net/rosen/category/2686.html">Java EE 表现层及容器(8)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to Java EE 表现层及容器(8)" href="http://www.blogjava.net/rosen/category/2686.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" href="http://www.blogjava.net/rosen/category/5482.html">Java ME(1)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to Java ME(1)" href="http://www.blogjava.net/rosen/category/5482.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link" href="http://www.blogjava.net/rosen/category/2690.html">Java 基础(8)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to Java 基础(8)" href="http://www.blogjava.net/rosen/category/2690.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link" href="http://www.blogjava.net/rosen/category/7219.html">MatLab(1)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to MatLab(1)" href="http://www.blogjava.net/rosen/category/7219.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_Link" href="http://www.blogjava.net/rosen/category/2688.html">O/R Mapping(13)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_RssLink" title="Subscribe to O/R Mapping(13)" href="http://www.blogjava.net/rosen/category/2688.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_Link" href="http://www.blogjava.net/rosen/category/2685.html">五花八门(8)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_RssLink" title="Subscribe to 五花八门(8)" href="http://www.blogjava.net/rosen/category/2685.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_Link" href="http://www.blogjava.net/rosen/category/2684.html">工作流(10)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_RssLink" title="Subscribe to 工作流(10)" href="http://www.blogjava.net/rosen/category/2684.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_Link" href="http://www.blogjava.net/rosen/category/2682.html">数据库(2)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_RssLink" title="Subscribe to 数据库(2)" href="http://www.blogjava.net/rosen/category/2682.html/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_Link" href="http://www.blogjava.net/rosen/category/2683.html">模式与策略(5)</A> <A id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_RssLink" title="Subscribe to 模式与策略(5)" href="http://www.blogjava.net/rosen/category/2683.html/rss">(rss)</A></LI>
+			
+				</UL>
+			
+	
+		<H3>随笔档案<SPAN style="font-size:11px;font-weight:normal">(79)</SPAN></H3>
+		
+				<UL>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" href="http://www.blogjava.net/rosen/archive/2009/04.html">2009年4月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" href="http://www.blogjava.net/rosen/archive/2009/03.html">2009年3月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" href="http://www.blogjava.net/rosen/archive/2009/02.html">2009年2月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" href="http://www.blogjava.net/rosen/archive/2008/12.html">2008年12月 (2)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl05_Link" href="http://www.blogjava.net/rosen/archive/2008/09.html">2008年9月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl06_Link" href="http://www.blogjava.net/rosen/archive/2008/08.html">2008年8月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl07_Link" href="http://www.blogjava.net/rosen/archive/2008/07.html">2008年7月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl08_Link" href="http://www.blogjava.net/rosen/archive/2008/06.html">2008年6月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl09_Link" href="http://www.blogjava.net/rosen/archive/2008/04.html">2008年4月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl10_Link" href="http://www.blogjava.net/rosen/archive/2008/03.html">2008年3月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl11_Link" href="http://www.blogjava.net/rosen/archive/2008/01.html">2008年1月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl12_Link" href="http://www.blogjava.net/rosen/archive/2007/12.html">2007年12月 (2)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl13_Link" href="http://www.blogjava.net/rosen/archive/2007/10.html">2007年10月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl14_Link" href="http://www.blogjava.net/rosen/archive/2007/09.html">2007年9月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl15_Link" href="http://www.blogjava.net/rosen/archive/2007/08.html">2007年8月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl16_Link" href="http://www.blogjava.net/rosen/archive/2007/06.html">2007年6月 (2)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl17_Link" href="http://www.blogjava.net/rosen/archive/2007/05.html">2007年5月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl18_Link" href="http://www.blogjava.net/rosen/archive/2007/04.html">2007年4月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl19_Link" href="http://www.blogjava.net/rosen/archive/2007/02.html">2007年2月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl20_Link" href="http://www.blogjava.net/rosen/archive/2007/01.html">2007年1月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl21_Link" href="http://www.blogjava.net/rosen/archive/2006/12.html">2006年12月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl22_Link" href="http://www.blogjava.net/rosen/archive/2006/11.html">2006年11月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl23_Link" href="http://www.blogjava.net/rosen/archive/2006/10.html">2006年10月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl24_Link" href="http://www.blogjava.net/rosen/archive/2006/09.html">2006年9月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl25_Link" href="http://www.blogjava.net/rosen/archive/2006/08.html">2006年8月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl26_Link" href="http://www.blogjava.net/rosen/archive/2006/07.html">2006年7月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl27_Link" href="http://www.blogjava.net/rosen/archive/2006/06.html">2006年6月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl28_Link" href="http://www.blogjava.net/rosen/archive/2006/05.html">2006年5月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl29_Link" href="http://www.blogjava.net/rosen/archive/2006/04.html">2006年4月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl30_Link" href="http://www.blogjava.net/rosen/archive/2006/03.html">2006年3月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl31_Link" href="http://www.blogjava.net/rosen/archive/2006/02.html">2006年2月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl32_Link" href="http://www.blogjava.net/rosen/archive/2006/01.html">2006年1月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl33_Link" href="http://www.blogjava.net/rosen/archive/2005/12.html">2005年12月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl34_Link" href="http://www.blogjava.net/rosen/archive/2005/11.html">2005年11月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl35_Link" href="http://www.blogjava.net/rosen/archive/2005/10.html">2005年10月 (1)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl36_Link" href="http://www.blogjava.net/rosen/archive/2005/09.html">2005年9月 (2)</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl37_Link" href="http://www.blogjava.net/rosen/archive/2005/08.html">2005年8月 (39)</A> </LI>
+			
+				</UL>
+			
+	
+		<H3>文章分类<SPAN style="font-size:11px;font-weight:normal">(2)</SPAN></H3>
+		
+				<UL>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_Link" href="http://www.blogjava.net/rosen/category/3474.html">我的收藏(2)</A> <A id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_RssLink" title="Subscribe to 我的收藏(2)" href="http://www.blogjava.net/rosen/category/3474.html/rss">(rss)</A></LI>
+			
+				</UL>
+			
+	
+		<H3>友情链接</H3>
+		
+				<UL>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl01_Link" href="http://www.blogjava.net/openssl/" target="_blank">david.turing</A> <A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl01_RssLink" title="Subscribe to david.turing" href="http://www.blogjava.net/openssl/Rss.aspx">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl02_Link" href="http://blog.csdn.net/wyingquan" target="_blank">wyingquan的专栏</A> <A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl02_RssLink" title="Subscribe to wyingquan的专栏" href="http://blog.csdn.net/wyingquan/Rss.aspx">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl03_Link" href="http://yfeng.cn/" target="_blank">俺的猪窝~！@</A> </LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl04_Link" href="http://spaces.msn.com/members/Deodar/" target="_blank">喜马拉雅的雪杉</A> <A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl04_RssLink" title="Subscribe to 喜马拉雅的雪杉" href="http://spaces.msn.com/members/Deodar/feed.rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl05_Link" href="http://www.blogjava.net/mmwy" target="_blank">无聊人士</A> <A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl05_RssLink" title="Subscribe to 无聊人士" href="http://www.blogjava.net/mmwy/Rss.aspx">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl06_Link" href="http://www.blogjava.net/juleven" target="_blank">竹十一</A> <A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl06_RssLink" title="Subscribe to 竹十一" href="http://www.blogjava.net/juleven/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl07_Link" href="http://www.cnblogs.com/xd125" target="_blank">老刘忙不忙</A> <A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl07_RssLink" title="Subscribe to 老刘忙不忙" href="http://www.cnblogs.com/xd125/rss">(rss)</A></LI>
+			
+				<LI><A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl08_Link" href="http://blogger.org.cn/blog/blog.asp?name=hongrui" target="_blank">邢红瑞的blog</A> <A id="SingleColumn1_Categories_CatList_ctl03_LinkList_ctl08_RssLink" title="Subscribe to 邢红瑞的blog" href="http://blogger.org.cn/blog/rss2.asp?name=hongrui">(rss)</A></LI>
+			
+				</UL>
+			
+	
+
+<H3>积分与排名</H3>
+<UL>
+	<LI>
+		积分 -
+		191403
+	</LI><LI>
+		排名 -
+		49
+	</LI>
+</UL>
+
+<H3>最新评论
+	<A id="SingleColumn1__1a5e345_RSSHyperlink1" href="http://www.blogjava.net/rosen/CommentsRSS.aspx"><IMG src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/xml.gif" style="border-width:0px;"></A></H3>
+<DIV class="RecentComment">
+	
+			<UL>
+		
+			<LI style="word-break:break-all">
+				<A id="SingleColumn1__1a5e345_CommentList_ctl01_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2009/05/01/247983.html#268553">1.&nbsp;re: Flex3 性能提示</A>
+			</LI>
+			<LI style="word-break:break-all">
+				@Sha Jiang<BR>哈哈，反正就那样吧，工作麻。<BR>用提升，显得太嚣张了，还是淡定点好 淡定 淡定。
+			</LI>
+			<LI style="text-align:right;margin-right:4px">
+				--Rosen</LI>
+		
+			<LI style="word-break:break-all">
+				<A id="SingleColumn1__1a5e345_CommentList_ctl02_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2009/05/01/247983.html#268529">2.&nbsp;re: Flex3 性能提示</A>
+			</LI>
+			<LI style="word-break:break-all">
+				Rosen兄，好久不见，近来安好否...<BR>本文题目是否应为&quot;Flex3性能提升&quot; ;-)
+			</LI>
+			<LI style="text-align:right;margin-right:4px">
+				--Sha Jiang</LI>
+		
+			<LI style="word-break:break-all">
+				<A id="SingleColumn1__1a5e345_CommentList_ctl03_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2009/04/30/217210.html#268420">3.&nbsp;re: 北漂找工作经历</A>
+			</LI>
+			<LI style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</LI>
+			<LI style="text-align:right;margin-right:4px">
+				--Rosen</LI>
+		
+			<LI style="word-break:break-all">
+				<A id="SingleColumn1__1a5e345_CommentList_ctl04_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2009/04/30/217210.html#268415">4.&nbsp;re: 北漂找工作经历</A>
+			</LI>
+			<LI style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</LI>
+			<LI style="text-align:right;margin-right:4px">
+				--eddie</LI>
+		
+			<LI style="word-break:break-all">
+				<A id="SingleColumn1__1a5e345_CommentList_ctl05_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2009/04/21/9955.html#266716">5.&nbsp;re: Java 中的位运算</A>
+			</LI>
+			<LI style="word-break:break-all">
+				@liya<BR>是的
+			</LI>
+			<LI style="text-align:right;margin-right:4px">
+				--Rosen</LI>
+		
+			</UL>
+		
+</DIV>
+
+<H3>阅读排行榜</H3>
+<DIV class="RecentComment">
+	
+			<UL style="word-break:break-all">
+		
+			<LI>
+				<A id="SingleColumn1__3e0b1cd_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9955.html">1.&nbsp;Java 中的位运算(8065)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e0b1cd_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2007/06/04/121994.html">2.&nbsp;CentOS 5 Apache,Java,Tomcat,PostgreSQL...安装笔记（不断更新中）(7945)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e0b1cd_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9937.html">3.&nbsp;Hibernate、iBATIS 与 BLOB(6997)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e0b1cd_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9880.html">4.&nbsp;OSWorkflow 探索(6890)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e0b1cd_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9879.html">5.&nbsp;RBAC 模型初探(5795)</A>
+			</LI>
+		
+			</UL>
+		
+</DIV>
+
+<H3>评论排行榜</H3>
+<DIV class="RecentComment">
+	
+			<UL style="word-break:break-all">
+		
+			<LI>
+				<A id="SingleColumn1__3e31c95_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2008/03/21/187814.html">1.&nbsp;德国申根商务签证攻略（成都版）(36)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e31c95_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9880.html">2.&nbsp;OSWorkflow 探索(27)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e31c95_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2008/07/25/217210.html">3.&nbsp;北漂找工作经历(24)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e31c95_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2006/06/15/53094.html">4.&nbsp;开源面向对象数据库 db4o 之旅: 初识 db4o&ldquo;db4o 之旅（一）&rdquo;(21)</A>
+			</LI>
+		
+			<LI>
+				<A id="SingleColumn1__3e31c95_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2006/12/30/91052.html">5.&nbsp;开源面向对象数据库 db4o 之旅: 深入 db4o &ldquo;db4o 之旅（三）&rdquo;(17)</A>
+			</LI>
+		
+			</UL>
+		
+</DIV>
+
+	
+	<!--
+	<br><br>
+	<p align="center">
+	<a href="http://www.WebHost4Life.com/default.asp?refid=MarkHWagner">
+	<img src="http://www.WebHost4Life.com/images/banner3.gif" width="120"
+	height="60" border="0" alt="Join WebHost4Life.com"></a>
+	</p>
+-->
+</DIV>
+<DIV id="main">
+	
+					
+<DIV class="post">
+	<DIV class="postTitle">
+		<A id="viewpost1_TitleUrl" href="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava.htm">利用 iText 实现 PDF 报表下载</A>
+	</DIV>
+	
+	<DIV class="postText">
+		很久没更新 blog 了，工作和一些事情占用了大部分精力，实在是身不由己。今天终于有空整理一下最近用到的东西。<BR><BR>有个朋友的项目需要用到 PDF 报表下载，之前我只做过 Excel 的，相信再做一次 PDF 的下载一定很有趣吧。在网上找了一大圈，似乎 iText 比较符合我的要求，而且这个工具很早很早以前就有了，生命力很旺盛。进入 iText 的主页（http://www.lowagie.com/iText/），发现作者很勤劳，最近2个月都有新版本发布。哪知道现在高兴得太早了，一堆问题接踵而至。<BR><BR>下载倒是很简单，一个<A xmlns="" href="http://prdownloads.sourceforge.net/itext/iText-2.1.4.jar">iText-2.1.4.jar</A>搞定，然后去找入门文档，进了文档页面，一股浓郁的商业气氛迎面而来，这里只提供了部分文档，除非去买&quot;iText in Action&quot;，随后被踢到 iText by Example 页面。好吧，既然这是老牌工具了，肯定有不少中文资料吧，找了一圈，没发现什么和生成并下载相关的 out of box 文档，很多都是经验性的总结和进阶文章。无奈又啃 iText by Example，在这里找到些有用的资源，<A class="chapter" href="http://itextdocs.lowagie.com/tutorial/general/webapp/index.php" name="general_webapp">iText in a Web Application</A>正是我要找的，不过这个例子很简单。通过 Google 之后，又发现要下载一个 CJK 的包（iTextAsian.jar）才能正确显示中文，好吧我去找。很幸运的是在 iText by Example 里找到了这个 jar 的 link，兴致勃勃的跑去下载，结果这是个无效链接，最后在 sourceForge 上才找到，不容易啊。解决了这些问题，想必能够安稳的使用了吧，由于这个项目比较急，没什么耐心一个个的翻阅 iText by Example，想找点捷径，据说 iText 可以从 html 直接生成 PDF，窃喜！找了 apache common 的 httpclient，动态模拟 http 请求来抓 html，根据控制台的 print，的确把 html 抓到了，然后开始转换到 PDF，先解决了中文显示问题，可是后面的问题解决不了了，html 的 table 和 div 这些，转换到 PDF 都走样了... ...<BR><BR>很不爽，看来还是只有老老实实的啃 iText by Example实在点。这次稍微耐心点，一点点的看，首先搞清楚了它的 Font 设置，然后是 Table 和 Cell 的关系，经过反复调试，有点效果了。把代码贴出来，做个标记吧。以免以后又抓狂。<BR><BR><DIV style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); font-size: 13px; width: 98&percnt;;"><!--<br><br>Code highlighting produced by Actipro CodeHighlighter (freeware)<br>http://www.CodeHighlighter.com/<br><br>--><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;1</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 255);">package</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;org.rosenjiang.servlet;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;2</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;3</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;java.awt.Color;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;4</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;java.io.IOException;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;5</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;java.util.HashMap;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;6</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;java.util.List;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;7</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;java.util.Map;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;8</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;&nbsp;9</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;javax.servlet.ServletException;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;10</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;javax.servlet.http.HttpServlet;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;11</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;javax.servlet.http.HttpServletRequest;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;12</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;javax.servlet.http.HttpServletResponse;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;13</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;14</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;org.springframework.web.context.WebApplicationContext;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;15</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;org.springframework.web.context.support.WebApplicationContextUtils;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;16</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;17</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;org.rosenjiang.service.UserService;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;18</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.Document;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;19</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.DocumentException;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;20</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.Font;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;21</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.Paragraph;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;22</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.pdf.BaseFont;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;23</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.pdf.PdfPCell;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;24</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.pdf.PdfPTable;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;25</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">import</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;com.lowagie.text.pdf.PdfWriter;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;26</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;27</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 128, 0);">/*</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;28</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);">&nbsp;*&nbsp;ReportServlet<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;29</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);">&nbsp;*&nbsp;@author&nbsp;rosen&nbsp;jiang<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;30</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);">&nbsp;*&nbsp;@since&nbsp;2008-12<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;31</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);">&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">*/</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;32</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);"></SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">class</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;ReportServlet&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">extends</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;HttpServlet&nbsp;{<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;33</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;34</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">/**</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;35</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Return&nbsp;a&nbsp;PDF&nbsp;document&nbsp;for&nbsp;download.<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;36</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;37</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">*/</SPAN><SPAN style="color: rgb(0, 0, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;38</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">public</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">void</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;doGet&nbsp;(HttpServletRequest&nbsp;request,&nbsp;HttpServletResponse&nbsp;response)<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;39</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">throws</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;IOException,&nbsp;ServletException&nbsp;{<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;40</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;account_id&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;request.getParameter(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">account_id</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;41</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;search_date_from&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;request.getParameter(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">search_date_from</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;42</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;to&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;request.getParameter(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">to</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;43</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebApplicationContext&nbsp;ctx&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;WebApplicationContextUtils.getWebApplicationContext(</SPAN><SPAN style="color: rgb(0, 0, 255);">this</SPAN><SPAN style="color: rgb(0, 0, 0);">.getServletContext());<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;44</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UserService&nbsp;userService&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;(UserService)ctx.getBean(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">userService</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;45</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List</SPAN><SPAN style="color: rgb(0, 0, 0);">&lt;</SPAN><SPAN style="color: rgb(0, 0, 0);">Map</SPAN><SPAN style="color: rgb(0, 0, 0);">&lt;</SPAN><SPAN style="color: rgb(0, 0, 0);">String,&nbsp;Object</SPAN><SPAN style="color: rgb(0, 0, 0);">&gt;&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;list&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;userService.getAccountActivity(account_id,&nbsp;search_date_from,&nbsp;to);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;46</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;create&nbsp;PDF&nbsp;document</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;47</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Document&nbsp;document&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Document();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;48</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">try</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;{<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;49</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">set&nbsp;response&nbsp;info</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;50</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response.setContentType(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">application/x-msdownload;charset=UTF-8</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;51</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;response.setHeader(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">Content-Disposition</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">attachment;filename=report.pdf</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;52</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">open&nbsp;output&nbsp;stream</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;53</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PdfWriter.getInstance(document,&nbsp;response.getOutputStream());<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;54</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;open&nbsp;PDF&nbsp;document</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;55</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.open();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;56</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;set&nbsp;chinese&nbsp;font</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;57</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BaseFont&nbsp;bfChinese&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;BaseFont.createFont(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">STSong-Light</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">UniGB-UCS2-H</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;BaseFont.NOT_EMBEDDED);&nbsp;&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;58</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;f2&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Font(bfChinese,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">2</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;Font.NORMAL);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;59</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;f6&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Font(bfChinese,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">6</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;Font.NORMAL);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;60</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;f8&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Font(bfChinese,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">8</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;Font.NORMAL);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;61</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;f10&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Font(bfChinese,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">10</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;Font.NORMAL);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;62</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;f12&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Font(bfChinese,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">12</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;Font.BOLD);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;63</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">set&nbsp;title</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;64</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.add(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">金融报表</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f12));&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;65</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&lt;br&gt;</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;66</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.add(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,f6));&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;67</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">set&nbsp;sub&nbsp;title</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;68</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.add(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">账户信息</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f10));&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;69</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&lt;br&gt;</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;70</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.add(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f2));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;71</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">process&nbsp;business&nbsp;data</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;72</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">if</SPAN><SPAN style="color: rgb(0, 0, 0);">(list.size()</SPAN><SPAN style="color: rgb(0, 0, 0);">&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">0</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&amp;&amp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;list.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">0</SPAN><SPAN style="color: rgb(0, 0, 0);">).get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">bankbook_no</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">)</SPAN><SPAN style="color: rgb(0, 0, 0);">!=</SPAN><SPAN style="color: rgb(0, 0, 255);">null</SPAN><SPAN style="color: rgb(0, 0, 0);">){<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;73</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">float</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;openBalance&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">0</SPAN><SPAN style="color: rgb(0, 0, 0);">;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;74</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">create&nbsp;table&nbsp;with&nbsp;7&nbsp;columns</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;75</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PdfPTable&nbsp;table&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;PdfPTable(</SPAN><SPAN style="color: rgb(0, 0, 0);">7</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;76</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">100&percnt;&nbsp;width</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;77</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.setWidthPercentage(</SPAN><SPAN style="color: rgb(0, 0, 0);">100</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;78</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;79</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">create&nbsp;cells</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;80</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PdfPCell&nbsp;cell&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;PdfPCell();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;81</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">set&nbsp;color</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;82</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setBackgroundColor(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Color(</SPAN><SPAN style="color: rgb(0, 0, 0);">213</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">141</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">69</SPAN><SPAN style="color: rgb(0, 0, 0);">));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;83</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;84</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;85</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">交易日</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;86</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;87</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">类型</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;88</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;89</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">备注</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;90</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;91</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">ID</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;92</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;93</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">票号</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;94</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;95</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">合计</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;96</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;97</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">余额</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;98</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">&nbsp;99</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">create&nbsp;another&nbsp;cell</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">100</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PdfPCell&nbsp;newcell&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;PdfPCell();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">101</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">102</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">103</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Map</SPAN><SPAN style="color: rgb(0, 0, 0);">&lt;</SPAN><SPAN style="color: rgb(0, 0, 0);">String,&nbsp;Object</SPAN><SPAN style="color: rgb(0, 0, 0);">&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;map&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;HashMap</SPAN><SPAN style="color: rgb(0, 0, 0);">&lt;</SPAN><SPAN style="color: rgb(0, 0, 0);">String,&nbsp;Object</SPAN><SPAN style="color: rgb(0, 0, 0);">&gt;</SPAN><SPAN style="color: rgb(0, 0, 0);">();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">104</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">for</SPAN><SPAN style="color: rgb(0, 0, 0);">(</SPAN><SPAN style="color: rgb(0, 0, 255);">int</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;i&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">0</SPAN><SPAN style="color: rgb(0, 0, 0);">;&nbsp;i&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&lt;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;list.size();&nbsp;i</SPAN><SPAN style="color: rgb(0, 0, 0);">++</SPAN><SPAN style="color: rgb(0, 0, 0);">){<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">105</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;list.get(i);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">106</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;cashInout&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">cash_inout</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">107</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">trade_date</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString(),&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">108</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">109</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">bankbook_type</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString(),&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">110</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">111</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">memo</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString(),&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">112</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">113</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">account_id</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString(),&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">114</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">115</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">ticket_no</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString(),&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">116</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">117</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">amount</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString(),&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">118</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">119</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(openBalance</SPAN><SPAN style="color: rgb(0, 0, 0);">+</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">120</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">121</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">if</SPAN><SPAN style="color: rgb(0, 0, 0);">(cashInout.equals(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">I</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">)){<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">122</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;openBalance&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;openBalance&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">+</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Float.valueOf(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">amount</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString());<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">123</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN><SPAN style="color: rgb(0, 0, 255);">else</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">if</SPAN><SPAN style="color: rgb(0, 0, 0);">(cashInout.equals(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">O</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">)){<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">124</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;openBalance&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;openBalance&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">-</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Float.valueOf(map.get(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">amount</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">).toString());<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">125</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">126</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">127</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">print&nbsp;total&nbsp;column</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">128</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcell.setPhrase(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">合计</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">+</SPAN><SPAN style="color: rgb(0, 0, 0);">openBalance,&nbsp;f8));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">129</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">130</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">131</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">132</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">133</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">134</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">135</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(newcell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">136</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.add(table);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">137</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN><SPAN style="color: rgb(0, 0, 255);">else</SPAN><SPAN style="color: rgb(0, 0, 0);">{<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">138</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PdfPTable&nbsp;table&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;PdfPTable(</SPAN><SPAN style="color: rgb(0, 0, 0);">1</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">139</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.setWidthPercentage(</SPAN><SPAN style="color: rgb(0, 0, 0);">100</SPAN><SPAN style="color: rgb(0, 0, 0);">);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">140</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">141</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PdfPCell&nbsp;cell&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">=</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;PdfPCell(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">暂无数据</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">));<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">142</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">143</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table.addCell(cell);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">144</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.add(table);<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">145</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">146</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">147</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 255);">catch</SPAN><SPAN style="color: rgb(0, 0, 0);">(DocumentException&nbsp;de)&nbsp;{<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">148</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de.printStackTrace();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">149</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.err.println(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">document:&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">+</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;de.getMessage());<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">150</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN><SPAN style="color: rgb(0, 0, 255);">finally</SPAN><SPAN style="color: rgb(0, 0, 0);">{<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">151</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN style="color: rgb(0, 128, 0);">//</SPAN><SPAN style="color: rgb(0, 128, 0);">&nbsp;close&nbsp;the&nbsp;document&nbsp;and&nbsp;the&nbsp;outputstream&nbsp;is&nbsp;also&nbsp;closed&nbsp;internally</SPAN><SPAN style="color: rgb(0, 128, 0);"><BR></SPAN><SPAN style="color: rgb(0, 128, 128);">152</SPAN>&nbsp;<SPAN style="color: rgb(0, 128, 0);"></SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;document.close();<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">153</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">154</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;}<BR></SPAN><SPAN style="color: rgb(0, 128, 128);">155</SPAN>&nbsp;<SPAN style="color: rgb(0, 0, 0);">}</SPAN></DIV><BR><IMG src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/itext.JPG" alt="itext.JPG" border="0" width="985" height="557"><BR><BR>代码结构清晰，本来也没什么东西，就是通过 Spring 调用 service 方法，获取数据后按照 iText 结构输出即可。不过代码里面有个很愚蠢的动作：<SPAN style="color: rgb(0, 0, 0);">document.add(</SPAN><SPAN style="color: rgb(0, 0, 255);">new</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;Paragraph(</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">&nbsp;</SPAN><SPAN style="color: rgb(0, 0, 0);">&quot;</SPAN><SPAN style="color: rgb(0, 0, 0);">,f6))，主要是找不到如何输出空白行，所以只好出此下策。如果哪位有解法，请告知一下。<BR><BR>做技术的确不能太着急，慢慢来，总会找到出口的。<BR><BR></SPAN><SPAN style="color: black; font-family: Arial;" lang="EN-US"><STRONG><FONT color="#ff0000" size="2">请注意！引用、转贴本文应注明原作者：Rosen Jiang 以及出处：</FONT></STRONG><A href="http://www.blogjava.net/rosen/archive/2008/rosen"><FONT color="#ff0000" size="2" face="宋体"><STRONG>http://www.blogjava.net/rosen</STRONG></FONT></A></SPAN><BR>
+	</DIV>
+	
+	<DIV class="postfoot">
+		posted on 2008-12-07 13:27 <A href="http://www.blogjava.net/rosen/">Rosen</A> 阅读(2006) <A href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#Post">评论(3)</A> &nbsp;<A href="http://www.blogjava.net/rosen/admin/EditPosts.aspx?postid=244858">编辑</A> &nbsp;<A href="http://www.blogjava.net/rosen/AddToFavorite.aspx?id=244858">收藏</A>  所属分类: <A href="http://www.blogjava.net/rosen/category/2689.html">Java EE 服务器端</A> 
+	</DIV>
+</DIV>
+<IMG src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/244858.html" width="1" height="1">
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html"
+dc:identifier="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html"
+dc:title="利用 iText 实现 PDF 报表下载"
+trackback:ping="http://www.blogjava.net/rosen/services/trackbacks/244858.aspx" />
+</rdf:RDF>
+-->
+
+<SCRIPT type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</SCRIPT>
+
+<DIV id="AjaxHolder_UpdatePanel1">
+	    
+    <A name="pagedcomment"></A>
+<A name="评论">
+<BR>
+</A><DIV id="comments"><A name="评论">
+	<H3>评论</H3>
+		
+		
+				</A><DIV class="post"><A name="评论">			
+					</A><DIV class="postTitle"><A name="评论">
+						</A><A title="permalink: re: 利用 iText 实现 PDF 报表下载" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#249347">#</A>&nbsp;<A name="249347"></A>re: 利用 iText 实现 PDF 报表下载
+							<SPAN>
+								2008-12-31 16:02
+							</SPAN>
+						<A id="AjaxHolder_Comments_CommentList_ctl00_NameLink" target="_blank">chis</A>
+					</DIV>
+					<DIV class="postText">
+						不错，很有用。&nbsp;&nbsp;<A onclick="return SetReplyAuhor(&quot;chis&quot;)" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#post">回复</A>&nbsp;&nbsp;<A title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=chis" target="_blank">更多评论</A>
+						<BR>
+						<A id="AjaxHolder_Comments_CommentList_ctl00_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl00$DeleteLink','')"></A>&nbsp;&nbsp;<A id="AjaxHolder_Comments_CommentList_ctl00_EditLink"></A>
+					</DIV>
+				</DIV>
+				<BR>
+			
+				<DIV class="post">			
+					<DIV class="postTitle">
+						<A title="permalink: re: 利用 iText 实现 PDF 报表下载[未登录]" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#256704">#</A>&nbsp;<A name="256704"></A>re: 利用 iText 实现 PDF 报表下载[未登录]
+							<SPAN>
+								2009-02-25 21:47
+							</SPAN>
+						<A id="AjaxHolder_Comments_CommentList_ctl01_NameLink" target="_blank">Max</A>
+					</DIV>
+					<DIV class="postText">
+						Document.add(Chunk.NEWLINE); //Try this for add blank row
+<BR>
+<BR>or 
+<BR>
+<BR>Paragraph.add(Chunk.NEWLINE);&nbsp;&nbsp;<A onclick="return SetReplyAuhor(&quot;Max&quot;)" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#post">回复</A>&nbsp;&nbsp;<A title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Max" target="_blank">更多评论</A>
+						<BR>
+						<A id="AjaxHolder_Comments_CommentList_ctl01_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl01$DeleteLink','')"></A>&nbsp;&nbsp;<A id="AjaxHolder_Comments_CommentList_ctl01_EditLink"></A>
+					</DIV>
+				</DIV>
+				<BR>
+			
+				<DIV class="post">			
+					<DIV class="postTitle">
+						<A title="permalink: re: 利用 iText 实现 PDF 报表下载" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#256739">#</A>&nbsp;<A name="256739"></A>re: 利用 iText 实现 PDF 报表下载<A name="Post"></A>
+							<SPAN>
+								2009-02-26 09:53
+							</SPAN>
+						<A id="AjaxHolder_Comments_CommentList_ctl02_NameLink" href="http://www.blogjava.net/rosen/" target="_blank">Rosen</A>
+					</DIV>
+					<DIV class="postText">
+						@Max<BR>感谢Max同学的热心。&nbsp;&nbsp;<A onclick="return SetReplyAuhor(&quot;Rosen&quot;)" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#post">回复</A>&nbsp;&nbsp;<A title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Rosen" target="_blank">更多评论</A>
+						<BR>
+						<A id="AjaxHolder_Comments_CommentList_ctl02_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl02$DeleteLink','')"></A>&nbsp;&nbsp;<A id="AjaxHolder_Comments_CommentList_ctl02_EditLink"></A>
+					</DIV>
+				</DIV>
+				<BR>
+			
+</DIV>
+
+<!--Beging Temp Save-->
+
+<DIV class="userData" id="CommentsPersistDiv"></DIV>
+
+<SCRIPT type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</SCRIPT>
+<!--Ene TempSave-->
+<DIV id="divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px"><A href="http://news.cnblogs.com/">IT新闻</A>&nbsp;&nbsp;<A href="http://www.blogjava.net/RequireRegister.aspx">新用户注册</A>&nbsp;&nbsp;<A id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</A>&nbsp;&nbsp;</DIV>
+<DIV class="commentform">
+<SPAN id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></SPAN>
+<BR>
+<A name="Feedback"></A>
+	<TABLE cellspacing="1" cellpadding="1" border="0">
+		<TBODY><TR>
+			<TD colspan="3" height="5">
+		</TR>
+		<TR>
+			<TD width="75">
+			<TD>
+			<TD>
+		</TR>
+		<TR>
+			<TD width="55">标题</TD>
+			<TD><INPUT name="AjaxHolder$PostComment$tbTitle" type="text" value="re: 利用 iText 实现 PDF 报表下载" id="AjaxHolder_PostComment_tbTitle" class="commenttb" style="width:320"></TD>
+			<TD><SPAN id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color:Red;visibility:hidden;">请输入标题</SPAN></TD>
+		</TR>
+		<TR>
+			<TD>姓名</TD>
+			<TD><INPUT name="AjaxHolder$PostComment$tbName" type="text" id="AjaxHolder_PostComment_tbName" class="commenttb" style="width:320"></TD>
+			<TD><SPAN id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color:Red;visibility:hidden;">请输入你的姓名</SPAN></TD>
+		</TR>
+		<TR>
+			<TD>主页</TD>
+			<TD><INPUT name="AjaxHolder$PostComment$tbUrl" type="text" id="AjaxHolder_PostComment_tbUrl" class="commenttb" style="width:320"></TD>
+			<TD><FONT face="宋体"></FONT></TD>
+		</TR>
+		<TR>
+			<TD align="left" colspan="3">
+				<TABLE id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" cellspacing="0" cellpadding="0" border="0">
+		<TBODY><TR>
+			<TD colspan="3">
+							<SPAN id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color:Red;display:none;">请输入验证码</SPAN>
+							<SPAN id="AjaxHolder_PostComment_lblImage" style="color:Red;font-weight:bold;"></SPAN>
+						</TD>
+		</TR>
+		<TR>
+			<TD width="78">验证码</TD>
+			<TD><INPUT name="AjaxHolder$PostComment$CodeNumberTextBox" type="text" id="AjaxHolder_PostComment_CodeNumberTextBox">*&nbsp;&nbsp;<IMG src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/JpegImage.aspx"></TD>
+			<TD align="left">
+		</TR>
+	</TBODY></TABLE>
+	
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="3">内容(请不要发表任何与政治相关的内容)
+				<SPAN id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color:Red;visibility:hidden;">请输入评论内容</SPAN><BR>
+				<TEXTAREA name="AjaxHolder$PostComment$tbComment" rows="10" cols="50" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,&#39;AjaxHolder_PostComment_tbComment&#39;)" style="Width:480;Height:220"></TEXTAREA></TD>
+		</TR>
+		<TR>
+			<TD colspan="3">
+		<SPAN id="AjaxHolder_PostComment_Message" style="color:Red;"></SPAN>
+		</TD>
+		</TR><TR>
+			<TD colspan="3"><INPUT id="AjaxHolder_PostComment_chkRemember" type="checkbox" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1"><LABEL for="AjaxHolder_PostComment_chkRemember">Remember Me?</LABEL></TD>
+		</TR>
+		<TR>
+			<TD height="23"><INPUT type="submit" name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave(&#39;AjaxHolder_PostComment_tbComment&#39;);WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" class="commentButton">
+				</TD>
+			<TD colspan="2" height="23">&nbsp;
+				<A id="AjaxHolder_PostComment_lnkLogin" href="http://www.blogjava.net/login.aspx?ReturnURL=http://www.blogjava.net/rosen/archive/2008/12/07/244858.html&SourceURL=/rosen/archive/2008/12/07/244858.html">登录</A>&nbsp;&nbsp;<A id="AjaxHolder_PostComment_linkLoginComment" onclick="if(document.getElementById(&#39;AjaxHolder_PostComment_tbComment&#39;).value != &#39;&#39;) return confirm(&#39;未提交的评论内容将会丢失, 你真的要进入高级评论吗?&#39;);" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html?login=1#Post">使用高级评论</A>&nbsp;&nbsp;<A href="http://www.blogjava.net/RequireRegister.aspx">新用户注册</A>&nbsp;&nbsp;<A href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#Top">返回页首</A>&nbsp;&nbsp;<A id="AjaxHolder_PostComment_lbRestore" onclick="Restore(&#39;AjaxHolder_PostComment_tbComment&#39;); return false;" href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html#Post">恢复上次提交</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</TD>
+		</TR>
+		<TR>
+			<TD colspan="3"><LABEL class="CtrlEnter">[使用Ctrl+Enter键可以直接提交]</LABEL></TD>
+		</TR>
+		<TR>
+			<TD colspan="3">该文被作者在 2008-12-08 09:47 编辑过</TD>
+		</TR>
+		<TR>
+			<TD colspan="3" height="5">
+			<SCRIPT type="text/javascript" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/saved_resource"></SCRIPT>
+			<SCRIPT type="text/JavaScript">show_a4_zone("S1");</SCRIPT><A href="http://a4.yeshj.com/rd/28001/" target="_blank"><IMG src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/YU-D-S1P-28001_48.gif" border="0"></A><BR>
+			<SCRIPT type="text/JavaScript">show_a4_zone("Z1");</SCRIPT><A href="http://a4.yeshj.com/rd/27430/" target="_blank"><FONT color="red">Java软件工程师-企业岗前培训生急招</FONT></A><BR><A href="http://a4.yeshj.com/rd/27429/" target="_blank"><FONT color="red">诚聘有想法的Flash/Flex高级程序员</FONT></A><BR></TD>
+		</TR>
+		<TR>
+			<TD colspan="3" height="5">
+		</TR>
+		<TR>
+			<TD colspan="3">
+			<A href="http://dotnet.cnblogs.com/">.NET频道</A>&nbsp;&nbsp;<A href="http://space.cnblogs.com/">博客园社区</A>
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan="3">
+<BR>
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-4210569241504288";
+/* BlogJava_评论框下方_468x60, 创建于 08-9-12 */
+google_ad_slot = "6054757011";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/show_ads.js">
+</SCRIPT><SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/expansion_embed.js"></SCRIPT><SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/test_domain.js"></SCRIPT><SCRIPT>window.google_render_ad();</SCRIPT><INS style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><INS style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><IFRAME allowtransparency="true" frameborder="0" height="60" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="468"></IFRAME></INS></INS></TD>
+		</TR>
+		<TR>
+			<TD colspan="3" height="5">
+<DIV id="divRelativePosts">
+相关文章:
+	
+			<UL style="margin-top:0px;padding-left:0px;">
+		
+			<LI style="list-style:none;display:none">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl01_Hyperlink1" href="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava.htm">利用 iText 实现 PDF 报表下载</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl02_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2008/06/24/210399.html">OSGi起步(OSGi for Beginners)</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl03_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2007/06/12/9940.html">Java 生成 JPG 缩略图</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl04_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2007/01/19/94940.html">Apache FileUpload 上传以及 JExcelApi 解析</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl05_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2006/05/15/46281.html">JBI-Java 实现 SOA 的标准途径（翻译）</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl06_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2006/01/28/29344.html">与 Axis 1.x 同行</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl07_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/12/17/24348.html">BIRT 总览（翻译）</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl08_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9952.html">XML 的 RUD</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl09_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9950.html">四种 XML 解析技术之不完全测试</A>
+			</LI>
+		
+			<LI style="list-style:none;">
+				<A id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl10_Hyperlink1" href="http://www.blogjava.net/rosen/archive/2005/08/12/9949.html">精确截取字符串（转载）</A>
+			</LI>
+		
+			</UL>
+		
+</DIV>
+</TD>
+		</TR>
+	
+		<TR>
+			<TD colspan="3">相关链接:<SCRIPT type="text/javascript">
+	function GetMeta(ametaName){
+	var METAs = document.getElementsByTagName("meta"); 
+	for (var i=0; i<METAs.length; i++) { 
+	if(METAs[i].name.toLowerCase()==ametaName){return (METAs[i].content);}
+	};
+	return "";
+	}
+	var title = document.title;
+	document.write("<div id=\"a4_ads_output\">");
+	document.write("<script type='text/javascript' src='http://a4.yeshj.com/adwords/EN017?num=5&title="+ encodeURIComponent(title) +"&tag="+ encodeURIComponent(GetMeta("keywords")) +"'></scri"+"pt>");
+	document.write("</div>");
+	</SCRIPT><DIV id="a4_ads_output"><SCRIPT type="text/javascript" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/EN017"></SCRIPT><A href="http://a4.yeshj.com/rd?aid=16250&zid=0&url=http%3a%2f%2fwww.blogjava.net%2f" target="_blank">BlogJava-专注于Java技术</A><BR><A href="http://a4.yeshj.com/rd?aid=17398&zid=0&url=http%3a%2f%2fkaoyan.hjenglish.com%2fpage%2f54146%2f" target="_blank">08年北京地区在职硕士全国联考准考证下载</A><BR><A href="http://a4.yeshj.com/rd?aid=14476&zid=0&url=http%3a%2f%2fwww.hjenglish.com%2fdown%2f10452" target="_blank">法语入门PDF</A><BR><A href="http://a4.yeshj.com/rd?aid=19515&zid=0&url=http%3a%2f%2fwww.hjbbs.com%2fthread-42-521940.htm" target="_blank">肖秀荣《考研政治理论形势与政策》电子书下载</A><BR><A href="http://a4.yeshj.com/rd?aid=17863&zid=0&url=http%3a%2f%2fkaoyan.hjenglish.com%2fpage%2f29823%2f" target="_blank">08年考研推荐资料下载</A><BR></DIV></TD>
+		</TR>	
+
+		<TR>
+			<TD colspan="3" height="5">网站导航:<DIV id="blogsite">
+			<A href="http://www.cnblogs.com/">博客园</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<A href="http://www.blogjava.net/">BlogJava</A>&nbsp;&nbsp;
+			<A href="http://www.cnweblog.com/">博客生活</A>&nbsp;&nbsp;
+			<A href="http://www.cnitblog.com/">IT博客网</A>&nbsp;&nbsp;
+			<A href="http://www.cppblog.com/">C++博客</A>&nbsp;&nbsp;
+			<A href="http://www.phpweblog.net/">PHP博客</A>&nbsp;&nbsp;
+			<A href="http://space.cnblogs.com/">博客园社区</A>
+			<BR>
+			<A href="http://www.manageblog.net/">管理博客</A>&nbsp;&nbsp;
+			<A href="http://www.teachblog.net/">教师博客</A>&nbsp;&nbsp;&nbsp;&nbsp;
+			<A href="http://www.astroblog.cn/">天文博客</A>&nbsp;&nbsp;
+			<A href="http://www.cnautoblog.com/">汽车博客</A>&nbsp;&nbsp;
+			<A href="http://www.zuqiublog.com/">足球博客</A>&nbsp;&nbsp;
+			<A href="http://www.gupiaoblog.com/">股票博客</A>&nbsp;&nbsp;
+			<A href="http://www.etronblog.com/">电子博客</A>&nbsp;&nbsp;<A href="http://www.blogjava.net/rosen/archive/2008/12/07/244858.html?opt=admin">管理</A>
+			</DIV></TD>
+		</TR>
+		<TR>
+			<TD colspan="3">
+				</TD>
+		</TR>		
+	</TBODY></TABLE>	
+</DIV>
+<DIV id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</DIV>
+
+</DIV>
+
+				
+</DIV>
+
+
+<P id="footer">
+	Powered by: 
+	<BR>
+	
+	<A id="Footer1_Hyperlink3" name="Hyperlink1" href="http://www.blogjava.net/" style="font-family:Verdana;font-size:12px;">BlogJava</A>
+	<BR>
+	Copyright &copy; Rosen
+</P>
+
+    
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</SCRIPT>
+
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</SCRIPT>
+
+
+<SCRIPT type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</SCRIPT>
+</FORM>
+    <SCRIPT type="text/javascript" src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/ShowHidden.js"></SCRIPT>
+	<SCRIPT type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</SCRIPT><SCRIPT src="./利用 iText 实现 PDF 报表下载 - 一路北漂来 - BlogJava_files/ga.js" type="text/javascript"></SCRIPT>
+	<SCRIPT type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-476124-3");
+	pageTracker._trackPageview();
+	} catch(err) {}</SCRIPT>
+
+
+</BODY></HTML>
