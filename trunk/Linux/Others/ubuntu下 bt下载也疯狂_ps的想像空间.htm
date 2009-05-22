@@ -1,0 +1,939 @@
+
+<!-- saved from url=(0090)http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/e6765739af86c0f53b87ce57.html -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=GB2312"><TITLE>ubuntu下 bt下载也疯狂_ps的想像空间      </TITLE>
+<STYLE type="text/css">
+.error{color:#FF0000;font-size:12px}
+
+
+	
+
+
+</STYLE>
+<SCRIPT type="text/javascript" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/global.js"></SCRIPT>
+<SCRIPT language="javascript" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/popup.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/BdEditor-mined.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/g_spjs.js"></SCRIPT>
+<SCRIPT language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+
+function checkMail(s)
+{
+  	var pattern=/\w+@\w+\.[a-z]+/;
+  	if(pattern.test(s))
+    {
+       return true;
+    }
+  	else
+   {
+      return false;
+   }
+}
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{
+		 return true;
+	}
+
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+String.prototype.byteLength = function() {
+    return this.replace(/[^\u0000-\u007f]/g,"\u0061\u0061").length;
+}
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else
+	{
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}
+
+}
+
+function checktext(textid)
+{
+        var tempStr='';
+        var isLightFont=false;
+		if(editor&&textid=="spBlogCmtText"){
+			//document.getElementById("spBlogCmtText").value=editor.getHtml();
+			tempStr=editor.getHtml();
+			tempStr=tempStr.replace(/<span style="filter:glow\(color=#([0-9a-z]{3,6}),strength=2\);height:0px;color:#([0-9a-z]{3,6})">/ig,'');
+			tempStr=tempStr.replace(/<\/span>/ig,'');
+			document.getElementById("spBlogCmtText").value=tempStr;
+            isLightFont=!(tempStr==editor.getHtml());
+        }
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else
+        {
+                len=str.byteLength();
+                var maxLength=isLightFont?916:1000;
+				if(len > maxLength)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+				if(editor&&textid=="spBlogCmtText"){
+					document.getElementById("spBlogCmtText").value=editor.getHtml();
+					document.getElementById(textid).value=trimlr(textid);
+				}
+
+			return true;
+		}
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=0;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='ubuntu下 bt下载也疯狂'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes');
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+/* some functions for cmt-reply */
+		function cmtreply(cmtName,cmtPorID)
+		{
+			window.location.hash="#send";
+			var cmtForm=document.form1;
+			cmtForm.cm.value="3";
+			if(!cmtForm.spReferTarget)
+			{
+				var ipt=document.createElement("input");
+				ipt.type="hidden";
+				ipt.name="spReferTarget";
+				ipt.value=cmtPorID;
+				cmtForm.appendChild(ipt);
+			}else cmtForm.spReferTarget.value=cmtPorID;
+
+
+			 //G("reTitle").innerHTML="回复"+cmtName+"：";
+			 G("cancleReLink").style.display="";
+			 cmtForm.btn_ok.value="回复评论";
+
+
+			 try{
+				editor.window.focus();
+                editor.window.document.body.innerHTML="回复"+cmtName+"：";
+
+                var w = editor.window;
+				if(w.getSelection){
+					var d = w.document;
+					var s = w.getSelection();
+					var r = d.createRange();
+					r.setStartAfter(d.body.firstChild);
+					r.setEndAfter(d.body.lastChild);
+					s.removeAllRanges();
+					s.addRange(r);
+				}
+			}catch(e){
+			 		try{
+				 		cmtForm.getElementsByTagName("textarea")[0].focus();
+				 		cmtForm.getElementsByTagName("textarea")[0].value="回复"+cmtName+"：";
+				 	}catch(e){}
+			}
+		}
+
+		function canclereply()
+		{
+			var cmtForm=document.form1;
+			cmtForm.cm.value="1";
+			try{cmtForm.removeChild(cmtForm.spReferTarget);}catch(e){}
+			/*
+			try{
+					var cmt=cmtForm.getElementsByTagName("textarea")[0]
+					cmt.value="";
+					cmt.focus();
+			}catch(e){}
+			*/
+
+			try{
+					var ed=editor.window.document.body;
+					ed.innerHTML="";
+					editor.window.focus();
+				}catch(e){
+					var cmt=cmtForm.getElementsByTagName("textarea")[0];
+					cmt.value="";
+					cmt.focus();
+			}
+
+			G("cancleReLink").style.display="none";
+			cmtForm.btn_ok.value="发表评论";
+		}
+
+		function gotoreply()
+		{//to checking whether reply cmt
+			if( window.location.hash.indexOf("&re=1")<0) return;
+			var cmtID=window.location.hash.split("&")[0].replace("#","");
+			var cmtlinks=document.getElementsByTagName("a");
+			for(var i=0,n=cmtlinks.length;i<n;i++)
+			{
+				if(cmtlinks[i].name==cmtID){ var rename=cmtlinks[i].getAttribute("rename");  repid=cmtlinks[i].getAttribute("repid"); break;}
+			}
+			if(typeof(rename)!="undefined"){
+				cmtreply(rename, repid);
+			}
+		}
+
+//-->
+</SCRIPT>
+
+<SCRIPT type="text/javascript">
+    /*<![CDATA[*/
+
+window.onerror=function(){return true;}
+
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=ubuntu%CF%C2%20bt%CF%C2%D4%D8%D2%B2%B7%E8%BF%F1&item=e6765739af86c0f53b87ce57&t=" + new Date().getTime(), true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</SCRIPT>
+
+<LINK rel="stylesheet" type="text/css" href="./ubuntu下 bt下载也疯狂_ps的想像空间_files/mods.css"><LINK rel="stylesheet" type="text/css" href="./ubuntu下 bt下载也疯狂_ps的想像空间_files/e35f008b1e1a19d3fd1f10cf.css"><LINK rel="stylesheet" type="text/css" href="./ubuntu下 bt下载也疯狂_ps的想像空间_files/space.css"><STYLE type="text/css">
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</STYLE><STYLE type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</STYLE></HEAD><BODY onload="formatonlinpic();"><IFRAME frameborder="0" name="_BdPopupLayer_rrp4cks4ky7ctlx8ky8se1p2" style="position:absolute; z-index:65001; display:none;" scrolling="no" id="_BdPopupLayer_rrp4cks4ky7ctlx8ky8se1p2"></IFRAME><LINK href="./ubuntu下 bt下载也疯狂_ps的想像空间_files/bdeditor.css" type="text/css" rel="Stylesheet">
+<CENTER>
+<SCRIPT type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/e6765739af86c0f53b87ce57%2Ehtml");
+/*]]>*/
+</SCRIPT>
+
+
+
+
+
+
+
+
+
+<DIV id="usrbar"><NOBR>
+
+			<A id="hi_index" href="http://hi.baidu.com/" target="_blank">百度空间</A>&nbsp;|&nbsp;<A href="http://www.baidu.com/" target="_blank">百度首页</A>&nbsp;<SCRIPT type="text/javascript">
+		document.write('| <a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/e6765739af86c0f53b87ce57%2Ehtml') + '">登录</a>');
+		</SCRIPT>| <A href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com%2F%25B5%25DA%25C8%25FD%25CC%25F5%25D5%25F3%25CF%25DF%2Fblog%2Fitem%2Fe6765739af86c0f53b87ce57%252Ehtml">登录</A>
+		
+</NOBR></DIV>
+
+
+
+		<DIV id="newUserTip" style="text-align: right; height: 130px; position: absolute; top: 26px; right: 0px; float: right; z-index: 30000; width: 225px; ">
+	<A id="newUserTipShadow" onclick="newUserRegLog()" href="http://hi.baidu.com/st/reg.html" target="_blank" style="color: rgb(66, 66, 249) !important; background-image: none !important; background-repeat: initial !important; background-attachment: initial !important; -webkit-background-clip: initial !important; -webkit-background-origin: initial !important; background-color: transparent !important; text-decoration: none !important; font-size: 14px; width: 55px; height: 14px; position: absolute; top: 108px; right: 14px; z-index: 30001; overflow-x: hidden; overflow-y: hidden; display: block; background-position: initial initial !important; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</A>
+	<EMBED id="newUserTipSwf" allowscriptacess="always" style="height: 130px; width: 225px; " src="http://hi.baidu.com/ui/flash/userReg/guide.swf" wmode="transparent">
+	</DIV>
+	<SCRIPT language="javascript">
+	<!--
+		function newUserTipShow(f)
+		{
+			if(f=="0"){//close
+				G("newUserTipSwf").style.width="40px";
+				G("newUserTip").style.width="40px";
+				G("newUserTipShadow").style.display="none";
+			}else{//show
+				G("newUserTip").style.width="225px";
+				G("newUserTipSwf").style.width="225px";
+				G("newUserTipShadow").style.display="block";
+
+			}
+		}
+
+		function newUserRegLog(){
+			var now=new Date();
+			now.setTime(now.getTime()+5*60*1000);
+			document.cookie="BDSP_REGFLAG=1;expires="+now.toGMTString()+";path=/";
+			new Image().src="http://hi.baidu.com/sys/statlog/1.gif?m=blog_newer_pro2_click&v=/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF&t="+Math.random();
+		}
+	//-->
+	</SCRIPT>
+	
+
+
+
+<SCRIPT type="text/javascript">
+
+function set_cookie_4_bdtip(index/* start from one */, value){
+	var bdtip = document.cookie.match(/(^| )BDTIP=([^;]*)(;|$)/);
+	if(!bdtip){
+		bdtip=new Array(index);
+		for(var i=0,n=bdtip.length;i<n;i++)
+		{
+			if(bdtip[i]=="" || bdtip[i]==null)  bdtip[i]=0;
+			if(i == index - 1){
+				bdtip[i] = value;
+			}
+		}
+	}else{
+	bdtip = bdtip[2].split('-');
+	if(index > bdtip.length)  bdtip.length= index;
+	for(var i = 0, j = bdtip.length; i < j; i ++){
+		if(bdtip[i]=="" || bdtip[i]==null) bdtip[i]=0;
+		if(i == index - 1){
+			bdtip[i] = value;
+		}
+	}
+	}
+	bdtip = bdtip.join('-');
+	document.cookie = "BDTIP=" + bdtip+ ";expires=Wed, 28-Nov-37 01:45:46 GMT;path=/;";
+}
+</SCRIPT>
+<DIV id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<DIV id="header">
+	<DIV class="lc"><DIV class="rc"></DIV></DIV>
+<DIV class="tit"><A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF" class="titlink" title="第三条阵线的空间 http://hi.baidu.com/第三条阵线">ps的想像空间</A></DIV>
+<DIV class="desc">博文非特别声明均为原创，转载请注明，保护著作权 09年不在纠结系统教程，转向影视制作了</DIV>
+<DIV id="tabline">&nbsp;</DIV>
+	<DIV id="tab"><A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF">主页</A><A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog" class="on">博客</A><A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/album">相册</A><SPAN>|</SPAN><A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/profile">个人档案</A>
+	<SPAN>|</SPAN><A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/friends">好友</A>
+
+
+
+	</DIV>
+</DIV>
+
+<DIV class="stage">
+<DIV class="stagepad">
+<DIV style="width:100&percnt;">
+
+
+	
+
+	<TABLE width="100&percnt;" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<TBODY><TR><TD class="modtl" width="7">&nbsp;</TD>
+	<TD class="modtc" nowrap=""><DIV class="modhead"><SPAN class="modtit">查看文章</SPAN></DIV></TD>
+	<TD class="modtc" nowrap="" align="right">
+	<TD class="modtr" width="7">&nbsp;</TD>
+	</TR></TBODY></TABLE>
+
+<DIV id="m_blog" class="modbox">
+<DIV class="tit">ubuntu下 bt下载也疯狂</DIV>
+<DIV class="date">2008-10-26  22:32</DIV>
+<TABLE style="table-layout:fixed"><TBODY><TR><TD><DIV id="blog_text" class="cnt"><P><STRONG><FONT color="#333333" size="3"><FONT style="background-color: #00ccff">Azureus</FONT>,蓝色毒娃,基于java技术，可实现跨平台（mac 、linux、windows）操作，可嵌入大量插件，而且资源占用率低，界面简洁。本文介绍的是ubuntu 8.04下的BT下载。</FONT></STRONG></P>
+<P><STRONG><FONT color="#333333" size="3">1. <FONT style="background-color: #ccffcc">安装毒娃</FONT>。sudo apt-get install azureus /添加删除程序：</FONT></STRONG></P>
+<P> </P>
+<DIV forimg="1">
+<P><STRONG><FONT color="#333333" size="3"><IMG class="blogimg" border="0" small="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/2b5730110aff3465cb80c4ca.jpg"></FONT></STRONG></P>
+<P> </P>
+<P><STRONG><FONT color="#333333" size="3">2 . <FONT style="background-color: #ccffcc">配置</FONT>：</FONT></STRONG></P>
+<P><STRONG><FONT color="#333333" size="3">语言选项，不用说<FONT style="background-color: #c0c0c0">简体中文</FONT>了：</FONT></STRONG></P>
+<P> </P>
+<DIV forimg="1">
+<P><STRONG><FONT color="#333333" size="3"><IMG class="blogimg" border="0" small="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/305b1b2572c1d87b35a80fd6.jpg"></FONT></STRONG></P>
+<P><STRONG><FONT color="#333333" size="3">用户电脑熟练程度，一般选择<FONT style="background-color: #c0c0c0">中级</FONT>：</FONT></STRONG></P>
+<P> </P>
+<DIV forimg="1"><STRONG><FONT color="#333333" size="3"><IMG class="blogimg" border="0" small="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/287953004258490a738b65df.jpg"></FONT></STRONG></DIV>
+<P><STRONG><FONT color="#333333" size="3">传输和连接设置，<FONT style="background-color: #c0c0c0">上行和下行速率</FONT>：</FONT></STRONG></P>
+<P> </P>
+<DIV forimg="1">
+<P><STRONG><FONT color="#333333" size="3"><IMG class="blogimg" border="0" small="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/a2ab8ef3a23effd00b46e0d2.jpg"></FONT></STRONG></P>
+<P><STRONG><FONT color="#333333" size="3">传输端口设置，<FONT style="background-color: #c0c0c0">默认</FONT>即可：</FONT></STRONG></P>
+<P> </P>
+<DIV forimg="1">
+<P><STRONG><FONT color="#333333" size="3"><IMG class="blogimg" border="0" small="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/c97d3e3e53c9b7e1838b13da.jpg"></FONT></STRONG></P>
+<P> </P>
+<P><STRONG><FONT color="#333333" size="3">完成设置后，进入软件，非常简洁的UI，从现在开始你的bt机器可以常开了，从下载到上传：</FONT></STRONG></P>
+<P> </P>
+<DIV forimg="1">
+<P><STRONG><FONT color="#333333" size="3"><IMG style="width: 504px; height: 444px" class="blogimg" border="0" width="542" height="492" small="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/01e62f4bf110f6eb82025ca0.jpg"></FONT></STRONG></P>
+<P> </P>
+<P> </P>
+<P><STRONG><FONT color="#ff0000" size="3">转载请注明，保护知识产权！</FONT></STRONG></P>
+</DIV>
+</DIV>
+</DIV>
+</DIV>
+</DIV></DIV></TD></TR></TBODY></TABLE>
+<BR>
+<DIV class="opt">
+<A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/category/Linux" title="查看该分类中所有文章">类别：Linux</A>
+
+	
+	| <A title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onclick="return addToFavor();" target="_blank">添加到搜藏</A>
+	
+	| 浏览(<SPAN id="result">75</SPAN>)
+	| <A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/e6765739af86c0f53b87ce57.html#send">评论</A>&nbsp;(0)
+
+<SCRIPT language="javascript">
+/*<![CDATA[*/
+var pre = [true,'ubuntu 基础教程索引 10.26更新', 'ubuntu 基础教程索引 10.26更新','/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/5b71311c56825b8d86d6b655.html'];
+var post = [true,'超级文本编辑工具vim','超级文本编辑工具vim', '/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/a2ab8ef32ab287cd0b46e042.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</SCRIPT><DIV style="height:5px;line-height:5px;">&nbsp;</DIV><DIV id="in_nav">上一篇：<A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/5b71311c56825b8d86d6b655.html" title="ubuntu 基础教程索引 10.26更新">ubuntu 基础教程索引 10.26更新</A>&nbsp;&nbsp;&nbsp;&nbsp;下一篇：<A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/a2ab8ef32ab287cd0b46e042.html" title="超级文本编辑工具vim">超级文本编辑工具vim</A></DIV>
+
+</DIV>
+<DIV class="line">&nbsp;</DIV>
+
+
+
+    
+<DIV id="in_related_doc"><DIV class="tit">相关文章：</DIV><TABLE cellpadding="0" cellspacing="3" border="0"><TBODY><TR><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/using/blog/item/996c5f60275e35dc8cb10d32.html" target="_blank" title="ubuntu下的bt工具之--rtorrent">ubuntu下的bt工具之--rtorrent</A>　　　　　　　　　</TD><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/wangy0919/blog/item/e5fc61ad5f29c60b4b36d6b6.html" target="_blank" title="ubuntu 超快的电驴下载工具(还能下BT)">ubuntu 超快的电驴下载工具(还能...</A></TD></TR><TR><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/luckdst/blog/item/842b6e54b7fe1e50d10906a6.html" target="_blank" title="Ubuntu上BT">Ubuntu上BT</A>　　　　　　　　　</TD><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/zhanghaooy/blog/item/903053501890926a85352407.html" target="_blank" title="ubuntu 8.10 DVD正式版各版本下载地址及BT下载">ubuntu 8.10 DVD正式版各版本下...</A></TD></TR><TR><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/benbenlangluo/blog/item/e41a6cd0771cb387a0ec9c01.html" target="_blank" title="安装Amule 在Ubuntu系统上玩BT下载">安装Amule 在Ubuntu系统上玩BT下...</A>　　　　　　　　　</TD><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/%D6%C7%C4%DC%D6%D5%B6%CB/blog/item/3d92be2f73385c3f1e308941.html" target="_blank" title="简单快捷 Ubuntu BT下载也疯狂">简单快捷 Ubuntu BT下载也疯狂</A></TD></TR><TR><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/hackjan/blog/item/a27f85fd9f779b1109244dd9.html" target="_blank" title="ubuntu 8.04 DVD 及各版本正式版的BT下载种子(速度达到数M)">ubuntu 8.04 DVD 及各版本正式版...</A>　　　　　　　　　</TD><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/camark/blog/item/41b3e0dc0587b9a6cc116679.html" target="_blank" title="使用BT更新到Ubuntu 8.10-搞笑?">使用BT更新到Ubuntu 8.10-搞笑?</A></TD></TR><TR><TD width="15px"><A style="font-size:25px">&bull;</A></TD><TD><A href="http://hi.baidu.com/seven1105/blog/item/311a9324dd03a035c9955930.html" target="_blank" title="ubuntu 8.04 DVD 下载 正式版的各版本含DVD BT种子">ubuntu 8.04 DVD 下载 正式版的...</A>　　　　　　　　　</TD><TD>&nbsp;</TD><TD>&nbsp;</TD></TR></TBODY></TABLE></DIV><DIV class="line">&nbsp;</DIV>
+<SCRIPT language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=ubuntu%CF%C2%20bt%CF%C2%D4%D8%D2%B2%B7%E8%BF%F1&item=e6765739af86c0f53b87ce57">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=ubuntu%CF%C2%20bt%CF%C2%D4%D8%D2%B2%B7%E8%BF%F1&item=e6765739af86c0f53b87ce57&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</SCRIPT>
+    
+
+
+
+
+
+
+<DIV id="in_reader">
+<DIV class="tit">最近读者：</DIV>
+
+<SCRIPT>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+
+["eo08","52c8656f30381205","eo08"],
+
+["kumusky","bab4786a39353237398b02","xj95279"],
+
+["xiaocong1001","7c3c7869616f636f6e67313030314702","xiaocong1001"],
+
+["pinhua","d1cf6c787a6874786831334000","lxzhtxh13"],
+
+["leavyang","e7536c65617679616e676300","leavyang"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</SCRIPT><TABLE width="100&percnt;"><TBODY><TR><TD align="center" width="10&percnt;"><IMG border="0" width="55" height="55" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/portraitn.jpg"></TD><TD align="left" width="12&percnt;"><A href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http%3A%2F%2Fhi.baidu.com%2F%25B5%25DA%25C8%25FD%25CC%25F5%25D5%25F3%25CF%25DF%2Fblog%2Fitem%2Fe6765739af86c0f53b87ce57%252Ehtml" target="_self">登录</A>后，您就出现在这里。</TD><TD align="center" valign="bottom" width="10&percnt;" class="user"><A href="http://hi.baidu.com/eo08" target="_blank"><IMG border="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/52c8656f30381205.jpg"></A></TD><TD align="center" valign="bottom" width="10&percnt;" class="user"><A href="http://hi.baidu.com/kumusky" target="_blank"><IMG border="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/bab4786a39353237398b02.jpg"></A></TD><TD align="center" valign="bottom" width="10&percnt;" class="user"><A href="http://hi.baidu.com/xiaocong1001" target="_blank"><IMG border="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/7c3c7869616f636f6e67313030314702.jpg"></A></TD><TD align="center" valign="bottom" width="10&percnt;" class="user"><A href="http://hi.baidu.com/pinhua" target="_blank"><IMG border="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/d1cf6c787a6874786831334000.jpg"></A></TD><TD align="center" valign="bottom" width="10&percnt;" class="user"><A href="http://hi.baidu.com/leavyang" target="_blank"><IMG border="0" src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/e7536c65617679616e676300.jpg"></A></TD><TD width="100&percnt;"></TR><TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD align="center" valign="top" class="user"><A href="http://hi.baidu.com/eo08" target="_blank">eo08</A></TD><TD align="center" valign="top" class="user"><A href="http://hi.baidu.com/kumusky" target="_blank">xj95279</A></TD><TD align="center" valign="top" class="user"><A href="http://hi.baidu.com/xiaocong1001" target="_blank">xiaocong1001</A></TD><TD align="center" valign="top" class="user"><A href="http://hi.baidu.com/pinhua" target="_blank">lxzhtxh13</A></TD><TD align="center" valign="top" class="user"><A href="http://hi.baidu.com/leavyang" target="_blank">leavyang</A></TD><TD></TR></TBODY></TABLE>
+
+
+
+
+
+	</DIV>
+
+<DIV class="line">&nbsp;</DIV>
+
+
+
+<SCRIPT language="JavaScript">
+allkey=allkey+"305b1b256c94de6035a80f28_e6765739af86c0f53b87ce57_";
+</SCRIPT>
+
+<DIV id="in_comment">
+<A name="comment"></A>
+<DIV class="tit">网友评论：</DIV>
+<SCRIPT>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+	cmturl=cmturl.replace("https://","http://");
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+function filterCmtContent(n){
+	if(!BdBrowser.isIE){
+		var defaultfilter1='<span style="filter:glow(color=#000000,strength=2);height:0px;color:#000000">';
+		var defaultfilter2='<span style="height: 0px; color: rgb(0, 0, 0);">';
+		var commentDiv=document.getElementById(n);
+		var divs=commentDiv.getElementsByTagName('div');
+		var d,tmp;
+		for( var i=0,len=divs.length;i<len;i++){
+			d=divs[i];
+			if(d.getAttribute('name')=='cmtcontent'){
+				tmp=d.innerHTML;
+				tmp=tmp.replace(/<span style="filter:glow\(color=#([0-9a-z]{3,6}),strength=2\);height:0px;color:#([0-9a-z]{3,6})">/ig,defaultfilter1);
+				tmp=tmp.replace('<span style="height: 0px; color: rgb(255, 255, 255);">',defaultfilter2);
+				d.innerHTML=tmp;
+			}
+		}
+	}
+}
+
+</SCRIPT>
+
+
+
+
+
+<DIV id="page"></DIV>
+
+</DIV>
+<SCRIPT>filterCmtContent('in_comment');</SCRIPT>
+
+
+<DIV id="in_send">
+<A name="send"></A>
+<FORM name="form1" id="popFormSubmit" action="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/commit" method="post" onsubmit="return checkcmtform()">
+<INPUT type="hidden" name="ct" value="8">
+<INPUT type="hidden" name="cm" value="1">
+<INPUT type="hidden" name="spBlogID" value="e6765739af86c0f53b87ce57">
+<INPUT type="hidden" name="spRefURL" id="spRefURL" value="http://hi.baidu.com/&percnt;B5&percnt;DA&percnt;C8&percnt;FD&percnt;CC&percnt;F5&percnt;D5&percnt;F3&percnt;CF&percnt;DF/blog/item/e6765739af86c0f53b87ce57.html">
+<SCRIPT>
+    document.getElementById("spRefURL").value = window.location.href;
+</SCRIPT>
+<DIV class="tit">发表评论：</DIV>
+<TABLE width="620" border="0" cellspacing="5" cellpadding="0">
+<TBODY><TR>
+
+<TD class="f14">姓　名：</TD>
+<TD><INPUT type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onchange="checkname(&#39;spBlogCmtor&#39;)" maxlength="49" onfocus="hidErr(1);">
+<SCRIPT>
+document.write(" &nbsp;&nbsp; <a href='http://hi.baidu.com/st/reg.html' target='_blank'>注册</a>");
+document.write(' | <a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</SCRIPT> &nbsp;&nbsp; <A href="http://hi.baidu.com/st/reg.html" target="_blank">注册</A> | <A href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http%3A%2F%2Fhi.baidu.com%2F%25B5%25DA%25C8%25FD%25CC%25F5%25D5%25F3%25CF%25DF%2Fblog%2Fitem%2Fe6765739af86c0f53b87ce57%252Ehtml">登录</A>
+
+<DIV style="display:none" id="nmerror">*姓名最长为50字节</DIV></TD>
+</TR>
+
+<TR id="1_err" style="display:none">
+<TD>&nbsp;</TD>
+<TD><DIV class="error" id="1_err_con"></DIV></TD>
+</TR>
+
+<TR>
+<TD class="f14">网址或邮箱：</TD>
+<TD><INPUT type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onchange="checkeandu(&#39;spBlogCmtURL&#39;)" onfocus="hidErr(2);"> (选填)</TD>
+<SCRIPT>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</SCRIPT>
+
+</TR>
+
+<TR id="2_err" style="display:none">
+<TD>&nbsp;</TD>
+<TD><DIV class="error" id="2_err_con"></DIV></TD>
+</TR>
+
+<TR>
+<TD valign="top" class="f14" id="reTitle">内　容：</TD>
+<TD>        <DIV id="bdeditor_container_okewqwqf15a5fgn8jkwtx73h">            <TABLE width="100&percnt;" height="155px" cellpadding="0" cellspacing="0" border="0">                <TBODY><TR>                    <TD id="editor_toolbar_okewqwqf15a5fgn8jkwtx73h" class="ToolbarContainer"><DIV class="ToolbarStrip"><TABLE border="0" cellspacing="0" cellpadding="0"><TBODY><TR><TD nowrap="nowrap"><DIV class="ToolbarItem" title="插入表情" id="ToolbarItem_fdjskohyq1ryc1bx0cxhiqoo" onclick="_Instance[&#39;fdjskohyq1ryc1bx0cxhiqoo&#39;].clickHandler(this)" onmouseup="_Instance[&#39;fdjskohyq1ryc1bx0cxhiqoo&#39;].mouseUpHandler(this)" onmousedown="_Instance[&#39;fdjskohyq1ryc1bx0cxhiqoo&#39;].mouseDownHandler(this)" onmouseout="_Instance[&#39;fdjskohyq1ryc1bx0cxhiqoo&#39;].mouseOutHandler(this)" onmouseover="_Instance[&#39;fdjskohyq1ryc1bx0cxhiqoo&#39;].mouseOverHandler(this)"><DIV class="img Smiley" alt="插入表情"><FONT style="font-size:12px">插入表情</FONT></DIV></DIV></TD></TR></TBODY></TABLE></DIV></TD>                </TR>                <TR>                    <TD id="editor_area_okewqwqf15a5fgn8jkwtx73h" class="EditorContainer"><IFRAME width="100&percnt;" height="155px" frameborder="0" src="javascript:void(0)"></IFRAME></TD>                </TR>            </TBODY></TABLE>        </DIV>    <TEXTAREA name="spBlogCmtText" id="spBlogCmtText" style="width: 520px; height: 155px; display: none; " onfocus="hidErr(3);"></TEXTAREA>
+<SCRIPT>
+	var editor=null;
+	try{
+		editor=new BdEditor("spBlogCmtText",{width:"100%",height:"155px"});
+		editor.onfocus = function(){hidErr(3);}
+		editor.render();
+	}catch(e){
+		var spBlogCmtText = document.getElementById("spBlogCmtText");
+		var p = spBlogCmtText.previousSibling;
+		while(p && p.nodeType != 1) p = p.previousSibling;
+		if(p && /bdeditor_container/.test(p.id)){
+			p.parentNode.removeChild(p);
+		}
+		spBlogCmtText.style.display = '';
+		editor=null;
+	}
+</SCRIPT>
+
+<SCRIPT>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</SCRIPT>
+</TD>
+</TR>
+<TR id="3_err" style="display:none">
+<TD>&nbsp;</TD>
+<TD><DIV class="error" id="3_err_con"></DIV></TD>
+</TR>
+
+<TR id="vercode">
+<TD valign="top" class="f14">验证码：</TD>
+<TD valign="top"><INPUT type="hidden" name="spVcode" value="">
+<INPUT type="text" onfocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6" maxlength="4" autocomplete="off" tabindex="4">  请点击后输入四位验证码，字母不区分大小写<BR>
+<SCRIPT type="text/javascript">
+/*<![CDATA[*/
+
+function f_focus(){
+	getVcode();
+}
+function getVcode(){
+	var url="http://hi.baidu.com/sys/file/getvcode?echoback=getVcodeDone&t="+(new Date().getTime());
+	BdAjax.loadJS(url)
+}
+
+function getVcodeDone(vcode){
+	document.form1.spVcode.value=vcode;
+	var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?"+vcode;
+	G('verifypic').src=imgsrc;
+	G('yanzheng').style.display="block";
+}
+function newverifypic(){
+	getVcode();
+	return false;
+}
+/*]]>*/
+</SCRIPT>
+<DIV id="yanzheng" style="display:none">
+<IMG id="verifypic" width="120" height="40"><WBR><A onfocus="this.blur();" href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/e6765739af86c0f53b87ce57.html#" onclick="return newverifypic();" title="看不清左边的字符">看不清?</A>
+</DIV>
+</TD>
+</TR>
+
+
+<TR>
+<TD valign="top" class="f14">&nbsp;</TD>
+<TD valign="top" class="f14"><INPUT id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex="5">&nbsp;&nbsp;&nbsp;&nbsp;<A href="http://hi.baidu.com/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/blog/item/e6765739af86c0f53b87ce57.html#" id="cancleReLink" onclick="canclereply(); return false;" style="display:none; font-size:12px;color:#666;">取消回复</A></TD>
+</TR>
+</TBODY></TABLE>
+</FORM>
+</DIV>
+
+
+
+
+<BR>
+</DIV>
+
+<TABLE width="100&percnt;" border="0" cellspacing="0" cellpadding="0" height="8">
+<TBODY><TR><TD class="modbl" width="7">&nbsp;</TD>
+<TD class="modbc">&nbsp;</TD>
+<TD class="modbr" width="7">&nbsp;</TD>
+</TR></TBODY></TABLE>
+
+
+
+
+</DIV>
+</DIV>
+
+</DIV>
+
+</DIV>
+
+<SCRIPT language="javascript">
+<!--
+var hstr="/%B5%DA%C8%FD%CC%F5%D5%F3%CF%DF/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</SCRIPT><SCRIPT src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/brwstat"></SCRIPT>
+<BR><CENTER><DIV id="ft">&copy;2009 Baidu</DIV></CENTER>
+
+<SCRIPT>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+gotoreply();
+</SCRIPT>
+</CENTER>
+
+
+<IMG src="./ubuntu下 bt下载也疯狂_ps的想像空间_files/c.gif" style="display:none;">
+</BODY></HTML>
