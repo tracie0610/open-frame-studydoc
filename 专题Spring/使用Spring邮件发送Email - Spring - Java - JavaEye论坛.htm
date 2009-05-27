@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>使用Spring邮件发送Email - Spring - Java - JavaEye论坛</title>
+    <meta name="description" content="Spring提供了一个发送电子邮件的高级抽象层，它向用户屏蔽了底层邮件系统的一些细节，同时负责低层次的代表客户端的资源处理。Spring邮件抽象层的主要包为org.springframework.mail。它包括了发送电子邮件的主要接口MailSender和 封装了简单邮件的属性的值对象叫做SimpleMailMessage。 首先:我们定义一个发送邮件的接口:IMailManager.java / ..." />
+    <meta name="keywords" content=" Spring Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1242793770" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (3)</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<a href=\'/adverts/2\' target=\'_blank\'><img src="http://ftp.javaeye.com/public/javaeye/rubyconfleft.png" style="BORDER:1px SOLID #000000" /></a>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Spring">Spring</a> <span class="arrow">&rarr;</span>
+    <h1>使用Spring邮件发送Email</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+      <a href='/forums/tag/Swing'>Swing</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    
+    <div class="info">浏览 3244 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/15877">主题：使用Spring邮件发送Email</a></div>
+        <div id='topic_rate_box'><a href="#" onclick="rate_topic('good'); return false;">精华帖</a> (0) :: <a href="#" onclick="rate_topic('mid'); return false;">良好帖</a> (0) :: <a href="#" onclick="rate_topic('new'); return false;">新手帖</a> (0) :: <a href="#" onclick="rate_topic('hidden'); return false;">隐藏帖</a> (0)</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_94529">
+  <td class="postauthor">
+    <ul>
+      <li class="name">Jerry.Liu</li>
+      <li>等级: <img src="/images/star1.gif" alt="一星会员" title="一星会员"/></li>
+      <li><a href='http://jerry-liu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="Jerry.Liu的博客: Jerry.Liu" /></a></li>
+      <li>文章: 3</li>
+      <li>积分: 139</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-09-08 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E4%BD%BF%E7%94%A8Spring%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81Email&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F15877' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/251720' title='在java应用程序中加入发送邮件的功能' target='_blank'>在java应用程序中加入发送邮件的功能</a></li>
+                              <li><a href='http://www.javaeye.com/topic/169189' title='应用spring应用javamail发送邮件' target='_blank'>应用spring应用javamail发送邮件</a></li>
+                              <li><a href='http://www.javaeye.com/topic/348564' title='使用Spring JavaMail发送邮件总结' target='_blank'>使用Spring JavaMail发送邮件总结</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://jbpm.group.javaeye.com" target="_blank">JBPM @net</a></span>
+            <br/><a href="/wiki/topic/15877" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        Spring提供了一个发送电子邮件的高级抽象层，它向用户屏蔽了底层邮件系统的一些细节，同时负责低层次的代表客户端的资源处理。Spring邮件抽象层的主要包为org.springframework.mail。它包括了发送电子邮件的主要接口MailSender和 封装了简单邮件的属性的值对象叫做SimpleMailMessage。<br />首先:我们定义一个发送邮件的接口:IMailManager.java<br />/*<br /> * IMailManager.java <br />* Copyright 2005, All rights reserved.<br /> */<br />package test.mail.manager;<br /><br />import test.common.logic.IManager;<br />import test.model.Order;<br /><br />/**<br /> * Note:this interface mainly deal with the sendOrder <br /> */<br />public interface IMailManager extends IManager{<br />&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp; void sendOrder(Order order);<br />}<br /><br />然后实现这个接口:MailManager.java<br />/*<br /> * MailManager.java <br />* Copyright 2005, All rights reserved.<br /> */<br />package test.mail.manager;<br /><br />import org.springframework.mail.MailException;<br />import org.springframework.mail.MailSender;<br />import org.springframework.mail.SimpleMailMessage;<br /><br />import test.common.logic.impl.Manager;<br />import test.model.Order;<br /><br />/**<br /> * Note:the implements of IMailManager<br /> */<br />public class MailManager extends Manager implements IMailManager {<br />&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp; private MailSender mailSender;<br />&nbsp;&nbsp;&nbsp; private SimpleMailMessage message;<br /><br />&nbsp;&nbsp;&nbsp; public void sendOrder(Order order) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SimpleMailMessage mailMessage = new SimpleMailMessage(this.message);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mailMessage.setTo(order.getUser().getEmail());<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mailMessage.setText("Dear"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + order.getUser().getFirstName()<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + order.getUser().getLastName()<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + ", thank you for placing order. Your order code is "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + order.getCode());<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mailSender.send(mailMessage);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }catch(MailException ex) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.err.println(ex.getMessage());&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br /><br />&nbsp;&nbsp;&nbsp; }<br /><br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @param mailSender The mailSender to set.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public void setMailSender(MailSender mailSender) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.mailSender = mailSender;<br />&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @param message The message to set.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public void setMessage(SimpleMailMessage message) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.message = message;<br />&nbsp;&nbsp;&nbsp; }<br />}<br /><br />然后我们在Action 里面调用: SendMailAction.java<br />/*<br /> * SendMail.java <br />* Copyright 2005, All rights reserved.<br /> */<br />package test.mail.action;<br /><br />import test.common.action.BaseAction;<br />import test.mail.manager.IMailManager;<br />import test.order.dao.IOrderDao;<br />import test.model.Order;<br /><br /><br />/**<br /> * Note: SendMailAction<br /> */<br />public class SendMailAction extends BaseAction {<br />&nbsp;&nbsp;&nbsp; private IMailManager mailManager;<br />&nbsp;&nbsp;&nbsp; private IOrderDao orderDao;<br />&nbsp;&nbsp;&nbsp; private long orderId;<br />&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp; public String execute() throws Exception {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Order order = orderDao.getOrder(orderId);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mailManager.sendOrder(order);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return SUCCESS;<br />&nbsp;&nbsp;&nbsp; }<br /><br />&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @return Returns the mailManager.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public IMailManager getMailManager() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return mailManager;<br />&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @param mailManager The mailManager to set.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public void setMailManager(IMailManager mailManager) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.mailManager = mailManager;<br />&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @return Returns the orderDao.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public IOrderDao getOrderDao() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return orderDao;<br />&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @param orderDao The orderDao to set.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public void setOrderDao(IOrderDao orderDao) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.orderDao = orderDao;<br />&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @return Returns the orderId.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public long getOrderId() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return orderId;<br />&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp; /**<br />&nbsp;&nbsp;&nbsp;&nbsp; * @param orderId The orderId to set.<br />&nbsp;&nbsp;&nbsp;&nbsp; */<br />&nbsp;&nbsp;&nbsp; public void setOrderId(long orderId) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.orderId = orderId;<br />&nbsp;&nbsp;&nbsp; }<br />}<br /><br />最后的就是配置了.在ApplicationContext.xml文件里加上如下的内容:<br />&amp;lt;bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"&amp;gt;<br />		&amp;lt;property name="host"&amp;gt;&amp;lt;value&amp;gt;smtp服务器&amp;lt;/value&amp;gt;&amp;lt;/property&amp;gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;property name="username"&amp;gt;&amp;lt;value&amp;gt;用户名&amp;lt;/value&amp;gt;&amp;lt;/property&amp;gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;property name="password"&amp;gt;&amp;lt;value&amp;gt;密码&amp;lt;/value&amp;gt;&amp;lt;/property&amp;gt;<br />		/**如果服务器要求验证,加上此**/<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;property name="javaMailProperties"&amp;gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;props&amp;gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;prop key="mail.smtp.auth"&amp;gt;true&amp;lt;/prop&amp;gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;prop key="mail.smtp.timeout"&amp;gt;25000&amp;lt;/prop&amp;gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;/props&amp;gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;lt;/property&amp;gt;<br />	&amp;lt;/bean&amp;gt;<br />	<br />	&amp;lt;bean id="mailMessage"<br />		class="org.springframework.mail.SimpleMailMessage"&amp;gt;<br />		&amp;lt;property name="from"&amp;gt;<br />			&amp;lt;value&amp;gt;你的电子邮件地址&amp;lt;/value&amp;gt;<br />		&amp;lt;/property&amp;gt;<br />		&amp;lt;property name="subject"&amp;gt;<br />			&amp;lt;value&amp;gt;邮件标题&amp;lt;/value&amp;gt;<br />		&amp;lt;/property&amp;gt;<br />	&amp;lt;/bean&amp;gt;<br /><br /><br />&amp;lt;bean id="mailManager" class=" test.mail.manager.MailManager" &amp;gt;<br />		&amp;lt;property name="mailSender"&amp;gt;<br />			&amp;lt;ref bean="mailSender" /&amp;gt;<br />		&amp;lt;/property&amp;gt;<br />		&amp;lt;property name="message"&amp;gt;<br />			&amp;lt;ref bean="mailMessage" /&amp;gt;<br />		&amp;lt;/property&amp;gt;<br />	&amp;lt;/bean&amp;gt;<br />在对应的action配置文件中加入:<br />&amp;lt;bean id="SendMailAction"<br />		class=" test.mail.action.SendMailAction" singleton="false" &amp;gt;<br />		&amp;lt;property name="mailManager"&amp;gt;<br />			&amp;lt;ref bean="mailManager" /&amp;gt;<br />		&amp;lt;/property&amp;gt;<br />		&amp;lt;property name="orderDao"&amp;gt;<br />			&amp;lt;ref bean="orderDao"/&amp;gt;<br />		&amp;lt;/property&amp;gt;<br />	&amp;lt;/bean&amp;gt;<br /><br />在xwork配置文件中:<br />&amp;lt;action name="sendMailBG" class="SendMailAction"&amp;gt;<br />			&amp;lt;interceptor-ref name="defaultStack" /&amp;gt;<br />			&amp;lt;result name="success" type="freemarker"&amp;gt;success.ftl&amp;lt;/result&amp;gt;<br />			&amp;lt;result name="error" type="freemarker"&amp;gt;error.ftl&amp;lt;/result&amp;gt;<br />		&amp;lt;/action&amp;gt;<br /><br />运行结果如下:用户163.com账户作测试:
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li><li><a href='/adverts/170' target='_blank'><span style="color:blue;font-weight:bold;">5月份Struts 2.0最新技术专题系列讲座</span></a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jerry-liu.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jerry-liu.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=Jerry.Liu" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jerry-liu.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Spring'>Spring</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java编程和Java企业应用</option>
+<option value="web">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("forum_advert_b2").innerHTML = '<a href=\'/adverts/166\' target=\'_blank\'><span style="font-weight:bold;color:#FF3300;">首届亚太地区Android技术大会 5.16北京 5.17上海－JavaEye报名开始！</span></a>';});
+</script>
+</div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":15877, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>

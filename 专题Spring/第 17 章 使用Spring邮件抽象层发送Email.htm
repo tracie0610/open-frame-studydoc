@@ -1,0 +1,194 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>&#31532;&nbsp;17&nbsp;&#31456;&nbsp;&#20351;&#29992;Spring&#37038;&#20214;&#25277;&#35937;&#23618;&#21457;&#36865;Email</title><link rel="stylesheet" href="../styles/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.65.1"><link rel="home" href="index.html" title="Spring - Java/J2EE Application Framework"><link rel="up" href="index.html" title="Spring - Java/J2EE Application Framework"><link rel="previous" href="remoting.html" title="&#31532;&nbsp;16&nbsp;&#31456;&nbsp;&#36890;&#36807;Spring&#20351;&#29992;&#36828;&#31243;&#35775;&#38382;&#21644;web&#26381;&#21153;"><link rel="next" href="scheduling.html" title="&#31532;&nbsp;18&nbsp;&#31456;&nbsp;&#20351;&#29992;Quartz&#25110;Timer&#23436;&#25104;&#26102;&#24207;&#35843;&#24230;&#24037;&#20316;"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">&#31532;&nbsp;17&nbsp;&#31456;&nbsp;&#20351;&#29992;Spring&#37038;&#20214;&#25277;&#35937;&#23618;&#21457;&#36865;Email</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="remoting.html">&#19978;&#19968;&#39029;</a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="scheduling.html">&#19979;&#19968;&#39029;</a></td></tr></table><hr></div><div class="chapter" lang="zh_cn"><div class="titlepage"><div><div><h2 class="title"><a name="mail"></a>&#31532;&nbsp;17&nbsp;&#31456;&nbsp;&#20351;&#29992;Spring&#37038;&#20214;&#25277;&#35937;&#23618;&#21457;&#36865;Email</h2></div></div><div></div></div><div class="sect1" lang="zh_cn"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="mail-introduction"></a>17.1.&nbsp;&#31616;&#20171;</h2></div></div><div></div></div><p>
+	Spring&#25552;&#20379;&#20102;&#19968;&#20010;&#21457;&#36865;&#30005;&#23376;&#37038;&#20214;&#30340;&#39640;&#32423;&#25277;&#35937;&#23618;&#65292;&#23427;&#21521;&#29992;&#25143;&#23631;&#34109;&#20102;&#24213;&#23618;&#37038;&#20214;&#31995;&#32479;&#30340;&#19968;&#20123;&#32454;&#33410;&#65292;&#21516;&#26102;&#36127;&#36131;&#20302;&#23618;&#27425;&#30340;&#20195;&#34920;&#23458;&#25143;&#31471;&#30340;&#36164;&#28304;&#22788;&#29702;&#12290;
+	</p></div><div class="sect1" lang="zh_cn"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="mail-structure"></a>17.2.&nbsp;Spring&#37038;&#20214;&#25277;&#35937;&#32467;&#26500;</h2></div></div><div></div></div><p>Spring&#37038;&#20214;&#25277;&#35937;&#23618;&#30340;&#20027;&#35201;&#21253;&#20026;<tt class="literal">org.springframework.mail</tt>&#12290;&#23427;&#21253;&#25324;&#20102;&#21457;&#36865;&#30005;&#23376;&#37038;&#20214;&#30340;&#20027;&#35201;&#25509;&#21475;<tt class="literal">MailSender</tt>&#21644;
+	&#23553;&#35013;&#20102;&#31616;&#21333;&#37038;&#20214;&#30340;&#23646;&#24615;&#22914;<span class="emphasis"><em>from</em></span>, <span class="emphasis"><em>to</em></span>,<span class="emphasis"><em>cc</em></span>, <span class="emphasis"><em>subject</em></span>,
+    <span class="emphasis"><em>text</em></span>&#30340;<span class="emphasis"><em>&#20540;&#23545;&#35937;</em></span>&#21483;&#20570;<tt class="literal">SimpleMailMessage</tt>&#12290;
+	&#19968;&#20010;&#20197;<tt class="literal">MailException</tt>&#20026;root&#30340;checked Exception&#32487;&#25215;&#26641;&#65292;&#23427;&#20204;&#25552;&#20379;&#20102;&#23545;&#24213;&#23618;&#37038;&#20214;&#31995;&#32479;&#24322;&#24120;&#30340;&#39640;&#32423;&#21035;&#25277;&#35937;&#12290;
+	&#35831;&#21442;&#32771;JavaDocs&#26469;&#24471;&#21040;&#20851;&#20110;&#37038;&#20214;&#24322;&#24120;&#23618;&#27425;&#30340;&#26356;&#22810;&#30340;&#20449;&#24687;&#12290;</p><p>&#20026;&#20102;&#20351;&#29992;<span class="emphasis"><em>JavaMail</em></span>&#20013;&#30340;&#19968;&#20123;&#29305;&#33394;&#22914;MIME&#31867;&#22411;&#30340;&#28040;&#24687;,Spring&#20063;&#25552;&#20379;&#20102;&#19968;&#20010;<tt class="literal">MailSender</tt>&#30340;&#23376;&#25509;&#21475;,
+	&#21517;&#20026;<tt class="literal">org.springframework.mail.javamail.JavaMailSender</tt>&#65292;&#21516;&#26102;&#20063;&#25552;&#20379;&#20102;&#19968;&#20010;&#23545;JavaMail&#30340;MIME&#31867;&#22411;&#30340;&#28040;&#24687;&#20998;&#22359;&#30340;&#22238;&#35843;interface&#65292;
+	&#21517;&#20026;<tt class="literal">org.springframework.mail.javamail.MimeMessagePreparator</tt>
+	</p><p>MailSender: </p><pre class="programlisting">public interface MailSender {
+
+    /**
+     * Send the given simple mail message.
+     * @param simpleMessage message to send
+     * @throws MailException in case of message, authentication, or send errors
+     */
+    public void send(SimpleMailMessage simpleMessage) throws MailException;
+
+    /**
+     * Send the given array of simple mail messages in batch.
+     * @param simpleMessages messages to send
+     * @throws MailException in case of message, authentication, or send errors
+     */
+    public void send(SimpleMailMessage[] simpleMessages) throws MailException;
+
+}</pre><p> JavaMailSender: </p><pre class="programlisting">public interface JavaMailSender extends MailSender {
+
+    /**
+     * Create a new JavaMail MimeMessage for the underlying JavaMail Session
+     * of this sender. Needs to be called to create MimeMessage instances
+     * that can be prepared by the client and passed to send(MimeMessage).
+     * @return the new MimeMessage instance
+     * @see #send(MimeMessage)
+     * @see #send(MimeMessage[])
+     */
+    public MimeMessage createMimeMessage();
+
+    /**
+     * Send the given JavaMail MIME message.
+     * The message needs to have been created with createMimeMessage.
+     * @param mimeMessage message to send
+     * @throws MailException in case of message, authentication, or send errors
+     * @see #createMimeMessage
+     */
+    public void send(MimeMessage mimeMessage) throws MailException;
+
+    /**
+     * Send the given array of JavaMail MIME messages in batch.
+     * The messages need to have been created with createMimeMessage.
+     * @param mimeMessages messages to send
+     * @throws MailException in case of message, authentication, or send errors
+     * @see #createMimeMessage
+     */
+    public void send(MimeMessage[] mimeMessages) throws MailException;
+
+    /**
+     * Send the JavaMail MIME message prepared by the given MimeMessagePreparator.
+     * Alternative way to prepare MimeMessage instances, instead of createMimeMessage
+     * and send(MimeMessage) calls. Takes care of proper exception conversion.
+     * @param mimeMessagePreparator the preparator to use
+     * @throws MailException in case of message, authentication, or send errors
+     */
+    public void send(MimeMessagePreparator mimeMessagePreparator) throws MailException;
+
+    /**
+     * Send the JavaMail MIME messages prepared by the given MimeMessagePreparators.
+     * Alternative way to prepare MimeMessage instances, instead of createMimeMessage
+     * and send(MimeMessage[]) calls. Takes care of proper exception conversion.
+     * @param mimeMessagePreparators the preparator to use
+     * @throws MailException in case of message, authentication, or send errors
+     */
+    public void send(MimeMessagePreparator[] mimeMessagePreparators) throws MailException;
+
+}</pre><p> MimeMessagePreparator: </p><pre class="programlisting">public interface MimeMessagePreparator {
+
+    /**
+     * Prepare the given new MimeMessage instance.
+     * @param mimeMessage the message to prepare
+     * @throws MessagingException passing any exceptions thrown by MimeMessage
+     * methods through for automatic conversion to the MailException hierarchy
+     */
+    void prepare(MimeMessage mimeMessage) throws MessagingException;
+
+}</pre></div><div class="sect1" lang="zh_cn"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="mail-usage"></a>17.3.&nbsp;&#20351;&#29992;Spring&#37038;&#20214;&#25277;&#35937;</h2></div></div><div></div></div><p>&#35753;&#25105;&#20204;&#26469;&#20551;&#35774;&#26377;&#19968;&#20010;&#19994;&#21153;&#25509;&#21475;&#21517;&#20026;<tt class="literal">OrderManager</tt></p><pre class="programlisting">public interface OrderManager {
+
+    void placeOrder(Order order);
+}</pre><p>&#21516;&#26102;&#26377;&#19968;&#20010;use case&#20026;&#65306;&#38656;&#35201;&#29983;&#25104;&#24102;&#26377;&#35746;&#21333;&#21495;&#30340;email&#20449;&#24687;,&#24182;&#21521;&#23458;&#25143;&#21457;&#36865;&#35813;&#35746;&#21333;&#12290;
+	&#20026;&#20102;&#36825;&#20010;&#30446;&#30340;&#25105;&#20204;&#20250;&#20351;&#29992;<tt class="literal">MailSender</tt>&#21644;<tt class="literal">SimpleMailMessage</tt>&#12290;</p><p><span class="emphasis"><em>&#35831;&#27880;&#24847;,&#36890;&#24120;&#24773;&#20917;&#19979;,&#25105;&#20204;&#22312;&#19994;&#21153;&#20195;&#30721;&#20013;&#20351;&#29992;&#25509;&#21475;&#32780;&#35753;Spring ioc&#23481;&#22120;&#36127;&#36131;&#32452;&#35013;&#25105;&#20204;&#38656;&#35201;&#30340;&#21512;&#20316;&#32773;&#12290;</em></span></p><p>&#36825;&#37324;&#20026;<tt class="literal">OrderManager</tt>&#30340;&#19968;&#20010;&#23454;&#29616;
+    </p><pre class="programlisting">import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+
+public class OrderManagerImpl implements OrderManager {
+
+    private MailSender mailSender;
+    private SimpleMailMessage message;
+
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public void setMessage(SimpleMailMessage message) {
+        this.message = message;
+    }
+
+    public void placeOrder(Order order) {
+
+        //... * Do the businness calculations....
+        //... * Call the collaborators to persist the order
+
+        //Create a threadsafe "sandbox" of the message
+        SimpleMailMessage msg = new SimpleMailMessage(this.message);
+        msg.setTo(order.getCustomer().getEmailAddress());
+        msg.setText(
+            "Dear "
+                + order.getCustomer().getFirstName()
+                + order.getCustomer().getLastName()
+                + ", thank you for placing order. Your order number is "
+                + order.getOrderNumber());
+        try{
+            mailSender.send(msg);
+        }
+        catch(MailException ex) {
+            //log it and go on
+            System.err.println(ex.getMessage());            
+        }
+    }
+}</pre><p>&#19978;&#38754;&#30340;&#20195;&#30721;&#30340;bean&#30340;&#23450;&#20041;&#24212;&#35813;&#26159;&#36825;&#26679;&#30340;:</p><pre class="programlisting">&lt;bean id="mailSender"
+      class="org.springframework.mail.javamail.JavaMailSenderImpl"&gt;
+    &lt;property name="host"&gt;&lt;value&gt;mail.mycompany.com&lt;/value&gt;&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean id="mailMessage"
+      class="org.springframework.mail.SimpleMailMessage"&gt;
+    &lt;property name="from"&gt;&lt;value&gt;customerservice@mycompany.com&lt;/value&gt;&lt;/property&gt;
+    &lt;property name="subject"&gt;&lt;value&gt;Your order&lt;/value&gt;&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean id="orderManager"
+      class="com.mycompany.businessapp.support.OrderManagerImpl"&gt;
+    &lt;property name="mailSender"&gt;&lt;ref bean="mailSender"/&gt;&lt;/property&gt;
+    &lt;property name="message"&gt;&lt;ref bean="mailMessage"/&gt;&lt;/property&gt;
+&lt;/bean&gt;</pre><p>&#19979;&#38754;&#26159;<tt class="literal">OrderManager</tt>&#30340;&#23454;&#29616;&#65292;&#20351;&#29992;&#20102;<tt class="literal">MimeMessagePreparator</tt>&#22238;&#35843;&#25509;&#21475;&#12290;
+	&#35831;&#27880;&#24847;&#36825;&#37324;&#30340;mailSender&#23646;&#24615;&#31867;&#22411;&#20026;<tt class="literal">JavaMailSender</tt>,&#36825;&#26679;&#20570;&#26159;&#20026;&#20102;&#33021;&#22815;&#20351;&#29992;JavaMail&#30340;MimeMessage&#65306;
+    </p><pre class="programlisting">import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+
+public class OrderManagerImpl implements OrderManager {
+    private JavaMailSender mailSender;
+    
+    public void setMailSender(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public void placeOrder(final Order order) {
+
+        //... * Do the businness calculations....
+        //... * Call the collaborators to persist the order
+        
+        
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws MessagingException {
+                mimeMessage.setRecipient(Message.RecipientType.TO, 
+                        new InternetAddress(order.getCustomer().getEmailAddress()));
+                mimeMessage.setFrom(new InternetAddress("mail@mycompany.com"));
+                mimeMessage.setText(
+                    "Dear "
+                        + order.getCustomer().getFirstName()
+                        + order.getCustomer().getLastName()
+                        + ", thank you for placing order. Your order number is "
+                        + order.getOrderNumber());
+            }
+        };
+        try{
+            mailSender.send(preparator);
+        }
+        catch(MailException ex) {
+            //log it and go on
+            System.err.println(ex.getMessage());            
+        }
+    }
+}</pre><p>&#22914;&#26524;&#20320;&#24819;&#20351;&#29992;JavaMail MimeMessage&#20197;&#33719;&#24471;&#20840;&#37096;&#30340;&#33021;&#21147;&#65292;&#21482;&#38656;&#35201;&#20320;&#25351;&#23574;&#36731;&#35302;&#38190;&#30424;&#21363;&#21487;&#20351;&#29992;<tt class="literal">MimeMessagePreparator</tt>&#12290;</p><p><span class="emphasis"><em>&#35831;&#27880;&#24847;&#36825;&#37096;&#20998;&#37038;&#20214;&#20195;&#30721;&#26159;&#19968;&#20010;&#27178;&#20999;&#20851;&#27880;&#28857;&#65292;&#26159;&#19968;&#20010;&#21487;&#20197;&#37325;&#26500;&#33267;&#19968;&#20010;&#23450;&#21046;&#30340;SpringAOP advice&#30340;&#23436;&#32654;&#20505;&#36873;&#32773;,
+	&#36825;&#26679;&#23601;&#21487;&#20197;&#19981;&#36153;&#21147;&#30340;&#24212;&#29992;&#21040;&#30446;&#26631;&#23545;&#35937;OrderManager&#19978;&#26469;&#12290;&#20851;&#20110;&#36825;&#19968;&#28857;&#35831;&#30475;AOP&#31456;&#33410;&#12290;
+	</em></span></p><div class="sect2" lang="zh_cn"><div class="titlepage"><div><div><h3 class="title"><a name="d0e8754"></a>17.3.1.&nbsp;&#21487;&#25554;&#25300;&#30340;MailSender&#23454;&#29616;</h3></div></div><div></div></div><p>Spring&#25552;&#20379;&#20004;&#31181;MailSender&#30340;&#23454;&#29616;:&#26631;&#20934;&#30340;JavaMail&#23454;&#29616;&#21644;&#22312;<a href="http://servlets.com/cos" target="_top">http://servlets.com/cos</a>
+      (com.oreilly.servlet)&#37324;&#30340;Jason Hunter's <span class="emphasis"><em>MailMessage</em></span>&#31867;&#20043;&#19978;&#30340;&#23454;&#29616;&#12290;&#35831;&#21442;&#32771;JavaDocs&#20197;&#24471;&#21040;&#36827;&#19968;&#27493;&#30340;&#20449;&#24687;&#12290;</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="remoting.html">&#19978;&#19968;&#39029;</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="index.html">&#19978;&#19968;&#32423;</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="scheduling.html">&#19979;&#19968;&#39029;</a></td></tr><tr><td width="40%" align="left" valign="top">&#31532;&nbsp;16&nbsp;&#31456;&nbsp;&#36890;&#36807;Spring&#20351;&#29992;&#36828;&#31243;&#35775;&#38382;&#21644;web&#26381;&#21153;&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">&#36215;&#22987;&#39029;</a></td><td width="40%" align="right" valign="top">&nbsp;&#31532;&nbsp;18&nbsp;&#31456;&nbsp;&#20351;&#29992;Quartz&#25110;Timer&#23436;&#25104;&#26102;&#24207;&#35843;&#24230;&#24037;&#20316;</td></tr></table></div></body></html>

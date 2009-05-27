@@ -1,0 +1,845 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head id="Head"><title>
+	spring2.0 事务配置 - 我的java天地 - BlogJava
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta id="metaKeywords" name="keywords" content="spring2.0 事务配置" /><link id="MainCss" type="text/css" rel="stylesheet" href="http://www.blogjava.net/Skins/gertrude/style.css" /><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.blogjava.net/toby/rss.aspx" /></head>
+<body>
+    <form name="Form1" method="post" action="268226.html" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=PyW-m2hLmppJ9byT1bYEqw2&amp;t=633595624754539605" type="text/javascript"></script>
+
+<script language=JavaScript>
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language=JavaScript>function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="/ScriptResource.axd?d=keXr1l0ODizNGwpG5umihnLbiZlZFmnBNv9PADikeydJNFn_nnzWP6nCtj5LEvCjoGqazIbHl5iuU6pakvSNXw2&amp;t=633595624754539605" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=keXr1l0ODiwWLTaLPM0Wf405seaw-kJY_J94dRUexb3hftiy5dT0X5GxWLiqANj30&amp;t=633065726440000000" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=keXr1l0ODiwWLTaLPM0Wf405seaw-kJY_J94dRUexb1YLr7RQriMsNXsDWOxc8wQub8O_qeSuZ41&amp;t=633065726440000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+        
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.blogjava.net/toby/">我的java天地</a></h1>
+<p id="tagline"></p>
+			<div id="main">
+				
+					
+	<div class="post">
+		<h2>
+			<a id="viewpost1_TitleUrl" href="http://www.blogjava.net/toby/archive/2009/04/29/268226.html">spring2.0 事务配置</a>
+		</h2>
+		
+		<div style="OVERFLOW: hidden; WIDTH: 100%">
+				<table cellspacing="0" cellpadding="0">
+						<tbody>
+								<tr>
+										<td style="FONT-SIZE: 12px; WORD-WRAP: break-word" valign="top">
+												<div>
+														<img style="DISPLAY: none" src="http://imgcache.qq.com/ac/qzone_v4/b.gif" />
+														<div style="DISPLAY: none" align="center">
+																<span style="DISPLAY: block; FONT-WEIGHT: bolder; WORD-BREAK: break-all">
+																		<font face="" color="#000e04">
+																		</font>
+																</span>
+														</div>
+														<img style="DISPLAY: none" src="http://imgcache.qq.com/ac/qzone_v4/b.gif" />
+														<font size="2">
+																<font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">
+																		<font style="LINE-HEIGHT: 1.3em" face="Times">Spring 2.0</font>
+																		<wbr>的事务配置主要有以下两种方式<font style="LINE-HEIGHT: 1.3em" face="Times">,</font><wbr>一种是声明式事务配置<font style="LINE-HEIGHT: 1.3em" face="Times">,</font><wbr>一种是编程式事务配置<font style="LINE-HEIGHT: 1.3em" face="Times">,</font><wbr>这里主要介绍声明式事务配置<font style="LINE-HEIGHT: 1.3em" face="Times">.</font><wbr></wbr></wbr></wbr></wbr></wbr>
+																</font>
+																<wbr>
+																		<br />
+																</wbr>
+														</font>使用Spring时，无论你选择编程式还是声明式的事务管理，定义一个正确的 PlatformTransactionManager 实现都是至关重要的。按照Spring的良好风格，这种重要定义都是通过IoC实现的。<br />一般来说，选择PlatformTransactionManager实现时需要知道当前的工作环境，如JDBC、JTA、Hibernate等。下面的例子来自Spring示例应用——<b><wbr>jPetStore</wbr></b><wbr>——中的dataAccessContext-local.xml文件，其中展示了一个局部PlatformTransactionManager实现是怎么定义的（仅限于纯粹JDBC环境）<br />我们必须先定义一个JDBC DataSource，然后使用Spring的DataSourceTransactionManager，并传入指向DataSource的引用。<br />&lt;bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"&gt;<br />  &lt;property name="driverClassName" value="${jdbc.driverClassName}" /&gt;<br />  &lt;property name="url" value="${jdbc.url}" /&gt;<br />  &lt;property name="username" value="${jdbc.username}" /&gt;<br />  &lt;property name="password" value="${jdbc.password}" /&gt;<br />&lt;/bean&gt;<br />PlatformTransactionManager bean的定义如下：<br />&lt;bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"&gt;<br />  &lt;property name="dataSource" ref="dataSource"/&gt;<br />&lt;/bean&gt;<br />我们也可以很容易地使用Hibernate局部事务，就像下面的Spring框架的 <b><wbr>PetClinic</wbr></b><wbr> 示例应用中的例子一样）。这种情况下，我们需要定义一个Hibernate的 LocalSessionFactoryBean，应用程序从中获取到Hibernate Session 实例。<br />DataSource 的bean定义同上例类似（这里不再展示）。不过，如果是一个JEE容器提供的 DataSource，它将由JEE容器自身，而不是Spring框架来管理事务。<br />这种情况中'txManager' bean的类型为 HibernateTransactionManager。同样地，DataSourceTransactionManager 需要一个指向 DataSource 的引用，而 HibernateTransactionManager 需要一个指向 SessionFactory 的引用。<br />&lt;bean id="sessionFactory" class="org.springframework.orm.hibernate.LocalSessionFactoryBean"&gt;<br />  &lt;property name="dataSource" ref="dataSource" /&gt;<br />  &lt;property name="mappingResources"&gt;<br />    &lt;list&gt;<br />      &lt;value&gt;org/springframework/samples/petclinic/hibernate/petclinic.hbm.xml&lt;/value&gt;<br />    &lt;/list&gt;<br />  &lt;/property&gt;<br />  &lt;property name="hibernateProperties"&gt;<br />    &lt;value&gt;<br />          hibernate.dialect=${hibernate.dialect}<br />        &lt;/value&gt;<br />  &lt;/property&gt;<br />&lt;/bean&gt;<br /><br />&lt;bean id="txManager" class="org.springframework.orm.hibernate.HibernateTransactionManager"&gt;<br />  &lt;property name="sessionFactory" ref="sessionFactory" /&gt;<br />&lt;/bean&gt;<br />声明式事务管理<font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><i><wbr><font size="2">大多数Spring用户选择声明式事务管理。这是对应用代码影响最小的选择，因此也最符合 </font></wbr></i><wbr><i><wbr><font size="2">非侵入式</font></wbr></i><wbr><i><wbr><font size="2"> 轻量级容器的理念。</font></wbr></i><wbr></wbr></wbr></wbr></font><wbr><br /><font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">Spring的声明式事务管理是通过Spring AOP实现的，因为事务方面的代码与Spring绑定并以一种样板式风格使用，不过尽管如此，你一般并不需要理解AOP概念就可以有效地使用Spirng的声明式事务管理。</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">从考虑EJB CMT和Spring声明式事务管理的相似以及不同之处出发是很有益的。它们的基本方法是相似的：都可以指定事务管理到单独的方法；如果需要可以在事务上下文调用 <font style="LINE-HEIGHT: 1.3em" face="宋体">setRollbackOnly()</font><wbr> 方法。不同之处在于：</wbr></font><wbr><br /></wbr></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">不像EJB CMT绑定在JTA上，Spring声明式事务管理可以在任何环境下使用。只需更改配置文件，它就可以和JDBC、JDO、Hibernate或其他的事务机制一起工作。</font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">Spring的声明式事务管理可以被应用到任何类（以及那个类的实例）上，不仅仅是像EJB那样的特殊类。</font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">Spring提供了声明式的<i><wbr>回滚规则</wbr></i><wbr>：EJB没有对应的特性，我们将在下面讨论。回滚可以声明式的控制，不仅仅是编程式的。</wbr></font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">Spring允许你通过AOP定制事务行为。例如，如果需要，你可以在事务回滚中插入定制的行为。你也可以增加任意的通知，就象事务通知一样。使用EJB CMT，除了使用<font style="LINE-HEIGHT: 1.3em" face="宋体">setRollbackOnly()</font><wbr>，你没有办法能够影响容器的事务管理。</wbr></font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">Spring不提供高端应用服务器提供的跨越远程调用的事务上下文传播。如果你需要这些特性，我们推荐你使用EJB。然而，不要轻易使用这些特性。通常我们并不希望事务跨越远程调用。</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">回滚规则的概念比较重要：它使我们能够指定什么样的异常（和throwable）将导致自动回滚。我们在配置文件中声明式地指定，无须在Java代码中。同时，我们仍旧可以通过调用 <font style="LINE-HEIGHT: 1.3em" face="宋体">TransactionStatus 的 setRollbackOnly() 方法编程式地回滚当前事务。通常，我们定义一条规则，声明 MyApplicationException</font><wbr> 必须总是导致事务回滚。这种方式带来了显著的好处，它使你的业务对象不必依赖于事务设施。典型的例子是你不必在代码中导入Spring API，事务等。</wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">对EJB来说，默认的行为是EJB容器在遇到 <i><wbr>系统异常</wbr></i><wbr>（通常指运行时异常）时自动回滚当前事务。EJB CMT遇到 <i><wbr>应用异常</wbr></i><wbr>（例如，除了 <font style="LINE-HEIGHT: 1.3em" face="宋体">java.rmi.RemoteException</font><wbr> 外别的checked exception）时并不会自动回滚。默认式Spring处理声明式事务管理的规则遵守EJB习惯（只在遇到unchecked exceptions时自动回滚），但通常定制这条规则会更有用。</wbr></wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">列子<font style="LINE-HEIGHT: 1.3em" face="Times">:</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">清单<font style="LINE-HEIGHT: 1.3em" face="Times">1:</font><wbr></wbr></font><wbr><br /></wbr></wbr></wbr></wbr></wbr></font>&lt;?xml version="1.0" encoding="gb2312"?&gt;<br />&lt;!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd"&gt;<br />&lt;beans&gt;<br />    &lt;bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"&gt;<br />        &lt;property name="driverClassName" value="${jdbc.driverClassName}"/&gt;<br />        &lt;property name="url" value="${jdbc.url}"/&gt;<br />        &lt;property name="username" value="${jdbc.username}"/&gt;<br />        &lt;property name="password" value="${jdbc.password}"/&gt;<br />    &lt;/bean&gt;<br />    <br />   &lt;!--Hibernate SessionFatory--&gt;<br />    &lt;bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"&gt;<br />        &lt;property name="dataSource" ref="dataSource"/&gt;<br />        &lt;property name="mappingDirectoryLocations"&gt;<br />            &lt;list&gt;<br />                &lt;value&gt;classpath:com/sailing/domain/hbm/&lt;/value&gt;<br />            &lt;/list&gt;<br />        &lt;/property&gt;<br />        &lt;property name="hibernateProperties"&gt;<br />            &lt;props&gt;<br />                &lt;prop key="hibernate.dialect"&gt;${hibernate.dialect}&lt;/prop&gt;<br />                &lt;prop key="hibernate.show_sql"&gt;${hibernate.show_sql}&lt;/prop&gt;<br />                &lt;prop key="hibernate.cache.use_query_cache"&gt;${hibernate.cache.use_query_cache}&lt;/prop&gt;<br />                &lt;prop key="hibernate.cache.provider_class"&gt;${hibernate.cache.provider_class}&lt;/prop&gt;<br />            &lt;/props&gt;<br />        &lt;/property&gt;<br />    &lt;/bean&gt;<br /><br /><br />    &lt;!--Hibernate TransactionManager--&gt;<br />    &lt;bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"&gt;<br />        &lt;property name="sessionFactory" ref="sessionFactory"/&gt;<br />    &lt;/bean&gt;<br /><br />    &lt;!--<br />    &lt;bean id="tocharFunction" class="com.sailing.framework.hibernate.TOCharFunction"&gt;<br />        &lt;property name="tocharFunction" value="{$hibernate.to_char_function}"/&gt;<br />    &lt;/bean&gt;<br />    --&gt;<br />&lt;/beans&gt;<br /><font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">清单<font style="LINE-HEIGHT: 1.3em" face="Times">2</font><wbr></wbr></font><wbr><br /></wbr></font>&lt;?xml version="1.0" encoding="gb2312"?&gt;<br />&lt;beans xmlns="http://www.springframework.org/schema/beans"<br />       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"<br />       xmlns:aop="http://www.springframework.org/schema/aop"<br />       xmlns:tx="http://www.springframework.org/schema/tx"<br />       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd<br />           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd<br />           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"<br />       default-autowire="byName" default-lazy-init="true"&gt;<br /><br />    &lt;!-- 支持 &#64;Transactional 标记 --&gt;<br />    &lt;tx:annotation-driven/&gt;<br /><br />    &lt;!-- 支持 &#64;AspectJ 标记--&gt;<br />    &lt;aop:aspectj-autoproxy/&gt;<br />    <br />    &lt;aop:config proxy-target-class="true"&gt;<br />       &lt;aop:advisor pointcut="execution(* com.sailing.app.uupms..*.*(..))"<br />                   advice-ref="txAdvice"/&gt;<br />    &lt;/aop:config&gt;<br />    &lt;!-- 基本事务定义,使用transactionManager作事务管理,默认get*方法的事务为readonly,其余方法按默认设置.<br />            默认的设置请参考Spring文档事务一章. --&gt;<br />    &lt;tx:advice id="txAdvice"&gt;<br />       &lt;tx:attributes&gt;<br />&lt;!--          查询事务 --&gt;<br />            &lt;tx:method name="get*" read-only="true" /&gt;<br />           &lt;tx:method name="find*" read-only="true"/&gt;<br />           &lt;tx:method name="load*" read-only="true"/&gt;<br /><br />&lt;!--             新增、修改、删除事务 --&gt;<br />            &lt;tx:method name="save*" read-only="false" rollback-for="Exception"/&gt;<br />            &lt;tx:method name="add*" read-only="false" rollback-for="Exception"/&gt;<br />            &lt;tx:method name="append*" read-only="false" rollback-for="Exception"/&gt;<br /><br />            &lt;tx:method name="update*" read-only="false" rollback-for="Exception"/&gt;<br />            &lt;tx:method name="modify*" read-only="false" rollback-for="Exception"/&gt;<br />            &lt;tx:method name="edit*" read-only="false" rollback-for="Exception"/&gt;<br />            &lt;tx:method name="data*" read-only="false" rollback-for="Exception"/&gt;<br /><br />            &lt;tx:method name="remove*" read-only="false" rollback-for="Exception"/&gt;<br />             &lt;tx:method name="delete*" read-only="false" rollback-for="Exception"/&gt;<br />            &lt;tx:method name="del*" read-only="false" rollback-for="Exception"/&gt;<br />           <br />           &lt;tx:method name="*"/&gt;<br />       &lt;/tx:attributes&gt;<br />    &lt;/tx:advice&gt;<br />    <br /><br /><br /><br />&lt;/beans&gt;<br />其中<br />&lt;aop:config proxy-target-class="true"&gt;<br />       &lt;aop:advisor pointcut="execution(* com.sailing.app.uupms..*.*(..))"<br />                   advice-ref="txAdvice"/&gt;<br />    &lt;/aop:config&gt;<br />execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern) throws-pattern?)  其中带问号的modifiers-pattern?(public/protected) 和 declaring-type-pattern? throws-pattern? 可以不填<br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em" size="2">可见</font><wbr>execution(* com.sailing.app.uupms..*.*(..))代表com.sailing.app.uupms包下以及子包下的所有类<br /><font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">以execution(* *..BookManager.save(..))为列子</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">第一颗* 代表ret-type-pattern 返回值可任意，</font><wbr><br /></wbr></wbr></font><font style="LINE-HEIGHT: 1.3em">*..BookManager 代表任意Pacakge里的BookManager类。</font><wbr><br /><font style="LINE-HEIGHT: 1.3em">如果写成com.xyz.service.* 则代表com.xyz.service下的任意类</font><wbr><br /><font style="LINE-HEIGHT: 1.3em">com.xyz.service..* com.xyz.service则代表com.xyz.service及其子package下的任意类</font><wbr><br /><font style="LINE-HEIGHT: 1.3em">save代表save方法，也可以写save* 代表saveBook()等方法</font><wbr><br /><font style="LINE-HEIGHT: 1.3em">(..) 匹配0个参数或者多个参数的，任意类型</font><wbr><br /><font style="LINE-HEIGHT: 1.3em">(x,..) 第一个参数的类型必须是</font><wbr><font style="LINE-HEIGHT: 1.3em">X </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">(x,,,s,..) 匹配至少4个参数，第一个参数必须是x类型，第二个和第三个参数可以任意，第四个必须是s类型。 </font><wbr><br /><font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">注 意name-pattern千万不要写成*..*Manager ，这样子的话会把所有第三方类库的Manager比如Spring的PlatformTranstationManager 也加入aop，非常危险。所以最好还是加上项目的package前缀，如org.springside </font><wbr><br /></wbr></font><font style="FONT-SIZE: large; LINE-HEIGHT: 1.3em" size="4">回滚</font><wbr><font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">在前面的章节里，概述了如何在你的应用里为类特别是服务层的类指定事务性的基本方法。这一章将描述在一个简单的声明式配置中如何你才能控制事务的回滚。</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">一个容易的（和被推荐的）方法是在Spring框架的事务架构里指出当context的事务里的代码抛出 <font style="LINE-HEIGHT: 1.3em" face="宋体">Exception 时事务进行回滚。Spring框架的事务基础架构代码将从调用的堆栈里捕获到任何未处理的 Exception</font><wbr>，并将标识事务将回滚。 </wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">然而，请注意Spring框架的事务基础架构代码将默认地 <i><wbr>只</wbr></i><wbr> 在抛出运行时和unchecked exceptions时才标识事务回滚。 也就是说，当抛出一个 <font style="LINE-HEIGHT: 1.3em" face="宋体">RuntimeException 或其子类例的实例时。（Errors</font><wbr> 也一样 - 默认地 - 标识事务回滚。）从事务方法中抛出的Checked exceptions将 <i><wbr>不</wbr></i><wbr> 被标识进行事务回滚。 </wbr></wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">就是这些默认的设置；严格规定了哪些 <font style="LINE-HEIGHT: 1.3em" face="宋体">Exception 类型将被标识进行事务回滚。 下面的XML配置片断里示范了如何配置一个checked，应用程序指定的 Exception</font><wbr> 类型来标识事务回滚。 </wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em" face="宋体">&lt;tx:advice id="txAdvice" transaction-manager="txManager"&gt;</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">  &lt;tx:attributes&gt;</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">         &lt;tx:method name="get*" read-only="false" <b><wbr><i><wbr>rollback-for="NoProductInStockException"</wbr></i><wbr></wbr></wbr></b><wbr>/&gt;</wbr></font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">         &lt;tx:method name="*"/&gt;</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">  &lt;/tx:attributes&gt;</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em" face="宋体">&lt;/tx:advice&gt;</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">第二方法是在Spring框架的事务架构里通过 <i><wbr>编程式</wbr></i><wbr> 方式指出一个事务将被回滚。 虽然这个非常简单，但是这个方法对于Spring框架的事务架构来说，在你的代码是高入侵的和紧藕合的 下面的代码片断里示范了Spring框架管理事务的编程式回滚： </wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em" face="宋体">public void resolvePosition() {</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">    try {</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">        <i><wbr>// some business logic...</wbr></i><wbr></wbr></font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">    } catch (NoProductInStockException ex) {</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">        <i><wbr>// trigger rollback programmatically</wbr></i><wbr></wbr></font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="宋体">    }</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em" face="宋体">}</font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">强烈推荐你尽可能地使用声明式事务回滚方法。 编程式方法的回滚对你来说是可见，如果你需要它你就可以使用，但是使用它就直接违反了在你的应用中使用一个纯基于POJO的模型。 </font><wbr><br /></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></font><font style="LINE-HEIGHT: 1.3em" face="宋体">&lt;tx:advice/&gt;<font style="FONT-SIZE: large; LINE-HEIGHT: 1.3em" size="4">有关的设置</font><wbr></wbr></font><wbr><font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">这一节里将描述通过 <font style="LINE-HEIGHT: 1.3em" face="宋体">&lt;tx:advice/&gt; 标签来指定不同的事务性设置。默认的 &lt;tx:advice/&gt;</font><wbr> 设置如下： </wbr></font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">事务传播设置是 <font style="LINE-HEIGHT: 1.3em" face="宋体">REQUIRED</font><wbr></wbr></font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">隔离级别是 <font style="LINE-HEIGHT: 1.3em" face="宋体">DEFAULT</font><wbr></wbr></font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">事务是 读/写</font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">事务超时默认是依赖于事务系统的，或者事务超时没有被支持。</font><wbr><br /></wbr></font>·         <font size="2"><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">任何 <font style="LINE-HEIGHT: 1.3em" face="宋体">RuntimeException 将触发事务回滚，但是任何</font><wbr> checked <font style="LINE-HEIGHT: 1.3em" face="宋体">Exception</font><wbr> 将不触发事务回滚</wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">这些默认的设置当然也是可以被改变的。 <font style="LINE-HEIGHT: 1.3em" face="宋体">&lt;tx:advice/&gt; 和 &lt;tx:attributes/&gt; 标签里的 &lt;tx:method/&gt;</font><wbr> 各种属性设置总结如下： </wbr></font><wbr><br /><b><wbr><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em">Table 9.1. <font style="LINE-HEIGHT: 1.3em" face="宋体">&lt;tx:method/&gt;</font><wbr> 有关的设置</wbr></font><wbr></wbr></wbr></b><wbr><br /></wbr></wbr></wbr></font><center><b><wbr>属性</wbr></b><wbr></wbr></center><center><b><wbr>是否需要？</wbr></b><wbr></wbr></center><center><b><wbr>默认值</wbr></b><wbr></wbr></center><center><b><wbr>描述</wbr></b><wbr></wbr></center><font style="LINE-HEIGHT: 1.3em" face="宋体">name</font><wbr><br />是<br />与事务属性关联的方法名。通配符（*）可以用来指定一批关联到相同的事务属性的方法。 如：<font style="LINE-HEIGHT: 1.3em" face="宋体">'get*'、'handle*'、'on*Event'等等。 </font><wbr><br /><font style="LINE-HEIGHT: 1.3em" face="宋体">propagation</font><wbr><br />不<br /><font style="LINE-HEIGHT: 1.3em" face="Times">REQUIRED</font><wbr><br />事务传播行为<br /><font style="LINE-HEIGHT: 1.3em" face="宋体">isolation</font><wbr><br />不<br /><font style="LINE-HEIGHT: 1.3em" face="Times">DEFAULT</font><wbr><br />事务隔离级别<br /><font style="LINE-HEIGHT: 1.3em" face="宋体">timeout</font><wbr><br />不<br /><font style="LINE-HEIGHT: 1.3em" face="Times">-1</font><wbr><br />事务超时的时间（以秒为单位）<br /><font style="LINE-HEIGHT: 1.3em" face="宋体">read-only</font><wbr><br />不<br /><font style="LINE-HEIGHT: 1.3em" face="Times">false</font><wbr><br />事务是否只读？<br /><font style="LINE-HEIGHT: 1.3em" face="宋体">rollback-for</font><wbr><br />不<br />将被触发进行回滚的 <font style="LINE-HEIGHT: 1.3em" face="宋体">Exception(s)；以逗号分开。 如：'com.foo.MyBusinessException,ServletException' </font><wbr><br /><font style="LINE-HEIGHT: 1.3em" face="宋体">no-rollback-for</font><wbr><br />不<br /><i><wbr>不</wbr></i><wbr> 被触发进行回滚的 <font style="LINE-HEIGHT: 1.3em" face="宋体">Exception(s)；以逗号分开。 如：'com.foo.MyBusinessException,ServletException' </font><wbr><br />Spring常见错误<font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em"><font size="2">问题<font style="LINE-HEIGHT: 1.3em" face="Times">1</font><wbr>：<font style="LINE-HEIGHT: 1.3em" face="Times">Exception</font><wbr></wbr></wbr></font></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">in thread "main" java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory at org.springframework.util.ClassUtils.&lt;clinit&gt;(ClassUtils.java:67) at org.springframework.core.io.DefaultResourceLoader.&lt;init&gt;(DefaultResourceLoader.java:52) at org.springframework.context.support.AbstractApplicationContext.&lt;init&gt;(AbstractApplicationContext.java:184) at org.springframework.context.support.AbstractRefreshableApplicationContext.&lt;init&gt;(AbstractRefreshableApplicationContext.java:80) at org.springframework.context.support.AbstractXmlApplicationContext.&lt;init&gt;(AbstractXmlApplicationContext.java:58) at </font><wbr><br />需要加上：</wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">commons-logging.jar log4j-1.2.11.jar </font><wbr><br />问题<font style="LINE-HEIGHT: 1.3em" face="Times">2</font><wbr>：<font style="LINE-HEIGHT: 1.3em" face="Times">Exception</font><wbr></wbr></wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">in thread "main" org.springframework.beans.factory.BeanDefinitionStoreException: Unexpected exception parsing XML document from class path resource [text.xml]; nested exception is java.lang.NoClassDefFoundError: org/aspectj/weaver/reflect/ReflectionWorld$ReflectionWorldException </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">Caused by: java.lang.NoClassDefFoundError: org/aspectj/weaver/reflect/ReflectionWorld$ReflectionWorldException </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">at java.lang.Class.forName0(Native Method) </font><wbr><br />需要加上：</wbr></wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">aspectjweaver.jar </font><wbr><br />问题<font style="LINE-HEIGHT: 1.3em" face="Times">3</font><wbr>：<font style="LINE-HEIGHT: 1.3em" face="Times">Exception</font><wbr></wbr></wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">in thread "main" org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'logBean' defined in class path resource [text.xml]: Initialization of bean failed; nested exception is org.springframework.aop.framework.AopConfigException: Cannot proxy target class because CGLIB2 is not available. Add CGLIB to the class path or specify proxy interfaces. </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">Caused by: org.springframework.aop.framework.AopConfigException: Cannot proxy target class because CGLIB2 is not available. Add CGLIB to the class path or specify proxy interfaces. </font><wbr><br />需要加上：</wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">cglib-2.1.3.jar </font><wbr><br />问题<font style="LINE-HEIGHT: 1.3em" face="Times">4</font><wbr>：</wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">xception in thread "main" org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'logBean' defined in class path resource [text.xml]: Initialization of bean failed; nested exception is java.lang.NoClassDefFoundError: org/objectweb/asm/Type </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">Caused by: java.lang.NoClassDefFoundError: org/objectweb/asm/Type </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">at net.sf.cglib.core.TypeUtils.parseType(TypeUtils.java:180) </font><wbr><br />需要加上：</wbr></wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">asm.jar </font><wbr><br />转载：</wbr></font><wbr><font style="LINE-HEIGHT: 1.3em">http://pengchua.javaeye.com/blog/142879 </font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em" size="2">问题<font style="LINE-HEIGHT: 1.3em" face="Times">5</font><wbr>：</wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">CGLIB Enhancement failed: com.bowen.domain.Schools </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">java.lang.NoSuchMethodError: org.objectweb.asm.ClassVisitor.visit(IILjava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)V </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">at net.sf.cglib.core.ClassEmitter.begin_class(ClassEmitter.java:77) </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">at net.sf.cglib.core.KeyFactory$Generator.generateClass(KeyFactory.java:173) </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">at net.sf.cglib.core.DefaultGeneratorStrategy.generate(DefaultGeneratorStrategy.java:25) </font><wbr><br />解决：由于不同版本让我想到了可能会因为其它三方包是不同版本引起的最新的<font style="LINE-HEIGHT: 1.3em" face="Times">MyEclipse</font><wbr>，所以里面的<font style="LINE-HEIGHT: 1.3em" face="Times">Hibernate</font><wbr>也是最新的<font style="LINE-HEIGHT: 1.3em" face="Times">3.1</font><wbr>（它里面还带有一个<font style="LINE-HEIGHT: 1.3em" face="Times">3.0</font><wbr>版本的）</wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><br />删除多余的包<font style="LINE-HEIGHT: 1.3em" face="Times"> Hibernate3.1</font><wbr></wbr></font><wbr><br /><font style="FONT-SIZE: small; LINE-HEIGHT: 1.3em" size="2">问题<font style="LINE-HEIGHT: 1.3em" face="Times">6</font><wbr>：</wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><br /><font style="LINE-HEIGHT: 1.3em">org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in resource [/WEB-INF/dataAccessContext-hibernate.xml] of ServletContext: Instantiation of bean failed; nested exception is java.lang.NoClassDefFoundError: javax/transaction/TransactionManager </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">java.lang.NoClassDefFoundError: javax/transaction/TransactionManager </font><wbr><br />原因：缺少</wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">jta.jar </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">~~~~~~~~~~~~~~~~~<wbr>~~~~~~~~~~~~~~~~~~<wbr>~~~~~~~~~~~~~~~~~~<wbr>~~~~~~~~ </wbr></wbr></wbr></font><wbr><br />问题<font style="LINE-HEIGHT: 1.3em" face="Times">7</font><wbr>：</wbr></wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><br /><font style="LINE-HEIGHT: 1.3em">java.lang.NoClassDefFoundError: org/dom4j/Attribute </font><wbr><br />缺</wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">dom4j.jar </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">java.lang.NoClassDefFoundError: net/sf/ehcache/CacheException </font><wbr><br />缺</wbr></wbr></font><wbr><font style="LINE-HEIGHT: 1.3em"><font style="LINE-HEIGHT: 1.3em" face="Times">ehcache.jar </font><wbr><br /><font style="LINE-HEIGHT: 1.3em">java.lang.NoClassDefFoundError: net/sf/cglib/core/KeyFactory </font><wbr><br />缺<font style="LINE-HEIGHT: 1.3em" face="Times">cglib-full.jar</font></wbr></wbr></font></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></wbr></div>
+										</td>
+								</tr>
+						</tbody>
+				</table>
+		</div>
+
+		<p class="postfoot">
+			posted on 2009-04-29 20:58 <a href='http://www.blogjava.net/toby/'>tobyxiong</a> 阅读(75) <a href='#Post'>评论(0)</a> &nbsp;<a href="http://www.blogjava.net/toby/admin/EditPosts.aspx?postid=268226">编辑</a> &nbsp;<a href="http://www.blogjava.net/toby/AddToFavorite.aspx?id=268226">收藏</a>  所属分类: <a href='http://www.blogjava.net/toby/category/38380.html'>java</a> 
+		</p>
+	</div>
+	<img src ="http://www.blogjava.net/toby/aggbug/268226.html?webview=1" width = "1" height = "1" />
+	
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.blogjava.net/toby/archive/2009/04/29/268226.html"
+dc:identifier="http://www.blogjava.net/toby/archive/2009/04/29/268226.html"
+dc:title="spring2.0 事务配置"
+trackback:ping="http://www.blogjava.net/toby/services/trackbacks/268226.aspx" />
+</rdf:RDF>
+-->
+
+	<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<STYLE>.userData { BEHAVIOR: url(#default#userdata) }
+	</STYLE>
+<DIV class="userData" id="CommentsPersistDiv"></DIV>
+
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+<div id="divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px"><a href="http://news.cnblogs.com/">IT新闻</a>&nbsp;&nbsp;<a href="/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</a>&nbsp;&nbsp;</div>
+<div class="commentform">
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br />
+<a name="Feedback"></a>
+	<TABLE cellSpacing="1" cellPadding="1" border="0">
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD width="75"></TD>
+			<TD></TD>
+			<TD></TD>
+		</TR>
+		<TR>
+			<TD width="55">标题</TD>
+			<TD><input name="AjaxHolder$PostComment$tbTitle" type="text" value="re: spring2.0 事务配置" id="AjaxHolder_PostComment_tbTitle" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color:Red;visibility:hidden;">请输入标题</span></TD>
+		</TR>
+		<TR>
+			<TD>姓名</TD>
+			<TD><input name="AjaxHolder$PostComment$tbName" type="text" id="AjaxHolder_PostComment_tbName" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color:Red;visibility:hidden;">请输入你的姓名</span></TD>
+		</TR>
+		<TR>
+			<TD>主页</TD>
+			<TD><input name="AjaxHolder$PostComment$tbUrl" type="text" id="AjaxHolder_PostComment_tbUrl" class="commenttb" style="width:320" /></TD>
+			<TD><FONT face="宋体"></FONT></TD>
+		</TR>
+		<tr>
+			<td align="left" colSpan="3">
+				<table id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<td colspan="3">
+							<span id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color:Red;display:none;">请输入验证码</span>
+							<span id="AjaxHolder_PostComment_lblImage" style="color:Red;font-weight:bold;"></span>
+						</td>
+		</tr>
+		<tr>
+			<td width="78">验证码</td>
+			<td><input name="AjaxHolder$PostComment$CodeNumberTextBox" type="text" id="AjaxHolder_PostComment_CodeNumberTextBox" />*&nbsp;&nbsp;<img src="http://www.blogjava.net/Modules/CaptchaImage/JpegImage.aspx?cacheid=20090525150526"/></td>
+			<td align="left"></td>
+		</tr>
+	</table>
+	
+			</td>
+		</tr>
+		<TR>
+			<TD colSpan="3">内容(请不要发表任何与政治相关的内容)
+				<span id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color:Red;visibility:hidden;">请输入评论内容</span><BR>
+				<textarea name="AjaxHolder$PostComment$tbComment" rows="10" cols="50" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')" style="Width:480;Height:220"></textarea></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+		<span id="AjaxHolder_PostComment_Message" style="color:Red;"></span>
+		</td>
+		<TR>
+			<TD colSpan="3"><input id="AjaxHolder_PostComment_chkRemember" type="checkbox" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1" /><label for="AjaxHolder_PostComment_chkRemember">Remember Me?</label></TD>
+		</TR>
+		<TR>
+			<TD height="23"><input type="submit" name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" class="commentButton" />
+				</TD>
+			<td colSpan="2" height="23">&nbsp;
+				<a id="AjaxHolder_PostComment_lnkLogin" href="http://www.blogjava.net/login.aspx?ReturnURL=http://www.blogjava.net/toby/archive/2009/04/29/268226.html&amp;SourceURL=/toby/archive/2009/04/29/268226.html">登录</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_linkLoginComment" OnClick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" href="http://www.blogjava.net/toby/archive/2009/04/29/268226.html?login=1#Post">使用高级评论</a>&nbsp;&nbsp;<a href="http://www.blogjava.net/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<A href="#Top">返回页首</A>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_lbRestore" OnClick="Restore('AjaxHolder_PostComment_tbComment'); return false;" href="/toby/archive/2009/04/29/268226.html#Post">恢复上次提交</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+		</TR>
+		<TR>
+			<TD colSpan="3"><label class="CtrlEnter">[使用Ctrl+Enter键可以直接提交]</label></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5">
+			<a href="http://www.cnblogs.com/cmt/archive/2009/05/21/1486347.html" target="_blank"><img src="http://images.cnblogs.com/ad/nanti_468.gif" style="border:0px"/></a><br/><br/>
+			<script type="text/javascript" src="http://a4.yeshj.com/page/148/" ></script>
+			<script type="text/JavaScript">show_a4_zone("S1");</script><br/>
+			<script type="text/JavaScript">show_a4_zone("Z1");</script></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+			<a href="http://dotnet.cnblogs.com/">.NET频道</a>&nbsp;&nbsp;<a href="http://space.cnblogs.com/">博客园社区</a>&nbsp;&nbsp;<a href="http://space.cnblogs.com/ing/">闪存</a>
+			<br/>
+			</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+</script>
+<script type="text/javascript">
+  GS_googleAddAdSenseService("ca-pub-4210569241504288");
+  GS_googleEnableAllServices();
+</script>
+<script type="text/javascript">
+  GA_googleAddSlot("ca-pub-4210569241504288", "blogjava_blogpost_bottom");
+</script>
+<script type="text/javascript">
+  GA_googleFetchAds();
+</script>
+<script type="text/javascript">
+  GA_googleFillSlot("blogjava_blogpost_bottom");
+</script></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;padding-left:0px;">
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/05/15/270940.html">MVC详解：了解真正所谓的"框架" - MVC 框架(转载）</a>
+			</li>
+		
+			<li style='list-style:none;display:none'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl02_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/29/268226.html">spring2.0 事务配置</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl03_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/24/267413.html">InputStream的三个read的区别</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl04_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/28/262685.html">velocity和struts集成</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl05_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/24/261768.html">Jboss数据源的配置</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl06_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/21/261154.html">Spring事务管理</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl07_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/21/261153.html">Spring声明式事务管理</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl08_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/21/261147.html">web.xml控制Web应用详解</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl09_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/19/260918.html">Struts2的国际化</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl10_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/19/260917.html">整合Struts2与Spring的步骤</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</TD>
+		</TR>
+	
+		<TR>
+			<TD colSpan="3"></TD>
+		</TR>	
+
+		<TR>
+			<TD colSpan="3" height="5">网站导航:<div id="blogsite">
+			<a href="http://www.cnblogs.com">博客园</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://www.blogjava.net">BlogJava</a>&nbsp;&nbsp;
+			<a href="http://www.cnweblog.com">博客生活</a>&nbsp;&nbsp;
+			<a href="http://www.cnitblog.com">IT博客网</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com">C++博客</a>&nbsp;&nbsp;
+			<a href="http://www.phpweblog.net">PHP博客</a>&nbsp;&nbsp;
+			<a href="http://space.cnblogs.com">博客园社区</a>
+			<br/>
+			<a href="http://www.manageblog.net">管理博客</a>&nbsp;&nbsp;
+			<a href="http://www.teachblog.net">教师博客</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://www.astroblog.cn/">天文博客</a>&nbsp;&nbsp;
+			<a href="http://www.cnautoblog.com/">汽车博客</a>&nbsp;&nbsp;
+			<a href="http://www.zuqiublog.com/">足球博客</a>&nbsp;&nbsp;
+			<a href="http://www.gupiaoblog.com/">股票博客</a>&nbsp;&nbsp;
+			<a href="http://www.etronblog.com/">电子博客</a>&nbsp;&nbsp;<a href="/toby/archive/2009/04/29/268226.html?opt=admin">管理</a>
+			</div></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+				
+<br/>
+<br/>
+<iframe marginheight="0" marginwidth="0" frameborder="0" width="468" height="0" scrolling="no" src="/ad.htm" style="border:0px solid #666" allowTransparency="true"></iframe>
+<br/>
+
+
+</TD>
+		</TR>		
+	</TABLE>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+
+</div>
+
+				
+			</div>
+			<div id="rightmenu">
+				
+					<table id="Calendar1_entryCal" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0" style="border-width:1px;border-style:solid;border-collapse:collapse;">
+	<tr><td colspan="7" style="background-color:Silver;"><table class="CalTitle" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+		<tr><td class="CalNextPrev" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3347')" style="color:Black" title="Go to the previous month">&lt;</a></td><td align="center" style="width:70%;">2009年4月</td><td class="CalNextPrev" align="right" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3408')" style="color:Black" title="Go to the next month">&gt;</a></td></tr>
+	</table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">29</td><td class="CalOtherMonthDay" align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">31</td><td align="center" style="width:14%;">1</td><td align="center" style="width:14%;">2</td><td align="center" style="width:14%;">3</td><td class="CalWeekendDay" align="center" style="width:14%;">4</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">5</td><td align="center" style="width:14%;">6</td><td align="center" style="width:14%;">7</td><td align="center" style="width:14%;">8</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/toby/archive/2009/04/09.html"><u>9</u></a></td><td align="center" style="width:14%;">10</td><td class="CalWeekendDay" align="center" style="width:14%;">11</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/toby/archive/2009/04/12.html"><u>12</u></a></td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/toby/archive/2009/04/13.html"><u>13</u></a></td><td align="center" style="width:14%;">14</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/toby/archive/2009/04/15.html"><u>15</u></a></td><td align="center" style="width:14%;">16</td><td align="center" style="width:14%;">17</td><td class="CalWeekendDay" align="center" style="width:14%;">18</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">19</td><td align="center" style="width:14%;">20</td><td align="center" style="width:14%;">21</td><td align="center" style="width:14%;">22</td><td align="center" style="width:14%;">23</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/toby/archive/2009/04/24.html"><u>24</u></a></td><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/toby/archive/2009/04/25.html"><u>25</u></a></td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">26</td><td align="center" style="width:14%;">27</td><td align="center" style="width:14%;">28</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/toby/archive/2009/04/29.html"><u>29</u></a></td><td align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">1</td><td class="CalOtherMonthDay" align="center" style="width:14%;">2</td></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">3</td><td class="CalOtherMonthDay" align="center" style="width:14%;">4</td><td class="CalOtherMonthDay" align="center" style="width:14%;">5</td><td class="CalOtherMonthDay" align="center" style="width:14%;">6</td><td class="CalOtherMonthDay" align="center" style="width:14%;">7</td><td class="CalOtherMonthDay" align="center" style="width:14%;">8</td><td class="CalOtherMonthDay" align="center" style="width:14%;">9</td></tr>
+</table>
+
+					
+<h3>导航</h3>
+<ul>
+			<li><a id="MyLinks1_HomeLink" href="http://www.blogjava.net/">BlogJava</a></li>
+			<li><a id="MyLinks1_MyHomeLink" href="http://www.blogjava.net/toby/">首页</a></li>
+			<li><a id="MyLinks1_NewPostLink" href="http://www.blogjava.net/toby/admin/EditPosts.aspx?opt=1">新随笔</a></li>
+			<li><a id="MyLinks1_ContactLink" accesskey="9" href="http://www.blogjava.net/toby/contact.aspx?id=1">联系</a></li>
+			<li><a id="MyLinks1_Syndication" href="http://www.blogjava.net/toby/rss">聚合</a><a id="MyLinks1_XMLLink" href="http://www.blogjava.net/toby/rss"><img src="http://www.blogjava.net/images/xml.gif" style="border-width:0px;" /></a>
+			<li><a id="MyLinks1_Admin" href="http://www.blogjava.net/toby/admin/EditPosts.aspx">管理</a></li>
+</ul>
+					
+<h3>统计</h3>
+	<ul>
+		<li>随笔 - 41
+		<li>文章 - 0
+		<li>评论 - 2
+		<li>引用 - 0
+	</li>
+</ul>
+					
+					
+<ul><li>
+<div id="cnblogsgooglead" width="180" height="150"></div>
+<div id="cnblogsgoogleadcode" style="display:none">
+<script type="text/javascript"><!--
+google_ad_client = "pub-4210569241504288";
+google_ad_width = 180;
+google_ad_height = 150;
+google_ad_format = "180x150_as";
+google_ad_channel ="";
+google_ad_type = "text";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</li></ul>
+<h3>常用链接</h3>
+<ul>
+		<li><a id="SingleColumn1_ctl01_repeaterLinks_ctl01_lnkLinkItem" href="http://www.blogjava.net/toby/MyPosts.html">我的随笔</a></li>
+	
+		<li><a id="SingleColumn1_ctl01_repeaterLinks_ctl02_lnkLinkItem" href="http://www.blogjava.net/toby/MyComments.html">我的评论</a></li>
+	
+		<li><a id="SingleColumn1_ctl01_repeaterLinks_ctl03_lnkLinkItem" href="http://www.blogjava.net/toby/OtherPosts.html">我的参与</a></li>
+	
+		<li><a id="SingleColumn1_ctl01_repeaterLinks_ctl04_lnkLinkItem" href="http://www.blogjava.net/toby/RecentComments.html">最新评论</a></li>
+	</ul>
+<H3>留言簿<span style="font-size:11px;font-weight:normal;">(1)</span></H3>
+<ul>
+	<li>
+		<a id="SingleColumn1_ctl02_lnkMessages" href="http://www.blogjava.net/toby/Contact.aspx?id=1">给我留言</a>
+	<li>
+		<a id="SingleColumn1_ctl02_lnkPublicMsgView" href="http://www.blogjava.net/toby/default.aspx?opt=msg">查看公开留言</a>
+	<li>
+		<a id="SingleColumn1_ctl02_lnkPrivateMsgView" href="http://www.blogjava.net/toby/admin/MyMessages.aspx">查看私人留言</a>
+	</li>
+</ul>
+
+		<h3>随笔分类<span style="font-size:11px;font-weight:normal">(30)</span></h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" href="http://www.blogjava.net/toby/category/38408.html">DATABASES(13)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to DATABASES(13)" href="http://www.blogjava.net/toby/category/38408.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" href="http://www.blogjava.net/toby/category/39237.html">design(1)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to design(1)" href="http://www.blogjava.net/toby/category/39237.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" href="http://www.blogjava.net/toby/category/38380.html">java(12)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to java(12)" href="http://www.blogjava.net/toby/category/38380.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" href="http://www.blogjava.net/toby/category/38381.html">linix(2)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to linix(2)" href="http://www.blogjava.net/toby/category/38381.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link" href="http://www.blogjava.net/toby/category/38383.html">show page(1)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to show page(1)" href="http://www.blogjava.net/toby/category/38383.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link" href="http://www.blogjava.net/toby/category/38382.html">windows(1)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to windows(1)" href="http://www.blogjava.net/toby/category/38382.html/rss">(rss)</a></li>
+			
+				</ul>
+			
+	
+		<h3>随笔档案<span style="font-size:11px;font-weight:normal">(40)</span></h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" href="http://www.blogjava.net/toby/archive/2009/05.html">2009年5月 (4)</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" href="http://www.blogjava.net/toby/archive/2009/04.html">2009年4月 (10)</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" href="http://www.blogjava.net/toby/archive/2009/03.html">2009年3月 (16)</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" href="http://www.blogjava.net/toby/archive/2009/02.html">2009年2月 (2)</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl05_Link" href="http://www.blogjava.net/toby/archive/2009/01.html">2009年1月 (1)</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl06_Link" href="http://www.blogjava.net/toby/archive/2008/12.html">2008年12月 (7)</a> </li>
+			
+				</ul>
+			
+	
+
+<h3>最新随笔</h3>
+<div class="RecentComment">
+<ul style="word-break:break-all">
+	
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl00_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/05/15/270940.html">1. MVC详解：了解真正所谓的"框架" - MVC 框架(转载）</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl01_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/05/10/269956.html">2. ORACLE initialization or shutdown in progress解决方法</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl02_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/05/07/269497.html">3. 全面学习分区表及分区索引(10)--交换分区</a></li>
+		
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl02_RecentPostsList2_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/05/07/269490.html">4. Oracle backup&Restore(2)</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl03_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/29/268226.html">5. spring2.0 事务配置</a></li>
+		
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl03_RecentPostsList2_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/29/268220.html">6. 揭开Oracle 10G手工创建数据库的神秘面纱</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl04_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/25/267519.html">7. Rational　Rose2003破解安装详解</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl05_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/24/267413.html">8. InputStream的三个read的区别</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl06_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/15/265841.html">9. oracle中的数据导入和导出</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl07_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/13/265362.html">10. oracle中各分析函数详解</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl08_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/12/265124.html">11. 利用oracle快照dblink解决数据库表同步问题</a></li>
+		
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl08_RecentPostsList2_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/12/265112.html">12. oracle中字段类型修改</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl09_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/09/264713.html">13. Oracle数据库中快照的使用</a></li>
+		
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl09_RecentPostsList2_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/09/264712.html">14. Oracle 快照及 dblink使用 （两台服务器数据同步）</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl10_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/31/263246.html">15. SUSE Linux 10下载</a></li>
+		
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl10_RecentPostsList2_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/31/263242.html">16. oracle各版本下载地址</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl11_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/28/262685.html">17. velocity和struts集成</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl12_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/25/261954.html">18. oracle数据库like和左连接用法</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl13_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/24/261768.html">19. Jboss数据源的配置</a></li>
+		
+		
+	
+			<li><a id="SingleColumn1_ctl04_RecentPostsList_ctl14_RecentPostsList2_ctl00_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/21/261154.html">20. Spring事务管理</a></li>
+		
+	
+</ul>
+</div>
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0 || evt.type =='click')
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location=url;
+				return false;
+			}
+		}
+</script>
+<H3>搜索</H3>
+<ul>
+	<li>
+		<li><input style="WIDTH: 130px" type="text" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/toby')">&nbsp;<input onclick="SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/toby')" type="button" value="搜索" name="sa">
+	</li>
+</ul>
+
+<H3>积分与排名</H3>
+<ul>
+	<li>
+		积分 -
+		3134
+	<li>
+		排名 -
+		1810
+	</li>
+</ul>
+
+<h3>最新评论
+	<a id="SingleColumn1__1257ba0_RSSHyperlink1" href="http://www.blogjava.net/toby/CommentsRSS.aspx"><img src="/images/xml.gif" style="border-width:0px;" /></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__1257ba0_CommentList_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/05/260918.html#263986">1. re: Struts2的国际化</a>
+			</li>
+			<li style="word-break:break-all">
+				&lt;b&gt;ok&lt;/b&gt;
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--chenlin</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__1257ba0_CommentList_ctl02_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/05/260918.html#263985">2. re: Struts2的国际化</a>
+			</li>
+			<li style="word-break:break-all">
+				&lt;B&gt;说的好！&lt;/B&gt;
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--chenlin</li>
+		
+			</ul>
+		
+</div>
+
+<h3>阅读排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__647dce_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/01/01/249487.html">1. 用axis2开发webservice学习心得(293)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__647dce_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/toby/archive/2008/12/13/246123.html">2. svn服务器安装配置(236)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__647dce_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/31/263242.html">3. oracle各版本下载地址(213)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__647dce_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/toby/archive/2008/12/13/246124.html">4. apache和tomcat集群配置(211)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__647dce_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/toby/archive/2008/12/31/249332.html">5. 用jdbc连接oracle10g需要注意事项(164)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>评论排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__20e20bc_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/19/260918.html">1. Struts2的国际化(2)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__20e20bc_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/19/260917.html">2. 整合Struts2与Spring的步骤(0)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__20e20bc_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/19/260904.html">3. oracle中的rownum伪列的使用(0)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__20e20bc_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/18/260590.html">4. J2EE中web.xml的常用配置(0)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__20e20bc_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/18/260589.html">5. js树(0)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>60天内阅读排行</h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li>
+				<a id="SingleColumn1__c55c1_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/31/263242.html">1. oracle各版本下载地址(213)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__c55c1_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/31/263246.html">2. SUSE Linux 10下载(96)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__c55c1_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/24/267413.html">3. InputStream的三个read的区别(91)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__c55c1_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/04/29/268226.html">4. spring2.0 事务配置(75)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__c55c1_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/toby/archive/2009/03/28/262685.html">5. velocity和struts集成(55)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+<ul><li>
+<div id="cnblogsgooglead" width="180" height="150"></div>
+<div id="cnblogsgoogleadcode" style="display:none">
+<script type="text/javascript"><!--
+google_ad_client = "pub-4210569241504288";
+google_ad_width = 180;
+google_ad_height = 150;
+google_ad_format = "180x150_as";
+google_ad_channel ="";
+google_ad_type = "text";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</li></ul>
+				
+			</div>			
+			
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a id="Footer1_Hyperlink3" NAME="Hyperlink1" href="http://www.blogjava.net/" style="font-family:Verdana;font-size:12px;">BlogJava</a>
+	<br />
+	Copyright &copy; tobyxiong
+</p>
+	
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/script/ShowHidden.js"></script>
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-476124-3");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+</body>
+</html>

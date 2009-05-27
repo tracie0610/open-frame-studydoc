@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Hibernate与JDBC事务整合 - Spring - Java - JavaEye论坛</title>
+    <meta name="description" content="最近摸索了一下Hibernate与JDBC(iBATIS)事务整合问题，算是有点收获，写出来和大家讨论一下吧。。。 一般大家都会使用Spring声明型事务 transactionAttributes 为 PROPAGATION_REQUIRED Hibernate 使用 HibernateTransactionManager 、JDBC(iBATIS) 使用 DataSourceTransactio ..." />
+    <meta name="keywords" content=" Spring Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1242793770" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<a href=\'/adverts/2\' target=\'_blank\'><img src="http://ftp.javaeye.com/public/javaeye/rubyconfleft.png" style="BORDER:1px SOLID #000000" /></a>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Spring">Spring</a> <span class="arrow">&rarr;</span>
+    <h1>Hibernate与JDBC事务整合</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+      <a href='/forums/tag/Swing'>Swing</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    
+    <div class="info">浏览 3590 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/37707">主题：Hibernate与JDBC事务整合</a></div>
+        <div id='topic_rate_box'><a href="#" onclick="rate_topic('good'); return false;">精华帖</a> (0) :: <a href="#" onclick="rate_topic('mid'); return false;">良好帖</a> (0) :: <a href="#" onclick="rate_topic('new'); return false;">新手帖</a> (0) :: <a href="#" onclick="rate_topic('hidden'); return false;">隐藏帖</a> (0)</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_183067">
+  <td class="postauthor">
+    <ul>
+      <li class="name">finalbone</li>
+      <li>等级: <img src="/images/star2.gif" alt="二星会员" title="二星会员"/></li>
+      <li><a href='http://finalbone.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/21413/9ee8a120-d09d-4924-96c0-3db9ea22ebc5.jpg?1236832543" title="finalbone的博客: 灵魂的骨头" /></a></li>
+      <li>文章: 47</li>
+      <li>积分: 190</li>
+      <li>来自: 海边</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2006-12-07 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=Hibernate%E4%B8%8EJDBC%E4%BA%8B%E5%8A%A1%E6%95%B4%E5%90%88&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F37707' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/35907' title='解惑 spring 嵌套事务 ' target='_blank'>解惑 spring 嵌套事务 </a></li>
+                              <li><a href='http://www.javaeye.com/topic/11063' title='Spring真的能mixed JDBC和ORM?' target='_blank'>Spring真的能mixed JDBC和ORM?</a></li>
+                              <li><a href='http://www.javaeye.com/topic/131203' title='Spring JDBC和Hibernate混用时，如何配置事务管理' target='_blank'>Spring JDBC和Hibernate混用时，如何配置事务管理</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://struts2.group.javaeye.com" target="_blank">struts2</a></span>
+            <br/><a href="/wiki/topic/37707" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        <p>最近摸索了一下<font>Hibernate与JDBC(iBATIS)事务整合问题，算是有点收获，写出来和大家讨论一下吧。。。</font></p>
+<p>一般大家都会使用Spring声明型事务 transactionAttributes 为 <font>PROPAGATION_REQUIRED</font></p>
+<p>Hibernate 使用 HibernateTransactionManager 、JDBC(iBATIS) 使用 <font>DataSourceTransactionManager</font></p>
+<p>当需要将它们整合到一个事务中的时候</p>
+<p>普通的做法是配置统一的DataSource， Hibernate与JDBC(iBATIS) 都使用HibernateTransactionManager </p>
+<p><font>坛子里有篇帖子已经详细论述了这种整合方案 </font><font><a href='http://www.javaeye.com/topic/11063?page=2'>http://www.javaeye.com/topic/11063?page=2</a></font></p>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p>
+<p>Hibernate与JDBC(iBATIS) 都使用<font>DataSourceTransactionManager又可不可以呢？</font></p>
+<p>普遍的看法是 NO！ 认为<font>DataSourceTransactionManager根本就不处理Hibernate的session，事务当然无法实现。。。</font></p>
+<p>但事实是否真的如此呢？</p>
+<p><font>答案同样是 NO！ <a href='http://forum.springframework.org/archive/index.php/t-9878.html'>http://forum.springframework.org/archive/index.php/t-9878.html</a></font></p>
+<p><font><strong>Juergen Hoeller：<br/>
+Just if you proxy your JDBC DataSource with a TransactionAwareDataSourceProxy (available since Spring 1.1 RC1) and pass that proxy to your LocalSessionFactoryBean, you could use DataSourceTransactionManager in combination with Hibernate.</strong></font></p>
+<p>也就是说配置 <font>sessionFactory  的 <font>useTransactionAwareDataSource 为 true</font></font></p>
+<p>Hibernate与JDBC(iBATIS)  都使用 <font>DataSourceTransactionManager 同样可以保证事务</font></p>
+<p>原理就是保证了 connection 的唯一性。</p>
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li><li><a href='/adverts/170' target='_blank'><span style="color:blue;font-weight:bold;">5月份Struts 2.0最新技术专题系列讲座</span></a></li><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://finalbone.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://finalbone.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=finalbone" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://finalbone.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Spring'>Spring</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java编程和Java企业应用</option>
+<option value="web">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("forum_advert_b2").innerHTML = '<a href=\'/adverts/166\' target=\'_blank\'><span style="font-weight:bold;color:#FF3300;">首届亚太地区Android技术大会 5.16北京 5.17上海－JavaEye报名开始！</span></a>';});
+</script>
+</div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":37707, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
