@@ -1,0 +1,1684 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0039)http://superleo.javaeye.com/blog/214535 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <TITLE>【翻译】spring配置全书(下)&mdash;&mdash;附PDF完整版下载 - superleo - JavaEye技术网站</TITLE>
+    <META name="description" content="JMS  命名空间简介  &nbsp;   &nbsp;   Schema URI   www.springframework.org/schema/jms   &nbsp;   Schema XSD   www.springframework.org/schema/jee/spring-jms-2.5.xsd   &nbsp;   JMS  命名空间提供的元素可用来配置 message-driven POJO  （消息驱动 POJO   ...">
+    <META name="keywords" content="spring2.5, 配置大全  【翻译】spring配置全书(下)&mdash;&mdash;附PDF完整版下载">
+    <LINK rel="shortcut icon" href="http://superleo.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <LINK href="http://superleo.javaeye.com/rss" rel="alternate" title="superleo" type="application/rss+xml">
+    <LINK href="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<LINK href="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <SCRIPT src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/application.js" type="text/javascript"></SCRIPT>
+      <LINK href="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/shCoreCommon.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/hotkey.js" type="text/javascript"></SCRIPT>
+  <STYLE>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </STYLE>
+  <STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE></HEAD><BODY>
+    <DIV id="header">
+      <DIV id="blog_site_nav">
+  <A href="http://www.javaeye.com/" class="homepage">首页</A>
+  <A href="http://www.javaeye.com/news">新闻</A>
+  <A href="http://www.javaeye.com/forums">论坛</A>
+  <A href="http://www.javaeye.com/blogs">博客</A>
+  <A href="http://job.javaeye.com/">招聘</A>
+  <A href="http://superleo.javaeye.com/blog/214535#" onclick="return false;" id="msna"><U>更多</U> <SMALL>▼</SMALL></A>
+  <DIV class="quick_menu" style="display:none;">
+    <A href="http://www.javaeye.com/ask">问答</A>
+    <A href="http://www.javaeye.com/wiki">知识库</A>
+    <A href="http://www.javaeye.com/groups">圈子</A>
+    <A href="http://www.javaeye.com/search">搜索</A>
+  </DIV>
+</DIV>
+      <DIV id="user_nav">
+      <A href="http://frankswu.javaeye.com/" class="welcome" title="查看我的博客首页">欢迎 frankswu</A>
+    
+      <A href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</A>
+    
+    
+      <A href="http://app.javaeye.com/" title="我的应用首页">我的应用</A>
+    
+    <DIV class="quick_menu" style="display:none;">
+      <A href="http://app.javaeye.com/feed">我的订阅</A>
+      <A href="http://app.javaeye.com/feed/my">我的参与</A>
+      <A href="http://app.javaeye.com/chat">我的闲聊</A>
+      <A href="http://app.javaeye.com/mygroup">我的圈子</A>
+      <A href="http://app.javaeye.com/links">我的收藏</A>
+    </DIV>
+    
+    <A href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</A>
+    
+    <A href="http://app.javaeye.com/profile">设置</A>
+    <A href="http://superleo.javaeye.com/logout" class="nobg" onclick="var f = document.createElement(&#39;form&#39;); f.style.display = &#39;none&#39;; this.parentNode.appendChild(f); f.method = &#39;POST&#39;; f.action = this.href;var m = document.createElement(&#39;input&#39;); m.setAttribute(&#39;type&#39;, &#39;hidden&#39;); m.setAttribute(&#39;name&#39;, &#39;_method&#39;); m.setAttribute(&#39;value&#39;, &#39;put&#39;); f.appendChild(m);f.submit();return false;">退出</A>
+  </DIV>
+
+    </DIV>
+
+    <DIV id="page">
+      <DIV id="branding" class="clearfix">
+        <DIV id="blog_name"><H1><A href="http://superleo.javaeye.com/">superleo</A></H1></DIV>
+        <DIV id="blog_preview"></DIV>
+        <DIV id="blog_domain">永久域名 <A href="http://superleo.javaeye.com/">http://superleo.javaeye.com</A></DIV>
+      </DIV>
+      
+      
+      <DIV id="content" class="clearfix">
+        <DIV id="main">
+          
+
+
+          
+
+
+<DIV class="blog_main"> 
+  <DIV id="blog_nav">
+    <DIV class="digg" id="d214535"><H3><A href="http://superleo.javaeye.com/blog/214535#" onclick="digg(&quot;blogs&quot;, 214535, false);return false;" class="digg">20顶</A><BR><A href="http://superleo.javaeye.com/blog/214535#" onclick="digg(&quot;blogs&quot;, 214535, true);return false;" class="bury">7踩</A></H3></DIV>
+    <DIV id="pre_next">
+      <A href="http://superleo.javaeye.com/blog/223707" class="next">JavaFX预览版发布&mdash;&mdash;Mac用户却痛苦至极</A>
+      |
+      <A href="http://superleo.javaeye.com/blog/212515" class="pre">【翻译】spring配置全书(上)</A>
+    </DIV>
+  </DIV>
+  <DIV class="blog_title">
+    <DIV class="date"><SPAN class="year">2008</SPAN><SPAN class="sep_year">-</SPAN><SPAN class="month">07</SPAN><SPAN class="sep_month">-</SPAN><SPAN class="day">14</SPAN></DIV>
+    <H3 class="type_translate" title="翻译"><A href="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站.htm">【翻译】spring配置全书(下)&mdash;&mdash;附PDF完整版下载</A></H3>
+        <STRONG>关键字: spring2.5, 配置大全</STRONG>
+  </DIV>
+
+  <DIV class="blog_content">
+    <P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="">JMS </SPAN>
+<SPAN style="">命名空间简介</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Schema URI</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/jms</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Schema XSD</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/jee/spring-jms-2.5.xsd</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">JMS</SPAN>
+</SPAN>
+<SPAN style="">命名空间提供的元素可用来配置</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">message-driven POJO</SPAN>
+</SPAN>
+<SPAN style="">（消息驱动</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">POJO</SPAN>
+</SPAN>
+<SPAN style="">），</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">beans</SPAN>
+</SPAN>
+<SPAN style="">用来响应</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">JMS destination (</SPAN>
+</SPAN>
+<SPAN style="">比如说一个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">topic</SPAN>
+</SPAN>
+<SPAN style="">或</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">queue)</SPAN>
+</SPAN>
+<SPAN style="">。</SPAN>
+</SPAN>
+</P>
+<P>&nbsp;</P>
+<P><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/8884d6ab-d7f6-3bd0-b07d-f842ee529097.jpg" height="151" alt="" width="413">
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">JMS</SPAN>
+<SPAN style="">命名空间元素简介</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style=""><SPAN lang="EN-US"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/2c9f1d32-77cb-3585-a0c0-dbfbb6eaad1a.jpg" height="108" alt="" width="607">
+</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P><SPAN style=""><SPAN lang="EN-US">
+</SPAN></SPAN></P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">JMS</SPAN>
+<SPAN style="">命名空间实例</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN style="">在下面的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring</SPAN>
+</SPAN>
+<SPAN style="">配置文件中，我们建了一个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">message-driven POJO</SPAN>
+</SPAN>
+<SPAN style="">，用来响应</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">JMS</SPAN>
+</SPAN>
+<SPAN style="">上的消息队列。</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+
+
+<P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C&percnt;3Fxml&percnt;20version&percnt;3D&percnt;E2&percnt;80&percnt;9D1.0&percnt;E2&percnt;80&percnt;9D&percnt;20encoding&percnt;3D&percnt;E2&percnt;80&percnt;9DUTF-8&percnt;E2&percnt;80&percnt;9D&percnt;3F&percnt;3E&percnt;0A&percnt;3Cbeans&percnt;20xmlns&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Axsi&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.w3.org&percnt;2F2001&percnt;2FXMLSchema-instance&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Ajms&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fjms&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axsi&percnt;3AschemaLocation&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;2Fspring-beans-2.5.xsd&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fjms&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fjms&percnt;2Fspring-jms-2.5.xsd&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;0A&percnt;0A&percnt;3Cbean&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9DconnectionFactory&percnt;E2&percnt;80&percnt;9D&percnt;20class&percnt;3D&percnt;E2&percnt;80&percnt;9Dorg.apache.activemq.ActiveMQConnectionFactory&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cproperty&percnt;20name&percnt;3D&percnt;E2&percnt;80&percnt;9DbrokerURL&percnt;E2&percnt;80&percnt;9D&percnt;20value&percnt;3D&percnt;E2&percnt;80&percnt;9Dtcp&percnt;3A&percnt;2F&percnt;2Flocalhost&percnt;3A61616&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;3C&percnt;2Fbean&percnt;3E&percnt;0A&percnt;20&percnt;0A&percnt;3Cbean&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9DmessageHandlerService&percnt;E2&percnt;80&percnt;9D&percnt;20class&percnt;3D&percnt;E2&percnt;80&percnt;9Dcom.pirate.Message&percnt;C2&percnt;ACHandlerImpl&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;0A&percnt;3Cjms&percnt;3Alistener-container&percnt;20connection-factory&percnt;3D&percnt;E2&percnt;80&percnt;9DconnectionFactory&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cjms&percnt;3Alistener&percnt;20destination&percnt;3D&percnt;E2&percnt;80&percnt;9Dqueue.bottle&percnt;E2&percnt;80&percnt;9D&percnt;20ref&percnt;3D&percnt;E2&percnt;80&percnt;9DmessageHandlerService&percnt;E2&percnt;80&percnt;9D&percnt;20method&percnt;3D&percnt;E2&percnt;80&percnt;9DreadMessageFromBottle&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;3C&percnt;2Fjms&percnt;3Alistener-container&percnt;3E&percnt;0A&percnt;0A&percnt;3C&percnt;2Fbeans&percnt;3E&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;?</SPAN><SPAN class="tag-name">xml</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">version</SPAN><SPAN>=&rdquo;1.0&rdquo;&nbsp;</SPAN><SPAN class="attribute">encoding</SPAN><SPAN>=&rdquo;UTF-8&rdquo;</SPAN><SPAN class="tag">?&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">beans</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">xmlns</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:xsi</SPAN><SPAN>=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:jms</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/jms&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xsi:schemaLocation</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>http://www.springframework.org/schema/beans/spring-beans-2.5.xsd&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/jms&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/jms/spring-jms-2.5.xsd&rdquo;<SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">bean</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;connectionFactory&rdquo;&nbsp;</SPAN><SPAN class="attribute">class</SPAN><SPAN>=&rdquo;org.apache.activemq.ActiveMQConnectionFactory&rdquo;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">property</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">name</SPAN><SPAN>=&rdquo;brokerURL&rdquo;&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=&rdquo;tcp://localhost:61616&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">bean</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">bean</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;messageHandlerService&rdquo;&nbsp;</SPAN><SPAN class="attribute">class</SPAN><SPAN>=&rdquo;com.pirate.Message&not;HandlerImpl&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">jms:listener-container</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">connection-factory</SPAN><SPAN>=&rdquo;connectionFactory&rdquo;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">jms:listener</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">destination</SPAN><SPAN>=&rdquo;queue.bottle&rdquo;&nbsp;</SPAN><SPAN class="attribute">ref</SPAN><SPAN>=&rdquo;messageHandlerService&rdquo;&nbsp;</SPAN><SPAN class="attribute">method</SPAN><SPAN>=&rdquo;readMessageFromBottle&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">jms:listener-container</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">beans</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;?xml version=&rdquo;1.0&rdquo; encoding=&rdquo;UTF-8&rdquo;?&gt;
+&lt;beans xmlns=&rdquo;http://www.springframework.org/schema/beans&rdquo; 
+xmlns:xsi=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo; 
+xmlns:jms=&rdquo;http://www.springframework.org/schema/jms&rdquo; 
+xsi:schemaLocation=&rdquo;http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/jms 
+http://www.springframework.org/schema/jms/spring-jms-2.5.xsd&rdquo;&gt;
+
+&lt;bean id=&rdquo;connectionFactory&rdquo; class=&rdquo;org.apache.activemq.ActiveMQConnectionFactory&rdquo;&gt; 
+	&lt;property name=&rdquo;brokerURL&rdquo; value=&rdquo;tcp://localhost:61616&rdquo; /&gt; 
+&lt;/bean&gt;
+ 
+&lt;bean id=&rdquo;messageHandlerService&rdquo; class=&rdquo;com.pirate.Message&not;HandlerImpl&rdquo; /&gt; 
+
+&lt;jms:listener-container connection-factory=&rdquo;connectionFactory&rdquo;&gt; 
+	&lt;jms:listener destination=&rdquo;queue.bottle&rdquo; ref=&rdquo;messageHandlerService&rdquo; method=&rdquo;readMessageFromBottle&rdquo; /&gt; 
+&lt;/jms:listener-container&gt;
+
+&lt;/beans&gt;
+</PRE>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;jms:listener-container&gt;</SPAN>
+</SPAN>
+<SPAN style="">配置了一个容器，专门用于处理到达</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">JMS connection factory</SPAN>
+</SPAN>
+<SPAN style="">里的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">topics</SPAN>
+</SPAN>
+<SPAN style="">或</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">queues</SPAN>
+</SPAN>
+<SPAN style="">的消息。在这个元素里，你可以声明一个或多个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;jms:listener&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素，用来响应各自的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">topics</SPAN>
+</SPAN>
+<SPAN style="">。在这个例子中，单独的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;jms:listener&gt;</SPAN>
+</SPAN>
+<SPAN style="">会在消息到达&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">queue.bottle</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;这个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">topic</SPAN>
+</SPAN>
+<SPAN style="">时，调用&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">messageHandlerService</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">readMessageFromBottle()</SPAN>
+</SPAN>
+<SPAN style="">方法。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="">LANG </SPAN>
+<SPAN style="">命名空间简介</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Schema URI</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/lang</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Schema XSD</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/lang/spring-jms-2.5.xsd</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">LANG</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;命名空间允许你在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中配置</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">scripted objects(</SPAN>
+</SPAN>
+<SPAN style="">脚本对象</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">)</SPAN>
+</SPAN>
+<SPAN style="">。这些对象可以是</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Groovy</SPAN>
+</SPAN>
+<SPAN style="">，</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">JRuby</SPAN>
+</SPAN>
+<SPAN style="">或者</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">BeanShell</SPAN>
+</SPAN>
+<SPAN style="">。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/4ce31a45-92c4-3930-8b3d-9751393e57be.jpg" height="197" alt="" width="504">
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">LANG</SPAN>
+<SPAN style="">命名空间元素简介</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/7f194906-26b9-39be-b2d2-85484daa3c58.jpg" height="162" alt="" width="603">
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">LANG</SPAN>
+<SPAN style="">命名空间实例</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">在下面的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中，</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Pirate beans</SPAN>
+</SPAN>
+<SPAN style="">的属性分别被定义为</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;lang:groovy&gt;</SPAN>
+</SPAN>
+<SPAN style="">和</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;lang:jruby&gt;</SPAN>
+</SPAN>
+<SPAN style="">的两个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">scripted beans</SPAN>
+</SPAN>
+<SPAN style="">注入：</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C&percnt;3Fxml&percnt;20version&percnt;3D&percnt;E2&percnt;80&percnt;9D1.0&percnt;E2&percnt;80&percnt;9D&percnt;20encoding&percnt;3D&percnt;E2&percnt;80&percnt;9DUTF-8&percnt;E2&percnt;80&percnt;9D&percnt;3F&percnt;3E&percnt;0A&percnt;3Cbeans&percnt;20xmlns&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Axsi&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.w3.org&percnt;2F2001&percnt;2FXMLSchema-instance&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Alang&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Flang&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axsi&percnt;3AschemaLocation&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;2Fspring-beans-2.5.xsd&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Flang&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Flang&percnt;2Fspring-lang-2.5.xsd&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;20&percnt;0A&percnt;0A&percnt;3Cbean&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9DjackSparrow&percnt;E2&percnt;80&percnt;9D&percnt;20class&percnt;3D&percnt;E2&percnt;80&percnt;9DPirate&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cconstructor-arg&percnt;20value&percnt;3D&percnt;E2&percnt;80&percnt;9DJack&percnt;20Sparrow&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cproperty&percnt;20name&percnt;3D&percnt;E2&percnt;80&percnt;9Dcompass&percnt;E2&percnt;80&percnt;9D&percnt;20ref&percnt;3D&percnt;E2&percnt;80&percnt;9Dcompass&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cproperty&percnt;20name&percnt;3D&percnt;E2&percnt;80&percnt;9Dhat&percnt;E2&percnt;80&percnt;9D&percnt;20ref&percnt;3D&percnt;E2&percnt;80&percnt;9Dhat&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;3C&percnt;2Fbean&percnt;3E&percnt;0A&percnt;20&percnt;0A&percnt;3Clang&percnt;3Agroovy&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9Dcompass&percnt;E2&percnt;80&percnt;9D&percnt;20script-source&percnt;3D&percnt;E2&percnt;80&percnt;9Dclasspath&percnt;3ACompass.groovy&percnt;E2&percnt;80&percnt;9D&percnt;20refresh-check-delay&percnt;3D&percnt;E2&percnt;80&percnt;9D10000&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;3Clang&percnt;3Ajruby&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9Dhat&percnt;E2&percnt;80&percnt;9D&percnt;20script-source&percnt;3D&percnt;E2&percnt;80&percnt;9Dclasspath&percnt;3APirateHat.rb&percnt;E2&percnt;80&percnt;9D&percnt;20script-interface&percnt;3D&percnt;E2&percnt;80&percnt;9DPirateHat&percnt;E2&percnt;80&percnt;9D&percnt;20refresh-check-delay&percnt;3D&percnt;E2&percnt;80&percnt;9D60000&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;0A&percnt;0A&percnt;3C&percnt;2Fbeans&percnt;3E&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;?</SPAN><SPAN class="tag-name">xml</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">version</SPAN><SPAN>=&rdquo;1.0&rdquo;&nbsp;</SPAN><SPAN class="attribute">encoding</SPAN><SPAN>=&rdquo;UTF-8&rdquo;</SPAN><SPAN class="tag">?&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">beans</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">xmlns</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:xsi</SPAN><SPAN>=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:lang</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/lang&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xsi:schemaLocation</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>http://www.springframework.org/schema/beans/spring-beans-2.5.xsd&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/lang&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/lang/spring-lang-2.5.xsd&rdquo;<SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">bean</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;jackSparrow&rdquo;&nbsp;</SPAN><SPAN class="attribute">class</SPAN><SPAN>=&rdquo;Pirate&rdquo;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">constructor-arg</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">value</SPAN><SPAN>=&rdquo;Jack&nbsp;Sparrow&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">property</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">name</SPAN><SPAN>=&rdquo;compass&rdquo;&nbsp;</SPAN><SPAN class="attribute">ref</SPAN><SPAN>=&rdquo;compass&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">property</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">name</SPAN><SPAN>=&rdquo;hat&rdquo;&nbsp;</SPAN><SPAN class="attribute">ref</SPAN><SPAN>=&rdquo;hat&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">bean</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">lang:groovy</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;compass&rdquo;&nbsp;</SPAN><SPAN class="attribute">script-source</SPAN><SPAN>=&rdquo;classpath:Compass.groovy&rdquo;&nbsp;</SPAN><SPAN class="attribute">refresh-check-delay</SPAN><SPAN>=&rdquo;10000&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">lang:jruby</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;hat&rdquo;&nbsp;</SPAN><SPAN class="attribute">script-source</SPAN><SPAN>=&rdquo;classpath:PirateHat.rb&rdquo;&nbsp;</SPAN><SPAN class="attribute">script-interface</SPAN><SPAN>=&rdquo;PirateHat&rdquo;&nbsp;</SPAN><SPAN class="attribute">refresh-check-delay</SPAN><SPAN>=&rdquo;60000&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">beans</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;?xml version=&rdquo;1.0&rdquo; encoding=&rdquo;UTF-8&rdquo;?&gt;
+&lt;beans xmlns=&rdquo;http://www.springframework.org/schema/beans&rdquo; 
+xmlns:xsi=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo; 
+xmlns:lang=&rdquo;http://www.springframework.org/schema/lang&rdquo; 
+xsi:schemaLocation=&rdquo;http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/lang 
+http://www.springframework.org/schema/lang/spring-lang-2.5.xsd&rdquo;&gt; 
+
+&lt;bean id=&rdquo;jackSparrow&rdquo; class=&rdquo;Pirate&rdquo;&gt; 
+	&lt;constructor-arg value=&rdquo;Jack Sparrow&rdquo; /&gt; 
+	&lt;property name=&rdquo;compass&rdquo; ref=&rdquo;compass&rdquo; /&gt; 
+	&lt;property name=&rdquo;hat&rdquo; ref=&rdquo;hat&rdquo; /&gt; 
+&lt;/bean&gt;
+ 
+&lt;lang:groovy id=&rdquo;compass&rdquo; script-source=&rdquo;classpath:Compass.groovy&rdquo; refresh-check-delay=&rdquo;10000&rdquo; /&gt; 
+&lt;lang:jruby id=&rdquo;hat&rdquo; script-source=&rdquo;classpath:PirateHat.rb&rdquo; script-interface=&rdquo;PirateHat&rdquo; refresh-check-delay=&rdquo;60000&rdquo; /&gt;
+
+&lt;/beans&gt;
+</PRE>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;lang:groovy&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素建了一个由</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Groovy script</SPAN>
+</SPAN>
+<SPAN style="">实现的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">，名字叫</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Compass.groovy</SPAN>
+</SPAN>
+<SPAN style="">并且放在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">classpath</SPAN>
+</SPAN>
+<SPAN style="">的根目录下。</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">refresh-check-delay</SPAN>
+</SPAN>
+<SPAN style="">属性表示每</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">10</SPAN>
+</SPAN>
+<SPAN style="">秒钟看看该</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">script</SPAN>
+</SPAN>
+<SPAN style="">是否改变了，然后对其进行相应的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">update</SPAN>
+</SPAN>
+<SPAN style="">和</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">reload</SPAN>
+</SPAN>
+<SPAN style="">操作。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;lang:jruby&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素建了一个由</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Ruby(</SPAN>
+</SPAN>
+<SPAN style="">指定为</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">JRuby) script</SPAN>
+</SPAN>
+<SPAN style="">实现的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">，名字叫</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PirateHat.rb</SPAN>
+</SPAN>
+<SPAN style="">。它实现了</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PirateHat</SPAN>
+</SPAN>
+<SPAN style="">接口并每分钟都会检查是否需要</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">update</SPAN>
+</SPAN>
+<SPAN style="">。</SPAN>
+<SPAN style="font-family: Times New Roman;"> </SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="">TX </SPAN>
+<SPAN style="">命名空间简介</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Schema URI</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/tx</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Schema XSD</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/tx/spring-jms-2.5.xsd</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">TX</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;命名空间为声明在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中的那些</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Beans</SPAN>
+</SPAN>
+<SPAN style="">提供声明式事务处理的支持。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/19463bb9-d87d-3d7a-a4f7-a0e24c0cf500.jpg" height="122" alt="" width="528">
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">TX</SPAN>
+<SPAN style="">命名空间元素简介</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style=""><SPAN lang="EN-US"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/646877cb-63f4-389b-8c0b-25bf26c2522d.jpg" height="144" alt="" width="603">
+</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P><SPAN style=""><SPAN lang="EN-US">
+</SPAN></SPAN></P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">TX</SPAN>
+<SPAN style="">命名空间实例</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN style="">在下面的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中，使用了</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">tx</SPAN>
+</SPAN>
+<SPAN style="">命名空间下的元素，用来配置事务规则和界限：</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+
+
+<P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C&percnt;3Fxml&percnt;20version&percnt;3D&percnt;E2&percnt;80&percnt;9D1.0&percnt;E2&percnt;80&percnt;9D&percnt;20encoding&percnt;3D&percnt;E2&percnt;80&percnt;9DUTF-8&percnt;E2&percnt;80&percnt;9D&percnt;3F&percnt;3E&percnt;0A&percnt;3Cbeans&percnt;20xmlns&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Axsi&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.w3.org&percnt;2F2001&percnt;2FXMLSchema-instance&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Atx&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Ftx&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Aaop&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Faop&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axsi&percnt;3AschemaLocation&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;2Fspring-beans-2.5.xsd&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Faop&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Faop&percnt;2Fspring-aop-2.5.xsd&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Ftx&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Ftx&percnt;2Fspring-tx-2.5.xsd&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;20&percnt;0A&percnt;0A&percnt;3Ctx&percnt;3Ajta-transaction-manager&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;3Ctx&percnt;3Aadvice&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9DtxAdvice&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Ctx&percnt;3Aattributes&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;09&percnt;3Ctx&percnt;3Amethod&percnt;20name&percnt;3D&percnt;E2&percnt;80&percnt;9Dplunder*&percnt;E2&percnt;80&percnt;9D&percnt;20propagation&percnt;3D&percnt;E2&percnt;80&percnt;9DREQUIRED&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;09&percnt;3Ctx&percnt;3Amethod&percnt;20name&percnt;3D&percnt;E2&percnt;80&percnt;9D*&percnt;E2&percnt;80&percnt;9D&percnt;20propagation&percnt;3D&percnt;E2&percnt;80&percnt;9DSUPPORTS&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3C&percnt;2Ftx&percnt;3Aattributes&percnt;3E&percnt;20&percnt;0A&percnt;3C&percnt;2Ftx&percnt;3Aadvice&percnt;3E&percnt;20&percnt;0A&percnt;0A&percnt;3Caop&percnt;3Aconfig&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Caop&percnt;3Aadvisor&percnt;20pointcut&percnt;3D&percnt;E2&percnt;80&percnt;9Dexecution(*&percnt;20..Pirate.*(..))&percnt;E2&percnt;80&percnt;9D&percnt;20advice-ref&percnt;3D&percnt;E2&percnt;80&percnt;9DtxAdvice&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;3C&percnt;2Faop&percnt;3Aconfig&percnt;3E&percnt;0A&percnt;0A&percnt;3C&percnt;2Fbeans&percnt;3E&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;?</SPAN><SPAN class="tag-name">xml</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">version</SPAN><SPAN>=&rdquo;1.0&rdquo;&nbsp;</SPAN><SPAN class="attribute">encoding</SPAN><SPAN>=&rdquo;UTF-8&rdquo;</SPAN><SPAN class="tag">?&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">beans</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">xmlns</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:xsi</SPAN><SPAN>=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:tx</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/tx&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:aop</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/aop&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xsi:schemaLocation</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>http://www.springframework.org/schema/beans/spring-beans-2.5.xsd&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/aop&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/aop/spring-aop-2.5.xsd&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/tx&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/tx/spring-tx-2.5.xsd&rdquo;<SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">tx:jta-transaction-manager</SPAN><SPAN>&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">tx:advice</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;txAdvice&rdquo;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">tx:attributes</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">tx:method</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">name</SPAN><SPAN>=&rdquo;plunder*&rdquo;&nbsp;</SPAN><SPAN class="attribute">propagation</SPAN><SPAN>=&rdquo;REQUIRED&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">tx:method</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">name</SPAN><SPAN>=&rdquo;*&rdquo;&nbsp;</SPAN><SPAN class="attribute">propagation</SPAN><SPAN>=&rdquo;SUPPORTS&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">tx:attributes</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">tx:advice</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">aop:config</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">aop:advisor</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">pointcut</SPAN><SPAN>=&rdquo;execution(*&nbsp;..Pirate.*(..))&rdquo;&nbsp;</SPAN><SPAN class="attribute">advice-ref</SPAN><SPAN>=&rdquo;txAdvice&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">aop:config</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">beans</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;?xml version=&rdquo;1.0&rdquo; encoding=&rdquo;UTF-8&rdquo;?&gt;
+&lt;beans xmlns=&rdquo;http://www.springframework.org/schema/beans&rdquo; 
+xmlns:xsi=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo; 
+xmlns:tx=&rdquo;http://www.springframework.org/schema/tx&rdquo; 
+xmlns:aop=&rdquo;http://www.springframework.org/schema/aop&rdquo; 
+xsi:schemaLocation=&rdquo;http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-2.5.xsd&rdquo;&gt; 
+
+&lt;tx:jta-transaction-manager /&gt; 
+&lt;tx:advice id=&rdquo;txAdvice&rdquo;&gt; 
+	&lt;tx:attributes&gt; 
+		&lt;tx:method name=&rdquo;plunder*&rdquo; propagation=&rdquo;REQUIRED&rdquo; /&gt; 
+		&lt;tx:method name=&rdquo;*&rdquo; propagation=&rdquo;SUPPORTS&rdquo; /&gt; 
+	&lt;/tx:attributes&gt; 
+&lt;/tx:advice&gt; 
+
+&lt;aop:config&gt; 
+	&lt;aop:advisor pointcut=&rdquo;execution(* ..Pirate.*(..))&rdquo; advice-ref=&rdquo;txAdvice&rdquo; /&gt; 
+&lt;/aop:config&gt;
+
+&lt;/beans&gt;
+</PRE>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P><SPAN style=""><SPAN lang="EN-US">
+</SPAN></SPAN></P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;tx:jta-transaction-manager&gt;</SPAN>
+</SPAN>
+<SPAN style="">已经加入到</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring2.5</SPAN>
+</SPAN>
+<SPAN style="">中用于自动检测由</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">WebLogic</SPAN>
+</SPAN>
+<SPAN style="">，</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">WebSphere</SPAN>
+</SPAN>
+<SPAN style="">或</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">OC4J</SPAN>
+</SPAN>
+<SPAN style="">提供的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">JTA</SPAN>
+</SPAN>
+<SPAN style="">事务管理。它默认是以叫&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">transactionManager</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">配置在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中的。</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN style="">接下来，</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;tx:advice&gt;</SPAN>
+</SPAN>
+<SPAN style="">建立了一个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">AOP advice</SPAN>
+</SPAN>
+<SPAN style="">用于声明事务处理规则。在这个例子中，任何以&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">plunder</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;为前缀的方法都会得到一个事务。其它方法的规则则是&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">support</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;事务，并不要求一定会有事务来参与。最后，这个从先前</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">aop</SPAN>
+</SPAN>
+<SPAN style="">命令空间借用的例子使用了具备事务性质的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">advice</SPAN>
+</SPAN>
+<SPAN style="">来配置成一个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">AOP advistor</SPAN>
+</SPAN>
+<SPAN style="">。定义在这儿的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">pointcut</SPAN>
+</SPAN>
+<SPAN style="">只对</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Pirate</SPAN>
+</SPAN>
+<SPAN style="">类的所有方法起作用。</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="color: #000000; font-size: small;">温馨提示：</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Java</SPAN>
+</SPAN>
+<SPAN style="">事务配置规则</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN style="">如果你正在考虑压缩</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring</SPAN>
+</SPAN>
+<SPAN style="">配置的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">XML</SPAN>
+</SPAN>
+<SPAN style="">数据的话，考虑用</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;tx:annotation-driven&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素试试吧。一旦该元素配置好了，你可以使用开始使用</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">annotation</SPAN>
+</SPAN>
+<SPAN style="">来配置你的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">beans</SPAN>
+</SPAN>
+<SPAN style="">，而且只要使用</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">@Transactional</SPAN>
+</SPAN>
+<SPAN style="">来定义事务边界和规则即可。你可以看看</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring In Action 2nd </SPAN>
+</SPAN>
+<SPAN style="">第六章</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">6.4.4</SPAN>
+</SPAN>
+<SPAN style="">节了解更多内容。</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+
+
+<IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/96b672cc-a8c0-345d-a3ad-306d3292868b.jpg" height="281" alt="" width="420">
+<P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="">UTIL </SPAN>
+<SPAN style="">命名空间简介</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;"><SPAN style="color: #000000;">Schema URI</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/util</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;"><SPAN style="color: #000000;">Schema XSD</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">www.springframework.org/schema/util/spring-jms-2.5.xsd</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">util</SPAN>
+</SPAN>
+<SPAN style="">命名空间可以将</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">collections</SPAN>
+</SPAN>
+<SPAN style="">和其它</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">non-bean</SPAN>
+</SPAN>
+<SPAN style="">对象封装在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring</SPAN>
+</SPAN>
+<SPAN style="">配置文件中，让你感觉它们同其它</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">没有什么区别。</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">UTIL</SPAN>
+<SPAN style="">命名空间元素简介</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style=""><SPAN lang="EN-US"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/c9935ff7-ea5a-34c7-8a0a-10744df281cf.jpg" height="197" alt="" width="602">
+</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;">
+</SPAN>
+</P>
+<P><SPAN style=""><SPAN lang="EN-US">
+</SPAN></SPAN></P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">UTIL</SPAN>
+<SPAN style="">命名空间实例</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; color: #000000; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN style="">在下面的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">配置文件中，使用了</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">util</SPAN>
+</SPAN>
+<SPAN style="">命名空间下的元素：</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+
+
+<P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C&percnt;3Fxml&percnt;20version&percnt;3D&percnt;E2&percnt;80&percnt;9D1.0&percnt;E2&percnt;80&percnt;9D&percnt;20encoding&percnt;3D&percnt;E2&percnt;80&percnt;9DUTF-8&percnt;E2&percnt;80&percnt;9D&percnt;3F&percnt;3E&percnt;0A&percnt;3Cbeans&percnt;20xmlns&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Axsi&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.w3.org&percnt;2F2001&percnt;2FXMLSchema-instance&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axmlns&percnt;3Autil&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Futil&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;0Axsi&percnt;3AschemaLocation&percnt;3D&percnt;E2&percnt;80&percnt;9Dhttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Fbeans&percnt;2Fspring-beans-2.5.xsd&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Futil&percnt;20&percnt;0Ahttp&percnt;3A&percnt;2F&percnt;2Fwww.springframework.org&percnt;2Fschema&percnt;2Futil&percnt;2Fspring-util-2.5.xsd&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;0A&percnt;0A&percnt;3Cutil&percnt;3Alist&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9DpiratePhrases&percnt;E2&percnt;80&percnt;9D&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cvalue&percnt;3EYo&percnt;20ho&percnt;20ho&percnt;3C&percnt;2Fvalue&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cvalue&percnt;3EYarr&percnt;3C&percnt;2Fvalue&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cvalue&percnt;3EAvast&percnt;20me&percnt;20hearties!&percnt;3C&percnt;2Fvalue&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cvalue&percnt;3EBlow&percnt;20me&percnt;20down&percnt;3C&percnt;2Fvalue&percnt;3E&percnt;20&percnt;0A&percnt;3C&percnt;2Futil&percnt;3Alist&percnt;3E&percnt;20&percnt;0A&percnt;0A&percnt;3Cutil&percnt;3Aconstant&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9DpirateCode&percnt;E2&percnt;80&percnt;9D&percnt;20static-field&percnt;3D&percnt;E2&percnt;80&percnt;9DPirate.PIRATE_CODE&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;20&percnt;0A&percnt;09&percnt;3Cutil&percnt;3Aproperty-path&percnt;20id&percnt;3D&percnt;E2&percnt;80&percnt;9DdoubloonCount&percnt;E2&percnt;80&percnt;9D&percnt;20path&percnt;3D&percnt;E2&percnt;80&percnt;9Dpirate.treasure.doubloonCount&percnt;E2&percnt;80&percnt;9D&percnt;20&percnt;2F&percnt;3E&percnt;0A&percnt;3C&percnt;2Fbeans&percnt;3E&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;?</SPAN><SPAN class="tag-name">xml</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">version</SPAN><SPAN>=&rdquo;1.0&rdquo;&nbsp;</SPAN><SPAN class="attribute">encoding</SPAN><SPAN>=&rdquo;UTF-8&rdquo;</SPAN><SPAN class="tag">?&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">beans</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">xmlns</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:xsi</SPAN><SPAN>=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xmlns:util</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/util&rdquo;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="attribute">xsi:schemaLocation</SPAN><SPAN>=&rdquo;http://www.springframework.org/schema/beans&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>http://www.springframework.org/schema/beans/spring-beans-2.5.xsd&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/util&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>http://www.springframework.org/schema/util/spring-util-2.5.xsd&rdquo;<SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">util:list</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;piratePhrases&rdquo;</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Yo&nbsp;ho&nbsp;ho</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Yarr</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Avast&nbsp;me&nbsp;hearties!</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Blow&nbsp;me&nbsp;down</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">value</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">util:list</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">util:constant</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;pirateCode&rdquo;&nbsp;</SPAN><SPAN class="attribute">static-field</SPAN><SPAN>=&rdquo;Pirate.PIRATE_CODE&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">util:property-path</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">id</SPAN><SPAN>=&rdquo;doubloonCount&rdquo;&nbsp;</SPAN><SPAN class="attribute">path</SPAN><SPAN>=&rdquo;pirate.treasure.doubloonCount&rdquo;&nbsp;</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">beans</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;?xml version=&rdquo;1.0&rdquo; encoding=&rdquo;UTF-8&rdquo;?&gt;
+&lt;beans xmlns=&rdquo;http://www.springframework.org/schema/beans&rdquo; 
+xmlns:xsi=&rdquo;http://www.w3.org/2001/XMLSchema-instance&rdquo; 
+xmlns:util=&rdquo;http://www.springframework.org/schema/util&rdquo; 
+xsi:schemaLocation=&rdquo;http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/util 
+http://www.springframework.org/schema/util/spring-util-2.5.xsd&rdquo;&gt;
+
+&lt;util:list id=&rdquo;piratePhrases&rdquo;&gt; 
+	&lt;value&gt;Yo ho ho&lt;/value&gt; 
+	&lt;value&gt;Yarr&lt;/value&gt; 
+	&lt;value&gt;Avast me hearties!&lt;/value&gt; 
+	&lt;value&gt;Blow me down&lt;/value&gt; 
+&lt;/util:list&gt; 
+
+&lt;util:constant id=&rdquo;pirateCode&rdquo; static-field=&rdquo;Pirate.PIRATE_CODE&rdquo; /&gt; 
+	&lt;util:property-path id=&rdquo;doubloonCount&rdquo; path=&rdquo;pirate.treasure.doubloonCount&rdquo; /&gt;
+&lt;/beans&gt;
+</PRE>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P><SPAN style="">
+</SPAN></P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;util:list&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素用来建一个持有</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">String</SPAN>
+</SPAN>
+<SPAN style="">的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">list</SPAN>
+</SPAN>
+<SPAN style="">。</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;util:constant&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素则是用来建立一个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Pirate</SPAN>
+</SPAN>
+<SPAN style="">类的常量字段&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">PIRATE_CODE</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">(</SPAN>
+</SPAN>
+<SPAN style="">该字段是</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">public static</SPAN>
+</SPAN>
+<SPAN style="">标识符</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">)</SPAN>
+</SPAN>
+<SPAN style="">的引用。最后，</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;util:property-path&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素先从&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">pirate</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">得到它的&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">treasure</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;属性，再从&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">treasure</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;得到它的属性&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">doubloonCount</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;，再将这个&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">doubloonCount</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;暴露在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中。（注意上面配置文件中的&ldquo;</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">pirate.treasure.doubloonCount</SPAN>
+</SPAN>
+<SPAN style="">&rdquo;里面的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">pirate</SPAN>
+</SPAN>
+<SPAN style="">是已经配置在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">，这里作者并没有配置出来。）以上三个配置实例里，都通过</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">util</SPAN>
+</SPAN>
+<SPAN style="">命名空间元素将其暴露在</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring context</SPAN>
+</SPAN>
+<SPAN style="">中去了，然后你可以随意将它们注入到其它的</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">beans</SPAN>
+</SPAN>
+<SPAN style="">中去。</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P><SPAN style="color: #000000;">
+</SPAN></P><P><SPAN style="">
+</SPAN></P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="">Spring Annotation</SPAN>
+<SPAN style="">简介</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">历史上，</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring</SPAN>
+</SPAN>
+<SPAN style="">的配置最初只涵盖</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">XML</SPAN>
+</SPAN>
+<SPAN style="">方式。但是</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring</SPAN>
+</SPAN>
+<SPAN style="">渐渐也与基于</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">annotation</SPAN>
+</SPAN>
+<SPAN style="">的配置方式打成一片。到了</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring2.5</SPAN>
+</SPAN>
+<SPAN style="">，已经提供超过</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">36</SPAN>
+</SPAN>
+<SPAN style="">个</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">annotation</SPAN>
+</SPAN>
+<SPAN style="">的支持了，这还不包括第三方类库和</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring add-ons</SPAN>
+</SPAN>
+<SPAN style="">。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Context Configuration Annoations</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="">这一组</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">annotations</SPAN>
+</SPAN>
+<SPAN style="">主要是让</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">Spring</SPAN>
+</SPAN>
+<SPAN style="">来创建和注入</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">bean</SPAN>
+</SPAN>
+<SPAN style="">对象的。</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+
+<P>
+
+</P><P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/251c45b3-51b0-36a7-b6b2-d4f6d2d3e85d.jpg" height="437" alt="" width="606">
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Transaction Annoations</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">@Transactional annotation</SPAN>
+</SPAN>
+<SPAN style="">协同</SPAN>
+<SPAN lang="EN-US"><SPAN style="font-family: Times New Roman;">&lt;tx:annotation-driven&gt;</SPAN>
+</SPAN>
+<SPAN style="">元素用来为类或方法声明事务边界和规则。</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+
+<P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style="font-size: small;"><SPAN style="color: #000000;"><SPAN style=""><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/463d7627-e6ac-3f64-b567-f2b6edde90fa.jpg" height="67" alt="" width="601">
+</SPAN>
+</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P><SPAN style="color: #000000;">
+</SPAN></P><P><SPAN style="">
+</SPAN></P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN style=""><SPAN style="font-size: small;">Stereotyping Annoations</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><SPAN lang="EN-US"><SPAN style="font-family: Times New Roman; font-size: small;">&nbsp;</SPAN>
+</SPAN>
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><!----><!---->
+<!---->
+</P>
+<P class="MsoNormal"><SPAN style="">这组</SPAN>
+<SPAN lang="EN-US">annotations</SPAN>
+<SPAN style="">主要用在应用程序中各个层次中的</SPAN>
+<SPAN lang="EN-US">stereotype</SPAN>
+<SPAN style="">类型。如果在</SPAN>
+<SPAN lang="EN-US">Spring</SPAN>
+<SPAN style="">配置文件中还配置了</SPAN>
+<SPAN lang="EN-US">&lt;context:component-scan&gt;</SPAN>
+<SPAN style="">元素，而且某个类还被标注了下列</SPAN>
+<SPAN lang="EN-US">annotation</SPAN>
+<SPAN style="">的话，该类就会自动被注册到</SPAN>
+<SPAN lang="EN-US">Spring context</SPAN>
+<SPAN style="">中去。</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="">另外，如果一个</SPAN>
+<SPAN lang="EN-US">PersistenceExceptionTranslationPostProcessor</SPAN>
+<SPAN style="">配置在</SPAN>
+<SPAN lang="EN-US">Spring context</SPAN>
+<SPAN style="">中，那么任何标记了</SPAN>
+<SPAN lang="EN-US">@Repository annotation</SPAN>
+<SPAN style="">的</SPAN>
+<SPAN lang="EN-US">bean</SPAN>
+<SPAN style="">在方法执行过程中抛出的</SPAN>
+<SPAN lang="EN-US">SQLExceptions</SPAN>
+<SPAN style="">会被转换成</SPAN>
+<SPAN lang="EN-US">Spring</SPAN>
+<SPAN style="">的</SPAN>
+<SPAN lang="EN-US">unchecked
+DataAccessExceptions</SPAN>
+<SPAN style="">。</SPAN>
+</P>
+
+<P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/7bd8e367-e098-3548-ab15-6f3712427279.jpg" height="214" alt="" width="598">
+</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><!----><!---->
+<!---->
+</P>
+<P class="MsoNormal"><SPAN style="">Spring MVC Annoations</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="">这组</SPAN>
+<SPAN lang="EN-US">annotations</SPAN>
+<SPAN style="">到</SPAN>
+<SPAN lang="EN-US">Spring2.5</SPAN>
+<SPAN style="">时才被引入。它让</SPAN>
+<SPAN lang="EN-US">Spring MVC</SPAN>
+<SPAN style="">应用程序的创建变得更加容易，不仅将</SPAN>
+<SPAN lang="EN-US">XML</SPAN>
+<SPAN style="">配置文件缩减到最小化，而且不需要去继承</SPAN>
+<SPAN lang="EN-US">Controller
+interface</SPAN>
+<SPAN style="">的实现了。</SPAN>
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/0899c519-39c5-32fd-9fb9-0461a6fa4d52.jpg" height="264" alt="" width="598">
+</P>
+
+<P>
+</P><P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</P>
+<P class="MsoNormal" style="margin: 0cm 0cm 0pt;"><!---->
+</P>
+<P class="MsoNormal"><SPAN style="">JMX Annoations</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN style="">这组</SPAN>
+<SPAN lang="EN-US">annotations</SPAN>
+<SPAN style="">协同</SPAN>
+<SPAN lang="EN-US">&lt;context:mbean-export&gt;</SPAN>
+<SPAN style="">元素，将</SPAN>
+<SPAN lang="EN-US">bean</SPAN>
+<SPAN style="">的方法和属性声明为</SPAN>
+<SPAN lang="EN-US">MBean</SPAN>
+<SPAN style="">的操作和属性。</SPAN>
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/72649729-d57a-3bb4-8737-491068d603b1.jpg" height="216" alt="" width="598">
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><!---->
+</P>
+<P class="MsoNormal"><SPAN style="">Testing Annoations</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><SPAN lang="EN-US">&nbsp;</SPAN>
+</P>
+<P class="MsoNormal"><!----><!---->
+<!---->
+</P>
+<P class="MsoNormal"><SPAN style="">这组</SPAN>
+<SPAN lang="EN-US">annotations</SPAN>
+<SPAN style="">主要用来建立</SPAN>
+<SPAN lang="EN-US">JUnit4</SPAN>
+<SPAN style="">风格的单元测试，但前提是得依赖于</SPAN>
+<SPAN lang="EN-US">Spring context</SPAN>
+<SPAN style="">中定义的</SPAN>
+<SPAN lang="EN-US">beans</SPAN>
+<SPAN style="">或一个</SPAN>
+<SPAN lang="EN-US">transactional context</SPAN>
+<SPAN style="">。</SPAN>
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/f2b18fff-f38f-31f9-bcb1-59a1fee7a2bd.jpg" height="560" alt="" width="601">
+</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal">&nbsp;</P>
+<P class="MsoNormal">全文完</P>
+<P class="MsoNormal">&nbsp;</P>
+  </DIV>
+
+  <DIV id="digg_bottom" class="clearfix"><A href="http://superleo.javaeye.com/blog/214535#" onclick="digg(&quot;blogs&quot;, 214535, false);return false;"><DIV><STRONG>20</STRONG> <BR>顶</DIV></A><A href="http://superleo.javaeye.com/blog/214535#" onclick="digg(&quot;blogs&quot;, 214535, true);return false;"><DIV><STRONG>7</STRONG> <BR>踩</DIV></A></DIV>
+
+  
+  <DIV class="attachments">
+    
+      
+        <UL>
+          <LI><A href="http://superleo.javaeye.com/topics/download/5a95484c-0427-39c5-8031-11cdfd70fdfe">spring配置全书.rar</A> (252.5 KB)</LI>
+          <LI>描述: spring配置全书PDF完整版</LI>
+          <LI>下载次数: 2116</LI>
+        </UL>
+      
+    
+    
+  </DIV>
+
+
+  <DIV class="blog_bottom">
+    <UL>
+      <LI>12:30</LI>
+      <LI>浏览 (4901)</LI>
+            <LI><A href="http://superleo.javaeye.com/blog/214535#comments">评论</A> (36)</LI>
+      <LI>分类: <A href="http://superleo.javaeye.com/category/26042">专家文章翻译</A></LI>
+      <LI>发布在 <A href="http://struts2.group.javaeye.com/">struts2</A> 圈子
+      
+        </LI><LI><A href="http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91spring%E9%85%8D%E7%BD%AE%E5%85%A8%E4%B9%A6%28%E4%B8%8B%29%E2%80%94%E2%80%94%E9%99%84PDF%E5%AE%8C%E6%95%B4%E7%89%88%E4%B8%8B%E8%BD%BD&user_favorite%5Burl%5D=http%3A%2F%2Fsuperleo.javaeye.com%2Fblog%2F214535" target="_blank" class="favorite">收藏</A></LI>
+        
+      
+      
+      <LI class="last"><A href="http://www.javaeye.com/wiki/topic/214535" target="_blank" class="more">相关推荐</A></LI>
+    </UL>
+  </DIV>
+
+  
+  
+
+  <DIV class="blog_comment">
+    <H5>评论</H5>
+    <A id="comments" name="comments"></A>
+    <DIV id="bc898960">
+  <DIV class="comment_title">
+    36 楼
+    <A href="http://sorry1520-163-com.javaeye.com/" target="_blank">fisher-fisher</A>
+    2009-02-25&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">楼主辛苦了，谢谢楼主！！！</DIV>
+</DIV>
+<DIV id="bc868725">
+  <DIV class="comment_title">
+    35 楼
+    <A href="http://norwind.javaeye.com/" target="_blank">norwind</A>
+    2009-02-08&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">很好很好的文档<BR><BR>谢谢楼主</DIV>
+</DIV>
+<DIV id="bc788863">
+  <DIV class="comment_title">
+    34 楼
+    <A href="http://lanbomb.javaeye.com/" target="_blank">lanbomb</A>
+    2008-12-12&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">非常感谢，支持楼主</DIV>
+</DIV>
+<DIV id="bc776260">
+  <DIV class="comment_title">
+    33 楼
+    <A href="http://lujiawu12.javaeye.com/" target="_blank">lujiawu12</A>
+    2008-12-05&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">下了好东西还是应该顶下楼主的</DIV>
+</DIV>
+<DIV id="bc775017">
+  <DIV class="comment_title">
+    32 楼
+    <A href="http://daoyongyu.javaeye.com/" target="_blank">daoyongyu</A>
+    2008-12-04&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">楼主辛苦了。谢谢哈。</DIV>
+</DIV>
+<DIV id="bc772106">
+  <DIV class="comment_title">
+    31 楼
+    <A href="http://walsh.javaeye.com/" target="_blank">walsh</A>
+    2008-12-02&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">楼主辛苦了，谢谢楼主！！！</DIV>
+</DIV>
+<DIV id="bc756474">
+  <DIV class="comment_title">
+    30 楼
+    <A href="http://chaoao.javaeye.com/" target="_blank">chaoao</A>
+    2008-11-25&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">lz辛苦了</DIV>
+</DIV>
+<DIV id="bc692733">
+  <DIV class="comment_title">
+    29 楼
+    <A href="http://vdgame.javaeye.com/" target="_blank">vdgame</A>
+    2008-10-10&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/icon_idea.gif"> 谢谢你的文档！</DIV>
+</DIV>
+<DIV id="bc652525">
+  <DIV class="comment_title">
+    28 楼
+    <A href="http://xiaoqulai.javaeye.com/" target="_blank">xiaoqulai</A>
+    2008-09-03&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">楼主头像好漂亮</DIV>
+</DIV>
+<DIV id="bc651278">
+  <DIV class="comment_title">
+    27 楼
+    <A href="http://yangjinghuan.javaeye.com/" target="_blank">Yangjinghuan</A>
+    2008-09-02&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/icon_idea.gif"> 感谢楼主无私奉献的精神.你是咱们的榜样.</DIV>
+</DIV>
+<DIV id="bc632448">
+  <DIV class="comment_title">
+    26 楼
+    <A href="http://truebe.javaeye.com/" target="_blank">陈新杰</A>
+    2008-08-15&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content"><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/icon_idea.gif"> </DIV>
+</DIV>
+<DIV id="bc625446">
+  <DIV class="comment_title">
+    25 楼
+    <A href="http://zhenzhongwang.javaeye.com/" target="_blank">zhenzhongwang</A>
+    2008-08-07&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">支持！<BR>楼主辛苦了！</DIV>
+</DIV>
+<DIV id="bc610339">
+  <DIV class="comment_title">
+    24 楼
+    <A href="http://littlejava.javaeye.com/" target="_blank">littleJava</A>
+    2008-07-24&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">谢谢楼主！</DIV>
+</DIV>
+<DIV id="bc610338">
+  <DIV class="comment_title">
+    23 楼
+    <A href="http://littlejava.javaeye.com/" target="_blank">littleJava</A>
+    2008-07-24&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">谢谢楼主！</DIV>
+</DIV>
+<DIV id="bc604001">
+  <DIV class="comment_title">
+    22 楼
+    <A href="http://rinniclyks.javaeye.com/" target="_blank">rinniclyks</A>
+    2008-07-18&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">谢谢分想,PDF收了<IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/icon_biggrin.gif"> </DIV>
+</DIV>
+<DIV id="bc603117">
+  <DIV class="comment_title">
+    21 楼
+    <A href="http://xzj127.javaeye.com/" target="_blank">xzj127</A>
+    2008-07-17&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">谢谢分享..</DIV>
+</DIV>
+<DIV id="bc602772">
+  <DIV class="comment_title">
+    20 楼
+    <A href="http://ilinux.javaeye.com/" target="_blank">andy54321</A>
+    2008-07-17&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">好东西<BR><BR>share good</DIV>
+</DIV>
+<DIV id="bc602252">
+  <DIV class="comment_title">
+    19 楼
+    <A href="http://phpxiaoxin.javaeye.com/" target="_blank">phpxiaoxin</A>
+    2008-07-16&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">学习中..........</DIV>
+</DIV>
+<DIV id="bc602120">
+  <DIV class="comment_title">
+    18 楼
+    <A href="http://cnpww.javaeye.com/" target="_blank">cnpww</A>
+    2008-07-16&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">算是&nbsp; 美女</DIV>
+</DIV>
+<DIV id="bc602075">
+  <DIV class="comment_title">
+    17 楼
+    <A href="http://kevin-gzhz.javaeye.com/" target="_blank">kevin_gzhz</A>
+    2008-07-16&nbsp;&nbsp;
+    <A href="http://superleo.javaeye.com/blog/214535#" onclick="quote_comment(this);return false;">回复</A>
+    
+  </DIV>
+  <DIV class="comment_content">那是相当的感谢啊！！！<IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/icon_idea.gif"> </DIV>
+</DIV>
+
+    
+    <DIV class="pagination"><SPAN class="disabled prev_page">&laquo; 上一页</SPAN> <SPAN class="current">1</SPAN> <A href="http://superleo.javaeye.com/blog/214535?page=2#comments" rel="next">2</A> <A href="http://superleo.javaeye.com/blog/214535?page=2#comments" class="next_page" rel="next">下一页 &raquo;</A></DIV>
+  </DIV>
+
+  <DIV class="blog_comment">
+    <H5>发表评论</H5>
+          
+      
+        <A href="http://superleo.javaeye.com/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</A>
+      
+      </DIV>
+</DIV>
+
+
+<SCRIPT type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(link) {
+    var quote_user = $(link).previous(0).innerHTML;
+    var quote_body = $(link).up().next().innerHTML.stripTags();
+    editor.bbcode_editor.textarea.insertAfterSelection('[quote="'+quote_user+'"]\n' + quote_body + '\n[/quote]\n');
+  }
+</SCRIPT>
+
+
+        </DIV>
+
+        <DIV id="local">
+          <DIV class="local_top"></DIV>
+          <DIV id="blog_owner">
+            <DIV id="blog_owner_logo"><A href="http://superleo.javaeye.com/"><IMG alt="用户头像" class="logo" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/f0247079-ee0c-3eba-8e43-e7b3ca736ad6.jpg" title="kyo100900的博客: superleo"></A></DIV>
+            <DIV id="blog_owner_name">kyo100900</DIV>
+          </DIV>
+          
+            <DIV id="twitter_decorate">&nbsp;</DIV>
+            <DIV id="twitter" class="twitter clearfix">
+              
+JAVAEYE 突然好慢啊。。。。
+<BR><EM><A href="http://superleo.javaeye.com/blog/chat/20052">2009-05-06</A>
+ 通过网页
+ 
+</EM>
+       <A href="http://app.javaeye.com/chat?twitter%5Bbody%5D=%40kyo100900+&twitter%5Breply_to_id%5D=20052" title="回复这个闲聊"><IMG alt="Reply_twitter" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/reply_twitter.gif"></A>
+              <DIV class="right"><A href="http://superleo.javaeye.com/blog/chat">&gt;&gt;更多闲聊</A></DIV>
+            </DIV>
+          
+          <DIV id="blog_actions">
+            <UL>
+              <LI>浏览: 217486 次</LI>
+              <LI>性别: <IMG alt="Icon_minigender_1" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/icon_minigender_1.gif" title="男"></LI>
+              <LI>来自: 北京</LI>
+              <LI><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/offline.gif"></LI>
+              <LI>
+                <A href="http://superleo.javaeye.com/blog/profile" class="profile">详细资料</A>
+                <A href="http://superleo.javaeye.com/blog/guest_book" class="guest_book">留言簿</A>
+              </LI>
+              
+                <LI>
+                  <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=kyo100900" class="message" title="发送站内短信">发短消息</A>
+                  
+                    <A href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=kyo100900" class="subscription" onclick="var f = document.createElement(&#39;form&#39;); f.style.display = &#39;none&#39;; this.parentNode.appendChild(f); f.method = &#39;POST&#39;; f.action = this.href;f.submit();return false;">订阅</A>
+                  
+                </LI>
+              
+            </UL>
+            <H5>搜索本博客</H5>
+            <FORM action="http://superleo.javaeye.com/blog/search" method="get">              <INPUT class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text">
+              <INPUT class="submit" type="submit" value="搜索">
+            </FORM>          </DIV>
+          
+            <DIV id="user_visits" class="clearfix">
+              <H5>最近访客 <SPAN style="font-weight:normal;font-size:12px;padding-left:30px;"><A href="http://superleo.javaeye.com/blog/user_visits">&gt;&gt;更多访客</A></SPAN></H5>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://frankswu.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/user-logo-thumb.gif" title="frankswu的博客: "></A></DIV>
+                  <DIV class="left"><A href="http://frankswu.javaeye.com/" target="_blank">frankswu</A></DIV>
+                </DIV>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://poko110.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/user-logo-thumb.gif" title="poko110的博客: poko110"></A></DIV>
+                  <DIV class="left"><A href="http://poko110.javaeye.com/" target="_blank">poko110</A></DIV>
+                </DIV>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://jarodzero.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/user-logo-thumb.gif" title="jarodzero的博客: jarodzero"></A></DIV>
+                  <DIV class="left"><A href="http://jarodzero.javaeye.com/" target="_blank">jarodzero</A></DIV>
+                </DIV>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://yagesi.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/6f349245-677c-3bc8-8152-1d87fa4905c0-thumb.bmp" title="yagesi的博客: Zen.赱L"></A></DIV>
+                  <DIV class="left"><A href="http://yagesi.javaeye.com/" target="_blank">yagesi</A></DIV>
+                </DIV>
+              
+            </DIV>
+          
+                      <DIV id="blog_menu">
+              <H5>博客分类</H5>
+              <UL>
+                <LI><A href="http://superleo.javaeye.com/">全部博客 (75)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22379">Struts2 (18)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22574">spring2 (7)</A></LI>
+                
+                  <LI class="selected"><A href="http://superleo.javaeye.com/category/24555">hibernate (5)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22380">Database (2)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/22381">行业信息 (3)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/23266">单元测试 (1)</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/category/26042">专家文章翻译 (39)</A></LI>
+                
+              </UL>
+            </DIV>
+            
+              <DIV id="blog_album">
+                <H5>我的相册</H5>
+                <DIV class="picture_thumb" style="float: none">
+                  <DIV><SPAN class="thumb_box"><A href="http://superleo.javaeye.com/album"><IMG alt="1d1e81c3-f224-333a-8715-75dce591ec32-thumb" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/1d1e81c3-f224-333a-8715-75dce591ec32-thumb.jpg"></A></SPAN></DIV>
+                  <SPAN>QuipuKit_06<BR> <A href="http://superleo.javaeye.com/album">共 48 张</A></SPAN>
+                </DIV>
+              </DIV>
+            
+            
+              <DIV id="guest_books">
+                <H5>我的留言簿 <SPAN style="font-weight:normal;font-size:12px;padding-left:20px;"><A href="http://superleo.javaeye.com/blog/guest_book">&gt;&gt;更多留言</A></SPAN></H5>
+                <UL>
+                  
+                    <LI>
+                       好厉害
+有时间交流一下wicket 把，我最近在做wicket框架的项目<BR>
+                      -- by <A href="http://superleo.javaeye.com/blog/guest_book#5990">wind_cludy</A>
+                    </LI>
+                  
+                    <LI>
+                       你给我站住 文章写的不错，以后可以教教我啊
+<BR>
+                      -- by <A href="http://superleo.javaeye.com/blog/guest_book#5671">jordanyangwei</A>
+                    </LI>
+                  
+                    <LI>
+                       好厉害<BR>
+                      -- by <A href="http://superleo.javaeye.com/blog/guest_book#5660">Hooopo</A>
+                    </LI>
+                  
+                </UL>
+              </DIV>
+            
+            <DIV id="blog_others">
+              <H5>其他分类</H5>
+              <UL>
+                <LI><A href="http://superleo.javaeye.com/blog/favorite">我的收藏</A> (15)</LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/pdf">我的书籍</A> (1) </LI>
+                                                  <LI><A href="http://superleo.javaeye.com/blog/news">我的新闻</A> (42) </LI>
+                                <LI><A href="http://superleo.javaeye.com/blog/forum">我的论坛帖子</A> (173)</LI>
+                <LI><A href="http://superleo.javaeye.com/blog/article">我的精华良好贴</A> (0)</LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/solution">我解决的问题</A> (16) </LI>
+                              </UL>
+            </DIV>
+            
+            <DIV id="recent_groups">
+              <H5>最近加入圈子</H5>
+              <UL>
+                
+                  <LI><A href="http://mars.group.javaeye.com/">火星常驻JE办事处</A></LI>
+                
+                  <LI><A href="http://ecside.group.javaeye.com/">GT-Grid</A></LI>
+                
+                  <LI><A href="http://struts2.group.javaeye.com/">struts2</A></LI>
+                
+                  <LI><A href="http://jsi.group.javaeye.com/">JSI Side</A></LI>
+                
+                  <LI><A href="http://english.group.javaeye.com/">英语学习</A></LI>
+                
+              </UL>
+            </DIV>
+            
+              <DIV id="user_links">
+                <H5>链接</H5>
+                <UL>
+                  
+                    <LI><A href="http://www.theserverside.com/" target="_blank">java最大交流社区</A></LI>
+                  
+                    <LI><A href="http://blog.sina.com.cn/pibeidelinghun" target="_blank">大静妹的世界</A></LI>
+                  
+                    <LI><A href="http://java.dzone.com/" target="_blank">Java空间</A></LI>
+                  
+                    <LI><A href="http://blog.springsource.com/main/author/rodj/" target="_blank">Rod Johnson</A></LI>
+                  
+                    <LI><A href="http://elminster.javaeye.com/" target="_blank">大法师</A></LI>
+                  
+                    <LI><A href="http://trustno1.javaeye.com/" target="_blank">trustno1</A></LI>
+                  
+                    <LI><A href="http://shenyu.javaeye.com/" target="_blank">数据结构与算法</A></LI>
+                  
+                    <LI><A href="http://qiezi.javaeye.com/blog/162689" target="_blank">qiezi</A></LI>
+                  
+                    <LI><A href="http://ajoo.javaeye.com/" target="_blank">ajoo</A></LI>
+                  
+                    <LI><A href="http://www.blogjava.net/yifeng/" target="_blank">老弟的blog</A></LI>
+                  
+                </UL>
+              </DIV>
+            
+            
+                          <DIV id="month_blogs">
+                <H5>存档</H5>
+                <UL>
+                  
+                    <LI><A href="http://superleo.javaeye.com/blog/monthblog/2009-05">2009-05</A> (2)</LI>
+                  
+                    <LI><A href="http://superleo.javaeye.com/blog/monthblog/2009-02">2009-02</A> (3)</LI>
+                  
+                    <LI><A href="http://superleo.javaeye.com/blog/monthblog/2009-01">2009-01</A> (3)</LI>
+                  
+                  <LI><A href="http://superleo.javaeye.com/blog/monthblog_more">更多存档...</A></LI>
+                </UL>
+              </DIV>
+                        <DIV id="recent_comments">
+              <H5>最新评论</H5>
+              <UL>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/161648#comments" title="看看老外怎么正常关闭JDBC的多个Statement">看看老外怎么正常关闭JDBC ...</A><BR>
+                    楼主说说 这样关闭有什么好处？ 谢谢<BR>
+                    -- by <A href="http://cooldh.javaeye.com/" target="_blank">cooldh</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/143493#comments" title="JMock 2.0 初探">JMock 2.0 初探</A><BR>
+                    JMock让人十分不爽的是要求编程什么都要面向接口，比如你要是类中调用了另一个类的 ...<BR>
+                    -- by <A href="http://miaodezhi.javaeye.com/" target="_blank">miaodezhi</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/381751#comments" title="【翻译】深入浅出 EJB3.1（下）">【翻译】深入浅出 EJB3.1 ...</A><BR>
+                    好吧，Java EE 6 快了，Spring 3 也快了<BR>
+                    -- by <A href="http://ssailyang.javaeye.com/" target="_blank">SSailYang</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/380368#comments" title="【翻译】深入浅出 EJB3.1（上）">【翻译】深入浅出 EJB3.1 ...</A><BR>
+                    没看过关于EJB的东西，所以不怎么理解不过一看这么长，就知道BZ辛苦了，&nbsp;<BR>
+                    -- by <A href="http://renny.javaeye.com/" target="_blank">renny</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://superleo.javaeye.com/blog/381751#comments" title="【翻译】深入浅出 EJB3.1（下）">【翻译】深入浅出 EJB3.1 ...</A><BR>
+                    期待JAVAEE6<BR>
+                    -- by <A href="http://exceedsun21320070508164500.javaeye.com/" target="_blank">打倒小日本</A>
+                  </LI>
+                
+              </UL>
+            </DIV>
+            <DIV id="comments_top">
+              <H5>评论排行榜</H5>
+              <UL>
+                
+                  <LI><A href="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站.htm">【翻译】spring配置全书(下)&mdash;&mdash;附PDF完 ...</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/227857">自己动手写一个Struts2</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/243322">hibernate延迟加载的原理与实现</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/283848">PDF源文件浅析</A></LI>
+                
+                  <LI><A href="http://superleo.javaeye.com/blog/212515">【翻译】spring配置全书(上)</A></LI>
+                
+              </UL>
+            </DIV>
+            <DIV id="rss">
+              <UL>
+                <LI><A href="http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/rss.png"></A></LI>
+                <LI><A href="http://fusion.google.com/add?feedurl=http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss_google" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/rss_google.gif"></A></LI>
+                <LI><A href="http://www.zhuaxia.com/add_channel.php?url=http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss_zhuaxia" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/rss_zhuaxia.gif"></A></LI>
+                <LI><A href="http://www.xianguo.com/subscribe.php?url=http://superleo.javaeye.com/rss" target="_blank"><IMG alt="Rss_xianguo" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/rss_xianguo.jpg"></A></LI>
+                <LI><A href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</A></LI>
+              </UL>
+            </DIV>
+            <DIV class="local_bottom"></DIV>
+          
+        </DIV>
+      </DIV>
+
+      <DIV id="footer" class="clearfix">
+        <DIV id="copyright">
+          <HR>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<BR>
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </DIV>
+      </DIV>
+    </DIV>
+    
+  <DIV id="chat_input" style="display:none;">
+    <IFRAME id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowtransparency="true"></IFRAME>
+  </DIV>
+  <DIV id="chat_button"><A href="http://superleo.javaeye.com/blog/214535#" style="text-decoration:none;color:black" onclick="$(&#39;chat_input&#39;).show();$(&#39;chat_iframe&#39;).src=&#39;/chat/widget&#39;;return false;">说点啥吧 <IMG alt="Chat" src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/chat.gif"></A></DIV>
+
+<SCRIPT type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</SCRIPT><IMG src="./【翻译】spring配置全书(下)——附PDF完整版下载 - superleo - JavaEye技术网站_files/saved_resource" width="0" height="0">
+    
+  
+
+</BODY></HTML>

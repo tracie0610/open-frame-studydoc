@@ -1,0 +1,1094 @@
+<!--STATUS OK-->
+<html><head><meta http-equiv=content-type content="text/html; charset=gb2312"><title>在Spring中配置事务_Think Different      </title>
+<style type="text/css">
+.error{color:#FF0000;font-size:12px}
+
+
+	
+
+
+</style>
+<script type="text/javascript" src="/ui/scripts/global.js"></script>
+<script language="javascript" src="/js/popup.js"></script>
+<script type="text/javascript" src="/ui/scripts/CommentEditor/BdEditor-mined.js?v=2.3"></script>
+<script LANGUAGE="JavaScript" src="/js/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+
+function checkMail(s)
+{
+  	var pattern=/\w+@\w+\.[a-z]+/;
+  	if(pattern.test(s))
+    {
+       return true;
+    }
+  	else
+   {
+      return false;
+   }
+}
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{
+		 return true;
+	}
+
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+String.prototype.byteLength = function() {
+    return this.replace(/[^\u0000-\u007f]/g,"\u0061\u0061").length;
+}
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else
+	{
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}
+
+}
+
+function checktext(textid)
+{
+        var tempStr='';
+        var isLightFont=false;
+		if(editor&&textid=="spBlogCmtText"){
+			//document.getElementById("spBlogCmtText").value=editor.getHtml();
+			tempStr=editor.getHtml();
+			tempStr=tempStr.replace(/<span style="filter:glow\(color=#([0-9a-z]{3,6}),strength=2\);height:0px;color:#([0-9a-z]{3,6})">/ig,'');
+			tempStr=tempStr.replace(/<\/span>/ig,'');
+			document.getElementById("spBlogCmtText").value=tempStr;
+            isLightFont=!(tempStr==editor.getHtml());
+        }
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else
+        {
+                len=str.byteLength();
+                var maxLength=isLightFont?916:1000;
+				if(len > maxLength)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+				if(editor&&textid=="spBlogCmtText"){
+					document.getElementById("spBlogCmtText").value=editor.getHtml();
+					document.getElementById(textid).value=trimlr(textid);
+				}
+
+			return true;
+		}
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=0;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='在Spring中配置事务'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes');
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+/* some functions for cmt-reply */
+		function cmtreply(cmtName,cmtPorID)
+		{
+			window.location.hash="#send";
+			var cmtForm=document.form1;
+			cmtForm.cm.value="3";
+			if(!cmtForm.spReferTarget)
+			{
+				var ipt=document.createElement("input");
+				ipt.type="hidden";
+				ipt.name="spReferTarget";
+				ipt.value=cmtPorID;
+				cmtForm.appendChild(ipt);
+			}else cmtForm.spReferTarget.value=cmtPorID;
+
+
+			 //G("reTitle").innerHTML="回复"+cmtName+"：";
+			 G("cancleReLink").style.display="";
+			 cmtForm.btn_ok.value="回复评论";
+
+
+			 try{
+				editor.window.focus();
+                editor.window.document.body.innerHTML="回复"+cmtName+"：";
+
+                var w = editor.window;
+				if(w.getSelection){
+					var d = w.document;
+					var s = w.getSelection();
+					var r = d.createRange();
+					r.setStartAfter(d.body.firstChild);
+					r.setEndAfter(d.body.lastChild);
+					s.removeAllRanges();
+					s.addRange(r);
+				}
+			}catch(e){
+			 		try{
+				 		cmtForm.getElementsByTagName("textarea")[0].focus();
+				 		cmtForm.getElementsByTagName("textarea")[0].value="回复"+cmtName+"：";
+				 	}catch(e){}
+			}
+		}
+
+		function canclereply()
+		{
+			var cmtForm=document.form1;
+			cmtForm.cm.value="1";
+			try{cmtForm.removeChild(cmtForm.spReferTarget);}catch(e){}
+			/*
+			try{
+					var cmt=cmtForm.getElementsByTagName("textarea")[0]
+					cmt.value="";
+					cmt.focus();
+			}catch(e){}
+			*/
+
+			try{
+					var ed=editor.window.document.body;
+					ed.innerHTML="";
+					editor.window.focus();
+				}catch(e){
+					var cmt=cmtForm.getElementsByTagName("textarea")[0];
+					cmt.value="";
+					cmt.focus();
+			}
+
+			G("cancleReLink").style.display="none";
+			cmtForm.btn_ok.value="发表评论";
+		}
+
+		function gotoreply()
+		{//to checking whether reply cmt
+			if( window.location.hash.indexOf("&re=1")<0) return;
+			var cmtID=window.location.hash.split("&")[0].replace("#","");
+			var cmtlinks=document.getElementsByTagName("a");
+			for(var i=0,n=cmtlinks.length;i<n;i++)
+			{
+				if(cmtlinks[i].name==cmtID){ var rename=cmtlinks[i].getAttribute("rename");  repid=cmtlinks[i].getAttribute("repid"); break;}
+			}
+			if(typeof(rename)!="undefined"){
+				cmtreply(rename, repid);
+			}
+		}
+
+//-->
+</script>
+
+
+</head>
+<body onLoad="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/xzhilie/blog/item/58dcbacac8105981c81768c7%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/ui/css/mods.css" />
+
+<link rel="stylesheet" type="text/css" href="/xzhilie/css/item/44c20e3f758874ec55e7232e.css" />
+
+<link rel="stylesheet" type="text/css" href="/space.css" />
+<style type="text/css">
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+
+<div id="usrbar"><nobr>
+
+			<a id="hi_index" href="http://hi.baidu.com" target="_blank">百度空间</a>&nbsp;|&nbsp;<a href="http://www.baidu.com/" target="_blank">百度首页</a>&nbsp;<script type="text/javascript">
+		document.write('| <a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/xzhilie/blog/item/58dcbacac8105981c81768c7%2Ehtml') + '">登录</a>');
+		</script>
+		
+</nobr></div>
+
+
+
+		<div id="newUserTip" style="text-align:right; width:225px; height:130px; position:absolute; top:26px; right:0; float:right; z-index:30000;" >
+	<a id="newUserTipShadow" onclick="newUserRegLog()" href="http://hi.baidu.com/st/reg.html" target="_blank" style="color:#4242F9 !important; background:transparent none !important;text-decoration:none !important;font-size:14px;width:55px; height:14px; position:absolute; top:108px; right:14px; z-index:30001; display:block; overflow:hidden;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+	<embed id="newUserTipSwf" allowScriptAcess="always" style="width:225px; height:130px;" src="http://hi.baidu.com/ui/flash/userReg/guide.swf" wmode="transparent">
+	</div>
+	<script language="javascript">
+	<!--
+		function newUserTipShow(f)
+		{
+			if(f=="0"){//close
+				G("newUserTipSwf").style.width="40px";
+				G("newUserTip").style.width="40px";
+				G("newUserTipShadow").style.display="none";
+			}else{//show
+				G("newUserTip").style.width="225px";
+				G("newUserTipSwf").style.width="225px";
+				G("newUserTipShadow").style.display="block";
+
+			}
+		}
+
+		function newUserRegLog(){
+			var now=new Date();
+			now.setTime(now.getTime()+5*60*1000);
+			document.cookie="BDSP_REGFLAG=1;expires="+now.toGMTString()+";path=/";
+			new Image().src="http://hi.baidu.com/sys/statlog/1.gif?m=blog_newer_pro2_click&v=/xzhilie&t="+Math.random();
+		}
+	//-->
+	</script>
+	
+
+
+
+<script type="text/javascript">
+
+function set_cookie_4_bdtip(index/* start from one */, value){
+	var bdtip = document.cookie.match(/(^| )BDTIP=([^;]*)(;|$)/);
+	if(!bdtip){
+		bdtip=new Array(index);
+		for(var i=0,n=bdtip.length;i<n;i++)
+		{
+			if(bdtip[i]=="" || bdtip[i]==null)  bdtip[i]=0;
+			if(i == index - 1){
+				bdtip[i] = value;
+			}
+		}
+	}else{
+	bdtip = bdtip[2].split('-');
+	if(index > bdtip.length)  bdtip.length= index;
+	for(var i = 0, j = bdtip.length; i < j; i ++){
+		if(bdtip[i]=="" || bdtip[i]==null) bdtip[i]=0;
+		if(i == index - 1){
+			bdtip[i] = value;
+		}
+	}
+	}
+	bdtip = bdtip.join('-');
+	document.cookie = "BDTIP=" + bdtip+ ";expires=Wed, 28-Nov-37 01:45:46 GMT;path=/;";
+}
+</script>
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="/xzhilie" class="titlink" title="xzhilie的空间 http://hi.baidu.com/xzhilie">Think Different</a></div>
+<div class="desc">你站在桥上看风景,看风景人在楼上看你;明月装饰了你的窗子,你装饰了别人的梦!</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="/xzhilie">主页</a><a href="/xzhilie/blog" class="on">博客</a><a href="/xzhilie/album">相册</a><span>|</span><a href="/xzhilie/profile">个人档案</a>
+	<span>|</span><a href="/xzhilie/friends">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width:100%">
+
+
+	
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" nowrap align="right"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></table>
+
+<div id="m_blog" class="modbox">
+<div class="tit">在Spring中配置事务</div>
+<div class="date">2009年02月27日 星期五  10:11</div>
+<table style="table-layout:fixed"><tr><td><div id="blog_text" class="cnt"><p>JTA in Spring</p>
+<p> <br>
+开发环境：JDK1.5(sun)+Myeclipse6.0+Tomcat5.5+ant 1.7.1+MySql5.0.4</p>
+<p>框架版本：JSF1.2（sun）+hibernate3.3.1.GA+spring2.5.6</p>
+<p> </p>
+<p>JTA(Java Transaction API)</p>
+<p>EJB只支持标准的持久化（JTA）的事务管理，而Spring可以支持大部分流行持久化框架的事务管理。</p>
+<p>在Spring中，通过实现org.springframework.transaction.PlatformTransactionManager接口能达到多种持久化框架的事务管理。</p>
+<p> </p>
+<p>
+<table class="FCK__ShowTableBorders" style="width: 628px; height: 118px" border="0">
+    <tbody>
+        <tr>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span style=" mso-ascii- mso-hansi-">持久化方案</span></p>
+            </td>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>Spring</span></span><span style=" mso-ascii- mso-hansi-">中配置事务的相对应类</span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>JDBC</span></span></p>
+            </td>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>org.springframework.jdbc.datasource.DataSourceTransactionManager</span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>JTA</span></span></p>
+            </td>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>org.springframework.transaction.jta.JtaTransactionManager</span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>Hibernate</span></span></p>
+            </td>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>org.springframework.orm.hibernate3.HibernateTransactionManager</span></span></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>JPA</span></span></p>
+            </td>
+            <td>
+            <p class="MsoNormal" style="margin: 0cm 0cm 0pt"><span><span>org.springframework.orm.jpa.JpaTransactionManager</span></span></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</p>
+<p> </p>
+<p>Spring提供的事务管理器仅仅是对现有的事务实现API（Hibernate、JDBC、JTA）进行封装，其本身并没有提供具体的事务服务实现。</p>
+<p> </p>
+<p>在Spring中事务在org.springframework.transaction.TransactionDefinition接口中定义。如果想深入了解Sping中的事务机制，必须要了解这个接口。</p>
+<p> </p>
+<p>Spring中支持事务的传播属性共有七种，可以参考博文《<a href="http://blog.csdn.net/onlyzhangqin/archive/2008/06/14/2546912.aspx"><font color="#108ac6">Spring中的事务传播属性详解</font></a>》及 《<a href="http://www.javaeye.com/topic/35907"><font color="#108ac6">解惑 spring 嵌套事务</font></a>》</p>
+<p> </p>
+<p>假如我要达到如下要求：在特定的类中，如果方法名称是以insert，delete开头的方法要支持当前事务安全，如果当前没有事务，就新建一个事务，其他的方法只读。</p>
+<p> </p>
+<p>下面就以上要求介绍两种在Spring中常用的事务配置方法：</p>
+<p> </p>
+<p>方法一：用BeanNameAutoProxyCreator自动创建事务代理</p>
+<p> </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Xml代码 <a title="复制代码" href="http://xzhilie.javaeye.com/admin/blogs/339399#"><img alt="复制代码" src="http://xzhilie.javaeye.com/images/icon_copy.gif"></a></div>
+</div>
+<ol class="dp-xml">
+    <li><span><span class="comments"><font color="#008200">&lt;!--&nbsp;&nbsp; --&gt;</font></span><span>&nbsp;&nbsp;</span></span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;transactionManager&quot;</font></span><span>&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><span class="comments"><font color="#008200">&lt;!-- 定义事务规则的拦截器 --&gt;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;transactionInterceptor&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;org.springframework.transaction.interceptor.TransactionInterceptor&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;transactionManager&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;transactionManager&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;transactionAttributes&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">props</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">prop</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">key</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;insert*&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>PROPAGATION_REQUIRED</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">prop</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">prop</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">key</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;delete*&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>PROPAGATION_REQUIRED </span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">prop</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">prop</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">key</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;*&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>readOnly</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">prop</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">props</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">property</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span class="comments"><font color="#008200">&lt;!-- 添加要实现事务规则的BeanName --&gt;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;beanNames&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">list</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">value</span><span class="tag">&gt;</span></font></strong><span>persondao</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">value</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">list</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">property</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;interceptorNames&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">list</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">value</span><span class="tag">&gt;</span></font></strong><span>transactionInterceptor</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">value</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">list</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">property</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;hibernateTemplate&quot;</font></span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;org.springframework.orm.hibernate3.HibernateTemplate&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;persondao&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;com.sms.freeborders.dao.hbimpl.PersonDAOImpl&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;hibernateTemplate&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;hibernateTemplate&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+<pre class="xml" style="display: none" name="code">&lt;!--  --&gt;
+&lt;bean id=&quot;transactionManager&quot;   class=&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;&gt;
+       &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;!-- 定义事务规则的拦截器 --&gt;
+&lt;bean id=&quot;transactionInterceptor&quot;
+    class=&quot;org.springframework.transaction.interceptor.TransactionInterceptor&quot;&gt;
+    &lt;property name=&quot;transactionManager&quot; ref=&quot;transactionManager&quot; /&gt;
+    &lt;property name=&quot;transactionAttributes&quot;&gt;
+       &lt;props&gt;
+           &lt;prop key=&quot;insert*&quot;&gt;PROPAGATION_REQUIRED&lt;/prop&gt;
+           &lt;prop key=&quot;delete*&quot;&gt;PROPAGATION_REQUIRED &lt;/prop&gt;
+           &lt;prop key=&quot;*&quot;&gt;readOnly&lt;/prop&gt;
+       &lt;/props&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+&lt;!-- 添加要实现事务规则的BeanName --&gt;
+&lt;bean
+    class=&quot;org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator&quot;&gt;
+    &lt;property name=&quot;beanNames&quot;&gt;
+       &lt;list&gt;
+           &lt;value&gt;persondao&lt;/value&gt;
+       &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;interceptorNames&quot;&gt;
+       &lt;list&gt;
+           &lt;value&gt;transactionInterceptor&lt;/value&gt;
+       &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;hibernateTemplate&quot;      class=&quot;org.springframework.orm.hibernate3.HibernateTemplate&quot;&gt;
+    &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;persondao&quot;
+       class=&quot;com.sms.freeborders.dao.hbimpl.PersonDAOImpl&quot;&gt;
+    &lt;property name=&quot;hibernateTemplate&quot; ref=&quot;hibernateTemplate&quot; /&gt;
+&lt;/bean&gt;</pre>
+<p> </p>
+<p>方法二：利用AOP原理来管理事务</p>
+<p> </p>
+<p>随着Sping项目代码量变大，你会发现配置越来越来多，且繁琐。在Sping2.0之后，Sping推出了简化的XML配置。具体可以看江南白衣的《<a href="http://www.blogjava.net/calvin/archive/2005/08/21/10530.html"><font color="#108ac6">简化Spring--配置文件</font></a>》。</p>
+<p> </p>
+<p>在使用方法二之前，需要加入包如下包:aspectjrt.jar、aspectjweaver.jar</p>
+<p> </p>
+<p>且applicationContext.xml的头部定义如下：</p>
+<p> </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Xml代码 <a title="复制代码" href="http://xzhilie.javaeye.com/admin/blogs/339399#"><img alt="复制代码" src="http://xzhilie.javaeye.com/images/icon_copy.gif"></a></div>
+</div>
+<ol class="dp-xml">
+    <li><span><strong><font color="#006699"><span class="tag">&lt;?</span><span class="tag-name">xml</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">version</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;1.0&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">encoding</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;UTF-8&quot;</font></span><span class="tag"><strong><font color="#006699">?&gt;</font></strong></span><span>&nbsp;&nbsp;</span></span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">beans</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">xmlns</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;http://www.springframework.org/schema/beans&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">xmlns:xsi</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">xmlns:p</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;http://www.springframework.org/schema/p&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">xmlns:aop</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;http://www.springframework.org/schema/aop&quot;</font></span><span>&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">xmlns:context</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;http://www.springframework.org/schema/context&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">xmlns:jee</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;http://www.springframework.org/schema/jee&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">xmlns:tx</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;http://www.springframework.org/schema/tx&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">xsi:schemaLocation</font></span><span>=&quot; &nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd &nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd &nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd &nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd &nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd &quot;</span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+<pre class="xml" style="display: none" name="code">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:p=&quot;http://www.springframework.org/schema/p&quot;
+    xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;   xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+    xmlns:jee=&quot;http://www.springframework.org/schema/jee&quot;
+    xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;
+    xsi:schemaLocation=&quot;
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd &quot;&gt;</pre>
+<p> </p>
+<p>接着配置事务</p>
+<p> </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Xml代码 <a title="复制代码" href="http://xzhilie.javaeye.com/admin/blogs/339399#"><img alt="复制代码" src="http://xzhilie.javaeye.com/images/icon_copy.gif"></a></div>
+</div>
+<ol class="dp-xml">
+    <li><span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;transactionManager&quot;</font></span><span>&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><span class="comments"><font color="#008200">&lt;!-- 这里的配置有AOP的思想，找的这个面就是com.sms.freeborders.dao.hbimpl下的所有类--&gt;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">aop:config</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">aop:pointcut</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;allManagerMethod&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">expression</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;execution(* com.sms.freeborders.dao.hbimpl.*.*(..))&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">aop:advisor</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">advice-ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;txAdvice&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">pointcut-ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;allManagerMethod&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">aop:config</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><span class="comments"><font color="#008200">&lt;!-- 配置事务规则 --&gt;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">tx:advice</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;txAdvice&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">tx:attributes</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">tx:method</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;insert *&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">tx:method</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;delete*&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">tx:method</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;*&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">read-only</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;true&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">tx:attributes</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">tx:advice</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;hibernateTemplate&quot;</font></span><span>&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;org.springframework.orm.hibernate3.HibernateTemplate&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;sessionFactory&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">bean</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">id</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;persondao&quot;</font></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="attribute"><font color="#ff0000">class</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;com.sms.freeborders.dao.hbimpl.PersonDAOImpl&quot;</font></span><span class="tag"><strong><font color="#006699">&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><font color="#006699"><span class="tag">&lt;</span><span class="tag-name">property</span></font></strong><span> </span><span class="attribute"><font color="#ff0000">name</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;hibernateTemplate&quot;</font></span><span> </span><span class="attribute"><font color="#ff0000">ref</font></span><span>=</span><span class="attribute-value"><font color="#0000ff">&quot;hibernateTemplate&quot;</font></span><span> </span><span class="tag"><strong><font color="#006699">/&gt;</font></strong></span><span>&nbsp;&nbsp;</span></li>
+    <li><strong><font color="#006699"><span class="tag">&lt;/</span><span class="tag-name">bean</span><span class="tag">&gt;</span></font></strong><span>&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+<pre class="xml" style="display: none" name="code">&lt;bean id=&quot;transactionManager&quot;   class=&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;&gt;
+    &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;!-- 这里的配置有AOP的思想，找的这个面就是com.sms.freeborders.dao.hbimpl下的所有类--&gt;
+
+&lt;aop:config&gt;
+    &lt;aop:pointcut id=&quot;allManagerMethod&quot;
+       expression=&quot;execution(* com.sms.freeborders.dao.hbimpl.*.*(..))&quot; /&gt;
+    &lt;aop:advisor advice-ref=&quot;txAdvice&quot;
+       pointcut-ref=&quot;allManagerMethod&quot; /&gt;
+&lt;/aop:config&gt;
+
+&lt;!-- 配置事务规则 --&gt;
+
+&lt;tx:advice id=&quot;txAdvice&quot;&gt;
+    &lt;tx:attributes&gt;
+       &lt;tx:method name=&quot;insert *&quot; /&gt;
+       &lt;tx:method name=&quot;delete*&quot; /&gt;
+       &lt;tx:method name=&quot;*&quot; read-only=&quot;true&quot; /&gt;
+    &lt;/tx:attributes&gt;
+&lt;/tx:advice&gt;
+
+&lt;bean id=&quot;hibernateTemplate&quot;   class=&quot;org.springframework.orm.hibernate3.HibernateTemplate&quot;&gt;
+       &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;persondao&quot;
+       class=&quot;com.sms.freeborders.dao.hbimpl.PersonDAOImpl&quot;&gt;
+    &lt;property name=&quot;hibernateTemplate&quot; ref=&quot;hibernateTemplate&quot; /&gt;
+&lt;/bean&gt;</pre>
+<p> </p></div></td></tr></table>
+<br>
+<div class="opt">
+<a href="/xzhilie/blog/category/Java%20Ee" title="查看该分类中所有文章">类别：Java Ee</a>
+
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onClick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result"></span>)
+	| <a href="#send">评论</a>&nbsp;(0)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'定义良好的web service接口', '定义良好的web service接口','/xzhilie/blog/item/7434bf528046f6080df3e34a.html'];
+var post = [false,'','', '/xzhilie/blog/item/.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+
+["xeogras","0a4f77616e677975313232310101","wangyu1221"],
+
+["henvy","9b3766697368697469742b04","fishitit"],
+
+["tangchenggang","806374616e676368656e6767616e678704","tangchenggang"],
+
+["%B7%E30%C1%E5","5a83b7e330c1e54e03","枫0铃"],
+
+["zengxx","14437a656e677869616f78756e2c01","zengxiaoxun"],
+
+["zqpzqp2013","f39a7a71707a7170323031336b03","zqpzqp2013"],
+
+["meiwenhui","43a66d656977656e6875692905","meiwenhui"],
+
+["tengfeitengfei","782c66656974656e6766656974656e676a02","feitengfeiteng"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"678f7e0fa43af82a6159f3e3_58dcbacac8105981c81768c7_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+	cmturl=cmturl.replace("https://","http://");
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+function filterCmtContent(n){
+	if(!BdBrowser.isIE){
+		var defaultfilter1='<span style="filter:glow(color=#000000,strength=2);height:0px;color:#000000">';
+		var defaultfilter2='<span style="height: 0px; color: rgb(0, 0, 0);">';
+		var commentDiv=document.getElementById(n);
+		var divs=commentDiv.getElementsByTagName('div');
+		var d,tmp;
+		for( var i=0,len=divs.length;i<len;i++){
+			d=divs[i];
+			if(d.getAttribute('name')=='cmtcontent'){
+				tmp=d.innerHTML;
+				tmp=tmp.replace(/<span style="filter:glow\(color=#([0-9a-z]{3,6}),strength=2\);height:0px;color:#([0-9a-z]{3,6})">/ig,defaultfilter1);
+				tmp=tmp.replace('<span style="height: 0px; color: rgb(255, 255, 255);">',defaultfilter2);
+				d.innerHTML=tmp;
+			}
+		}
+	}
+}
+
+</script>
+
+
+
+
+
+<div id="page"></div>
+
+</div>
+<script>filterCmtContent('in_comment');</script>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/xzhilie/commit" method="post" onSubmit="return checkcmtform()">
+<input type="hidden" name="ct" value="8">
+<input type="hidden" name="cm" value="1">
+<input type="hidden" name="spBlogID" value="58dcbacac8105981c81768c7">
+<input type="hidden" name="spRefURL" id="spRefURL" />
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table width="620" border="0" cellspacing="5" cellpadding="0">
+<tr>
+
+<td class="f14">姓　名：</td>
+<td><input type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onChange="checkname('spBlogCmtor')" maxlength="49" onFocus="hidErr(1);">
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://hi.baidu.com/st/reg.html' target='_blank'>注册</a>");
+document.write(' | <a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script>
+
+<div style="display:none" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onChange="checkeandu('spBlogCmtURL')" onFocus="hidErr(2);"> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td valign="top" class="f14" id="reTitle">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width:520px;height:155px" onFocus="hidErr(3);" ></textarea>
+<script>
+	var editor=null;
+	try{
+		editor=new BdEditor("spBlogCmtText",{width:"100%",height:"155px"});
+		editor.onfocus = function(){hidErr(3);}
+		editor.render();
+	}catch(e){
+		var spBlogCmtText = document.getElementById("spBlogCmtText");
+		var p = spBlogCmtText.previousSibling;
+		while(p && p.nodeType != 1) p = p.previousSibling;
+		if(p && /bdeditor_container/.test(p.id)){
+			p.parentNode.removeChild(p);
+		}
+		spBlogCmtText.style.display = '';
+		editor=null;
+	}
+</script>
+
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td valign="top" class="f14">验证码：</td>
+<td valign="top"><input type="hidden" name="spVcode" value="" />
+<input type="text" onFocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6"  maxlength="4" autocomplete="off" tabindex=4>  请点击后输入四位验证码，字母不区分大小写<br/>
+<script type="text/javascript">
+/*<![CDATA[*/
+
+function f_focus(){
+	getVcode();
+}
+function getVcode(){
+	var url="http://hi.baidu.com/sys/file/getvcode?echoback=getVcodeDone&t="+(new Date().getTime());
+	BdAjax.loadJS(url)
+}
+
+function getVcodeDone(vcode){
+	document.form1.spVcode.value=vcode;
+	var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?"+vcode;
+	G('verifypic').src=imgsrc;
+	G('yanzheng').style.display="block";
+}
+function newverifypic(){
+	getVcode();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display:none">
+<img id='verifypic' width='120' height='40'><wbr /><a onFocus="this.blur();" href="#" onClick="return newverifypic();" title="看不清左边的字符" >看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td valign="top"class="f14">&nbsp;</td>
+<td valign="top" class="f14"><input id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex=5>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="cancleReLink" onClick="canclereply(); return false;" style="display:none; font-size:12px;color:#666;">取消回复</a></td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="8">
+<tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></table>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+<script language="javascript">
+<!--
+var hstr="/xzhilie/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script>
+<br><center><div id="ft">&copy;2009 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+gotoreply();
+</script>
+</center>
+
+
+<img src="http://c.baidu.com/c.gif?t=6&p=3" style="display:none;"/>
+</body></html>

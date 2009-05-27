@@ -1,0 +1,710 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Spring真的能mixed JDBC和ORM? - Spring - Java - JavaEye论坛</title>
+    <meta name="description" content="---mixed ORM and JDBC usage is a feature of Spring DAO 这是Rod Johnson在Spring官方上说的....以前我的理解是可以在同一个事务里 混合JDBC和ORM 编程(不考虑JTA).但我发现我错了.. 比如有这样一个业务方法 void doBusiness(){   doAction1(); 使用JdbcTemplete   doAct ..." />
+    <meta name="keywords" content=" Spring Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1242793770" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<a href=\'/adverts/2\' target=\'_blank\'><img src="http://ftp.javaeye.com/public/javaeye/rubyconfleft.png" style="BORDER:1px SOLID #000000" /></a>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Spring">Spring</a> <span class="arrow">&rarr;</span>
+    <h1>Spring真的能mixed JDBC和ORM?</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+      <a href='/forums/tag/Swing'>Swing</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><a href="/topic/11063?page=1" class="prev_page" rel="prev start">&laquo; 上一页</a> <a href="/topic/11063?page=1" rel="prev start">1</a> <span class="current">2</span> <span class="disabled next_page">下一页 &raquo;</span></div>
+    <div class="info">浏览 10940 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/11063">主题：Spring真的能mixed JDBC和ORM?</a></div>
+        <div id='topic_rate_box'><a href="#" onclick="rate_topic('good'); return false;">精华帖</a> (0) :: <a href="#" onclick="rate_topic('mid'); return false;">良好帖</a> (0) :: <a href="#" onclick="rate_topic('new'); return false;">新手帖</a> (0) :: <a href="#" onclick="rate_topic('hidden'); return false;">隐藏帖</a> (0)</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_62150">
+  <td class="postauthor">
+    <ul>
+      <li class="name">CafeBabe</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://cafebabe.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="CafeBabe的博客: CafeBabe" /></a></li>
+      <li>文章: 109</li>
+      <li>积分: 455</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-02 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62150' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        干嘛要用JdbcTemplate呀，session.connection()呀
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://cafebabe.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://cafebabe.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=CafeBabe" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://cafebabe.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62150' class='post_rate_box'><a href='#' onclick='rate_post(62150, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62150, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62276">
+  <td class="postauthor">
+    <ul>
+      <li class="name">denis</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://denis.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/990/2bb674c8-c35c-4e4a-ab95-fe92e71fc402.gif?1236831870" title="denis的博客: denis" /></a></li>
+      <li>文章: 71</li>
+      <li>积分: 354</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-03 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62276' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        楼主以及二楼的朋友的论断错误倒也罢了，那种肯定的，结论性总结的态度很容易误导初学者的学习和理解。<br /><br />提个小小的建议：下结论前要进行充分的考证，我们技术工作者尤其需要严谨的态度。需要用证据来说话。<br /><br />jdo dao和jdbc dao能否在同一个事务里这我不太清楚。因为我没用过jdo daosupport。<br />但是jdbc daosupport和hibernate daosupport却能被wrap到同一个事务里。成立需要几点条件：<br />1、使用同一个datasource<br />2、事务交由hibernateTransactionManager管理<br />3、相关dao以及service需要使用runtime exception体系，使用spring提供的exception可以，自己封装设计的runtime exception体系也行。<br /><br />与此相关的事务代码片断在HibernateTransactionManager类中。最好可以把DatasourceTransactionManager和HibernateTransactionManager对比来看。<br />在此贴上几个源码片断，多余的我就不解释了。相信大家一看自明。<br />HibernateTransactionManager#doGetTransaction<br /><pre name="code" class="java">
+		HibernateTransactionObject txObject = new HibernateTransactionObject();;
+		txObject.setSavepointAllowed(isNestedTransactionAllowed(););;
+
+		if (TransactionSynchronizationManager.hasResource(getSessionFactory(););); {
+			SessionHolder sessionHolder =
+					(SessionHolder); TransactionSynchronizationManager.getResource(getSessionFactory(););;
+			if (logger.isDebugEnabled();); {
+				logger.debug("Found thread-bound session [" + sessionHolder.getSession(); +
+						"] for Hibernate transaction");;
+			}
+			txObject.setSessionHolder(sessionHolder, false);;
+			if (getDataSource(); != null); {
+				ConnectionHolder conHolder = (ConnectionHolder);
+						TransactionSynchronizationManager.getResource(getDataSource(););;
+				txObject.setConnectionHolder(conHolder);;
+			}
+		}
+
+		return txObject;
+</pre><br />由此可以看出hibernateTransactionManager可以检测到绑定在当前线程上的connection<br /><br />HibernateTransactionManager#doBegin<br /><pre name="code" class="java">
+			Connection con = session.connection();;
+			Integer previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(con, definition);;
+			txObject.setPreviousIsolationLevel(previousIsolationLevel);;
+
+..............
+
+			if (getDataSource(); != null); {
+				ConnectionHolder conHolder = new ConnectionHolder(con);;
+				if (definition.getTimeout(); != TransactionDefinition.TIMEOUT_DEFAULT); {
+					conHolder.setTimeoutInSeconds(definition.getTimeout(););;
+				}
+				if (logger.isDebugEnabled();); {
+					logger.debug("Exposing Hibernate transaction as JDBC transaction [" +
+							conHolder.getConnection(); + "]");;
+				}
+				TransactionSynchronizationManager.bindResource(getDataSource();, conHolder);;
+				txObject.setConnectionHolder(conHolder);;
+			}
+			// bind the session holder to the thread
+			if (txObject.isNewSessionHolder();); {
+				TransactionSynchronizationManager.bindResource(getSessionFactory();, txObject.getSessionHolder(););;
+			}
+</pre><br />由此可以看出，在真正启动一个事务时，hbTxnManager会先把connection绑定到当前线程，再绑定session到当前线程，由TransactionSynchronizationManager统一管理。<strong>并且上面提到的connection是从session中取得的，也就是说，无论是jdbc dao还是hibernate dao本质上使用的是同一个database connection</strong><br /><br />因此得出结论：HibernateTransactionManager实际上是可以同时管理由JdbcTemplate或JdbcDaoSupport实现的dao以及HibernateTemplate或HibernateDaoSupport实现的事务的。<br /><br /><br />Rod Johnson的话：<br /><div class="quote_title">引用</div><div class="quote_div">It is possible--and sometimes useful--to have coordinated transactions for both. Your JDBC transactions will be managed by the HibernateTransactionManager if you work with the same JDBC DataSource in the same transaction. That is, create the SessionFactory using Spring's SessionFactoryBean using the same DataSource that your JdbcTemplates use.<br /><br />The only issue to watch, of course, is that you may be invalidating your Hibernate cache by JDBC changes. Generally I find it best to use JDBC to update only tables that don't have Hibernate mappings.<br /></div><br /><br />Juergen Hoeller的话：<br /><div class="quote_title">引用</div><div class="quote_div">As Rod said, simply keep using HibernateTransactionManager, which auto-detects the DataSource used by Hibernate and seamlessly exposes Hibernate transactions as JDBC transactions for that DataSource. JDBC code that accesses the same DataSource via Spring will automatically participate in such transactions.<br /><br />Note that you must specify the DataSource for Hibernate via LocalSessionFactoryBean's "dataSource" property to allow HibernateTransactionManager to auto-detect it. Alternatively, you can explicitly pass the DataSource to HibernateTransactionManager's "dataSource" property.</div>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://denis.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://denis.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=denis" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://denis.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62276' class='post_rate_box'><a href='#' onclick='rate_post(62276, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62276, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62296">
+  <td class="postauthor">
+    <ul>
+      <li class="name">JJYAO</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://jjyao.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/18792/a8d83fc1-29c5-3a06-9620-a5a00f5e0265.jpg?1236832442" title="JJYAO的博客: JJYAO" /></a></li>
+      <li>文章: 131</li>
+      <li>积分: 373</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-03 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62296' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        谢谢楼上的严谨的作风<img src="/images/smiles/icon_smile.gif"/><br /><br />但是<br />void doBusiness(){ <br />doAction1(); 使用JdbcTemplete <br />doAction2(); 使用JdoDaoSupport或HBDaoSupport <br />} <br /><br />请注意执行的顺序,是先执行jdbcTemplate,再执行O/R<br />Dao support<br /><br />而且你单单看hibernateTransactionManager是不够的<br />你看看JDBC的TransactionManager...
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jjyao.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jjyao.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=JJYAO" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jjyao.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62296' class='post_rate_box'><a href='#' onclick='rate_post(62296, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62296, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62310">
+  <td class="postauthor">
+    <ul>
+      <li class="name">denis</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://denis.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/990/2bb674c8-c35c-4e4a-ab95-fe92e71fc402.gif?1236831870" title="denis的博客: denis" /></a></li>
+      <li>文章: 71</li>
+      <li>积分: 354</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-03 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62310' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        和执行顺序有什么关系？至于和DatasourceTranactionManager就更没有关系了。事实上，当你把jdbcTemplate dao和hibernate dao放置在同一个service的方法里时，你是不需要在spring的配置文件里声明DatasourceTransactionManager bean的。<br />实在很难理解你的真正含义。<br /><br />你应该只是停留在思考的程度吧？建议你具体实践一下。实践以后如果还有此类问题也请拿出具体代码来说明。流于口头上的争论实在是没有意义，请就此打住。呵呵～～<br /><br />good luck
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://denis.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://denis.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=denis" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://denis.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62310' class='post_rate_box'><a href='#' onclick='rate_post(62310, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62310, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62340">
+  <td class="postauthor">
+    <ul>
+      <li class="name">JJYAO</li>
+      <li>等级: <img src="/images/star4.gif" alt="四星会员" title="四星会员"/></li>
+      <li><a href='http://jjyao.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/18792/a8d83fc1-29c5-3a06-9620-a5a00f5e0265.jpg?1236832442" title="JJYAO的博客: JJYAO" /></a></li>
+      <li>文章: 131</li>
+      <li>积分: 373</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-03 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62340' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        谢谢,我又仔细浏览了JdoDaoSupport和HbDaoSupport的TransactionManager,呵呵，<br /><br />关于,---mixed ORM and JDBC usage is a feature of Spring DAO 这句话，还是要打半个问号,<br />jdbc+Jdo默认是无法混合的,<br /><br />JDOTransactionManager.java<br /><br />/ Register the JDO PersistenceManager's JDBC Connection for the DataSource, if set.<br />			if (getDataSource() != null) {<br />				ConnectionHandle conHandle = getJdoDialect().getJdbcConnection(pm, definition.isReadOnly());<br />				if (conHandle != null) {<br />					ConnectionHolder conHolder = new ConnectionHolder(conHandle);<br /><br /><br />DefaultJdoDialect.java<br />	/**<br />	 * This implementation returns null, to indicate that JDBC Connection<br />	 * retrieval is not supported.<br />	 */<br />	public ConnectionHandle getJdbcConnection(PersistenceManager pm, boolean readOnly)<br />			throws JDOException, SQLException {<br />		return null; //直接返回一个null,<br />	}<br /><br />由于jdo获得PM相关的conn是由不同厂商实现的,所以spring无法支持..(我上面也说了)...<br /><br /><br />没错,Hibernate mixed jdbc的确是可以的，是我看的不仔细,因为我项目里用的是Spring + kodo jdo..<br /><br />:)当然，我们可以复写这个方法，把PM cast成kodoPM<br />然后把connection取出来. Spring还是给我们提供了扩展的方法.
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jjyao.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jjyao.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=JJYAO" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jjyao.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62340' class='post_rate_box'><a href='#' onclick='rate_post(62340, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62340, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62366">
+  <td class="postauthor">
+    <ul>
+      <li class="name">CafeBabe</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://cafebabe.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="CafeBabe的博客: CafeBabe" /></a></li>
+      <li>文章: 109</li>
+      <li>积分: 455</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-03 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62366' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        还有个问题呀，如果你用了hibernate second level，这时JdbcTemplate去更新了数据，那你怎么样同步呢？<br />除非像Rod Johnson说的：<br /><div class="quote_title">引用</div><div class="quote_div"><br />Generally I find it best to use JDBC to update only tables that don't have Hibernate mappings. <br /></div><br />要不就还是session.connection()吧<img src="/images/smiles/icon_lol.gif"/>
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://cafebabe.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://cafebabe.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=CafeBabe" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://cafebabe.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62366' class='post_rate_box'><a href='#' onclick='rate_post(62366, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62366, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_62461">
+  <td class="postauthor">
+    <ul>
+      <li class="name">rongsantang</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://rongsantang.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="rongsantang的博客: rongsantang" /></a></li>
+      <li>文章: 70</li>
+      <li>积分: 349</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2005-03-04 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F62461' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        denis教育的对，源代码我也看过，不过看得不仔细，所以得出了错误的结论。<br />偶认错。。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://rongsantang.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://rongsantang.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=rongsantang" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://rongsantang.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_62461' class='post_rate_box'><a href='#' onclick='rate_post(62461, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(62461, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_330842">
+  <td class="postauthor">
+    <ul>
+      <li class="name">Godlikeme</li>
+      <li>等级: <img src="/images/dimd1.gif" alt="一钻会员" title="一钻会员"/></li>
+      <li><a href='http://godlikeme.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/43820/3748c5bc-e5d4-3578-8d03-175673031254.gif?1236834431" title="Godlikeme的博客: 博学、审问、慎思、明辨、笃行" /></a></li>
+      <li>文章: 1156</li>
+      <li>积分: 744</li>
+      <li>来自: BJ</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-07-10 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F330842' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">denis 写道</div><div class="quote_div"><br /><br />Rod Johnson的话：<br /><div class="quote_title">引用</div><div class="quote_div">It is possible--and sometimes useful--to have coordinated transactions for both. Your JDBC transactions will be managed by the HibernateTransactionManager if you work with the same JDBC DataSource in the same transaction. That is, create the SessionFactory using Spring's SessionFactoryBean using the same DataSource that your JdbcTemplates use.<br /><br />The only issue to watch, of course, is that you may be invalidating your Hibernate cache by JDBC changes. Generally I find it best to use JDBC to update only tables that don't have Hibernate mappings.<br /></div><br /><br />Juergen Hoeller的话：<br /><div class="quote_title">引用</div><div class="quote_div">As Rod said, simply keep using HibernateTransactionManager, which auto-detects the DataSource used by Hibernate and seamlessly exposes Hibernate transactions as JDBC transactions for that DataSource. JDBC code that accesses the same DataSource via Spring will automatically participate in such transactions.<br /><br />Note that you must specify the DataSource for Hibernate via LocalSessionFactoryBean's "dataSource" property to allow HibernateTransactionManager to auto-detect it. Alternatively, you can explicitly pass the DataSource to HibernateTransactionManager's "dataSource" property.</div></div><br /><br /><br />按照spring文档建议的方式，jdbc,hibernate session拿的是同一个connection,这样事务控制有一定保证。<br />jdbc,hibernate session mixed有什么样的问题呢？我分析大体有一下几点：<br />1. session缓存和二级缓存与jdbc数据不一致；session中拿到数据后mapping的对象可能会被jdbc修改，而session不知道；反之同理。<br />2. 更新执行冲突；hibernate session与数据库同步有对数据库更新操作的 执行策略，jdbc是立刻执行的，两者可能冲突。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://godlikeme.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://godlikeme.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=Godlikeme" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://godlikeme.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_330842' class='post_rate_box'><a href='#' onclick='rate_post(330842, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(330842, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_330883">
+  <td class="postauthor">
+    <ul>
+      <li class="name">xianyun</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://xianyun.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="xianyun的博客: xianyun" /></a></li>
+      <li>文章: 32</li>
+      <li>积分: 30</li>
+      <li>来自: sz</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-07-10 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+Spring%E7%9C%9F%E7%9A%84%E8%83%BDmixed+JDBC%E5%92%8CORM%3F&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F330883' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        这里边确实是有一些问题的，hibernate的更新数据可以通过显式的flush来刷出到数据库，但是jdbc的修改hibernate的缓存是不知道的。除非有一个全局的考虑，考虑到什么时候hibernate的缓存可能是不对的，需要清除，安排好具体执行步骤，这样才能用好。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://xianyun.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://xianyun.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=xianyun" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://xianyun.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_330883' class='post_rate_box'><a href='#' onclick='rate_post(330883, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(330883, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><a href="/topic/11063?page=1" class="prev_page" rel="prev start">&laquo; 上一页</a> <a href="/topic/11063?page=1" rel="prev start">1</a> <span class="current">2</span> <span class="disabled next_page">下一页 &raquo;</span></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Spring'>Spring</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java编程和Java企业应用</option>
+<option value="web">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_b2">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("forum_advert_b2").innerHTML = '<a href=\'/adverts/166\' target=\'_blank\'><span style="font-weight:bold;color:#FF3300;">首届亚太地区Android技术大会 5.16北京 5.17上海－JavaEye报名开始！</span></a>';});
+</script>
+</div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":11063, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>

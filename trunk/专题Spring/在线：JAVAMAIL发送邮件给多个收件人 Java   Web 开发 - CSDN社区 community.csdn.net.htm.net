@@ -1,0 +1,291 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta content="all" name="robots" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/ui/styles/topic.css" />
+<script type="text/javascript" src="/ui/scripts/Csdn/Topic.js"></script>
+<title>在线：JAVAMAIL发送邮件给多个收件人 Java / Web 开发 - CSDN社区 community.csdn.net</title>
+<meta content="internet service server 收件人 internetaddress caucho httprequest httpservlet javax mail Java Web 开发" name="Keywords" />
+<meta content="发送给一个收件人时没有错误。收件人代码部分如下String to =request.getParameter(&quot;to&quot;);InternetAddress[] address={new InternetAddress(to)};msg.setRecipients(Message.RecipientType.TO,address);发送给多个收件人运行出现如下错误javax.mail.internet.AddressException: Illegal semicolon, not in group in string``chili1979@sohu.com;chili1979jp@yahoo.com.cn'' at position 18        at javax.mail.internet.InternetAddress.parse(InternetAddress.java:747)        at javax.mail.internet.InternetAddress.parse(InternetAddress.java:526)        at j" name="description" />
+</head>
+<body>
+<div id="wrapper">
+<div id="innerWrapper">
+<div id="logo">
+<script src='http://www.csdn.net/ggmm/csdn_ggmm.js'></script>
+<script type='text/javascript'>show_ads_zone(230);</script>
+<img src="http://counter.csdn.net/pv.aspx?id=94" alt="" style="display: none" />
+<div/>
+<table id="CSDNPHL" class="CSDN-PHF" border="0" cellspacing="1" cellpadding="0">
+<tbody>
+<tr>
+<td><a rel="external" href='http://www.csdn.net/'>CSDN首页</a></td>
+<td><a rel="external" href='http://hi.csdn.net/'>空间</a></td>
+<td><a rel="external" href='http://news.csdn.net/'>新闻</a></td>
+<td><a rel="external" href='http://bbs.csdn.net/'>论坛</a></td>
+<td><a rel="external" href='http://blog.csdn.net/'>Blog</a></td>
+<td><a rel="external" href='http://download.csdn.net/'>下载</a></td>
+<td><a rel="external" href='http://book.csdn.net/'>读书</a></td>
+<td><a rel="external" href='http://wz.csdn.net/'>网摘</a></td>
+<td><a rel="external" href='http://search.csdn.net/'>搜索</a></td>
+<td><a rel="external" href='http://dotnet.csdn.net/'>.NET</a></td>
+<td><a rel="external" href='http://java.csdn.net/'>Java</a></td>
+<td><a rel="external" href='http://live.csdn.net/'>视频</a></td>
+<td><a rel="external" href='http://prj.csdn.net/'>接项目</a></td>
+<td><a rel="external" href='http://job.csdn.net/'>求职</a></td>
+<td><a rel="external" href='http://www.itcast.net/'>在线学习</a></td>
+<td><a rel="external" href='http://www.dearbook.com.cn/'>买书</a></td>
+<td><a rel="external" href='http://www.programmer.com.cn/'>程序员</a></td>
+<td><a href="http://hi.csdn.net/Admin/NotifyList.aspx"><span id="notifyPrompt">通知</span></a></td>
+</tr>
+</tbody>
+</table>
+<div id="logo">
+<table border="0" cellspacing="0" cellpadding="0" width="760">
+  <tr style="text-align:center">
+  	<td width="380" height="36" style="background-color:#026994; vertical-align:middle; margin:auto;" align="center">
+  	<!--a href="http://community.csdn.net/Games/GamesList.aspx/" target="_blank"><font size="3px" color="white"><strong>可用分押宝游戏火热进行中...</strong></font></a-->
+  	<a href="http://g.csdn.net/5085044" target="_blank"><font size="3px" color="white"><strong>【经验总结】不能实施并行处理的情况</strong></font></a>
+    </td>
+    <td width="380" height="36" style="background-color:#026994; vertical-align:middle; margin:auto;" align="center">
+  	<a href="http://g.csdn.net/5085045" target="_blank"><font size="3px" color="white"><strong>浅谈并行编程中的任务分解模式</strong></font></a>
+  	</td>
+  </tr>
+  <tr id="bigFlash" style="text-align:center">
+	<!--td colspan="2"><a href="http://community.csdn.net/" target="_blank"><img src="/t/img/topicAD.jpg" width="760" height="300" border="0" /></a></td-->
+	<td colspan="2"><a href="http://g.csdn.net/5078710" target="_blank"><img src="/t/img/20090403.jpg" width="760" height="300" border="0" /></a></td>
+  </tr>
+</table>
+<script type="text/javascript">setTimeout("document.getElementById('bigFlash').style.display='none'", 5000);</script>
+</div>
+<table><tr>
+<td><a href="http://community.csdn.net/" rel="external"><img src="/ui/images/logo_csdn.gif" alt="CSDN社区" /></a></td>
+<td><script type='text/javascript'>show_ads_zone(228);</script>
+<!--<iframe frameborder="0" width="475" height="60" scrolling="no" src="/t/img/centerAd.htm">
+    </iframe>--></td>
+<td><script type='text/javascript'>show_ads_zone(229);</script></td>
+</tr></table>
+<!-- script src="http://notify.hi.csdn.net/PromptInfo.ashx?ForWhat=FullJs"></script -->
+
+<link rel="stylesheet" href="http://www.csdn.net/css/csdn_favbykimi.css" type="text/css" media="all" />
+<div id="navigation">
+<div id="search">
+<div id="innerSearch">
+<input id="key" onfocus="value=''" /><a href="#" onclick="return Search()">搜索</a>&nbsp;<cite class="fav_csdnstylebykimi"><a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" title="收藏到我的网摘中，并分享给我的朋友">收藏</a></cite>&nbsp;<a
+        href="#" onclick="return Print()">打印</a>&nbsp;<a href="#" onclick="return Close()">关闭</a>
+</div>
+</div>
+<div>
+<a href="http://community.csdn.net/" rel="external" class="CSDNRoom">CSDN社区</a>&nbsp;>&nbsp;
+<a href="http://community.csdn.net/Expert/ForumsList.asp?typenum=1&roomid=54" rel="external">
+Java</a>&nbsp;>&nbsp; <a href="http://community.csdn.net/Expert/ForumList.asp?typenum=1&roomid=5409"
+    rel="external">Web 开发</a>
+</div>
+</div>
+
+<div id="mainWrapper">
+<div id="pageContent">
+<div id="innerContent">
+<h1>在线：JAVAMAIL发送邮件给多个收件人</h1><div class="author">
+<a class="anchor" name="Top">楼主</a>chili1979（中国龙）<input type="button" class="user3" title="三级用户 该版得分小于等于1000分，大于500分" />2003-04-04 14:59:01 在  Java / Web 开发 提问</div>
+<p>
+发送给一个收件人时没有错误。收件人代码部分如下 &nbsp; <br/> &nbsp; String &nbsp; to &nbsp; =request.getParameter(&quot;to&quot;); &nbsp; <br/> &nbsp; InternetAddress[] &nbsp; address={new &nbsp; InternetAddress(to)}; &nbsp; <br/> &nbsp; msg.setRecipients(Message.RecipientType.TO,address); &nbsp; <br/> &nbsp; 发送给多个收件人运行出现如下错误 &nbsp; <br/> &nbsp; javax.mail.internet.AddressException: &nbsp; Illegal &nbsp; semicolon, &nbsp; not &nbsp; in &nbsp; group &nbsp; in &nbsp; string &nbsp; <br/> &nbsp; ``chili1979@sohu.com;chili1979jp@yahoo.com.cn'' &nbsp; at &nbsp; position &nbsp; 18 &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; javax.mail.internet.InternetAddress.parse(InternetAddress.java:747) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; javax.mail.internet.InternetAddress.parse(InternetAddress.java:526) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; javax.mail.internet.InternetAddress.&lt;init&gt;(InternetAddress.java:63) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; mail.MailServlet.doPost(MailServlet.java:43) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; javax.servlet.http.HttpServlet.service(HttpServlet.java:165) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; javax.servlet.http.HttpServlet.service(HttpServlet.java:103) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; com.caucho.server.http.FilterChainServlet.doFilter(FilterChainServlet &nbsp; <br/> &nbsp; .java:96) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; com.caucho.server.http.Invocation.service(Invocation.java:312) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; com.caucho.server.http.CacheInvocation.service(CacheInvocation.java:1 &nbsp; <br/> &nbsp; 35) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; com.caucho.server.http.HttpRequest.handleRequest(HttpRequest.java:221 &nbsp; <br/> &nbsp; ) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; com.caucho.server.http.HttpRequest.handleConnection(HttpRequest.java: &nbsp; <br/> &nbsp; 163) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; com.caucho.server.TcpConnection.run(TcpConnection.java:137) &nbsp; <br/> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; at &nbsp; java.lang.Thread.run(Thread.java:536) &nbsp; <br/> &nbsp;  &nbsp; <br/> &nbsp;  &nbsp; <br/> &nbsp; 各位帮帮忙，或给个提示，怎么才能发送邮件给多个收件人？ &nbsp; <br/> &nbsp; 
+<span>问题点数：20、回复次数：3</span><a href="#">Top</a>
+</p>
+<div class="tagad">
+<iframe frameBorder="0" scrolling='no' src="/Include/Board.htm?Tags="></iframe></div>
+<h3><strong><a class="anchor" name="r_10718385">1 楼</a>moumouren（某某人）<input type="button" class="star2" title="二星用户 该版得分小于等于30000分，大于10000分" /></strong><span>回复于 2003-04-04 17:17:54 得分 <em>20</em></span></h3>
+<p>String[] &nbsp; str &nbsp; = &nbsp; {}; &nbsp; <br/> &nbsp; InternetAddress[] &nbsp; address=new &nbsp; InternetAddress[amount]; &nbsp; <br/> &nbsp; for &nbsp; (int &nbsp; i=0;i&lt;str.length;i++){ &nbsp; <br/> &nbsp; 	address[i]=new &nbsp; InternetAddress(str[i]]); &nbsp; <br/> &nbsp; } &nbsp; <br/> &nbsp; msg.setRecipients(Message.RecipientType.TO,address);<a href="#">Top</a></p><h3><strong><a class="anchor" name="r_10718591">2 楼</a>chili1979（中国龙）<input type="button" class="user3" title="三级用户 该版得分小于等于1000分，大于500分" /></strong><span>回复于 2003-04-04 17:23:10 得分 0
+</span></h3>
+<p>amount? &nbsp; 是什么东东？<a href="#">Top</a></p><h3><strong><a class="anchor" name="r_10718727">3 楼</a>chili1979（中国龙）<input type="button" class="user3" title="三级用户 该版得分小于等于1000分，大于500分" /></strong><span>回复于 2003-04-04 17:26:17 得分 0
+</span></h3>
+<p>str &nbsp; 在哪赋值的？<a href="#">Top</a></p><h4><strong>相关问题</strong></h4>
+<div class="relation">
+<ul>
+<li><a href="http://topic.csdn.net/t/20020619/18/816313.html" rel="external">pb发邮件，收件人地址老是不对</a></li>
+<li><a href="http://topic.csdn.net/t/20050422/16/3958844.html" rel="external">OutLook中收Lotus邮件收件人如何显示中文名?</a></li>
+<li><a href="http://topic.csdn.net/t/20050127/17/3758821.html" rel="external">请问用OutLook怎么发邮件，不显示收件人地址?</a></li>
+<li><a href="http://topic.csdn.net/t/20060328/09/4644604.html" rel="external">如何在foxmail中提取邮件,如发件人,收件人,日期等</a></li>
+<li><a href="http://topic.csdn.net/t/20050718/10/4150979.html" rel="external">用Jmail群发邮件，如何使收件人在收件人列表中只看到自己而不显示其他人</a></li>
+<li><a href="http://topic.csdn.net/t/20020228/15/547503.html" rel="external">javamail发件人和收件人不能相同吗？看下面的代码</a></li>
+<li><a href="http://topic.csdn.net/t/20020916/12/1027153.html" rel="external">请详细解释javamail里的“收件人类型”的CC，TO，BCC的意义？？？</a></li>
+<li><a href="http://topic.csdn.net/t/20060208/13/4545229.html" rel="external">用xp_sendmail带附件发送邮件,收件人打开附件后中文是乱码,怎么解决?</a></li>
+<li><a href="http://topic.csdn.net/t/20050128/09/3759711.html" rel="external">如何设置邮件，使对方收到邮件时，收件人栏显示&quot;undisclosed recipients&quot;, 而不显示具体的邮件地址?</a></li>
+<li><a href="http://topic.csdn.net/t/20010820/11/247049.html" rel="external">怎么在打开outlook的时候带个参数就能直接打开新邮件并把收件人地址传进去？</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="sidebar">
+<h3>关键词</h3>
+<div>
+<ul>
+<li><a href="http://tag.csdn.net/tag/internet/" rel="external">internet</a></li>
+<li><a href="http://tag.csdn.net/tag/service/" rel="external">service</a></li>
+<li><a href="http://tag.csdn.net/tag/server/" rel="external">server</a></li>
+<li><a href="http://tag.csdn.net/tag/收件人/" rel="external">收件人</a></li>
+<li><a href="http://tag.csdn.net/tag/internetaddress/" rel="external">internetaddress</a></li>
+<li><a href="http://tag.csdn.net/tag/caucho/" rel="external">caucho</a></li>
+<li><a href="http://tag.csdn.net/tag/httprequest/" rel="external">httprequest</a></li>
+<li><a href="http://tag.csdn.net/tag/httpservlet/" rel="external">httpservlet</a></li>
+<li><a href="http://tag.csdn.net/tag/javax/" rel="external">javax</a></li>
+<li><a href="http://tag.csdn.net/tag/mail/" rel="external">mail</a></li>
+</ul>
+</div>
+<h3>得分解答快速导航</h3>
+<div>
+<ul>
+<li>帖主：<a href="#Top">chili1979</a></li>
+<li><a href="#r_10718385">moumouren</a></li>
+</ul>
+</div>
+<h3>相关链接</h3>
+<div>
+<ul>
+
+    <li><a href="http://java.csdn.net/" target=_blank>CSDN Java频道</a></li>
+    <li><a href="http://www.dearbook.com.cn/Book/SearchBook.aspx?sortid=4&sorttype=smallsort" target=_blank>Java类图书</a></li>
+    <li><a href="http://www.codechina.net/resource/sort.php/21" target=_blank>Java类源码下载</a></li>
+
+</ul></div>
+<h3>广告也精彩</h3>
+<div>
+    <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+</div>
+
+<h3>反馈</h3><div>请通过下述方式给我们反馈<br/><img src="/ui/images/feedback.gif" alt="反馈" /></div>
+</div>
+<div class="clear"></div>
+</div>
+<div style="text-align: center;">
+    <div id="pubfooter" style="width: 770px;">
+    <div id="Float21789" style="position: absolute; z-index: 9; width: 190px; top: 200px;
+        right: 3px;">
+        <center>
+            <div id="AD21789" style="width: 190px; height: 90px; text-align: center; float: none;">
+                <a href="http://g.csdn.net/5060169" target="_blank">
+                    <img src="http://community.csdn.net/ui/homepage/images/questions.gif" alt="提问" style="width: 180px;
+                        height: 50px; padding-right: 3px;" /></a>
+            </div>
+        </center>
+    </div>
+
+    <script type="text/javascript" language="JavaScript">
+    var csdnScrollTop=function(){
+        return document.documentElement.scrollTop?document.documentElement.scrollTop:document.body.scrollTop;
+        };
+        function mymove21789(){
+        document.getElementById("Float21789").style.top=csdnScrollTop()+100+'px';document.getElementById("Float21789").style.right=3+'px';setTimeout("mymove21789();",50);
+        }
+        mymove21789();
+    </script>
+
+    <div id="Float21790" style="position: absolute; z-index: 9; width: 190px; top: 300px;
+        right: 3px;">
+        <center>
+            <div id="AD21790" style="width: 190px; height: 90px; text-align: center; float: none;">
+                <a href="http://vote.csdn.net/VoteList.aspx" target="_blank">
+                    <img src="http://topic.csdn.net/t/img/hotvote.gif" alt="惹火投票。。火热进行中..." style="width: 180px; height: 30px;" /></a>
+            </div>
+        </center>
+    </div>
+
+    <script type="text/javascript" language="JavaScript">
+        function mymove21790(){
+        document.getElementById("Float21790").style.top=csdnScrollTop()+200+'px';document.getElementById("Float21790").style.right=3+'px';setTimeout("mymove21790();",50);
+        }
+        mymove21790();
+    </script>
+    <script src="http://community.csdn.net/t/floatBox.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="http://www.csdn.net/ui/styles/public_header_footer.css" />
+        <dl>
+            <dt></dt>
+            <dd>
+                <a href="http://www.csdn.net/help/intro.htm" target="_blank">网站简介</a>&#124;<a href="http://www.csdn.net/help/ads.htm"
+                    target="_blank">广告服务</a>&#124;<a href="http://www.csdn.net/help/vip.htm" target="_blank">VIP资费标准</a>&#124;<a
+                        href="http://www.csdn.net/help/bankaccount.htm" target="_blank">银行汇款帐号</a>&#124;<a
+                            href="http://www.csdn.net/help/sitemap.htm" target="_blank">网站地图</a>&#124;<a href="http://www.csdn.net/help/help.htm"
+                                target="_blank">帮助</a>&#124;<a href="http://www.csdn.net/help/contact.htm" target="_blank">联系方式</a>&#124;<a
+                                    href="http://job.csdn.net/Jobs/f9c75c9f2ad14404a604669b757b9ed0/viewcompany.aspx"
+                                    target="_blank">诚聘英才</a>&#124;<a href="http://www.csdn.net/help/english.htm" target="_blank">English</a>&#124;<a
+                                        href="#" onclick="window.location.href='mai'+'lto:'+'webm'+'aster@c'+'sdn.n'+'et?subject=Report To CSDN';return false">问题报告</a></dd>
+            <dd>
+                北京创新乐知广告有限公司 版权所有,&nbsp;京&nbsp;ICP&nbsp;证&nbsp;070598&nbsp;号</dd>
+            <dd>
+                世纪乐知(北京)网络技术有限公司 提供技术支持</dd>
+			<dd>
+				CSDN网站24小时值班电话：13552009689</dd>
+            <dd class="small">
+                Copyright © 2000-2009, CSDN.NET, All Rights Reserved</dd>
+            <dd>
+                <a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank">
+                    <img src="http://www.csdn.net/ui/images/gongshang_logos.gif" alt="GongshangLogo" /></a></dd>
+        </dl>
+    </div>
+</div>
+
+        <!--google   Analytics begin -->
+
+        <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+        </script>
+
+        <script type="text/javascript">
+_uacct = "UA-2688088-7";
+urchinTracker();
+        </script>
+
+        <!--google   Analytics end -->
+
+        <script src="http://www.csdn.net/common/counter.js" type="text/javascript"></script>
+        <script src="http://www230.clickeye.cn/common/clickeye.js"></script>
+
+
+
+
+
+
+
+<!-- Control Code/Caption.Yo-Focus-->
+<SCRIPT LANGUAGE="JavaScript1.1">
+var afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8 = "";
+var afp_ad_count = 0;
+var afp_keyword_lenth = 200;
+
+var _YOYI_CONTROL_ = false;
+
+if ((navigator.userAgent.indexOf("MSIE 7.0") != -1) && (navigator.userAgent.indexOf("Windows") != -1))
+{
+	afp_keyword_lenth = 273;
+}
+
+if (document.title != "")
+	afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8 = document.title;
+if (window.keywords)
+	afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8 += window.keywords.content;
+if (window.description)
+	afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8 += window.description.content;
+
+if (document.innerTEXT)
+	afp_all_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8 = document.innerTEXT;
+
+if(afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8.length > afp_keyword_lenth) 
+{
+	afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8 = afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8.substring(0,afp_keyword_lenth);
+}
+
+document.write("<scr"+"ipt src='http://server.yoyi.com.cn/afp/get/;pl_id=BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8;tp=js;sk=0;ck=0;ext_key="+afp_keyword_BDA9CBA6_5658_A4DB_7E1D_1B781AF3DEE8+";u_id=afu;ex_id=;/?'></scr"+"ipt>");
+</SCRIPT>
+<!-- Control Code End/No.csdn-->
+
+
+
+
+</div>
+</div>
+</body>
+</html>
+
+
