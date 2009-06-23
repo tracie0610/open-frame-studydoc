@@ -1,0 +1,901 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0035)http://www.javaeye.com/topic/170683 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <TITLE>Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛</TITLE>
+    <META name="description" content=" 前言  &nbsp; 本文主要是针对Ruby On Rails 2.0.2的源代码进行分析，学习与研究。所使用的工具是NetBean 6.1  Beta，WEBRick，SciTE，ruby-debug-base（0.10.0），ruby-debug-ide（0.1.10）。Ruby版本为1.8.6。 &nbsp;  应该怎么分析总结，是开始最令人头痛的事，Ruby是面向对象的语言，从对象的层次记录吧，似乎一切都不那 ...">
+    <META name="keywords" content=" rails Ruby">
+    <LINK rel="shortcut icon" href="http://www.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <LINK href="http://www.javaeye.com/rss/board/Ruby" rel="alternate" title="JavaEye论坛" type="application/rss+xml">
+    <LINK href="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/forum.css" media="screen" rel="stylesheet" type="text/css">
+    <SCRIPT src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/application.js" type="text/javascript"></SCRIPT>
+      <LINK href="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/shCoreCommon.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/hotkey.js" type="text/javascript"></SCRIPT>
+            <SCRIPT src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/dragdrop.js" type="text/javascript"></SCRIPT>
+            <STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE></HEAD><BODY>
+    <DIV id="page">
+      <DIV id="header">
+        <DIV class="clearfix"><DIV id="user_nav">
+      <A href="http://www.javaeye.com/login" class="welcome" title="登录">您还未登录 !</A>
+    <A href="http://www.javaeye.com/all" style="color:red">我的应用</A>
+    <A href="http://www.javaeye.com/login">登录</A>
+    <A href="http://www.javaeye.com/signup" class="nobg">注册</A>
+  </DIV>
+</DIV>
+        <DIV class="clearfix">
+          <DIV id="branding">
+            <A href="http://www.javaeye.com/"><IMG alt="JavaEye3.0" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/logo.gif" title="JavaEye-最棒的软件开发交流社区"></A>
+          </DIV>
+          <DIV id="ad"><A href="http://www.javaeye.com/adverts/2" target="_blank"><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/rubyconfleft.png" style="BORDER:1px SOLID #000000"></A></DIV>
+        </DIV>
+      </DIV>
+
+      <DIV id="content" class="clearfix">
+        <DIV id="main">
+          
+
+
+          
+
+
+<DIV class="clearfix">
+  <DIV class="crumbs">
+    <A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN class="arrow">→</SPAN>
+    <A href="http://www.javaeye.com/forums/board/Ruby">Ruby版</A> <SPAN class="arrow">→</SPAN>
+    <A href="http://www.javaeye.com/forums/tag/rails">rails</A> <SPAN class="arrow">→</SPAN>
+    <H1>Ruby On Rails-2.0.2源代码分析（1）-Rails的启动</H1>
+  </DIV>
+</DIV>
+
+<DIV id="forum_tag_list">
+  <A href="http://www.javaeye.com/forums/board/Ruby">全部</A>
+      <A href="http://www.javaeye.com/forums/tag/ruby">ruby</A>
+      <A href="http://www.javaeye.com/forums/tag/rails">rails</A>
+      <A href="http://www.javaeye.com/forums/tag/rake">rake</A>
+      <A href="http://www.javaeye.com/forums/tag/DSL">DSL</A>
+      <A href="http://www.javaeye.com/forums/tag/RJS">RJS</A>
+      <A href="http://www.javaeye.com/forums/tag/YAML">YAML</A>
+  </DIV>
+
+<DIV class="actions">
+  <DIV class="buttons"></DIV>
+  <DIV class="wrapper">
+    <DIV id="forum_advert_b0"></DIV>
+    <DIV class="pagination"><SPAN class="disabled prev_page">« 上一页</SPAN> <SPAN class="current">1</SPAN> <A href="http://www.javaeye.com/topic/170683?page=2" rel="next">2</A> <A href="http://www.javaeye.com/topic/170683?page=2" class="next_page" rel="next">下一页 »</A></DIV>
+    <DIV class="info">浏览 10305 次</DIV>
+  </DIV>
+</DIV>
+
+
+
+<TABLE id="forum_main" cellspacing="1">
+  <THEAD>
+    <TR>
+      <TH colspan="2" class="topic_title">
+        <DIV class="wrapper"><SPAN class="locked">锁定老贴子</SPAN> <A href="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛">主题：Ruby On Rails-2.0.2源代码分析（1）-Rails的启动</A></DIV>
+        <DIV id="topic_rate_box"><STRONG class="highlight">该帖已经被评为精华帖</STRONG></DIV>
+      </TH>
+    </TR>
+    <TR>
+      <TD class="first_col">作者</TD>
+      <TD class="last_col">正文</TD>
+    </TR>
+  </THEAD>
+  <TBODY id="posts">
+    <TR id="p_484648">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">woody_420420</LI>
+      <LI>等级: <IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/star4.gif" alt="四星会员" title="四星会员"></LI>
+      <LI><A href="http://woody-420420.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/c9935ff7-ea5a-34c7-8a0a-10744df281cf.jpg" title="woody_420420的博客: Woody"></A></LI>
+      <LI>文章: 119</LI>
+      <LI>积分: 490</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-12 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        <DIV id="related_topics" style="position: relative; ">相关文章: <SPAN class="close"><A href="http://www.javaeye.com/topic/170683#" onclick="$(&#39;related_topics&#39;).hide();return false;" title="关闭">&nbsp;</A></SPAN>
+          <UL>
+                            <LI><A href="http://www.javaeye.com/topic/352961" title="Ubuntu Linux下ruby 1.9.1和Rails 2.3升级记录" target="_blank">Ubuntu Linux下ruby 1.9.1和Rails 2.3升级记录</A></LI>
+                              <LI><A href="http://www.javaeye.com/topic/93375" title="AliStore概述(Ajax网购站，提供源码供大家参考)" target="_blank">AliStore概述(Ajax网购站，提供源码供大家参考)</A></LI>
+                              <LI><A href="http://www.javaeye.com/topic/175556" title="Ruby On Rails-2.0.2源代码分析（4）-寻找Controller" target="_blank">Ruby On Rails-2.0.2源代码分析（4）-寻找Controller</A></LI>
+                          </UL>
+            <BR><SPAN>推荐圈子: <A href="http://ror-party.group.javaeye.com/" target="_blank">ror-party</A></SPAN>
+            <BR><A href="http://www.javaeye.com/wiki/topic/170683" target="_blank">更多相关推荐</A>
+          </DIV>
+                    <SCRIPT type="text/javascript">
+            new Draggable("related_topics");
+          </SCRIPT>
+        
+        <UL>
+<LI>
+<H1>前言</H1>
+</LI>
+</UL>
+<P>&nbsp; 本文主要是针对Ruby On Rails 2.0.2的源代码进行分析，学习与研究。所使用的工具是NetBean 6.1 
+Beta，WEBRick，SciTE，ruby-debug-base（0.10.0），ruby-debug-ide（0.1.10）。Ruby版本为1.8.6。<BR>
+&nbsp; 
+应该怎么分析总结，是开始最令人头痛的事，Ruby是面向对象的语言，从对象的层次记录吧，似乎一切都不那么直观，一个庞大的系统摆在眼前，整理一个类图，继承关系图。。。有点牛啃南瓜，无从下口的感觉。最后，决定打算从Ruby的本质-解释语言下手，从解释器的角度出发，跟着解释器的步伐，从细微入手，一步一步深入Rails，以达到从局部到整体，了解学习的目的。所以，最终，我决定从源代码执行顺序的角度去分析Rails。<BR>
+&nbsp; 
+为方便起见，我直接使用NetBean的调试环境，使用Ruby自带的WEBRick，从接触Rails最基本的ruby 
+script/server开始，首先来看Rails是怎么启动起来的。</P>
+<UL>
+<LI>
+<H1>Rails的启动</H1>
+</LI>
+</UL>
+<P>&nbsp; ruby 
+script/server，应该是搞rails的同学们耳熟能详的命令了。server脚本主要执行两个的过程：1.启动Rails；2.启动web服务器（当然，我这里是启动WEBRick了）。我们就从这里入手，看看Rails是怎么样被启动起来的。<BR>
+&nbsp; 
+前面我说过，我将从源代码执行顺序的角度去分析，所以，让我们先来看一看Rails启动时，核心源代码的执行顺序，具体见下图（为了使得分析简单明了，抓住关键本质所在，我只把个人认为与启动有关的源代码列出来，执行过程中，其他类似关于ActiveSupport中关于core的extension之类的代码就不列出）：<BR>
+<IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/cd5a1f4a-85c5-30cd-a9d3-e00575cb8d00.jpg" height="434" alt="" width="443"></P>
+<H2>&nbsp; boot.rb</H2>
+<P>&nbsp; <SPAN style="color: #0000ff;">源代码路径：RAILS_ROOT/config/boot.rb<BR>
+</SPAN>
+&nbsp; 
+这个代码文件是Rails的启动入口，完成的功能是：首先判断Rails是否启动，如果未启动则先执行一个“预初始化”（preinitialize）过程，然后选择一种启动方式（Vendor/Gem），执行相应类上的run方法。主方法boot!代码如下：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=def&percnt;20boot!&percnt;0A&percnt;20&percnt;20unless&percnt;20booted&percnt;3F&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20preinitialize&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20pick_boot.run&percnt;0A&percnt;20&percnt;20end&percnt;0Aend" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">def</SPAN><SPAN>&nbsp;boot!&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">unless</SPAN><SPAN>&nbsp;booted?&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;preinitialize&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;pick_boot.run&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">def boot!
+  unless booted?
+    preinitialize
+    pick_boot.run
+  end
+end</PRE>
+<P>&nbsp; 
+其中，与初始化过程是执行RAILS_ROOT/config目录下面的preinitializer.rb（如果存在的话）。这个过程的目的是在加载environment.rb文件执行执行一些初始化工作。参见：<A href="http://yudionrails.com/2008/1/7/what-s-new-in-edge-rails-pre-environment-load-hook" title="http://yudionrails.com/2008/1/7/what-s-new-in-edge-rails-pre-environment-load-hook">http://yudionrails.com/2008/1/7/what-s-new-in-edge-rails-pre-environment-load-hook</A>
+。此源代码中包含一个module 
+Rails，此模块下面包括三个类：VendorBoot，GemBoot，他们都继承自Boot类，分别代表是通过Vendor还是Gem的方式启动Rails（如果RAILS_ROOT/vender/下面存在名为rails的目录，则以Vendor方式启动Rails，否则，从Gem启动Rails）。当使用Gem方式启动Rails的话，还有一个重要的功能就是判断加载哪个版本的Rails，当然，正如我们所知，environment.rb中的RAILS_GEM_VERSION起了作用。总得来说，boot代码逻辑较简单，没有什么费解的东西，下面给出这个文件的整个执行逻辑流程图：</P>
+<P><BR>
+<IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/cd5a1f4a-85c5-30cd-a9d3-e00575cb8d00.jpg" height="434" alt="" width="443">
+</P>
+<H2>initialize.rb </H2>
+<P>&nbsp; <SPAN style="color: #0000ff;">源代码路径：gems/rails-2.0.2/lib/initializer.rb 
+(Gem方式启动）<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+RAILS_ROOT/vendor/rails/railties/lib/initializer.rb（Vendor方式启动）</SPAN>
+<BR>
+&nbsp; 
+虽然两种不同启动方式执行的源代码不同，但是他们完成的功能都大同小异，都对Rails执行必要的配置以及初始化。我们先来看看上一步--执行boot.rb代码的最后一步（还记得pick_boot.run么？），具体代码如下：</P>
+<P>&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=class&percnt;20Boot&percnt;0A&percnt;20&percnt;20def&percnt;20run&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20load_initializer&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20Rails&percnt;3A&percnt;3AInitializer.run(&percnt;3Aset_load_path)&percnt;0A&percnt;20&percnt;20end&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;Boot&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;run&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;load_initializer&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;Rails::Initializer.run(<SPAN class="symbol">:set_load_path</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">class Boot
+  def run
+    load_initializer
+    Rails::Initializer.run(:set_load_path)
+  end
+end
+</PRE>
+<P>当完成了选择一个boot方式后，会执行相应Boot对象的run方法，那么run方法首先载入初始化器，VendorRoot通过如下方式载入：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=class&percnt;20VendorBoot&percnt;20&percnt;3C&percnt;20Boot&percnt;0A&percnt;20&percnt;20def&percnt;20load_initializer&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20require&percnt;20&percnt;22&percnt;23&percnt;7BRAILS_ROOT&percnt;7D&percnt;2Fvendor&percnt;2Frails&percnt;2Frailties&percnt;2Flib&percnt;2Finitializer&percnt;22&percnt;0A&percnt;20&percnt;20end&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;VendorBoot&nbsp;&lt;&nbsp;Boot&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;load_initializer&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;require&nbsp;<SPAN class="string">"#{RAILS_ROOT}/vendor/rails/railties/lib/initializer"</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">class VendorBoot &lt; Boot
+  def load_initializer
+    require "#{RAILS_ROOT}/vendor/rails/railties/lib/initializer"
+  end
+end
+</PRE>
+<P> 
+GemRoot通过如下方式载入：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=class&percnt;20GemBoot&percnt;20&percnt;3C&percnt;20Boot&percnt;0A&percnt;20&percnt;20def&percnt;20load_initializer&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20self.class.load_rubygems&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20load_rails_gem&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20require&percnt;20&#39;initializer&#39;&percnt;0A&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20...&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;GemBoot&nbsp;&lt;&nbsp;Boot&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;load_initializer&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">self</SPAN><SPAN>.</SPAN><SPAN class="keyword">class</SPAN><SPAN>.load_rubygems&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;load_rails_gem&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;require&nbsp;<SPAN class="string">'initializer'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">class GemBoot &lt; Boot
+  def load_initializer
+    self.class.load_rubygems
+    load_rails_gem
+    require 'initializer'
+  end
+  ...
+end
+</PRE>
+<P> 
+OK。初始化器载入完成，Boot的run方法立即执行初始化器对象的类方法run，注意这里的run方法参数是:set_load_path符号。好了，下面，我们可以深入到initialize.rb里面去看个究竟了。&nbsp; 
+initialize.rb中定义了一个module 
+Rails，其中包括了此代码文件中最重要的两个类：Configuration和Initializer。从类名我们就可以很清晰的了解到，Initializer类完成Rails的初始化工作，当然这个过程需要各种各样的配置，参数，这些则由Configuration提供。那么首先来看看Configuration提供了Rails所需的哪些配置参数，详见下表：</P>
+<TABLE cellspacing="0" border="1" cellpadding="2" width="668">
+<TBODY>
+<TR>
+<TD valign="top" width="189"><STRONG>配置名（accessor名）</STRONG>
+</TD>
+<TD valign="top" width="477"><STRONG>具体描述</STRONG>
+</TD>
+</TR>
+<TR>
+<TD valign="top" width="191">frameworks</TD>
+<TD valign="top" width="477">会被载入的Rails框架组件列表，会包括action_controller，action_view等</TD>
+</TR>
+<TR>
+<TD valign="top" width="193">load_paths</TD>
+<TD valign="top" width="477">附加的load路径列表，app/controller;app/models等Rails项目下的目录</TD>
+</TR>
+<TR>
+<TD valign="top" width="195">load_once_paths</TD>
+<TD valign="top" width="477">Rails只会load一次的目录，似乎目前版本的Rails未用到这个参数</TD>
+</TR>
+<TR>
+<TD valign="top" width="196">log_path</TD>
+<TD valign="top" width="477">日志文件的路径，根据目前的环境（development，test，production）决定</TD>
+</TR>
+<TR>
+<TD valign="top" width="197">log_level</TD>
+<TD valign="top" width="477">Rails日志器的日志级别（info，debug）</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">view_path</TD>
+<TD valign="top" width="477">view的目录路径，默认路径是app/view了</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">controller_paths</TD>
+<TD valign="top" width="477">controller的目录路径，默认路径是app/controller</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">cache_classes</TD>
+<TD valign="top" width="477">是否对类进行缓存。目前未使用（一直是false）</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">whiny_nils</TD>
+<TD valign="top" width="477">true/false，当设置为true的话，当你在Rails中调用一个nil方法的时候，将会得到警告</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">plugins</TD>
+<TD valign="top" width="477">载入的插件列表，默认为空</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">plugin_paths</TD>
+<TD valign="top" width="477">插件路径，默认是RAILS_ROOT/vendor/plugins目录</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">plugin_locators</TD>
+<TD valign="top" width="477">插件的定位器，默认是Plugin::FileSystemLocator</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">plugin_loader</TD>
+<TD valign="top" width="477">插件的载入器，默认是Plugin::Loader</TD>
+</TR>
+<TR>
+<TD valign="top" width="198">database_configuration_file</TD>
+<TD valign="top" width="477">数据库配置文件，默认位于RAILS_ROOT/config/database.yml</TD>
+</TR>
+</TBODY>
+</TABLE>
+<P>&nbsp; 
+绕了一圈，现在让我们回到Initializer类的run方法（由boot.rb调用：Rails::Initializer.run(:set_load_path)），十分简单：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=def&percnt;20self.run(command&percnt;20&percnt;3D&percnt;20&percnt;3Aprocess&percnt;2C&percnt;20configuration&percnt;20&percnt;3D&percnt;20Configuration.new)&percnt;0A&percnt;20&percnt;20yield&percnt;20configuration&percnt;20if&percnt;20block_given&percnt;3F&percnt;0A&percnt;20&percnt;20initializer&percnt;20&percnt;3D&percnt;20new&percnt;20configuration&percnt;0A&percnt;20&percnt;20initializer.send(command)&percnt;0A&percnt;20&percnt;20initializer&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">def</SPAN><SPAN>&nbsp;</SPAN><SPAN class="keyword">self</SPAN><SPAN>.run(command&nbsp;=&nbsp;</SPAN><SPAN class="symbol">:process</SPAN><SPAN>,&nbsp;configuration&nbsp;=&nbsp;Configuration.</SPAN><SPAN class="keyword">new</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">yield</SPAN><SPAN>&nbsp;configuration&nbsp;</SPAN><SPAN class="keyword">if</SPAN><SPAN>&nbsp;block_given?&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;initializer&nbsp;=&nbsp;<SPAN class="keyword">new</SPAN><SPAN>&nbsp;configuration&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;initializer.send(command)&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;initializer&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">def self.run(command = :process, configuration = Configuration.new)
+  yield configuration if block_given?
+  initializer = new configuration
+  initializer.send(command)
+  initializer
+end
+</PRE>
+<P> 
+现在我们姑且不管block（boot.rb调用他的时候确实也没有关联一个block），接下来的工作是生成一个新的Configuration对象，并赋给Initializer的构造函数(然后由Initializer对象保存该配置对象)，然后执行initializer上的command方法，默认情况是执行process方法，这里通过boot.rb的调用，将执行set_load_path方法。在这里值得注意的是，新生成的Configuration对象的所有配置参数都是默认值，例如：frameworks参数通过如下方法得到默认值：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=def&percnt;20default_frameworks&percnt;0A&percnt;20&percnt;20&percnt;5B&percnt;20&percnt;3Aactive_record&percnt;2C&percnt;20&percnt;3Aaction_controller&percnt;2C&percnt;20&percnt;3Aaction_view&percnt;2C&percnt;20&percnt;3Aaction_mailer&percnt;2C&percnt;20&percnt;3Aactive_resource&percnt;20&percnt;5D&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">def</SPAN><SPAN>&nbsp;default_frameworks&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;[&nbsp;<SPAN class="symbol">:active_record</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:action_controller</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:action_view</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:action_mailer</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:active_resource</SPAN><SPAN>&nbsp;]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">def default_frameworks
+  [ :active_record, :action_controller, :action_view, :action_mailer, :active_resource ]
+end
+</PRE>
+<P> 
+controller_path参数通过如下方法得到默认值： 
+</P>
+<P>&nbsp;</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=def&percnt;20default_controller_paths&percnt;0A&percnt;20&percnt;20paths&percnt;20&percnt;3D&percnt;20&percnt;5BFile.join(root_path&percnt;2C&percnt;20&#39;app&#39;&percnt;2C&percnt;20&#39;controllers&#39;)&percnt;5D&percnt;0A&percnt;20&percnt;20paths.concat&percnt;20builtin_directories&percnt;0A&percnt;20&percnt;20paths&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">def</SPAN><SPAN>&nbsp;default_controller_paths&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;paths&nbsp;=&nbsp;[<SPAN class="builtin">File</SPAN><SPAN>.join(root_path,&nbsp;</SPAN><SPAN class="string">'app'</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="string">'controllers'</SPAN><SPAN>)]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;paths.concat&nbsp;builtin_directories&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;paths&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">def default_controller_paths
+  paths = [File.join(root_path, 'app', 'controllers')]
+  paths.concat builtin_directories
+  paths
+end
+</PRE>
+<P> 
+其实，所有的这些配置都不是定死的，我们可以在enviroment.rb中重新定义他们，象下面这样：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=Rails&percnt;3A&percnt;3AInitializer.run&percnt;20do&percnt;20&percnt;7Cconfig&percnt;7C&percnt;0A&percnt;20&percnt;20config.frameworks&percnt;20-&percnt;3D&percnt;20&percnt;5B&percnt;20&percnt;3Aactive_record&percnt;2C&percnt;20&percnt;3Aactive_resource&percnt;2C&percnt;20&percnt;3Aaction_mailer&percnt;20&percnt;5D&percnt;0A&percnt;20&percnt;20config.plugins&percnt;20&percnt;3D&percnt;20&percnt;5B&percnt;20&percnt;3Aexception_notification&percnt;2C&percnt;20&percnt;3Assl_requirement&percnt;2C&percnt;20&percnt;3Aall&percnt;20&percnt;5D&percnt;0A&percnt;20&percnt;20...&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>Rails::Initializer.run&nbsp;</SPAN><SPAN class="keyword">do</SPAN><SPAN>&nbsp;|config|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;config.frameworks&nbsp;-=&nbsp;[&nbsp;<SPAN class="symbol">:active_record</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:active_resource</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:action_mailer</SPAN><SPAN>&nbsp;]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;config.plugins&nbsp;=&nbsp;[&nbsp;<SPAN class="symbol">:exception_notification</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:ssl_requirement</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:all</SPAN><SPAN>&nbsp;]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">Rails::Initializer.run do |config|
+  config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+  config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+  ...
+end
+</PRE>
+<P> 
+到这里，initializer.rb的介绍暂时结束，只是简单的执行了set_load_path方法设置load路径。接下来，执行流程回到了script/server:</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=require&percnt;20File.dirname(__FILE__)&percnt;20&percnt;2B&percnt;20&#39;&percnt;2F..&percnt;2Fconfig&percnt;2Fboot&#39;&percnt;0Arequire&percnt;20&#39;commands&percnt;2Fserver&#39;&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>require&nbsp;</SPAN><SPAN class="builtin">File</SPAN><SPAN>.dirname(__FILE__)&nbsp;+&nbsp;</SPAN><SPAN class="string">'/../config/boot'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>require&nbsp;<SPAN class="string">'commands/server'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">require File.dirname(__FILE__) + '/../config/boot'
+require 'commands/server'
+</PRE>
+<P> 该执行第二句了，下面轮到server.rb出场了。 
+</P>
+<H2>&nbsp; server.rb</H2>
+<P> <SPAN style="color: #0000ff;">源代码路径：gems/rails-2.0.2/lib/commands/server.rb<BR>
+</SPAN>
+&nbsp; 
+server.rb主要完成两个功能：1.加载active_support；2.加载web服务器。<BR>
+&nbsp; 
+加载active_support十分简单，只是通过源代码开始的第一句：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=require&percnt;20&#39;active_support&#39;" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>require&nbsp;</SPAN><SPAN class="string">'active_support'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">require 'active_support'</PRE>
+<P> 
+加载web服务器相比复杂一些。首先，Rails会试图加载FastCGI，然后会试图加载mongrel，如下代码所示：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=begin&percnt;0A&percnt;20&percnt;20require_library_or_gem&percnt;20&#39;fcgi&#39;&percnt;0Arescue&percnt;20Exception&percnt;0A&percnt;20&percnt;20&percnt;23&percnt;20FCGI&percnt;20not&percnt;20available&percnt;0Aend&percnt;0A&percnt;0Abegin&percnt;0A&percnt;20&percnt;20require_library_or_gem&percnt;20&#39;mongrel&#39;&percnt;0Arescue&percnt;20Exception&percnt;0A&percnt;20&percnt;20&percnt;23&percnt;20Mongrel&percnt;20not&percnt;20available&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">begin</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;require_library_or_gem&nbsp;<SPAN class="string">'fcgi'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">rescue</SPAN><SPAN>&nbsp;</SPAN><SPAN class="builtin">Exception</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="comment">#&nbsp;FCGI&nbsp;not&nbsp;available</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">begin</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;require_library_or_gem&nbsp;<SPAN class="string">'mongrel'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">rescue</SPAN><SPAN>&nbsp;</SPAN><SPAN class="builtin">Exception</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="comment">#&nbsp;Mongrel&nbsp;not&nbsp;available</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">begin
+  require_library_or_gem 'fcgi'
+rescue Exception
+  # FCGI not available
+end
+
+begin
+  require_library_or_gem 'mongrel'
+rescue Exception
+  # Mongrel not available
+end
+</PRE>
+<P> 
+最终，会通过defined?(Mongrel)和defined?(FCGI)来决定使用哪种服务器。当然，本文前面提到了将使用WEBRick作为web服务器，这里最终加载的服务器当然是webrick。server.rb的最后一句代码：&nbsp; 
+</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=require&percnt;20&percnt;22commands&percnt;2Fservers&percnt;2F&percnt;23&percnt;7Bserver&percnt;7D&percnt;22&percnt;20&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>require&nbsp;</SPAN><SPAN class="string">"commands/servers/#{server}"</SPAN><SPAN>&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">require "commands/servers/#{server}" 
+</PRE>
+<P> 
+在这里#{server}当然是webrick了，所以，接下来执行的将是webrick.rb 
+</P>
+<H2>&nbsp; webrick.rb</H2>
+<P> <SPAN style="color: #0000ff;">源代码路径：gems/rails-2.0.2/lib/commands/servers/webrick.rb</SPAN>
+<BR>
+&nbsp; 
+webrick.rb完成如下几个主要功能：1.加载Ruby自带的webrick库；2.加载environment.rb；3.加载webrick_server.rb；4.执行DispatchServlet（在webrick_server.rb中定义）的类方法dispatch。整个过程都是顺序完成的，所以，示意的源代码可以如下所示：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;20&percnt;20require&percnt;20&#39;webrick&#39;&percnt;0A&percnt;20&percnt;20require&percnt;20RAILS_ROOT&percnt;20&percnt;2B&percnt;20&percnt;22&percnt;2Fconfig&percnt;2Fenvironment&percnt;22&percnt;0A&percnt;20&percnt;20require&percnt;20&#39;webrick_server&#39;&percnt;0A&percnt;20&percnt;20DispatchServlet.dispatch(OPTIONS)" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>require&nbsp;</SPAN><SPAN class="string">'webrick'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>require&nbsp;RAILS_ROOT&nbsp;+&nbsp;<SPAN class="string">"/config/environment"</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>require&nbsp;<SPAN class="string">'webrick_server'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>DispatchServlet.dispatch(OPTIONS)&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">  require 'webrick'
+  require RAILS_ROOT + "/config/environment"
+  require 'webrick_server'
+  DispatchServlet.dispatch(OPTIONS)</PRE>
+<H2>&nbsp; environment.rb</H2>
+<P>&nbsp; <SPAN style="color: #0000ff;">源代码路径：RAILS_ROOT/config/environment.rb<BR>
+</SPAN>
+<SPAN style="color: #0000ff;">&nbsp; <SPAN style="color: #000000;">回到了我们熟悉的environment.rb中，在这里我们可以对Rails运行的环境进行配置，这里不做过多阐述，可以参与相关Rails文档。</SPAN>
+</SPAN>
+</P>
+<H2><SPAN style="color: #0000ff;"><SPAN style="color: #000000;">&nbsp; 
+webrick_server.rb</SPAN>
+</SPAN>
+</H2>
+<P> <SPAN style="color: #0000ff;">源代码路径：gems/rails-2.0.2/lib/webrick_server.rb<BR>
+</SPAN>
+&nbsp; 
+这是Rails启动所执行的最后一个源代码文件。我前面提到了一点，此源代码文件中定义了DispatchServlet，这是一个自定义的dispatch 
+servlet，用于将浏览器的请求dispatch到相应的controller，action上。因为这里我只打算介绍Rails的启动，所以，我们只用关注如下的代码即可：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=class&percnt;20DispatchServlet&percnt;20&percnt;3C&percnt;20WEBrick&percnt;3A&percnt;3AHTTPServlet&percnt;3A&percnt;3AAbstractServlet&percnt;0A&percnt;0A&percnt;20&percnt;20&percnt;23&percnt;20Start&percnt;20the&percnt;20WEBrick&percnt;20server&percnt;20with&percnt;20the&percnt;20given&percnt;20options&percnt;2C&percnt;20mounting&percnt;20the&percnt;0A&percnt;20&percnt;20&percnt;23&percnt;20DispatchServlet&percnt;20at&percnt;20&percnt;3Ctt&percnt;3E&percnt;2F&percnt;3C&percnt;2Ftt&percnt;3E.&percnt;0A&percnt;20&percnt;20def&percnt;20self.dispatch(options&percnt;20&percnt;3D&percnt;20&percnt;7B&percnt;7D)&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20Socket.do_not_reverse_lookup&percnt;20&percnt;3D&percnt;20true&percnt;20&percnt;23&percnt;20patch&percnt;20for&percnt;20OS&percnt;20X&percnt;0A&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20params&percnt;20&percnt;3D&percnt;20&percnt;7B&percnt;20&percnt;3APort&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3D&percnt;3E&percnt;20options&percnt;5B&percnt;3Aport&percnt;5D.to_i&percnt;2C&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3AServerType&percnt;20&percnt;20&percnt;3D&percnt;3E&percnt;20options&percnt;5B&percnt;3Aserver_type&percnt;5D&percnt;2C&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3ABindAddress&percnt;20&percnt;3D&percnt;3E&percnt;20options&percnt;5B&percnt;3Aip&percnt;5D&percnt;20&percnt;7D&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20params&percnt;5B&percnt;3AMimeTypes&percnt;5D&percnt;20&percnt;3D&percnt;20options&percnt;5B&percnt;3Amime_types&percnt;5D&percnt;20if&percnt;20options&percnt;5B&percnt;3Amime_types&percnt;5D&percnt;0A&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20server&percnt;20&percnt;3D&percnt;20WEBrick&percnt;3A&percnt;3AHTTPServer.new(params)&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20server.mount(&#39;&percnt;2F&#39;&percnt;2C&percnt;20DispatchServlet&percnt;2C&percnt;20options)&percnt;0A&percnt;0A&percnt;20&percnt;20&percnt;20trap(&percnt;22INT&percnt;22)&percnt;20&percnt;7B&percnt;20server.shutdown&percnt;20&percnt;7D&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20server.start&percnt;0A&percnt;20&percnt;20end&percnt;0Aend&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;DispatchServlet&nbsp;&lt;&nbsp;WEBrick::HTTPServlet::AbstractServlet&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="comment">#&nbsp;Start&nbsp;the&nbsp;WEBrick&nbsp;server&nbsp;with&nbsp;the&nbsp;given&nbsp;options,&nbsp;mounting&nbsp;the</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="comment">#&nbsp;DispatchServlet&nbsp;at&nbsp;&lt;tt&gt;/&lt;/tt&gt;.</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;</SPAN><SPAN class="keyword">self</SPAN><SPAN>.dispatch(options&nbsp;=&nbsp;{})&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;Socket.do_not_reverse_lookup&nbsp;=&nbsp;<SPAN class="keyword">true</SPAN><SPAN>&nbsp;</SPAN><SPAN class="comment">#&nbsp;patch&nbsp;for&nbsp;OS&nbsp;X</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;params&nbsp;=&nbsp;{&nbsp;:Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;options[<SPAN class="symbol">:port</SPAN><SPAN>].to_i,&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:ServerType&nbsp;&nbsp;=&gt;&nbsp;options[<SPAN class="symbol">:server_type</SPAN><SPAN>],&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:BindAddress&nbsp;=&gt;&nbsp;options[<SPAN class="symbol">:ip</SPAN><SPAN>]&nbsp;}&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;params[:MimeTypes]&nbsp;=&nbsp;options[<SPAN class="symbol">:mime_types</SPAN><SPAN>]&nbsp;</SPAN><SPAN class="keyword">if</SPAN><SPAN>&nbsp;options[</SPAN><SPAN class="symbol">:mime_types</SPAN><SPAN>]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;server&nbsp;=&nbsp;WEBrick::HTTPServer.<SPAN class="keyword">new</SPAN><SPAN>(params)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;server.mount(<SPAN class="string">'/'</SPAN><SPAN>,&nbsp;DispatchServlet,&nbsp;options)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;trap(<SPAN class="string">"INT"</SPAN><SPAN>)&nbsp;{&nbsp;server.shutdown&nbsp;}&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;server.start&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">class DispatchServlet &lt; WEBrick::HTTPServlet::AbstractServlet
+
+  # Start the WEBrick server with the given options, mounting the
+  # DispatchServlet at &lt;tt&gt;/&lt;/tt&gt;.
+  def self.dispatch(options = {})
+    Socket.do_not_reverse_lookup = true # patch for OS X
+
+    params = { :Port        =&gt; options[:port].to_i,
+               :ServerType  =&gt; options[:server_type],
+               :BindAddress =&gt; options[:ip] }
+    params[:MimeTypes] = options[:mime_types] if options[:mime_types]
+
+    server = WEBrick::HTTPServer.new(params)
+    server.mount('/', DispatchServlet, options)
+
+   trap("INT") { server.shutdown }
+    server.start
+  end
+end
+</PRE>
+<P> 
+这是一个经典的启动WEBRick服务器的方式，不用过多阐述，可以参考webrick的相关文档。当然，webrick_server.rb文件中还有一个相当重要的类CGI，并且，DispatchServlet类中还有一些重要的方法，我们暂时可以将他们搁在一旁。以后进一步分析Rails的时候再讲解。&nbsp; 
+OK。至此，Rails就正式上马了，web服务器也启动起来了，接下来的事情，当然是等着web服务器将request转发给Rails进行处理了，按照国际惯例，这当然是下文分解的事了~ 
+</P>
+      </DIV>
+      
+      
+        <DIV id="forum_advert_b5"><SCRIPT type="text/javascript">
+google_ad_client = "pub-9971846879634397";
+google_ad_slot = "6749798418";
+google_ad_width = 728;
+google_ad_height = 90;
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/show_ads.js">
+</SCRIPT><SCRIPT src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/expansion_embed.js"></SCRIPT><SCRIPT src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/test_domain.js"></SCRIPT><SCRIPT>window.google_render_ad();</SCRIPT><INS style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><INS style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><IFRAME allowtransparency="true" frameborder="0" height="90" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="728"></IFRAME></INS></INS></DIV>
+        <DIV id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </DIV>
+        <DIV id="forum_advert_b3">
+          <SPAN>推荐链接</SPAN>
+          <UL class="adverts"><LI><A href="http://www.javaeye.com/adverts/126" target="_blank"><SPAN style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</SPAN></A></LI><LI><A href="http://www.javaeye.com/adverts/111" target="_blank"><SPAN style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</SPAN></A></LI><LI><A href="http://www.javaeye.com/adverts/170" target="_blank"><SPAN style="color:blue;font-weight:bold;">6月份JAVA技术沙龙活动通知</SPAN></A></LI></UL>
+        </DIV>
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://woody-420420.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://woody-420420.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=woody_420420" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://woody-420420.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_484690">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">yangzhihuan</LI>
+      <LI>等级: <IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/star1.gif" alt="一星会员" title="一星会员"></LI>
+      <LI><A href="http://yangzhihuan.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/217c8dff-5c09-38a8-93dd-16d4345f7309.jpg" title="yangzhihuan的博客: oO一骑绝尘Oo"></A></LI>
+      <LI>文章: 138</LI>
+      <LI>积分: 170</LI>
+      <LI>来自: 广州</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-13 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        写得好啊!<BR>粗看了一遍,没能很深刻地理解到rails的启动所做的事.<BR>不过对大致的过程还是清楚的.<BR>我还会回来再看几遍,直到弄懂为止的.<BR>加油啊!!
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://yangzhihuan.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://yangzhihuan.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=yangzhihuan" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://yangzhihuan.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_484690" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_484769">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">weskycn</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://weekface.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/906c7b3c-71cc-3b22-911f-6ffd345b2de2.jpg" title="weskycn的博客: 飞哥"></A></LI>
+      <LI>文章: 34</LI>
+      <LI>积分: 30</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-13 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        真是不错，有条理，相信按照这个路子，自己再看看源代码，就能理解得更深刻，Good Job！
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://weekface.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://weekface.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=weskycn" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://weekface.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_484769" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_484820">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">woody_420420</LI>
+      <LI>等级: <IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/star4.gif" alt="四星会员" title="四星会员"></LI>
+      <LI><A href="http://woody-420420.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/c9935ff7-ea5a-34c7-8a0a-10744df281cf.jpg" title="woody_420420的博客: Woody"></A></LI>
+      <LI>文章: 119</LI>
+      <LI>积分: 490</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-13 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        谢谢各位。其实，打算写这个系列，是因为看Rails源代码过程中，老是觉得看个一晚上，了解是了解一些了，但是就是很乱。看完一些后，如果加上个记录，整理，书写的过程，整个流程就清晰好多，而且写出来或许还可以帮助一些同学们，或许一些理解不对的地方，同学们还可以给我指出，大家好才是真的好嘛~希望各位能多提意见，有经验的同学们可以一起交流！
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://woody-420420.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://woody-420420.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=woody_420420" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://woody-420420.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_484820" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_485372">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">srdrm</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://srdrm.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/de4c62a4-ada1-472f-bd6e-d5df83395b91.gif" title="srdrm的博客: srdrm"></A></LI>
+      <LI>文章: 172</LI>
+      <LI>积分: 50</LI>
+      
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-13 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        你全都看完了,有一个广度,深度了,再来写吧. 要不你一会儿回头看你写的, 会觉得有点幼稚
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://srdrm.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://srdrm.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=srdrm" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://srdrm.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_485372" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_485397">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">woody_420420</LI>
+      <LI>等级: <IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/star4.gif" alt="四星会员" title="四星会员"></LI>
+      <LI><A href="http://woody-420420.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/c9935ff7-ea5a-34c7-8a0a-10744df281cf.jpg" title="woody_420420的博客: Woody"></A></LI>
+      <LI>文章: 119</LI>
+      <LI>积分: 490</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-13 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        谢谢楼上意见。确实我还没看完Rails的源代码。。。我也不知道何时可以看完。我只是想记录一点学习研究过程当中的心得，体会。尽管很可能有些东西是幼稚的甚至是错误的。就算日后回头来看，说一句“当初很傻很天真”，又未尝不可呢：）<BR>另外，写出来一个重要的目的就是如果各位同学们觉得哪里有问题，可以直接告诉我，这样也让我少走一点转路，还可以分享给大家，又有何不可呢？：）
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://woody-420420.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://woody-420420.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=woody_420420" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://woody-420420.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_485397" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_486216">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">dcheng</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://dcheng.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/56da5edb-7ed0-4b10-9537-82c13b0d69f8.bmp" title="dcheng的博客: dcheng"></A></LI>
+      <LI>文章: 20</LI>
+      <LI>积分: 40</LI>
+      <LI>来自: 上海</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-14 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        <DIV class="quote_title">srdrm 写道</DIV><DIV class="quote_div">你全都看完了,有一个广度,深度了,再来写吧. 要不你一会儿回头看你写的, 会觉得有点幼稚</DIV>
+<BR>我觉得为什么写出来要有一定的深度呢,在这里记录下来自己的学习过程也很好啊!
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://dcheng.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://dcheng.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=dcheng" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://dcheng.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_486216" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_486222">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">pig345</LI>
+      <LI>等级: <IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/star1.gif" alt="一星会员" title="一星会员"></LI>
+      <LI><A href="http://pig345.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/user-logo.gif" title="pig345的博客: pig345"></A></LI>
+      <LI>文章: 196</LI>
+      <LI>积分: 122</LI>
+      <LI>来自: 北京</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-14 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        还是支持一下woody_420420，早就想学习下rails的代码，无奈能力精力有限，加上ruby元编程的手段多种多样，一般只能做到哪里出问题在哪里研究一点而已。。。
+<BR>希望能看到LZ源源不断的系列文章。
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://pig345.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://pig345.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=pig345" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://pig345.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_486222" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_487969">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">simon511</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://simon511.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/27367d5f-7b0e-3569-ae6d-2a5c14efc0b5.jpg" title="simon511的博客: simon511"></A></LI>
+      <LI>文章: 10</LI>
+      <LI>积分: 30</LI>
+      <LI>来自: 苏州</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-15 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        不错，让我在最短的时间了，了解了rails的启动,希望楼主继续分析下去
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://simon511.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://simon511.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=simon511" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://simon511.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_487969" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_490995">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">JustOnly</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://justonly.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/e0b13fdb-f988-4b39-ab77-b021edf18f30.jpg" title="JustOnly的博客: JustOnly"></A></LI>
+      <LI>文章: 1</LI>
+      <LI>积分: 30</LI>
+      <LI>来自: 火星</LI>
+      <LI><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-03-19 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        小小的支持下 楼主 ^_^
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/170683#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://justonly.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://justonly.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=JustOnly" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://justonly.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_490995" class="post_rate_box"><A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/170683#" onclick="return false;" class="hidden" title="差">1</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+
+  </TBODY>
+</TABLE>
+
+
+<DIV class="actions">
+  <DIV class="buttons"></DIV>
+  <DIV class="wrapper"><DIV class="pagination"><SPAN class="disabled prev_page">« 上一页</SPAN> <SPAN class="current">1</SPAN> <A href="http://www.javaeye.com/topic/170683?page=2" rel="next">2</A> <A href="http://www.javaeye.com/topic/170683?page=2" class="next_page" rel="next">下一页 »</A></DIV></DIV>
+</DIV>
+
+<DIV>
+  <DIV class="crumbs">
+    <A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN class="arrow">→</SPAN>
+    <A href="http://www.javaeye.com/forums/board/Ruby">Ruby版</A>
+     <SPAN class="arrow">→</SPAN> <A href="http://www.javaeye.com/forums/tag/rails">rails</A>
+    <BR><BR>跳转论坛:<SELECT id="forum_urlname" name="forum[urlname]" onchange="window.location=&#39;/forums/board/&#39;+this.value"><OPTION value="Java">Java编程和Java企业应用</OPTION>
+<OPTION value="web">Web前端技术：AJAX和RIA</OPTION>
+<OPTION value="mobile">移动编程和手机应用开发</OPTION>
+<OPTION value="Ruby" selected="selected">Ruby</OPTION>
+<OPTION value="Python">Python</OPTION>
+<OPTION value="PHP">PHP</OPTION>
+<OPTION value="dotnet">Microsoft .Net</OPTION>
+<OPTION value="Tech">综合技术</OPTION>
+<OPTION value="New">入门讨论</OPTION>
+<OPTION value="develop">软件开发和项目管理</OPTION>
+<OPTION value="Industry">行业应用</OPTION>
+<OPTION value="vendor">厂商论坛</OPTION>
+<OPTION value="Job">招聘求职</OPTION>
+<OPTION value="Life">海阔天空</OPTION></SELECT>
+    <DIV id="forum_advert_b2"></DIV>
+  </DIV>
+
+  
+</DIV>
+
+<DIV style="display:none">
+  <FORM action="http://www.javaeye.com/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request(&#39;/posts/rate&#39;, {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <INPUT type="hidden" id="post_rate_id" name="id">
+    <INPUT type="hidden" id="post_rate_type" name="type">
+  </FORM></DIV>
+
+<SCRIPT type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":170683, "type":type}});
+  }
+
+      
+</SCRIPT>
+
+
+        </DIV>
+        <DIV id="nav">
+  <DIV class="wrapper">
+    <UL>
+            <LI><A href="http://www.javaeye.com/">首页</A></LI>
+      <LI><A href="http://www.javaeye.com/news">新闻</A></LI>
+      <LI><A href="http://www.javaeye.com/forums" class="selected">论坛</A></LI>
+      <LI><A href="http://www.javaeye.com/ask">问答</A></LI>
+      <LI><A href="http://www.javaeye.com/wiki">知识库</A></LI>
+      <LI><A href="http://www.javaeye.com/blogs">博客</A></LI>
+      <LI><A href="http://www.javaeye.com/groups">圈子</A></LI>
+      <LI><A href="http://job.javaeye.com/" target="_blank">招聘</A></LI>
+      <LI><A href="http://www.javaeye.com/index/service">服务</A></LI>
+      <LI class="last"><A href="http://www.javaeye.com/search">搜索</A></LI>
+    </UL>
+  </DIV>
+</DIV>
+
+<DIV id="channel_nav">
+  <UL>
+    <LI><A href="http://java.javaeye.com/">Java</A></LI>
+    <LI><A href="http://ajax.javaeye.com/">AJAX</A></LI>    
+    <LI><A href="http://ruby.javaeye.com/">Ruby</A></LI>
+    <LI><A href="http://python.javaeye.com/">Python</A></LI>
+    <LI><A href="http://agile.javaeye.com/">敏捷</A></LI>
+    <LI><A href="http://mysql.javaeye.com/">MySQL</A></LI>
+    <LI><A href="http://book.javaeye.com/">图书</A></LI>
+    <LI><A href="http://oracle.javaeye.com/">Oracle</A></LI>
+    <LI><A href="http://dorado.javaeye.com/">Dorado</A></LI>
+    <LI class="last"><A href="http://primeton.javaeye.com/">普元</A></LI>
+  </UL>
+</DIV>
+      </DIV>
+      <DIV id="footer">
+  <DIV id="site_nav">
+    <UL>
+      <LI><A href="http://www.javaeye.com/index/service">广告服务</A></LI>
+      <LI><A href="http://webmaster.javaeye.com/">JavaEye黑板报</A></LI>
+      <LI><A href="http://www.javaeye.com/index/aboutus">关于我们</A></LI>
+      <LI><A href="http://www.javaeye.com/index/contactus">联系我们</A></LI>
+      <LI class="last"><A href="http://www.javaeye.com/index/friend_links">友情链接</A></LI>
+    </UL>
+  </DIV>
+  <DIV id="copyright">
+    © 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </DIV>
+</DIV>
+
+    </DIV>
+    
+<SCRIPT type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=no" + "' width='0' height='0' />");
+</SCRIPT><IMG src="./Ruby On Rails-2.0.2源代码分析（1）-Rails的启动 - rails - Ruby - JavaEye论坛.htm_files/saved_resource" width="0" height="0">
+  
+
+</BODY></HTML>

@@ -1,0 +1,199 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="author" content="superbeck" />
+    <meta name="Copyright" content="Csdn" />
+    <meta name="description" content="csdnblog" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="Shortcut Icon" href="http://profile.csdn.net/superbeck/picture/1.ico" />
+    <link href="http://hi.images.csdn.net/css/Cogitation/Cogitation_1.css" type="text/css" rel="stylesheet" media="all" /><link href="http://blog.csdn.net/superbeck/customcss.aspx" type="text/css" rel="stylesheet" media="all" /><link href="http://hi.images.csdn.net/css/csdn_favbykimi.css" type="text/css" rel="stylesheet" media="all" /><script type="text/javascript" src="http://hi.images.csdn.net/js/public/jquery-1.2.3.pack.js"></script><script type="text/javascript" src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/jquery.highlighter.js"></script><script type="text/javascript" src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/highlighter.js"></script><link href="http://feeds.feedsky.com/csdn.net/superbeck" title="RSS" type="application/rss+xml" rel="alternate" />
+    <title>
+        在Struts开发中，给ActionForward动态添加参数 - superbeck的专栏 - CSDN博客</title>
+</head>
+<body id="defaultuser">
+    <div id="csdnblog_allwrap">
+        <form name="Form1" method="post" action="4213219.aspx" id="Form1">
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+
+        
+<div id="csdnblog_midwrap">
+    <div id="csdnblog_header">
+        
+        <h1><a id="Header1_HeaderTitle" href="http://blog.csdn.net/superbeck/">superbeck的专栏</a></h1><h2>以小事始，方知大事之成败</h2>
+        
+        <ul id="personalnav"><li><a href="http://passport.csdn.net/UserLogin.aspx">登录</a></li><li><a href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</a></li></ul>
+        
+        <ul id="blogsearchsty"><li><input id="inputSearch" type="text" class="bolgsearch" onkeydown="return keyb(event)" /></li><li class="selectsty"><select name="Search:ddlSearchScope" id="Search_ddlSearchScope"><option value="all">全站</option><option value="superbeck">当前博客</option></select></li><li><input type="button" onclick="checkNull()" value="搜索" class="bolggobtn" /></li></ul>
+        
+        <ul id="menu"><li><a href="http://hi.csdn.net/superbeck">空间</a></li><li><a href="http://blog.csdn.net/superbeck" class="on">博客</a></li><li><a href="http://hi.csdn.net/superbeck/profile/contactlist/1.html">好友</a></li><li><a href="http://album.hi.csdn.net/" target="_blank">相册</a></li><li><a href="http://hi.csdn.net/superbeck/profile/notebook/1.html" class="last">留言</a></li></ul>
+    </div>
+    
+    <div id="csdnblog_content">
+        <div class="gutter">
+            
+                    
+<div class="default_contents">
+    <div class="user_article">
+    <script type="text/javascript" src="http://hi.images.csdn.net/js/blog/LoadFeedbackCount.js"></script>
+        <h1 class="title_txt"><img src="http://hi.images.csdn.net/images/blog/authorship.gif" border="0" width="15" height="16" alt="原创" />&nbsp;在Struts开发中，给ActionForward动态添加参数<cite class="fav_csdnstylebykimi"><a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a></cite></h1>
+<div class="blogstory">
+
+    <script type="text/javascript">
+        document.body.oncopy = function() {
+            if (window.clipboardData) {
+                setTimeout(function() {
+                    var text = clipboardData.getData("text"); 
+                    if (text && text.length>300) {
+                        text = text + "\r\n\n本文来自CSDN博客，转载请标明出处：" + location.href;
+                        clipboardData.setData("text", text); 
+                    }
+                }, 100);
+            }
+        }
+    </script>
+
+    <script>function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</script><p>ActionForward是Struts框架的Action中使用的一个对象。它指向一个具体的path。但是这个path一般是写死在struts-config.xml中的，那么怎么给ActionForward对象动态添加参数呢？</p>
+<p>&nbsp;</p>
+<p>这里总结了几种方法。</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff00ff;">1. 最直接的方式：使用request或者session传递。</span>
+
+</p>
+<p>request.setAttribute()</p>
+<p>request.getSession.setAttribute()</p>
+<p>&nbsp;</p>
+<p>例：</p>
+<div style="background-color:#CCCCCC">
+request.setAttribute(name, value);<br />
+
+return mapping.findForward(&quot;success&quot;);
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff00ff;">2. 直接使用ActionForward构建一个新的包含参数的path。</span>
+
+</p>
+<p>例：</p>
+<div style="background-color:#CCCCCC">
+String userId = request.getParameter(&quot;user_Id&quot;);<br />
+
+ActionForward af = new ActionForward(&quot;/xxx/xxx/xxx.do?userId=&quot; + userId);<br />
+
+return af;
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff00ff;">3. 先使用mapping.findForward()的方式获得ActionForward对象后， 然后构建一个新的ActionForwad对象并添加参数</span>
+
+</p>
+<p>&nbsp;</p>
+<p>例：</p>
+<div style="background-color:#CCCCCC">
+String userId = request.getParameter(&quot;user_Id&quot;);</div>
+<div style="background-color:#CCCCCC">ActionForward af = mapping.findForward(&quot;edit&quot;);<br />
+
+ActionForward af2 = new ActionForward(af.getPath + &quot;?userId=&quot; + userId);<br />
+
+return af;
+</div>
+<p>当然，这只是一个简单的例子来说明如何添加参数的，真正使用的时候，name为edit的path可能本身已经包含?了。这个时候就要先判断是否含有？，如果有的话，就直接在后面添加&quot;&amp;userId=xx&quot;，如果没有的话，就如例子中所示，直接添加。</p>
+<p>&nbsp;</p>
+<p><span style="color: #ff0000;"><strong>总结：</strong>
+
+</span>
+
+</p>
+<p>以上三种方式，建议使用第一种。不建议使用第二种。</p>
+<p>因为我们之所以使用struts-config.xml文件来配置相关的url，就是不想把这个东东硬编码到class文件中，因为在开发过程中，处于一些模块化的考虑，url还是比较容易变化的。第二种就是一种恶劣的使用方式。第三种方式也还可以使用。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p><p class="right articalinfo">发表于 @ 2009年05月24日 23:26:00&#124;<a href="http://blog.csdn.net/superbeck/archive/2009/05/24/4213219.aspx#FeedBack" Title = "评论">评论(<span id="FeedbackCount_4213219">loading...</span><script type="text/javascript">AddFeedbackCountStack("4213219")</script>)</a>&#124;<a href="http://writeblog.csdn.net/PostEdit.aspx?entryId=4213219" Title = "编辑">编辑</a>&#124;<A HREF='mailto:yuexn@csdn.net?subject=垃圾文章举报&body=用户ID:superbeck 文章标题:在Struts开发中，给ActionForward动态添加参数 文章链接:http://blog.csdn.net/superbeck/archive/2009/05/24/4213219.aspx 发表时间:2009年05月24日 23:26:00'>举报</A>&#124;<cite class="fav_csdnstylebykimi"><a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a></cite></p>
+    <span id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><h3 class="pagego"><a href="http://blog.csdn.net/superbeck/archive/2009/05/26/4216042.aspx">新一篇:&nbsp;软件架构师和企业家</a>&nbsp;|&nbsp;<a href="http://blog.csdn.net/superbeck/archive/2009/05/24/4213095.aspx">旧一篇:&nbsp;使用jstl1.1，注意与1.0的区别</a></h3></span>
+</div>
+
+    </div>
+    <div class="commentslist">
+        
+<script type="text/javascript">
+    var CurrentEntryId = '4213219';
+    var CurrentUserName = 'superbeck';
+</script>
+<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/feedback.js"></script>
+
+<div id="commentslist"></div>
+    </div>
+    <div class="spacecommment">
+        
+    </div>
+
+    <script type="text/javascript">
+        LoadFeedbackCount();
+        document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");// 计数器
+    </script>
+
+</div>
+ 
+                
+        </div>
+    </div>
+    <div id="csdnblog_sidebar">
+        <div class="gutter">
+            <div class="aboutauthor">
+                <dl>
+                    
+                    <dt>用户操作</dt><dd class="middle"><a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/Messages/superbeck.ashx" target="_blank">[即时聊天]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=superbeck" target="_blank">[发私信]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/AddFriends/superbeck.ashx" target="_blank">[加为好友]</a></dd><dt>superbeck</dt><dd class="middle"><img src="http://profile.csdn.net/superbeck/picture/1.jpg" /></dd>
+
+                    
+                    <span id="SubscriptionList"><dt>订阅我的博客</dt><dd><a href="http://feeds.feedsky.com/csdn.net/superbeck" ><img border="0" alt="XML聚合" src="http://img.feedsky.com/feeds/csdn.net/superbeck/sc/gif " /></a>&nbsp;&nbsp;<a href="http://feeds.feedsky.com/csdn.net/superbeck" target="_blank"><img border="0" alt="FeedSky" src="http://hi.images.csdn.net/images/blog/feedsky.gif" /></a></dd><dd><a href="http://www.xianguo.com/subscribe.php?url=http://feeds.feedsky.com/csdn.net/superbeck" target="_blank"><img border="0" alt="订阅到鲜果" src="http://hi.images.csdn.net/images/blog/rss_xianguo.jpg"/></a></dd><dd><a href="http://fusion.google.com/add?feedurl=http://feeds.feedsky.com/csdn.net/superbeck" target="_blank"><img border="0" alt="订阅到Google" src="http://hi.images.csdn.net/images/blog/rss_google.gif"/></a></dd><dd><a href="http://www.zhuaxia.com/add_channel.php?url=http://feeds.feedsky.com/csdn.net/superbeck" target="_blank"><img border="0" alt="订阅到抓虾" src="http://hi.images.csdn.net/images/blog/rss_zhuaxia.gif"/></a></dd></span>
+                    
+                    <dt>superbeck的公告</dt><dd><script type="text/javascript">
+document.getElementById("Search_ddlSearchScope").selectedIndex = 1;
+function testHelloOnload() {
+}
+window.onload=testHelloOnload;
+</script></dd>
+
+                    
+                    <dt>文章分类</dt><dd><div class="publiclist_sidebar"><ul><li><a href="http://blog.csdn.net/superbeck/category/551445.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/551445.aspx">Database</a></li><li><a href="http://blog.csdn.net/superbeck/category/494146.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/494146.aspx">eclipse</a></li><li><a href="http://blog.csdn.net/superbeck/category/207307.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/207307.aspx">java</a></li><li><a href="http://blog.csdn.net/superbeck/category/417007.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/417007.aspx">Life</a></li><li><a href="http://blog.csdn.net/superbeck/category/487521.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/487521.aspx">notes开发</a></li><li><a href="http://blog.csdn.net/superbeck/category/490099.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/490099.aspx">UML/MDA</a></li><li><a href="http://blog.csdn.net/superbeck/category/547684.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/547684.aspx">Web开发</a></li><li><a href="http://blog.csdn.net/superbeck/category/412477.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/412477.aspx">开发工具相关</a></li><li><a href="http://blog.csdn.net/superbeck/category/451648.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/451648.aspx">开发杂想</a></li><li><a href="http://blog.csdn.net/superbeck/category/473096.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/superbeck/category/473096.aspx">软件工程</a></li></ul></div></dd><dt>收藏</dt><dd><div class="publiclist_sidebar"><ul></ul></div></dd><dt>useful link</dt><dd><a href="http://www.w3schools.com/" target="_blank">http://www.w3schools.com/</a></dd><dd><a href="www.sourceforge.net" target="_blank">source forge</a></dd><dd><a href="www.java2s.com" target="_blank">www.java2s.com</a></dd><dd><a href="www.download.com" target="_blank">免费软件(英文)</a></dd><dd><a href="www.open-open.com" target="_blank">开源大全</a></dd><dt>非技术</dt><dt>存档</dt><dd><div class="publiclist_sidebar"><ul><li><a href="/superbeck/archive/2009/06.aspx">2009年06月(3)</a></li><li><a href="/superbeck/archive/2009/05.aspx">2009年05月(6)</a></li><li><a href="/superbeck/archive/2009/03.aspx">2009年03月(1)</a></li><li><a href="/superbeck/archive/2009/02.aspx">2009年02月(3)</a></li><li><a href="/superbeck/archive/2009/01.aspx">2009年01月(4)</a></li><li><a href="/superbeck/archive/2008/12.aspx">2008年12月(2)</a></li><li><a href="/superbeck/archive/2008/11.aspx">2008年11月(5)</a></li><li><a href="/superbeck/archive/2008/10.aspx">2008年10月(8)</a></li><li><a href="/superbeck/archive/2008/09.aspx">2008年09月(3)</a></li><li><a href="/superbeck/archive/2008/08.aspx">2008年08月(3)</a></li><li><a href="/superbeck/archive/2008/06.aspx">2008年06月(3)</a></li><li><a href="/superbeck/archive/2006/11.aspx">2006年11月(1)</a></li><li><a href="/superbeck/archive/2006/10.aspx">2006年10月(1)</a></li><li><a href="/superbeck/archive/2006/05.aspx">2006年05月(1)</a></li></ul></div></dd>
+
+                    
+                    <dt>软件项目交易</dt><dd><iframe style="margin:0;　padding:0; width: 180px; height: 32px;" src="http://prj.csdn.net/CSDN/CsdnBlog/CsdnBlogPage.html" frameborder="0" scrolling="no" ></iframe></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    
+    <div id="pubfooter">
+        
+<dl>
+    <dt></dt>
+    <dd>
+        Csdn Blog version 3.1a</dd>
+    <dd>
+        Copyright &copy;
+        superbeck
+    </dd>
+</dl>
+
+    </div>
+</div>
+
+        </form>
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js">
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2688088-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0035)http://www.javaeye.com/topic/162656 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <TITLE>Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛</TITLE>
+    <META name="description" content="这里继续Part 1的内容。其他一些好东西&nbsp;所以，基本上我们已经完成了:一个功能齐全的博客系统，带有对管理任务的验证支持。都是些很棒的东西！现在让我们从头走一遍谈谈其他在rails2.0里面的好东西，其中的一些东西对用户是&ldquo;不可见的&rdquo;。&nbsp;查询缓存在ActiveRecord里我最喜欢的一项改变是查询缓存。概念非常简单：当在处理一个查询的时候，你可能会重复同一个Sql查询超过一次，有时候你只是这样做:&nbsp; ...">
+    <META name="keywords" content="rails rails Ruby">
+    <LINK rel="shortcut icon" href="http://www.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <LINK href="http://www.javaeye.com/rss/board/Ruby" rel="alternate" title="JavaEye论坛" type="application/rss+xml">
+    <LINK href="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/forum.css" media="screen" rel="stylesheet" type="text/css">
+    <SCRIPT src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/application.js" type="text/javascript"></SCRIPT>
+      <LINK href="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/shCoreCommon.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/hotkey.js" type="text/javascript"></SCRIPT>
+            <SCRIPT src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/dragdrop.js" type="text/javascript"></SCRIPT>
+            <STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE><STYLE type="text/css">.dp-rb .symbol { color: #a70; }.dp-rb .variable { color: #a70; font-weight: bold; }</STYLE></HEAD><BODY>
+    <DIV id="page">
+      <DIV id="header">
+        <DIV class="clearfix"><DIV id="user_nav">
+      <A href="http://www.javaeye.com/login" class="welcome" title="登录">您还未登录 !</A>
+    <A href="http://www.javaeye.com/all" style="color:red">我的应用</A>
+    <A href="http://www.javaeye.com/login">登录</A>
+    <A href="http://www.javaeye.com/signup" class="nobg">注册</A>
+  </DIV>
+</DIV>
+        <DIV class="clearfix">
+          <DIV id="branding">
+            <A href="http://www.javaeye.com/"><IMG alt="JavaEye3.0" src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/logo.gif" title="JavaEye-最棒的软件开发交流社区"></A>
+          </DIV>
+          <DIV id="ad"><A href="http://www.javaeye.com/adverts/2" target="_blank"><IMG src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/rubyconfleft.png" style="BORDER:1px SOLID #000000"></A></DIV>
+        </DIV>
+      </DIV>
+
+      <DIV id="content" class="clearfix">
+        <DIV id="main">
+          
+
+
+          
+
+
+<DIV class="clearfix">
+  <DIV class="crumbs">
+    <A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN class="arrow">→</SPAN>
+    <A href="http://www.javaeye.com/forums/board/Ruby">Ruby版</A> <SPAN class="arrow">→</SPAN>
+    <A href="http://www.javaeye.com/forums/tag/rails">rails</A> <SPAN class="arrow">→</SPAN>
+    <H1>Rolling with Rails 2.0 - Part 2</H1>
+  </DIV>
+</DIV>
+
+<DIV id="forum_tag_list">
+  <A href="http://www.javaeye.com/forums/board/Ruby">全部</A>
+      <A href="http://www.javaeye.com/forums/tag/ruby">ruby</A>
+      <A href="http://www.javaeye.com/forums/tag/rails">rails</A>
+      <A href="http://www.javaeye.com/forums/tag/rake">rake</A>
+      <A href="http://www.javaeye.com/forums/tag/DSL">DSL</A>
+      <A href="http://www.javaeye.com/forums/tag/RJS">RJS</A>
+      <A href="http://www.javaeye.com/forums/tag/YAML">YAML</A>
+  </DIV>
+
+<DIV class="actions">
+  <DIV class="buttons"></DIV>
+  <DIV class="wrapper">
+    <DIV id="forum_advert_b0"></DIV>
+    
+    <DIV class="info">浏览 4031 次</DIV>
+  </DIV>
+</DIV>
+
+
+
+<TABLE id="forum_main" cellspacing="1">
+  <THEAD>
+    <TR>
+      <TH colspan="2" class="topic_title">
+        <DIV class="wrapper"><SPAN class="locked">锁定老贴子</SPAN> <A href="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm.0 - Part 2 - rails - Ruby - JavaEye论坛">主题：Rolling with Rails 2.0 - Part 2</A></DIV>
+        <DIV id="topic_rate_box"><STRONG class="highlight">该帖已经被评为精华帖</STRONG></DIV>
+      </TH>
+    </TR>
+    <TR>
+      <TD class="first_col">作者</TD>
+      <TD class="last_col">正文</TD>
+    </TR>
+  </THEAD>
+  <TBODY id="posts">
+    <TR id="p_465175">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">genki</LI>
+      <LI>等级: <IMG src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/star2.gif" alt="二星会员" title="二星会员"></LI>
+      <LI><A href="http://genki.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/user-logo.gif" title="genki的博客: genki"></A></LI>
+      <LI>文章: 10</LI>
+      <LI>积分: 190</LI>
+      <LI>来自: 厦门</LI>
+      <LI><IMG src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-02-16 关键字: <STRONG>rails</STRONG></DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        <DIV id="related_topics" style="position: relative; ">相关文章: <SPAN class="close"><A href="http://www.javaeye.com/topic/162656#" onclick="$(&#39;related_topics&#39;).hide();return false;" title="关闭">&nbsp;</A></SPAN>
+          <UL>
+                            <LI><A href="http://www.javaeye.com/topic/162536" title="Rolling with Rails 2.0 - The First Full Tutorial " target="_blank">Rolling with Rails 2.0 - The First Full Tutorial </A></LI>
+                              <LI><A href="http://www.javaeye.com/topic/170282" title="使用TextMate进行Rails开发" target="_blank">使用TextMate进行Rails开发</A></LI>
+                              <LI><A href="http://www.javaeye.com/topic/147397" title="Ruby on Rails 2.0的新特性介绍" target="_blank">Ruby on Rails 2.0的新特性介绍</A></LI>
+                          </UL>
+            <BR><SPAN>推荐圈子: <A href="http://ext.group.javaeye.com/" target="_blank">EXT</A></SPAN>
+            <BR><A href="http://www.javaeye.com/wiki/topic/162656" target="_blank">更多相关推荐</A>
+          </DIV>
+                    <SCRIPT type="text/javascript">
+            new Draggable("related_topics");
+          </SCRIPT>
+        
+        这里继续<A href="http://www.javaeye.com/topic/162536">Part 1</A>的内容。<BR><H2>其他一些好东西</H2>&nbsp;<P>所以，基本上我们已经完成了:一个功能齐全的博客系统，带有对管理任务的验证支持。都是些很棒的东西！现在让我们从头走一遍谈谈其他在rails2.0里面的好东西，其中的一些东西对用户是“不可见的”。</P><P>&nbsp;</P><H3>查询缓存</H3><P>在ActiveRecord里我最喜欢的一项改变是查询缓存。概念非常简单：当在处理一个查询的时候，你可能会重复同一个Sql查询超过一次，有时候你只是这样做:</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;40results&percnt;20&percnt;7C&percnt;7C&percnt;3D&percnt;20Posts.find(&percnt;3Aall)&percnt;20&percnt;20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="variable">@results</SPAN><SPAN>&nbsp;||=&nbsp;Posts.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">@results ||= Posts.find(:all)  </PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>意味着你正在手动”缓存“。但有时候你有非常复杂的查询条件，怎么去缓存他就变得不是很明了。我们可能会看到这样的查询:</P><BR><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;23&percnt;20app&percnt;2Fcontrollers&percnt;2Fposts_controller.rb&percnt;0Aclass&percnt;20PostsController&percnt;20&percnt;3C&percnt;20ApplicationController&percnt;0A&percnt;20&percnt;20def&percnt;20index&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;40posts&percnt;20&percnt;3D&percnt;20Post.find(&percnt;3Aall)&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;40posts2&percnt;20&percnt;3D&percnt;20Post.find(&percnt;3Aall)&percnt;0A&percnt;20&percnt;20...&percnt;0A&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20...&percnt;0Aend" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="comment">#&nbsp;app/controllers/posts_controller.rb</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;PostsController&nbsp;&lt;&nbsp;ApplicationController&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;index&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="variable">@posts</SPAN><SPAN>&nbsp;=&nbsp;Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="variable">@posts2</SPAN><SPAN>&nbsp;=&nbsp;Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; "># app/controllers/posts_controller.rb
+class PostsController &lt; ApplicationController
+  def index
+    @posts = Post.find(:all)
+    @posts2 = Post.find(:all)
+  ...
+  end
+  ...
+end</PRE>&nbsp;<P>&nbsp;</P><P>如果我们访问http://localhost:3000/posts然后看看log/development.log,这是我们会看到的一个片段：</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=Parameters&percnt;3A&percnt;20&percnt;7B&percnt;22action&percnt;22&percnt;3D&percnt;3E&percnt;22index&percnt;22&percnt;2C&percnt;20&percnt;22controller&percnt;22&percnt;3D&percnt;3E&percnt;22posts&percnt;22&percnt;7D&percnt;0APost&percnt;20Load&percnt;20(0.000357)&percnt;20&percnt;20&percnt;20SELECT&percnt;20*&percnt;20FROM&percnt;20&percnt;60posts&percnt;60&percnt;20&percnt;0ACACHE&percnt;20(0.000000)&percnt;20&percnt;20&percnt;20SELECT&percnt;20*&percnt;20FROM&percnt;20&percnt;60posts&percnt;60&percnt;20" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>Parameters:&nbsp;{</SPAN><SPAN class="string">"action"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"index"</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="string">"controller"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"posts"</SPAN><SPAN>}&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>Post&nbsp;Load&nbsp;(0.000357)&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;`posts`&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>CACHE&nbsp;(0.000000)&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;`posts`&nbsp;&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">Parameters: {"action"=&gt;"index", "controller"=&gt;"posts"}
+Post Load (0.000357)   SELECT * FROM `posts` 
+CACHE (0.000000)   SELECT * FROM `posts` </PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P>
+
+
+<P>第一个查找发起了一个普通的对数据库查询。但第二个查找，因为和前面一个一模一样，因此将不会再一次访问数据库，他会从内部缓存中得到结果！真是聪明。</P><P>这不是一个带有全部特性的数据库缓存。也不是Memcached的替代方案。</P><P>这只是对RAILS工具集的一个小小增加，也是我们无论如何都会手动去做的。</P><P>&nbsp;</P><H3>Assets</H3><P>说道性能，还有另个困挠着网络管理者。假设我们要给我们的blog加上些Ajax.首先我们要做的是添加必要的</P><P>Scriptaculous 和 Prototype 库:&nbsp;</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C!--&percnt;20app&percnt;2Fviews&percnt;2Flayouts&percnt;2Fapplication.html.erb&percnt;20--&percnt;3E&percnt;0A...&percnt;0A&percnt;3C&percnt;25&percnt;3D&percnt;20javascript_include_tag&percnt;20&percnt;3Adefaults&percnt;20&percnt;25&percnt;3E&percnt;0A..." quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>&lt;!--&nbsp;app/views/layouts/application.html.erb&nbsp;--&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;%=&nbsp;javascript_include_tag&nbsp;<SPAN class="symbol">:defaults</SPAN><SPAN>&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">&lt;!-- app/views/layouts/application.html.erb --&gt;
+...
+&lt;%= javascript_include_tag :defaults %&gt;
+...</PRE>&nbsp;<P>如果我们刷新浏览器并且查看生成的HTML源码，这是我们会得到的：</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3Cscript&percnt;20src&percnt;3D&percnt;22&percnt;2Fjavascripts&percnt;2Fprototype.js&percnt;3F1197463288&percnt;22&percnt;20type&percnt;3D&percnt;22text&percnt;2Fjavascript&percnt;22&percnt;3E&percnt;3C&percnt;2Fscript&percnt;3E&percnt;0A&percnt;3Cscript&percnt;20src&percnt;3D&percnt;22&percnt;2Fjavascripts&percnt;2Feffects.js&percnt;3F1197463288&percnt;22&percnt;20type&percnt;3D&percnt;22text&percnt;2Fjavascript&percnt;22&percnt;3E&percnt;3C&percnt;2Fscript&percnt;3E&percnt;0A&percnt;3Cscript&percnt;20src&percnt;3D&percnt;22&percnt;2Fjavascripts&percnt;2Fdragdrop.js&percnt;3F1197463288&percnt;22&percnt;20type&percnt;3D&percnt;22text&percnt;2Fjavascript&percnt;22&percnt;3E&percnt;3C&percnt;2Fscript&percnt;3E&percnt;0A&percnt;3Cscript&percnt;20src&percnt;3D&percnt;22&percnt;2Fjavascripts&percnt;2Fcontrols.js&percnt;3F1197463288&percnt;22&percnt;20type&percnt;3D&percnt;22text&percnt;2Fjavascript&percnt;22&percnt;3E&percnt;3C&percnt;2Fscript&percnt;3E&percnt;0A&percnt;3Cscript&percnt;20src&percnt;3D&percnt;22&percnt;2Fjavascripts&percnt;2Fapplication.js&percnt;3F1197463288&percnt;22&percnt;20type&percnt;3D&percnt;22text&percnt;2Fjavascript&percnt;22&percnt;3E&percnt;3C&percnt;2Fscript&percnt;3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>&lt;script&nbsp;src=</SPAN><SPAN class="string">"/javascripts/prototype.js?1197463288"</SPAN><SPAN>&nbsp;type=</SPAN><SPAN class="string">"text/javascript"</SPAN><SPAN>&gt;&lt;/script&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;script&nbsp;src=<SPAN class="string">"/javascripts/effects.js?1197463288"</SPAN><SPAN>&nbsp;type=</SPAN><SPAN class="string">"text/javascript"</SPAN><SPAN>&gt;&lt;/script&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;script&nbsp;src=<SPAN class="string">"/javascripts/dragdrop.js?1197463288"</SPAN><SPAN>&nbsp;type=</SPAN><SPAN class="string">"text/javascript"</SPAN><SPAN>&gt;&lt;/script&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;script&nbsp;src=<SPAN class="string">"/javascripts/controls.js?1197463288"</SPAN><SPAN>&nbsp;type=</SPAN><SPAN class="string">"text/javascript"</SPAN><SPAN>&gt;&lt;/script&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;script&nbsp;src=<SPAN class="string">"/javascripts/application.js?1197463288"</SPAN><SPAN>&nbsp;type=</SPAN><SPAN class="string">"text/javascript"</SPAN><SPAN>&gt;&lt;/script&gt;&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">&lt;script src="/javascripts/prototype.js?1197463288" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/effects.js?1197463288" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/dragdrop.js?1197463288" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/controls.js?1197463288" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script src="/javascripts/application.js?1197463288" type="text/javascript"&gt;&lt;/script&gt;</PRE>&nbsp;<P>&nbsp;</P><PRE><P>现在，非常的杂乱不堪。他还能更糟糕，因为很可能会我们根据所创建的接口的复杂性去增加更多的库。</P><P>问题是：这里的每一行都将发起一次HTTP请求给服务器。我们将会至少访问服务器5次去建立单单一个页面。</P><P>让我们稍作修改：</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C!--&percnt;20app&percnt;2Fviews&percnt;2Flayouts&percnt;2Fapplication.html.erb&percnt;20--&percnt;3E&percnt;0A...&percnt;0A&percnt;3C&percnt;25&percnt;3D&percnt;20javascript_include_tag&percnt;20&percnt;3Adefaults&percnt;2C&percnt;20&percnt;3Acache&percnt;20&percnt;3D&percnt;3E&percnt;20true&percnt;20&percnt;25&percnt;3E&percnt;0A..." quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>&lt;!--&nbsp;app/views/layouts/application.html.erb&nbsp;--&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;%=&nbsp;javascript_include_tag&nbsp;<SPAN class="symbol">:defaults</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:cache</SPAN><SPAN>&nbsp;=&gt;&nbsp;</SPAN><SPAN class="keyword">true</SPAN><SPAN>&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">&lt;!-- app/views/layouts/application.html.erb --&gt;
+...
+&lt;%= javascript_include_tag :defaults, :cache =&gt; true %&gt;
+...</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>&nbsp;</P><P>注意到在 javascript_include_tag里的 :cache选项了吗。为了让他生效我们必需重启服务器到生产模式下。作为提醒这里我们并没有创建任何表，所以首先我们必须迁移目前我们所做的一切。</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=rake&percnt;20db&percnt;3Amigrate&percnt;20RAILS_ENV&percnt;3Dproduction&percnt;0A.&percnt;2Fscript&percnt;2Fserver&percnt;20-e&percnt;20production" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>rake&nbsp;db</SPAN><SPAN class="symbol">:migrate</SPAN><SPAN>&nbsp;RAILS_ENV=production&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>./script/server&nbsp;-e&nbsp;production&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">rake db:migrate RAILS_ENV=production
+./script/server -e production</PRE>&nbsp;<P>&nbsp;</P>
+
+
+
+
+	<P>&nbsp;</P><P>现在刷新下你的浏览器再看看HTML源码：</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Html代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3Cscript&percnt;20src&percnt;3D&percnt;22&percnt;2Fjavascripts&percnt;2Fall.js&percnt;3F1197470157&percnt;22&percnt;20type&percnt;3D&percnt;22text&percnt;2Fjavascript&percnt;22&percnt;3E&percnt;3C&percnt;2Fscript&percnt;3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">script</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">src</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"/javascripts/all.js?1197470157"</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">type</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"text/javascript"</SPAN><SPAN class="tag">&gt;</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">script</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="html" style="display: none; ">&lt;script src="/javascripts/all.js?1197470157" type="text/javascript"&gt;&lt;/script&gt;</PRE>&nbsp;&nbsp;<BR>&nbsp; <P>漂亮多了！所有那5个或更多的 载入javascript的单独HTTP请求 都被缩减到了一个。rails2.0封装了所有带有:cache选项的javascript到单独的一个javascript里。根据你网站的规模这可是意味着对于用户浏览器更短的载入时间。现在，还有一些其他类似方案如字符串压缩和这两种的组合使用，但这都是些不再rails2.0内核里的东西但又是值得去拥有的特性。</P><P>别忘了退出在生产模式下的服务器并且重启他到开发模式。</P><P>&nbsp;</P><H3>Ajax Helper&nbsp;</H3>
+
+
+	<P>现在，说道Ajax，还有些新的helper.其中之一是让我们更简单的对浏览器DOM里的单一元素进行标识。像这样:</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C!--&percnt;20app&percnt;2Fviews&percnt;2Fposts&percnt;2Findex.html.erb&percnt;20--&percnt;3E&percnt;0A...&percnt;0A&percnt;3C&percnt;25&percnt;20for&percnt;20post&percnt;20in&percnt;20&percnt;40posts&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;25&percnt;20div_for(post)&percnt;20do&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Ctr&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Ctd&percnt;3E&percnt;3C&percnt;25&percnt;3Dh&percnt;20post.title&percnt;20&percnt;25&percnt;3E&percnt;3C&percnt;2Ftd&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Ctd&percnt;3E&percnt;3C&percnt;25&percnt;3Dh&percnt;20post.body&percnt;20&percnt;25&percnt;3E&percnt;3C&percnt;2Ftd&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Ctd&percnt;3E&percnt;3C&percnt;25&percnt;3D&percnt;20link_to&percnt;20&#39;Show&#39;&percnt;2C&percnt;20post&percnt;20&percnt;25&percnt;3E&percnt;3C&percnt;2Ftd&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;2Ftr&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;25&percnt;20end&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;3C&percnt;25&percnt;20end&percnt;20&percnt;25&percnt;3E&percnt;0A..." quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>&lt;!--&nbsp;app/views/posts/index.html.erb&nbsp;--&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;%&nbsp;<SPAN class="keyword">for</SPAN><SPAN>&nbsp;post&nbsp;</SPAN><SPAN class="keyword">in</SPAN><SPAN>&nbsp;</SPAN><SPAN class="variable">@posts</SPAN><SPAN>&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;%&nbsp;div_for(post)&nbsp;<SPAN class="keyword">do</SPAN><SPAN>&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;tr&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;%=h&nbsp;post.title&nbsp;%&gt;&lt;/td&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;%=h&nbsp;post.body&nbsp;%&gt;&lt;/td&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;&lt;%=&nbsp;link_to&nbsp;<SPAN class="string">'Show'</SPAN><SPAN>,&nbsp;post&nbsp;%&gt;&lt;/td&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;/tr&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;%&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;%&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">&lt;!-- app/views/posts/index.html.erb --&gt;
+...
+&lt;% for post in @posts %&gt;
+  &lt;% div_for(post) do %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;%=h post.title %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%=h post.body %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Show', post %&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;% end %&gt;
+&lt;% end %&gt;
+...</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>&nbsp;</P><P>注意看div_for 这个 helper.我们传给他一个Post实例，然后当我们在http://localhost:3000/posts里刷新下浏览器，这是我们得到的HTML源码:</P><P>&nbsp;</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=...&percnt;0A&percnt;3Cdiv&percnt;20class&percnt;3D&percnt;22post&percnt;22&percnt;20id&percnt;3D&percnt;22post_1&percnt;22&percnt;3E&percnt;0A&percnt;3Ctr&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Ctd&percnt;3EHello&percnt;20Brazil!&percnt;3C&percnt;2Ftd&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Ctd&percnt;3EYeah!&percnt;3C&percnt;2Ftd&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Ctd&percnt;3E&percnt;3Ca&percnt;20href&percnt;3D&percnt;22&percnt;2Fposts&percnt;2F1&percnt;22&percnt;3EShow&percnt;3C&percnt;2Fa&percnt;3E&percnt;3C&percnt;2Ftd&percnt;3E&percnt;0A&percnt;3C&percnt;2Ftr&percnt;3E&percnt;0A&percnt;3C&percnt;2Fdiv&percnt;3E&percnt;0A..." quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>...&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;div&nbsp;<SPAN class="keyword">class</SPAN><SPAN>=</SPAN><SPAN class="string">"post"</SPAN><SPAN>&nbsp;id=</SPAN><SPAN class="string">"post_1"</SPAN><SPAN>&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;tr&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;td&gt;Hello&nbsp;Brazil!&lt;/td&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;td&gt;Yeah!&lt;/td&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;td&gt;&lt;a&nbsp;href=<SPAN class="string">"/posts/1"</SPAN><SPAN>&gt;Show&lt;/a&gt;&lt;/td&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;/tr&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;/div&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">...
+&lt;div class="post" id="post_1"&gt;
+&lt;tr&gt;
+  &lt;td&gt;Hello Brazil!&lt;/td&gt;
+  &lt;td&gt;Yeah!&lt;/td&gt;
+  &lt;td&gt;&lt;a href="/posts/1"&gt;Show&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/div&gt;
+...</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>看到了吗？你得到了一个div标签，该标签带有已经设置有默认的class和id。现在我们可以用Prototype去获取单个元素，像这样:</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=item&percnt;20&percnt;3D&percnt;20&percnt;24(&#39;post_1&#39;)" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>item&nbsp;=&nbsp;$(</SPAN><SPAN class="string">'post_1'</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">item = $('post_1')</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>&nbsp;</P><P>&nbsp;还有很多很多。对于Ajax来说这真是福音。更多的”不要重复你自己“。&nbsp;</P>
+
+
+	<P><STRONG>声明：</STRONG> &nbsp;我知道这不是WEB标准!我的意思是：决不要在两个 div 标签中放入&nbsp;&amp;lttr&gt; 标签。首先，非必要的时候不要使用表格。而我这里这样做的原因是：更快速的切入主题，因为脚手架已经帮我们生成了表格，我只是不想扯到一些枝节上。在有限的标签里不要这样做。</P><H3>Atom Feeds</H3><P>&nbsp;&nbsp;</P><P>现在假设我们的网站需要Atom feeds!显然，每个博客都需要feed.那么我们该怎么做呢？很幸运的是，rails已经能辨识.atom格式。以下是我们所要做的：</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=class&percnt;20PostsController&percnt;20&percnt;3C&percnt;20ApplicationController&percnt;0A&percnt;20&percnt;20def&percnt;20index&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;40posts&percnt;20&percnt;3D&percnt;20Post.find(&percnt;3Aall)&percnt;0A&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20respond_to&percnt;20do&percnt;20&percnt;7Cformat&percnt;7C&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20...&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20format.atom&percnt;20&percnt;23&percnt;20index.atom.builder&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20...&percnt;0Aend" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;PostsController&nbsp;&lt;&nbsp;ApplicationController&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;index&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="variable">@posts</SPAN><SPAN>&nbsp;=&nbsp;Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;respond_to&nbsp;<SPAN class="keyword">do</SPAN><SPAN>&nbsp;|format|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format.atom&nbsp;<SPAN class="comment">#&nbsp;index.atom.builder</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">class PostsController &lt; ApplicationController
+  def index
+    @posts = Post.find(:all)
+
+    respond_to do |format|
+      ...
+      format.atom # index.atom.builder
+    end
+  end
+  ...
+end</PRE><P>&nbsp;</P><P>只要增加一个format.atom调用，在他后面不需要任何的块，他就会自动的调用index.atom.builder.那么让我们创建一个:</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;23&percnt;20app&percnt;2Fviews&percnt;2Fposts&percnt;2Findex.atom.builder&percnt;0Aatom_feed&percnt;20do&percnt;20&percnt;7Cfeed&percnt;7C&percnt;0A&percnt;20&percnt;20feed.title&percnt;20&percnt;22My&percnt;20Great&percnt;20Blog!!&percnt;22&percnt;0A&percnt;20&percnt;20feed.updated((&percnt;40posts.first.created_at))&percnt;0A&percnt;20&percnt;20&percnt;0A&percnt;20&percnt;20for&percnt;20post&percnt;20in&percnt;20&percnt;40posts&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20feed.entry(post)&percnt;20do&percnt;20&percnt;7Centry&percnt;7C&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20entry.title(post.title)&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20entry.content(post.body&percnt;2C&percnt;20&percnt;3Atype&percnt;20&percnt;3D&percnt;3E&percnt;20&#39;html&#39;)&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20entry.author&percnt;20do&percnt;20&percnt;7Cauthor&percnt;7C&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20author.name(&percnt;22Fabio&percnt;20Akita&percnt;22)&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20end&percnt;0Aend" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="comment">#&nbsp;app/views/posts/index.atom.builder</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>atom_feed&nbsp;<SPAN class="keyword">do</SPAN><SPAN>&nbsp;|feed|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;feed.title&nbsp;<SPAN class="string">"My&nbsp;Great&nbsp;Blog!!"</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;feed.updated((<SPAN class="variable">@posts</SPAN><SPAN>.first.created_at))&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">for</SPAN><SPAN>&nbsp;post&nbsp;</SPAN><SPAN class="keyword">in</SPAN><SPAN>&nbsp;</SPAN><SPAN class="variable">@posts</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;feed.entry(post)&nbsp;<SPAN class="keyword">do</SPAN><SPAN>&nbsp;|entry|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry.title(post.title)&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry.content(post.body,&nbsp;<SPAN class="symbol">:type</SPAN><SPAN>&nbsp;=&gt;&nbsp;</SPAN><SPAN class="string">'html'</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry.author&nbsp;<SPAN class="keyword">do</SPAN><SPAN>&nbsp;|author|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;author.name(<SPAN class="string">"Fabio&nbsp;Akita"</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; "># app/views/posts/index.atom.builder
+atom_feed do |feed|
+  feed.title "My Great Blog!!"
+  feed.updated((@posts.first.created_at))
+  
+  for post in @posts
+    feed.entry(post) do |entry|
+      entry.title(post.title)
+      entry.content(post.body, :type =&gt; 'html')
+      entry.author do |author|
+        author.name("Fabio Akita")
+      end
+    end
+  end
+end</PRE>&nbsp;<P>&nbsp;&nbsp;</P><P>这里，我们使用Atom Feed Help,这是新加入到rails2.0的辅助方法。这是我们已经有的XMLBuilder的简化版。它是利用成熟的DSL去创建的Atom feeds。现在给你解释下，你很可能已经注意到我们的模板不再有rhtml扩展名。脚手架生成'html.erb'扩展名。这是因为新的rails惯例是:</P><P>&nbsp;</P>
+
+
+	<PRE>engine]</PRE>
+
+
+	<P>所以，index.html.erb意思是，index这个action的模板返回的是'html'的内容并且使用erb引擎去渲染模板。那么，index.atom.builder的意思就是，另一个index的action的模板返回Atom的内容并且使用'builder'引擎去渲染它。rails2.0<SPAN style="font-weight: bold;">暂时</SPAN>还认得出旧的文件名，但你最好现在就开始使用这种新的格式。</P><P>所以，当这些都设置好了后，我们可以访问 http://localhost:3000/posts.atom(注意到URL里的扩展名)</P><P>&nbsp;</P><P><IMG src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/Picture_8_1.png" height="298" alt="" width="400"></P><P>&nbsp;</P><P>Safari知道它是一个Atom feed并且很好的了修饰它。其他Web客户端的行为也许会有些不一样，而这是那个Atom Feed Help所生成的:</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C&percnt;3Fxml&percnt;20version&percnt;3D&percnt;221.0&percnt;22&percnt;20encoding&percnt;3D&percnt;22UTF-8&percnt;22&percnt;3F&percnt;3E&percnt;0A&percnt;3Cfeed&percnt;20xml&percnt;3Alang&percnt;3D&percnt;22en-US&percnt;22&percnt;20xmlns&percnt;3D&percnt;22http&percnt;3A&percnt;2F&percnt;2Fwww.w3.org&percnt;2F2005&percnt;2FAtom&percnt;22&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Cid&percnt;3Etag&percnt;3A&percnt;3A&percnt;3Aposts&percnt;3C&percnt;2Fid&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Clink&percnt;20type&percnt;3D&percnt;22text&percnt;2Fhtml&percnt;22&percnt;20rel&percnt;3D&percnt;22alternate&percnt;22&percnt;20href&percnt;3D&percnt;22http&percnt;3A&percnt;2F&percnt;2F&percnt;3A&percnt;22&percnt;2F&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Ctitle&percnt;3EMy&percnt;20Great&percnt;20Blog!!&percnt;3C&percnt;2Ftitle&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Cupdated&percnt;3E2007-12-09T20&percnt;3A54&percnt;3A15-02&percnt;3A00&percnt;3C&percnt;2Fupdated&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3Centry&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Cid&percnt;3Etag&percnt;3A&percnt;3A&percnt;3APost1&percnt;3C&percnt;2Fid&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Cpublished&percnt;3E2007-12-09T20&percnt;3A54&percnt;3A15-02&percnt;3A00&percnt;3C&percnt;2Fpublished&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Cupdated&percnt;3E2007-12-09T20&percnt;3A55&percnt;3A31-02&percnt;3A00&percnt;3C&percnt;2Fupdated&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Clink&percnt;20type&percnt;3D&percnt;22text&percnt;2Fhtml&percnt;22&percnt;20rel&percnt;3D&percnt;22alternate&percnt;22&percnt;20href&percnt;3D&percnt;22http&percnt;3A&percnt;2F&percnt;2F&percnt;3A&percnt;2Fposts&percnt;2F1&percnt;22&percnt;2F&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Ctitle&percnt;3EHello&percnt;20Brazil!&percnt;3C&percnt;2Ftitle&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Ccontent&percnt;20type&percnt;3D&percnt;22html&percnt;22&percnt;3EYeah!&percnt;3C&percnt;2Fcontent&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Cauthor&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3Cname&percnt;3EFabio&percnt;20Akita&percnt;3C&percnt;2Fname&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3C&percnt;2Fauthor&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;2Fentry&percnt;3E&percnt;0A&percnt;20&percnt;20...&percnt;0A&percnt;3C&percnt;2Ffeed&percnt;3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;?</SPAN><SPAN class="tag-name">xml</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">version</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"1.0"</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">encoding</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"UTF-8"</SPAN><SPAN class="tag">?&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">feed</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">xml:lang</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"en-US"</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">xmlns</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"http://www.w3.org/2005/Atom"</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>tag:::posts</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">link</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">type</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"text/html"</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">rel</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"alternate"</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">href</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"http://:"</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">title</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>My&nbsp;Great&nbsp;Blog!!</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">title</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">updated</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>2007-12-09T20:54:15-02:00</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">updated</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">entry</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>tag:::Post1</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">published</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>2007-12-09T20:54:15-02:00</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">published</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">updated</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>2007-12-09T20:55:31-02:00</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">updated</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">link</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">type</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"text/html"</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">rel</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"alternate"</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">href</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"http://:/posts/1"</SPAN><SPAN class="tag">/&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">title</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Hello&nbsp;Brazil!</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">title</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">content</SPAN><SPAN>&nbsp;</SPAN><SPAN class="attribute">type</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">"html"</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Yeah!</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">content</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">author</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">name</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Fabio&nbsp;Akita</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">name</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">author</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">entry</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">feed</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;id&gt;tag:::posts&lt;/id&gt;
+  &lt;link type="text/html" rel="alternate" href="http://:"/&gt;
+  &lt;title&gt;My Great Blog!!&lt;/title&gt;
+  &lt;updated&gt;2007-12-09T20:54:15-02:00&lt;/updated&gt;
+  &lt;entry&gt;
+    &lt;id&gt;tag:::Post1&lt;/id&gt;
+    &lt;published&gt;2007-12-09T20:54:15-02:00&lt;/published&gt;
+    &lt;updated&gt;2007-12-09T20:55:31-02:00&lt;/updated&gt;
+    &lt;link type="text/html" rel="alternate" href="http://:/posts/1"/&gt;
+    &lt;title&gt;Hello Brazil!&lt;/title&gt;
+    &lt;content type="html"&gt;Yeah!&lt;/content&gt;
+    &lt;author&gt;
+      &lt;name&gt;Fabio Akita&lt;/name&gt;
+    &lt;/author&gt;
+  &lt;/entry&gt;
+  ...
+&lt;/feed&gt;</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>漂亮，我们的博客有Feed了，但先别停下脚步。</P>
+
+
+	<H3>支持iPhone</H3>
+
+
+	<P>&nbsp;</P><P>&nbsp;</P><P>&nbsp;</P><P>让我们做些更炫的事。当iPhone的用户访问我们博客的时候，要是我想要拥有一个不同的主页该怎么办呢？我们可以为他创建一个用户定制的 Mime-Type。首先，让我们配置下 mime type:</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;23&percnt;20config&percnt;2Finitializers&percnt;2Fmime-types.rb&percnt;0AMime&percnt;3A&percnt;3AType.register_alias&percnt;20&percnt;22text&percnt;2Fhtml&percnt;22&percnt;2C&percnt;20&percnt;3Aiphone" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="comment">#&nbsp;config/initializers/mime-types.rb</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>Mime::Type.register_alias&nbsp;<SPAN class="string">"text/html"</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="symbol">:iphone</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; "># config/initializers/mime-types.rb
+Mime::Type.register_alias "text/html", :iphone</PRE>&nbsp;<P>&nbsp;&nbsp;</P><P>像以前我解释的那样，这是一个负责mime type部分的模块化了的环境配置文件。上面的那一行将会注册用户定制的:iphone类型使它成为html。我们必须重启服务器让他生效。</P><P>接着，我们必须修改Posts控制器使其能够识别iPhone.</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;23&percnt;20app&percnt;2Fcontrollers&percnt;2Fposts_controller.rb&percnt;0Aclass&percnt;20PostsController&percnt;20&percnt;3C&percnt;20ApplicationController&percnt;0A&percnt;20&percnt;20before_filter&percnt;20&percnt;3Aadjust_format_for_iphone&percnt;0A&percnt;0A&percnt;20&percnt;20def&percnt;20index&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;40posts&percnt;20&percnt;7C&percnt;7C&percnt;3D&percnt;20Post.find(&percnt;3Aall)&percnt;0A&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20respond_to&percnt;20do&percnt;20&percnt;7Cformat&percnt;7C&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20...&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20format.iphone&percnt;20&percnt;23&percnt;20index.iphone.erb&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20end&percnt;0A&percnt;0A&percnt;20&percnt;20...&percnt;0A&percnt;20&percnt;20def&percnt;20adjust_format_for_iphone&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20if&percnt;20request.env&percnt;5B&#39;HTTP_USER_AGENT&#39;&percnt;5D&percnt;20&percnt;26&percnt;26&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20request.env&percnt;5B&#39;HTTP_USER_AGENT&#39;&percnt;5D&percnt;5B&percnt;2FiPhone&percnt;2F&percnt;5D&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20request.format&percnt;20&percnt;3D&percnt;20&percnt;3Aiphone&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20end&percnt;0Aend" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="comment">#&nbsp;app/controllers/posts_controller.rb</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;PostsController&nbsp;&lt;&nbsp;ApplicationController&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;before_filter&nbsp;<SPAN class="symbol">:adjust_format_for_iphone</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;index&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="variable">@posts</SPAN><SPAN>&nbsp;||=&nbsp;Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;respond_to&nbsp;<SPAN class="keyword">do</SPAN><SPAN>&nbsp;|format|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format.iphone&nbsp;<SPAN class="comment">#&nbsp;index.iphone.erb</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;adjust_format_for_iphone&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">if</SPAN><SPAN>&nbsp;request.env[</SPAN><SPAN class="string">'HTTP_USER_AGENT'</SPAN><SPAN>]&nbsp;&amp;&amp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.env[<SPAN class="string">'HTTP_USER_AGENT'</SPAN><SPAN>][/iPhone/]&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request.format&nbsp;=&nbsp;<SPAN class="symbol">:iphone</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; "># app/controllers/posts_controller.rb
+class PostsController &lt; ApplicationController
+  before_filter :adjust_format_for_iphone
+
+  def index
+    @posts ||= Post.find(:all)
+
+    respond_to do |format|
+      ...
+      format.iphone # index.iphone.erb
+    end
+  end
+
+  ...
+  def adjust_format_for_iphone
+    if request.env['HTTP_USER_AGENT'] &amp;&amp;
+      request.env['HTTP_USER_AGENT'][/iPhone/]
+      request.format = :iphone
+    end
+  end
+end</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P><STRONG>声明：</STRONG>似乎Apple公司建议去寻找 "Mobile Safari "字符串而不是如我上面代码片段所做的使用"iphone"字符串.</P><P>在这个特殊的例子里我们分析从浏览器返回到服务器的HTTP头。这些数据可以从'request'这个hash里得到。所以，当客户端提到iPhone,我们可以恰当的将默认的request.format从:html变换到:iphone.在‘index’action里或是其他任何action里我们希望有不同的行为，这里只是一个回应不同格式的问题。正像我们之前解释的那样，这会提交index.iphone.erb模板。所以让我们为他新建一个简单的模板：</P><P>&nbsp;</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Java代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3C!--&percnt;20app&percnt;2Fviews&percnt;2Fposts&percnt;2Findex.iphone.erb&percnt;20--&percnt;3E&percnt;0A&percnt;3Ch1&percnt;3EFor&percnt;20iPhones&percnt;3C&percnt;2Fh1&percnt;3E&percnt;0A&percnt;0A&percnt;3C&percnt;25&percnt;20for&percnt;20post&percnt;20in&percnt;20&percnt;40posts&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;3Ch3&percnt;3E&percnt;3C&percnt;25&percnt;3Dh&percnt;20post.title&percnt;20&percnt;25&percnt;3E&percnt;3C&percnt;2Fh3&percnt;3E&percnt;0A&percnt;3Cp&percnt;3E&percnt;3C&percnt;25&percnt;3Dh&percnt;20post.body&percnt;20&percnt;25&percnt;3E&percnt;3C&percnt;2Fp&percnt;3E&percnt;0A&percnt;3C&percnt;25&percnt;20end&percnt;20&percnt;25&percnt;3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-j"><LI><SPAN><SPAN>&lt;!--&nbsp;app/views/posts/index.iphone.erb&nbsp;--&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;h1&gt;For&nbsp;iPhones&lt;/h1&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;%&nbsp;<SPAN class="keyword">for</SPAN><SPAN>&nbsp;post&nbsp;in&nbsp;</SPAN><SPAN class="annotation">@posts</SPAN><SPAN>&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&lt;h3&gt;&lt;%=h&nbsp;post.title&nbsp;%&gt;&lt;/h3&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;p&gt;&lt;%=h&nbsp;post.body&nbsp;%&gt;&lt;/p&gt;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&lt;%&nbsp;end&nbsp;%&gt;&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="java" style="display: none; ">&lt;!-- app/views/posts/index.iphone.erb --&gt;
+&lt;h1&gt;For iPhones&lt;/h1&gt;
+
+&lt;% for post in @posts %&gt;
+&lt;h3&gt;&lt;%=h post.title %&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;%=h post.body %&gt;&lt;/p&gt;
+&lt;% end %&gt;</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>简单多了。为了测试他我们可以使用针对多种浏览器的各种插件，这些插件会传递一个正确的用户代理。我们可以使用真实的机器（iphone）或者如果你使用的是Mac，下载一个<A href="http://www.marketcircle.com/iphoney/">iPhoney</A>仿真器。以下是我们将会得到的:</P><P>&nbsp;<IMG src="http://www.akitaonrails.com/assets/2007/12/12/Picture_9_1.png" height="730" alt="" width="400"></P><P>&nbsp;</P><P>很棒，我们的博客瞬间变得越来越强大了，不止是拥有feeds并且还支持iphone设备。这就是我们处理其他种类的设备或者文件格式如PDFs，CSVs等等的方式。</P>
+
+
+	<H3>调试</H3>
+
+
+	<P>旧的rails有一个叫做breakPoiter的东西。但事实上基本没人用过它，因为它没有被很好的实现。几个月前另一个伙伴加入了他就是<A href="http://www.datanoise.com/ruby-debug/">ruby-debug</A>.很棒的是rails现在也将他引进了。首先，你必须安装它的gem:</P><PRE>sudo gem install ruby-debug</PRE><P>现在我们必须用一个新的选项去启动服务器：</P><PRE>./script/server -u</PRE><P>最后，我们可以在任何时候加上'debugger'命令。例如，让我们在这里这样做：</P><P>&nbsp;</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;23&percnt;20app&percnt;2Fcontrollers&percnt;2Fposts_controller.rb&percnt;0Aclass&percnt;20PostsController&percnt;20&percnt;3C&percnt;20ApplicationController&percnt;0A&percnt;20&percnt;20&percnt;23&percnt;20GET&percnt;20&percnt;2Fposts&percnt;0A&percnt;20&percnt;20&percnt;23&percnt;20GET&percnt;20&percnt;2Fposts.xml&percnt;0A&percnt;20&percnt;20def&percnt;20index&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20&percnt;40posts&percnt;20&percnt;3D&percnt;20Post.find(&percnt;3Aall)&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20debugger&percnt;0A&percnt;20&percnt;20&percnt;20&percnt;20...&percnt;0A&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20...&percnt;0Aend" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="comment">#&nbsp;app/controllers/posts_controller.rb</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;PostsController&nbsp;&lt;&nbsp;ApplicationController&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="comment">#&nbsp;GET&nbsp;/posts</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="comment">#&nbsp;GET&nbsp;/posts.xml</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;index&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="variable">@posts</SPAN><SPAN>&nbsp;=&nbsp;Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;debugger&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; "># app/controllers/posts_controller.rb
+class PostsController &lt; ApplicationController
+  # GET /posts
+  # GET /posts.xml
+  def index
+    @posts = Post.find(:all)
+    debugger
+    ...
+  end
+  ...
+end</PRE>&nbsp;<P>&nbsp;</P><P>如果我们在 http://localhost:3000/posts里刷新下浏览器，你会发现浏览器停住不动了，而当我们看看终端，这是我们将会得到的</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;2FUsers&percnt;2Fakitaonrails&percnt;2Ftmp&percnt;2Fblog_demo&percnt;2Fapp&percnt;2Fcontrollers&percnt;2Fposts_controller.rb&percnt;3A7&percnt;20respond_to&percnt;20do&percnt;20&percnt;7Cformat&percnt;7C&percnt;0A(rdb&percnt;3A5)&percnt;20&percnt;40posts&percnt;0A&percnt;5B&percnt;23&percnt;2C&percnt;20&percnt;23&percnt;5D&percnt;0A&percnt;0A(rdb&percnt;3A5)&percnt;20&percnt;40posts&percnt;20&percnt;3C&percnt;3C&percnt;20Post.new(&percnt;3Atitle&percnt;20&percnt;3D&percnt;3E&percnt;20&percnt;22Post&percnt;20from&percnt;20Console&percnt;22)&percnt;0A&percnt;5B&percnt;23&percnt;2C&percnt;20&percnt;23&percnt;2C&percnt;20&percnt;23&percnt;5D&percnt;0A&percnt;0A(rdb&percnt;3A5)&percnt;20list&percnt;0A&percnt;5B2&percnt;2C&percnt;2011&percnt;5D&percnt;20in&percnt;20&percnt;2FUsers&percnt;2Fakitaonrails&percnt;2Ftmp&percnt;2Fblog_demo&percnt;2Fapp&percnt;2Fcontrollers&percnt;2Fposts_controller.rb&percnt;0A&percnt;20&percnt;20&percnt;202&percnt;20&percnt;20&percnt;20&percnt;20&percnt;23&percnt;20GET&percnt;20&percnt;2Fposts&percnt;0A&percnt;20&percnt;20&percnt;203&percnt;20&percnt;20&percnt;20&percnt;20&percnt;23&percnt;20GET&percnt;20&percnt;2Fposts.xml&percnt;0A&percnt;20&percnt;20&percnt;204&percnt;20&percnt;20&percnt;20&percnt;20def&percnt;20index&percnt;0A&percnt;20&percnt;20&percnt;205&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;40posts&percnt;20&percnt;3D&percnt;20Post.find(&percnt;3Aall)&percnt;0A&percnt;20&percnt;20&percnt;206&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20debugger&percnt;0A&percnt;3D&percnt;3E&percnt;207&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20respond_to&percnt;20do&percnt;20&percnt;7Cformat&percnt;7C&percnt;0A&percnt;20&percnt;20&percnt;208&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20format.html&percnt;20&percnt;23&percnt;20index.html.erb&percnt;0A&percnt;20&percnt;20&percnt;209&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20format.xml&percnt;20&percnt;20&percnt;7B&percnt;20render&percnt;20&percnt;3Axml&percnt;20&percnt;3D&percnt;3E&percnt;20&percnt;40posts&percnt;20&percnt;7D&percnt;0A&percnt;20&percnt;20&percnt;2010&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20end&percnt;0A&percnt;20&percnt;20&percnt;2011&percnt;20&percnt;20&percnt;20&percnt;20end&percnt;0A&percnt;0A(rdb&percnt;3A5)&percnt;20c" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>/Users/akitaonrails/tmp/blog_demo/app/controllers/posts_controller.rb:7&nbsp;respond_to&nbsp;</SPAN><SPAN class="keyword">do</SPAN><SPAN>&nbsp;|format|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>(rdb:5)&nbsp;<SPAN class="variable">@posts</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>[<SPAN class="comment">#,&nbsp;#]</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>(rdb:5)&nbsp;<SPAN class="variable">@posts</SPAN><SPAN>&nbsp;&lt;&lt;&nbsp;Post.</SPAN><SPAN class="keyword">new</SPAN><SPAN>(</SPAN><SPAN class="symbol">:title</SPAN><SPAN>&nbsp;=&gt;&nbsp;</SPAN><SPAN class="string">"Post&nbsp;from&nbsp;Console"</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>[<SPAN class="comment">#,&nbsp;#,&nbsp;#]</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>(rdb:5)&nbsp;list&nbsp;&nbsp;</SPAN></LI><LI><SPAN>[2,&nbsp;11]&nbsp;<SPAN class="keyword">in</SPAN><SPAN>&nbsp;/Users/akitaonrails/tmp/blog_demo/app/controllers/posts_controller.rb&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="comment">#&nbsp;GET&nbsp;/posts</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="comment">#&nbsp;GET&nbsp;/posts.xml</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">def</SPAN><SPAN>&nbsp;index&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="variable">@posts</SPAN><SPAN>&nbsp;=&nbsp;Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;debugger&nbsp;&nbsp;</SPAN></LI><LI><SPAN>=&gt;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;respond_to&nbsp;<SPAN class="keyword">do</SPAN><SPAN>&nbsp;|format|&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format.html&nbsp;<SPAN class="comment">#&nbsp;index.html.erb</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;format.xml&nbsp;&nbsp;{&nbsp;render&nbsp;<SPAN class="symbol">:xml</SPAN><SPAN>&nbsp;=&gt;&nbsp;</SPAN><SPAN class="variable">@posts</SPAN><SPAN>&nbsp;}&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>(rdb:5)&nbsp;c&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">/Users/akitaonrails/tmp/blog_demo/app/controllers/posts_controller.rb:7 respond_to do |format|
+(rdb:5) @posts
+[#, #]
+
+(rdb:5) @posts &lt;&lt; Post.new(:title =&gt; "Post from Console")
+[#, #, #]
+
+(rdb:5) list
+[2, 11] in /Users/akitaonrails/tmp/blog_demo/app/controllers/posts_controller.rb
+   2    # GET /posts
+   3    # GET /posts.xml
+   4    def index
+   5      @posts = Post.find(:all)
+   6      debugger
+=&gt; 7      respond_to do |format|
+   8        format.html # index.html.erb
+   9        format.xml  { render :xml =&gt; @posts }
+   10      end
+   11    end
+
+(rdb:5) c</PRE>&nbsp;<P>&nbsp;</P><P>&nbsp;</P><P>所以，我们有了一个script/console 和ruby-debug混合的shell.然后我们就可以实时的控制我们的Rails对象，修改他们。我们可以用's'键(step)一步步的执行代码或者用'c'键(continue)来继续执行代码。list命令可以帮助我们了解我们在源代码的哪里。ruby-debug有几十个选项和命令，这些都是非常值得掌握的。</P><P>&nbsp;</P><P>没有什么能够代替一个好的测试套件。决不要用调试去替代测试。这两个是用来协同工作的。说道测试，Fixtures也得到了关注。rails引进了一个叫 <A href="http://m.onkey.org/2007/10/26/fixtures-go-foxy">Foxy Fixtures</A>的东东。</P><P>&nbsp;</P><P>&nbsp;</P><H3>Foxy Fixtures</H3><P>&nbsp;</P><P>有一件非常痛苦的事，那就是在一个什么都是硬编码的fixtures里跟踪那些主键和外键。如果你有一个简单的fixture,那倒不是什么大问题。但是如果你有几十个的fixture,每个fixture又有几十行和许许多多的关联，特别是多对多关联，那么它就变得相当难以维护。</P><P>现在让我们看看Rails2.0里的Fixture长什么样：</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;23&percnt;20test&percnt;2Ffixtures&percnt;2Fposts.yml&percnt;0ADEFAULTS&percnt;3A&percnt;20&percnt;26DEFAULTS&percnt;0A&percnt;20&percnt;20created_at&percnt;3A&percnt;20&percnt;3C&percnt;25&percnt;3D&percnt;20Time.now&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;20&percnt;20updated_at&percnt;3A&percnt;20&percnt;3C&percnt;25&percnt;3D&percnt;20Time.now&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;20&percnt;20&percnt;0Apost_one&percnt;3A&percnt;0A&percnt;20&percnt;20title&percnt;3A&percnt;20MyString&percnt;0A&percnt;20&percnt;20body&percnt;3A&percnt;20MyText&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;3C&percnt;3A&percnt;20*DEFAULTS&percnt;0A&percnt;0Apost_two&percnt;3A&percnt;0A&percnt;20&percnt;20title&percnt;3A&percnt;20MyString&percnt;0A&percnt;20&percnt;20body&percnt;3A&percnt;20MyText&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;3C&percnt;3A&percnt;20*DEFAULTS&percnt;0A&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="comment">#&nbsp;test/fixtures/posts.yml</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>DEFAULTS:&nbsp;&amp;DEFAULTS&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;created_at:&nbsp;&lt;%=&nbsp;<SPAN class="builtin">Time</SPAN><SPAN>.now&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;updated_at:&nbsp;&lt;%=&nbsp;<SPAN class="builtin">Time</SPAN><SPAN>.now&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></LI><LI><SPAN>post_one:&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;title:&nbsp;MyString&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;body:&nbsp;MyText&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;&lt;:&nbsp;*DEFAULTS&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>post_two:&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;title:&nbsp;MyString&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;body:&nbsp;MyText&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;&lt;:&nbsp;*DEFAULTS&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; "># test/fixtures/posts.yml
+DEFAULTS: &amp;DEFAULTS
+  created_at: &lt;%= Time.now %&gt;
+  updated_at: &lt;%= Time.now %&gt;
+  
+post_one:
+  title: MyString
+  body: MyText
+  &lt;&lt;: *DEFAULTS
+
+post_two:
+  title: MyString
+  body: MyText
+  &lt;&lt;: *DEFAULTS
+
+</PRE>&nbsp;<P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;23&percnt;20test&percnt;2Ffixtures&percnt;2Fcomments.yml&percnt;0ADEFAULTS&percnt;3A&percnt;20&percnt;26DEFAULTS&percnt;0A&percnt;20&percnt;20created_at&percnt;3A&percnt;20&percnt;3C&percnt;25&percnt;3D&percnt;20Time.now&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;20&percnt;20updated_at&percnt;3A&percnt;20&percnt;3C&percnt;25&percnt;3D&percnt;20Time.now&percnt;20&percnt;25&percnt;3E&percnt;0A&percnt;0Acomment_one&percnt;3A&percnt;0A&percnt;20&percnt;20post&percnt;3A&percnt;20post_one&percnt;0A&percnt;20&percnt;20body&percnt;3A&percnt;20MyText&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;3C&percnt;3A&percnt;20*DEFAULTS&percnt;0A&percnt;0Acomment_two&percnt;3A&percnt;0A&percnt;20&percnt;20post&percnt;3A&percnt;20post_two&percnt;0A&percnt;20&percnt;20body&percnt;3A&percnt;20MyText&percnt;0A&percnt;20&percnt;20&percnt;3C&percnt;3C&percnt;3A&percnt;20*DEFAULTS" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="comment">#&nbsp;test/fixtures/comments.yml</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>DEFAULTS:&nbsp;&amp;DEFAULTS&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;created_at:&nbsp;&lt;%=&nbsp;<SPAN class="builtin">Time</SPAN><SPAN>.now&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;updated_at:&nbsp;&lt;%=&nbsp;<SPAN class="builtin">Time</SPAN><SPAN>.now&nbsp;%&gt;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>comment_one:&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;post:&nbsp;post_one&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;body:&nbsp;MyText&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;&lt;:&nbsp;*DEFAULTS&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;</SPAN></LI><LI><SPAN>comment_two:&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;post:&nbsp;post_two&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;body:&nbsp;MyText&nbsp;&nbsp;</SPAN></LI><LI><SPAN>&nbsp;&nbsp;&lt;&lt;:&nbsp;*DEFAULTS&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; "># test/fixtures/comments.yml
+DEFAULTS: &amp;DEFAULTS
+  created_at: &lt;%= Time.now %&gt;
+  updated_at: &lt;%= Time.now %&gt;
+
+comment_one:
+  post: post_one
+  body: MyText
+  &lt;&lt;: *DEFAULTS
+
+comment_two:
+  post: post_two
+  body: MyText
+  &lt;&lt;: *DEFAULTS</PRE><BR><BR><P>&nbsp;</P><P>David曾经说过，给一行fixture命名是一种艺术，而现在这更加重要了。给 fixture的行一个有意义的，一个让他更容易地被看出哪个测试将会包含他的名字。</P><P>&nbsp;</P><P>这里有个新东西就是我们可以强制的手动设置主键(在id字段内)，另个东西就是我们可以用名字进行关联而不是id.看看我们是怎样将comment关联到post的：利用POST的名字。</P><P>&nbsp;</P><P>当我们有许多行在相同的字段里都有同样的值时，我们可以分离他们并在所有这些需要的行进行重用。在上面的例子里，我分离了每行都用到的时间字段。这听起来有点华而不实，但并非如此：它会让测试上到一个全新的台阶。开发者通常不喜欢写测试，所以让他变得简单点能激励他们做做测试。</P><P>&nbsp;</P><H3>Cookie 存储</H3>
+
+
+	<P>&nbsp;</P><P>Web应用控制请求间的状态一个默认的方式是去保存一个session，然后将它的ID通过cookie传送给用户的浏览器而后又回传回来。这虽然行得通但是有个问题：要在哪里存储这些session?直到1.2版本，rails将所有session按照单个文件存储'tmp'文件夹里。你也可以将它转换成 SQL session Store(将Session存储到数据库表里)&nbsp;</P>
+
+
+	<P>&nbsp;</P><P>第一个选择的优势是能够快速的初始化，但是最后还是会有些问题，因为你并没有将”一切共享“：文件只会在一台服务器里如果你有很多box，你就必须去处理那些类似NFS的恶心的东西.数据库更容易去管理，但你却要为每个用户请求都要访问数据库而付出代价。文件存储session还有点坏处就是如果你忘了时不时清空tmp文件夹，当你开始拥有成百上千的小文件时，文件系统就会很容易的变得臃肿。</P><P>&nbsp;</P><P>所以，Rails 2.0带来了漂亮简洁的解决方案叫做 "Cookie Session Store".这是默认选择。一切都是在config/environment.rb文件里发起，你可以在那里找到像这样的东西:</P>
+
+
+	<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=config.action_controller.session&percnt;20&percnt;3D&percnt;20&percnt;7B&percnt;0A&percnt;20&percnt;20&percnt;3Asession_key&percnt;20&percnt;3D&percnt;3E&percnt;20&#39;_blog_demo_session&#39;&percnt;2C&percnt;0A&percnt;20&percnt;20&percnt;3Asecret&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;20&percnt;3D&percnt;3E&percnt;20&#39;2f60d1e...3ebe3b7&#39;&percnt;0A&percnt;7D" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>config.action_controller.session&nbsp;=&nbsp;{&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="symbol">:session_key</SPAN><SPAN>&nbsp;=&gt;&nbsp;</SPAN><SPAN class="string">'_blog_demo_session'</SPAN><SPAN>,&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="symbol">:secret</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;&nbsp;</SPAN><SPAN class="string">'2f60d1e...3ebe3b7'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>}&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">config.action_controller.session = {
+  :session_key =&gt; '_blog_demo_session',
+  :secret      =&gt; '2f60d1e...3ebe3b7'
+}</PRE>&nbsp;它将会利用很强的密码去生成密钥(初始的beta版本是不安全的，但是发布版本的安全性会非常强)<BR><P>如果你分析正在被传输的HTTP包你会发现这个HTTP头:</P>
+
+
+	<P>&nbsp;</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Html代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=Set-Cookie&percnt;3A&percnt;20_blog_demo_session&percnt;3DBAh7BiI...R7AA&percnt;25253D&percnt;25253D--f92a00...2dc27c&percnt;3B&percnt;20path&percnt;3D&percnt;2F&percnt;0A&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN>Set-Cookie:&nbsp;</SPAN><SPAN class="attribute">_blog_demo_session</SPAN><SPAN>=</SPAN><SPAN class="attribute-value">BAh7BiI</SPAN><SPAN>...R7AA%253D%253D--f92a00...2dc27c;&nbsp;</SPAN><SPAN class="attribute">path</SPAN><SPAN>=/&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="html" style="display: none; ">Set-Cookie: _blog_demo_session=BAh7BiI...R7AA%253D%253D--f92a00...2dc27c; path=/
+
+</PRE>&nbsp;我在这里把字符串缩短了：他们相当长。这里的概念就是：不要将session存储在服务器里，将它传回给浏览器。这都是些用户不会去关心的数据。被传递的数据是一个被Hash保护的 Base64 的blob用来防止被篡改。<P>&nbsp;</P>
+
+
+
+
+	<P>这里是遵循 <STRONG>不要将大的对象存储在SESSION </STRONG>和&nbsp;<STRONG>不要将秘密和重要数据存储在SESSION</STRONG> 这两个原则.</P>
+
+
+	<P>如果你将一个带有很复杂的数据结构的集合存在了缓存，你很可能干了件错事。一个典型的Rails session不会存储超过一个用户ID又或者是一个Flash消息。所以他非常的小。跟网页里其他的文件比起来他简直微不足道。</P><P>&nbsp;</P><P>好处就是你可以省去维护服务端的session文件的麻烦，你也不用遭受因为访问数据库而带来的性能问题。这是一个很棒的选择你也应该使用它除非你有非常特别的要求。如果你刚开始使用Rails 2.0也不去关心这些，你将会自动的使用Cookie存储。这比使用基于文件存储又忘记清理session文件夹而最终有一天被他害惨了要来的好得多。</P><P>&nbsp;</P>
+
+
+	<P>&nbsp;</P><P>&nbsp;</P><H2>在rails2.0被遗弃的</H2>
+
+
+	<P>所以，增加了很多东西。还有更多的东西我在这个教程里面没有提到。如果你运行在rails1.2.6,看看你的日志：他会展示那些你正在使用的并且在rails2.0将不复存在的东西。</P><P>&nbsp;</P><P>一些你很可能还在使用的东西：</P>
+
+
+	<P>&nbsp;</P>
+
+
+	<UL><LI>在控制器里，不要使用 @params, @session, @flash, @request or @env. 你现在拥有他们各自同样的方法名params, session,
+flash, request and env. 用他们来代替以前的那些.</LI></UL>
+
+
+	<UL><LI>在模型里，不要使用 find_one or find_all, 用 find(:first) 和 find(:all)</LI></UL>
+
+
+	<P>一些主要的组件被删除了:</P>
+
+
+	<UL><LI>acts_as_list</LI><LI>acts_as_tree</LI><LI>acts_as_nested_set</LI><LI>All database adapters, except MySQL, SQLite, PostgreSQL</LI><LI>‘Classic’ Pagination</LI><LI>ActionWebService</LI></UL>
+
+
+	<P>&nbsp;acts_as插件现在是可选的，你还是可以拥有他们。他们都在这里http://svn.rubyonrails.org/rails/plugins/</P>
+
+
+	<P>旧的 pagination还在Err the Blog被维护着,所以你只要:</P>
+
+
+<PRE>./script/plugin install \
+svn://errtheblog.com/svn/plugins/classic_pagination
+</PRE>
+
+	<P>但是当然，不要再用它了，我们用<A href="http://errtheblog.com/posts/56-im-paginating-again">will_paginate</A>.</P><P>&nbsp;</P>
+
+
+	<P>数据库适配器现在也是分离的gems了.这样做非常好因为现在他们各自的升级都不再和rails的发行有关系了。他们可以更频繁的发布而你也可以用或不用他们。默认的安装方式是：</P>
+
+
+<PRE>sudo gem install activerecord-[database]-adapter
+</PRE>
+
+	<P>分离这些东西对rails带来的另个好处是它使rails的内核更加苗条，而不用去加载那些大部分人都不会去用的东西。</P><P>&nbsp;</P><H2><SPAN class="caps">SOAP</SPAN> vs <SPAN class="caps">REST</SPAN></H2>
+
+
+	<P>最后一个被遗弃的东西也是我想讲的是，多亏有了ActiveResource总算可以去除ActionWebService了。在rails里创建<SPAN class="caps">SOAP</SPAN> APIs 并不困难但也并不好玩。让我给你展示下用ActiveResource你可以做些什么</P>
+
+
+	<P>&nbsp;</P><P>让我们保持刚刚创建的blog处在运行状态。从另一个终端shell里，让我们创建另个rails项目：</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=rails&percnt;20blog_remote&percnt;0Acd&percnt;20blog_remote&percnt;0A.&percnt;2Fscript&percnt;2Fconsole&percnt;0A&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>rails&nbsp;blog_remote&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>cd&nbsp;blog_remote&nbsp;&nbsp;</SPAN></LI><LI><SPAN>./script/console&nbsp;&nbsp;</SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">rails blog_remote
+cd blog_remote
+./script/console
+
+</PRE>&nbsp;就是他了，一个骨瘦如柴的rails应用。在这个例子里rails控制台可以单独的执行。在里面输入如下：&nbsp;<P>&nbsp;</P><BR><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=class&percnt;20Post&percnt;20&percnt;3C&percnt;20ActiveResource&percnt;3A&percnt;3ABase&percnt;0A&percnt;20&percnt;20self.site&percnt;20&percnt;3D&percnt;20&#39;http&percnt;3A&percnt;2F&percnt;2Fakita&percnt;3Aakita&percnt;40localhost&percnt;3A3000&percnt;2Fadmin&#39;&percnt;0Aend" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN class="keyword">class</SPAN><SPAN>&nbsp;Post&nbsp;&lt;&nbsp;ActiveResource::Base&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="keyword">self</SPAN><SPAN>.site&nbsp;=&nbsp;</SPAN><SPAN class="string">'http://akita:akita@localhost:3000/admin'</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="keyword">end</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">class Post &lt; ActiveResource::Base
+  self.site = 'http://akita:akita@localhost:3000/admin'
+end</PRE><P>&nbsp;</P><P>现在，准备大吃一惊吧!从这个同样的控制台里输入如下：</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=Post.find(&percnt;3Aall)" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">Post.find(:all)</PRE><BR><P>是的!记得吗：在这个新的rails项目里我们并没有设置数据库或是创建任何模型。这都是我们之前的调用所产生的例子：</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=from&percnt;20(irb)&percnt;3A4&percnt;3E&percnt;3E&percnt;20Post.find(&percnt;3Aall)&percnt;0A&percnt;3D&percnt;3E&percnt;20&percnt;5B&percnt;23&percnt;3CPost&percnt;3A0x1254ea4&percnt;20&percnt;40prefix_options&percnt;3D&percnt;7B&percnt;7D&percnt;2C&percnt;20&percnt;40attributes&percnt;3D&percnt;7B&percnt;0A&percnt;22updated_at&percnt;22&percnt;3D&percnt;3ESun&percnt;20Dec&percnt;2009&percnt;2022&percnt;3A55&percnt;3A31&percnt;20UTC&percnt;202007&percnt;2C&percnt;20&percnt;22body&percnt;22&percnt;3D&percnt;3E&percnt;22Yeah!&percnt;22&percnt;2C&percnt;0A&percnt;20&percnt;22title&percnt;22&percnt;3D&percnt;3E&percnt;22Hello&percnt;20Brazil!&percnt;22&percnt;2C&percnt;20&percnt;22id&percnt;22&percnt;3D&percnt;3E1&percnt;2C&percnt;20&percnt;22created_at&percnt;22&percnt;3D&percnt;3ESun&percnt;20Dec&percnt;2009&percnt;2022&percnt;3A54&percnt;3A15&percnt;20UTC&percnt;202007&percnt;7D&percnt;3E&percnt;2C&percnt;20&percnt;0A&percnt;23&percnt;3CPost&percnt;3A0x1254e90&percnt;20&percnt;40prefix_options&percnt;3D&percnt;7B&percnt;7D&percnt;2C&percnt;20&percnt;40attributes&percnt;3D&percnt;7B&percnt;0A&percnt;22updated_at&percnt;22&percnt;3D&percnt;3ESun&percnt;20Dec&percnt;2009&percnt;2023&percnt;3A05&percnt;3A32&percnt;20UTC&percnt;202007&percnt;2C&percnt;20&percnt;22body&percnt;22&percnt;3D&percnt;3E&percnt;22Rio&percnt;20on&percnt;20Rails&percnt;20event!!&percnt;22&percnt;2C&percnt;20&percnt;0A&percnt;22title&percnt;22&percnt;3D&percnt;3E&percnt;22Hello&percnt;20from&percnt;20Rio&percnt;20on&percnt;20Rails&percnt;22&percnt;2C&percnt;20&percnt;22id&percnt;22&percnt;3D&percnt;3E2&percnt;2C&percnt;20&percnt;0A&percnt;22created_at&percnt;22&percnt;3D&percnt;3ESun&percnt;20Dec&percnt;2009&percnt;2023&percnt;3A05&percnt;3A32&percnt;20UTC&percnt;202007&percnt;7D&percnt;3E&percnt;5D" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>from&nbsp;(irb):4&gt;&gt;&nbsp;Post.find(</SPAN><SPAN class="symbol">:all</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>=&gt;&nbsp;[<SPAN class="comment">#&lt;Post:0x1254ea4&nbsp;@prefix_options={},&nbsp;@attributes={</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="string">"updated_at"</SPAN><SPAN>=&gt;Sun&nbsp;Dec&nbsp;09&nbsp;22:55:31&nbsp;UTC&nbsp;2007,&nbsp;</SPAN><SPAN class="string">"body"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"Yeah!"</SPAN><SPAN>,&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;<SPAN class="string">"title"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"Hello&nbsp;Brazil!"</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="string">"id"</SPAN><SPAN>=&gt;1,&nbsp;</SPAN><SPAN class="string">"created_at"</SPAN><SPAN>=&gt;Sun&nbsp;Dec&nbsp;09&nbsp;22:54:15&nbsp;UTC&nbsp;2007}&gt;,&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="comment">#&lt;Post:0x1254e90&nbsp;@prefix_options={},&nbsp;@attributes={</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="string">"updated_at"</SPAN><SPAN>=&gt;Sun&nbsp;Dec&nbsp;09&nbsp;23:05:32&nbsp;UTC&nbsp;2007,&nbsp;</SPAN><SPAN class="string">"body"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"Rio&nbsp;on&nbsp;Rails&nbsp;event!!"</SPAN><SPAN>,&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="string">"title"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"Hello&nbsp;from&nbsp;Rio&nbsp;on&nbsp;Rails"</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="string">"id"</SPAN><SPAN>=&gt;2,&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="string">"created_at"</SPAN><SPAN>=&gt;Sun&nbsp;Dec&nbsp;09&nbsp;23:05:32&nbsp;UTC&nbsp;2007}&gt;]&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">from (irb):4&gt;&gt; Post.find(:all)
+=&gt; [#&lt;Post:0x1254ea4 @prefix_options={}, @attributes={
+"updated_at"=&gt;Sun Dec 09 22:55:31 UTC 2007, "body"=&gt;"Yeah!",
+ "title"=&gt;"Hello Brazil!", "id"=&gt;1, "created_at"=&gt;Sun Dec 09 22:54:15 UTC 2007}&gt;, 
+#&lt;Post:0x1254e90 @prefix_options={}, @attributes={
+"updated_at"=&gt;Sun Dec 09 23:05:32 UTC 2007, "body"=&gt;"Rio on Rails event!!", 
+"title"=&gt;"Hello from Rio on Rails", "id"=&gt;2, 
+"created_at"=&gt;Sun Dec 09 23:05:32 UTC 2007}&gt;]</PRE><P>&nbsp;我们甚至可以创建一个新的post,像这样:</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=&percnt;3E&percnt;3E&percnt;20p&percnt;20&percnt;3D&percnt;20Post.create(&percnt;3Atitle&percnt;20&percnt;3D&percnt;3E&percnt;20&percnt;22Created&percnt;20Remotely&percnt;22&percnt;2C&percnt;20&percnt;0A&percnt;3Abody&percnt;20&percnt;3D&percnt;3E&percnt;20&percnt;22Hello&percnt;20from&percnt;20console&percnt;20again!&percnt;22)&percnt;0A&percnt;3D&percnt;3E&percnt;20&percnt;23&percnt;3CPost&percnt;3A0x122df48&percnt;20&percnt;40prefix_options&percnt;3D&percnt;7B&percnt;7D&percnt;2C&percnt;20&percnt;40attributes&percnt;3D&percnt;7B&percnt;0A&percnt;22updated_at&percnt;22&percnt;3D&percnt;3EWed&percnt;20Dec&percnt;2012&percnt;2015&percnt;3A13&percnt;3A53&percnt;20UTC&percnt;202007&percnt;2C&percnt;20&percnt;0A&percnt;22body&percnt;22&percnt;3D&percnt;3E&percnt;22Hello&percnt;20from&percnt;20console&percnt;20again!&percnt;22&percnt;2C&percnt;20&percnt;22title&percnt;22&percnt;3D&percnt;3E&percnt;22Created&percnt;20Remotely&percnt;22&percnt;2C&percnt;20&percnt;0A&percnt;22id&percnt;22&percnt;3D&percnt;3E3&percnt;2C&percnt;20&percnt;22created_at&percnt;22&percnt;3D&percnt;3EWed&percnt;20Dec&percnt;2012&percnt;2015&percnt;3A13&percnt;3A53&percnt;20UTC&percnt;202007&percnt;7D&percnt;3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>&gt;&gt;&nbsp;p&nbsp;=&nbsp;Post.create(</SPAN><SPAN class="symbol">:title</SPAN><SPAN>&nbsp;=&gt;&nbsp;</SPAN><SPAN class="string">"Created&nbsp;Remotely"</SPAN><SPAN>,&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="symbol">:body</SPAN><SPAN>&nbsp;=&gt;&nbsp;</SPAN><SPAN class="string">"Hello&nbsp;from&nbsp;console&nbsp;again!"</SPAN><SPAN>)&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>=&gt;&nbsp;<SPAN class="comment">#&lt;Post:0x122df48&nbsp;@prefix_options={},&nbsp;@attributes={</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="string">"updated_at"</SPAN><SPAN>=&gt;Wed&nbsp;Dec&nbsp;12&nbsp;15:13:53&nbsp;UTC&nbsp;2007,&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="string">"body"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"Hello&nbsp;from&nbsp;console&nbsp;again!"</SPAN><SPAN>,&nbsp;</SPAN><SPAN class="string">"title"</SPAN><SPAN>=&gt;</SPAN><SPAN class="string">"Created&nbsp;Remotely"</SPAN><SPAN>,&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="string">"id"</SPAN><SPAN>=&gt;3,&nbsp;</SPAN><SPAN class="string">"created_at"</SPAN><SPAN>=&gt;Wed&nbsp;Dec&nbsp;12&nbsp;15:13:53&nbsp;UTC&nbsp;2007}&gt;&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">&gt;&gt; p = Post.create(:title =&gt; "Created Remotely", 
+:body =&gt; "Hello from console again!")
+=&gt; #&lt;Post:0x122df48 @prefix_options={}, @attributes={
+"updated_at"=&gt;Wed Dec 12 15:13:53 UTC 2007, 
+"body"=&gt;"Hello from console again!", "title"=&gt;"Created Remotely", 
+"id"=&gt;3, "created_at"=&gt;Wed Dec 12 15:13:53 UTC 2007}&gt;</PRE><P>现在，回到你的浏览器并且刷新 http://localhost:3000/posts</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=http&percnt;3A&percnt;2F&percnt;2Fwww.akitaonrails.com&percnt;2Fassets&percnt;2F2007&percnt;2F12&percnt;2F12&percnt;2FPicture_7_1.png" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>http://www.akitaonrails.com/assets/2007/12/12/Picture_7_1.png&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">http://www.akitaonrails.com/assets/2007/12/12/Picture_7_1.png</PRE>&nbsp;<BR><P>懂了吗？我们现在拥有了两个 rails 应用程序，而其中的一个能通过基于RESTful的HTTP调用来和另个交谈！</P><P>还不止这些：当我们创建Post ActiveResource，我们把用户名和密码给予了之前做的基于HTTP的认证。这也是其中的一个优点：他使以后的API调用更加容易。</P><P>&nbsp;</P><P>所以说，我们<SPAN style="font-size: x-small;"><SPAN style="font-weight: bold;">连一行代码都没改</SPAN></SPAN>就已经能够创建远程聚合(remote integration)。所有的这一切都要感谢利用REstful方式去创建 Rails应用：你拥有每个你所创建的 RESTful 资源的全部API.跟着惯例走使一切都变得容易。</P><P>&nbsp;</P><H2>结论</H2>
+
+
+	<P>所以，Rails包含了这些好东西，有许多优化的东西使你不必重新学习他们，这是非常棒的。但如果说你已经有一个1.2版本的rails应用并且正在运行，那将它盲目的升级到2.0有意义吗？</P><P>并不总是这样。在这里我们必须运用我们的常识：</P><BR><UL><LI>有什么2.0里的东西你想在你的应用程序里面使用吗？ </LI><LI>你的应用拥有能胜任的测试组件了吗？</LI><LI>你使用的第三方插件已经能够在rails2.0底下工作了吗</LI></UL>
+
+
+	<P>在没有回答这些问题之前你不应该更新。这就是为什么你可以锁定旧的gems到你的应用程序: </P><P>&nbsp;</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=rake&percnt;20rails&percnt;3Afreeze&percnt;3Agems&percnt;20-v1.2.6&percnt;0A&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>rake&nbsp;rails</SPAN><SPAN class="symbol">:freeze</SPAN><SPAN class="symbol">:gems</SPAN><SPAN>&nbsp;-v1.2.6&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">rake rails:freeze:gems -v1.2.6
+
+</PRE><P>&nbsp;你可以同时安装 rails1.2 和 2.0。要使用旧的rails命令去创建1.2项目你要这样做：</P><P>&nbsp;</P><DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Ruby代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=rails&percnt;20_1.2.6_&percnt;20&percnt;5Bproject_name&percnt;5D&percnt;0A&percnt;0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-rb"><LI><SPAN><SPAN>rails&nbsp;_1.2.6_&nbsp;[project_name]&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="ruby" style="display: none; ">rails _1.2.6_ [project_name]
+
+</PRE><P>&nbsp;确保你已经覆盖了所有东西。1.2.6会在你的日志里面给出一些警告。</P><P>根据这些警告去调整你的应用程序使之能够运行在Rails2.0下</P><P>&nbsp;</P><P>如果你是新手，正在学习rails，你可能还找不到太多的材料去学习：直到目前为止的书籍都只涵盖1.2的内容。但这不是什么问题：先学1.2，然后你可以等待全新的2.0书籍发行（我在明年初的时候会发行一本），根据我的教程你将能够学习2.0，只是几天的时间，又或者只是几个小时。</P><P>Rails2.0绝不是一场革命，它是一个非常受欢迎的演进。Rails原本的简洁精致已经相当不错了。这相当棒。</P><P>我希望我的教程能够帮助大家快速掌握rails2.0的新特性。</P><P>如果你想要得到我们刚刚做的博客的全部的源码，从这里<A href="http://www.akitaonrails.com/assets/2007/12/12/blog_demo.zip" target="_blank">下载</A>。</P><P>&nbsp;Have fun!</P><P>&nbsp;</P><P>&nbsp;</P>
+      </PRE></DIV>
+      
+      
+        <DIV id="forum_advert_b5"><SCRIPT type="text/javascript">
+google_ad_client = "pub-9971846879634397";
+google_ad_slot = "6749798418";
+google_ad_width = 728;
+google_ad_height = 90;
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/show_ads.js">
+</SCRIPT><SCRIPT src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/expansion_embed.js"></SCRIPT><SCRIPT src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/test_domain.js"></SCRIPT><SCRIPT>window.google_render_ad();</SCRIPT><INS style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><INS style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><IFRAME allowtransparency="true" frameborder="0" height="90" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="728"></IFRAME></INS></INS></DIV>
+        <DIV id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </DIV>
+        <DIV id="forum_advert_b3">
+          <SPAN>推荐链接</SPAN>
+          <UL class="adverts"><LI><A href="http://www.javaeye.com/adverts/111" target="_blank"><SPAN style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</SPAN></A></LI><LI><A href="http://www.javaeye.com/adverts/126" target="_blank"><SPAN style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</SPAN></A></LI><LI><A href="http://www.javaeye.com/adverts/170" target="_blank"><SPAN style="color:blue;font-weight:bold;">6月份JAVA技术沙龙活动通知</SPAN></A></LI></UL>
+        </DIV>
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/162656#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://genki.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://genki.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=genki" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://genki.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+<TR id="p_469904">
+  <TD class="postauthor">
+    <UL>
+      <LI class="name">baryon</LI>
+      <LI>等级: 初级会员</LI>
+      <LI><A href="http://baryon.javaeye.com/" target="_blank"><IMG alt="用户头像" class="logo" src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/user-logo.gif" title="baryon的博客: "></A></LI>
+      <LI>文章: 20</LI>
+      <LI>积分: 50</LI>
+      <LI>来自: 一个海岛</LI>
+      <LI><IMG src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/offline.gif"></LI>
+    </UL>
+  </TD>
+  <TD class="postcontent">
+    <DIV class="postactions">
+      <DIV class="description">发表时间：2008-02-23 </DIV>
+      <DIV class="links">
+        
+        
+      </DIV>
+    </DIV>
+    <DIV class="postbody clearfix">
+      
+        精华
+<BR>
+<BR>这个网站的快速回复在firefox下不好用啊！
+      </DIV>
+      
+          </TD>
+  </TR>
+  <TR>
+    <TD class="postauthor"><A href="http://www.javaeye.com/topic/162656#">返回顶楼</A></TD>
+    <TD class="postcontent">
+      <DIV class="icons">
+        <A href="http://baryon.javaeye.com/" class="icon_www" title="浏览作者的博客">&nbsp;</A>
+        <A href="http://baryon.javaeye.com/blog/profile" class="icon_profile" title="浏览作者资料">&nbsp;</A>
+        <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=baryon" class="icon_pm" title="发送站内短信">&nbsp;</A>
+        <A href="http://baryon.javaeye.com/blog/guest_book" class="icon_guestbook" title="给作者留言">&nbsp;</A>
+        
+        
+      </DIV>
+                        <DIV id="post_rate_box_469904" class="post_rate_box"><A href="http://www.javaeye.com/topic/162656#" onclick="return false;" class="good" title="好">0</A> <A href="http://www.javaeye.com/topic/162656#" onclick="return false;" class="hidden" title="差">0</A> 请登录后投票</DIV>                  </TD>
+  </TR>
+  <TR class="sep2"><TD colspan="2"></TR>
+
+  </TBODY>
+</TABLE>
+
+
+<DIV class="actions">
+  <DIV class="buttons"></DIV>
+  <DIV class="wrapper"></DIV>
+</DIV>
+
+<DIV>
+  <DIV class="crumbs">
+    <A href="http://www.javaeye.com/forums">论坛首页</A> <SPAN class="arrow">→</SPAN>
+    <A href="http://www.javaeye.com/forums/board/Ruby">Ruby版</A>
+     <SPAN class="arrow">→</SPAN> <A href="http://www.javaeye.com/forums/tag/rails">rails</A>
+    <BR><BR>跳转论坛:<SELECT id="forum_urlname" name="forum[urlname]" onchange="window.location=&#39;/forums/board/&#39;+this.value"><OPTION value="Java">Java编程和Java企业应用</OPTION>
+<OPTION value="web">Web前端技术：AJAX和RIA</OPTION>
+<OPTION value="mobile">移动编程和手机应用开发</OPTION>
+<OPTION value="Ruby" selected="selected">Ruby</OPTION>
+<OPTION value="Python">Python</OPTION>
+<OPTION value="PHP">PHP</OPTION>
+<OPTION value="dotnet">Microsoft .Net</OPTION>
+<OPTION value="Tech">综合技术</OPTION>
+<OPTION value="New">入门讨论</OPTION>
+<OPTION value="develop">软件开发和项目管理</OPTION>
+<OPTION value="Industry">行业应用</OPTION>
+<OPTION value="vendor">厂商论坛</OPTION>
+<OPTION value="Job">招聘求职</OPTION>
+<OPTION value="Life">海阔天空</OPTION></SELECT>
+    <DIV id="forum_advert_b2"></DIV>
+  </DIV>
+
+  
+</DIV>
+
+<DIV style="display:none">
+  <FORM action="http://www.javaeye.com/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request(&#39;/posts/rate&#39;, {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <INPUT type="hidden" id="post_rate_id" name="id">
+    <INPUT type="hidden" id="post_rate_type" name="type">
+  </FORM></DIV>
+
+<SCRIPT type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":162656, "type":type}});
+  }
+
+      
+</SCRIPT>
+
+
+        </DIV>
+        <DIV id="nav">
+  <DIV class="wrapper">
+    <UL>
+            <LI><A href="http://www.javaeye.com/">首页</A></LI>
+      <LI><A href="http://www.javaeye.com/news">新闻</A></LI>
+      <LI><A href="http://www.javaeye.com/forums" class="selected">论坛</A></LI>
+      <LI><A href="http://www.javaeye.com/ask">问答</A></LI>
+      <LI><A href="http://www.javaeye.com/wiki">知识库</A></LI>
+      <LI><A href="http://www.javaeye.com/blogs">博客</A></LI>
+      <LI><A href="http://www.javaeye.com/groups">圈子</A></LI>
+      <LI><A href="http://job.javaeye.com/" target="_blank">招聘</A></LI>
+      <LI><A href="http://www.javaeye.com/index/service">服务</A></LI>
+      <LI class="last"><A href="http://www.javaeye.com/search">搜索</A></LI>
+    </UL>
+  </DIV>
+</DIV>
+
+<DIV id="channel_nav">
+  <UL>
+    <LI><A href="http://java.javaeye.com/">Java</A></LI>
+    <LI><A href="http://ajax.javaeye.com/">AJAX</A></LI>    
+    <LI><A href="http://ruby.javaeye.com/">Ruby</A></LI>
+    <LI><A href="http://python.javaeye.com/">Python</A></LI>
+    <LI><A href="http://agile.javaeye.com/">敏捷</A></LI>
+    <LI><A href="http://mysql.javaeye.com/">MySQL</A></LI>
+    <LI><A href="http://book.javaeye.com/">图书</A></LI>
+    <LI><A href="http://oracle.javaeye.com/">Oracle</A></LI>
+    <LI><A href="http://dorado.javaeye.com/">Dorado</A></LI>
+    <LI class="last"><A href="http://primeton.javaeye.com/">普元</A></LI>
+  </UL>
+</DIV>
+      </DIV>
+      <DIV id="footer">
+  <DIV id="site_nav">
+    <UL>
+      <LI><A href="http://www.javaeye.com/index/service">广告服务</A></LI>
+      <LI><A href="http://webmaster.javaeye.com/">JavaEye黑板报</A></LI>
+      <LI><A href="http://www.javaeye.com/index/aboutus">关于我们</A></LI>
+      <LI><A href="http://www.javaeye.com/index/contactus">联系我们</A></LI>
+      <LI class="last"><A href="http://www.javaeye.com/index/friend_links">友情链接</A></LI>
+    </UL>
+  </DIV>
+  <DIV id="copyright">
+    © 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </DIV>
+</DIV>
+
+    </DIV>
+    
+<SCRIPT type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=no" + "' width='0' height='0' />");
+</SCRIPT><IMG src="./Rolling with Rails 2.0 - Part 2 - rails - Ruby - JavaEye论坛.htm_files/saved_resource" width="0" height="0">
+  
+
+</BODY></HTML>
