@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="author" content="super254" />
+    <meta name="Copyright" content="Csdn" />
+    <meta name="description" content="csdnblog" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="Shortcut Icon" href="http://profile.csdn.net/super254/picture/1.ico" />
+    <link href="http://hi.images.csdn.net/css/Cogitation/Cogitation_1.css" type="text/css" rel="stylesheet" media="all" /><link href="http://hi.images.csdn.net/css/csdn_favbykimi.css" type="text/css" rel="stylesheet" media="all" /><script type="text/javascript" src="http://hi.images.csdn.net/js/public/jquery-1.2.3.pack.js"></script><script type="text/javascript" src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/jquery.highlighter.js"></script><script type="text/javascript" src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/highlighter.js"></script><link href="http://feeds.feedsky.com/csdn.net/super254" title="RSS" type="application/rss+xml" rel="alternate" />
+    <title>
+        Struts中form的对象数组 - super254的专栏 - CSDN博客</title>
+</head>
+<body id="defaultuser">
+    <div id="csdnblog_allwrap">
+        <form name="Form1" method="post" action="2936617.aspx" id="Form1">
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+
+        
+<div id="csdnblog_midwrap">
+    <div id="csdnblog_header">
+        
+        <h1><a id="Header1_HeaderTitle" href="http://blog.csdn.net/super254/">super254的专栏</a></h1><h2></h2>
+        
+        <ul id="personalnav"><li><a href="http://passport.csdn.net/UserLogin.aspx">登录</a></li><li><a href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</a></li></ul>
+        
+        <ul id="blogsearchsty"><li><input id="inputSearch" type="text" class="bolgsearch" onkeydown="return keyb(event)" /></li><li class="selectsty"><select name="Search:ddlSearchScope" id="Search_ddlSearchScope"><option value="all">全站</option><option value="super254">当前博客</option></select></li><li><input type="button" onclick="checkNull()" value="搜索" class="bolggobtn" /></li></ul>
+        
+        <ul id="menu"><li><a href="http://hi.csdn.net/super254">空间</a></li><li><a href="http://blog.csdn.net/super254" class="on">博客</a></li><li><a href="http://hi.csdn.net/super254/profile/contactlist/1.html">好友</a></li><li><a href="http://album.hi.csdn.net/" target="_blank">相册</a></li><li><a href="http://hi.csdn.net/super254/profile/notebook/1.html" class="last">留言</a></li></ul>
+    </div>
+    
+    <div id="csdnblog_content">
+        <div class="gutter">
+            
+                    
+<div class="default_contents">
+    <div class="user_article">
+    <script type="text/javascript" src="http://hi.images.csdn.net/js/blog/LoadFeedbackCount.js"></script>
+        <h1 class="title_txt"><img src="http://hi.images.csdn.net/images/blog/authorship.gif" border="0" width="15" height="16" alt="原创" />&nbsp;Struts中form的对象数组<cite class="fav_csdnstylebykimi"><a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a></cite></h1>
+<div class="blogstory">
+
+    <script type="text/javascript">
+        document.body.oncopy = function() {
+            if (window.clipboardData) {
+                setTimeout(function() {
+                    var text = clipboardData.getData("text"); 
+                    if (text && text.length>300) {
+                        text = text + "\r\n\n本文来自CSDN博客，转载请标明出处：" + location.href;
+                        clipboardData.setData("text", text); 
+                    }
+                }, 100);
+            }
+        }
+    </script>
+
+    <script>function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</script><DIV class=highlighter></DIV>
+<P>有以下的一个form类，它有3个属性，2个是javaBean，还有一个是javaBean的数组</P>
+<P>&nbsp;</P>
+<DIV class=highlighter>
+<OL class=highlighter-c>
+<LI><SPAN class=keyword>public</SPAN><SPAN>&nbsp;</SPAN><SPAN class=keyword>class</SPAN><SPAN>&nbsp;PrmMainType&nbsp;extends&nbsp;ActionForm{</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>private</SPAN><SPAN>&nbsp;PlyCalVhlType&nbsp;plyCalVhlType;</SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>private</SPAN><SPAN>&nbsp;PlyRdrType[]&nbsp;plyRdrType;</SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>private</SPAN><SPAN>&nbsp;PlyFrcVhlType&nbsp;plyFrcVhlType;</SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN></SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>public</SPAN><SPAN>&nbsp;PlyCalVhlType&nbsp;getPlyCalVhlType()&nbsp;{</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>return</SPAN><SPAN>&nbsp;plyCalVhlType;</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></LI>
+<LI class=alt><SPAN></SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>public</SPAN><SPAN>&nbsp;</SPAN><SPAN class=keyword>void</SPAN><SPAN>&nbsp;setPlyCalVhlType(PlyCalVhlType&nbsp;plyCalVhlType)&nbsp;{</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>this</SPAN><SPAN>.plyCalVhlType&nbsp;=&nbsp;plyCalVhlType;</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>public</SPAN><SPAN>&nbsp;PlyRdrType[]&nbsp;getPlyRdrType()&nbsp;{</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>return</SPAN><SPAN>&nbsp;plyRdrType;</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>public</SPAN><SPAN>&nbsp;</SPAN><SPAN class=keyword>void</SPAN><SPAN>&nbsp;setPlyRdrType(PlyRdrType[]&nbsp;plyRdrType)&nbsp;{</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>this</SPAN><SPAN>.plyRdrType&nbsp;=&nbsp;plyRdrType;</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>public</SPAN><SPAN>&nbsp;PlyFrcVhlType&nbsp;getPlyFrcVhlType()&nbsp;{</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>return</SPAN><SPAN>&nbsp;plyFrcVhlType;</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN></SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>public</SPAN><SPAN>&nbsp;</SPAN><SPAN class=keyword>void</SPAN><SPAN>&nbsp;setPlyFrcVhlType(PlyFrcVhlType&nbsp;plyFrcVhlType)&nbsp;{</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>this</SPAN><SPAN>.plyFrcVhlType&nbsp;=&nbsp;plyFrcVhlType;</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;</SPAN></LI>
+<LI class=alt><SPAN></SPAN></LI>
+<LI><SPAN>}</SPAN></LI></OL></DIV>
+<P><SPAN>现在有一个需求就是要把页面的值注入到form中去，在开发的过程中遇到了很多意想不到的事：</SPAN></P>
+<P><SPAN>首先没有使用过复杂对象数组注值，原来都是使用String数组，只要在页面使用相同的名字在后台就会获得String数组。而对于上面的这种情况则需要使用plyRdrType[0].SNclmDesc这种形式了</SPAN></P>
+<P><SPAN></SPAN>&nbsp;</P><SPAN>
+<DIV class=highlighter>
+<OL class=highlighter-j>
+<LI><SPAN>&lt;input&nbsp;type=</SPAN><SPAN class=string>"checkbox"</SPAN><SPAN>&nbsp;name=</SPAN><SPAN class=string>"plyRdrType[0].SNclmDesc"</SPAN><SPAN>&nbsp;value=</SPAN><SPAN class=string>"Y"</SPAN><SPAN>&gt;</SPAN></LI></OL></DIV>
+<P><SPAN>这个地方碰到了2个问题plyRdrType对象的类型原本不是这样定义的是非规范定义：</SPAN></P><SPAN>
+<DIV class=highlighter>
+<OL class=highlighter-j>
+<LI><SPAN class=keyword>private</SPAN><SPAN>&nbsp;_plyRdrType[]&nbsp;plyRdrType；</SPAN></LI></OL></DIV>
+<P><SPAN>这在Struts中好像是不允许的：你必需按照骆驼峰的方式进行规范命名，否则你将自食其果。</SPAN></P></SPAN>
+<P><SPAN>不知道你们注意到上面的input中SNclmDesc的第一个字母是大写的没，其实在vo中是s<SPAN class=keyword>NclmDesc。用小写的时候你会发现下面的异常（用nested标签的时候）或者你会发现其它的都取到值了而这个属性没有：</SPAN></SPAN></P><SPAN><SPAN class=keyword>
+<DIV class=highlighter>
+<OL class=highlighter-j>
+<LI><SPAN>PrmMainType&nbsp;has&nbsp;no&nbsp;property&nbsp;defined&nbsp;by&nbsp;</SPAN><SPAN class=string>"plyRdrType[0].sNclmDesc"</SPAN></LI></OL></DIV>
+<P><SPAN class=string></SPAN><SPAN>如果你还有以d打头命名的属性时也会遇到上面的问题，改成大写的就可以了。</SPAN></P>
+<P><SPAN></SPAN>&nbsp;</P>
+<P><SPAN></SPAN>&nbsp;</P>
+<P><SPAN>以上的是页面方面遇到的问题，这个时候提交的话是不会出现你所期望的结果的，它会无情的给你抛出一个nullpoint exception，</SPAN></P>
+<P><SPAN>为什么？没有进行初始化。为什么？我也不清楚。。。。</SPAN></P>
+<P><SPAN>只要在<SPAN>PrmMainType中加入下面的代码就可以了：</SPAN></SPAN></P>
+<P><SPAN><SPAN></SPAN></SPAN>&nbsp;</P><SPAN><SPAN>
+<DIV class=highlighter>
+<OL class=highlighter-j>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>public</SPAN><SPAN>&nbsp;</SPAN><SPAN class=keyword>void</SPAN><SPAN>&nbsp;reset(ActionMapping&nbsp;mapping,&nbsp;HttpServletRequest&nbsp;request)&nbsp;{</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;plyRdrTypeLs=request.getParameter(</SPAN><SPAN class=string>"plyRdrTypeLength"</SPAN><SPAN>);</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>int</SPAN><SPAN>&nbsp;plyRdrTypeLength=(</SPAN><SPAN class=keyword>new</SPAN><SPAN>&nbsp;Integer(plyRdrTypeLs)).intValue();</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plyRdrType=</SPAN><SPAN class=keyword>new</SPAN><SPAN>&nbsp;PlyRdrType[plyRdrTypeLength];</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plyCalVhlType=</SPAN><SPAN class=keyword>new</SPAN><SPAN>&nbsp;PlyCalVhlType();</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=keyword>for</SPAN><SPAN>(</SPAN><SPAN class=keyword>int</SPAN><SPAN>&nbsp;i=</SPAN><SPAN class=number>0</SPAN><SPAN>;i&lt;plyRdrTypeLength;i++){</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plyRdrType[i]=</SPAN><SPAN class=keyword>new</SPAN><SPAN>&nbsp;PlyRdrType();</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plyFrcVhlType=</SPAN><SPAN class=keyword>new</SPAN><SPAN>&nbsp;PlyFrcVhlType();</SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}</SPAN></LI></OL></DIV>
+<P>plyRdrTypeLength是页面中的一个hidden属性，用来定义plyRdrType的长度，由js来控制。</P>
+<P>&nbsp;</P>
+<P>贴一段页面代码</P>
+<P>&nbsp;</P><SPAN class=tag><FONT color=#333333>
+<DIV class=highlighter>
+<OL class=highlighter-xml>
+<LI><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>form</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>name</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"prmMainType"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>method</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"post"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>action</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"&lt;%=request.getContextPath()&nbsp;%&gt;/formArrayAction.do?cmd=getData"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI class=alt><SPAN></SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>input</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>type</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"hidden"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>name</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"plyRdrType[0].FRdrAmt"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>value</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"50000"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>input</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>type</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"hidden"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>name</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"plyRdrType[0].FRdrAmtDes"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>value</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"50000"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>input</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>type</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"submit"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>value</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"提交"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>input</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>type</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"hidden"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>name</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"plyRdrTypeLength"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>value</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"2"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN></SPAN><SPAN class=tag>&lt;/</SPAN><SPAN class=tag-name>form</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI></OL></DIV>
+<P>&nbsp;</P>
+<P>这样基本上就可以了，下面介绍下nested标签。这是一个并不常用的标签，它的一个优点就是可以在页面展示很好的业务逻辑，它允许你按照form中的那种层级关系在页面中进行布局：</P>
+<DIV class=highlighter>
+<OL class=highlighter-xml>
+<LI><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>html:form</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>action</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"/formArrayAction.do?cmd=getData"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>nested:nest</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>property</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"plyRdrType[0]"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>nested:checkbox</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>property</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"SNclmDesc"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>value</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"Y"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN class=tag>&lt;/</SPAN><SPAN class=tag-name>nested:checkbox</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>nested:hidden</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>property</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"SNclmDescDes"</SPAN><SPAN>&nbsp;</SPAN><SPAN class=attribute>value</SPAN><SPAN>=</SPAN><SPAN class=attribute-value>"Y"</SPAN><SPAN class=tag>&gt;</SPAN><SPAN class=tag>&lt;/</SPAN><SPAN class=tag-name>nested:hidden</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI class=alt><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;/</SPAN><SPAN class=tag-name>nested:nest</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><SPAN class=tag>&lt;</SPAN><SPAN class=tag-name>html:submit</SPAN><SPAN class=tag>&gt;</SPAN><SPAN>提交</SPAN><SPAN class=tag>&lt;/</SPAN><SPAN class=tag-name>html:submit</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI>
+<LI class=alt><SPAN></SPAN><SPAN class=tag>&lt;/</SPAN><SPAN class=tag-name>html:form</SPAN><SPAN class=tag>&gt;</SPAN><SPAN></SPAN></LI></OL></DIV>
+<P>nested标签也可以完成上面的功能，不过有些地方有点麻烦，大家自己去体会吧。</P>
+<P>&nbsp;</P>
+<P>最后说一句，Struts之类的框架是为了给大家提供方便的，不能为了使用而使用，当你觉得使用它增加了复杂度的时候可以考虑下其他的方式。</FONT></SPAN></SPAN></SPAN></SPAN></SPAN></SPAN></P><p class="right articalinfo">发表于 @ <a href="http://blog.csdn.net/super254/archive/2008/09/16/2936617.aspx" Title = "permalink">2008年09月16日 15:13:00</a>&#124;<a href="http://blog.csdn.net/super254/archive/2008/09/16/2936617.aspx#FeedBack" Title = "评论">评论(<span id="FeedbackCount_2936617">loading...</span><script type="text/javascript">AddFeedbackCountStack("2936617")</script>)</a>&#124;<a href="http://writeblog.csdn.net/PostEdit.aspx?entryId=2936617" Title = "编辑">编辑</a>&#124;<cite class="fav_csdnstylebykimi"><a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a></cite></p>
+    <span id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><h3 class="pagego"><a href="http://blog.csdn.net/super254/archive/2008/09/16/2936975.aspx">新一篇:&nbsp;ActionServlet在web.xml中的配置</a>&nbsp;|&nbsp;<a href="http://blog.csdn.net/super254/archive/2008/09/10/2910334.aspx">旧一篇:&nbsp;java中正则表达式的边界匹配</a></h3></span>
+</div>
+
+    </div>
+    <div class="commentslist">
+        
+<script type="text/javascript">
+    var CurrentEntryId = '2936617';
+    var CurrentUserName = 'super254';
+</script>
+<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/feedback.js"></script>
+
+<div id="commentslist"></div>
+    </div>
+    <div class="spacecommment">
+        
+    </div>
+
+    <script type="text/javascript">
+        LoadFeedbackCount();
+        document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");// 计数器
+    </script>
+
+</div>
+ 
+                
+        </div>
+    </div>
+    <div id="csdnblog_sidebar">
+        <div class="gutter">
+            <div class="aboutauthor">
+                <dl>
+                    
+                    <dt>用户操作</dt><dd class="middle"><a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/Messages/super254.ashx" target="_blank">[即时聊天]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=super254" target="_blank">[发私信]</a> <a href="http://passport.csdn.net/UserLogin.aspx?from=http://webim.csdn.net/AddFriends/super254.ashx" target="_blank">[加为好友]</a></dd><dt>super254</dt><dd class="middle"><img src="http://profile.csdn.net/super254/picture/1.jpg" /></dd>
+
+                    
+                    <span id="SubscriptionList"><dt>订阅我的博客</dt><dd><a href="http://feeds.feedsky.com/csdn.net/super254" ><img border="0" alt="XML聚合" src="http://img.feedsky.com/feeds/csdn.net/super254/sc/gif " /></a>&nbsp;&nbsp;<a href="http://feeds.feedsky.com/csdn.net/super254" target="_blank"><img border="0" alt="FeedSky" src="http://hi.images.csdn.net/images/blog/feedsky.gif" /></a></dd><dd><a href="http://www.xianguo.com/subscribe.php?url=http://feeds.feedsky.com/csdn.net/super254" target="_blank"><img border="0" alt="订阅到鲜果" src="http://hi.images.csdn.net/images/blog/rss_xianguo.jpg"/></a></dd><dd><a href="http://fusion.google.com/add?feedurl=http://feeds.feedsky.com/csdn.net/super254" target="_blank"><img border="0" alt="订阅到Google" src="http://hi.images.csdn.net/images/blog/rss_google.gif"/></a></dd><dd><a href="http://www.zhuaxia.com/add_channel.php?url=http://feeds.feedsky.com/csdn.net/super254" target="_blank"><img border="0" alt="订阅到抓虾" src="http://hi.images.csdn.net/images/blog/rss_zhuaxia.gif"/></a></dd></span>
+                    
+                    
+
+                    
+                    <dt>文章分类</dt><dd><div class="publiclist_sidebar"><ul><li><a href="http://blog.csdn.net/super254/category/470687.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/470687.aspx">J2EE框架</a></li><li><a href="http://blog.csdn.net/super254/category/470685.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/470685.aspx">java</a></li><li><a href="http://blog.csdn.net/super254/category/470686.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/470686.aspx">JavaScript</a></li><li><a href="http://blog.csdn.net/super254/category/470684.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/470684.aspx">oracle</a></li><li><a href="http://blog.csdn.net/super254/category/489397.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/489397.aspx">UML和设计模式</a></li><li><a href="http://blog.csdn.net/super254/category/470690.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/470690.aspx">WebSrevice</a></li><li><a href="http://blog.csdn.net/super254/category/470692.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/470692.aspx">架构</a></li><li><a href="http://blog.csdn.net/super254/category/470691.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"/></a><a href="http://blog.csdn.net/super254/category/470691.aspx">项目</a></li></ul></div></dd><dt>收藏</dt><dd><div class="publiclist_sidebar"><ul></ul></div></dd><dt>存档</dt><dd><div class="publiclist_sidebar"><ul><li><a href="/super254/archive/2008/11.aspx">2008年11月(1)</a></li><li><a href="/super254/archive/2008/10.aspx">2008年10月(5)</a></li><li><a href="/super254/archive/2008/09.aspx">2008年09月(7)</a></li></ul></div></dd>
+
+                    
+                    <dt>软件项目交易</dt><dd><iframe style="margin:0;　padding:0; width: 180px; height: 32px;" src="http://prj.csdn.net/CSDN/CsdnBlog/CsdnBlogPage.html" frameborder="0" scrolling="no" ></iframe></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    
+    <div id="pubfooter">
+        
+<dl>
+    <dt></dt>
+    <dd>
+        Csdn Blog version 3.1a</dd>
+    <dd>
+        Copyright &copy;
+        super254
+    </dd>
+</dl>
+
+    </div>
+</div>
+
+        </form>
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js">
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2688088-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+    </div>
+
+</body>
+</html>

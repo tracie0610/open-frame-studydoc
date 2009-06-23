@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>[翻译]来自Rails Envy的Rails Cache教程 part1 - rails - Ruby - JavaEye论坛</title>
+    <meta name="description" content="原文来自Rails Envy http://railsenvy.com/2007/2/28/rails-caching-tutorial 首发：http://www.ruby-lang.org.cn/forums/thread-3158-1-1.html 整个教程有两部份，第一部分也就是这篇讲page cache，第二篇讲其它的cache。这篇文章其实主要还是讲基础，不过结合了一些示例，并配上生动的 ..." />
+    <meta name="keywords" content="cache 翻译 rails Ruby" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Ruby" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1244177950" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://www.javaeye.com/all" style="color:red">我的应用</a>
+    <a href="/login">登录</a>
+    <a href="/signup" class="nobg">注册</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<a href=\'/adverts/2\' target=\'_blank\'><img src="http://ftp.javaeye.com/public/javaeye/rubyconfleft.png" style="BORDER:1px SOLID #000000" /></a>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Ruby">Ruby版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/rails">rails</a> <span class="arrow">&rarr;</span>
+    <h1>[翻译]来自Rails Envy的Rails Cache教程 part1</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Ruby'>全部</a>
+      <a href='/forums/tag/ruby'>ruby</a>
+      <a href='/forums/tag/rails'>rails</a>
+      <a href='/forums/tag/rake'>rake</a>
+      <a href='/forums/tag/DSL'>DSL</a>
+      <a href='/forums/tag/RJS'>RJS</a>
+      <a href='/forums/tag/YAML'>YAML</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    
+    <div class="info">浏览 2905 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/160244">主题：[翻译]来自Rails Envy的Rails Cache教程 part1</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为良好帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_458313">
+  <td class="postauthor">
+    <ul>
+      <li class="name">chenk85</li>
+      <li>等级: <img src="/images/star1.gif" alt="一星会员" title="一星会员"/></li>
+      <li><a href='http://chenk85.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/28664/38275d27-7724-31cb-ae03-264026b08af3.png?1236833057" title="chenk85的博客: maninred" /></a></li>
+      <li>文章: 34</li>
+      <li>积分: 130</li>
+      <li>来自: 广东</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2008-01-30 关键字: <strong>cache 翻译</strong></div>
+      <div class="links">
+        
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/160880' title='[翻译]来自Rails Envy的Rails Cache教程 part2' target='_blank'>[翻译]来自Rails Envy的Rails Cache教程 part2</a></li>
+                              <li><a href='http://www.javaeye.com/topic/147223' title='关于实现一个rails smart cache 的思路草稿。' target='_blank'>关于实现一个rails smart cache 的思路草稿。</a></li>
+                              <li><a href='http://www.javaeye.com/topic/28975' title='Rails Cache' target='_blank'>Rails Cache</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://rubyoffrails.group.javaeye.com" target="_blank">Ruby off Rails</a></span>
+            <br/><a href="/wiki/topic/160244" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        原文来自Rails Envy<br />http://railsenvy.com/2007/2/28/rails-caching-tutorial<br /><br />首发：http://www.ruby-lang.org.cn/forums/thread-3158-1-1.html<br /><br />整个教程有两部份，第一部分也就是这篇讲page cache，第二篇讲其它的cache。这篇文章其实主要还是讲基础，不过结合了一些示例，并配上生动的语言。<br /><br />PS：无全文翻译，一些罗罗嗦嗦的话就没有译，一些引用到的文章，链接失效的，那涉及的也没有翻译。还有part2，准备接着翻。其实本文讲到的和《agile web》里讲的差不多，不过这里有些地方更细致了点。<br /><br />合适的缓存机制可以提升Rails应用的性能。而Page Cache就是Rails中最高效的缓存。Page Cahe机制可以让每次请求不用进行数据库查询，甚至不用触动到Ruby解析器，完全由前端web服务器来进行服务。<br /><br />配置<br /><br />如果你想在devlopment模式启用cache机制，就需要修改/config/environments/development.rb文件，找到下面这行并把配置项改为true：<br /><br /><pre name="code" class="java">config.action_controller.perform_caching = true</pre><br /><br />页面缓存<br /><br />两种很适合缓存页面的情况：<br /><ul><li>当页面对于所有用户都是相同的</li><li>当页面是公开的，而且无须用户认证</li></ul><br /><br />假设环境是在一个不经常改动的Blog页面中。。。Controller的代码应该貌似这样：<br /><br /><pre name="code" class="java">class BlogController &lt; ApplicationController
+  def list
+     Post.find(:all, :order =&gt; "created_on desc", :limit =&gt; 10)
+  end
+  ...
+</pre><br />如果想要缓存list action中显示的页面就在代码中加入：<br /><pre name="code" class="java">class BlogController &lt; ApplicationController
+   caches_page :list
+  
+   def list
+     Post.find(:all, :order =&gt; "created_on desc", :limit =&gt; 10)
+   end
+  ...</pre><br /><br />这样，在下次请求时就会生成并返回缓存好的list.html页面，下下次的话就是直接返回缓存页面。<br />如果使用的是mongrel，对list action进行配置后的第一次请求时，/logs/development.log会有貌似以下的记录：<br />Processing BlogController#list (for 127.0.0.1 at 2007-02-23 00:58:56) [GET]<br />Parameters: {"action"=&gt;"list", "controller"=&gt;"blog"}<br />SELECT * FROM posts ORDER BY created_on LIMIT 10<br />Rendering blog/list<br />Cached page: /blog/list.html (0.00000)<br />Completed in 0.18700 (5 reqs/sec) | Rendering: 0.10900 (58%) | DB: 0.00000 (0%) | 200 OK [http://localhost/blog/list]<br /><br />Cached page: /blog/list.html这行记录表明了页面已被导入，并存放在 /public/blog/list.html 位置下。在这个文件中没有一丁点Ruby代码。下一次请求到来时又会绕过Rails再次返回这个静态页面，这就提升了效率，降低了服务器的开销。<br /><br />这样的话，如果是有动态表单的页面和经常更新的页面，Page Cache就不太适合了。不过还可以采用其它的缓存机制，请留意本教程的Part2。（卖广告:&gt;）<br />如果在代码里再加上这一句：<br /><pre name="code" class="java">caches_page :show</pre><br /><br />当URL指向/blog/show/5访问id为5的blog日志时，请问调用的是哪个缓存文件（或其文件名为什么）？<br />答案是：/public/blog/show/5.html<br />看看下面的例子（URL和对应的缓存文件）：<br /><br />http://localhost:3000/blog/list =&gt; /public/blog/list.html<br />http://localhost:3000/blog/edit/5 =&gt; /public/edit/5.html<br />http://localhost:3000/blog =&gt; /public/blog.html<br />http://localhost:3000/ =&gt; /public/index.html<br />http://localhost:3000/blog/list?page=2 =&gt; /public/blog/list.html<br /><br />伊，等等，不太对阿。第一行和最后一行怎么返回的缓存文件一样？Page Cache忽略了URL附带的参数了。<br /><br />在采用分页的页面怎么使用Page Cahe<br /><br />要缓存不同的文件，只能创建不同格式的URL了。使用“/blog/list?page=2”的话会出问题，那就使用“/blog/list/2”吧。这样子的话，数字2就是作为params[:id]了，那就要修改路由规则（/config/routes.rb）了：<br /><pre name="code" class="java">
+map.connect 'blog/list/:page',
+    :controller =&gt; 'blog',
+    :action =&gt; 'list',
+    :requirements =&gt; { :page =&gt; /\d+/},
+    :page =&gt; nil</pre><br /><br />配合新的路由，页面的链接也要改一下：<br /><pre name="code" class="java">&lt;%= link_to "Next Page", :controller =&gt; 'blog', :action =&gt; 'list', :page =&gt; 2 %&gt;</pre><br />上面这句生成的URL就是“/blog/list/2”了，访问这URL时会以下两件事会发生：<br />Rails应用把数字2作为params[:page]<br />这个页面被缓存为/public/blog/list/2.html<br />上面这个示例告诉我们，如果要使用PageCache机制的话，那就要对附加参数做一下处理，让附加参数成为URL的一部分。<br /><br />清理Cache<br /><br />页面失效了怎么办？那就清理掉失效页面呗！<br /><br />以下两行代码可以清除上面例子中生成的Cache：<br /><pre name="code" class="java"># This will remove /blog/list.html
+expire_page(:controller =&gt; 'blog', :action =&gt; 'list')
+# This will remove /blog/show/5.html
+expire_page(:controller =&gt; 'blog', :action =&gt; 'show', :id =&gt; 5)</pre><br />那就要在每次添加/改动/删除blog日志时都进行这些操作。要把这两行代码加入action中吗？不，有优雅的解决方法。。。<br /><br />Sweepers<br /><br />Sweepers是一些能在页面失效是删除旧的缓存的代码。Sweepers监视Model的一举一动，当Model进行CRUD时，Sweepers得知后就会去把相应的缓存删除掉。<br />Sweepers的操作应该放在一个Controller中，而且作者认为还应该与其它的controller分离开。那就要改动配置文件/config/environment.rb：<br /><pre name="code" class="java">Rails::Initializer.run do |config|
+   # ...
+   config.load_paths += %W( #{RAILS_ROOT}/app/sweepers )
+   # ...
+end
+</pre><br />友情提示，改动环境变量之后记得重启服务器。<br /><br />如上改动后在/app/sweepers创建sweepers，文件/app/sweepers/blog_sweeper.rb应该是这样：<br /><pre name="code" class="java">
+class BlogSweeper &lt; ActionController::Caching::Sweeper
+  observe Post # This sweeper is going to keep an eye on the Post model
+
+  # If our sweeper detects that a Post was created call this
+  def after_create(post)
+          expire_cache_for(post)
+  end
+  
+  # If our sweeper detects that a Post was updated call this
+  def after_update(post)
+          expire_cache_for(post)
+  end
+  
+  # If our sweeper detects that a Post was deleted call this
+  def after_destroy(post)
+          expire_cache_for(post)
+  end
+          
+  private
+  def expire_cache_for(record)
+    # Expire the list page now that we posted a new blog entry
+    expire_page(:controller =&gt; 'blog', :action =&gt; 'list')
+    
+    # Also expire the show page, incase we just edited a blog entry
+    expire_page(:controller =&gt; 'blog', :action =&gt; 'show', :id =&gt; record.id)
+  end
+end</pre><br /><br />生成Sweepers可以使用插件Sweeper Generator，可以参看martin的介绍。<br /><br />友情提示：用after_save方法可以代替上面的after_create和after_update两个方法。<br />要调用Sweepers，在文件/app/controllers/BlogController.rb中应这些写代码：<br /><pre name="code" class="java">class BlogController &lt; ApplicationController
+   caches_page :list, :show
+   cache_sweeper :blog_sweeper, :only =&gt; [:create, :update, :destroy]
+   ...</pre><br /><br />当创建一个Blog日志时，会在logs/development.log中发现这样的记录：<br /><br />Expired page: /blog/list.html (0.00000)<br />Expired page: /blog/show/3.html (0.00000)<br /><br />hoho~ sweepers生效了。<br /><br />在Apache/Lighttpd的漂亮演出<br /><br />许多Rails应用都会使用Apache作为前端，用Mongrel / Lighttpd处理动态的RoR请求。要使Rails的Page Cache机制生效，告诉服务器当请求来的时候去哪里查找缓存页面。下面是配置Apache为例，修改httpd.conf文件：<br /><br />&lt;VirtualHost *:80&gt;<br />&nbsp; ...<br />&nbsp; # Configure mongrel_cluster<br />&nbsp; &lt;Proxy balancer://blog_cluster&gt;<br />&nbsp;&nbsp;&nbsp; BalancerMember <a href="http://127.0.0.1:8030" target="_blank">http://127.0.0.1:8030</a><br />&nbsp; &lt;/Proxy&gt;<br /><br />&nbsp; RewriteEngine On<br />&nbsp; # Rewrite index to check for static<br />&nbsp; RewriteRule ^/$ /index.html [QSA]<br /><br />&nbsp; # Rewrite to check for Rails cached page<br />&nbsp; RewriteRule ^([^.]+)$ $1.html [QSA]<br /><br />&nbsp; # Redirect all non-static requests to cluster<br />&nbsp; RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f<br />&nbsp; RewriteRule ^/(.*)$ balancer://blog_cluster%{REQUEST_URI} [P,QSA,L]<br />&nbsp; ...<br />&lt;/VirtualHost&gt;<br /><br />在lighttpd中应该是类似这样：<br /><br />server.modules = ( "mod_rewrite", ... )<br />url.rewrite += ( "^/$" =&gt; "/index.html" )<br />url.rewrite += ( "^([^.]+)$" =&gt; "$1.html" )<br /><br />这样代理服务器就会/public目录下查询cache文件，这样你可能会想要修改cache文件的目录。<br /><br />把Cache文件分离处理<br /><br />首先这样修改/config/environment.rb：<br /><pre name="code" class="java">config.action_controller.page_cache_directory = RAILS_ROOT + "/public/cache/"</pre><br /><br />这样就让Rails在/public/cache/下生成缓存文件了。接着就修改前端服务器Apache的配置文件httpd.conf：<br /><br />&nbsp; # Rewrite index to check for static<br />&nbsp; RewriteRule ^/$ cache/index.html [QSA]<br /><br />&nbsp; # Rewrite to check for Rails cached page<br />&nbsp; RewriteRule ^([^.]+)$ cache/$1.html [QSA]<br /><br />清理单个局部或者全部缓存<br /><br />当开始使用页面缓存的时候可能会发现，一旦对模型有CRUD操作，基本上所有的缓存都要被清除掉。那直接删除了生成的缓存文件岂不是更好更快。<br /><br />首先要把cache文件分离出来，这在上一步已经做了。下面的代码直接删除cache文件夹下的所有文件，并记录事件到日志中：<br /><pre name="code" class="java">class BlogSweeper &lt; ActionController::Caching::Sweeper
+  observe Post
+
+  def after_save(record)
+    self.class::sweep
+  end
+  
+  def after_destroy(record)
+    self.class::sweep
+  end
+  
+  def self.sweep
+    cache_dir = ActionController::Base.page_cache_directory
+    unless cache_dir == RAILS_ROOT+"/public"
+      FileUtils.rm_r(Dir.glob(cache_dir+"/*")) rescue Errno::ENOENT
+      RAILS_DEFAULT_LOGGER.info("Cache directory '#{cache_dir}' fully sweeped.")
+    end
+  end
+end</pre><br /><br />FileUtils.rm_r 方法删除目录下所有文件。这就相当于执行了多次的expire操作。也可以删词cache目录的子目录下的文件，如下面代码展示的对 /public/blog目录下所有文件进行删除：<br /><pre name="code" class="java">        cache_dir = ActionController::Base.page_cache_directory
+        FileUtils.rm_r(Dir.glob(cache_dir+"/blog/*")) rescue Errno::ENOENT</pre><br /><br />更高级的Page Cache技巧？<br /><br />在大型Web应用中Page Cache的处理将会是非常复杂的。<br /><br />Rick Olson写了Referenced Page Caching Plugin用数据库来对缓存页面进行跟踪。README中有一些示例展示。<br /><br />Max Dunn写了篇文章 Advanced Page Caching，向我们展示了他如何使用cookies动态地改变页面缓存处理基于用户角色的wiki页面。<br /><br />最后，Page Cache还无法解决缓存xml文件，Mike Zornek讲述了这个问题并提出了一些方法，详见这里。<br /><br />Page Cache怎么测试？<br /><br />Rails本身并没有提供给我们。Damien Merenne写了一个插件 swank plugin试图解决这个问题。试一下。
+      </div>
+      
+      
+        <div id="forum_advert_b5"><script type="text/javascript">
+google_ad_client = "pub-9971846879634397";
+google_ad_slot = "6749798418";
+google_ad_width = 728;
+google_ad_height = 90;
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/111' target='_blank'><span style="color:red;font-weight:bold;">下载免费的 IBM DB2 Express-C 数据库</span></a></li><li><a href='/adverts/170' target='_blank'><span style="color:blue;font-weight:bold;">6月份JAVA技术沙龙活动通知</span></a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://chenk85.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://chenk85.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=chenk85" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://chenk85.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Ruby">Ruby版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/rails'>rails</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java">Java编程和Java企业应用</option>
+<option value="web">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby" selected="selected">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":160244, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=no" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
