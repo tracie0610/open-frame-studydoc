@@ -1,0 +1,943 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0122)http://www.lostechies.com/blogs/joe_ocampo/archive/2009/05/06/setting-up-ubuntu-jaunty-for-ruby-and-rails-development.aspx -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><META http-equiv="X-UA-Compatible" content="IE=7"><META name="robots" content="index,follow">
+<META name="description" content="Tales of an Agile Development (Less talking more clicking...) Joe Ocampo, AgileJoe">
+<META name="keywords" content="Agile, Texas, Joe Ocampo, C#, NHibernate, Agile Development, TDD, Test Driven Development, Domain Driven Design, Project Management, San Antonio, Developer, Software Engineering, Software, ASPX, .Net, BDD, Behavior Driven Development, NBehave, AgileJoe">
+<META name="GENERATOR" content="CommunityServer 2008.5 (Build: 30929.2835)">
+<LINK rel="pingback" href="http://www.lostechies.com/blogs/joe_ocampo/pingback.aspx">
+<LINK rel="shortcut icon" type="image/ico" href="http://www.lostechies.com/favicon.ico">
+<LINK rel="alternate" type="application/rss+xml" title="Joe Ocampo&#39;s Announcements (RSS 2.0)" href="http://www.lostechies.com/members/agilejoe/announcements/rss.aspx">
+<LINK rel="alternate" type="application/rss+xml" title="Joe Ocampo&#39;s Comments (RSS 2.0)" href="http://www.lostechies.com/members/agilejoe/comments/rss.aspx">
+<LINK rel="alternate" type="application/rss+xml" title="Joe Ocampo&#39;s Activities (RSS 2.0)" href="http://www.lostechies.com/members/agilejoe/activities/rss.aspx">
+<LINK rel="alternate" type="application/rss+xml" title="Joe Ocampo&#39;s Friends Activity (RSS 2.0)" href="http://www.lostechies.com/members/agilejoe/activities/friendrss.aspx">
+<LINK rel="alternate" type="application/rss+xml" title="Joe Ocampo (AgileJoe) (RSS 2.0)" href="http://www.lostechies.com/blogs/joe_ocampo/rss.aspx">
+<LINK rel="alternate" type="application/atom+xml" title="Joe Ocampo (AgileJoe) (Atom 1.0)" href="http://www.lostechies.com/blogs/joe_ocampo/atom.aspx">
+<LINK rel="alternate" type="application/rss+xml" title="Joe Ocampo (AgileJoe) - All Comments (RSS 2.0)" href="http://www.lostechies.com/blogs/joe_ocampo/rsscomments.aspx">
+<LINK rel="alternate" type="application/rss+xml" title="Setting up Ubuntu Jaunty for Ruby and Rails development   - Comments for this post (RSS 2.0)" href="http://www.lostechies.com/blogs/joe_ocampo/rsscomments.aspx?PostID=20851">
+
+        
+        <STYLE type="text/css"> body { font-size: 84%; } </STYLE>
+        <LINK rel="stylesheet" href="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Common.css" type="text/css" media="screen,print">
+        <LINK rel="stylesheet" href="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/common_print.css" type="text/css" media="print">
+		<LINK rel="stylesheet" href="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/SyntaxHighlighter.css" type="text/css" media="screen">
+        
+    
+	<LINK rel="stylesheet" href="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Blog.css" type="text/css" media="screen,print">
+	
+    <LINK rel="stylesheet" href="http://www.lostechies.com/Themes/Blogs/hawaii/style/DynamicStyle.aspx?SectionID=12" type="text/css" media="screen">
+    <META name="Description" content="Getting Ruby setup on Ubuntu &ndash; Jaunty UPDATED: Added RSpec for Rails as well Here are some quick steps to get you up and running with Ruby on Ubuntu, Take about 15 minutes depending on your internet connection. Step 1: The first thing you need to...">
+
+
+        <LINK rel="stylesheet" href="http://www.lostechies.com/themes/hawaii/style/DynamicStyle.aspx" type="text/css" media="screen">
+        <!--[if lte IE 6]>
+            <link rel="stylesheet" href="/themes/hawaii/style/ie6.css" type="text/css" media="screen" />
+        <![endif]-->
+    <SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/urchin.js" type="text/javascript">
+</SCRIPT>
+<SCRIPT type="text/javascript">
+_uacct = "UA-1265394-2";
+urchinTracker();
+</SCRIPT>
+
+<SCRIPT type="text/javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/blogger.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="http://twitter.com/statuses/user_timeline/agilejoe.json?callback=twitterCallback2&count=10"></SCRIPT>
+<LINK rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.lostechies.com/blogs/joe_ocampo/rsd.ashx">
+<LINK rel="wlwmanifest" type="application/wlwmanifest+xml" title="WLWManifest" href="http://www.lostechies.com/blogs/joe_ocampo/wlwmanifest.ashx">
+<TITLE>
+	Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) - 
+</TITLE><STYLE>#adzerk_ad { float: left; margin-right: 10px;} #adzerk_ad_div { width: 270px; } #adzerk { margin-top: 5px; width: 140px; text-align: left; } #adzerk_by { margin-top: 10px; font-size: 10px; font-family: Verdana; }</STYLE></HEAD><BODY>
+		<FORM name="aspnetForm" method="post" action="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -.htm" onsubmit="javascript:return WebForm_OnSubmit();" id="aspnetForm">
+<DIV>
+<INPUT type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<INPUT type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<INPUT type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTUyMzk0Mjc5MGQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFOWN0bDAwJGN0bDAwJGN0bDAwJHNyJHNyJHNyJGN0bDAwJGN0bDAwJFRpdGxlQmFyU2VhcmNoVGV4dAVBY3RsMDAkY3RsMDAkY3RsMDAkYmNyJGJjciRiY3IkY3RsMTEkY3RsMDIkY3RsMDEkY3RsMDIkY2hrUmVtZW1iZXKUWTWI471eeIS0msT6fKxD75pYOA==">
+</DIV>
+
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</SCRIPT>
+
+
+<SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/WebResource.axd" type="text/javascript"></SCRIPT>
+
+
+<SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/WebResource(1).axd" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/WebResource(2).axd" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/WebResource(3).axd" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/WebResource(4).axd" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/WebResource(5).axd" type="text/javascript"></SCRIPT>
+        
+<SCRIPT type="text/javascript">
+<!--   
+    function ValidateCaptcha(val, args) {
+      
+        var value = args.Value;
+        var nameEQ = "CAPTCHA=";
+        var captchaNumbers;        	
+        var ca = document.cookie.split(';');
+        
+        for(var i=0;i < ca.length;i++) {
+    	    var c = ca[i];
+    	    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    	    if (c.indexOf(nameEQ) == 0) captchaNumbers =  c.substring(nameEQ.length,c.length);
+	    }
+
+        args.IsValid = captchaNumbers == value;
+
+    }
+-->
+</SCRIPT>
+
+<SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/WebResource(6).axd" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</SCRIPT>
+
+						
+
+			
+
+		    
+		        <DIV id="CommonHeader">
+		            <DIV class="Common">
+		                <DIV id="CommonHeaderTitleArea">
+		                    <TABLE cellpadding="0" cellspacing="0" border="0"><TBODY><TR valign="middle">
+		                        <TD><DIV style="margin-right: 10px;"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Logo2.png" alt="" style="border-width:0px;"></DIV></TD>
+		                        <TD>
+		                            
+		                            
+		                        </TD>
+		                    </TR></TBODY></TABLE>
+		                </DIV>
+		                <DIV id="CommonHeaderUserArea">
+		                    <TABLE cellpadding="0" cellspacing="0" border="0"><TBODY><TR valign="top"><TD>
+                                <DIV id="CommonHeaderUserContent">
+                                    <DIV id="CommonHeaderUserWelcome">
+                                        
+        <A href="http://www.lostechies.com/login.aspx?ReturnUrl=%2fblogs%2fjoe_ocampo%2farchive%2f2009%2f05%2f06%2fsetting-up-ubuntu-jaunty-for-ruby-and-rails-development.aspx">Sign in </A>
+         | <A href="http://www.lostechies.com/user/CreateUser.aspx?ReturnUrl=">Join</A>
+        | <A href="http://dev.communityserver.com/r.ashx?K&siteurl=weblogs.weblogpostName">Help</A>
+     
+
+
+                                    </DIV>
+                                </DIV>
+                            </TD></TR></TBODY></TABLE>
+							<TABLE cellpadding="0" cellspacing="0" border="0" align="right"><TBODY><TR valign="top" align="right"><TD>
+                                <DIV style="float: right;">
+									<A href="http://www.twitter.com/lostechies"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/twitter2.png" alt="LosTechies Twitter Feed" style="border:0"></A>
+								</DIV>
+                            </TD></TR></TBODY></TABLE>
+							<TABLE cellpadding="0" cellspacing="0" border="0" align="right"><TBODY><TR valign="bottom" align="right"><TD>
+                                <DIV style="float: right;">
+									<A href="http://feeds.feedburner.com/LosTechies" type="application/rss+xml"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/rss2.png" alt="LosTechies RSS Feed" style="border:0"></A>
+								</DIV>
+                            </TD></TR></TBODY></TABLE>
+                        </DIV>
+                    </DIV>
+                </DIV>
+                <DIV id="CommonNavigation">
+                    <DIV class="Common"><DIV class="Inner">
+                        <UL>
+                                
+                                <LI><A href="http://www.lostechies.com/">Home</A></LI>
+                            
+                                
+                                <LI><A href="http://www.cafepress.com/lostechies">Merchandise</A></LI>
+                            
+                                <LI><A class="Selected" href="http://www.lostechies.com/blogs/">Blogs</A></LI>
+                                
+                            
+                                
+                                <LI><A href="http://www.lostechies.com/media/">Media</A></LI>
+                            
+                                
+                                <LI><A href="http://www.lostechies.com/groups/">Groups</A></LI>
+                            
+                                
+                                <LI><A href="http://feeds.feedburner.com/lostechies">RSS</A></LI>
+                            
+                                
+                                <LI><A href="http://www.twitter.com/lostechies">Twitter</A></LI>
+                            </UL>
+                        <DIV style="clear: both;"></DIV>
+                     </DIV></DIV>
+                </DIV>
+                
+                        <DIV id="CommonNavigation2Empty"></DIV>
+                    
+                <DIV id="CommonNavigationShadow">
+                    
+    
+    
+    <DIV class="CommonBreadCrumbArea"><DIV class="Common">
+        <A href="http://www.lostechies.com/blogs/joe_ocampo/default.aspx">Joe Ocampo (AgileJoe)</A>
+        »
+        <A href="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -.htm">Setting up Ubuntu Jaunty for Ruby and Rails development  </A>
+    </DIV></DIV>
+
+
+
+                </DIV>
+		    
+                        
+            <DIV class="Common">
+            
+                
+	                    
+	                
+            
+                <DIV id="CommonSearch">
+					
+                    
+    
+    
+        
+                <DIV class="CommonSearchArea">
+                    <DIV class="CommonSearchRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                    <DIV class="CommonSearchContent"><DIV class="CommonSearchContentInner">
+                        <INPUT name="ctl00$ctl00$ctl00$sr$sr$sr$ctl00$ctl00$TitleBarSearchText" type="text" maxlength="64" size="15" id="ctl00_ctl00_ctl00_sr_sr_sr_ctl00_ctl00_TitleBarSearchText" onclick="if(this.defaultValue==this.value) this.value=&#39;&#39;;" onblur="if(this.value==&#39;&#39;) this.value=this.defaultValue;" onkeydown="return KeyDownHandlerctl00_ctl00_ctl00_sr_sr_sr_ctl00_ctl00_TitleBarSearchButton(event);"><INPUT type="submit" name="ctl00$ctl00$ctl00$sr$sr$sr$ctl00$ctl00$TitleBarSearchButton" value="&nbsp;" id="ctl00_ctl00_ctl00_sr_sr_sr_ctl00_ctl00_TitleBarSearchButton" class="CommonSearchButton">
+                    </DIV></DIV>
+                    <DIV class="CommonSearchRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                </DIV>
+            
+    
+
+
+                </DIV>
+                <DIV id="CommonTitle">
+                    
+    
+    
+    <H1 class="CommonTitle">Setting up Ubuntu Jaunty for Ruby and Rails development  </H1>
+
+
+
+                </DIV>
+                <DIV style="clear: both;"></DIV>
+			    <DIV id="CommonSidebarRight">
+			        
+    
+    
+        <DIV class="CommonSidebar">
+        
+            <DIV class="CommonContentBox Highlighted2">
+				
+                <DIV class="CommonContentBoxContent">
+   	                <DIV style="font-size: 150&percnt;; margin-bottom: .5em;">
+                        <STRONG>Joe Ocampo (AgileJoe)</STRONG>
+   	                </DIV>
+                    <UL class="CommonContentBoxList">
+	                    <LI style="font-weight: bold;"><A href="http://www.lostechies.com/blogs/joe_ocampo/default.aspx">Home</A></LI>
+	                    <LI style="font-weight: bold;"><A href="http://www.lostechies.com/blogs/joe_ocampo/about.aspx">About</A></LI>
+	                    <LI style="font-weight: bold;"><A href="http://www.lostechies.com/blogs/joe_ocampo/contact.aspx">Contact</A></LI>
+	                </UL>
+	                
+	                
+	                
+                </DIV>
+            </DIV>
+			
+			<DIV class="CommonContentBox">
+				<DIV class="CommonContentBoxHeader">
+				The Lounge
+				</DIV>
+				<DIV class="CommonContentBoxContent">
+					<DIV id="adzerk">
+						<DIV id="adzerk_ad_div"><A href="http://theloungenet.com/redirect/55308278/217" title="DiscountAsp"><IMG id="adzerk_ad" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/217.gif" title="DiscountAsp" alt="DiscountAsp" border="0" height="90" width="120"></A><P>3 Months FREE + No Setup Fees! Trusted By ASP.NET Developers Around The World – <A href="http://theloungenet.com/redirect/55308278/217">Click Here</A></P>
+						</DIV>
+						<P id="adzerk_by"><A href="http://theloungenet.com/">Ads by The Lounge</A></P>
+					</DIV>
+				</DIV>
+			</DIV>
+			<DIV class="CommonContentBox">
+				<DIV class="CommonContentBoxHeader">
+				Friends of Pablo
+				</DIV>
+				<DIV class="CommonContentBoxContent">
+					<P><A href="http://www.communityserver.com/" target="_blank"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/communityserver.png" alt="Telligent Community Server" border="0" height="60" width="146"></A>
+							<BR>
+							<A href="http://www.jetbrains.com/resharper/index.html" title="ReSharper 4.0" target="_blank"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/resharper.gif" alt="ReSharper" border="0"></A>
+							<BR><BR>
+							<A href="http://www.visualsvn.com/" target="_blank"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/visualsvn.gif" alt="VisualSvn" border="0" height="33" width="145"></A>
+							<BR><BR>
+							<A href="http://www.techsmith.com/camtasia.asp" target="_blank"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/camtasia.gif" alt="TechSmith Camtasia Studio" border="0" height="60" width="146"></A></P>
+<P><A target="_blank" title="Nhibernate Profiler" href="http://www.nhprof.com/"><IMG alt="NHibernate Profiler" style="border: 0;" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/nhprof.png"></A></P>
+							<P><A target="_blank" title="Ncover" href="http://www.ncover.com/"><IMG alt="NCover" width="175" height="199" style="border: 0;" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/ncover_bcs.png"></A></P>
+				</DIV>
+			</DIV>
+			<DIV class="CommonContentBox">
+				<DIV class="CommonContentBoxHeader">
+				Friends of Pablo
+				</DIV>
+				<DIV class="CommonContentBoxContent">
+					<P><A target="_blank" title="CodeBetter.com" href="http://www.codebetter.com/"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/CodeBetterLogo.png" border="0"></A></P>
+<P><A target="_blank" title="Devlicious.com" href="http://www.devlicious.com/"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/DevliciousLogo.png" border="0"></A></P>
+<P><A target="_blank" title="Dimecasts.net" href="http://dimecasts.net/"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/dimecasts_badge.png" border="0"></A></P>
+				</DIV>
+			</DIV>
+			
+
+            
+	                
+	                        <DIV class="CommonContentBox">
+                                <H4 class="CommonContentBoxHeader">Syndication</H4>
+	                            <DIV class="CommonContentBoxContent">
+	                    <UL class="CommonSidebarList"><LI class="rss"><A href="http://www.lostechies.com/blogs/joe_ocampo/rss.aspx">RSS for Posts</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/atom.aspx">Atom</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/rsscomments.aspx">RSS for Comments</A></LI></UL>
+				                </DIV>
+				                
+			                </DIV>
+	                    
+	            
+	                
+	                        <DIV class="CommonContentBox">
+                                <H4 class="CommonContentBoxHeader">Recent Posts</H4>
+	                            <DIV class="CommonContentBoxContent">
+	                    <DIV id="RecentPostsSideBar" class="recentposts">
+<UL class="CommonSidebarList">
+<LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2009/06/04/what-are-you-solving-for.aspx">What are you solving for?</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2009/06/02/lostechies-welcomes-sharon-cichelli-quot-girl-writes-code-quot.aspx">LosTechies welcomes Sharon Cichelli "Girl Writes Code"</A></LI><LI><A href="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -.htm">Setting up Ubuntu Jaunty for Ruby and Rails development  </A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/10/28/role-storming.aspx">Role Storming</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/10/12/managing-changes-in-scope-and-direction-in-an-agile-projects.aspx">Managing changes in scope and direction in an agile projects</A></LI>
+</UL></DIV>
+				                </DIV>
+				                
+			                </DIV>
+	                    
+	            
+	                
+	                        <DIV class="CommonContentBox">
+                                <H4 class="CommonContentBoxHeader">Tags</H4>
+	                            <DIV class="CommonContentBoxContent">
+	                    <UL class="CommonSidebarTagCloud">
+<LI class="CommonTag1"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Agile+Project+Coaching+_2600_amp_3B00_+Management/default.aspx" rel="tag">Agile Project Coaching &amp; Management</A></LI>
+<LI class="CommonTag1"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Agile+Teams/default.aspx" rel="tag">Agile Teams</A></LI>
+<LI class="CommonTag2"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/altnetconf/default.aspx" rel="tag">altnetconf</A></LI>
+<LI class="CommonTag3"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Architechture/default.aspx" rel="tag">Architechture</A></LI>
+<LI class="CommonTag3"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/ASP.MVC/default.aspx" rel="tag">ASP.MVC</A></LI>
+<LI class="CommonTag1"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/BDD+_2800_Behavior+Driven+Development_2900_/default.aspx" rel="tag">BDD (Behavior Driven Development)</A></LI>
+<LI class="CommonTag2"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Domain+Driven+Design+_2800_DDD_2900_/default.aspx" rel="tag">Domain Driven Design (DDD)</A></LI>
+<LI class="CommonTag2"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Humor/default.aspx" rel="tag">Humor</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Java/default.aspx" rel="tag">Java</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/JUnit/default.aspx" rel="tag">JUnit</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/lean/default.aspx" rel="tag">lean</A></LI>
+<LI class="CommonTag2"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Lostechies/default.aspx" rel="tag">Lostechies</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Microsoft/default.aspx" rel="tag">Microsoft</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Programming+Analogies/default.aspx" rel="tag">Programming Analogies</A></LI>
+<LI class="CommonTag3"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/PTOM/default.aspx" rel="tag">PTOM</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/rails/default.aspx" rel="tag">rails</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/rSpec/default.aspx" rel="tag">rSpec</A></LI>
+<LI class="CommonTag3"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Ruby/default.aspx" rel="tag">Ruby</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Scrum/default.aspx" rel="tag">Scrum</A></LI>
+<LI class="CommonTag1"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Tools/default.aspx" rel="tag">Tools</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Twitter/default.aspx" rel="tag">Twitter</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/ubuntu/default.aspx" rel="tag">ubuntu</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Vista/default.aspx" rel="tag">Vista</A></LI>
+<LI class="CommonTag6"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/WPF/default.aspx" rel="tag">WPF</A></LI>
+</UL>
+
+				                </DIV>
+				                <DIV class="CommonContentBoxFooter"><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/default.aspx">View more</A></DIV>
+			                </DIV>
+	                    
+	            
+	                
+	                        <DIV class="CommonContentBox">
+                                <H4 class="CommonContentBoxHeader">News</H4>
+	                            <DIV class="CommonContentBoxContent">
+	                    <UL class="CommonSidebarList"><LI><IMG style="BORDER-TOP-WIDTH:0px;BORDER-LEFT-WIDTH:0px;BORDER-BOTTOM-WIDTH:0px;MARGIN:0px 8px 8px 0px;BORDER-RIGHT-WIDTH:0px;" alt="" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/contentpart.gif" align="left"> Please Read! 
+<P>The opinions expressed herein are our own personal opinions and do not represent our employer's view in anyway. </P>
+
+<P><IMG style="BORDER-TOP-WIDTH:0px;BORDER-LEFT-WIDTH:0px;BORDER-BOTTOM-WIDTH:0px;MARGIN:0px 8px 8px 0px;BORDER-RIGHT-WIDTH:0px;" alt="" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/ScrumMaster_small.gif" align="left"></P><BR>
+
+<P><A href="http://www.twitter.com/agilejoe"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/twitter.png" border="0" alt="View Joe Ocampo&#39;s Twitter account"></A></P>
+
+<P><A href="http://www.linkedin.com/in/joeocampo"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/btn_myprofile_160x33.gif" width="160" height="33" border="0" alt="View Joe Ocampo&#39;s profile on LinkedIn"></A></P>
+
+<P><A href="http://www.agilealliance.org/"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Agile-logo-4c-member-sm.jpg" border="0" alt="Agile Alliance"></A></P></LI></UL>
+				                </DIV>
+				                
+			                </DIV>
+	                    
+	            
+	                
+	            
+	                
+	                        <DIV class="CommonContentBox">
+                                <H4 class="CommonContentBoxHeader">Archives</H4>
+	                            <DIV class="CommonContentBoxContent">
+	                    <DIV id="ArchiveSideBar">
+<UL class="CommonContentBoxList">
+<LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2009/06.aspx">June 2009 (2)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2009/05.aspx">May 2009 (1)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/10.aspx">October 2008 (3)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/09.aspx">September 2008 (1)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/08.aspx">August 2008 (2)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/06.aspx">June 2008 (3)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/05.aspx">May 2008 (1)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/04.aspx">April 2008 (1)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/03.aspx">March 2008 (6)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/02.aspx">February 2008 (6)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2008/01.aspx">January 2008 (5)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/12.aspx">December 2007 (10)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/11.aspx">November 2007 (3)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/10.aspx">October 2007 (13)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/09.aspx">September 2007 (22)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/08.aspx">August 2007 (6)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/07.aspx">July 2007 (10)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/06.aspx">June 2007 (5)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/05.aspx">May 2007 (2)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/04.aspx">April 2007 (10)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/03.aspx">March 2007 (5)</A></LI><LI><A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2007/01.aspx">January 2007 (1)</A></LI>
+</UL></DIV>
+				                </DIV>
+				                
+			                </DIV>
+	                    
+	            
+
+        </DIV>
+    
+
+
+			    </DIV>
+                <DIV id="CommonSidebarLeft">
+				    
+				</DIV>
+			    <DIV id="CommonContent"><DIV id="CommonContentInner">
+    
+   
+<SCRIPT language="javascript">
+	function printerFriendlyUrl()
+	{
+		location.href = location.href.replace(/\.aspx/, "/printerfriendly.aspx");
+	}
+</SCRIPT>
+    <DIV class="CommonContentBox">
+        <DIV class="CommonContentBoxContent">
+            
+			<DIV style="float: right;">
+				<A href="http://www.lostechies.com/blogs/joe_ocampo/archive/2009/05/06/setting-up-ubuntu-jaunty-for-ruby-and-rails-development.aspx#" onclick="javascript:printerFriendlyUrl();">Printer Friendly Version</A>
+			</DIV>
+			<BR>
+		    <P>Getting Ruby setup on Ubuntu – Jaunty</P>
+<P><B>UPDATED: Added RSpec for Rails as well</B><BR><BR>Here are some quick steps to get you up and running with Ruby on Ubuntu, Take about 15 minutes depending on your internet connection.<BR><BR>Step 1: The first thing you need to do is update the packages in Ubuntu open the terminal window (Applications Menu | Accessories | Terminal) and type in the following commands.<BR>&nbsp;&nbsp;&nbsp; <BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp; sudo aptitude update<BR>&nbsp;&nbsp; sudo aptitude dist-upgrade</SPAN><BR><BR>Step 2: The next package will insure you have everything you need in order to build ruby packages on your system.<BR>&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;<SPAN style="font-family:courier new,courier;"> sudo aptitude install build-essential</SPAN><BR><BR>Step 3: Type in the following command to install Ruby NOTE: this is all ONE command<BR><SPAN style="font-family:courier new,courier;"><BR>&nbsp;&nbsp;&nbsp; sudo aptitude install ruby1.8-dev ruby1.8 ri1.8 rdoc1.8 irb1.8 libreadline-ruby1.8 libruby1.8 libopenssl-ruby</SPAN><BR><BR>Step 4: Type in the following command to install SQLite3 NOTE: ONE command<BR><SPAN style="font-family:courier new,courier;"><BR>&nbsp;&nbsp;&nbsp; sudo aptitude install sqlite3 libsqlite3-ruby1.8</SPAN><BR><BR>Step 5: Install Ruby Gems NOTE: Multiple commands<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp; wget http://rubyforge.org/frs/download.php/55066/rubygems-1.3.2.tgz<BR>&nbsp;&nbsp; tar xvzf rubygems-1.3.2.tgz<BR>&nbsp;&nbsp; cd rubygems-1.3.2<BR>&nbsp;&nbsp; sudo ruby setup.rb</SPAN><BR><BR><SPAN style="color:#ff0000;"><B>!! You should get an error stating that Ruby command not found !!</B></SPAN><BR><BR>Step 6: creating the ruby symlink (symlink stands for symbolic link, windows user can think of it like a shortcut)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp; sudo ln -s /usr/bin/ruby1.8 /usr/local/bin/ruby</SPAN><BR><BR>Step 7: Install ruby gems NOTE: you should be in the directory rubygems-1.3.2 when you run this command<BR><BR>&nbsp;&nbsp;&nbsp;<SPAN style="font-family:courier new,courier;"> sudo ruby setup.rb</SPAN><BR><BR>Step 8: We need to create the remaining symlinks for ruby utilities NOTE: Multiple commands<BR><BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; sudo ln -s /usr/bin/gem1.8 /usr/local/bin/gem<BR>&nbsp;&nbsp;&nbsp; sudo ln -s /usr/bin/rdoc1.8 /usr/local/bin/rdoc<BR>&nbsp;&nbsp;&nbsp; sudo ln -s /usr/bin/ri1.8 /usr/local/bin/ri<BR>&nbsp;&nbsp;&nbsp; sudo ln -s /usr/bin/irb1.8 /usr/local/bin/irb<BR></SPAN></P>
+<H3>Installing Rails</H3>
+<P>Step 9: Install Rails<BR><BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; sudo gem install rails --no-rdoc --no-ri</SPAN><BR><BR>Step 10: Create a test project NOTE: Multiple commands<BR><BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; cd ~<BR>&nbsp;&nbsp;&nbsp; mkdir apps<BR>&nbsp;&nbsp;&nbsp; cd apps<BR>&nbsp;&nbsp;&nbsp; mkdir rails_apps<BR>&nbsp;&nbsp;&nbsp; cd rails_apps<BR>&nbsp;&nbsp;&nbsp; rails testapp</SPAN><BR><BR>Step 9: Start Webrick web server in your testapp directory<BR><BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; ./script/server</SPAN><BR><BR>Step 11: Open up Firefox and navigate to http://localhost:3000, you should see a page with the text:<BR><B><BR>&nbsp;&nbsp;&nbsp; Welcome aboard<BR>&nbsp;&nbsp;&nbsp; You’re riding Ruby on Rails!</B><BR><BR>Step 12: Install Rspec<BR>&nbsp;&nbsp;&nbsp; <BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; gem install rspec</SPAN></P>
+<H3>Installing source control<BR></H3>
+<P>Step 13: Install subversion<BR><SPAN style="font-family:courier new,courier;"><BR>&nbsp;&nbsp;&nbsp; sudo aptitude install subversion</SPAN><BR><BR>Step 14: Install Git because you are going to use plugins from GitHub<BR><BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; sudo aptitude install git-core</SPAN><BR><BR>Step 15: Install Git-svn<BR><BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; sudo aptitude install git-svn</SPAN><BR><BR>Step 16: Add SVN Like Shortcuts to Git<BR><BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; git config --global alias.st status<BR>&nbsp;&nbsp;&nbsp; git config --global alias.ci commit<BR>&nbsp;&nbsp;&nbsp; git config --global alias.co checkout<BR>&nbsp;&nbsp;&nbsp; git config --global alias.br branch</SPAN><BR><BR>Step 17: configure the global user for Git<BR>&nbsp;&nbsp;&nbsp; <BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; git config --global user.name "Put your full name here"<BR>&nbsp;&nbsp;&nbsp; git config --global user.email you@rackspace.com<BR></SPAN><BR>Step 18: colorize the output for Git<BR>&nbsp;&nbsp;&nbsp; <BR><SPAN style="font-family:courier new,courier;">&nbsp;&nbsp;&nbsp; git config --global color.branch auto<BR>&nbsp;&nbsp;&nbsp; git config --global color.diff auto<BR>&nbsp;&nbsp;&nbsp; git config --global color.interactive auto<BR>&nbsp;&nbsp;&nbsp; git config --global color.status auto</SPAN></P>
+<P>&nbsp;</P>
+<H3>Installing RSpec for Rails</H3>
+<P>I want to put a disclaimer here that this is my preferred way of installing RSpec from GitHub. It is not the only way.</P>
+<P>Step 19: Navigate to the root of your Rails project. I am assuming that in this case it will be "testapp"</P>
+<P>Step 20: Install Rspec for Rails from GitHub as Git submodules. NOTE: Multiple commands</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">git submodule add git://github.com/dchelimsky/rspec.git vendor/plugins/rspec</SPAN></P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">git submodule add git://github.com/dchelimsky/rspec-rails.git vendor/plugins/rspec-rails</SPAN></P>
+<P>Step 21: Run the rspec generators, this will enable the rspec_* controller, scaffold, model generators</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">ruby script/generate rspec</SPAN></P>
+<P>This is going to drive you nuts if you have to remember to do this for every rails project you create so I created a simple bash script.&nbsp; Actually the contains more than the bash script it also has the aliases that I use for Rails development.</P>
+<P>Step 22: Navigate to your home diretory</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">cd ~</SPAN></P>
+<P>Step 23: Create the .rails_aliases file</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">gedit .rails_aliases </SPAN></P>
+<P>Step 24: In gedit copy the following text to the .rails_aliases file</P>
+<P><SPAN style="font-family:courier new,courier;">alias ror-doc-spec='open -a Firefox doc/plugins/rspec-rails/index.html'<BR>alias ror-doc='open -a Firefox'<BR>alias ror-scaffold='ruby script/generate rspec_scaffold'<BR>alias ror-controller='ruby script/generate rspec_controller'<BR>alias ror-model='ruby script/generate rspec_model'<BR>alias ror-git-customerror='script/plugin install git://github.com/gumayunov/custom-err-msg.git'<BR>alias ror-console='ruby script/console'<BR>alias rapps='cd ~/apps/rails_apps'<BR>alias ror-serv='ruby script/server'<BR>alias ror-logtail='tail -f log/development.log'<BR><BR># Configures a rails app to use rspec<BR>specrails(){<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; git submodule add git://github.com/dchelimsky/rspec.git vendor/plugins/rspec<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; git submodule add git://github.com/dchelimsky/rspec-rails.git vendor/plugins/rspec-rails<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ruby script/generate rspec<BR>}</SPAN></P>
+<P>Step 25: Save the file and close gedit</P>
+<P>Step 26: Open your .bashrc file from the terminal window</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">gedit .bashrc</SPAN></P>
+<P>Step 27: Add the reference to your .rails_aliases file in your .bashrc at the top of the file add the following line:</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">source ~/.rails_aliases</SPAN></P>
+<P>Step 28: Save the file and exit gedit</P>
+<P>Now if you want to add RSpec to any rails project you simply navigate to the root of a rails project and type:</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">specrails</SPAN></P>
+<P>If you want to add a controller with RSpec specs you simply have to type:</P>
+<P style="padding-left:30px;"><SPAN style="font-family:courier new,courier;">ror-controller BlogPost title:string author:string content:text ...</SPAN></P>
+<P>Hope this helps! Happy coding!</P><DIV style="clear:both;"></DIV>
+		    
+            <HR>
+	        Posted
+		    <A href="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -.htm">May 06 2009, 11:06 AM</A>
+			by
+		    <A href="http://www.lostechies.com/members/agilejoe/default.aspx">Joe Ocampo</A>
+		    
+            
+            <DIV class="em"><SPAN id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl09_ctl01">Filed under: <A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/Ruby/default.aspx" rel="tag">Ruby</A>, <A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/rails/default.aspx" rel="tag">rails</A>, <A href="http://www.lostechies.com/blogs/joe_ocampo/archive/tags/ubuntu/default.aspx" rel="tag">ubuntu</A></SPAN><INPUT type="hidden" name="ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl09$ctl01" id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl09_ctl01_State" value="value:Filed&percnt;20under&percnt;3A&percnt;20&percnt;3Ca&percnt;20href&percnt;3D&percnt;22http&percnt;3A&percnt;2F&percnt;2Fwww.lostechies.com&percnt;2Fblogs&percnt;2Fjoe_ocampo&percnt;2Farchive&percnt;2Ftags&percnt;2FRuby&percnt;2Fdefault.aspx&percnt;22&percnt;20rel&percnt;3D&percnt;22tag&percnt;22&percnt;3ERuby&percnt;3C&percnt;2Fa&percnt;3E&percnt;2C&percnt;20&percnt;3Ca&percnt;20href&percnt;3D&percnt;22http&percnt;3A&percnt;2F&percnt;2Fwww.lostechies.com&percnt;2Fblogs&percnt;2Fjoe_ocampo&percnt;2Farchive&percnt;2Ftags&percnt;2Frails&percnt;2Fdefault.aspx&percnt;22&percnt;20rel&percnt;3D&percnt;22tag&percnt;22&percnt;3Erails&percnt;3C&percnt;2Fa&percnt;3E&percnt;2C&percnt;20&percnt;3Ca&percnt;20href&percnt;3D&percnt;22http&percnt;3A&percnt;2F&percnt;2Fwww.lostechies.com&percnt;2Fblogs&percnt;2Fjoe_ocampo&percnt;2Farchive&percnt;2Ftags&percnt;2Fubuntu&percnt;2Fdefault.aspx&percnt;22&percnt;20rel&percnt;3D&percnt;22tag&percnt;22&percnt;3Eubuntu&percnt;3C&percnt;2Fa&percnt;3E"></DIV>
+		    	
+        </DIV>
+        
+        
+                
+	                    <H4 class="CommonContentBoxHeader" id="comments">Comments</H4>
+                        <DIV class="CommonContentBoxContent">    
+                    
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                <A href="http://www.lostechies.com/members/schambers/default.aspx">
+                                        <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/avatar.jpg" alt="" style="border-width:0px;">
+                                    </A>
+                                
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="schambers" href="http://www.lostechies.com/members/schambers/default.aspx">schambers</A></STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-06-2009 12:46 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>There is a new editor for ubuntu/linux that accepts textmate bundles. its called redcar editor:</P>
+<P><A rel="nofollow" target="_new" href="http://redcareditor.com/">http://redcareditor.com/</A></P>
+<P>I personally use gedit with the gmate mod to make it more like textmate</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                
+                                <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/anonymous.gif" alt="" style="border-width:0px;max-height:60px;max-width:60px;">
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="Garry Shutler" rel="nofollow" href="http://blog.robustsoftware.co.uk/">Garry Shutler</A></STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-06-2009 4:18 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>I would recommend grabbing the rspec-rails gem as well. It has some specialised test helpers for testing controllers and so on.</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea Owner">
+                            <DIV class="CommonCommentUser">
+                                <A href="http://www.lostechies.com/members/agilejoe/default.aspx">
+                                        <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/avatar(1).jpg" alt="" style="border-width:0px;">
+                                    </A>
+                                
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="Joe Ocampo" href="http://www.lostechies.com/members/agilejoe/default.aspx">Joe Ocampo</A></STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-06-2009 6:35 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>@schambers</P>
+<P>Redcar has tremendous potential for Textmate users switching to Linux but it is still to Alpha for me. &nbsp;But definitely on the radar.</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea Owner">
+                            <DIV class="CommonCommentUser">
+                                <A href="http://www.lostechies.com/members/agilejoe/default.aspx">
+                                        <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/avatar(1).jpg" alt="" style="border-width:0px;">
+                                    </A>
+                                
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="Joe Ocampo" href="http://www.lostechies.com/members/agilejoe/default.aspx">Joe Ocampo</A></STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-06-2009 6:36 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>@Garry I was going to add that but ....oh hell never mind I will just update it.</P>
+<P>:-)</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                <A href="http://www.lostechies.com/members/seanbiefeld/default.aspx">
+                                        <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/4TC5NNJSEINC.png" alt="" style="border-width:0px;">
+                                    </A>
+                                
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="Sean Biefeld" href="http://www.lostechies.com/members/seanbiefeld/default.aspx">Sean Biefeld</A></STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-07-2009 10:58 AM
+                                    </DIV>
+                                    
+                                    <DIV><P>Excellent post, this will help me greatly!</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                
+                                <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/anonymous.gif" alt="" style="border-width:0px;max-height:60px;max-width:60px;">
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG>gnubuntux</STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-08-2009 9:14 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>There's a metapackage called "ruby-full" ... just do</P>
+<P>sudo apt-get install ruby-full</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                
+                                <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/anonymous.gif" alt="" style="border-width:0px;max-height:60px;max-width:60px;">
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="TrackBack" rel="nofollow" href="http://blog.ennuyer.net/2009-05-09-today%e2%80%99s-rubyrails-reading/">Ennuyer.net  » Blog Archive   » 2009-05-09- Today???s Ruby/Rails Reading</A></STRONG>
+                                        wrote
+                                        <STRONG>Ennuyer.net  &amp;raquo; Blog Archive   &amp;raquo; 2009-05-09- Today???s Ruby/Rails Reading</STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-09-2009 5:55 AM
+                                    </DIV>
+                                    
+                                    <DIV><P>Pingback from &nbsp;Ennuyer.net &nbsp;» Blog Archive &nbsp; » 2009-05-09- Today???s Ruby/Rails Reading</P>
+</DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                
+                                <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/anonymous.gif" alt="" style="border-width:0px;max-height:60px;max-width:60px;">
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="TrackBack" rel="nofollow" href="http://www.ubuntu-news.net/2009/05/11/setting-up-ubuntu-jaunty-for-ruby-and-rails-development/">Setting up Ubuntu Jaunty for Ruby and Rails development | Ubuntu-News - Your one stop for news about Ubuntu</A></STRONG>
+                                        wrote
+                                        <STRONG>Setting up Ubuntu Jaunty for Ruby and Rails development | Ubuntu-News - Your one stop for news about Ubuntu</STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-11-2009 6:12 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>Pingback from &nbsp;Setting up Ubuntu Jaunty for Ruby and Rails development | Ubuntu-News - Your one stop for news about Ubuntu</P>
+</DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                
+                                <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/anonymous.gif" alt="" style="border-width:0px;max-height:60px;max-width:60px;">
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="Theodore Wirth" rel="nofollow" href="http://www.wirthconsulting.org/">Theodore Wirth</A></STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-11-2009 7:13 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>Cool. &nbsp;What the heck is "Ruby and Rails". &nbsp;You don't even give the rest of us a clue as to what it is! &nbsp;I still don't know what it is after reading the article and the posts.</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+                        <DIV class="CommonCommentArea">
+                            <DIV class="CommonCommentUser">
+                                
+                                <IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/anonymous.gif" alt="" style="border-width:0px;max-height:60px;max-width:60px;">
+                            </DIV>
+                            <DIV class="CommonCommentArrow"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV><DIV class="r5"></DIV><DIV class="r6"></DIV><DIV class="r7"></DIV><DIV class="r8"></DIV><DIV class="r9"></DIV><DIV class="r10"></DIV></DIV>
+                            <DIV class="CommonCommentBubble">
+                                <DIV class="CommonCommentBubbleRoundTop"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                                <DIV class="CommonCommentContent">
+                                    
+                                    <DIV class="CommonMessageHeader">
+                                        <STRONG><A title="Derek Neighbors" rel="nofollow" href="http://integrumtech.com/">Derek Neighbors</A></STRONG>
+                                        wrote
+                                        <STRONG>re: Setting up Ubuntu Jaunty for Ruby and Rails development  </STRONG>
+                                    </DIV>
+                                    <DIV class="CommonMessageDate">
+                                        on 05-14-2009 2:14 PM
+                                    </DIV>
+                                    
+                                    <DIV><P>Thanks for the heads up on redcar. &nbsp;</P>
+<DIV style="clear:both;"></DIV></DIV>
+                                </DIV>
+                                <DIV class="CommonCommentBubbleRoundBottom"><DIV class="r1"></DIV><DIV class="r2"></DIV><DIV class="r3"></DIV><DIV class="r4"></DIV></DIV>
+                            </DIV>
+                            <DIV style="clear: both;"></DIV>
+                        </DIV>     
+                     
+	                    </DIV>
+                    
+                
+                
+                        <H4 class="CommonContentBoxHeader">Add a Comment</H4>
+                        <DIV class="CommonContentBoxContent">    
+                    
+                            <DIV class="CommonFormArea">
+                                <DIV id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_NameTitle" class="CommonFormFieldName">
+                                    <LABEL for="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbName">Name:</LABEL> 
+                                    <EM>(required)</EM>
+                                    <SPAN id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08" style="color:Red;visibility:hidden;">*</SPAN>
+		                        </DIV>
+	                            <DIV id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_NameDesc" class="CommonFormField">
+	                                <INPUT name="ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl11$ctl02$ctl01$ctl02$tbName" type="text" size="60" id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbName">
+	                            </DIV>
+        	                    
+	                            <DIV class="CommonFormFieldName">
+	                                 <LABEL for="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbUrl">Website:</LABEL>
+	                                 <EM>(optional)</EM>
+		                        </DIV>
+	                            <DIV class="CommonFormField">
+	                                <INPUT name="ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl11$ctl02$ctl01$ctl02$tbUrl" type="text" size="60" id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbUrl">
+	                             </DIV>
+        	                        
+	                             <DIV class="CommonFormFieldName">
+	                                <LABEL for="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbComment">Comments</LABEL>
+	                                <EM>(required)</EM>
+	                                <SPAN id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05" style="color:Red;visibility:hidden;">*</SPAN>
+		                         </DIV>
+		                         <DIV class="CommonFormField">
+		                            <TEXTAREA name="ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl11$ctl02$ctl01$ctl02$tbComment" rows="8" cols="60" id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbComment"></TEXTAREA>
+		                         </DIV>
+
+                                 <DIV id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_Remember" class="CommonFormField">
+                                    <INPUT id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_chkRemember" type="checkbox" name="ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl11$ctl02$ctl01$ctl02$chkRemember">Remember Me?
+                                 </DIV>
+                                 <DIV class="CommonFormField">
+	                                <DIV id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_CaptchaPanel" class="Captcha_Div">
+	<IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/captcha.ashx" style="border-width:0px;"><BR><SPAN>Enter the numbers above: </SPAN><INPUT name="ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl11$ctl02$ctl01$ctl02$CaptchaTextBox" type="text" size="3" id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_CaptchaTextBox"><SPAN id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12" style="color:Red;display:none;">*</SPAN>
+</DIV><INPUT type="submit" name="ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl11$ctl02$ctl01$ctl02$btnSubmit" value="Add" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$ctl00$ctl00$bcr$bcr$bcr$ctl11$ctl02$ctl01$ctl02$btnSubmit&quot;, &quot;&quot;, true, &quot;CreateCommentForm&quot;, &quot;&quot;, false, false))" id="ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_btnSubmit">
+                                 </DIV>
+                            </DIV>
+                        </DIV>
+                    
+            
+    </DIV>
+
+
+
+</DIV></DIV>
+			    <DIV style="clear: both;"></DIV>
+			    
+			    
+	                    
+	                
+            </DIV>
+                
+            <DIV id="CommonFooter">
+                <DIV class="Common">
+                    
+                        <DIV>Copyright Los Techies 2008, 2009. All rights reserved.</DIV>
+                	    
+                        
+
+                        
+                                <A href="http://communityserver.com/" target="_blank"><IMG src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/PoweredByCS_commercial.gif" alt="Powered by Community Server (Commercial Edition), by Telligent Systems " style="border-width:0px;"></A>
+		                    
+                		
+                    
+                 </DIV>
+            </DIV>
+		
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var Page_Validators =  new Array(document.getElementById("ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08"), document.getElementById("ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05"), document.getElementById("ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12"));
+//]]>
+</SCRIPT>
+
+<SCRIPT type="text/javascript">
+//<![CDATA[
+var ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08 = document.all ? document.all["ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08"] : document.getElementById("ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08");
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08.controltovalidate = "ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbName";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08.errormessage = "*";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08.validationGroup = "CreateCommentForm";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl08.initialvalue = "";
+var ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05 = document.all ? document.all["ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05"] : document.getElementById("ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05");
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05.controltovalidate = "ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_tbComment";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05.errormessage = "*";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05.validationGroup = "CreateCommentForm";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl05.initialvalue = "";
+var ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12 = document.all ? document.all["ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12"] : document.getElementById("ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12");
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12.controltovalidate = "ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_CaptchaTextBox";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12.errormessage = "*";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12.display = "Dynamic";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12.validationGroup = "CreateCommentForm";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12.evaluationfunction = "CustomValidatorEvaluateIsValid";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12.clientvalidationfunction = "ValidateCaptcha";
+ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl11_ctl02_ctl01_ctl02_ctl12.validateemptytext = "true";
+//]]>
+</SCRIPT>
+
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.lostechies.com/blogs/joe_ocampo/archive/2009/05/06/setting-up-ubuntu-jaunty-for-ruby-and-rails-development.aspx"
+dc:identifier="http://www.lostechies.com/blogs/joe_ocampo/archive/2009/05/06/setting-up-ubuntu-jaunty-for-ruby-and-rails-development.aspx"
+dc:title="Setting up Ubuntu Jaunty for Ruby and Rails development  "
+trackback:ping="http://www.lostechies.com/blogs/joe_ocampo/trackback.ashx?PostID=20851" />
+</rdf:RDF>
+-->
+<SCRIPT type="text/javascript">
+// <![CDATA[
+Telligent_Modal.Configure('/utility/loading.htm',['CommonModal'],['CommonModalTitle'],['CommonModalClose'],['CommonModalContent'],['CommonModalFooter'],['CommonModalResize'],['CommonModalMask'],100,false);
+// ]]>
+</SCRIPT><SCRIPT type="text/javascript">
+<!--
+function KeyDownHandlerctl00_ctl00_ctl00_sr_sr_sr_ctl00_ctl00_TitleBarSearchButton(event)
+{
+	if (event.keyCode == 13)
+	{
+		event.returnValue = false;
+		event.cancel = true;
+     __doPostBack('ctl00$ctl00$ctl00$sr$sr$sr$ctl00$ctl00$TitleBarSearchButton','')
+   return false;
+	}
+}
+
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript">
+// <![CDATA[
+window.ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl09_ctl01 = new Telligent_InlineEditorPanel('ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl09_ctl01','ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl09_ctl01','ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl09_ctl01_State','ctl00_ctl00_ctl00_bcr_bcr_bcr_ctl09_ctl00',false,null,null,null);
+// ]]>
+</SCRIPT>
+<SCRIPT type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        //]]>
+</SCRIPT>
+<SCRIPT type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT><SCRIPT src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/ga.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1265430-2");
+pageTracker._trackPageview();
+} catch(err) {}</SCRIPT>
+      </FORM>
+		
+	
+
+
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shCore.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushCSharp.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushPhp.js"></SCRIPT>
+
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushJScript.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushJava.js"></SCRIPT>
+
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushVb.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushSql.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushXml.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushDelphi.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushPython.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushRuby.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushCss.js"></SCRIPT>
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushObjC.js"></SCRIPT>
+
+<SCRIPT class="javascript" src="./Setting up Ubuntu Jaunty for Ruby and Rails development - Joe Ocampo (AgileJoe) -_files/shBrushCpp.js"></SCRIPT>
+
+<SCRIPT class="javascript">
+dp.SyntaxHighlighter.ClipboardSwf = 'Scripts/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code');
+</SCRIPT></BODY></HTML>
