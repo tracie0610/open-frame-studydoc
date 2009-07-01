@@ -1,0 +1,1 @@
+document.write("</ul><a href='http://www.ivillage.com' class='bhaheadlines'>More from iVillage</a><ul>\n");

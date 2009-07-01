@@ -1,0 +1,1143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>在Linux平台上安装和配置Ruby on Rails详解 - rails - Ruby - JavaEye论坛</title>
+    <meta name="description" content="在 Linux 平台上安装和配置 Ruby on Rails 详解    ruby on rails推荐的生产运行环境是Linux/FreeBSD/Unix，即Unix系列的操作系统，采用lighttpd＋FCGI的解决方案。以下我将以Linux操作系统，lighttpd＋FCGI，MySQL数据库为例，从源代码编译安装开始讲解。   在安装之前，应该确认Linux操作系统已经安装好gcc编译器，否 ..." />
+    <meta name="keywords" content="lighttpd fcgi rails Ruby" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Ruby" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1245574956" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+            <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+            </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (2)</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+</div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye3.0" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<a href=\'/adverts/2\' target=\'_blank\'><img src="http://ftp.javaeye.com/public/javaeye/facebook-l.jpg"/></a>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Ruby">Ruby版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/rails">rails</a> <span class="arrow">&rarr;</span>
+    <h1>在Linux平台上安装和配置Ruby on Rails详解</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Ruby'>全部</a>
+      <a href='/forums/tag/ruby'>ruby</a>
+      <a href='/forums/tag/rails'>rails</a>
+      <a href='/forums/tag/rake'>rake</a>
+      <a href='/forums/tag/DSL'>DSL</a>
+      <a href='/forums/tag/RJS'>RJS</a>
+      <a href='/forums/tag/YAML'>YAML</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_b0"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/43228?page=2" rel="next">2</a> <a href="/topic/43228?page=3">3</a> <a href="/topic/43228?page=4">4</a> <a href="/topic/43228?page=5">5</a> <a href="/topic/43228?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 63062 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>已锁定</span> <a href="/topic/43228">主题：在Linux平台上安装和配置Ruby on Rails详解</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为良好帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="p_198989">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/85928/52a4f42f-2fd6-3d06-ae24-3e1d5217a997.jpg?1237476800" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>文章: 5861</li>
+      <li>积分: 2265</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 关键字: <strong>lighttpd fcgi</strong></div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F43228' target='_blank' class='favorite'>收藏</a>
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+          <ul>
+                            <li><a href='http://www.javaeye.com/topic/153203' title='linux系统的ruby安装及安装花絮' target='_blank'>linux系统的ruby安装及安装花絮</a></li>
+                              <li><a href='http://www.javaeye.com/topic/272300' title='在lighttpd上运行RoR应用' target='_blank'>在lighttpd上运行RoR应用</a></li>
+                              <li><a href='http://www.javaeye.com/topic/366729' title='lightTPD + FASTCGI + Rails on Leopard 折腾记' target='_blank'>lightTPD + FASTCGI + Rails on Leopard 折腾记</a></li>
+                          </ul>
+            <br/><span>推荐圈子: <a href="http://onlypython.group.javaeye.com" target="_blank">Python</a></span>
+            <br/><a href="/wiki/topic/43228" target="_blank">更多相关推荐</a>
+          </div>
+                    <script type="text/javascript">
+            new Draggable("related_topics");
+          </script>
+        
+        <div><span style='font-size: 14pt;'>在</span>
+<span style='font-size: 14pt;'>Linux</span>
+<span style='font-size: 14pt;'>平台上安装和配置</span>
+<span style='font-size: 14pt;'>Ruby on Rails</span>
+<span style='font-size: 14pt;'>详解</span>
+</div>
+<div> </div>
+<div>ruby on rails推荐的生产运行环境是Linux/FreeBSD/Unix，即Unix系列的操作系统，采用lighttpd＋FCGI的解决方案。以下我将以Linux操作系统，lighttpd＋FCGI，MySQL数据库为例，从源代码编译安装开始讲解。</div>
+<div> </div>
+<div>在安装之前，应该确认Linux操作系统已经安装好gcc编译器，否则请用Linux安装光盘先行安装gcc编译器：</div>
+<div><span style='background-color: #e6e6e6;'>gcc –v </span>
+</div>
+<div>如能返回gcc版本号，则gcc正确安装。</div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>一、安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>Ruby</span>
+</strong>
+<strong><span style='font-size: 12pt;'>解析器</span>
+</strong>
+</div>
+<div> </div>
+<div>一些Linux发行版本，MacOSX操作系统都自带Ruby解析器，但是我仍然建议自行下载ruby源代码编译安装。因为一方面可以自己定制ruby安装的路径，另一方面可以在编译过程中自行添加更多的特性。</div>
+<div> </div>
+<div>ruby的源代码可以从Ruby官方网站下载：</div>
+<div><a href='http://www.ruby-lang.org/en/downloads/'>http://www.ruby-lang.org/en/downloads/</a>
+</div>
+<div> </div>
+<div>下载源代码包到本地Linux主机，然后解压缩，进入该目录，进行配置，编译和安装：</div>
+<div><span style='background-color: #e6e6e6;'>tar xzvf ruby-1.8.5.tar.gz</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cd ruby-1.8.5</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>./configure –prefix=/usr/local/ruby</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>make &amp;&amp; make install</span>
+</div>
+<div>如果想浏览所有的configure参数，可以：</div>
+<div><span style='background-color: #e6e6e6;'>./configure –help |more</span>
+</div>
+<div>如果不定制安装的目录，默认将安装到/usr/local目录下面。然而我建议自行定制一个ruby的安装目录，例如/usr/local/ruby，这样便于以后的升级，不会和操作系统其他软件混在一起。</div>
+<div> </div>
+<div>安装好以后，修改操作系统PATH路径，加入/usr/local/ruby/bin：</div>
+<div><span style='background-color: #e6e6e6;'>export PATH=/usr/local/ruby/bin:$PATH</span>
+</div>
+<div>将我们自己安装的ruby放在系统PATH前面，避免操作系统自带的ruby造成的干扰。在Linux上，一般将设置放在/etc/profile中，便于对全局生效。</div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>二、安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>ruby on rails</span>
+</strong>
+</div>
+<div> </div>
+<div>在安装rails之前，要先安装rubygems。rubygems是ruby的在线包管理工具，可以从rubyforge下载rubygems：</div>
+<div><a href='http://rubyforge.org/projects/rubygems/'>http://rubyforge.org/projects/rubygems/</a>
+</div>
+<div>下载好源代码包，解压缩，安装：</div>
+<div><span style='background-color: #e6e6e6;'>tar xzvf rubygems-0.9.0.tgz</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cd rubygems-0.9.0/</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>ruby setup.rb</span>
+</div>
+<div> </div>
+<div>然后就可以安装rails了，在确认服务器已经连接互联网的情况下执行：</div>
+<div><span style='background-color: #e6e6e6;'>gem install rails –y</span>
+</div>
+<div>即通过gem从rubyforge网站下载rails所有依赖包安装。</div>
+<div> </div>
+<div>安装好rails以后，可以执行：</div>
+<div><span style='background-color: #e6e6e6;'>rails –v </span>
+</div>
+<div>确认一下rails的版本。</div>
+<div> </div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>三、安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>ruby</span>
+</strong>
+<strong><span style='font-size: 12pt;'>的数据库适配器</span>
+</strong>
+</div>
+<div> </div>
+<div>rails发行包中已经自带纯ruby的MySQL数据库适配器，然而对于生产环境来说，我们仍然应该下载安装C版本的数据库适配器，以达到更好的性能。下载mysql-ruby-2.7.3.tar.gz：</div>
+<div><a href='http://www.tmtm.org/en/mysql/ruby/'>http://www.tmtm.org/en/mysql/ruby/</a>
+</div>
+<div><span style='background-color: #e6e6e6;'>tar xzvf mysql-ruby-2.7.3.tar.gz</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cd mysql-ruby-2.7.3</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>ruby extconf.rb --with-mysql-dir=/opt/mysql5 </span>
+</div>
+<div><span style='background-color: #e6e6e6;'>make &amp;&amp; make install</span>
+</div>
+<div>注意--with-mysql-dir应该指向MySQL数据库的安装路径，如果数据库服务器和Web服务器不在同一台机器上，那么Web服务器上也必须安装MySQL软件，因为ruby的C版本MySQL适配器需要在编译的时候联接MySQL的系统库。</div>
+<div> </div>
+<div>
+<div> </div>
+</div>
+<div><strong><span style='font-size: 12pt;'>四、安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>Ruby</span>
+</strong>
+<strong><span style='font-size: 12pt;'>的</span>
+</strong>
+<strong><span style='font-size: 12pt;'>FCGI</span>
+</strong>
+<strong><span style='font-size: 12pt;'>支持</span>
+</strong>
+</div>
+<div> </div>
+<div>由于ruby的fcgi支持库需要在编译的时候联接FCGI的系统库，因此我们需要先安装FCGI库，下载FCGI源代码发行包：</div>
+<div><a href='http://www.fastcgi.com/dist/'>http://www.fastcgi.com/dist/</a>
+</div>
+<div><span style='background-color: #e6e6e6;'>tar xzvf fcgi-2.4.0.tar.gz</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cd fcgi-2.4.0</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>./configure --prefix=/usr/local/fcgi</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>make &amp;&amp; make install</span>
+</div>
+<div>同样，将fcgi安装在自己指定的目录下，而不是默认的/usr/local，避免多个软件混在一起。</div>
+<div> </div>
+<div>然后就可以安装ruby的fcgi支持库了，下载ruby-fcgi-0.8.7.tar.gz：</div>
+<div><a href='http://rubyforge.org/projects/fcgi/'>http://rubyforge.org/projects/fcgi/</a>
+</div>
+<div><span style='background-color: #e6e6e6;'>tar xzvf ruby-fcgi-0.8.7.tar.gz</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cd ruby-fcgi-0.8.7</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>ruby install.rb config -- --with-fcgi-include=/usr/local/fcgi/include --with-fcgi-lib=/usr/local/fcgi/lib </span>
+</div>
+<div><span style='background-color: #e6e6e6;'>ruby install.rb setup</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>ruby install.rb install</span>
+</div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>五、安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>lighttpd Web Server</span>
+</strong>
+</div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>Lighttpd</span>
+</strong>
+</div>
+<div> </div>
+<div>在安装lighttpd之前，应该确认操作系统已经安装pcre，即Perl兼容的规则表达式库：</div>
+<div><span style='background-color: #e6e6e6;'>rpm –qa |grep pcre</span>
+</div>
+<div>如果没有，请从Linux安装光盘里面安装。</div>
+<div> </div>
+<div>然后下载lighttpd：</div>
+<div><a href='http://www.lighttpd.net/download/'>http://www.lighttpd.net/download/</a>
+</div>
+<div><span style='background-color: #e6e6e6;'>tar xzvf lighttpd-1.4.13.tar.gz</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cd lighttpd-1.4.13</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>./configure --prefix=/usr/local/lighttpd</span>
+</div>
+<div> </div>
+<div>configure完毕以后，会给出一个激活的模块和没有激活模块的清单，可以检查一下，是否自己需要的模块都已经激活，在enable的模块中一定要有“mod_rewrite”这一项，否则重新检查pcre是否安装。然后编译安装：</div>
+<div><span style='background-color: #e6e6e6;'>make &amp;&amp; make install </span>
+</div>
+<div> </div>
+<div>编译后配置：</div>
+<div><span style='background-color: #e6e6e6;'>cp doc/sysconfig.lighttpd /etc/sysconfig/lighttpd</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>mkdir /etc/lighttpd</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cp doc/lighttpd.conf /etc/lighttpd/lighttpd.conf</span>
+</div>
+<div> </div>
+<div>如果你的Linux是RedHat/CentOS，那么：</div>
+<div><span style='background-color: #e6e6e6;'>cp doc/rc.lighttpd.redhat /etc/init.d/lighttpd</span>
+</div>
+<div>如果你的Linux是SuSE，那么：</div>
+<div><span style='background-color: #e6e6e6;'>cp doc/rc.lighttpd /etc/init.d/lighttpd</span>
+</div>
+<div>如果你的Linux是ubuntu，那么需要自己创建启动脚本，lighttpd官方wiki上面已经给出来该脚本，地址在：</div>
+<div><a href='http://redmine.lighttpd.net/wiki/1/ScriptsUbuntu' title='ubuntu start script' target='_blank'>http://redmine.lighttpd.net/wiki/1/ScriptsUbuntu</a>
+</div>
+<div><br/>
+</div>
+<div>其他Linux发行版本可以自行参考该文件内容进行修改，或者自己写一个控制脚本，也不过举手之劳：</div>
+<div><br/>
+</div>
+<pre name='code' class='c'>#!/bin/sh
+
+case "$1" in 
+  start)         
+    /usr/local/lighttpd/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf &gt; /dev/null 2&gt;&amp;1
+    ;;
+  stop) 
+    killall lighttpd
+    ;;
+  restart) 
+   $0 stop
+   sleep 1
+   $0 start 
+   ;;
+  *) 
+  echo "Usage: lighttpd.sh {start|stop|restart}" 
+  ;; 
+esac
+
+exit 0 
+</pre>
+<p> </p>
+<div>然后修改/etc/init.d/lighttpd，把</div>
+<div><span style='background-color: #e6e6e6;'>LIGHTTPD_BIN=/usr/sbin/lighttpd</span>
+</div>
+<div>改为</div>
+<div><span style='background-color: #e6e6e6;'>LIGHTTPD_BIN=/usr/local/lighttpd/sbin/lighttpd</span>
+</div>
+<div> </div>
+<div>此脚本用来控制lighttpd的启动关闭和重起：</div>
+<div><span style='background-color: #e6e6e6;'>/etc/init.d/lighttpd start </span>
+</div>
+<div><span style='background-color: #e6e6e6;'>/etc/init.d/lighttpd stop </span>
+</div>
+<div><span style='background-color: #e6e6e6;'>/etc/init.d/lighttpd restart</span>
+</div>
+<div> </div>
+<div>如果你希望服务器启动的时候就启动lighttpd，那么：</div>
+<div><span style='background-color: #e6e6e6;'>chkconfig lighttpd on</span>
+</div>
+<div> </div>
+<div>这样lighttpd就安装好了，接下来需要配置lighttpd。</div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>配置</span>
+</strong>
+<strong><span style='font-size: 12pt;'>Lighttpd</span>
+</strong>
+</div>
+<div> </div>
+<div>修改/etc/lighttpd/lighttpd.conf</div>
+<div> </div>
+<div>1）server.modules</div>
+<div>取消需要用到模块的注释，mod_rewrite，mod_access，mod_fastcgi，mod_simple_vhost，mod_cgi，mod_compress，mod_accesslog是一般需要用到的。</div>
+<div> </div>
+<div>2）server.document-root, server.error-log，accesslog.filename需要指定相应的目录</div>
+<div> </div>
+<div>3）用什么权限来运行lighttpd</div>
+<div><span style='background-color: #e6e6e6;'>server.username<span>            = "nobody"</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>server.groupname<span>           = "nobody"</span>
+</span>
+</div>
+<div>从安全角度来说，不建议用root权限运行web server，可以自行指定普通用户权限。</div>
+<div> </div>
+<div>4）静态文件压缩</div>
+<div><span style='background-color: #e6e6e6;'>compress.cache-dir<span>         = "/tmp/lighttpd/cache/compress"</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>compress.filetype<span>          = ("text/plain", "text/html","text/javascript","text/css")</span>
+</span>
+</div>
+<div>可以指定某些静态资源类型使用压缩方式传输，节省带宽，对于大量AJAX应用来说，可以极大提高页面加载速度。</div>
+<div> </div>
+<div>5）配置ruby on rails</div>
+<div> </div>
+<div>最简单的配置如下：</div>
+<div><span style='background-color: #e6e6e6;'>$HTTP["host"] == "www.xxx.com" {</span>
+</div>
+<div><span style='background-color: #e6e6e6;'> server.document-root = "/yourrails/public"</span>
+</div>
+<div><span style='background-color: #e6e6e6;'> server.error-handler-404 = "/dispatch.fcgi"</span>
+</div>
+<div><span style='background-color: #e6e6e6;'> fastcgi.server = (".fcgi" =&gt;</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>    ("localhost" =&gt;</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>      ("min-procs" =&gt; 10,</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>       "max-procs" =&gt; 10,</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>       "socket" =&gt; "/tmp/lighttpd/socket/rails.socket",</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>       "bin-path" =&gt; "/yourrails/public/dispatch.fcgi",</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>       "bin-environment" =&gt; ("RAILS_ENV" =&gt; "production")</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>      )</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'><span>    )</span>
+</span>
+</div>
+<div><span style='background-color: #e6e6e6;'> )</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>}</span>
+</div>
+<div>即由lighttpd启动10个FCGI进程，lighttpd和FCGI之间使用本机Unix Socket通信。</div>
+<div> </div>
+<div>Lighttpd的FAQ：无法启动Ruby on Rails</div>
+<div> </div>
+<div>FastCGI的启动脚本位于Rails应用目录下面public/dispatch.fcgi，如果无法启动Lighttpd，报告FastCGI错误，你可以尝试着手工运行该脚本cd public &amp;&amp; ./dispatch.fcgi，看看是否可以运行。一般来说，很多人都是在Windows下面创建Rails项目，导致dispatch.fcgi脚本的ruby运行路径指向windows下面的ruby，部署到Linux上面就无法运行了，另外一方面Windows上面创建的Rails项目在Linux上面dispatch.fcgi没有可执行权限，所以也需要授予可执行权限。</div>
+ 
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>六、安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>ImageMagick</span>
+</strong>
+<strong><span style='font-size: 12pt;'>和</span>
+</strong>
+<strong><span style='font-size: 12pt;'>RMagic</span>
+</strong>
+</div>
+<div> </div>
+<div>RMagic是ruby处理图片需要用到的库，很多ruby应用由于都涉及图片处理的功能，往往需要依赖RMagic，但安装ImageMagick和RMagic相当烦琐，需要特别的说明。</div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>ImageMagick</span>
+</strong>
+</div>
+<div><a href='http://www.imagemagick.org/'>http://www.imagemagick.org</a>
+ </div>
+<div>ImageMagick是用C语言实现的图形处理库，有Unix版本和Windows版本。对于Unix版本来说，安装比较麻烦些，另外不建议安装ImageMagick二进制版本，往往会导致缺少某些图片处理功能，导致RMagic安装失败。下载ImageMagick源代码，解压缩，配置：</div>
+<div><span style='background-color: #e6e6e6;'>tar xzvf ImageMagick-6.2.9-0.tar.gz</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>cd tar xzvf ImageMagick-6.2.9</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>./configure --prefix=/usr/local/ImageMagick</span>
+</div>
+<div> </div>
+<div>观察配置后给出来的支持图形格式，看看该图形格式支持是否是yes，如果不是，那么必须先安装该图形格式的本地库。例如，你应该检查是否已经安装如下rpm包：</div>
+<div><span style='background-color: #e6e6e6;'>rpm –qa |grep libpng</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>rpm –qa |grep libpng-devel</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>rpm –qa |grep libjpeg</span>
+</div>
+<div><span style='background-color: #e6e6e6;'>rpm –qa |grep gd-devel</span>
+</div>
+<div>如果你希望支持tiff格式，还应该检查</div>
+<div><span style='background-color: #e6e6e6;'>rpm –qa |grep libtiff</span>
+</div>
+<div>如果没有安装，那么在Linux安装光盘找到相应rpm包安装上，再次configure直到确认需要的图形格式全部支持为止，然后编译安装：</div>
+<div><span style='background-color: #e6e6e6;'>make &amp;&amp; make install</span>
+</div>
+<div> </div>
+<div>由于ImageMagic被安装在我们自行指定的/usr/local/ImageMagick，后面安装RMagic会找不到需要用到的ImageMagic的命令和库，因此需要配置一下操作系统：</div>
+<div> </div>
+<div>编辑/etc/profile里面的PATH环境变量，在最后面加入：</div>
+<div><span style='background-color: #e6e6e6;'>export PATH=/usr/local/ruby/bin:/usr/local/ImageMagick/bin:$PATH</span>
+</div>
+<div> </div>
+<div>编辑/etc/ld.so.conf，加入：</div>
+<div><span style='background-color: #e6e6e6;'>/usr/local/ImageMagick/lib</span>
+</div>
+<div>执行命令：</div>
+<div><span style='background-color: #e6e6e6;'>ldconfig</span>
+</div>
+<div>将ImageMagick的库加入系统联接库</div>
+<div> </div>
+<div>然后注销当前用户重新登录，便于环境变量修改生效，执行：</div>
+<div><span style='background-color: #e6e6e6;'>convert logo: logo.gif</span>
+</div>
+<div>看是否正确生成一个logo.gif的图片文件。</div>
+<div> </div>
+<div><strong><span style='font-size: 12pt;'>安装</span>
+</strong>
+<strong><span style='font-size: 12pt;'>RMagic</span>
+</strong>
+</div>
+<div><a href='http://rubyforge.org/projects/rmagick/'>http://rubyforge.org/projects/rmagick/</a>
+</div>
+<div>在rubyfoge上面下载RMagic的源代码发行包，不要下载gem包，然后解压缩编译：</div>
+<div><span style='background-color: #e6e6e6;'>./configure </span>
+</div>
+<div><span style='background-color: #e6e6e6;'>make &amp;&amp; make install</span>
+</div>
+<div> </div>
+<div>如果配置和编译过程没有报错，即大功告成。</div>
+<div> </div>
+<div>对于MacOSX来说，安装RMagic以上步骤会出错，请参考：</div>
+<div><a href='http://rmagick.rubyforge.org/install-osx.html'>http://rmagick.rubyforge.org/install-osx.html</a>
+</div>
+<div> </div>
+<div>总体来说，ImageMagick和RMagic的安装很容易出错，安装起来比较困难，如果碰到无法解决的问题，可以通过Google寻求解决办法。</div>
+<div> </div>
+<div><span style='font-size: medium;'><strong>如果你在安装过程当中，遇到了什么问题，请看：<a href='/blog/168989' title='Lighttpd和RoR安装配置的疑难解答' target='_blank'>Lighttpd和RoR安装配置的疑难解答</a>
+</strong>
+</span>
+
+</div>
+<div><br/>
+</div>
+      </div>
+      
+      
+        
+        <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_b3">
+          <span>推荐链接</span>
+          <ul class='adverts'><li><a href='/adverts/111' target='_blank'><img src="http://ftp.javaeye.com/public/alibaba/ali_l.jpg" style="BORDER:1px SOLID #FFFFFF" /></a></li><li><a href='/adverts/170' target='_blank'><span style="color:blue;font-weight:bold;">6月份JAVA技术沙龙活动通知</span></a></li><li><a href='/adverts/126' target='_blank'><span style="color:red;font-weight:bold;">在繁琐中挣扎还是简化自主管理？</span></a></li></ul>
+        </div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2008-11-17
+        
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199006">
+  <td class="postauthor">
+    <ul>
+      <li class="name">gigix</li>
+      <li>等级: <img src="/images/zisen.gif" alt="资深会员" title="资深会员"/><span style="color:#009900;font-weight:bold;">资深会员</span></li>
+      <li><a href='http://gigix.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/2838/a43d1bc6-aa07-4faf-b6b1-4e2ca99a1dac.bmp?1236831931" title="gigix的博客: 透明之眼" /></a></li>
+      <li>文章: 4425</li>
+      <li>积分: 2991</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199006' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        sudo apt-get install rails<br />sudo apt-get install mysql<br />...<br />唯一麻烦的就是gem，apt装不到，只有down下来装
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://gigix.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://gigix.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=gigix" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://gigix.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199006' class='post_rate_box'><a href='#' onclick='rate_post(199006, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199006, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199008">
+  <td class="postauthor">
+    <ul>
+      <li class="name">qiezi</li>
+      <li>等级: <img src="/images/dimd1.gif" alt="一钻会员" title="一钻会员"/></li>
+      <li><a href='http://qiezi.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/32256/664997f0-3d62-495d-baf5-f30d24c53aed.bmp?1236833358" title="qiezi的博客: 头脑歪歪" /></a></li>
+      <li>文章: 808</li>
+      <li>积分: 893</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199008' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        还真麻烦，推荐大家用Gentoo发行版，安装基本系统时稍麻烦点，不过做一次以后再安装升级软件就容易了。<br /><br />在gentoo上，安装这些东西比较简单。<br /><br />1、安装ruby, rubygems, rails<br /><pre name="code" class="java">
+emerge rails -Dav
+</pre><br />它会自动计算依赖关系，把rails依赖的相关软件比如ruby, rubygems, rake等都安装上，如果同时还要安装postgres, mysql, sqlite3, fastcgi支持库以及rails文档，只需要：<br /><pre name="code" class="java">
+USE="doc fastcgi mysql postgres sqlite3" emerge rails -Dav
+</pre><br /><br />2、安装rmagick:<br /><pre name="code" class="java">
+emerge rmagick -Dav
+</pre><br />它会把imagemagick安装上。上面的-Dav选项可以让你确认安装编译参数，比如：<br /><div class="quote_title">引用</div><div class="quote_div"><br /># emerge imagemagick -Dav<br />&gt;&gt;&gt; cfg-update-1.8.0-r3 : No new packages have been emerged, checksum index OK...<br /><br />These are the packages that would be merged, in order:<br /><br />Calculating dependencies... done!<br />[ebuild&nbsp;&nbsp; R&nbsp;&nbsp; ] media-gfx/imagemagick-6.3.0.5&nbsp; <strong>USE="X jpeg mpeg perl png truetype xml zlib -bzip2 -doc -fpx -graphviz -gs -jbig -jpeg2k -lcms -nocxx -tiff -wmf"</strong> 0 kB <br /></div><br />上面的USE部分，有减号的显示成蓝色表示不使用这个选项，没减号的显示成红色表示使用这个选项，可以在emerge时加上或减去这些选项，同样它也会自动计算这些依赖，比如加上了png，它会把libpng装上。<br /><br />其它方面，配置 apache, lighttpd都差不多。gentoo的好处是这些新安装的软件都从源代码编译，可以针对你的机器编译出最高效的版本。而且gentoo里面软件巨多，喜欢研究各种语言、库的人最合适了，都有源码配套。少数例外比如D语言还没进入gentoo。<br /><br />gentoo也有缺点，它的整个系统都从源代码构建，有时你运气不好选了个不稳定的时候构建系统，会出现一系列错误，这时你要自己解决这些错误，会比较麻烦。当然如果你把这当作是熟悉linux环境，结果也不会让你失望。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://qiezi.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://qiezi.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=qiezi" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://qiezi.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199008' class='post_rate_box'><a href='#' onclick='rate_post(199008, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199008, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199018">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/85928/52a4f42f-2fd6-3d06-ae24-3e1d5217a997.jpg?1237476800" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>文章: 5861</li>
+      <li>积分: 2265</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199018' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        用ubuntu或者gentoo当然不是不可以。但是我写这篇文章在于指导如何在Linux Server上构建一个高性能的RoR生产运行环境，依赖ubuntu或者gentoo的自动二进制或者自动源代码安装，都达不到这个Production级别的要求。<br /><br />生产环境的安装部署不是比谁安装起来貌似更加简单，毕竟相同的配置我可以把编译安装好的版本打成一个rpm包，以后安装只要一行rpm -ivh命令全部搞定，保管比你们的办法更简单。真要是炫耀谁的安装简单，那我用MacOSX10.5操作系统，自带ruby on rails全部运行环境，安装都省了，开机就可以跑起来了，不比你们简单多了？<br /><br />自行手工安装的重点在于每个安装环节的定制，调优和补丁，配置的合理运用，以发挥最好的性能，最方便的维护，以及升级的灵活性。<br /><br />选择gentoo从源代码完整构建一个操作系统对一个Linux fans来说貌似一件有趣的事情，但是站在工作的角度来说，管理员是完全不称职的。作为一台需要7*24*365运行的服务器来说，操作系统的稳定性，硬件软件应用的兼容性至关重要。为什么商业机构要花钱购买RHEL/SLES软件和服务，就是因为厂商对Kernel有针对性的打了很多补丁，调整了很多Kernel参数，对于整个Kernel＋GNU software搭配成的OS也进行了最大幅度的硬件兼容性认证，软件兼容性认证，以确保操作系统的稳定性和兼容性，最终能够达到7*24*365的需要。<br /><br /><br /><br /><br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199018' class='post_rate_box'><a href='#' onclick='rate_post(199018, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199018, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199031">
+  <td class="postauthor">
+    <ul>
+      <li class="name">wlbookwl</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://wlbookwl.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/38875/3976811a-2bf6-4a34-a1ac-64c23c2e201c.jpg?1236834025" title="wlbookwl的博客: wlbookwl" /></a></li>
+      <li>文章: 31</li>
+      <li>积分: 30</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199031' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <pre name="code" class="java">$HTTP["host"] == "www.xxx.com" {
+ server.document-root = "/yourrails/public"
+ server.error-handler-404 = "/dispatch.fcgi"
+ fastcgi.server = (".fcgi" =&gt;
+    ("localhost" =&gt;
+      ("min-procs" =&gt; 10,
+       "max-procs" =&gt; 10,
+       "socket" =&gt; "/tmp/lighttpd/socket/rails.socket",
+       "bin-path" =&gt; "/yourrails/public/dispatch.fcgi",
+       "bin-environment" =&gt; ("RAILS_ENV" =&gt; "production")
+      )
+    )
+ )
+}</pre><br /><br />这些代码是放在哪个文件的？
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://wlbookwl.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://wlbookwl.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=wlbookwl" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://wlbookwl.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199031' class='post_rate_box'><a href='#' onclick='rate_post(199031, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199031, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199054">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/85928/52a4f42f-2fd6-3d06-ae24-3e1d5217a997.jpg?1237476800" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>文章: 5861</li>
+      <li>积分: 2265</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199054' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        /etc/lighttpd/lighttpd.conf
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199054' class='post_rate_box'><a href='#' onclick='rate_post(199054, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199054, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199104">
+  <td class="postauthor">
+    <ul>
+      <li class="name">tmj</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://tmj.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="tmj的博客: 我是打短工" /></a></li>
+      <li>文章: 11</li>
+      <li>积分: 48</li>
+      <li>来自: ...</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199104' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        linux虽然很好，但很多情况下不得不部署在window平台下。按照robbin推荐的window下最佳配置方式apache+mongrel,目前我就怎么都无法配置成功，全部抛出502错误。问了不少，但目前为止没有一个能够解决问题。恳请robbin能够在window做下研究，到时能指导指导。<br /><br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://tmj.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://tmj.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=tmj" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://tmj.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199104' class='post_rate_box'><a href='#' onclick='rate_post(199104, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199104, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199190">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/85928/52a4f42f-2fd6-3d06-ae24-3e1d5217a997.jpg?1237476800" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>文章: 5861</li>
+      <li>积分: 2265</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199190' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">tmj 写道</div><div class="quote_div">linux虽然很好，但很多情况下不得不部署在window平台下。按照robbin推荐的window下最佳配置方式apache+mongrel,目前我就怎么都无法配置成功，全部抛出502错误。问了不少，但目前为止没有一个能够解决问题。恳请robbin能够在window做下研究，到时能指导指导。<br /><br /></div><br /><br />http://www.javaeye.com/topic/43290<br /><br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199190' class='post_rate_box'><a href='#' onclick='rate_post(199190, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199190, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199203">
+  <td class="postauthor">
+    <ul>
+      <li class="name">siko</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://siko.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/37753/da600bb9-0286-4901-9a1c-c63a787de4fe.jpg?1236833901" title="siko的博客: siko" /></a></li>
+      <li>文章: 11</li>
+      <li>积分: 38</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-05 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199203' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        生产环境和开发环境还是有相当的不同的。
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://siko.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://siko.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=siko" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://siko.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199203' class='post_rate_box'><a href='#' onclick='rate_post(199203, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199203, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="p_199281">
+  <td class="postauthor">
+    <ul>
+      <li class="name">sean_gao</li>
+      <li>等级: <img src="/images/star3.gif" alt="三星会员" title="三星会员"/></li>
+      <li><a href='http://readsean.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/42912/8ec02fd5-eac1-4f9f-a5d1-1ddcf3cbafcc.jpg?1236834358" title="sean_gao的博客: Read Sean" /></a></li>
+      <li>文章: 89</li>
+      <li>积分: 284</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">发表时间：2007-01-06 </div>
+      <div class="links">
+        
+        
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9B%9E%E5%A4%8D%3A+%E5%9C%A8Linux%E5%B9%B3%E5%8F%B0%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERuby+on+Rails%E8%AF%A6%E8%A7%A3&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Fpost%2F199281' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">引用</div><div class="quote_div">在目前的ruby on rails文档和资料中，比较多的都是编程方面的内容，很少涉及到ruby on rails的安装，部署，性能优化的话题，鉴于我们运营JavaEye网站，在这方面经验比较丰富，因此我计划在空闲的时间写一些这方面的文章，补充一下这方面资料的不足。<br /></div><br /><br />支持！<img src="/images/smiles/icon_idea.gif"/> <br /><br />我想补充一下，我认为GNU/Linux!=RHEL/FC，GNU/Linux!=Gentoo，当然GNU/Linux也!=Debian/Ubuntu，不能简单混为一谈。每个发行版的GNU/Linux对于软件包的管理也不尽相同。<br /><br />对Debian/Ubuntu感兴趣的朋友：<br />在Debian下，查找软件包的方式是<br /><pre name="code" class="java">sudo apt-cache search 包名 #支持模糊查询</pre><br />你会发现有些包的名称和RHEL/FC不太一样，如：<br />pcre在Debian下叫做libpcre3;<br />libpng-devel在Debian下叫做libpng3-dev;<br />gd-dev在Debian下叫做libgd-dev。<br />等等<br />安装的方法是<br /><pre name="code" class="java">sudo apt-get install 包名</pre><br /><br />我觉得自己从源码build来安装是蛮有趣的一件事，尤其对于一些相对比较新的软件包，很可能你找不到一个现成的rpm或者deb，抑或需要定制一些选项。但这有一个度的问题，如果你是一个懒人，你可能很依赖rpm或者apt; 如果你是一个purist，你可能想什么都自己build(Gentoo?)，从内核开始DIY; 不过如果你是一个pragmatist，我想你应该有选择的定制自己的环境，如果现成的包足够满足需要，就拿来用，如果对特定的软件(包)追求性能和其他精细化的控制，就自己从源码构建。<br /><br />期待更多来自robbin的经验之谈，能讲讲JavaEye考虑过尝试过的配置方案，包括硬件、操作系统、数据库、Web服务器等等的选择和配置参数，每个方案的优势劣势，最终采用的配置，就太棒了。<br />
+      </div>
+      
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://readsean.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://readsean.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=sean_gao" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://readsean.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+        
+      </div>
+                        <div id='post_rate_box_199281' class='post_rate_box'><a href='#' onclick='rate_post(199281, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(199281, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/43228?page=2" rel="next">2</a> <a href="/topic/43228?page=3">3</a> <a href="/topic/43228?page=4">4</a> <a href="/topic/43228?page=5">5</a> <a href="/topic/43228?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Ruby">Ruby版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/rails'>rails</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java">Java编程和Java企业应用</option>
+<option value="web">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby" selected="selected">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id='forum_advert_b2'></div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":43228, "type":type}});
+  }
+
+      
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://job.javaeye.com" target="_blank">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://book.javaeye.com" >图书</a></li>
+    <li><a href="http://oracle.javaeye.com" >Oracle</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://primeton.javaeye.com" >普元</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
