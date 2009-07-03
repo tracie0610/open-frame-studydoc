@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>在Windows平台使用Apache2.2和Mongrel运行Ruby on Rails - robbin的自言自语 - JavaEye技术网站</title>
+    <meta name="description" content="在Windows平台使用Apache2.2和Mongrel运行Ruby on Rails     一、安装Ruby、rails、mongrel和Apache2.2   从rubyforge网站下载One-Click Ruby Install，运行安装程序，就安装好了ruby和rubygems。   运行命令： gem install rails –y gem install mongrel –y g ..." />
+    <meta name="keywords" content="apache mongrel rails 在Windows平台使用Apache2.2和Mongrel运行Ruby on Rails" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="robbin的自言自语" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1246261652" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/red.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (2)</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">robbin的自言自语</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://robbin.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/51595" class="next" title="ruby on rails应用性能优化之道">ruby on rails应用性能优化之道</a>
+      |
+      <a href="/blog/43228" class="pre" title="在Linux平台上安装和配置Ruby on Rails详解">在Linux平台上安装和配置Ruby on Rails详 ...</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2007</span><span class='sep_year'>-</span><span class='month'>01</span><span class='sep_month'>-</span><span class='day'>05</span></div>
+    <h3 class='type_mid' title='良好贴'><a href="/blog/43290">在Windows平台使用Apache2.2和Mongrel运行Ruby on Rails</a></h3>
+        <strong>关键字: apache mongrel</strong>
+  </div>
+
+  <div class="blog_content">
+    <div align='center'><span style='font-size: 14pt;'>在</span><span style='font-size: 14pt;'>Windows</span><span style='font-size: 14pt;'>平台使用</span><span style='font-size: 14pt;'>Apache2.2</span><span style='font-size: 14pt;'>和</span><span style='font-size: 14pt;'>Mongrel</span><span style='font-size: 14pt;'>运行</span><span style='font-size: 14pt;'>Ruby on Rails</span></div>
+<div> </div>
+<div> </div>
+<div>一、安装Ruby、rails、mongrel和Apache2.2</div>
+<div> </div>
+<div>从rubyforge网站下载One-Click Ruby Install，运行安装程序，就安装好了ruby和rubygems。</div>
+<div> </div>
+<div>运行命令：</div>
+<div><font style='background-color: rgb(230, 230, 230);'>gem install rails –y</font></div>
+<div><font style='background-color: rgb(230, 230, 230);'>gem install mongrel –y</font></div>
+<div><font style='background-color: rgb(230, 230, 230);'>gem install mongrel_service -y</font></div>
+<div>安装好了rails和mongrel</div>
+<div> </div>
+<div>从Apache网站下载Windows版本的Apache2.2，运行安装程序，就安装好了Apache2.2。</div>
+<div> </div>
+<div>二、把Mongrel作为Services启动</div>
+<div> </div>
+<div><font style='background-color: rgb(230, 230, 230);'>mongrel_rails service::install -N depot -c d:\Rubyproject\depot -p 3000 –e production</font></div>
+<div>-N指明服务名称，-d指明rails应用的目录，-p是mongrel监听的tcp端口，-e是启动模式为生产模式</div>
+<div> </div>
+<div>这样打开控制面版|管理工具|服务，就可以发现增加了一项名为“depot”的服务，就可以通过控制面版来管理服务了。如果需要命令行启动和关闭该服务，那么：</div>
+<div><font style='background-color: rgb(230, 230, 230);'>mongrel_rails service::start -N depot</font></div>
+<div><font style='background-color: rgb(230, 230, 230);'>mongrel_rails service::stop -N depot</font></div>
+<div> </div>
+<div>如果需要从服务中注销该项服务，那么：</div>
+<div><font style='background-color: rgb(230, 230, 230);'>mongrel_rails service::remove -N depot</font></div>
+<div> </div>
+<div>如果需要安装多个mongrel实例，那么可以这样：</div>
+<div><font style='background-color: rgb(230, 230, 230);'>mongrel_rails service::install -N depot0 -c d:\Rubyproject\depot -p 3000 –e production</font></div>
+<div><font style='background-color: rgb(230, 230, 230);'>mongrel_rails service::install -N depot1 -c d:\Rubyproject\depot -p 3001 –e production</font></div>
+<div>诸如此类。</div>
+<div> </div>
+<div>三、配置Apache2.2</div>
+<div> </div>
+<div>用编辑工具打开Apache2.2目录下面的conf/httpd.conf，需要取消如下模块的注释：</div>
+<div><font style='background-color: rgb(230, 230, 230);'>LoadModule proxy_module modules/mod_proxy.so</font></div>
+<div><font style='background-color: rgb(230, 230, 230);'>LoadModule proxy_balancer_module modules/mod_proxy_balancer.so</font></div>
+<div><font style='background-color: rgb(230, 230, 230);'>LoadModule proxy_http_module modules/mod_proxy_http.so</font></div>
+<div>如果你希望对页面输出使用压缩，也需要取消如下模块的注释：</div>
+<div><font style='background-color: rgb(230, 230, 230);'>LoadModule deflate_module modules/mod_deflate.so</font></div>
+<div> </div>
+<div>然后按如下内容配置基于HTTP代理的负载均衡：</div>
+<div>
+<div><font style='background-color: rgb(230, 230, 230);'/></div><font style='background-color: rgb(230, 230, 230);'>
+<font style='background-color: rgb(230, 230, 230);'>
+<div class='code_title'>xml 代码</div>
+<div class='dp-highlighter'>
+<div class='bar'> </div>
+<ol class='dp-xml'>
+    <li class='alt'><span><span>ProxyRequests Off   </span></span> </li>
+    <li class=''><span><span class='tag'>&lt;</span><span class='tag-name'>Proxy</span><span> balancer://myCluster</span><span class='tag'>&gt;</span><span>  </span> </span></li>
+    <li class='alt'><span>  BalancerMember http://localhost:3000   </span> </li>
+    <li class=''><span>  BalancerMember http://localhost:3001   </span> </li>
+    <li class='alt'><span><span class='tag'><span class='tag-name'>&lt;/Proxy</span><span class='tag'>&gt;</span><span>  </span> </span></span></li>
+    <li class=''><span>  </span> </li>
+    <li class='alt'><span><span class='tag'>&lt;</span><span class='tag-name'>VirtualHost</span><span> *:80</span><span class='tag'>&gt;</span><span>  </span> </span></li>
+    <li class=''><span>  ServerName www.xxx.com   </span> </li>
+    <li class='alt'><span>  DocumentRoot d:/rubyproject/depot/public   </span> </li>
+    <li class=''><span>  ProxyPass /images !   </span> </li>
+    <li class='alt'><span>  ProxyPass /stylesheets !   </span> </li>
+    <li class=''><span>  ProxyPass /javascripts !   </span> </li>
+    <li class='alt'><span>  ProxyPass / balancer://myCluster/   </span> </li>
+    <li class=''><span>  ProxyPassReverse / balancer://myCluster/   </span> </li>
+    <li class='alt'><span>  ProxyPreserveHost on   </span> </li>
+    <li class=''><span><span class='tag'><span class='tag-name'>&lt;/VirtualHost</span><span class='tag'>&gt;</span><span>  </span> </span></span></li>
+</ol>
+</div>
+</font></font></div><font style='background-color: rgb(230, 230, 230);'>
+<div> </div>
+<div>myCluster定义了群集中的每个mongrel应用服务器节点。ProxyPass /images !指明该URL开始的请求不代理给Mongrel群集，而由Apache自己处理。重起Apache，然后打开浏览器访问<a href='http://www.xxx.com/'>www.xxx.com</a>，检查配置是否正确。</div>
+<div> </div>
+<div>至此，在Windows Server上面一个具备良好稳定性和性能的Ruby on rails生产环境就搭建好了。</div>
+<div> </div>
+<div>对于页面输出，还可以使用mod_deflate进行输出内容压缩，以提高页面下载速度，这个就留给大家自己配置了。</div></font>
+  </div>
+
+  
+
+  
+
+  <div class="blog_bottom">
+    <ul>
+      <li>20:02</li>
+      <li>浏览 (30716)</li>
+      <li><a href="http://www.javaeye.com/topic/43290" title="在论坛被浏览了43712 次">论坛浏览 (43712)</a></li>       <li><a href="#comments">评论</a> (30)</li>
+      <li>分类: <a href="/category/5473">Ruby</a></li>
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%9C%A8Windows%E5%B9%B3%E5%8F%B0%E4%BD%BF%E7%94%A8Apache2.2%E5%92%8CMongrel%E8%BF%90%E8%A1%8CRuby+on+Rails&amp;user_favorite%5Burl%5D=http%3A%2F%2Frobbin.javaeye.com%2Fblog%2F43290' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/43290" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  
+  
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc280392">
+  <div class="comment_title">
+    30 楼
+    <a href='http://huangye177.javaeye.com' target='_blank'>huangye177</a>
+    2007-05-08&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(280392);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">To: simon_lin这是你的链接到rails有问题，估计是网络不好</div>
+</div>
+<div id="bc280319">
+  <div class="comment_title">
+    29 楼
+    <a href='http://prolibertine.javaeye.com' target='_blank'>prolibertine</a>
+    2007-05-08&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(280319);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">不知道可不可以在iis下面配置ror啊</div>
+</div>
+<div id="bc254153">
+  <div class="comment_title">
+    28 楼
+    <a href='http://simon-lin.javaeye.com' target='_blank'>simon_lin</a>
+    2007-04-03&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(254153);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">为什么我装到<br />gem install rails –y <br />这一步时，总是提示我<br /><br />ERROR:While executing gem ... (Gem::RemoteFetcher:FetchError)<br />SocketError reading http://gems.rubyforge.org/gems/activesupport-1.4.2.gem<br /><br /><br />这是什么问题？怎么处理？谢谢！</div>
+</div>
+<div id="bc254152">
+  <div class="comment_title">
+    27 楼
+    <a href='http://simon-lin.javaeye.com' target='_blank'>simon_lin</a>
+    2007-04-03&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(254152);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">为什么我装到<br />gem install rails –y <br />这一步时，总是提示我<br /><br />ERROR:While executing gem ... (Gem::RemoteFetcher:FetchError)<br />SocketError reading http://gems.rubyforge.org/gems/activesupport-1.4.2.gem<br /><br /><br />这是什么问题？怎么处理？谢谢！</div>
+</div>
+<div id="bc232790">
+  <div class="comment_title">
+    26 楼
+    <a href='http://hongyefei.javaeye.com' target='_blank'>hongyefei</a>
+    2007-03-07&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(232790);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><span style="color: green">真的可以啊，楼上的谢谢</span></div>
+</div>
+<div id="bc224942">
+  <div class="comment_title">
+    25 楼
+    <a href='http://huangye177.javaeye.com' target='_blank'>huangye177</a>
+    2007-02-20&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(224942);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">somebody 写道</div><div class="quote_div"><div class="quote_title">hongyefei 写道</div><div class="quote_div">我把<br />&lt;VirtualHost *:80&gt; <br />ServerName dev100 <br />DocumentRoot d:/app/onlinesale/public <br />ProxyPass /images ! <br />ProxyPass /stylesheets ! <br />ProxyPass /javascripts ! <br />ProxyPass / balancer://myCluster/ <br />ProxyPassReverse / balancer://myCluster/ <br />ProxyPreserveHost on <br />&lt;/VirtualHost&gt;<br />里面的js、css，images目录去掉。 改成下面这样就可以了，<br />&lt;VirtualHost *:80&gt; <br />ServerName dev100 <br />DocumentRoot d:/app/onlinesale/public <br />ProxyPass / balancer://myCluster/ <br />ProxyPassReverse / balancer://myCluster/ <br />ProxyPreserveHost on <br />&lt;/VirtualHost&gt;<br />谁知道哪样好些吗<br /><br /></div><br /><br />我用ajp_mod也碰到这个问题。不知道为啥。ProxyPass /images !&nbsp; 这个好像让/images下的禁止访问了。而不是给ajp处理了。奇怪。</div><br /><br />It should be:<br /><br />&lt;VirtualHost *:80&gt; <br />ServerName dev100 <br />DocumentRoot d:/app/onlinesale/public <br />ProxyPass /images balancer://myCluster/images <br />ProxyPass /stylesheets balancer://myCluster/stylesheets <br />ProxyPass /javascripts balancer://myCluster/javascripts <br /><br />ProxyPass / balancer://myCluster/ <br />ProxyPassReverse / balancer://myCluster/ <br />ProxyPreserveHost on <br />&lt;/VirtualHost&gt;<br /><br />For more information: <a href="http://www.yehuang.net/archives/31" target="_blank">http://www.yehuang.net/archives/31</a></div>
+</div>
+<div id="bc223777">
+  <div class="comment_title">
+    24 楼
+    <a href='http://lionel.javaeye.com' target='_blank'>lionel</a>
+    2007-02-14&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(223777);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">Quake3 写道</div><div class="quote_div">当我配置好服务后，在IE地址栏输入地址正确显示出Welcome aboard，但是点击“About your application’s environment”后，出现错误提示<br />Routing Error<br /><br />no route found to match "/rails/info/properties" with {:method=&gt;:get}<br /><br />请教大家，如何解决这个问题！</div><br /><br />我也遇到了和你一样的问题，不知是什么原因</div>
+</div>
+<div id="bc223226">
+  <div class="comment_title">
+    23 楼
+    <a href='http://amozon.javaeye.com' target='_blank'>amozon</a>
+    2007-02-13&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(223226);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">melin 的资料很详细，谢谢</div>
+</div>
+<div id="bc217884">
+  <div class="comment_title">
+    22 楼
+    <a href='http://quake3.javaeye.com' target='_blank'>Quake3</a>
+    2007-02-04&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(217884);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">当我配置好服务后，在IE地址栏输入地址正确显示出Welcome aboard，但是点击“About your application’s environment”后，出现错误提示<br />Routing Error<br /><br />no route found to match "/rails/info/properties" with {:method=&gt;:get}<br /><br />请教大家，如何解决这个问题！</div>
+</div>
+<div id="bc217521">
+  <div class="comment_title">
+    21 楼
+    <a href='http://robbin.javaeye.com' target='_blank'>robbin</a>
+    2007-02-03&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(217521);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">还是好好去读apache的文档吧，别在这瞎猜</div>
+</div>
+<div id="bc217081">
+  <div class="comment_title">
+    20 楼
+    <a href='http://somebody.javaeye.com' target='_blank'>somebody</a>
+    2007-02-02&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(217081);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">hongyefei 写道</div><div class="quote_div">我把<br />&lt;VirtualHost *:80&gt; <br />ServerName dev100 <br />DocumentRoot d:/app/onlinesale/public <br />ProxyPass /images ! <br />ProxyPass /stylesheets ! <br />ProxyPass /javascripts ! <br />ProxyPass / balancer://myCluster/ <br />ProxyPassReverse / balancer://myCluster/ <br />ProxyPreserveHost on <br />&lt;/VirtualHost&gt;<br />里面的js、css，images目录去掉。 改成下面这样就可以了，<br />&lt;VirtualHost *:80&gt; <br />ServerName dev100 <br />DocumentRoot d:/app/onlinesale/public <br />ProxyPass / balancer://myCluster/ <br />ProxyPassReverse / balancer://myCluster/ <br />ProxyPreserveHost on <br />&lt;/VirtualHost&gt;<br />谁知道哪样好些吗<br /><br /></div><br /><br />我用ajp_mod也碰到这个问题。不知道为啥。ProxyPass /images !&nbsp; 这个好像让/images下的禁止访问了。而不是给ajp处理了。奇怪。</div>
+</div>
+<div id="bc213732">
+  <div class="comment_title">
+    19 楼
+    <a href='http://hongyefei.javaeye.com' target='_blank'>hongyefei</a>
+    2007-01-26&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(213732);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">我把<br />&lt;VirtualHost *:80&gt; <br />ServerName dev100 <br />DocumentRoot d:/app/onlinesale/public <br />ProxyPass /images ! <br />ProxyPass /stylesheets ! <br />ProxyPass /javascripts ! <br />ProxyPass / balancer://myCluster/ <br />ProxyPassReverse / balancer://myCluster/ <br />ProxyPreserveHost on <br />&lt;/VirtualHost&gt;<br />里面的js、css，images目录去掉。 改成下面这样就可以了，<br />&lt;VirtualHost *:80&gt; <br />ServerName dev100 <br />DocumentRoot d:/app/onlinesale/public <br />ProxyPass / balancer://myCluster/ <br />ProxyPassReverse / balancer://myCluster/ <br />ProxyPreserveHost on <br />&lt;/VirtualHost&gt;<br />谁知道哪样好些吗<br /><br /></div>
+</div>
+<div id="bc213713">
+  <div class="comment_title">
+    18 楼
+    <a href='http://hongyefei.javaeye.com' target='_blank'>hongyefei</a>
+    2007-01-26&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(213713);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">怎么我用http://localhost:3001/home就可以,用http://dev100/home登录，所有的js＆css都不起作用。<br />&lt;Proxy balancer://myCluster&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; BalancerMember http://localhost:3001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&lt;/Proxy&gt; <br /><br />&lt;VirtualHost *:80&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; ServerName dev100<br />&nbsp; DocumentRoot d:/app/onlinesale/public&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; ProxyPass /images !&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; ProxyPass /stylesheets !&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; ProxyPass /javascripts !&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; ProxyPass / balancer://myCluster/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; ProxyPassReverse / balancer://myCluster/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp; ProxyPreserveHost on&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&lt;/VirtualHost&gt;</div>
+</div>
+<div id="bc213633">
+  <div class="comment_title">
+    17 楼
+    <a href='http://zyjarge.javaeye.com' target='_blank'>zyjarge</a>
+    2007-01-26&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(213633);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">搭好了. 能用了, 可是有点问题,原先在Webrick下跑的好好的程序中文出现乱码了.<br /><br />还得再研究研究啊.<img src="/images/smiles/icon_cry.gif"/> </div>
+</div>
+<div id="bc212257">
+  <div class="comment_title">
+    16 楼
+    <a href='http://bomb-football.javaeye.com' target='_blank'>bomb_football</a>
+    2007-01-24&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(212257);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">已经解决了，需要需要rails命令创建一个Rails application目录后，才能创建服务。<br />btw:你这安装步骤是写给高手看的吧:)</div>
+</div>
+<div id="bc212251">
+  <div class="comment_title">
+    15 楼
+    <a href='http://bomb-football.javaeye.com' target='_blank'>bomb_football</a>
+    2007-01-24&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(212251);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">呵呵，麻烦你能说清楚一点吗？这个Rails application改怎么指定？</div>
+</div>
+<div id="bc211580">
+  <div class="comment_title">
+    14 楼
+    <a href='http://robbin.javaeye.com' target='_blank'>robbin</a>
+    2007-01-23&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(211580);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><strong><span style="color: red">!!! The path you specified isn't a valid Rails application.</span></strong></div>
+</div>
+<div id="bc211569">
+  <div class="comment_title">
+    13 楼
+    <a href='http://bomb-football.javaeye.com' target='_blank'>bomb_football</a>
+    2007-01-23&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(211569);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">我安装的时候报错了，请问怎么回事？<br />执行：mongrel_rails service::install -N depot -c D:\ruby\lib\ruby\gems\1.8\gems\rails-1.2.1\html -p 3000 –e production<br /><br />报<br />!!! The path you specified isn't a valid Rails application.<br />service::install reported an error. Use mongrel_rails service::install -h to get<br /> help.</div>
+</div>
+<div id="bc206736">
+  <div class="comment_title">
+    12 楼
+    <a href='http://bogey.javaeye.com' target='_blank'>bogey</a>
+    2007-01-16&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(206736);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">有没有通过IIS转发指定来路的请求到Ruby上的？<br />之前在看ROR，想到服务器端的麻烦，WIN平台的IIS把80端口己占，当时在想可不可以在在IIS把指定的请求转到Ruby去处理<br /><br />没有试</div>
+</div>
+<div id="bc205807">
+  <div class="comment_title">
+    11 楼
+    <a href='http://bbx.javaeye.com' target='_blank'>koska</a>
+    2007-01-15&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(205807);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><img src="/images/smiles/icon_idea.gif"/> </div>
+</div>
+
+    
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/blog/43290?page=2#comments" rel="next">2</a> <a href="/blog/43290?page=2#comments" class="next_page" rel="next">下一页 &raquo;</a></div>
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+    
+      <p style='font-weight: bold; margin: 5px 0;'>该博客是同时发布到<a href="http://www.javaeye.com/topic/43290">论坛</a>的，无法评论在论坛已被锁定的帖子</p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://robbin.javaeye.com'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/85928/52a4f42f-2fd6-3d06-ae24-3e1d5217a997.jpg?1237476800" title="robbin的博客: robbin的自言自语" /></a></div>
+            <div id="blog_owner_name">robbin</div>
+          </div>
+          
+            <div id="twitter_decorate">&nbsp;</div>
+            <div id="twitter" class="twitter clearfix">
+              
+followers太多了也不好，有时候不得不回答一些脑残的reply
+<br/><em><a href="http://robbin.javaeye.com/blog/chat/33692">19 小时前</a>
+ 通过<a href='http://twitter.com/robbinfan'>Twitter</a>
+ 
+</em>
+       <a href="http://app.javaeye.com/chat?twitter%5Bbody%5D=%40robbin+&amp;twitter%5Breply_to_id%5D=33692" title="回复这个闲聊"><img alt="Reply_twitter" src="http://www.javaeye.com/images/app/reply_twitter.gif?1232617931" /></a>
+              <div class="right"><a href="/blog/chat">&gt;&gt;更多闲聊</a></div>
+            </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 2374539 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 上海</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=robbin" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div>
+                  <div class="left"><a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://wanjx.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="wanjx的博客: wanjx" /></a></div>
+                  <div class="left"><a href='http://wanjx.javaeye.com' target='_blank'>wanjx</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://wnbyt520.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="wnbyt520的博客: wnbyt520" /></a></div>
+                  <div class="left"><a href='http://wnbyt520.javaeye.com' target='_blank'>wnbyt520</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://arctany.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="arctany的博客: " /></a></div>
+                  <div class="left"><a href='http://arctany.javaeye.com' target='_blank'>arctany</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (164)</a></li>
+                
+                  <li><a href="/category/5472">Java (26)</a></li>
+                
+                  <li><a href="/category/5473">Ruby (50)</a></li>
+                
+                  <li><a href="/category/5474">Tech (14)</a></li>
+                
+                  <li><a href="/category/34315">互联网 (24)</a></li>
+                
+                  <li><a href="/category/5356">杂感 (34)</a></li>
+                
+                  <li><a href="/category/13295">JavaEye (16)</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="blog_album">
+                <h5>我的相册</h5>
+                <div class="picture_thumb" style="float: none">
+                  <div><span class='thumb_box'><a href='/album'><img alt="3fcafa27-20c0-3676-82e8-aff6c5e676d1-thumb" src="http://www.javaeye.com/upload/picture/pic/36865/3fcafa27-20c0-3676-82e8-aff6c5e676d1-thumb.jpg?1242284341" /></a></span></div>
+                  <span>IMG_1849.jpg<br/> <a href="/album">共 39 张</a></span>
+                </div>
+              </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (45)</li>
+                
+                  <li><a href="/blog/pdf">我的书籍</a> (1) </li>
+                                                  <li><a href="/blog/news">我的新闻</a> (225) </li>
+                                <li><a href="/blog/forum">我的论坛帖子</a> (5867)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (105)</li>
+                
+                  <li><a href="/blog/solution">我解决的问题</a> (22) </li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://rubyoffrails.group.javaeye.com">Ruby off Rails</a></li>
+                
+                  <li><a href="http://apple.group.javaeye.com">apple</a></li>
+                
+                  <li><a href="http://english.group.javaeye.com">英语学习</a></li>
+                
+                  <li><a href="http://all-basketball.group.javaeye.com">篮球俱乐部</a></li>
+                
+                  <li><a href="http://Book.group.javaeye.com">读书空间</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://www.javaeye.com" target="_blank">javaeye</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-06">2009-06</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-05">2009-05</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-04">2009-04</a> (1)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/24529#comments" title="选择Hibernate还是iBatis?">选择Hibernate还是iBatis ...</a><br/>
+                    支持Hibernate，Ibatis太简陋了，每个操作都得用sql，大型项目都得用 ...<br/>
+                    -- by <a href='http://wangxf314.javaeye.com' target='_blank'>wangxf314</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/213753#comments" title="点评国内Facebook克隆网站 - SNS之我见（二）">点评国内Facebook克隆网站 ...</a><br/>
+                    我想起了一句话&quot;学我者生,似我者死&quot;. <br/>
+                    -- by <a href='http://lurker0.javaeye.com' target='_blank'>lurker0</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/353287#comments" title="让自己觉得满意">让自己觉得满意</a><br/>
+                    很深刻，谢谢分享<br/>
+                    -- by <a href='http://yyjava.javaeye.com' target='_blank'>yyjava</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/353644#comments" title="关于对JavaEye不实言论的声明">关于对JavaEye不实言论的 ...</a><br/>
+                    支持javaeye，望越走越好<br/>
+                    -- by <a href='http://yyjava.javaeye.com' target='_blank'>yyjava</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/270682#comments" title="我的预言成真了－Facebook开始向App开发商收取费用">我的预言成真了－Facebook ...</a><br/>
+                    这不是明摆的吗？  还需要预言？开始的时候免费来撒网。。。人气上去了再收费 走了 ...<br/>
+                    -- by <a href='http://leochan007.javaeye.com' target='_blank'>leochan007</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/269765" title="推出JavaEye博客电子书功能的这一刻，我的心情十分激动">推出JavaEye博客电子书功能的这一刻，我的 ...</a></li>
+                
+                  <li><a href="/blog/212105" title="发现JBoss Seam很棒呀！有用Seam做过项目的吗？">发现JBoss Seam很棒呀！有用Seam做过项目的 ...</a></li>
+                
+                  <li><a href="/blog/406125" title="流氓不可以流氓到这种流氓程度">流氓不可以流氓到这种流氓程度</a></li>
+                
+                  <li><a href="/blog/353730" title="请注意Rails2.3自带的memcache-client有性能问题">请注意Rails2.3自带的memcache-client有性 ...</a></li>
+                
+                  <li><a href="/blog/225037" title="中国行业应用软件领域恶性循环的原因是什么？">中国行业应用软件领域恶性循环的原因是什么 ...</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://robbin.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://robbin.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://robbin.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>
