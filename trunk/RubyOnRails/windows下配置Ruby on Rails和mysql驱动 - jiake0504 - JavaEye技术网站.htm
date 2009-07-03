@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>windows下配置Ruby on Rails和mysql驱动 - jiake0504 - JavaEye技术网站</title>
+    <meta name="description" content="  本文只限Window用户。    今天闹腾了半天，总算把ROR环境和Ruby-Mysql的驱动搞定。整理此文，献给和我一样入门的新手，希望能帮助大家早点配置好Ruby相关环境早点踏上Ruby的征途。    注意：　ruby 的资源都可以在　 http://rubyforge.org/ 搜索到。    搜索方法：在主页右上角，选择&quot;Software/Group&quot;，输入&quot ..." />
+    <meta name="keywords" content="  windows下配置Ruby on Rails和mysql驱动" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="jiake0504" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1246261652" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/orange.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" /> 收件箱 (2)</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">jiake0504</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://jiake0504.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/367035" class="next" title="ROR 学习笔记系列一 Windows XP下环境安装配置（2）">ROR 学习笔记系列一 Windows XP下环境安装 ...</a>
+      |
+      <a href="/blog/367010" class="pre" title="一些有用的Eclipse插件的下载或者update地址">一些有用的Eclipse插件的下载或者update地 ...</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2009</span><span class='sep_year'>-</span><span class='month'>04</span><span class='sep_month'>-</span><span class='day'>14</span></div>
+    <h3 class='type_reprint' title='转载'><a href="/blog/367030">windows下配置Ruby on Rails和mysql驱动</a></h3>
+        
+  </div>
+
+  <div class="blog_content">
+    <pre name="code" class="html">
+本文只限Window用户。
+
+今天闹腾了半天，总算把ROR环境和Ruby-Mysql的驱动搞定。整理此文，献给和我一样入门的新手，希望能帮助大家早点配置好Ruby相关环境早点踏上Ruby的征途。
+
+注意：　ruby 的资源都可以在　 http://rubyforge.org/ 搜索到。
+
+搜索方法：在主页右上角，选择"Software/Group"，输入"软件名称"，点击"Search"按钮。
+
+1、安装Ruby，http://rubyforge.org/projects/rubyinstaller/　找到"最新发布项目"，点击"下载"，进入下载列表页面。
+
+该页面列出了Ruby当前的所有版本，写本文时最新版本是：1.8.6-25。版本发布日期：2007-03-18
+
+2、下载"ruby186-25.exe"，大约22M。然后安装。One-Click Installer　一键安装，很适合新手。
+
+3、学过Java的都知道，接下来需要配置ClassPath，在环境变量中新增环境变量名"RUBY_HOME"，变量值"D:\ruby"，该值以本机Ruby安装目录为准。然后在　path 加入"%BURY_HOME%\bin"。
+
+4、测试Ruby是否安装成功
+
+在命令行下运行　ruby -v ，显示如下：
+
+ruby 1.8.6 (2007-03-13 patchlevel 0) [i386-mswin32]
+
+如果不放心，再运行 ruby -e 'puts "hello world"' ，显示如下：
+
+hello world
+
+至此，Ruby的安装告一段落，接下安装　Rails。
+
+5、安装Rails之前需要按顺序安装以下模块：
+
+activesupport   http://rubyforge.org/projects/activesupport
+
+activerecord      http://rubyforge.org/projects/activerecord
+
+actionpack        http://rubyforge.org/projects/actionpack
+
+actionmailer      http://rubyforge.org/projects/actionmailer
+
+actionwebservice（简称aws）　http://rubyforge.org/projects/aws
+
+最后才是　rails
+
+rails               http://rubyforge.org/projects/rails/
+
+注意：　Rails版本与这五个模块版本要匹配才可以正确安装。
+
+这里共享一下怎么匹配版本的方法。（以Rails
+
+一、下载Rails 1.2.3.gem，在D:\rails目录下。
+
+　　在命令行下进入"D:\rails"，运行　gem install rails-1.2.3.gem ，命令行会显示出错信息，仔细看该信息，你会发现
+
+　　该信息中会提示在安装　rails之前必须安装　"activesupport -1.4.2"，连安装模块的名称和具体版本都列出来了。
+
+　　安装好"activesupport-1.4.2"之后，继续上一步骤，这次会提示安装"activerecord-1.15.3"，其他模块的步骤都一样。
+
+二、仔细看Rails 1.2.3版本的发布日期，是"2007-03-13"。因为这五个模块一般是和Rail同步发布的。你只需要在下载列表
+
+　　中找到对应发布日期的模块下载即可。如果不是同一天，自然是找时间相隔最近的版本
+
+到此，RoR环境告一段落。再推荐一篇文章，本人Ror环境之前也得益于该文档。
+
+http://www.javaeye.com/topic/35929       关于Rails入门可以参考一下
+
+6、这个才是本文的重点，关于　Mysql数据库驱动配置，我的弯路就是在这里折腾的。
+
+一、安装Mysql 5.0，　http://dev.mysql.com/downloads/mysql/5.0.html　下载一个　Windows (x86) ZIP/Setup.EXE，如果是64位操作系统，请下载对应的版本。　我用的是　AMD64/WinXP
+
+二、安装mysql时，记得字符编码要选择"utf-8"，我之前用的gb2312，命令行读取没问题，但是用Ruy读出来的都是乱码。
+
+三、在Mysql安装目录的　bin 目录下，找到 ibmySQL.dll ，将该文件Copy到　Ruby安装目录的 bin目录中。这里也有一个版本的问题。我数据库用的是Mysql 5.0.41，每次操作数据库都会报"内存分配错误"，没办法，只好 使用Mysql 5.0.37的　ibmySQL.dll 文件，问题解决。
+
+四、http://rubyforge.org/projects/mysql-win　，下载　mysql-2.7.3-mswin32.gem　，这是 mysql_Ruby驱动程序。
+
+命令行，进入该文件所在目录，运行　gem　install mysql-2.7.3-mswin32.gem ，安装成功即可。
+
+　　你也可以在 mysql官方网站下载 ruby的驱动，该网站附带安装步骤，API文档。
+
+五、测试 mysql 驱动程序。
+
+新建　mytest..rb ，代码如下：
+ruby 代码
+
+       1. require 'mysql'   
+       2. begin  
+       3.    dbh = Mysql.real_connect("localhost", "root", "root", "library",3306)   
+       4.   
+       5. ## 创建表，插入计录，查询计录   
+       6. dbh.query("drop table if exists test_rb")   
+       7. dbh.query("create table test_rb(id int,name char(20))")   
+       8. dbh.query("insert into test_rb values(1,'张三'),(2,'李四')")   
+       9. printf "%d rows were inserted\n",dbh.affected_rows   
+      10.   
+      11.    res = dbh.query("SELECT name FROM test_rb")   
+      12. puts "========\n"  
+      13. while row = res.fetch_row do   
+      14. printf "%s, %s\n", row[0], row[1]   
+      15. end   
+      16. puts "========\n"  
+      17. puts "Server version: " + dbh.get_server_info   
+      18. rescue Mysql::Error =&gt; e   
+      19. puts "Error code: #{e.errno}"   
+      20. puts "Error message: #{e.error}"   
+      21. puts "Error SQLSTATE: #{e.sqlstate}" if e.respond_to?("sqlstate")   
+      22. ensure   
+      23. dbh.close if dbh   
+      24. end   
+
+    在命令行运行 ruby mytest.rb ，结果如下：
+
+    2 rows were inserted
+    ========
+    张三,
+    李四,
+    ========
+    Server version: 5.0.41-community-nt
+</pre>
+  </div>
+
+  
+
+  
+
+  <div class="blog_bottom">
+    <ul>
+      <li>11:58</li>
+      <li>浏览 (160)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      <li>分类: <a href="/category/21835">ROR开发</a></li>
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=windows%E4%B8%8B%E9%85%8D%E7%BD%AERuby+on+Rails%E5%92%8Cmysql%E9%A9%B1%E5%8A%A8&amp;user_favorite%5Burl%5D=http%3A%2F%2Fjiake0504.javaeye.com%2Fblog%2F367030' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/367030" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  
+  
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://jiake0504.javaeye.com'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/37921/3c27f698-7dbf-48e9-8498-aa248e85f8c3.jpg?1236833921" title="jiake0504的博客: jiake0504" /></a></div>
+            <div id="blog_owner_name">jiake0504</div>
+          </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 64505 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 青岛</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jiake0504" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=jiake0504" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div>
+                  <div class="left"><a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://chh-zhao.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/72842/a507d729-aa6a-4513-ab30-7add7e9e1037-thumb.jpg?1236837227" title="chh_zhao的博客: chh_zhao" /></a></div>
+                  <div class="left"><a href='http://chh-zhao.javaeye.com' target='_blank'>chh_zhao</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://yamiqi.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="yamiqi的博客: " /></a></div>
+                  <div class="left"><a href='http://yamiqi.javaeye.com' target='_blank'>yamiqi</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://lzjliu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="daveyking的博客: 书生浪子的程序人生" /></a></div>
+                  <div class="left"><a href='http://lzjliu.javaeye.com' target='_blank'>daveyking</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (137)</a></li>
+                
+                  <li><a href="/category/16045">struts&amp;&amp;2 的东东 (10)</a></li>
+                
+                  <li><a href="/category/16046">Hibernate的东东 (6)</a></li>
+                
+                  <li><a href="/category/17317">spring的东东 (4)</a></li>
+                
+                  <li><a href="/category/16876">javaWeb 容器的东东 (5)</a></li>
+                
+                  <li><a href="/category/16800">Oracle的东东-不断学习中 (5)</a></li>
+                
+                  <li><a href="/category/19151">Ajax 学习 (2)</a></li>
+                
+                  <li><a href="/category/17008">Ant 入门 (1)</a></li>
+                
+                  <li><a href="/category/21835">ROR开发 (5)</a></li>
+                
+                  <li><a href="/category/28552">java 的点滴 (14)</a></li>
+                
+                  <li><a href="/category/29992">JDOM/XPATH 编程的点滴 (1)</a></li>
+                
+                  <li><a href="/category/30040">javascript 点滴 (26)</a></li>
+                
+                  <li><a href="/category/38930">代码管理 (3)</a></li>
+                
+                  <li><a href="/category/38931">开发工具 (9)</a></li>
+                
+                  <li><a href="/category/39089">杂类 (3)</a></li>
+                
+                  <li><a href="/category/39836">SQL2000 点滴 (2)</a></li>
+                
+                  <li><a href="/category/41592">日志的东东 (2)</a></li>
+                
+                  <li><a href="/category/45167">mysql 东东 (8)</a></li>
+                
+                  <li><a href="/category/51165">linux 点滴 (10)</a></li>
+                
+                  <li><a href="/category/62441">web-service (9)</a></li>
+                
+                  <li><a href="/category/58510">网页CSS 的东东 (5)</a></li>
+                
+                  <li><a href="/category/63547">postgressql 东东 (1)</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="blog_album">
+                <h5>我的相册</h5>
+                <div class="picture_thumb" style="float: none">
+                  <div><span class='thumb_box'><a href='/album'><img alt="D7e2bd06-ddac-486a-b7be-4d51fdec46ea-thumb" src="http://www.javaeye.com/upload/picture/pic/4418/d7e2bd06-ddac-486a-b7be-4d51fdec46ea-thumb.jpg?1184838900" /></a></span></div>
+                  <span>111 046<br/> <a href="/album">共 4 张</a></span>
+                </div>
+              </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿 <span style='font-weight:normal;font-size:12px;padding-left:20px;'><a href="/blog/guest_book">&gt;&gt;更多留言</a></span></h5>
+                <ul>
+                  
+                    <li>
+                      你测试过这段代码吗？ 希望你不要让浏览你博客的人失望10. 网页将不能被另存为  ...<br/>
+                      -- by <a href="/blog/guest_book#7665">xjzwww</a>
+                    </li>
+                  
+                    <li>
+                      我认为提交方法应该用POST<br/>
+                      -- by <a href="/blog/guest_book#2421">doltter</a>
+                    </li>
+                  
+                    <li>
+                      这种概括 一目了然  听者舒心 OK 用官方语言说 Good Work <br/>
+                      -- by <a href="/blog/guest_book#1249">zrzking</a>
+                    </li>
+                  
+                </ul>
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (24)</li>
+                                                <li><a href="/blog/forum">我的论坛帖子</a> (33)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://j2me.group.javaeye.com">j2me圈子</a></li>
+                
+                  <li><a href="http://dojo.group.javaeye.com">dojo</a></li>
+                
+                  <li><a href="http://flex2.group.javaeye.com">flex</a></li>
+                
+                  <li><a href="http://EXT.group.javaeye.com">EXT</a></li>
+                
+                  <li><a href="http://struts2.group.javaeye.com">struts2</a></li>
+                
+              </ul>
+            </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-06">2009-06</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-05">2009-05</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-04">2009-04</a> (24)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/305621#comments" title="Ext2.2:ext最新版2.2发布">Ext2.2:ext最新版2.2发布</a><br/>
+                    3、XmlTreeLoader XML转换成Tree部署在iis站点无法访问，tr ...<br/>
+                    -- by <a href='http://dinguaa.javaeye.com' target='_blank'>dinguaa</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/264370#comments" title="apache tomcat6整合域名直接访问">apache tomcat6整合域名直 ...</a><br/>
+                    正在找这东西先试试<br/>
+                    -- by <a href='http://gsb.javaeye.com' target='_blank'>gsb</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/253604#comments" title="eclipse发布应用时Could not copy all resources to tomcat">eclipse发布应用时Could  ...</a><br/>
+                    非常感谢.我也碰到这样的问题了<br/>
+                    -- by <a href='http://tolihaifeng.javaeye.com' target='_blank'>tolihaifeng</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/264370#comments" title="apache tomcat6整合域名直接访问">apache tomcat6整合域名直 ...</a><br/>
+                    负载均衡配置 能不能写个详细点的文章？谢谢<br/>
+                    -- by <a href='http://zznj1123.javaeye.com' target='_blank'>zznj1123</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/264370#comments" title="apache tomcat6整合域名直接访问">apache tomcat6整合域名直 ...</a><br/>
+                    感谢了 兄弟 正找这个内容呢！！！<br/>
+                    -- by <a href='http://zznj1123.javaeye.com' target='_blank'>zznj1123</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/253604" title="eclipse发布应用时Could not copy all resources to tomcat">eclipse发布应用时Could not copy all res ...</a></li>
+                
+                  <li><a href="/blog/264370" title="apache tomcat6整合域名直接访问">apache tomcat6整合域名直接访问</a></li>
+                
+                  <li><a href="/blog/228878" title="MyEclipse6.5 完美汉化">MyEclipse6.5 完美汉化</a></li>
+                
+                  <li><a href="/blog/305621" title="Ext2.2:ext最新版2.2发布">Ext2.2:ext最新版2.2发布</a></li>
+                
+                  <li><a href="/blog/297988" title="linux 小命令 小结">linux 小命令 小结</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://jiake0504.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://jiake0504.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://jiake0504.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>
