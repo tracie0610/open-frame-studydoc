@@ -1,0 +1,541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0065)http://blog.csdn.net/java2000_net/archive/2008/07/21/2684994.aspx -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><TITLE>
+	把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客
+</TITLE>
+	<SCRIPT src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/jquery-1.2.3.pack.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/jquery.highlighter.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/highlighter.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/b3.js" type="text/javascript"></SCRIPT>
+	<LINK href="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/sea_1.css" type="text/css" rel="stylesheet" media="all"><LINK href="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/csdn_favbykimi.css" type="text/css" rel="stylesheet" media="all"><LINK rel="Shortcut Icon" href="http://profile.csdn.net/java2000_net/picture/1.ico"><LINK href="http://feeds.feedsky.com/csdn.net/java2000_net" title="RSS" type="application/rss+xml" rel="alternate"><SCRIPT src="http://comments.blog.csdn.net/NewCount.aspx?FeedbackCountStack=2684994,&jsoncallback=jsonp1247211858123&_=1247211858645"></SCRIPT><SCRIPT src="http://comments.blog.csdn.net/feedback.ashx?jsoncallback=jsonp1247211858124&action=get&entryId=2684994&userName=java2000_net&d=0.09194216504693031&_=1247211858843"></SCRIPT></HEAD><BODY id="defaultuser">
+	<DIV id="csdnblog_allwrap">
+	    <DIV id="csdnblog_midwrap">
+		    
+<DIV id="csdnblog_header">
+    <H1><A href="http://blog.csdn.net/java2000_net">老紫竹的专栏</A></H1><H2>享受Java的快乐每一天</H2>
+    <UL id="personalnav">
+		<LI style=""><A id="a_login" href="http://passport.csdn.net/UserLogin.aspx?from=http%3A%2F%2Fblog.csdn.net%2Fjava2000_net%2Farchive%2F2008%2F07%2F21%2F2684994.aspx">登录</A></LI>
+		<LI style=""><A id="a_register" href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</A></LI>
+		<LI style="display:none;"><A id="a_welcome" href="http://hi.csdn.net/" target="_blank">欢迎</A></LI>
+		<LI style="display:none;"><A id="a_exit" href="http://writeblog.csdn.net/Signout.aspx">退出</A></LI>
+		<LI style="display:none;"><A id="a_myblog" href="http://blog.csdn.net/">我的博客</A></LI>
+		<LI style="display:none;"><A id="a_configure" href="http://writeblog.csdn.net/configure.aspx" target="_blank">配置</A></LI>
+		<LI style="display:none;"><A id="a_postedit" href="http://writeblog.csdn.net/PostEditPlain.aspx" target="_blank">写文章</A></LI>
+		<LI style="display:none;"><A id="a_postlist" href="http://writeblog.csdn.net/PostList.aspx" target="_blank">文章管理</A></LI>
+		<LI style="display:none;"><A id="a_bloghome" href="http://blog.csdn.net/" target="_blank">博客首页</A></LI>
+	</UL>
+    <UL id="blogsearchsty">
+		<LI><INPUT id="inputSearch" type="text" class="bolgsearch"></LI>
+		<LI class="selectsty">
+			<SELECT name="Search:ddlSearchScope" id="Search_ddlSearchScope">
+				<OPTION value="all">全站</OPTION>
+				<OPTION value="java2000_net">当前博客</OPTION>
+			</SELECT>
+		</LI>
+		<LI><INPUT type="button" id="buttonSearch" value="搜索" class="bolggobtn"></LI>
+	</UL>
+    <UL id="menu">
+		<LI><A href="http://hi.csdn.net/java2000_net">空间</A></LI>
+		<LI><A href="http://blog.csdn.net/java2000_net" class="on">博客</A></LI>
+		<LI><A href="http://hi.csdn.net/java2000_net/profile/contactlist/1.html">好友</A></LI>
+		<LI><A href="http://album.hi.csdn.net/views/albums/java2000_net" target="_blank">相册</A></LI>
+		<LI><A href="http://hi.csdn.net/java2000_net/profile/notebook/1.html" class="last">留言</A></LI>
+	</UL>
+</DIV>
+
+		    
+<DIV id="csdnblog_sidebar">
+	<DIV class="gutter">
+		<DIV class="aboutauthor">
+			<DL>
+				<DT>用户操作</DT>
+				<DD class="middle">
+					<A href="http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=java2000_net" target="_blank">[发私信]</A>&nbsp;
+					<A href="http://webim.csdn.net/AddFriends/java2000_net.ashx" target="_blank">[加为好友]</A>&nbsp;
+				</DD>
+				<DT>java2000_net</DT>
+				<DD class="middle"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/1_java2000_net.jpg"></DD>
+				<SPAN id="SubscriptionList" style="display: none; ">
+					<DT>订阅我的博客</DT>
+					<DD>
+						<A href="http://feeds.feedsky.com/csdn.net/java2000_net">
+							<IMG border="0" alt="XML聚合" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/gif">
+						</A>&nbsp;&nbsp;
+						<A href="http://feeds.feedsky.com/csdn.net/java2000_net" target="_blank">
+							<IMG border="0" alt="FeedSky" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/feedsky.gif">
+						</A>
+					</DD>
+					<DD>
+						<A href="http://www.xianguo.com/subscribe.php?url=http://feeds.feedsky.com/csdn.net/java2000_net" target="_blank">
+							<IMG border="0" alt="订阅到鲜果" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss_xianguo.jpg">
+						</A>
+					</DD>
+					<DD>
+						<A href="http://fusion.google.com/add?feedurl=http://feeds.feedsky.com/csdn.net/java2000_net" target="_blank">
+							<IMG border="0" alt="订阅到Google" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss_google.gif">
+						</A>
+					</DD>
+					<DD>
+						<A href="http://www.zhuaxia.com/add_channel.php?url=http://feeds.feedsky.com/csdn.net/java2000_net" target="_blank">
+							<IMG border="0" alt="订阅到抓虾" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss_zhuaxia.gif">
+						</A>
+					</DD>
+				</SPAN>
+				<DT>
+					java2000_net的公告
+				</DT>
+				<DD>喜爱JAVA....<BR>
+帮助别人，帮助自己。<BR>
+少些抱怨，多些理解，开心就好。<BR>
+<A href="http://www.laozizhu.com/" target="_blank">老紫竹的家</A><BR>
+<A href="http://www.java2000.net/" target="_blank">JAVA世纪网</A><BR>
+<SCRIPT type="text/javascript">
+function lzzKillErrors() {
+ return false;
+}
+window.onerror = lzzKillErrors;
+var doitOKLZZ = false;;
+function GOOGLEResize(){
+  
+  var lzzSubject = document.getElementById("Post.ascx_ViewPost_PreviousAndNextEntriesUp");
+  if(lzzSubject==null){
+    lzzSubject = document.getElementById("csdnblog_content"); 
+  }
+  if(!doitOKLZZ) {
+    doitOKLZZ = true;
+    if(lzzSubject!=null){
+      lzzSubject.innerHTML = "<br/><br/><br/><br/><br/><br/><br/>" + lzzSubject.innerHTML;
+    }
+  }
+
+  var objLeftLZZ=250;
+  var objTopLZZ =150;
+  var objParentLZZ;
+  if(lzzSubject!=null){
+    objLeftLZZ = lzzSubject.offsetLeft;
+    objTopLZZ = lzzSubject.offsetTop;
+    objParentLZZ = lzzSubject .offsetParent;
+    while( objParentLZZ.tagName.toUpperCase() != "BODY" && objParentLZZ.tagName.toUpperCase() != "HTML" )
+    {
+      objLeftLZZ += objParentLZZ.offsetLeft;
+      objTopLZZ += objParentLZZ.offsetTop;
+      objParentLZZ = objParentLZZ.offsetParent;
+    }
+    var gg728=document.getElementById("GOOGLE_TOP");
+    gg728.style.left = (objLeftLZZ+10)+"px";
+    gg728.style.top = (objTopLZZ+20)+"px";
+    gg728.style.display="";
+  }
+
+
+  var feedbackLZZ = document.getElementById("SubmitFeedback");// commentslist");
+  var gg336 = document.getElementById("GOOGLE_COMMENT");
+  if(feedbackLZZ!=null){
+    objLeftLZZ = feedbackLZZ.offsetLeft;
+    objTopLZZ = feedbackLZZ.offsetTop;
+    objParentLZZ = feedbackLZZ.offsetParent;
+    while( objParentLZZ.tagName.toUpperCase() != "BODY" && objParentLZZ.tagName.toUpperCase() != "HTML" )
+    {
+      objLeftLZZ += objParentLZZ.offsetLeft;
+      objTopLZZ += objParentLZZ.offsetTop;
+      objParentLZZ = objParentLZZ.offsetParent;
+    }
+
+    gg336.style.left=(objLeftLZZ +400)+"px";// 以前是450
+    gg336.style.top = (objTopLZZ-200)+"px"; // 以前是10
+    gg336.style.display="inline";
+  }
+
+  document.getElementById("SubscriptionList").style.display="none";
+}
+var startWidth = document.getElementsByTagName("body")[0].offsetWidth;
+function checkFFresize() {
+  var resizeWidth = document.getElementsByTagName("body")[0].offsetWidth;
+  if (resizeWidth == startWidth) {
+  } else {
+    startWidth=document.getElementsByTagName("body")[0].offsetWidth;
+    GOOGLEResize();
+  }
+  setTimeout("checkFFresize();",2000);
+}
+if (document.all) {
+} else {
+  setTimeout("checkFFresize();",1000);
+}
+</SCRIPT>
+
+<DIV id="GOOGLE_TOP" style="position: absolute; z-index: 99999; left: 222px; top: 170px; ">
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-2908059660288034";
+/* CSDN横幅 728x90, 创建于 08-9-17 */
+google_ad_slot = "9488011826";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/show_ads.js">
+</SCRIPT><SCRIPT src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/expansion_embed.js"></SCRIPT><SCRIPT src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/test_domain.js"></SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><INS style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><IFRAME allowtransparency="true" frameborder="0" height="90" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="728"></IFRAME></INS></INS>
+</DIV>
+
+<DIV id="GOOGLE_COMMENT" style="position:absolute;z-index:99999;display:none">
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-2908059660288034";
+/* CSDN首页 336x280, 创建于 08-12-20 */
+google_ad_slot = "4029172629";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/show_ads.js">
+</SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><INS style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><IFRAME allowtransparency="true" frameborder="0" height="280" hspace="0" id="google_ads_frame2" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/ads(1).htm" style="left:0;position:absolute;top:0" vspace="0" width="336"></IFRAME></INS></INS>
+</DIV>
+
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-2908059660288034";
+/* CSDN摩天 160x600, 创建于 08-9-17 */
+google_ad_slot = "5598761730";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/show_ads.js">
+</SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><INS style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"><IFRAME allowtransparency="true" frameborder="0" height="600" hspace="0" id="google_ads_frame3" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/ads(2).htm" style="left:0;position:absolute;top:0" vspace="0" width="160"></IFRAME></INS></INS>
+<SCRIPT>
+window.onresize=GOOGLEResize;
+window.onload=GOOGLEResize;
+GOOGLEResize();
+</SCRIPT></DD>
+				<DT>文章分类</DT>
+				<DD>
+					<DIV class="publiclist_sidebar">
+						<UL><LI><A href="http://blog.csdn.net/java2000_net/category/509383.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/509383.aspx">.NET</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/398156.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/398156.aspx">CSDN OpenAPI</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/445225.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/445225.aspx" title="Ext,Prototype,Query，dojo">Ext等客户端框架</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/442414.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/442414.aspx" title="从0开始学习">freemarker学习笔记</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/502825.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/502825.aspx">IN语</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/378327.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/378327.aspx">Java</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/521183.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/521183.aspx">JDK 7</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/401926.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/401926.aspx" title="一些知识的简单理解和阐述">白话Java</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/378328.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/378328.aspx">程序人生</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/460766.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/460766.aspx">程序员养生</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/430210.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/430210.aspx" title="以虚拟项目的形式进行Java程序的学习和开发">跟老紫竹学Java</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/534664.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/534664.aspx">跟老紫竹学MySQL</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/470298.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/470298.aspx">开心一课</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/400816.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/400816.aspx" title="对我能理解的各种面试题给出个人的看法">面试题个人理解</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/442263.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/442263.aspx" title="所有其它的">其它</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/468197.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/468197.aspx">数据库</A></LI><LI><A href="http://blog.csdn.net/java2000_net/category/509112.aspx/rss"><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/rss.gif" alt="(RSS)"></A><A href="http://blog.csdn.net/java2000_net/category/509112.aspx">业界新闻</A></LI></UL>
+					</DIV>
+				</DD>
+				
+				<DT>友情链接</DT><DD><A href="http://www.java2000.net/" target="_blank">JAVA世纪网</A></DD><DD><A href="http://blog.csdn.net/zangxt" target="_blank">ZangXT的专栏</A><A href="http://blog.csdn.net/ZangXT/Rss.aspx" target="_blank">(RSS)</A></DD><DD><A href="http://blog.csdn.net/k7sem" target="_blank">关文柏的专栏</A></DD><DD><A href="http://blog.csdn.net/laorer" target="_blank">堕落佛的博客</A></DD><DD><A href="http://blog.csdn.net/sunyujia/" target="_blank">孙钰佳的博客</A></DD><DD><A href="http://blog.csdn.net/myan" target="_blank">孟岩</A></DD><DD><A href="http://blog.csdn.net/zdg" target="_blank">曾登高</A></DD><DD><A href="http://blog.csdn.net/yizia" target="_blank">椅子的博客</A></DD><DD><A href="http://blog.csdn.net/YuLimin" target="_blank">简单就是美！</A></DD><DD><A href="http://www.laozizhu.com/" target="_blank">老紫竹研究室</A><A href="http://www.laozizhu.com/rss.jsp" target="_blank">(RSS)</A></DD><DD><A href="http://blog.csdn.net/chenshaoying" target="_blank">陈绍英-性能测试实战</A></DD><DD><A href="http://blog.csdn.net/Mailbomb" target="_blank">陈跃峰老师的博客</A></DD>
+				<DT>存档</DT>
+				<DD>
+					<DIV class="publiclist_sidebar">
+						<UL><LI><A href="http://blog.csdn.net/java2000_net/archive/2009/07.aspx">2009年07月(42)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2009/06.aspx">2009年06月(170)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2009/05.aspx">2009年05月(37)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2009/04.aspx">2009年04月(65)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2009/03.aspx">2009年03月(117)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2009/02.aspx">2009年02月(117)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2009/01.aspx">2009年01月(140)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/12.aspx">2008年12月(114)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/11.aspx">2008年11月(64)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/10.aspx">2008年10月(130)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/09.aspx">2008年09月(100)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/08.aspx">2008年08月(33)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/07.aspx">2008年07月(55)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/06.aspx">2008年06月(16)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/05.aspx">2008年05月(17)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/04.aspx">2008年04月(15)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/03.aspx">2008年03月(2)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/02.aspx">2008年02月(6)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2008/01.aspx">2008年01月(11)</A></LI><LI><A href="http://blog.csdn.net/java2000_net/archive/2007/12.aspx">2007年12月(15)</A></LI></UL>
+					</DIV>
+				</DD>
+			</DL>
+		</DIV>
+	</DIV>
+</DIV>
+
+		    
+<DIV id="csdnblog_content">
+	<DIV class="gutter">
+		<DIV class="default_contents">
+			<DIV class="user_article">
+				<SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/LoadFeedbackCount.js"></SCRIPT>
+				<H1 class="title_txt">
+					<IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/authorship.gif" border="0" width="15" height="16" alt="原创">&nbsp;
+					把HTML无嵌套表格完美导出为Excel文件的方法
+					<CITE class="fav_csdnstylebykimi">
+						<A href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</A>
+					</CITE>
+				</H1>
+				<DIV class="blogstory">
+					<SCRIPT type="text/javascript">
+						document.body.oncopy = function() {
+							if (window.clipboardData) {
+								setTimeout(function() {
+									var text = clipboardData.getData("text"); 
+									if (text && text.length>300) {
+										text = text + "\r\n\n本文来自CSDN博客，转载请标明出处：" + location.href;
+										clipboardData.setData("text", text); 
+									}
+								}, 100);
+							}
+						}
+					</SCRIPT>
+					<SCRIPT class="blogstory">function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</SCRIPT>
+					<P>原文地址：<A href="http://www.java2000.net/viewthread.jsp?tid=1977">http://www.java2000.net/viewthread.jsp?tid=1977</A></P>
+<P>此方法生成xls文件，不是那种简单的通过文件头来实现的那种。而是真正的Excel文件。 </P>
+<P>此方法支持那种合并的单元格，需要<SPAN class="hilite1">jxl</SPAN>类库的支持。 </P>
+<P><SPAN class="hilite1">jxl</SPAN>&nbsp;的下载地址&nbsp;<FONT color="#0000ff"><A href="http://sourceforge.net/project/showfiles.php?group_id=79926">http://sourceforge.net/project/showfiles.php?group_id=79926</A></FONT>&nbsp;</P>
+<P>如果打不开了，我想CSDN的下载频道一定有。或者到我的网站【下载资源】里面下载。</P>
+
+<P>如果代码看不清楚，或者有问题，请到原始地址，或者到底部看截图</P>
+
+<P><BR><BR><STRONG>1&nbsp;我们先看页面的部分</STRONG></P>
+<PRE class="HTML" name="code"><SCRIPT type="text/javascript">
+function exportExcel(id){
+  var forum = document.forms["ExcelExportor"];
+  forum.c.value=eval(id+".innerHTML");
+  forum.submit();
+}
+</SCRIPT>
+<FORM name="ExcelExportor" action="http://blog.csdn.net/export/excel.jsp" method="OST">
+  <INPUT name="c" type="hidden">
+  <INPUT class="mybutton" onclick="exportExcel(&amp;apos;MAIN_TABLE&amp;apos;)" value="导出Excel" type="button">
+</FORM>
+<!-- 下面是你要导出的表格,其id必须和前面的相同 -->
+...
+<TABLE id="MAIN_TABLE" border="0" cellpadding="2" cellspacing="1"><TBODY><TR class="title"><TD>行号</TD><TD>客户编号</TD><TD>合同类型</TD><TD>客户名称</TD><TD>事业部</TD><TD>签订日期</TD><TD>有效期起始</TD><TD>有效期终止</TD><TD>信用额度</TD><TD>收货人</TD><TD>收货人身份证</TD><TD>收货省</TD><TD>收货城市</TD><TD>收货地址</TD><TD>备注</TD></TR></TBODY></TABLE></PRE>
+<P>唯一需要修改的，就是你的要导出的Table的ID&nbsp;必须和Form里面的ID相同，比如都叫&nbsp;"MAIN_TABLE"; <BR>当然，你换成任何其它名字都是可以的。 <BR><BR><STRONG>2&nbsp;下面我们来看那个被影射成的/export/excel.jsp&nbsp;的&nbsp;servlet</STRONG></P><PRE class="Java" name="code">import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
+/**
+* 解析页面并导出为Excel格式。
+* 
+* @author JAVA世纪网,www.java2000.net,赵学庆
+* 
+*/
+public class ExcelExportor extends HttpServlet {
+
+  private static final long serialVersionUID = 8563623076707865788L;
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    request.setCharacterEncoding("GBK");
+    String content = request.getParameter("c");
+    if (content == null) {
+      Writer out = response.getWriter();
+      response.setCharacterEncoding("GBK");
+      out.write("No Content");
+      return;
+    }
+    try {
+      export(content, response);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  private WritableWorkbook wwb = null;
+
+  private WritableSheet sheet = null;
+
+  private void export(String content, HttpServletResponse response) throws IOException, RowsExceededException, WriteException {
+    response.setContentType("application/ms-excel");
+    String sheetName = getCaption(content);
+    if (sheetName == null) {
+      sheetName = "Sheet1";
+    }
+    sheetName = sheetName.replaceAll(":", "").replaceAll("[)]", "").replaceAll("[(]", "");
+    response.addHeader("Content-Disposition", "attachment; filename=" + new String(sheetName.getBytes("GBK"), "ISO-8859-1")
+        + ".xls");
+
+    OutputStream os = response.getOutputStream();
+    wwb = Workbook.createWorkbook(os);
+    wwb.setProtected(true);
+
+    sheet = wwb.createSheet(sheetName, 0);
+    int row = 0;
+    int col = 0;
+    Label label = null;
+
+    if (sheetName.trim().length() &gt; 30) {
+      label = new Label(col, row, sheetName);
+      sheet.addCell(label);
+      row++;
+    }
+
+    List listBody = getContent(content);
+    Map<STRING, boolean=""> map = new HashMap<STRING, boolean="">();
+    for (TD td : listBody) {
+      if (td == null) {
+        row++;
+        col = 0;
+        continue;
+      }
+
+      while (map.get(col + "-" + row) != null) {        
+        col++;
+      }
+
+      if (td.colspan &gt; 1 || td.rowspan &gt; 1) {
+        sheet.mergeCells(col, row, col + td.colspan - 1, row + td.rowspan - 1);
+        for (int i = col; i &lt;= col + td.colspan - 1; i++) {
+          for (int j = row; j &lt;= row + td.rowspan - 1; j++) {
+            map.put(i + "-" + j, true);
+          }
+        }
+      }
+
+      label = new Label(col, row, td.content);
+      sheet.addCell(label);
+
+      map.put(col + "-" + row, true);
+      col += td.colspan;
+    }
+    wwb.write();
+    wwb.close();
+  }
+
+  private String getCaption(String content) {
+    int begin = content.indexOf("<CAPTION"); end="&#39;&amp;apos;&amp;apos;content.indexOf(&quot;&lt;/CAPTION&amp;apos;&amp;apos;&#39;" int="">");
+    if (begin == -1 || end == -1) {
+      return null;
+    }
+    begin = content.indexOf("&gt;", begin);
+    if (begin == -1) {
+      return null;
+    }
+    return content.substring(begin + 1, end);
+  }
+
+  public List getContent(String content) throws UnsupportedEncodingException {
+    int begin = -1;
+    int end = -1;
+    int index = -1;
+    String numberStr;
+    int number;
+    String[] tables = content.split("");
+    List list = new ArrayList();
+    for (String table : tables) {
+      String[] trs = table.split("");
+      for (String tr : trs) {
+
+        number = 1;
+        String[] ss = tr.split("");
+        for (String s : ss) {
+          begin = s.indexOf("<TD"); index="&#39;&amp;apos;&amp;apos;s.indexOf(&quot;&amp;apos;&amp;apos;&#39;" 3);="" +="" s="s.substring(begin" }="" continue;="" {="" -1)="" (begin="=" if="">");
+          TD td = new TD();
+          begin = s.indexOf("rowSpan=");
+          if (begin != -1) {
+            end = s.indexOf(" ", begin);
+
+            if (end == -1) {
+              end = index;
+            }
+            numberStr = s.substring(begin + 8, end).replace(&amp;apos;"&amp;apos;, &amp;apos; &amp;apos;).replace(&amp;apos;\&amp;apos;&amp;apos;, &amp;apos; &amp;apos;).trim();
+            number = Integer.parseInt(numberStr);
+            td.rowspan = number;
+          }
+
+          begin = s.indexOf("colSpan=");
+          if (begin != -1) {
+            end = s.indexOf(" ", begin);
+            index = s.indexOf("&gt;", begin);
+            if (end == -1) {
+              end = index;
+            }
+            if (end &gt; index) {
+              end = index;
+            }
+            numberStr = s.substring(begin + 8, end).replace(&amp;apos;"&amp;apos;, &amp;apos; &amp;apos;).replace(&amp;apos;\&amp;apos;&amp;apos;, &amp;apos; &amp;apos;).trim();
+            number = Integer.parseInt(numberStr);
+            td.colspan = number;
+          }
+          td.content = s.substring(index + 1).replaceAll("\\&lt;.*?\\&gt;", "").replaceAll(" ", "").trim();
+          list.add(td);
+        }
+        list.add(null);
+      }
+      list.add(null);
+      list.add(null);
+    }
+    return list;
+  }
+}
+
+class TD {
+  int rowspan = 1;
+
+  int colspan = 1;
+
+  String content;
+}</TD");></CAPTION");></STRING,></STRING,></PRE>
+<P>详细的我就不多解释了，基本就是解析Table的语法，唯一需要注意的，里面的CharacterEncoding()&nbsp;需要你根据自己的情况进行修改。 <BR><BR><STRONG>3&nbsp;最后那个web.xml的影射我就顺便给了，其实大家都知道怎么做</STRONG></P>
+<P><STRONG><BR></STRONG>&nbsp;</P><PRE class="XML" name="code"> 
+ <SERVLET>
+  <SERVLET-NAME>ExcelExportor</SERVLET-NAME>
+  <SERVLET-CLASS>ExcelExportor</SERVLET-CLASS>
+ </SERVLET>
+ <SERVLET-MAPPING>
+  <SERVLET-NAME>ExcelExportor</SERVLET-NAME>
+  <URL-PATTERN>/export/excel.jsp</URL-PATTERN>
+</SERVLET-MAPPING>
+ </PRE>
+<P>========================================================================<BR>============================<STRONG>以下是截图，不是文字</STRONG> ========================<BR>========================================================================<IMG alt="" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/2008-07-21_152701.gif"></P><BR><BR><BR><BR><BR>
+<BR><BR><BR><BR><BR>
+
+    <SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-2908059660288034";
+/* 728x90,首页中间 创建于 08-8-14 */
+google_ad_slot = "5903610560";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+
+</SCRIPT> <SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/show_ads.js">
+</SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><INS style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px"><IFRAME allowtransparency="true" frameborder="0" height="90" hspace="0" id="google_ads_frame4" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/ads(3).htm" style="left:0;position:absolute;top:0" vspace="0" width="728"></IFRAME></INS></INS>
+					<P class="right articalinfo">
+						发表于 @ 2008年07月21日　15:10:00&nbsp;|
+						<A id="a_comment" href="http://blog.csdn.net/java2000_net/archive/2008/07/21/2684994.aspx#FeedBack" title="评论">
+							评论(
+							<SPAN id="FeedbackCount_2684994">loading...</SPAN>
+							<SCRIPT type="text/javascript">
+								AddFeedbackCountStack("2684994")
+							</SCRIPT>)
+						</A>|
+						<SPAN style="display:none;"><A id="a_postedit" href="http://writeblog.csdn.net/PostEdit.aspx?entryId=2684994" title="编辑">编辑</A>|</SPAN>
+						<A href="mailto:yuexn@csdn.net?subject=Article%20Report!!!&body=Author:java2000_net%0D%0AURL:http://blog.csdn.net/ArticleContent.aspx?UserName=java2000_net&Entryid=2684994">举报</A>|
+						<CITE class="fav_csdnstylebykimi">
+							<A href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</A>
+						</CITE>
+					</P>
+					<SPAN id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><H3 class="pagego"><A href="http://blog.csdn.net/java2000_net/archive/2008/07/21/2682306.aspx">旧一篇:跟老紫竹学Java-图书销售系统</A>&nbsp;|&nbsp;<A href="http://blog.csdn.net/java2000_net/archive/2008/07/22/2689264.aspx">新一篇:业余爱好者，学习JAVA在实际中有什么用途？</A></H3></SPAN>
+				</DIV>
+			</DIV>
+			<DIV class="commentslist">
+				<SCRIPT type="text/javascript">
+					var CurrentEntryId = '2684994';
+					var CurrentUserName = 'java2000_net';
+				</SCRIPT>
+				<SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/feedback.js"></SCRIPT>
+				<DIV id="commentslist"></DIV>
+			</DIV>
+			<DIV class="spacecommment"></DIV>
+			<SCRIPT type="text/javascript">
+			LoadFeedbackCount();
+			document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");
+			</SCRIPT><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/pv.aspx" border="0" width="0" height="0">
+		</DIV>
+	</DIV>
+</DIV>
+		    
+<DIV id="pubfooter">
+<DL>
+	<DT>
+	<DD>Csdn Blog version 3.1a</DD>
+	<DD>Copyright © java2000_net</DD>
+</DL>
+</DIV>
+
+<SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/counter.js"></SCRIPT><SCRIPT type="text/javascript" charset="UTF-8" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/msg.popup.js"></SCRIPT><IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/visitlog.php" width="1" height="1" border="0" alt=""><IFRAME id="myframe" name="myframe" frameborder="no" scrolling="no" width="0" height="0" border="0" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/dd333.htm"></IFRAME>
+<SCRIPT type="text/javascript" src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/ga.js"></SCRIPT>
+<SCRIPT type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-2688088-9");
+	pageTracker._trackPageview();
+} catch (err) { }
+</SCRIPT>
+
+
+	    </DIV>
+    </DIV>
+    <IMG src="./把HTML无嵌套表格完美导出为Excel文件的方法 - 老紫竹的专栏 - CSDN博客_files/count.aspx" height="0px" width="0px">
+
+</BODY></HTML>

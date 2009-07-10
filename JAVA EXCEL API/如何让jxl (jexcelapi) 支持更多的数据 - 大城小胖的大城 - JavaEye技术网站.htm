@@ -1,0 +1,486 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>如何让jxl (jexcelapi) 支持更多的数据 - 大城小胖的大城 - JavaEye技术网站</title>
+    <meta name="description" content="jxl (jexcelapi) 一直是我比较喜欢的 java版excel读写组件. 主页 http://www.andykhan.com/jexcelapi/index.html 网上关于 jxl使用的文章 太多太多  我就不再重复jxl的用法了. 决定写这篇文章 有点偶然: 刚刚 我用&quot;setUseTemporaryFileDuringWrite&quot; 做关键字,去google里面 ..." />
+    <meta name="keywords" content="  如何让jxl (jexcelapi) 支持更多的数据" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="大城小胖的大城" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1247066018" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1239780471" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://job.javaeye.com/">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" class="welcome" title="查看我的博客首页">欢迎 frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com/" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my">我的参与</a>
+      <a href="http://app.javaeye.com/chat">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup">我的圈子</a>
+      <a href="http://app.javaeye.com/links">我的收藏</a>
+    </div>
+    
+    <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    
+    <a href="http://app.javaeye.com/profile">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">大城小胖的大城</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://fins.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    <div class='digg' id='d313136'><h3><a href='#' onclick='digg("blogs", 313136, false);return false;' class='digg'>8顶</a><br/><a href='#' onclick='digg("blogs", 313136, true);return false;' class='bury'>1踩</a></h3></div>
+    <div id="pre_next">
+      <a href="/blog/314269" class="next" title="最近我在忙什么: 参与开发一个Ext可视化编辑器">最近我在忙什么: 参与开发一个Ext可视化编 ...</a>
+      |
+      <a href="/blog/312368" class="pre" title="乐道 的 UI啥时候能美化美化啊 (补充了一些话)">乐道 的 UI啥时候能美化美化啊 (补充了一 ...</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2009</span><span class='sep_year'>-</span><span class='month'>01</span><span class='sep_month'>-</span><span class='day'>08</span></div>
+    <h3 class='type_original' title='原创'><a href="/blog/313136">如何让jxl (jexcelapi) 支持更多的数据</a></h3>
+            
+  </div>
+
+  <div class="blog_content">
+    jxl (jexcelapi) 一直是我比较喜欢的 java版excel读写组件.<br />主页<br /><a href="http://www.andykhan.com/jexcelapi/index.html" target="_blank">http://www.andykhan.com/jexcelapi/index.html</a><br /><br />网上关于 jxl使用的文章 太多太多&nbsp; 我就不再重复jxl的用法了.<br /><br />决定写这篇文章 有点偶然:<br />刚刚 我用"setUseTemporaryFileDuringWrite" 做关键字,去google里面搜索,<br />想看看有没有这个的更多技巧(实在没有功夫去看jxl的源码)<br /><br />google之后, 居然没有一条 中文的 结果.<br /><br /><br />这也许说明国内还没有一篇文章 来介绍 jxl 的setUseTemporaryFileDuringWrite 相关内容吧.<br /><br />那我就来啰嗦两句吧, 这个也不是啥高深技术, 算作一个小知识点吧.<br /><br />大家可以参见 jxl 的 changehistory : ( 写本文时最新版本是 2.6.9 for jdk 1.4)<br /><div class="quote_title">引用</div><div class="quote_div"><br />Version 2.6.5 (Sept 2007) <br /><br />Fixed a bug to allow more than one conditional format per cell <br />Adjusted the cells referenced by named blocks when inserting and deleting rows <br />Added a synchronised block when initialising the workbook to prevent race conditions in multi-threaded environments <br />Migrated formula parsing to the JFlex (rather than JLex) for performance reasons. This is a GPL product - see notice on main page of the website <br /><span style="color: red">When writing out a file, it is now possible to write out a temporary file, rather than generate the whole thing in memory. This feature is accessible via the WorkboodSettings bean (useTemporaryFileDuringWrite) or the system property jxl.usetemporaryfileduringwrite </span><br />Set the atan function to have two arguments <br />Supported the copying of WritableSheets within a Workbook, as well as read only ones (this was throwing a ClassCastException) <br />Lists in drop downs can only be a maximum of 256 characters. If this length is exceeded truncated the string and presented a warning <br />Added a non-documented workaround in order to resolve a bug in some version of the JVM not recognising the character encoding "UnicodeLittle" <br /><br /></div><br /><br />看 红色字部分. 这个特性真的很不错, 但是jxl官方没有提供示例, <br />大家看一下 我下面的这个代码片段吧 <br />(什么是Workbook 以及 如何创建一个excel文件 我就不说了 )<br /><br /><pre name="code" class="java">
+
+WorkbookSettings settings=new WorkbookSettings ();
+
+settings.setUseTemporaryFileDuringWrite(true);
+
+WritableWorkbook workbook = Workbook.createWorkbook(outputStream, settings);
+
+
+</pre><br /><br />很简单.<br />当按示例中的写法 开启 UseTemporaryFileDuringWrite 后,<br />jxl在生成excel文件时 所支持的单个文件记录数 确实提高很多.<br /><br />我这边的测试结果是 开启功能比不开启 多支持了 10000 余行.<br />(当然 这和列数 以及每列的内容也有关. 而且开启后速度略慢 )<br /><br /><br />===========================<br /><br />简单的小知识点 没啥好说的了 . 希望对大家有所帮助.<br /><br />over <br />
+  </div>
+
+  <div id="digg_bottom" class="clearfix"><a href='#' onclick='digg("blogs", 313136, false);return false;'><div><strong>8</strong> <br/>顶</div></a><a href='#' onclick='digg("blogs", 313136, true);return false;'><div><strong>1</strong> <br/>踩</div></a></div>
+
+  
+
+  <div class="blog_bottom">
+    <ul>
+      <li>23:52</li>
+      <li>浏览 (628)</li>
+            <li><a href="#comments">评论</a> (4)</li>
+      <li>分类: <a href="/category/7344">java & ee</a></li>
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%A6%82%E4%BD%95%E8%AE%A9jxl+%28jexcelapi%29+%E6%94%AF%E6%8C%81%E6%9B%B4%E5%A4%9A%E7%9A%84%E6%95%B0%E6%8D%AE&amp;user_favorite%5Burl%5D=http%3A%2F%2Ffins.javaeye.com%2Fblog%2F313136' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/313136" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  
+  <div>
+      <script type="text/javascript">
+      alimama_pid="mm_11847803_1454875_3591335"; 
+      alimama_titlecolor="0000FF"; 
+      alimama_descolor ="000000"; 
+      alimama_bgcolor="FFFFFF"; 
+      alimama_bordercolor="E6E6E6"; 
+      alimama_linkcolor="008000"; 
+      alimama_bottomcolor="FFFFFF"; 
+      alimama_anglesize="0"; 
+      alimama_bgpic="0"; 
+      alimama_icon="0"; 
+      alimama_sizecode="14"; 
+      alimama_width=468; 
+      alimama_height=60; 
+      alimama_type=2; 
+      </script>
+      <script src="http://a.alimama.cn/inf.js" type=text/javascript>
+      </script>  
+    </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc840561">
+  <div class="comment_title">
+    4 楼
+    <a href='http://fins.javaeye.com' target='_blank'>fins</a>
+    2009-01-12&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(840561);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">POI强大<br />但是jxl小巧 实用 而且"够用是王道"</div>
+</div>
+<div id="bc840476">
+  <div class="comment_title">
+    3 楼
+    <a href='http://vvnet.javaeye.com' target='_blank'>vvnet</a>
+    2009-01-12&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(840476);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">jxl和poi哪个更好更强大，都差不多吧</div>
+</div>
+<div id="bc840043">
+  <div class="comment_title">
+    2 楼
+    <a href='http://fins.javaeye.com' target='_blank'>fins</a>
+    2009-01-12&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(840043);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">哈哈 见笑了&nbsp; 已经改过来了 谢谢</div>
+</div>
+<div id="bc840001">
+  <div class="comment_title">
+    1 楼
+    <a href='http://shingu.javaeye.com' target='_blank'>ShingU</a>
+    2009-01-12&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(840001);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">代码好像有点问题。<br /></div>
+</div>
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://fins.javaeye.com'><img alt="用户头像" class="logo" src="http://www.javaeye.com/upload/logo/user/78321/1cd1d5bb-bf91-38fa-bf1f-35de41e9e3d7.jpg?1236837486" title="fins的博客: 大城小胖的大城" /></a></div>
+            <div id="blog_owner_name">fins</div>
+          </div>
+          
+            <div id="twitter_decorate">&nbsp;</div>
+            <div id="twitter" class="twitter clearfix">
+              
+&quot;摇滚的精神绝对不是唱摇滚歌。而是摇滚激荡这个世界时，所散发出的光芒。 如果摇滚不是这样——我不摇滚，也没什么。&quot;
+<br/><em><a href="http://fins.javaeye.com/blog/chat/20781">2009-05-11</a>
+ 通过网页
+ 
+</em>
+       <a href="http://app.javaeye.com/chat?twitter%5Bbody%5D=%40fins+&amp;twitter%5Breply_to_id%5D=20781" title="回复这个闲聊"><img alt="Reply_twitter" src="http://www.javaeye.com/images/app/reply_twitter.gif?1232617931" /></a>
+              <div class="right"><a href="/blog/chat">&gt;&gt;更多闲聊</a></div>
+            </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 1114686 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 小胖儿的大城</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=fins" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=fins" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div>
+                  <div class="left"><a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://muerjie.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="muerjie的博客: " /></a></div>
+                  <div class="left"><a href='http://muerjie.javaeye.com' target='_blank'>muerjie</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://gueizi198523.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="gueizi198523的博客: gueizi198523" /></a></div>
+                  <div class="left"><a href='http://gueizi198523.javaeye.com' target='_blank'>gueizi198523</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://zwbjava.javaeye.com' target='_blank'><img alt="用户头像" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="zwbjava的博客: " /></a></div>
+                  <div class="left"><a href='http://zwbjava.javaeye.com' target='_blank'>zwbjava</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (371)</a></li>
+                
+                  <li><a href="/category/7343">GT-Grid (109)</a></li>
+                
+                  <li><a href="/category/7344">java &amp; ee (29)</a></li>
+                
+                  <li><a href="/category/7347">js &amp; ajax (51)</a></li>
+                
+                  <li><a href="/category/46131">AIR &amp; Flex &amp; AS (8)</a></li>
+                
+                  <li><a href="/category/7365">oracle &amp;&amp; pl/sql (1)</a></li>
+                
+                  <li><a href="/category/7345">game develope (4)</a></li>
+                
+                  <li><a href="/category/28369">五月天 (28)</a></li>
+                
+                  <li><a href="/category/36821">音乐分享 (10)</a></li>
+                
+                  <li><a href="/category/7348">胡言乱语 (120)</a></li>
+                
+                  <li><a href="/category/32227">写着玩儿 (0)</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="blog_album">
+                <h5>我的相册</h5>
+                <div class="picture_thumb" style="float: none">
+                  <div><span class='thumb_box'><a href='/album'><img alt="3b5867a9-7cd3-30a9-a0d9-b075f25d271b-thumb" src="http://www.javaeye.com/upload/picture/pic/36385/3b5867a9-7cd3-30a9-a0d9-b075f25d271b-thumb.jpg?1241626657" /></a></span></div>
+                  <span>renzhetu<br/> <a href="/album">共 151 张</a></span>
+                </div>
+              </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿 <span style='font-weight:normal;font-size:12px;padding-left:20px;'><a href="/blog/guest_book">&gt;&gt;更多留言</a></span></h5>
+                <ul>
+                  
+                    <li>
+                      fins，这次五月天来上海的演唱会去看了吗？没看你写他们的文章了。。。<br/>
+                      -- by <a href="/blog/guest_book#7954">smalldeer</a>
+                    </li>
+                  
+                    <li>
+                      请问在gt-grid的编辑器里有editor的type是text、check等，但 ...<br/>
+                      -- by <a href="/blog/guest_book#7709">123123ghiwjn</a>
+                    </li>
+                  
+                    <li>
+                      效率的确是应该被考虑的。<br/>
+                      -- by <a href="/blog/guest_book#7421">Newhaven</a>
+                    </li>
+                  
+                </ul>
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (22)</li>
+                                                <li><a href="/blog/forum">我的论坛帖子</a> (3040)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (13)</li>
+                
+                  <li><a href="/blog/solution">我解决的问题</a> (1) </li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://mars.group.javaeye.com">火星常驻JE办事处</a></li>
+                
+                  <li><a href="http://pcdiy.group.javaeye.com">电脑DIY</a></li>
+                
+                  <li><a href="http://EclipseRCPForum.group.javaeye.com">Eclipse PlugIns&RCP&OSGI</a></li>
+                
+                  <li><a href="http://javaeye-admin.group.javaeye.com">JavaEye站务讨论</a></li>
+                
+                  <li><a href="http://javaeye-water.group.javaeye.com">JavaEye水源</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://blog.sina.com.cn/musiq" target="_blank">阿信最爱★後青春期的詩</a></li>
+                  
+                    <li><a href="http://aprilnew.blogcn.com/index.shtml" target="_blank">失散多年的牛牛姐姐</a></li>
+                  
+                    <li><a href="http://extjs2.javaeye.com" target="_blank">extJS</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-05">2009-05</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-04">2009-04</a> (9)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-03">2009-03</a> (9)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/351792#comments" title="那些成天说我的GT-Grid抄袭的人注意了">那些成天说我的GT-Grid抄 ...</a><br/>
+                    老大，好久没有更新了嘛？最近很忙吧？<br/>
+                    -- by <a href='http://shingu.javaeye.com' target='_blank'>ShingU</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/369919#comments" title="我家闹闹的实体小店铺开张了,欢迎上海的朋友去惠顾(更新图片)">我家闹闹的实体小店铺开张 ...</a><br/>
+                    准备开连锁店不?<br/>
+                    -- by <a href='http://zydar.javaeye.com' target='_blank'>zydar</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/354904#comments" title="[3月25日] JE Talker 0.9 ★ JavaEye闲聊客户端 发布">[3月25日] JE Talker 0.9  ...</a><br/>
+                    小胖，你这个是用什么工具开发的？<br/>
+                    -- by <a href='http://xman.javaeye.com' target='_blank'>xman</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/214336#comments" title="我有一个梦">我有一个梦</a><br/>
+                    “请相信我,开源和品质没有直接关系. ”靠个人的能力和热情是很难做到世界最好的。 ...<br/>
+                    -- by <a href='http://macaroni.javaeye.com' target='_blank'>macaroni</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/220258#comments" title="不错的国产开源免费的php框架: FleaPHP">不错的国产开源免费的php ...</a><br/>
+                    Qeephp的作者ID是dualface.个人推荐Yii框架, 也是国人开发的,  ...<br/>
+                    -- by <a href='http://kingheaven.javaeye.com' target='_blank'>kingheaven</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/235487" title="[HELP- 更新了]小胖儿要攒机了,大家来帮忙出出主意呗 谢谢了">[HELP- 更新了]小胖儿要攒机了,大家来帮 ...</a></li>
+                
+                  <li><a href="/blog/214290" title="★列表组件 GT-Grid 最新版本 &amp; 基础教程. (09年01月15日 2:40 AM 更新)">★列表组件 GT-Grid 最新版本 &amp; 基础教程 ...</a></li>
+                
+                  <li><a href="/blog/255954" title="[发布]GT-Grid 1.25 版 ★&amp; &quot;前后台结合示例&quot; ★2008-10-21 更新">[发布]GT-Grid 1.25 版 ★&amp; &quot;前后台结合 ...</a></li>
+                
+                  <li><a href="/blog/226480" title="不明白为什么老尤那么喜欢陈江华">不明白为什么老尤那么喜欢陈江华</a></li>
+                
+                  <li><a href="/blog/218435" title="★汇总★GT-Grid &quot;缺陷,、bug、计划&quot;汇总.(2009-02-17更新)">★汇总★GT-Grid &quot;缺陷,、bug、计划&quot;汇 ...</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://fins.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://fins.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://fins.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>
