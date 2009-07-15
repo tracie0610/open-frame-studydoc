@@ -1,0 +1,429 @@
+<html>
+<head>
+<meta http-equiv="Content-Language" content="zh-CN" />
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="generator" content="oblog" />
+<meta name="author" content="laitaogood," />
+<meta name="keyword" content="初试javax.mail&nbsp;(转)" />
+<meta name="description" content="初试javax.mail&nbsp;&nbsp; 最近在项目中用到发送邮件的功能，由于以前没有接触过，找了很多资料才终于把它弄出来，今天写下这些，算是做个总结吧。&nbsp;1、首先定义" />
+<title>初试javax.mail　(转)--午夜の阳光</title>
+<link rel="alternate" href="/user1/16225/rss2.xml" type="application/rss+xml" title="RSS" />
+<link href="/OblogStyle/OblogUserDefault4.css" rel="stylesheet" type="text/css" />
+<script src="/inc/main.js" type="text/javascript"></script>
+</head>
+<body>
+<span id="gg_usertop"></span><style>
+
+body,td,th {
+	font-size: 12px;
+	color: #80BA9B;
+	text-decoration: none;
+}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background:#f4f4f4 url(/skin/20060603/3/index_08.jpg);
+}
+.calendar_main		{ color: #333 }
+.calendar_title		{ color: #333; font-weight: bold }
+.calendar_nav		{ font-family: "Georgia"; cursor: pointer; }
+.calendar_grid		{ font-family: "Georgia"; }
+.calendar_dayname	{ color: #333 }
+.calendar_today		{ color: #333; font-weight: bold }
+.calendar_posttext	{ color: #333 }
+.calendar_daytext	{ color: #333 }
+.calendar_daybg		{ color: #333 }
+#calendar{  /* 日历层定义。 */
+width:150px;  /* 日历层宽。 */
+}
+#calendar caption {   /* 定义日历顶部月份。 */
+font:11px 'Century Gothic', Arial, Helvetica, sans-serif;  /* 日历顶部月份的字体大小，字体。 */
+}
+#calendar table { 
+border-collapse: collapse; /*合并表格相临边框*/
+} 
+#calendar th{   /* 定义星期 */
+font: normal 12px;   /* 字体正常显示，OBLog系统默认显示粗体，大小12象素，中文字最小12象素。 */
+}
+#calendar td {  /* 定义日期 */
+text-align:center;
+font-size: 10px;   /* 字体10px。 */
+}
+#calendar td a {
+	display:block;
+	background-color: #006600;
+	width:16px;
+	height:10px;
+	color: #FFFFFF;
+} 
+#calendar td a:hover{   /* 鼠标拖过日期的链接样式 */
+background-color: #295124;  /* 背景色 */
+color: #FFFF00;  /* 字体色 */
+}
+.b1 {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #6C9A56;
+	text-decoration: none;
+	list-style-type: none;
+}
+.b2 {
+	font-size: 12px;
+	line-height: 1.6em;
+	font-weight: bold;
+	color: #2D9465!important;
+	text-decoration: none;
+	background-image: url(/skin/20060603/3/index_07.jpg);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+}
+#topMenu {
+	color: #1F1F1F;
+	padding-right: 4px;
+	padding-left: 4px;
+}
+#topMenu a:visited {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #1F1F1F;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#topMenu a:hover {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #ff0000;
+	text-decoration: none;
+	font-weight: bold;
+}
+#topMenu a:link {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #1F1F1F;
+	text-decoration: none;
+	font-weight: bold;
+} 
+#content a:link{
+	font-size: 12px;
+	font-weight: normal;
+	color: #16774B;
+	text-decoration: none;
+}
+#content a:visited{
+	font-size: 12px;
+	font-weight: normal;
+	color: #16774B;
+	text-decoration: none;
+}
+#content a:hover{
+	font-size: 12px;
+	font-weight: normal;
+	color: #FF0000;
+	text-decoration: none;
+}
+#content {	
+    font-size: 12px;
+	font-weight: normal;
+	color: #5B6954;
+	text-decoration: none;
+}
+#content td {	
+    font-size: 12px;
+	font-weight: normal;
+	color: #5B6954;
+	text-decoration: none;
+}
+a:visited {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #6C9A56;
+	text-decoration: none;
+}
+a:hover {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #ff0000;
+	text-decoration: none;
+}
+a:link {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #6C9A56;
+	text-decoration: none;
+}
+.a1:visited {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #6C9A56;
+	text-decoration: none;
+}
+.a1:hover {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #ff0000;
+	text-decoration: none;
+}
+.a1:link {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #6C9A56;
+	text-decoration: none;
+}
+/*===========blog标题连接=============*/
+.blog_name {
+	font-size: 16px;
+	line-height: 1.6em;
+	font-weight: bold;
+	color: #6C9A56!important;
+	text-decoration: none;
+	font-weight: bold;
+}
+/*===========搜索框=============*/
+.search {
+	font-size: 12px;
+	line-height: 1.6em;
+	color: #6C9A56;
+	text-decoration: none;
+	padding-top: 15px;
+}
+.content1 {
+	background-image: url(/skin/20060603/3/index_01.jpg);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 26px;
+	
+}
+.content2 {
+	background-image: url(/skin/20060603/3/index_14.jpg);
+	background-repeat: repeat-y;
+	background-position: left top;
+}
+.content7 {
+	background-image: url(/skin/20060603/3/index1_16.jpg);
+	background-repeat: no-repeat;
+	background-position: left top;
+	height: 110px;
+	width: 1004px;
+}
+.content3 td{
+	color: #5D5F5C;
+}
+.content4 {
+	width: 90%;
+	margin-right: 18px;
+	margin-left: 18px;
+	list-style-type: none;
+}
+.b41 {font-family:"宋体";
+	font-family: "宋体";
+	font-size: 12px;
+	font-weight: bold;
+	color: #000;
+	text-decoration: none;
+	text-align: center;
+	line-height: 1.6em;
+}
+.style3 {color: #333}
+.seyle4 {color: #16774B}
+.seyle4 td a:visited,.seyle4 td a:link {color: #16774B!important;font-weight: bold!important;}
+.seyle4 td a:hover {color: #ff0000!important;font-weight: bold!important;}
+.seyle99 {color: #16774B!important;}
+.seyle99 td a:visited,.seyle4 td a:link {color: #16774B!important;}
+.seyle99 td a:hover {color: #ff0000!important;}
+.content5 {
+	background-image: url(/skin/20060603/3/index_11.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+td.content9 strong a {font-size:14px!important;}
+.oblog_text {line-height:1.6;font-size:13px;}
+--></style>
+<table class="content1" cellspacing="0" cellpadding="0" width="1004" border="0">
+<tbody>
+<tr>
+<td width="90">&nbsp;</td><!-- BEGIN: folder -->
+<td class="blog_name"><span id="blogname">loading...</span></td><!-- END: folder -->
+<td width="56">&nbsp;</td></tr></tbody></table>
+<table cellspacing="0" cellpadding="0" width="1004" border="0">
+<tbody>
+<tr>
+<td><img height="82" src="/skin/20060603/3/index_02.jpg" width="1004" border="0" alt="" /></td></tr></tbody></table>
+<table class="content2" cellspacing="0" cellpadding="0" width="1004" border="0">
+<tbody>
+<tr>
+<td valign="top" width="204">
+<table class="content3" cellspacing="0" cellpadding="0" width="100%" border="0">
+<tbody>
+<tr>
+<td valign="top">
+<table cellspacing="0" cellpadding="0" width="90%" align="center"  border="0"style="table-layout:fixed;overflow:hidden;">
+<tbody>
+<tr>
+<td><div id="placard">loading...</div></td></tr></tbody></table>
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">时 间 记 忆</td></tr>
+<tr>
+<td align="center">
+<div class="content4"><div id="calendar">loading...</div></div></td></tr></tbody></table><!-- BEGIN: last_followups -->
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">最 新 评 论</td></tr><!-- BEGIN: followups_row -->
+<tr>
+<td>
+<div class="content4"><div id="comment">loading...</div></div></td></tr><!-- END: followups_row --></tbody></table><!-- END: last_followups -->
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">专 题 分 类</td></tr>
+<tr>
+<td>
+<div class="content4"><div id="subject">loading...</div></div></td></tr></tbody></table><!-- BEGIN: last_tb -->
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">最 新 日 志</td></tr>
+<tr>
+<td>
+<div class="content4"><!-- BEGIN: tb --><div id="newblog">loading...</div> <!-- END: tb --></div></td></tr></tbody></table><!-- END: last_tb -->
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">最 新 留 言</td></tr>
+<tr>
+<td>
+<div class="content4"><div id="newmessage">loading...</div></div></td></tr></tbody></table>
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">搜 索</td></tr>
+<tr>
+<td>
+<div class="content4"><div id="search">loading...</div></div></td></tr></tbody></table>
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">用 户 登 录</td></tr>
+<tr>
+<td align="center">
+<div class="content4"><div id="ob_login">loading...</div></div></td></tr></tbody></table><!-- BEGIN: link -->
+<table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+<tbody>
+<tr>
+<td class="b2" align="center" height="43">友 情 连 接</td></tr>
+<tr>
+<td>
+<table cellspacing="0" cellpadding="0" width="87%" align="center" border="0" style="table-layout:fixed;overflow:hidden;">
+<tbody>
+<tr>
+<td class="b1"><div id="links"></div><div id="gg_userlinks"></div></td></tr></tbody></table></td></tr></tbody></table>
+                <table class="table3" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+                  <tbody>
+                    <tr> 
+                      <td class="b2" align="center" height="43">博 客 信 息</td>
+                    </tr>
+                    <tr> 
+                      <td align="right"> 
+                        <table class="b1" cellspacing="5" cellpadding="2" width="87%" border="0">
+                          <tbody>
+                            <tr> 
+                              <td class="b1" align="left"><div id="info">loading...</div><div id="aobomusic"></div> </td>
+                            </tr>
+                            <tr> 
+                              <td class="b1" align="left"><div id="xml"><span id="txml"></span><br /><br /><a href="/user1/16225/rss2.xml" target="_blank"><img src='/images/xml.gif' width='36' height='14' border='0' /></a></div></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- END: link -->
+              </td>
+            </tr></tbody></table></td>
+<td valign="top">
+<div id="content">
+<table cellspacing="0" cellpadding="0" width="93%" align="center" border="0">
+<tbody>
+<tr>
+<td><TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0 class="seyle4">
+<TBODY>
+<TR>
+<TD>&nbsp;</TD></TR>
+<TR>
+<TD class="content9"><STRONG>初试javax.mail&nbsp;(转)</STRONG></TD></TR>
+<TR>
+<TD>
+<DIV align=right>[ 2006-10-15 22:36:00 | By: <SPAN class=style3>laitaogood</SPAN> ]</DIV></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD height=3>&nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border="0" style="table-layout:fixed;">
+<TBODY>
+<TR>
+<TD><span class="oblog_text"><span id="ob_logd7785"></span> <H2>初试javax.mail </H2>
+<DIV class=postbody>
+<P>最近在项目中用到发送邮件的功能，由于以前没有接触过，找了很多资料才终于把它弄出来，今天写下这些，算是做个总结吧。 <BR>1、首先定义一个邮件的数据结构类 <BR>public class EmailData() { <BR>&nbsp;&nbsp;&nbsp;&nbsp; String from &nbsp;&nbsp;= null;&nbsp;&nbsp;//发件人 <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] recipients = null;&nbsp;&nbsp;//收件人,可以多个 <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String subject &nbsp;&nbsp;= null;&nbsp;&nbsp;//邮件主题 <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String content &nbsp;&nbsp;= null;&nbsp;&nbsp;//邮件内容 <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String contentType &nbsp;= null;&nbsp;&nbsp;//邮件内容格式(文本或html) <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String fileName &nbsp;= null;&nbsp;&nbsp;//附件文件名(目前只提供一个附件) <BR>&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//下面是相应的setter/getter方法，省略.. <BR>} <BR>2、发送不带附件的邮件(包括文本格式和html两种格式) <BR>public void postMail(EmailData emailData) <BR>&nbsp;throws MessagingException,Exception { <BR>&nbsp;&nbsp; <BR>&nbsp;String from &nbsp;&nbsp;= emailData.getFrom(); <BR>&nbsp;String[] recipients = emailData.getRecipents(); <BR>&nbsp;String subject &nbsp;&nbsp;= emailData.getSubject(); <BR>&nbsp;String content &nbsp;&nbsp;= emailData.getContent(); <BR>&nbsp;String contentType&nbsp;= emailData.getContentType(); <BR>&nbsp;String fileName&nbsp;&nbsp;= emailData.getFileName(); <BR>&nbsp; <BR>&nbsp;&nbsp;&nbsp; if (recipients != null &amp;&amp; recipients.length &gt; 0) { </P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp; Properties props = new Properties(); <BR>&nbsp;&nbsp;&nbsp;&nbsp; //设置邮件服务器地址，连接超时时限等信息 <BR>&nbsp;&nbsp;&nbsp;&nbsp; props.put("mail.smtp.host", "10.30.1.233");&nbsp;//10.30.1.233邮件服务器 <BR>&nbsp;&nbsp;&nbsp;&nbsp; props.put("mail.smtp.connectiontimeout", "10000");&nbsp;// <BR>&nbsp;&nbsp;props.put("mail.smtp.timeout", "10000");&nbsp;&nbsp;&nbsp;// <BR>&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp; //创建缺省的session对象 <BR>&nbsp;&nbsp;&nbsp;&nbsp; Session session = Session.getDefaultInstance(props, null); <BR>&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp; //创建message对象 <BR>&nbsp;&nbsp;&nbsp;&nbsp; Message msg = new MimeMessage(session); <BR>&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp; //设置发件人和收件人 <BR>&nbsp;&nbsp;&nbsp;&nbsp; InternetAddress addressFrom = new InternetAddress(from); <BR>&nbsp;&nbsp;&nbsp;&nbsp; msg.setFrom(addressFrom);&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp; InternetAddress[] addressTo = new InternetAddress[recipients.length]; <BR>&nbsp;&nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; recipients.length; i++){ <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addressTo[i] = new InternetAddress(recipients[i]); <BR>&nbsp;&nbsp;&nbsp;&nbsp; } <BR>&nbsp;&nbsp;&nbsp;&nbsp; msg.setRecipients(Message.RecipientType.TO, addressTo); <BR>&nbsp;&nbsp; <BR>&nbsp;&nbsp;//设置邮件标题，中文编码 <BR>&nbsp;&nbsp;&nbsp;&nbsp; subject = MimeUtility.encodeText(new String(subject.getBytes(), "GB2312"), "GB2312", "B"); <BR>&nbsp;&nbsp;&nbsp;&nbsp; msg.setSubject(subject); <BR>&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp; //设置邮件内容,区分文本格式和HTML格式 <BR>&nbsp;&nbsp;&nbsp;&nbsp; if (contentType == null || contentType.equals("text")) { <BR>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;msg.setText(content); <BR>&nbsp;&nbsp;} else if (contentType.equals("html")) { <BR>&nbsp;&nbsp;&nbsp;//给消息对象设置内容 <BR>&nbsp;&nbsp;&nbsp;BodyPart bodyPart1 = new MimeBodyPart();&nbsp;//新建一个存放信件内容的BodyPart对象 <BR>&nbsp;&nbsp;&nbsp;mdp.setContent(content, "text/html;charset=gb2312");//给BodyPart对象设置内容和格式/编码方式 <BR>&nbsp;&nbsp;&nbsp;Multipart mmp = new MimeMultipart();//新建一个MimeMultipart对象用来存放BodyPart对象(事实上可以存放多个) <BR>&nbsp;&nbsp;&nbsp;//设置邮件附件 <BR>&nbsp;&nbsp;&nbsp;BodyPart bodyPart2 = new MimeBodyPart();&nbsp; <BR>&nbsp;&nbsp;&nbsp;FileDataSource fileDataSource = new FileDataSource(fileName); <BR>&nbsp;&nbsp;&nbsp;bodyPart2.setDataHandler(new DataHandler(fileDataSource));&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;bodyPart2.setFileName("=?GB2312?B?"+enc.encode(fileName.getBytes())+"?="); <BR>&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;Multipart multipart = new MimeMultipart(); <BR>&nbsp;&nbsp;&nbsp;multipart.addBodyPart(bodyPart1); <BR>&nbsp;&nbsp;&nbsp;multipart.addBodyPart(bodyPart2); <BR>&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;mmp.addBodyPart(mdp);//将BodyPart加入到MimeMultipart对象中(可以加入多个BodyPart) <BR>&nbsp;&nbsp;&nbsp;msg.setContent(mmp);//把mm作为消息对象的内容 <BR>&nbsp;&nbsp;} <BR>&nbsp;&nbsp;&nbsp; &nbsp; <BR>&nbsp;&nbsp;&nbsp; &nbsp;//设置邮件发送时间 <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msg.setSentDate(new java.util.Date()); <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //调用抽象类的静态方法send()发送邮件 <BR>&nbsp;&nbsp;&nbsp;&nbsp; Transport.send(msg); <BR>&nbsp;&nbsp;&nbsp; } <BR>} <BR><BR>3、发送带附件的邮件稍微复杂一些，跟发送普通邮件的区别主要如下： <BR>&nbsp;&nbsp;&nbsp;//设置邮件内容 <BR>&nbsp;&nbsp;&nbsp;BodyPart bodyPart1 = new MimeBodyPart(); <BR>&nbsp;&nbsp;&nbsp;bodyPart1.setDataHandler(new DataHandler( new MailDataSource(content,"text/html"))); <BR>&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;//设置邮件附件 <BR>&nbsp;&nbsp;&nbsp;BodyPart bodyPart2 = new MimeBodyPart();&nbsp; <BR>&nbsp;&nbsp;&nbsp;FileDataSource fileDataSource = new FileDataSource(fileName); <BR>&nbsp;&nbsp;&nbsp;bodyPart2.setDataHandler(new DataHandler(fileDataSource));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;//需要对附件文件名称进行转码，不然会出现乱码 <BR>&nbsp;&nbsp;&nbsp;bodyPart2.setFileName("=?GB2312?B?"+enc.encode(fileName.getBytes())+"?="); <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>&nbsp;&nbsp;&nbsp;Multipart multipart = new MimeMultipart(); <BR>&nbsp;&nbsp;&nbsp;multipart.addBodyPart(bodyPart1); <BR>&nbsp;&nbsp;&nbsp;multipart.addBodyPart(bodyPart2); </P>
+<P>&nbsp;&nbsp;&nbsp;//将Multipart加入到信件 <BR>&nbsp;&nbsp;&nbsp;newMessage.setContent(multipart); <BR><BR>4、<SPAN style="COLOR: #0000ff">以下是转载的关于java mail的介绍</SPAN> <BR>Session <BR>-------------------------------------------------------------------- <BR>&nbsp;Session&nbsp;定义了一个基本的邮件会话，任何工作都是基于这个Session的。Session&nbsp;对象需要一个&nbsp;java.util.Properties&nbsp;对象来得到类似&nbsp;邮件服务器，用户名，密码这样的信息。 <BR>&nbsp; <BR>&nbsp;Session&nbsp;的构造函数是私有的，你可以通过&nbsp;getDefaultInstance()&nbsp;方法来取得一个单一的可以被共享的默认session&nbsp;如： <BR><BR>&nbsp;&nbsp;Properties&nbsp;props&nbsp;=&nbsp;new&nbsp;Properties(); <BR>&nbsp;&nbsp;//&nbsp;填写一些信息 <BR>&nbsp;&nbsp;Session&nbsp;session&nbsp;=&nbsp;Session.getDefaultInstance(props,null); <BR><BR>&nbsp;或者，你可以使用&nbsp;getInstance()&nbsp;方法来创建一个唯一的&nbsp;session如： <BR><BR>&nbsp;&nbsp;Properties&nbsp;props&nbsp;=&nbsp;new&nbsp;Properties(); <BR>&nbsp;&nbsp;//&nbsp;填写一些信息 <BR>&nbsp;&nbsp;Session&nbsp;session&nbsp;=&nbsp;Session.getInstance(props,null); <BR>&nbsp; <BR>&nbsp;在这两种方法中&nbsp;其中的&nbsp;null&nbsp;参数是一个&nbsp;Authenticator&nbsp;对象，在这里没有被使用的，所以就是null <BR>&nbsp; <BR>&nbsp;在大多数案例中，使用一个共享session&nbsp;已经做够了。 <BR><BR>Message <BR>---------------------------------------------------------------- <BR>&nbsp;一旦你创建了Session对象，那么下面要做的就是创建&nbsp;message&nbsp;来发送。Message&nbsp;是一个抽象类，在大部分应用中你可以使用它的子类&nbsp;javax.mail.internet.MimeMessage&nbsp;。MimeMessage&nbsp;是一个理解在不同RFCs中定义的MIME类型以及headers的e-mail&nbsp;message&amp;nbsp;。&nbsp;Message&nbsp;headers&nbsp;必须使用&nbsp;US-ASCII&nbsp;字符集。 <BR><BR>&nbsp;可以用如下的方法创建一个&nbsp;Message&nbsp; <BR>&nbsp;&nbsp;MimeMessage&nbsp;message&nbsp;=&nbsp;new&nbsp;MimeMessage(session); <BR>&nbsp;我们注意到，这里需要用session对象作为构造函数的参数。当然，还有其它的构造函数，比如从用RFC822格式化过的输入流来创建message。 <BR><BR>&nbsp;一旦你得到了&nbsp;message&nbsp;,你就可以来设置它的各个部分（parts）。设置内容（content）的基本的机制是使用setContent()&nbsp;方法。 <BR><BR>&nbsp;&nbsp;message.setContent("Email&nbsp;Content.&nbsp;","text/plain"); <BR><BR>&nbsp;如果，你能够明确你的使用MimeMessage来创建message&nbsp;并且只是使用普通的文本（plain&nbsp;text）&nbsp;那么你也可以使用&nbsp;setText()&nbsp;方法，setTest()方法只需要设置具体的内容，它默认的MIME类型是&nbsp;text/plain <BR>&nbsp;&nbsp; <BR>&nbsp;&nbsp;message.setText("Email&nbsp;Content.&nbsp;"); <BR>&nbsp; <BR>&nbsp;对于普通文本类型的邮件，有一种机制是首选（&nbsp;message.setText("Email&nbsp;Content.&nbsp;")）的设置内容的方法。如果要创建其它类型的message&nbsp;，比如　HTML类型的message&nbsp;&nbsp;那么还是需要使用前者　（　message.setContent("Email&nbsp;Content.&nbsp;","text/html");　） <BR><BR>&nbsp;设置主题（subject&nbsp;），使用setSubject()&nbsp;方法 <BR>&nbsp;&nbsp; <BR>&nbsp;&nbsp;message.setSubject("&nbsp;Subject&nbsp;"); <BR><BR>Address&nbsp; <BR>---------------------------------------------------------------- <BR>&nbsp; <BR>&nbsp;当你已经创建Session&nbsp;以及&nbsp;Message，并且已经为message&nbsp;填充了内容，那么接下来要做的就是给你的邮件添加一个地址（Address）。　就像Message一样，Address也是一个抽象类，我们可以使用它的一个子类javax.mail.internet.InternetAddress　。 <BR><BR>&nbsp;创建一个地址非常简单 <BR><BR>&nbsp;&nbsp;Address&nbsp;address&nbsp;=&nbsp;new&nbsp;InternetAddress("<A href="mailto:suixin@asiainfo.com"><FONT color=#0000ff>suixin@asiainfo.com</FONT></A>"); <BR><BR>&nbsp;如果，你希望在出现邮件地址的地方出现一个名称，那么你只需要再多传递一个参数。 <BR><BR>&nbsp;&nbsp;Address&nbsp;address&nbsp;=&nbsp;new&nbsp;InternetAddress("<A href="mailto:suixin@asiainfo.com"><FONT color=#0000ff>suixin@asiainfo.com</FONT></A>","Steve"); <BR><BR>&nbsp;你需要为&nbsp;message&nbsp;的from以及&nbsp;to&nbsp;字段创建address对象。为了识别发送者，你需要使用setFrom()&nbsp;和&nbsp;setReplyTo()&nbsp;方法。 <BR>&nbsp;&nbsp; <BR>&nbsp;&nbsp;messge.setFrom(address); <BR><BR>&nbsp;如果你的message&nbsp;需要显示多个&nbsp;from&nbsp;地址，可以使用&nbsp;addFrom()&nbsp;方法 <BR><BR>&nbsp;&nbsp;Address&nbsp;address[]&nbsp;=&nbsp;{....}; <BR>&nbsp;&nbsp;message.addFrom(address); <BR><BR>&nbsp;为了辨识message&nbsp;的收件人，你需要使用&nbsp;setRecipient()&nbsp;方法。这个方法除了address参数之外，还需要一个Message.RecipientType&nbsp;。 <BR><BR>&nbsp;message.addRecipient(type,address); <BR><BR>&nbsp;Message.RecipientType有几个预先定义好的类型 <BR>&nbsp; <BR>&nbsp;Message.RecipientType.TO　　收件人 <BR>&nbsp;Message.RecipientType.CC　　抄送 <BR>&nbsp;Message.RecipientType.BCC　&nbsp;暗送 <BR><BR>&nbsp;如果你的一封邮件，需要发送给你的老师，并还要给你的几个同学，那么你可以这样 <BR><BR>&nbsp;Address&nbsp;toAddress&nbsp;=&nbsp;new&nbsp;InternetAddress("<A href="mailto:teacher@17288.com"><FONT color=#0000ff>teacher@17288.com</FONT></A>"); <BR>&nbsp;Address[]&nbsp;ccAddress&nbsp;=&nbsp;{new&nbsp;InternetAddress("<A href="mailto:schoolmate1@17288.com"><FONT color=#0000ff>schoolmate1@17288.com</FONT></A>"),new&nbsp;InternetAddress("<A href="mailto:schoolmate2@17288.com"><FONT color=#0000ff>schoolmate2@17288.com</FONT></A>")}; <BR><BR>&nbsp;message.addRecipient(Message.RecipientType.To,&nbsp;toAddress); <BR>&nbsp;message.addRecipient(Message.RecipientType.CC,&nbsp;ccAddress); <BR>&nbsp; <BR>&nbsp;JavaMail&nbsp;没有提供电子邮件地址有效性的检测。这些超越了JavaMail&nbsp;API的范围。 <BR><BR>Authenticator <BR>&nbsp; <BR>&nbsp;通过Authenticator设置用户名、密码，来访问受保护的资源，这里的资源一般指的是邮件服务器。 <BR>&nbsp; <BR>&nbsp;Authenticator也是一个抽象类，你需要自己编写子类已备应用。你需要实现getPasswordAuthentication()方法，并返回一个PasswordAuthentication实例。你必须在&nbsp;session被创建时，&nbsp;注册你的&nbsp;Authenticator。这样，当需要进行认证是，你的Authenticator就可以被得到。 <BR><BR>&nbsp;&nbsp;Properties&nbsp;props&nbsp;=&nbsp;new&nbsp;Properties(); <BR>&nbsp;&nbsp;//设置属性 <BR>&nbsp;&nbsp;Authenticator&nbsp;auth&nbsp;=&nbsp;new&nbsp;YourAuthenticator(); <BR>&nbsp;&nbsp;Session&nbsp;session&nbsp;=&nbsp;Session.getDefaultInstance(props,&nbsp;auth); <BR>&nbsp; <BR>Transport <BR>---------------------------------------------------------------- <BR><BR>&nbsp;发送消息最后的一步就是使用Transport类，你可以通过两种方法来进行发送。 <BR>&nbsp;Transport&nbsp;是一个抽象类，你可以调用它静态的send()&nbsp;方法来发送 <BR><BR>&nbsp;&nbsp;Transport.send(message); <BR><BR>&nbsp;或者，你可以为你使用的协议从session中取得一个指定的实例， <BR><BR>&nbsp;&nbsp;Transport&nbsp;transport&nbsp;=&nbsp;session.getTransport("smtp"); <BR>&nbsp;&nbsp;transport.sendMessage(message,&nbsp;message.getAllRecipients()); <BR>&nbsp;&nbsp;transport.close(); <BR><BR>Store&nbsp;and&nbsp;Folder <BR>&nbsp; <BR>&nbsp;这两个类重要用于取得信息。在创建了Session之后，需要连接到一个&nbsp;Store&nbsp;，你需要告诉Store&nbsp;&nbsp;你使用的是什么协议。 <BR><BR>&nbsp;&nbsp;//&nbsp;Store&nbsp;store&nbsp;=&nbsp;session.getStore("imap"); <BR>&nbsp;&nbsp;Store&nbsp;store&nbsp;=&nbsp;session.getStore("pop3"); <BR>&nbsp;&nbsp;store.connect(host,&nbsp;username,&nbsp;password); <BR><BR>&nbsp;在连接到一个&nbsp;Store&nbsp;后，你可以得到一个&nbsp;Folder，当然，这个Floder必须是打开的。 <BR><BR>&nbsp;&nbsp;Folder&nbsp;folder&nbsp;=&nbsp;store.getFolder("INBOX"); <BR>&nbsp;&nbsp;folder.open(Folder.READ_ONLY); <BR>&nbsp;&nbsp;Message&nbsp;message[]&nbsp;=&nbsp;folder.getMessages(); <BR><BR>&nbsp;如果使用POP3那么，INDEX是唯一可用的文件夹。如果使用的是IMAP，你就可以使用其它的文件夹。</P></DIV></span></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY>
+<TR>
+<TD height=3>&nbsp;</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+<TBODY class="seyle99">
+<TR>
+<TD>
+<DIV align=right><a href="#" >阅读全文<span id="ob_logreaded"></span></a> | <a href="#cmt">回复(0)</a> <span id = "ob_logm7785"> </span> | <a href="/showtb.asp?id=7785" target="_blank">引用通告<span id="ob_tbnum"></span></a> | <a href="/user_post.asp?logid=7785" target="_blank">编辑</a></DIV></TD></TR></TBODY></TABLE>
+<TABLE height=14 cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
+<TBODY>
+<TR>
+<TD class="content5"></TD>
+</TR></TBODY></TABLE></TD></TR></TBODY></TABLE><div id="blogaddon">
+<li>标签：<span><a href="/user1/16225/cmd.html?uid=16225&do=tag_blogs&id=1578">javax</a></span>&nbsp;</li></div>
+
+<div id="morelog">
+	<ul>
+		<li>上一篇：<a href="/user1/16225/archives/2006/7783.html">当艺术遭遇技术？暴强写诗机！！！</a></li>
+		<li>下一篇：<a href="/user1/16225/7787.html">JSP与JavaMail&nbsp;(一)</a></li>
+	</ul>
+</div>
+
+<div id="form_comment">
+	<div id="gg_usercomment"></div><a name="cmt"></a><div class="title">发表评论：</div>
+	<form action="/savecomment.asp?logid=7785" method="post" name="commentform" id="commentform" onSubmit="return Verifycomment()">
+		<div class="d1"><label>昵称：<input name="UserName" type="text" id="UserName" size="20" maxlength="20" value="" /></label></div>
+		<div class="d2"><label>密码：<input name="Password" type="password" id="Password" size="20" maxlength="20" value="" /> (游客无须输入密码)</label></div>
+		<div class="d3"><label>主页：<input name="homepage" type="text" id="homepage" size="42" maxlength="50" value="http://" /></label></div>
+		<div class="d4"><label>标题：<input name="commenttopic" type="text" id="commenttopic" size="42" maxlength="50" value="Re:初试javax.mail&nbsp;(转)" /></label></div>
+		<div class="d5">
+			<input type="hidden" name="edit" id="edit" value="" />
+			<div id="oblog_edit">loading...</div>
+		</div>
+		<div class="d6"><span id="ob_code"></span><input type="submit" value="&nbsp;提&nbsp;交&nbsp;" onclick='oblog_edittext.createTextRange().execCommand("Copy");'></div>
+	</form>
+</div>
+</td></tr></tbody></table></div></td>
+<td valign="top" align="right" width="205"><img height="425" src="/skin/20060603/3/index_04.jpg" width="150" alt="" /></td></tr></tbody></table>
+<table cellspacing="0" cellpadding="0" width="1004" border="0">
+<tbody>
+<tr>
+<td valign="top" bgcolor="#f4f4f4"><img height="18" src="/skin/20060603/3/index_16.jpg" width="1004" alt="" /> </td></tr></tbody></table><span id="gg_userbot"></span><div id="powered"></div>
+</body>
+</html><script src="/user1/16225/calendar/200610.htm"></script>
+<script src="/count.asp?action=code31"></script>
+<script src="/commentedit.asp"></script>
+<Script src="/count.asp?action=logtb31&id=7785"></Script>
+<script src="/login.asp?action=showindexlogin"></script>
+<script src="/ShowXml.asp?user_group=1&user_path=user1/16225"></script>
+<script src="/count.asp?action=site&id=16225"></script>
