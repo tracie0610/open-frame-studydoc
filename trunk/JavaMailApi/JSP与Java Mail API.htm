@@ -1,0 +1,635 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<Title>JSP与Java Mail API</Title>
+<META NAME="Keywords" content="JSP与Java Mail API,Java Mail">
+<META NAME="Description" content="邮件系统,邮件服务器,邮件技术的专业网站,提供邮件原理协议,系统选型,软件下载,系统安装,管理,维护的资讯">
+<META http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="http://www.5dmail.net/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="pgHead"><a 
+href="/" target="_blank">首页</a> | <a 
+href="/news.htm" target="_blank">邮件资讯</a> | <a 
+href="/tech.htm" target="_blank">技术教程</a> | <a 
+href="/solution.htm" target="_blank">解决方案</a> | <a 
+href="/lab.htm" target="_blank">产品评测</a> | <a 
+href="/job.htm" target="_blank">邮件人才</a> | <a 
+href="http://blog.5dmail.net" target="_blank">邮件博客</a> | <a 
+href="/bbs" target="_blank">邮件系统论坛</a> | <a 
+href="/down" target="_blank">软件下载</a> | <a 
+href="/weekly" target="_blank">邮件周刊</a> | <a 
+href="/hot.htm" target="_blank">热点专题</a> | <a
+href="/tools.htm" target="_blank">工具</a><br><a
+href="/net.htm" target="_blank">网络技术</a> | <a 
+href="/os.htm" target="_blank">操作系统</a> | <a 
+href="/mail.htm" target="_blank">邮件系统</a> | <a 
+href="/mailclient.htm" target="_blank">客户端</a> | <a 
+href="/email.htm" target="_blank">电子邮箱</a> | <a 
+href="/anti-spam.htm" target="_blank">反垃圾邮件</a> | <a 
+href="/security.htm" target="_blank">邮件安全</a> | <a 
+href="/market.htm" target="_blank">邮件营销</a> | <a 
+href="/pushmail.htm" target="_blank">移动电邮</a> | <a 
+href="/down/SoftSort-12.htm" target="_blank">邮件软件下载 | <a
+href="/down/SoftSort-13.htm" target="_blank">电子书下载</a>
+</div>
+<script language=javascript src=http://www.5dmail.net/js/AA1.js></script>
+<div id="ClassNav">
+ <div id="ClassTitle"><a href="/index5.htm"><h2>邮件服务器</h2></a></div>
+ <div id="ClassBody">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+   <td align="left" valign="middle" height="27" style="line-height:14px;"><a href=/NewList-12.htm>技术前沿</a> | <a href=/NewList-51.htm>Qmail</a> | <a href=/NewList-52.htm>IMail</a> | <a href=/NewList-53.htm>MDaemon</a> | <a href=/NewList-54.htm>Exchange</a> | <a href=/NewList-55.htm>Domino</a> | <a href=/NewList-56.htm>其它</a> | <a href=/NewList-106.htm>Foxmail</a> | <a href=/NewList-108.htm>James</a> | <a href=/NewList-111.htm>Kerio</a> | <a href=/NewList-112.htm>JavaMail</a> | <a href=/NewList-113.htm>WinMail</a> | <a href=/NewList-114.htm>Sendmail</a> | <a href=/NewList-115.htm>Postfix</a> | <a href=/NewList-116.htm>Winwebmail</a> | <a href=/NewList-117.htm>Merak</a> | <a href=/NewList-118.htm>CMailServer</a> | <a href=/NewList-119.htm>邮件与开发</a> | <a href=/NewList-139.htm>金笛</a> | </td>
+  </tr></table>
+ </div> 
+</div>
+
+<div id="SiteMapBox">
+ <div id="SiteMap">
+<a href="/" title="邮件系统-邮件服务器-邮件技术-反垃圾邮件－尽在邮件技术资讯网">首页</a> >
+<a href="/index5.htm">邮件服务器</a> >
+<a href="/NewList-112.htm">JavaMail</a> >
+<a href="/html/2006-1-5/200615155304.htm">JSP与Java Mail API</a> > 正文
+ </div>
+ <div id="SearchBox">
+  <form onsubmit="document.location.href='/search/1/0/0/'+this.keyword.value;return false;">
+  站内搜索：
+   <input name="keyword" type="text" size="25" value="263企业邮箱" onFocus="this.select();">
+   <input type="submit" value="搜索" class="button">
+  </form>
+ </div>
+</div>
+
+<div id="ContentBox">
+ <div id="ContentLeft">
+  <script language=javascript src=http://www.5dmail.net/js/AA2.js></script>
+  <div id="ContentBoxs">
+   <h1 class="articletitle">JSP与Java Mail API</h1>
+   <div class="articlemore">出处：Yesky  作者：包路跃 时间：2006-1-5 15:53:00<br><script language=javascript src=http://www.5dmail.net/js/AA5.js></script></div>
+   <div id="ArticleBody" class="articlecontent">
+<div style="clear:both;float:right;margin:0px;padding:0px;"><script language=javascript src=http://www.5dmail.net/js/AA4.js></script></div>
+　综述：Java Mail API的开发是SUN为Java开发者提供公用API框架的持续努力的良好例证。提倡公用框架，反对受限于供应商的解决方案，充分预示着一个日益开放的开发环境的建立。
+　　Java Mail API的结构本身证明了它的开发者的基本目标之一--软件开发的工作量应该取决于应用程序本身的复杂程度以及开发者所要求的控制程度。换句话说，Java Mail API尽可能地保持简单。乍看起来，Java Mail API所拥有的类总数以及类之间的关系可能让人误解为要花费漫长的学习时间。实际上，一旦正式开始使用，你就会发现该API不失为在应用程序中加入健壮的邮件/通讯支持的简单工具。
+　　建立JavaMail使用环境，需要哪些软件
+　　首先，需要安装JavaMail API。现在有两种常用的 JavaMail API 版本：1.2 和 1.1.3。虽然版本 1.2 是最新版，但版本 1.1.3 包含了Java 2 平台企业版（Java 2 Platform, Enterprise Edition，J2EE）的版本 1.2.1，所以仍然有很多人使用它。
+　　·JavaMail 1.2 的安装
+　　要使用 JavaMail 1.2 API，请下载 JavaMail 1.2 实现，解开Javamail-1_2.zip 文件，并将 mail.jar 文件添加到 CLASSPATH 中。除了核心类，随版本 1.2 实现一起提供的还有 SMTP、IMAP4 和 POP3 供应商。
+　　· JavaMail 1.1.3 的安装
+　　要使用 JavaMail 1.1.3 API，请下载 JavaMail 1.1.3 实现，解开Javamail1_1_3.zip文件，并将 mail.jar 文件添加到您的 CLASSPATH 中。除了核心类，随版本 1.1.3 实现一起提供的还有 SMTP 和 IMAP4 供应商。
+　　如果您用 JavaMail 1.1.3 访问一个 POP 服务器，请下载并安装一个 POP3 供应商。Sun 就有一个独立于 JavaMail 实现。下载并解开 pop31_1_1.zip 文件后，将 pop3.jar 也添加到您的 CLASSPATH 中。
+　　其次是JavaBeans Activation Framework 的安装。JavaMail API 的所有版本都需要 JavaBeans Activation Framework 来支持任意数据块的输入及相应处理。功能似乎不多，但目前许多浏览器和邮件工具中都能找到这种基本的 MIME 型支持。下载完框架后，解开 jaf1_0_1.zip 文件，并将 activation.jar 文件添加到 CLASSPATH 中。
+　　对于 JavaMail 1.2 用户来说，现在您应该已将 mail.jar 和 activation.jar 文件添加到 CLASSPATH 中了。
+　　而对于 JavaMail 1.1.3 用户，现在您应该已将 mail.jar、pop3.jar和 activation.jar文件添加到 CLASSPATH 中了。如果不打算用 POP3，就不必将 pop3.jar 添加到 CLASSPATH 中去。
+　　如果您不想更改 CLASSPATH 环境变量，将 jar 文件复制到您 Java 运行时环境（Java Runtime Environment，JRE）目录下的 lib/ext 目录中去。例如，J2SE 1.3 发行版的缺省目录在 Windows 平台的 C:\jdk1.3\jre\lib\ext。 
+　　Java Mail API有哪些核心类 
+　　·Javax.mail.Session：Session 类定义了一个基本邮件会话(session)，是Java Mail API最高层入口类。所有其它类都是经由这个session 才得以生效。Session 对象用 Java.util.Properties 对象获取信息，如邮件服务器、用户名、密码及整个应用程序中共享的其它信息。
+　　·Javax.mail.Message：一旦获得 Session 对象，就可以继续创建要发送的消息。这由 Message 类来完成。因为 Message 是个抽象类，必需用一个子类，多数情况下为 Javax.mail.internet.MimeMessage。MimeMessage 是个能理解 MIME 类型和头的电子邮件消息，正如不同 RFC 中所定义的。虽然在某些头部域非 ASCII 字符也能被译码，但 Message 头只能被限制为用 US-ASCII 字符。
+　　·Javax.mail.Address：一旦您创建了 Session 和 Message，并将内容填入消息后，就可以用 Address 确定信件地址了。和 Message 一样，Address 也是个抽象类。您用的是 Javax.mail.internet.InternetAddress 类。
+　　·Javax.mail. Authenticator：与 Java.net 类一样，JavaMail API 也可以利用 Authenticator 通过用户名和密码访问受保护的资源。对于JavaMail API 来说，这些资源就是邮件服务器。JavaMail Authenticator 在 Javax.mail 包中，而且它和 Java.net 中同名的类 Authenticator 不同。两者并不共享同一个 Authenticator，因为JavaMail API 用于 Java 1.1，它没有 Java.net 类别。
+要使用 Authenticator，先创建一个抽象类的子类，并从 getPasswordAuthentication() 方法中返回 PasswordAuthentication 实例。创建完成后，您必需向 session 注册 Authenticator。然后，在需要认证的时候，就会通知 Authenticator。您可以弹出窗口，也可以从配置文件中（虽然没有加密是不安全的）读取用户名和密码，将它们作为 PasswordAuthentication 对象返回给调用程序。
+　　·Javax.mail.Transport：消息发送的最后一部分是使用 Transport 类。这个类用协议指定的语言发送消息（通常是 SMTP）。它是抽象类，它的工作方式与 Session 有些类似。仅调用静态 send() 方法，就能使用类的 缺省 版本：Transport.send(message);或者，读者也可以从针对自己的协议的会话中获得一个特定的实例，传递用户名和密码（如果不必要就不传），发送消息，然后关闭连接。 
+　　·Javax.mail.Store：Store类实现特定邮件协议上的读、写、监视、查找等操作。通过Javax.mail.Store类可以访问Javax.mail.Folder类。
+　　·Javax.mail.Folder：Folder类用于分级组织邮件，并提供照Javax.mail.Message格式访问email的能力。
+　　怎样使用JSP发送email？
+　　下面我们通过一个简单的例子，来说明在JSP中邮件是如何发送的。该例由两个文件组成。一个是HTML文件，用来建立邮件信息（包括发送人、接收人、主题等）的表单，并将表单内容发送给JSP文件；另外一个是JSP页面，负责邮件的发送。
+HTML文件
+<HTML>
+<HEAD>
+<TITLE>发送邮件</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"></HEAD>
+<BODY>
+<FORM action="sendmail.jsp" method="post" name="form1">
+<TABLE align="center">
+  <TR>
+    <TD width="50%">
+       To:<BR><INPUT name="to" size="25">
+    </TD>
+    <TD width="50%">
+       From:<BR><INPUT name="from" size="25">
+    </TD>
+  </TR>
+  <TR>
+    <TD colspan="2">
+       Subject:<BR><INPUT name="subject" size="50">
+    </TD>
+  </TR>
+  <TR>
+    <TD colspan="2">
+      <P>Message:<BR>
+      <TEXTAREA name="text" rows=25 cols=85></TEXTAREA> 
+      </P>
+    </TD>
+  </TR>
+</TABLE>
+<INPUT type="submit" name="cb_submit" value=" Send ">
+<INPUT type="reset" name="cb_reset" value=" Clear ">
+</FORM>
+</BODY>
+</HTML> 
+　　JSP页面的作用就是获得表单提交过来的数据，并将这些数据赋给Java Mail API中相应的对象，最后完成邮件发送。
+sendmail.jsp文件
+<%@ page import=" Javax.mail.*, Javax.mail.internet.*, Javax.activation.*,Java.util.*"%>
+<html>
+<head>
+<TITLE>JSP meets JavaMail, what a sweet combo.</TITLE>
+</head>
+<body>
+<%
+try{
+Properties props = new Properties();
+Session sendMailSession;
+Store store;
+Transport transport; 
+sendMailSession = Session.getInstance(props, null);
+props.put("mail.smtp.host", "smtp.jspinsider.com");
+Message newMessage = new MimeMessage(sendMailSession);
+newMessage.setFrom(new InternetAddress(request.getParameter("from")));
+newMessage.setRecipient(Message.RecipientType.TO, new InternetAddress ( request.getParameter ("to")));
+newMessage.setSubject(request.getParameter("subject"));
+newMessage.setSentDate(new Date());
+newMessage.setText(request.getParameter("text"));
+transport = sendMailSession.getTransport("smtp");
+transport.send(newMessage);
+%>
+<P>Your mail has been sent.</P>
+<%
+}catch(MessagingException m)
+{
+out.println(m.toString());
+}
+%>
+</body>
+</html> 
+　　如何发送HTML类型的邮件 
+　　在上面的例子中，我们实现了如何发送文本格式的邮件，那么HTML格式的邮件该如何发送呢？那就看看下面的例子吧。
+　　该例由四个文件组成：
+　　·form.htm：用来建立邮件信息的表单
+　　·send.jsp：用来获取表单提交的信息，并调用mymail.mail.HTML.send()方法发送邮件
+　　·StringDataSource.Java：用户自定义的JavaBean，用来将邮件的Body部分转化为HTML格式
+　　·HTML.Java：用户自定义的JavaBean，用来发送HTML格式的邮件。在send.jsp文件中提到的mymail.mail.HTML.send()方法就在该JavaBean中定义。 
+form.htm
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title> JavaMail - 发送HTML邮件</title>
+</head>
+<body>
+<form method="post" action="send.jsp">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td>SMTP主机：</td>
+      <td><input type="text" name="smtp" size="80"></td>
+    </tr>
+    <tr>
+      <td>发信人：</td>
+      <td><input type="text" name="from" size="80"></td>
+    </tr>
+    <tr>
+      <td>收信人：</td>
+      <td><input type="text" name="to" size="80"></td>
+    </tr>
+    <tr>
+      <td>抄送人：</td>
+      <td><input type="text" name="cc" size="80"></td>
+    </tr>
+    <tr>
+      <td>暗送人：</td>
+      <td><input type="text" name="bcc" size="80"></td>
+    </tr>
+    <tr>
+      <td>主题：</td>
+      <td><input type="text" name="subject" size="80"></td>
+    </tr>
+    <tr>
+      <td valign="top">内容：</td>
+      <td><textarea name="body" rows="5" cols="80"></textarea></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center"><input type="submit" value="发送"></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html> 
+send.jsp
+<%
+//变量声明
+Java.lang.String smtp,from,to,cc,bcc,subject,body; 
+//获得用户输入数据
+smtp = request.getParameter("smtp");
+from = request.getParameter("from");
+to = request.getParameter("to");
+cc = request.getParameter("cc");
+bcc = request.getParameter("bcc");
+subject = request.getParameter("subject");
+if(subject!=null){
+subject = new Java.lang.String(subject.getBytes("iso-8859-1"));
+}
+body = request.getParameter("body");
+//发送邮件
+mymail.mail.HTML.send(smtp,from,to,cc,bcc,subject,body);
+%> 
+mymail.jaf.StringDataSource.Java
+package mymail.jaf;
+public class StringDataSource implements Javax.activation.DataSource
+{
+private Java.lang.String data;
+　　private Java.lang.String type; 
+　　　　public StringDataSource(Java.lang.String data,Java.lang.String type){
+　　　　　　　　this.data = data;
+　　this.type = type;
+　　} 
+　　　　public Java.io.InputStream getInputStream() throws Java.io.IOException{
+　　　　　　　　return new Java.io.StringBufferInputStream(data);
+} 
+　　public Java.io.OutputStream getOutputStream() throws Java.io.IOException{
+　　　　　　throw new Java.io.IOException("it does not support this method now!");
+　} 
+　public Java.lang.String getContentType(){
+　　　　　　　　　　return type;
+} 
+　　public Java.lang.String getName(){
+　　　　　　return " mymail ";
+}
+} 
+mymail.mail.HTML.Java
+package mymail.mail;
+public final class HTML
+{
+public static void send(
+　　　Java.lang.String smtp,　　 /*SMTP主机地址*/
+　　　Java.lang.String from,　　 /*发信人*/
+　　　　Java.lang.String to,　　 /*收信人*/
+　　　　Java.lang.String cc,　　 /*抄送人*/
+　　　　Java.lang.String bcc,　　/*暗送人*/
+　　　　Java.lang.String subject, /*主题*/
+　　　　Java.lang.String body /*内容*/
+　　　　　　　　) throws Java.lang.Exception
+{
+　　　//变量声明
+　　　　　Java.util.Properties props;　　　//系统属性
+　　　Javax.mail.Session mailSession;　　　//邮件会话对象
+　　　　　Javax.mail.internet.MimeMessage mimeMsg; //MIME邮件对象 
+　　　//设置系统属性
+　　　　　props = Java.lang.System.getProperties(); //获得系统属性对象
+　　　props.put("mail.smtp.host",smtp); //设置SMTP主机 
+　　　　　//获得邮件会话对象
+　　　mailSession = Javax.mail.Session.getDefaultInstance(props,null); 
+　　　　　//创建MIME邮件对象
+　　　mimeMsg = new Javax.mail.internet.MimeMessage(mailSession); 
+　　　　　//设置发信人
+　　　mimeMsg.setFrom(new Javax.mail.internet.InternetAddress(from)); 
+　　　　　//设置收信人
+　　　if(to!=null)
+{ 
+mimeMsg.setRecipients(Javax.mail.Message.RecipientType.TO,Javax.mail. internet.InternetAddress.parse(to));
+　　　　　} 
+　　　//设置抄送人
+　　　　　if(cc!=null)
+{
+mimeMsg.setRecipients(Javax.mail.Message.RecipientType.CC,Javax.mail. internet.InternetAddress.parse(cc));
+　　　　　} 
+//设置暗送人
+if(bcc!=null)
+{ 
+mimeMsg.setRecipients(Javax.mail.Message.RecipientType.BCC,Javax.mail. internet.InternetAddress.parse(bcc));
+　　　　　} 
+　　　设置邮件主题
+　　　　　//mimeMsg.setSubject(subject);
+　　　mimeMsg.setSubject(subject,"gb2312"); 
+　　　　　//设置邮件内容，将邮件body部分转化为HTML格式
+　　　mimeMsg.setDataHandler(new Javax.activation.DataHandler(new mymail.jaf. StringDataSource (body,"text/html"))); 
+　　　//发送邮件
+　　　　　Javax.mail.Transport.send(mimeMsg);
+　}
+} 
+　　如何实现消息和标志的删除？ 
+　　消息的删除涉及到与消息相关的 Flags（标志）。不同 flag 表示不同的状态，有些标志由系统定义，而有些则由用户自己定义。下面列出在内部类 Flags.Flag 中预定义的标志：
+　　·Flags.Flag.ANSWERED 
+　　·Flags.Flag.DELETED 
+　　·Flags.Flag.DRAFT 
+　　·Flags.Flag.FLAGGED 
+　　·Flags.Flag.RECENT 
+　　·Flags.Flag.SEEN 
+　　·Flags.Flag.USER 
+　　上述这些标志只是标准定义，并不意味着所有邮件服务器或供应商都支持所有这些标志。例如，除了删除消息标志外，POP 协议不再支持其它任何标志。检查是否存在新邮件，这不是个 POP 任务，而是内建于邮件客户机的任务。为找出哪些标志能被支持，可以用 getPermanentFlags() 向 folder 提出请求。
+　　要删除消息，您可以设置消息的 DELETED flag：
+　　message.setFlag(Flags.Flag.DELETED, true);
+　　首先，请以 READ_WRITE 模式打开 folder：
+　　folder.open(Folder.READ_WRITE);
+　　然后，当所有消息的处理完成后，关闭 folder，并传递一个 true 值，从而擦除（expunge）有 delete 标志的消息。
+　　folder.close(true);
+　　一个 Folder 的 expunge() 方法可以用来删除消息。但 Sun 的 POP3 供应商不支持。其它供应商有的或许能够实现这一功能，而有的则不能。IMAP 供应商极有可能实现此功能。因为 POP 只支持单个对邮箱的访问，对 Sun 的供应商来说，您必需关闭 folder 以删除消息。
+　　要取消标志，只要传递 false 给 setFlag() 方法就行了。想知道是否设置过标志，可以用 isSet() 检查。 
+　　如何实现认证？ 
+　　想必读者已经知道 ，如果需要可以用一个 Authenticator 提示用户输入用户名和密码，而不是将用户名和密码作为字符串传递。在这里您会明确了解怎样更充分的使用Java Mail API的认证机制。
+　　不用主机、用户名和密码与 Store 相连接，而是设置 Properties 来拥有主机，然后告诉 Session 自定义的 Authenticator 实例，如下所示： 
+// Setup properties
+Properties props = System.getProperties();
+props.put("mail.pop3.host", host); 
+// Setup authentication, get session
+Authenticator auth = new PopupAuthenticator();
+Session session = Session.getDefaultInstance(props, auth); 
+// Get the store
+Store store = session.getStore("pop3");
+store.connect(); 
+　　然后，创建一个 Authenticator 子类并从 getPasswordAuthentication() 方法中返回 PasswordAuthentication 对象。下面就是这样一种实现，其中用户名和密码仅占用一个域。（这不是一个 Swing 工程教程；只要将两部分输入同一个域，用逗号分隔就行。） 
+import Javax.mail.*;
+import Javax.swing.*;
+import Java.util.*; 
+public class PopupAuthenticator extends Authenticator 
+{
+public PasswordAuthentication getPasswordAuthentication() 
+{
+String username, password;
+　　String result = JOptionPane.showInputDialog("Enter 'username,password'");
+　　StringTokenizer st = new StringTokenizer(result, ",");
+　　username = st.nextToken();
+　　password = st.nextToken();
+　　return new PasswordAuthentication(username, password);
+　　　　　　　　}
+} 
+　　因为 PopupAuthenticator 涉及到 Swing，它会启动 AWT 的事件处理线程。这一点基本上要求您在代码中添加一个对 System.exit() 的调用来终止程序。
+　　如何实现消息的转发？
+　　转发消息，相对于其他功能来说，显得有些棘手。没有单独的方法可以供调用，读者必须通过对组成消息各部分的处理来组织要转发的消息。
+　　一条邮件消息可以由多个部分组成。在处理 MIME 消息时，消息中每部分都是 BodyPart，再特殊些，是 MimeBodyPart。不同的 body part（信体部件或正文部件）结合成一个容器，名为 Multipart，再特殊些，就是 MimeMultipart。要转发一条消息，您为自己的消息正文创建一个部件，要转发的消息作为另一部件。并且将两个部件结合成一个 multipart（多部件）。然后您将这个 multipart 添加到一则已写好恰当地址的消息中，并发送。
+　　本质上就是如此。要将一条消息内容复制到另一条，只要复制 DataHandler （JavaBeans Activation Framework 中的类）就行了。 
+// Create the message to forward
+Message forward = new MimeMessage(session);
+// Fill in header
+forward.setSubject("Fwd: " + message.getSubject());
+forward.setFrom(new InternetAddress(from));
+forward.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+// Create your new message part
+BodyPart messageBodyPart = new MimeBodyPart();
+messageBodyPart.setText( "Here you go with the original message:\n\n");
+// Create a multi-part to combine the parts
+Multipart multipart = new MimeMultipart();
+multipart.addBodyPart(messageBodyPart); 
+// Create and fill part for the forwarded content
+messageBodyPart = new MimeBodyPart();
+messageBodyPart.setDataHandler(message.getDataHandler()); 
+// Add part to multi part
+multipart.addBodyPart(messageBodyPart); 
+// Associate multi-part with message
+forward.setContent(multipart); 
+// Send message
+Transport.send(forward); 
+　　怎样处理附件？ 
+　　附件是邮件消息的相关资源，如通常不包含在消息正文里文本文件、电子表格或图像等。常见的邮件程序，如 Eudora 和 pine 之类，可以用 JavaMail API 将资源 attach（附加） 到您的消息上，就可以在收到消息时得到。
+　　附件的发送：
+　　发送附件非常像转发消息。您建立各部分以组成完整消息。完成第一部件，即消息正文后，您添加其它部件，其中每个 DataHandler 都代表附件，而不是转发消息情况下的共享处理程序。如果从文件中读附件，附件的数据源是 FileDataSource。而如果从 URL 中读时，附件的数据源是 URLDataSource。一旦存在 DataSource，只要先把它传递给 DataHandler 构造器，最后再用 setDataHandler() 把它附加到 BodyPart。假定您要保留附件的原始文件名，最终要做的是用 BodyPart 的 setFileName() 方法设置与附件相关的文件名。如下所示： 
+　// Define message
+　Message message = new MimeMessage(session);
+　message.setFrom(new InternetAddress(from));
+　message.addRecipient(Message.RecipientType.TO,
+　　new InternetAddress(to));
+　message.setSubject("Hello JavaMail Attachment"); 
+　// Create the message part
+　BodyPart messageBodyPart = new MimeBodyPart(); 
+　// Fill the message
+　messageBodyPart.setText("Pardon Ideas"); 
+　Multipart multipart = new MimeMultipart();
+　multipart.addBodyPart(messageBodyPart); 
+　// Part two is attachment
+　messageBodyPart = new MimeBodyPart();
+　DataSource source = new FileDataSource(filename);
+　messageBodyPart.setDataHandler(new DataHandler(source));
+　messageBodyPart.setFileName(filename);
+　multipart.addBodyPart(messageBodyPart); 
+　// Put parts in message
+　message.setContent(multipart); 
+　// Send the message
+　Transport.send(message); 
+　　就消息引入附件时，若程序是个 servlet （小服务程序），除告知消息发送到何处外，还必需上载附件。可以将 multipart/form-data 表单编码类型（form encoding type）用于每个上载文件的处理。 
+<FORM ENCTYPE="multipart/form-data"
+　　method=post action="/myservlet">
+　<INPUT TYPE="file" NAME="thefile">
+　<INPUT TYPE="submit" VALUE="Upload">
+</FORM> 
+　　注意：消息大小由 SMTP 服务器而不是 JavaMail API 来限制。如果您碰到问题，可以考虑用设置 ms 和 mx 参数的方法增大 Java 堆大小。 
+　　附件的获取： 
+　　从消息中获取附件比发送它们棘手些，因为 MIME 没有简单的关于附件的概念。当消息包含附件时，消息的内容是个 Multipart 对象。接着，您需要处理每个 Part，获取主要内容和附件。标有从 part.getDisposition() 获得的 Part.ATTACHMENT 配置（disposition）的部件（Part）无疑就是附件。但是，没有配置（以及一个非文本 MIME 类型）和带 Part.INLINE 配置的部件也可能是附件。当配置要么是 Part.ATTACHMENT，要么是 Part.INLINE 时，这个消息部件的内容就能被保存。只要用 getFileName() 和 getInputStream() 就能分别得到原始文件名和输入流。 
+Multipart mp = (Multipart)message.getContent();
+for (int i=0, n=multipart.getCount(); i<n; i++) {
+　Part part = multipart.getBodyPart(i));
+　String disposition = part.getDisposition();
+　if ((disposition != null) &&
+　　　((disposition.equals(Part.ATTACHMENT) ||
+　　　　　(disposition.equals(Part.INLINE))) {
+　　saveFile(part.getFileName(), part.getInputStream());
+　}
+} 
+　　saveFile() 方法仅依据文件名创建了一个 File，它从输入流中将字节读出，然后写入到文件中。万一文件已经存在，就在文件名后添加一个数字作为新文件名，如果这个文件名仍存在，则继续添，直到找不到这样的文件名为止。 
+// from saveFile()
+File file = new File(filename);
+for (int i=0; file.exists(); i++) {
+file = new File(filename+i);
+} 
+　　上面的代码涵盖了最简单的情况 - 消息中各部件恰当的标记了。要涵盖所有情况，还要在配置为空时进行处理，并且获取部件的 MIME 类型来进行相应处理。 
+if (disposition == null) {
+　// Check if plain
+　MimeBodyPart mbp = (MimeBodyPart)part;
+　if (mbp.isMimeType("text/plain")) {
+　　// Handle plain
+　} else {
+　　// Special non-attachment cases here of image/gif, text/html, ...
+　}
+...
+} 
+　　如何一次发送多个邮件？ 
+　　取得必要的Transport对象并调用SendMessage（）发送每一个邮件。注意在调用之间设置或改变接收者。
+　　　　Message message = …;
+　　　　Transport t = session.getTransport("smtp");
+　　　　t.connect();
+message.setRecipient(Message.RecipientType.TO,recipient1);
+t.sendMessage(message,recipient);
+message.setRecipient(Message.RecipientType.TO,recipient2);
+t.sendMessage(message,recipient);
+message.setRecipient(Message.RecipientType.TO,recipient3);
+t.sendMessage(message,recipient);
+t.close(); 
+　　如何保存邮件？ 
+　　用MimeMessage类的writeTo（）方法可以实现。用Message类的对象不能实现。
+　　　　FileOutputStream fos = new FileOutputStream("test.mail");
+　　　　Mimemessage.writeTo(fos); 
+　　怎样发送带有图像的HTML格式邮件？ 
+　　一些图像还是放在服务器上较好，让用户的邮件工具处理。读者可以将图像作为附件或HTML体发送。如果所有附件保存在同一个目录下，那么必须用不同的图像文件名以确保邮件工具不会显示其他图片。另外图像URL要用绝对路径，不能用相对路径。 
+　　如何设置∕获取邮件的优先级？ 
+　　设置邮件的优先级，只需在消息头中添加"X-Priority"属性：
+　　MimeMessage msg;
+　　Msg.addHeader("X-Priority","1");
+　　同样道理，要获取邮件的优先级只要获取"X-Priority"属性的值就可以了：
+String priority = msg.getHeader("X-Priority"); 
+　　附录：Java Mail API的基本概念 
+　　什么是Java Mail API 
+　　JavaMail API 是一个用于阅读、编写和发送电子邮件的可选包（标准扩展）。与 Eudora、pine 及 Microsoft Outlook 相似，这个包用来创建邮件用户代理（Mail User Agent，MUA） 类型程序。API 的主要用途并不在于传输、发送和转发消息；这一功能范围属于某些应用程序，如 sendmail 及其它邮件传输代理（Mail Transfer Agent，MTA）类型程序。MUA 类型的程序能让用户阅读和书写邮件，而它却依赖 MTA 处理实际发送。 
+　　什么是SMTP 
+　　SMTP（Simple Mail Transfer Protocol），即简单邮件传输协议，它定义了发送电子邮件的机制。在 JavaMail API 环境中，基于 JavaMail 的程序将和您的公司或因特网服务供应商的（Internet Service Provider's，ISP's）SMTP 服务器通信。SMTP 服务器可将消息中转至接收方 SMTP 服务器，以便最终让用户经由 POP 或 IMAP 获得。这不是要求 SMTP 服务器成为开放的中继，尽管 SMTP 服务器支持身份验证，不过还是得确保它的配置正确。像配置服务器来中继消息或添加删除邮件账号这类任务的实现，JavaMail API 中并不支持。 
+　　什么是POP 
+　　POP（Post Office Protocol），即邮局协议。目前用的是版本3，所以人们通常将它称为 POP3，RFC 1939 定义了这个协议。POP 和SMTP一样，也是一种机制，Internet上大多数人通过它得到邮件。该协议规定每个用户只能有一个邮箱的支持。这就是它所能做的，而这也造成了许多混淆。使用 POP 时，用户熟悉的许多性能并不是由 POP 协议支持的，如查看有几封新邮件消息这一性能。这些性能内建于如 Eudora 或 Microsoft Outlook 之类的程序中，它们能记住一些事，诸如最近一次收到的邮件，还能计算出有多少是新的。所以当使用 JavaMail API 时，如果读者想要这类信息，就只能由自己来计算了。 
+　　什么是IMAP 
+　　IMAP（Internet Message Access Protocol），即Internet消息访问协议，是更高级的用于接收消息的协议，在 RFC 2060 中有它的定义。目前使用的IMAP版本为4，人们习惯将它称为 IMAP4。在用到 IMAP 时，邮件服务器必需支持这个协议。不能仅仅把使用 POP 的程序用于 IMAP，并指望它支持 IMAP 所有性能。假设邮件服务器支持 IMAP，基于 JavaMail 的程序可以利用这种情况--用户在服务器上可以有多个文件夹（folder），并且这些文件夹可以被多个用户共享。
+　　因为有这一更高级的性能，您也许会认为所有用户都会使用 IMAP。事实并不是这样。要求服务器接收新消息，在用户请求时发送到用户手中，还要在每个用户的多个文件夹中维护消息。这样虽然能将消息集中备份，但随着用户长期的邮件夹越来越大，到磁盘空间耗尽时，每个用户都会受到损失。使用 POP，就能卸载邮件服务器上保存的消息了。 
+　　什么是MIME 
+　　MIME（Multipurpose Internet Mail Extensions），即多用途Internet邮件扩展标准。它不是邮件传输协议，而是对传输内容的消息、附件及其它的内容定义了格式。这里有很多不同的RFC（Requirement of Comment）文档：RFC 822、RFC 2045、RFC 2046 和 RFC 2047。作为一个 JavaMail API 的用户，您通常不必对这些格式操心。无论如何，一定存在这些格式而且程序会用到它。
+   </div>
+  </div>
+<div style="border-width:0px;border-style:solid;border-color:#0766C0;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-6965424351286817";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7378659524";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "CCCCCC";
+google_color_text = "000000";
+//--></script><script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+</div>
+  <table width="100%" border="0" cellpadding="0" cellspacing="10">
+   <tr>
+    <td class="articleabouttitle" width="50%">相关文章</td>
+    <td class="articletoptitle" width="50%">热门文章</td>
+   </tr>
+   <tr>
+    <td valign="top" align="left"><li><a href=/html/2009-2-17/2009217221825.htm target=_blank title="Foxmail中通过代理服务器收取邮件 ">Foxmail中通过代理服务器收取邮件 </a></li><li><a href=/html/2009-2-17/2009217221754.htm target=_blank title="Foxmail收发Hotmail/MSN邮件 ">Foxmail收发Hotmail/MSN邮件 </a></li><li><a href=/html/2009-2-17/2009217115531.htm target=_blank title="Becky! Internet Mail Read Receipt请求缓冲区溢出漏洞">Becky! Internet Mail Read Receipt请求缓冲区溢出漏洞</a></li><li><a href=/html/2009-2-17/2009217114650.htm target=_blank title="Gmail邮箱发送电子邮件时可显示地理位置">Gmail邮箱发送电子邮件时可显示地理位置</a></li><li><a href=/html/2009-2-17/2009217114449.htm target=_blank title="安全防护之加固Foxmail以确保邮件隐私">安全防护之加固Foxmail以确保邮件隐私</a></li><li><a href=/html/2009-2-17/2009217114304.htm target=_blank>Hotmail邮箱 POP3 功能已经向美国, 巴西等 11 国用户开放</a></li><li><a href=/html/2009-2-17/2009217114227.htm target=_blank title="让Gmail告诉好友 你正身处何方">让Gmail告诉好友 你正身处何方</a></li><li><a href=/html/2009-2-17/200921701158.htm target=_blank title="在Windows Live Mail中添加邮件过滤规则">在Windows Live Mail中添加邮件过滤规则</a></li><li><a href=/html/2009-2-17/200921700444.htm target=_blank title="我发的情书她看了吗 Email跟踪大法">我发的情书她看了吗 Email跟踪大法</a></li><li><a href=/html/2009-2-15/2009215220635.htm target=_blank title="Nokia旗下Mail on Ovi邮箱开放注册(组图)">Nokia旗下Mail on Ovi邮箱开放注册(组图)</a></li><li><a href=/html/2009-2-15/2009215220322.htm target=_blank title="Exchange 14将引入Gmail式的会话模式 提供多浏览器支持">Exchange 14将引入Gmail式的会话模式 提供多浏览器支持</a></li><li><a href=/html/2009-2-15/2009215220203.htm target=_blank title="雅虎副总裁：Gmail不可怕 没法超越雅虎邮件">雅虎副总裁：Gmail不可怕 没法超越雅虎邮件</a></li></td>
+    <td valign="top" align="left"><li><a href=/html/2004-7-5/20047590809.htm target=_blank>在JSP中使用JavaMail</a></li><li><a href=/html/2006-6-20/2006620162556.htm target=_blank>通过JavaMail访问Hotmail邮箱</a></li><li><a href=/html/2006-1-5/200615154918.htm target=_blank>JavaMail API细节详细解析大全</a></li><li><a href=/html/2006-6-20/2006620160939.htm target=_blank>利用JavaMail收/发Gmail邮件(SSL) </a></li><li><a href=/html/2006-6-20/2006620161649.htm target=_blank>JavaMail之POP3协议判断新邮件的思路 </a></li><li><a href=/html/2005-7-12/2005712141103.htm target=_blank>javamail发送邮件</a></li><li><a href=/html/2005-7-12/2005712141336.htm target=_blank>javamail写的解析MimeMessage的程序</a></li><li><a href=/html/2006-1-5/200615153346.htm target=_blank>Javamail的开发与应用总结经验之一</a></li><li><a href=/html/2006-6-20/2006620161512.htm target=_blank>JavaMail实现邮件特快专递 </a></li><li><a href=/html/2005-7-12/2005712135344.htm target=_blank>Javamail操作指南：实例代码解析</a></li><li><a href=/html/2006-6-20/2006620161313.htm target=_blank>JavaMail 之 杜绝邮件乱码 </a></li><li><a href=/html/2006-2-25/2006225134047.htm target=_blank>简化JavaMail：小巧 Jakarta Commons-Email</a></li></td>
+   </tr>
+  </table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+    <td class="articleboxtitle">自由广告区</td>
+   </tr>
+   <tr>
+    <td>
+</td>
+   </tr>
+  </table>
+ </div>
+ <div id="Split">&nbsp;</div>
+ <div id="ContentRight">
+  <table width="100%" border="0" cellpadding="3" cellspacing="0">
+   <tr>
+    <td align="center" valign=middle><script language=javascript src=http://www.5dmail.net/js/BA1.js></script></td>
+   </tr>
+   <tr>
+    <td align="center" valign=middle><script language=javascript src=http://www.5dmail.net/js/BA2.js></script></td>
+   </tr>
+   <tr>
+    <td align="center" valign=middle><script language=javascript src=http://www.5dmail.net/js/BA3.js></script></td>
+   </tr>
+  </table>
+
+  <table width="100%" height="24" border="0" cellpadding="0" cellspacing="0">
+   <tr>
+    <td class="articleboxtitle">最新软件下载</td>
+   </tr>
+   <tr>
+    <td class="articleboxs"><li><a href=/down/SoftList-3438.htm target=_blank>Foxmail6.5Beta3 </a><li><a href=/down/SoftList-3437.htm target=_blank>邮件清道夫简体中文 6.4.2 </a><li><a href=/down/SoftList-3435.htm title="Microsoft Exchange Server 2007: A Beginner's Guide " target=_blank>Microsoft Exchange Server 2007: A B...</a><li><a href=/down/SoftList-3436.htm title="Exchange 2007 Messaging Design and Deployment " target=_blank>Exchange 2007 Messaging Design and ...</a><li><a href=/down/SoftList-3434.htm target=_blank>Sound Blaster 16 For windows 2003驱动 </a><li><a href=/down/SoftList-3122.htm target=_blank>ORF Enterprise Edition 4.2 正式版 </a><li><a href=/down/SoftList-3433.htm target=_blank>MDaemon Server 10.04 英文正式版 </a><li><a href=/down/SoftList-3432.htm target=_blank>MDaemon Server 10.04 简体中文版 </a><li><a href=/down/SoftList-3431.htm target=_blank>IceWarp Server 9.4 英文正式版 </a><li><a href=/down/SoftList-3430.htm target=_blank>RelayFax Server 6.7.7 英文正式版 </a><li><a href=/down/SoftList-3408.htm target=_blank>Outlook Connector for MDaemon 2.2.1 </a><li><a href=/down/SoftList-3429.htm title="SecurityPlus for MDaemon 4.0.2 中文正式版 " target=_blank>SecurityPlus for MDaemon 4.0.2 中文...</a></td>
+   </tr>
+  </table>
+
+  <table width="100%" height="24" border="0" cellpadding="0" cellspacing="0">
+   <tr>
+    <td class="articleboxtitle">今日邮件技术文章</td>
+   </tr>
+   <tr>
+    <td class="articleboxs"><li><a href=/html/2009-2-18/2009218223509.htm title="邮件清道夫使用指南-高效过滤Outlook垃圾邮件" target=_blank>邮件清道夫使用指南-高效过滤Outlook垃..</a><li><a href=/html/2009-2-18/2009218211550.htm target=_blank>众人拾柴火焰高，共同抗击垃圾邮件</a><li><a href=/html/2009-2-18/2009218160807.htm target=_blank>电子邮件归档市场的发展和现状</a><li><a href=/html/2009-2-18/2009218160720.htm title="联想RIM推"常通卡" 黑莓收电邮加载至关机笔记本" target=_blank>联想RIM推"常通卡" 黑莓收电邮加载至关..</a><li><a href=/html/2009-2-18/2009218160643.htm target=_blank>反图片垃圾邮件技术 梭子鱼的又一利器</a><li><a href=/html/2009-2-18/2009218160401.htm title="联想RIM联合推新品 将黑莓邮件自动转至ThinkPad" target=_blank>联想RIM联合推新品 将黑莓邮件自动转至..</a><li><a href=/html/2009-2-18/200921804350.htm target=_blank>个性化Exchange OWA 2007 登录/注销界面</a><li><a href=/html/2009-2-17/2009217221825.htm target=_blank>Foxmail中通过代理服务器收取邮件 </a><li><a href=/html/2009-2-17/2009217221754.htm target=_blank>Foxmail收发Hotmail/MSN邮件 </a><li><a href=/html/2009-2-17/2009217115642.htm target=_blank>Exchange Server TNEF解码内存破坏漏洞</a><li><a href=/html/2009-2-17/2009217115619.htm title="Exchange Server EMSMDB2 MAPI命令远程拒绝服务漏洞" target=_blank>Exchange Server EMSMDB2 MAPI命令远程..</a><li><a href=/html/2009-2-17/2009217115553.htm target=_blank>GNOME Evolution S/MIME邮件签名验证漏洞</a></td>
+   </tr>
+  </table>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+    <td class="articleboxtitle">最新专题</td>
+   </tr>
+   <tr>
+    <td class="articleboxs"><li><a href=/TopicList-20.htm target=_blank>Sendmail 邮件系统配置</a><li><a href=/TopicList-19.htm target=_blank>组建Exchange 2003邮件系统</a><li><a href=/TopicList-18.htm target=_blank>Windows Server 2008 专题</a><li><a href=/TopicList-17.htm target=_blank>ORF 反垃圾邮件系统</a><li><a href=/TopicList-14.htm target=_blank>Exchange Server 2007 专题</a><li><a href=/TopicList-13.htm target=_blank>ISA Server 2006 教程专题</a><li><a href=/TopicList-12.htm target=_blank>Windows Vista 技术专题</a><li><a href=/TopicList-11.htm target=_blank>“黑莓”（BlackBerry）专题</a><li><a href=/TopicList-10.htm target=_blank>移动电子邮件专题</a><li><a href=/TopicList-9.htm target=_blank>Apache James 专题</a><li><a href=/TopicList-7.htm target=_blank>IMail Server 操作指南</a><li><a href=/TopicList-6.htm target=_blank>ISA Server 2004 使用专题</a></td>
+   </tr>
+  </table>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+    <td class="articleboxtitle">分类导航</td>
+   </tr>
+   <tr>
+    <td class="articleboxs"><span class="bt">邮件新闻资讯:</span><br>
+<a href="/NewList-144.htm" target="_blank">IT业界 </a> | <a href="/NewList-11.htm" target="_blank">邮件服务器</a> | <a href="/NewList-93.htm" target="_blank">邮件趣闻</a> | <a href="/NewList-141.htm" target="_blank">移动电邮</a><br>
+<a href="/NewList-148.htm" target="_blank">电子邮箱</a> | <a href="/NewList-140.htm" target="_blank">反垃圾邮件</a><a href="/NewList-145.htm" target="_blank"></a>|<a href="/NewList-146.htm" target="_blank">邮件客户端</a>|<a href="/NewList-159.htm" target="_blank">网络安全</a><br>
+<a href="/NewList-126.htm" target="_blank">行业数据 </a>| <a href="/NewList-125.htm" target="_blank">邮件人物</a> | <a href="/NewList-14.htm" target="_blank">网站公告</a> | <a href="/NewList-13.htm">行业法规</a> <br>
+<span class="bt">网络技术:</span><br>
+<a href="/NewList-31.htm" target="_blank">邮件原理</a> | <a href="/NewList-82.htm" target="_blank">网络协议</a> | <a href="/NewList-32.htm" target="_blank">网络管理</a> | <a href="/NewList-84.htm" target="_blank">传输介质</a><br>
+<a href="/NewList-85.htm" target="_blank">线路接入</a> | <a href="/NewList-86.htm" target="_blank">路由接口</a> | <a href="/NewList-92.htm" target="_blank">邮件存储</a> | <a href="/NewList-97.htm" target="_blank">华为3Com</a><br>
+<a href="/NewList-33.htm" target="_blank">CISCO技术</a> | <a href="/NewList-83.htm" target="_blank">网络与服务器硬件</a><br>
+<span class="bt">操作系统:</span><br>
+<a href="/NewList-40.htm" target="_blank">Windows 9X</a> | <a href="/NewList-41.htm" target="_blank">Linux&amp;Uinx</a> | <a href="/NewList-42.htm" target="_blank">Windows NT</a><br>
+<a href="/NewList-79.htm" target="_blank">Windows Vista </a> | <a href="/NewList-124.htm" target="_blank">FreeBSD</a> | <a href="/NewList-44.htm" target="_blank">其它操作系统</a><br>
+<span class="bt">邮件服务器:</span><br>
+<a href="/NewList-119.htm" target="_blank">程序与开发</a> | <a href="/NewList-54.htm" target="_blank">Exchange</a> | <a href="/NewList-51.htm" target="_blank">Qmail</a> | <a href="/NewList-115.htm" target="_blank">Postfix</a><br>
+<a href="/NewList-114.htm" target="_blank">Sendmail</a> | <a href="/NewList-53.htm" target="_blank">MDaemon</a> | <a href="/NewList-55.htm" target="_blank">Domino</a> | <a href="/NewList-106.htm" target="_blank">Foxmail</a><br>
+<a href="/NewList-111.htm" target="_blank">KerioMail</a> | <a href="/NewList-112.htm" target="_blank">JavaMail</a> | <a href="/NewList-116.htm" target="_blank">Winwebmail</a> |<a href="/NewList-108.htm" target="_blank">James</a><br>
+<a href="/NewList-117.htm" target="_blank">Merak&amp;VisNetic</a> | <a href="/NewList-118.htm" target="_blank">CMailServer</a> | <a href="/NewList-113.htm" target="_blank">WinMail</a><br>
+<a href="/NewList-108.htm" target="_blank">金笛邮件系统</a> | <a href="/NewList-56.htm" target="_blank">其它</a> | <br>
+<span class="bt">反垃圾邮件:</span><br>
+<a href="/NewList-58.htm" target="_blank">综述</a>| <a href="/NewList-61.htm" target="_blank">客户端反垃圾邮件</a>|<a href="/NewList-62.htm" target="_blank">服务器端反垃圾邮件</a><br>
+<span class="bt">邮件客户端软件:</span><br>
+<a href="/NewList-65.htm" target="_blank">Outlook</a> | <a href="/NewList-66.htm" target="_blank">Foxmail</a> | <a href="/NewList-70.htm" target="_blank">DreamMail</a>| 
+<a href="/NewList-72.htm" target="_blank">KooMail</a> <br>
+<a href="/NewList-109.htm" target="_blank">The bat</a> | <a href="/NewList-73.htm" target="_blank">雷鸟</a> | <a href="/NewList-68.htm" target="_blank">Eudora </a> |<a href="/NewList-69.htm">Becky! </a>|<a href="/NewList-67.htm" target="_blank">Pegasus</a><br>
+<a href="/NewList-71.htm" target="_blank">IncrediMail</a> |<a href="/NewList-74.htm" target="_blank">其它</a><br>
+<span class="bt">电子邮箱:</span> <a href="/NewList-77.htm" target="_blank">个人邮箱</a> | <a href="/NewList-78.htm" target="_blank">企业邮箱</a> |<a href="/NewList-163.htm">Gmail</a> <br>
+<span class="bt">移动电子邮件:</span><a href="/NewList-101.htm" target="_blank">服务器</a> | <a href="/NewList-102.htm" target="_blank">客户端</a> | <a href="/NewList-103.htm" target="_blank">技术前沿</a><br>
+<span class="bt">邮件网络安全:</span><br>
+<a href="/NewList-87.htm" target="_blank">软件漏洞</a> | <a href="/NewList-89.htm" target="_blank">安全知识</a> | <a href="/NewList-90.htm" target="_blank">病毒公告</a> |<a href="/NewList-160.htm">防火墙</a> <br>
+<a href="/NewList-88.htm" target="_blank">攻防技术</a> | <a href="/NewList-91.htm" target="_blank">病毒查杀| </a> <a href="/NewList-94.htm" target="_blank">ISA </a>|  <a href="/NewList-94.htm" target="_blank">数字签名 </a><br>
+<span class="bt">邮件营销:</span><br>
+<a href="/NewList-128.htm" target="_blank">Email营销</a> | <a href="/NewList-129.htm" target="_blank">网络营销</a> | <a href="/NewList-130.htm" target="_blank">营销技巧</a> |<a href="/NewList-131.htm" target="_blank">营销案例</a><br>
+<span class="bt">邮件人才:</span><a href="/NewList-133.htm" target="_blank">招聘</a> | <a href="/NewList-135.htm" target="_blank">职场</a> | <a href="/NewList-136.htm" target="_blank">培训</a> | <a href="/NewList-137.htm" target="_blank">指南</a> | <a href="/NewList-138.htm" target="_blank">职场</a><br>
+<span class="bt">解决方案:</span><br>
+<a href="/NewList-150.htm" target="_blank">邮件系统</a>|<a href="/NewList-149.htm" target="_blank">反垃圾邮件</a> |<a href="/NewList-151.htm" target="_blank">安全</a> |<a href="/NewList-152.htm" target="_blank">移动电邮</a> |<a href="/NewList-153.htm" target="_blank">招标</a><br>
+<span class="bt">产品评测:</span><br>
+<a href="/NewList-157.htm" target="_blank">邮件系统</a> |<a href="/NewList-158.htm" target="_blank">反垃圾邮件</a> |<a href="/NewList-155.htm" target="_blank">邮箱</a> |<a href="/NewList-154.htm" target="_blank">安全</a> |<a href="/NewList-156.htm" target="_blank">客户端</a><br></td>
+   </tr>
+  </table>
+ </div>
+</div>
+<script language="JavaScript" type="text/javascript">
+for(i=1; i<document.images.length;i++){
+ if(document.images[i].width>700) {
+  document.images[i].height=document.images[i].height*700/document.images[i].width;
+  document.images[i].width=700;
+ }
+}
+</script>
+<script type="text/javascript"><!--
+document.getElementById("contentleft").height=document.getElementById("contentbox").height;
+document.getElementById("contentright").height=document.getElementById("contentbox").height;
+document.ns = navigator.appName == "Netscape"
+
+function Splitload(){
+ Splitmove();
+}
+
+function Splitmove(){
+ if(window.pageYOffset){
+   document.getElementById('Split').style.top=window.pageYOffset;
+ }else{
+   document.getElementById('Split').style.top=100;
+ }
+ setTimeout("Splitmove();",80)
+}
+Splitmove();
+//--></script>
+<div id="pgFoot"><table border="0" cellpadding="0" cellspacing="0" width="1000" align="center" style="border-top:1px solid #000000;">
+<tr><td><a href="http://www.5dmail.net/html/2003-10-24/20031024104312.htm">广告联系</a> | <a href="http://www.5dmail.net/html/2004-11-4/2004114105056.htm">合作联系</a> | <a href="http://www.5dmail.net/html/2003-10-24/20031024104312.htm">关于我们</a> | <a href="http://www.5dmail.net/html/2003-10-24/20031024104312.htm">联系我们</a> | <a name="StranLink" style="color:red">繁體中文</a><br>
+版权所有：邮件技术资讯网&copy;2003-2009 www.5dmail.net, All Rights Reserved<br>
+www.5Dmail.net Web Team &nbsp;&nbsp;粤ICP备05009143号
+</td></tr></table>
+</div>
+<script language="javascript" src="/wq_stranJF.js"></script>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">_uacct = "UA-1289064-2";urchinTracker();</script>
+<script type="text/javascript">document.write("<script type=text/javascript src=/art_count_4658.js></"+"script>");</script>
+</body>
+</html>
