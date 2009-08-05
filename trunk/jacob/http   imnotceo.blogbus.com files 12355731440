@@ -1,0 +1,69 @@
+﻿
+public class TestDoc {
+
+	/**
+	 * 静态常数字段，创建表格的行数
+	 */
+	private static final int TABLEROWSNUM = 8;
+	/**
+	 * 静态常数字段，创建表格的列数
+	 */
+	private static final int TABLECOLSNUM = 8;
+
+	/**
+	 * 修改一张表的指定多个列的宽度 注：在执行此方法前，必须获得列所在的表和列组合对象
+	 * 
+	 * @param msWordManager
+	 *            word组件
+	 * @param startColNum
+	 *            开始行的索引
+	 * @param interval
+	 *            间隔行数，即间隔多少行修改一次
+	 * @param width
+	 *            行宽
+	 */
+	private static void modifyColWidth(WordBean msWordManager, int startColNum,
+			int interval, int width) {
+		for (int i = startColNum; i <= TABLECOLSNUM; i += interval) {
+			msWordManager.modifyColWidth(i, width);
+		}
+	}
+
+	private static List createTestList() {
+		List lst = new ArrayList();
+		String[] cardContent = new String[4];
+		cardContent[0] = "talker";
+		cardContent[1] = "1234";
+		cardContent[2] = "某某街道";
+		cardContent[3] = "D:/Work/javaWord/logo2.bmp";
+		lst.add(cardContent);
+		return lst;
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String args[]) {
+
+		WordBean msWordManager = new WordBean();
+		msWordManager.createNewDocument();
+		msWordManager.insertText("abc");
+		msWordManager.createTable("abc", 8, 8);
+		msWordManager.getColumns();
+		modifyColWidth(msWordManager, 2, 2, 100);// 100对应20厘米
+		int row = 1;// 行号
+		int colPicI = 1;// 上方logo位置列号
+		int colPicII = 1;// 左侧照片位置列号
+		for (int count = 1; count <= 8; count++, colPicI++, colPicII += 2) {
+			if (count == 5) {
+				row = 5;
+				colPicI = 1;
+				colPicII = 1;
+			}
+			msWordManager.mergeCell(row, colPicI, row, colPicI + 1);
+			msWordManager.mergeCell(row + 1, colPicII, row + 3, colPicII);
+		}
+		msWordManager.save("d:\\work\\javaWord\\test.doc");
+		msWordManager.close();
+		}
+}

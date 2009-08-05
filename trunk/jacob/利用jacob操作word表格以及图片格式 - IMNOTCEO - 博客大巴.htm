@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>利用jacob操作word表格以及图片格式 - IMNOTCEO - 博客大巴</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='description' content='前些日子在公司实习，用到java来批量生成表格并且插入图片，搞得我焦头烂额。主要是用jacob的人可能比较少些（用.net也不多，一般直接几句vc或者vb就可以解决了），网上相关的资料也不多。后来自己琢磨了下，终于搞出了点名堂。在这里分享下。
+
+关于dispatch的几个静态方法 ：
+ 
+         call:调用对象方法，其中的...' />
+<link rel='alternate' type='application/rss+xml' title='RSS 2.0' href='http://imnotceo.blogbus.com/index.rdf' />
+<link href='http://public.blogbus.com/blogbus/skin_css/sys/50174.css' rel='stylesheet' type='text/css' />
+<script>if (top.location != self.location) {top.location=self.location;}</script><script type="text/javascript" src="http://public.blogbus.com/blogbus/skin/common/resize.js"></script>
+
+<script type="text/javascript"> 
+var content_img_width = 600;
+</script></head><body>
+<div id="detail">
+	<div id="container">
+		<div id="header">
+			<h1 class="blogName"><a href="http://imnotceo.blogbus.com" title="http://imnotceo.blogbus.com">IMNOTCEO</a></h1>
+			<div class="description">CSDN广告太多了。。随便找了个地方写点技术蚊帐。</div>
+
+			<div class="clear"></div>
+		</div>
+        <div id="main">
+       <div id="innerContainer">
+           <div class="innerTop"></div>
+            <div id="outerContent">
+
+                <div id="content">
+                <div class="cont_main">
+                	<div class="contentMain">
+                    <div class="contentTop"></div>
+                                                <ul id="posts">
+                            <div class="postsTop"></div>
+                            <div class="context"><span class="pre"></span> | <span class="top"><a href="http://imnotceo.blogbus.com">首页</a></span> | <span class="next"><a href='/logs/34267949.html'>在Vista Ultimate下部署ArcGIS Server 9.3&nbsp;&nbsp;&gt;&gt;</a></span></div>
+                            <!--list-->
+                            <li>
+                                <div class="postHeader">
+                                    <h3>2008-12-05</h3>
+                                    <h2>利用jacob操作word表格以及图片格式<span class='category'> - [<a href='/c2250379/'>Java/Jacob</a>]</span></h2>
+                                </div>
+                                <div class="postBody">
+                                    <p class="cc-lisence" style="line-height:180%;">
+<a href="http://creativecommons.org/licenses/by/3.0/deed.zh" target="_blank">版权声明</a>：转载时请以超链接形式标明文章原始出处和作者信息及<a
+href="http://bangzhuzhongxin.blogbus.com/logs/11205960.html"
+target="_blank">本声明</a><br /><a href="http://imnotceo.blogbus.com/logs/32174360.html">http://imnotceo.blogbus.com/logs/32174360.html</a><br /><br />
+</p><p>前些日子在公司实习，用到java来批量生成表格并且插入图片，搞得我焦头烂额。主要是用jacob的人可能比较少些（用.net也不多，一般直接几句vc或者vb就可以解决了），网上相关的资料也不多。后来自己琢磨了下，终于搞出了点名堂。在这里分享下。<br />
+<br />
+关于dispatch的几个静态方法 ：</p>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call:调用对象方法，其中的第一个参数是对象名，第二个字符串参数就是方法名字，有时会有方法参数。例如：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Dispatch
+table=Dispatch.call(tables, "Item", new
+Variant(1)).toDispatch();</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; //相当于执行了vb中的：table=tables.item(1)</p>
+<p>&nbsp;</p>
+<div style="text-indent: 2em">
+</div>
+<div style="text-indent: 2em">
+&nbsp;&nbsp;&nbsp;
+get:返回属性，字符串就是属性名称。例如：</div>
+<div style="text-indent: 2em"><br /></div>
+<div style="text-indent: 2em;">Dispatch
+cols = Dispatch.get(this.table,
+"Columns").toDispatch();</div>
+<div style="text-indent: 2em">//相当于执行了vb中的：cols=table.Columns<br />
+&nbsp;&nbsp; &nbsp;</div>
+<div style="text-indent: 2em">
+&nbsp;&nbsp;&nbsp; put：设置属性，第三个参数就是要设置的属性值。例如：</div>
+<div style="text-indent: 2em"><br /></div>
+<div style="text-indent: 2em;">Dispatch.put(selection, "Text",
+"pinpinILoveYou");</div>
+<div style="text-indent: 2em">//相当于执行了vb中的：selection.Text="pinpinILoveYou"，意为在当前光标插入点插入一个字符串<br />
+<br /><br />
+<br />
+可能大家会有困惑，就是不知道哪些对象有哪些属性，比如我要在word中设置一张图片格式为透明，但我不知到如何得到这张图片对象，在调用Dispatch的静态方法时，设置它的哪些属性。也就是call,put,get方法中，第二个参数是什么没办法来简单的得到。<br />
+<br />
+我提供大家一个简单的方法，就是<span style="color: #ff99cc;"><strong>利用word的&ldquo;vba对象浏览器&rdquo;配合"录制宏"两个功能来完成java对word的控制。</strong></span><br />
+<br />
+比如说，我要设置一张图片格式为透明，那么我先在word里录制一段宏，然后在vba里查看这段代码如下：<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Selection.InlineShapes(1).PictureFormat.TransparentBackground =
+msoTrue<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Selection.InlineShapes(1).PictureFormat.TransparencyColor =
+RGB(255, 255, 255)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Selection.InlineShapes(1).Fill.Visible = msoFalse<br />
+<br />
+如果我要用JavaCom桥来执行上面三句代码的话，意味着我必须先获得Selection可编辑区域对象，再获得InlineShapes(1)图形对
+象，再获得PictureFormat图片格式对象，最后设置它的两个属性TransparentBackground和
+TransparencyColor。具体代码和说明如下：<br />
+<br />
+<span style="color: #008400;">//--------------设置图片格式透明----------------</span><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="color: #008400;">//插入一张图片，其类型为InlineShapes</span></div>
+<div style="text-indent: 2em">
+&nbsp; Dispatch image = Dispatch.call(Dispatch.get(this.selection,
+"InlineShapes").toDispatch(),&nbsp; "AddPicture",
+imagePath).toDispatch();<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #008400;">//必须转换为shape类型才能进行图片格式操作</span></div>
+<div style="text-indent: 2em">
+&nbsp;&nbsp; shape = Dispatch.call(image,
+"ConvertToShape").toDispatch();</div>
+<div style="text-indent: 2em">&nbsp; <span style="color: #008400;">//得到pictureFormat对象</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dispatch pictureFormat = Dispatch.call(shape,
+"PictureFormat").toDispatch();<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dispatch.put(pictureFormat, "TransparentBackground", true);</div>
+<div style="text-indent: 2em">&nbsp; <span style="color: #008400;">//16进制转换为rgb</span><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dispatch.put(pictureFormat, "TransparencyColor", new
+Variant(0xFFFFFF));<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="color: #008400;">//如果希望通过图片的透明部分看到图片下面的对象，则必须将图片的 FillFormat 对象的 Visible 属性设为
+False。</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dispatch fillFormat = Dispatch.call(shape,
+"Fill").toDispatch();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Dispatch.put(fillFormat, "Visible", false);<br />
+<span style="color: #008400;">//--------------------结束-----------------------</span><br />
+&nbsp;<br />
+<br />
+<br />
+好了，其实其他一些利用jacob操作word的方法都可以利用&ldquo;先进行宏录制在查看宏的vba代码&rdquo;来完成。
+可能就是调用对象比较繁琐，毕竟底层的运行时不同。<br />
+<br />
+我封装了一些jacob的api，用来操作表格和图片等对象，大家可以<a title="jacob api" href="http://imnotceo.blogbus.com/files/12355725650." target="_blank">点击下载</a>。另外有个测试的例子，是我给公司做的一个城管队员执照生成的小程序，涉及到一些算法、word表格和图片的处理等等。<a title="jacob demo" href="http://imnotceo.blogbus.com/files/12355731440." target="_blank">点击下载</a>。代码稍微有些乱，大家谅解。</div>
+<div style="text-indent: 2em"><br />
+如果发现本文有可以纠正的地方或者问题请务必联系我，谢谢！欢迎一起讨论。<br />
+<br />
+talkerzhs@gmail.com<br />
+</div><div class="relpost"><br/><h3>随机文章：</h3><div><a href="http://ennma.blogbus.com/logs/42713655.html">1万敏捷战士连j脚本2(效果好)  按键精灵_会员脚本[请将此脚本复制到记事本，再保存到按键精灵的script脚本库就可以了]__计算机|计算机科学|计算机代码|----在认识了计算机代码之后，怎样利用代码赚钱和盈利？又怎样自动地赚钱呢？计算机是一门好科学，盈利也是其中的一个学问|计算机盈利是一个合适中国和全世界的男人和女人的商机，是一个不分男女老少的盈利行业 |红楼梦的神仙林妹妹：林黛玉-西施颦儿-湘妃竹林之潇湘妃子式代码营利</a> 2009-07-21</div><div><a href="http://tiffanyxia.blogbus.com/logs/42713695.html">夏季日剧收视率第一波，政治？娱乐？这是个问题----090713~090720收视率一览</a> 2009-07-21</div><div><a href="http://knightlove.blogbus.com/logs/42712830.html">我们的路</a> 2009-07-21</div><div><a href="/logs/35725092.html">ArcGIS Server 9.3 SP1 REST API 返回中文乱码问题的解决方案</a> 2009-02-25</div><div><a href="/logs/34267949.html">在Vista Ultimate下部署ArcGIS Server 9.3</a> 2009-01-23</div></div><div class="addfav"><br />收藏到：<span class= "delicious"><a href="http://delicious.com/save?url=http%3A%2F%2Fimnotceo.blogbus.comhttp%3A%2F%2Fimnotceo.blogbus.com%2Flogs%2F32174360.html&title=%E5%88%A9%E7%94%A8jacob%E6%93%8D%E4%BD%9Cword%E8%A1%A8%E6%A0%BC%E4%BB%A5%E5%8F%8A%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F" target="_blank">Del.icio.us</a></span></div><br /><br /><br /><table width="468" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><script type="text/javascript" src="http://www.blogbus.com/ads/ads.js"></script></td></tr></table><br />
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="postFooter">
+                                    <div class="tags">Tag：<a href="/tag/java/">java</a> <a href="/tag/jacob/">jacob</a> <a href="/tag/word/">word</a> <a href="/tag/vba/">vba</a> <a href="/tag/图片格式/">图片格式</a> </div>
+                                    <div class="tb_url">引用地址：<input type="text" value="http://www.blogbus.com/public/tb.php/4760747/32174360/49445b2742192d68105e029041f6fc8c"/></div>
+                                    <div class="menubar"><span class="author"><a href="http://home.blogbus.com/profile/talkerzhs">Talker</a></span> 发表于<span class="time">18:52:44</span> | <a href='http://www.blogbus.com/user/?mm=Post&aa=Edit&blogid=4760747&id=32174360' class='edit'>编辑</a> | <a href='http://www.blogbus.com/user/?mm=Blog&aa=Cite&sblogid=4760747&id=32174360&sid=0&type=1' class='discuss'>继续话题</a> | <a href='http://www.blogbus.com/user/?mm=Blog&aa=Cite&sblogid=4760747&id=32174360&sid=0&type=0' class='fwd'>转发</a> | <a href='http://app.home.blogbus.com/share?t=%E5%88%A9%E7%94%A8jacob%E6%93%8D%E4%BD%9Cword%E8%A1%A8%E6%A0%BC%E4%BB%A5%E5%8F%8A%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F&url=http%3A%2F%2Fimnotceo.blogbus.com%2Flogs%2F32174360.html&un=talkerzhs&k=055d234966b0e195059b1b4c936474cf' class='dig' target='_blank' onclick="share_click('share_3fc32887da71bf9f26edc1e8e9a1dd7f');">分享<span id='share_3fc32887da71bf9f26edc1e8e9a1dd7f'>　0</span></a></div>
+                                </div>
+                            </li>
+                            <!--/list-->
+                            <div class="postsBottom"></div>
+                        </ul><a name="cmt"></a><ul id="comments"><h2>评论</h2>
+<li><div class='cmtBody'>很受启发，但我在运行到shape = Dispatch.call(image, &quot;ConvertToShape&quot;).toDispatch();<br />
+这一句是，程序报错。不知博主使用的jacob是什么版本？<br />
+错误信息：com.jacob.com.ComFailException: Invoke of: ConvertToShape<br />
+Source: <br />
+Description: <br />
+<br />
+</div>
+<div class="reCmtBody"><div><span class="author"></span>回复<span>goodspeed</span>说：</div><div class="content">你好。。我用的是1.14.3的版本。。</div><div class="time">2009-07-09 16:54:24</div></div>
+<div class='menubar'><span class='author'>goodspeed | </span> 发表于<span class='time'>2009-07-06 00:20:11</span>
+<span>[<a href="#" onclick="Picobox.showIFrameBox('回复评论', 'http://blog.home.blogbus.com/4760747/comments/32174360/reply?cmid=52086606', {width:310, height:200});return false;" rel="facebox">回复</a>]</span></div></li>
+<li><div class='cmtBody'>我想问一下你知道用jacob的时候怎么在word里面插入一个visio的图片吗，如果可以请一下方法或者代码到我的邮箱，谢谢了!邮箱地址是yjyj0730@yahoo.com.cn</div>
+
+<div class='menubar'><span class='author'>杨净 | </span> 发表于<span class='time'>2009-03-19 10:24:03</span>
+<span>[<a href="#" onclick="Picobox.showIFrameBox('回复评论', 'http://blog.home.blogbus.com/4760747/comments/32174360/reply?cmid=44740919', {width:310, height:200});return false;" rel="facebox">回复</a>]</span></div></li>
+<li><div class='cmtBody'>您好:<br />
+    有一个比较大的word,只是操作里面的一张图片把它更换,我已经看了一些方法了但是一直没有解决,请问您有什么好的建议或意见么,现在我得不到关于那张图片的信息图片的类型是InlineShapes,可以提示一下么谢谢!!!</div>
+
+<div class='menubar'><span class='author'><a href="http://....."  rel="nofollow" target="_blank">孙亮亮</a> | </span> 发表于<span class='time'>2009-03-03 17:05:49</span>
+<span>[<a href="#" onclick="Picobox.showIFrameBox('回复评论', 'http://blog.home.blogbus.com/4760747/comments/32174360/reply?cmid=43791145', {width:310, height:200});return false;" rel="facebox">回复</a>]</span></div></li>
+<li><div class='cmtBody'>很高兴看到博主的文章。最近我也在做jacob使用的一些尝试，关于word文档如何转换成图片，不知博主有没有这方面的研究？留下我的email，希望能得到回复，谢谢！！</div>
+<div class="reCmtBody"><div><span class="author"></span>回复<span>yellow-fin</span>说：</div><div class="content">你好！感谢你的留言！<br>我不是很清楚你所说的“转换”是指什么方式。例如，在桌面上要转换为图片的话可以截屏、用一些第三方的插件（比如ms office picture manager）或者“另存为”等等。<br>我想，如果要调用jacob的api的话，你可以尝试一下录制一段宏，把你的word另存为图片格式（我的word2007里面好像没有图片格式，不知道你的有没有，可能需要一些插件），然后就可以得到一段代码了。<br>非常抱歉，这方面我也没有具体实践过。只想到了这个办法，不知道是否能够帮到你~</div><div class="time">2009-02-03 00:52:40</div></div>
+<div class='menubar'><span class='author'><a href="http://杭州"  rel="nofollow" target="_blank">yellow-fin</a> | </span> 发表于<span class='time'>2009-02-02 13:16:10</span>
+<span>[<a href="#" onclick="Picobox.showIFrameBox('回复评论', 'http://blog.home.blogbus.com/4760747/comments/32174360/reply?cmid=42120527', {width:310, height:200});return false;" rel="facebox">回复</a>]</span></div></li></ul><script src="http://public.blogbus.com/imgs/jquery.js"></script>
+			<link rel="stylesheet" href="http://public.blogbus.com/imgs/picobox/picobox.css" type="text/css"  />
+			<link rel="stylesheet" href="http://public.blogbus.com/imgs/picobox/picobox_beauty/picobox_beauty.css" type="text/css"  />
+			<script type="text/javascript" src="http://public.blogbus.com/imgs/picobox/picobox.js"></script>
+			<script type="text/javascript" src="http://public.blogbus.com/imgs/picobox/picobox_beauty/picobox_beauty.js"></script>
+<div id="commentForm"></div>
+<script type="text/javascript" src="http://blog.home.blogbus.com/front/4760747/comments/32174360/cmt_form"></script>
+<script type='text/javascript'>var post_ids='32174360';</script><script type='text/javascript' src='http://app.home.blogbus.com/share/number?id=32174360'></script><script>function share_click(id){var num = parseInt(document.getElementById(id).innerHTML);	num++;document.getElementById(id).innerHTML= ' '+num;}</script><script type='text/javascript' src='http://public.blogbus.com/blogbus/skin/common/helper1.js?v1024'></script>
+                    <div class="contentBottom"></div> 
+                </div>
+            </div>                   
+                </div>
+            </div>
+            <div id="outerSidebar">
+                <div id="sidebar">
+                    <div class="sideTop"></div>
+                        <div id="search" class="module">
+	<div class="modTop"></div>
+	<h2>搜索</h2>
+	<div class="modBody">
+		<form name="SearchForm" method="get" target="_blank" action="http://search.blogbus.com/search">
+			<input type="text" name="q" class="textField" />
+			<input type="submit" class="button" value="搜索" />
+			<input type="hidden" name="b" value="4760747"/>
+			<input type="hidden" name="dir" value="oneblog"/>
+			<div class="clear"></div>
+		</form>
+	</div>
+	<div class="modBottom"></div>
+</div><div id="nPosts" class="module">
+	<div class="modTop"></div>
+	<h2>最新日志</h2>
+	<div class="modBody">
+		<ul><li><a href='/logs/35725092.html'>ArcGIS Server 9.3 SP1 REST API 返回中文乱码问题的解决方案</a></li>
+<li><a href='/logs/34267949.html'>在Vista Ultimate下部署ArcGIS Server 9.3</a></li>
+<li><a href='/logs/32174360.html'>利用jacob操作word表格以及图片格式</a></li>
+</ul>
+		<div class="more"><a href="/logs/">全部日志>></a></div>
+	</div>
+	<div class="modBottom"></div>
+</div><div id="nComments" class="module">
+	<div class="modTop"></div>
+	<h2>最新评论</h2>
+	<div class="modBody">
+		<ul><li><span class='author'>chxkyy</span>：<a href='/logs/35725092.html#cmt'>但ESRI上海办事处的那几个技术支持实在不敢当
+同感...</a></li><li><span class='author'>me</span>：<a href='/logs/34267949.html#cmt'>jacob word  是本人写的 真有点不可思议啊...</a></li><li><span class='author'>goodspeed</span>：<a href='/logs/32174360.html#cmt'>很受启发，但我在运行到shape = Dispatch....</a></li><li><span class='author'>skl</span>：<a href='/logs/35725092.html#cmt'>好帖，顶。解决了我的问题...</a></li><li><span class='author'>杨净</span>：<a href='/logs/32174360.html#cmt'>我想问一下你知道用jacob的时候怎么在word里面插入...</a></li><li><span class='author'><a href="http://....." target="_blank">孙亮亮</a></span>：<a href='/logs/32174360.html#cmt'>您好:
+    有一个比较大的word,只是操作里面的...</a></li><li><span class='author'><a href="http://....." target="_blank">孙亮亮</a></span>：<a href='/logs/34267949.html#cmt'>谢谢 您分享的文章</a></li><li><span class='author'>kiki</span>：<a href='/logs/34267949.html#cmt'>为什么这里都是学术论文....?...</a></li><li><span class='author'><a href="http://杭州" target="_blank">yellow-fin</a></span>：<a href='/logs/32174360.html#cmt'>很高兴看到博主的文章。最近我也在做jacob使用的一些尝...</a></li></ul>
+	</div>
+	<div class="modBottom"></div>
+</div>
+                        <div id="meta" class="module">
+                            <div class="modTop"></div>
+                            <div class="modBody">
+                                <ul>
+                                    <li class="statistics">访问统计：<span class="count"><script src="http://counter.blogbus.com/counter_show.js.php"></script></span></li>
+                                    <li class="subscribe" style="line-height:180%;"><div><a href="http://imnotceo.blogbus.com/index.rdf"><img src="http://www.blogbus.com/images/site-v3/rss.gif" alt="RSS" /></a> <a href="http://bangzhuzhongxin.blogbus.com/logs/5452786.html" target="_blank">什么是RSS？</a></div><div class="inezha" style="margin:.5em 0"><a href="http://inezha.com/add2?hid=2320&url=http://imnotceo.blogbus.com/index.rdf" title="此博客内容更新用IM提醒我" target="_blank"><img src="http://public.blogbus.com/rss/anothr.gif" alt="用IM提醒我内容更新"/></a></div><div class="qqmail" style="margin:.5em 0"><a href="http://mail.qq.com/cgi-bin/feed?u=http://imnotceo.blogbus.com/index.rdf" title="订阅到QQ邮箱" target="_blank"><img src="http://public.blogbus.com/rss/qqmail.png" alt="订阅到QQ邮箱"/></a></div><div class="xiangguo" style="margin:.5em 0"><a href="http://www.xianguo.com/subscribe.php?url=http://imnotceo.blogbus.com/index.rdf" title="订阅到鲜果阅读器" target="_blank"><img src="http://public.blogbus.com/rss/xianguo.png" alt="订阅到鲜果阅读器"/></a></div><div class="g-reader" style ="margin:.5em 0"><a href="http://fusion.google.com/add?feedurl=http://imnotceo.blogbus.com/index.rdf" title="订阅到Google阅读器" target="_blank"><img src="http://public.blogbus.com/rss/google.png" alt="订阅到Google阅读器"/></a></div><div class="zhuaxia" style ="margin:.5em 0"><a href="http://www.zhuaxia.com/add_channel.php?url=http://imnotceo.blogbus.com/index.rdf" title="订阅到抓虾阅读器" target="_blank"><img src="http://public.blogbus.com/rss/zhuaxia.png" alt="订阅到抓虾阅读器"/></a></div></li>
+                                    <li class="poweredBy">
+                                        <a href="http://www.icity.cn/catalog" target="_blank" class="iCityLogo" style="background:none;"><img src="http://public.blogbus.com/images/news/2009/07-09/icity_cover_200905.jpg" alt="《城客》第三期：毛细香港" style="margin-bottom:5px;" /></a><br /><a href="http://www.blogbus.com/" target="_blank"><img src="http://www.blogbus.com/images/site-v3/link_blogbus.gif" alt="博客大巴" /></a><div><a href="http://bangzhuzhongxin.blogbus.com" target="_blank" title="博客大巴使用指南">博客大巴使用指南</a></div><div><a href="http://www.blogbus.com/skin/" target="_blank" title="博客大巴模板中心">博客大巴模板中心</a></div><div><a href="http://www.blogbus.com/user/reg.php" target="_blank" title="免费注册博客大巴">免费注册博客大巴</a></div><div><a href="http://banjia.blogbus.com/" target="_blank" title="一键博客搬家工具">一键博客搬家工具</a></div><div><a href="http://www.icity.cn/" target="_blank" title="中文互动杂志城客">中文互动杂志城客</a></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modBottom"></div>
+                        </div>
+                    <div class="sideBottom"></div>
+                </div>
+	<div class="clear"></div>
+            </div>
+           <div style=" clear: both"></div>
+            <div class="innerBottom"></div>
+        </div>   
+        </div>      
+		<div id="footer">
+			<div class="copyright">Copyright &copy; 2002-2009 BlogBus.com, All Rights Reserved. <a href="http://www.blogbus.com" target="_blank">博客大巴</a> 版权所有
+<br /><a href="http://new-skin174.blogbus.com">博客大巴模板设计：影像之绿 | 作者：LE</a>
+ 
+</div>
+		</div>
+	</div>
+</div>
+
+<div id="utilityMenuGreen" style="position:absolute; left:0; top:0; z-index:99999; width:100%; height:30px; width:100%; height:30px;">
+    <ul style="margin:0 auto; width:900px; height:30px; overflow:hidden; list-style:none; position:relative;">
+        <a href="http://www.icity.cn" target="_blank" title="iCity" style="display:block; width:60px; height:30px; overflow:hidden; float:right; position:relative; z-index:1000; position:absolute; right:60px; top:0; text-indent:-9999px;">iCity</a>
+        <a href="http://www.yohocity.com" target="_blank" title="YOHOcity" style="display:block; width:60px; height:30px; overflow:hidden; float:right; position:absolute; right:0; top:0; text-indent:-9999px;">YOHOcity</a>
+        <li style="background:url(http://public.blogbus.com/blogbus/skin/5000/yoho-green.png) no-repeat 0 0; width:60px; height:30px; overflow:hidden; float:right; _background:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', src='http://public.blogbus.com/blogbus/skin/5000/yoho-green.png'); zoom:1;"></li>
+        <li style="background:url(http://public.blogbus.com/blogbus/skin/5000/icity-green.png) no-repeat 0 0; width:60px; height:30px; overflow:hidden; float:right; _background:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', src='http://public.blogbus.com/blogbus/skin/5000/icity-green.png'); zoom:1;"></li>
+    </ul>
+</div>
+</body></html><script type="text/javascript" src="http://public.blogbus.com/blogbus/skin/common/helper1.js?v1023"></script><script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol)?"https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        var pageTracker = _gat._getTracker("UA-2120146-1");
+        pageTracker._setDomainName(".blogbus.com");
+        pageTracker._addOrganic("baidu","word");
+        pageTracker._addOrganic("baidu","wd");
+        pageTracker._addOrganic("soso","w");
+        pageTracker._addOrganic("vnet","kw");
+        pageTracker._initData();
+        pageTracker._trackPageview();
+        </script>

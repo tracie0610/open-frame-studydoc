@@ -1,0 +1,704 @@
+//-------------------jacob调用word组件代码----------------------
+//
+//@author talkerzhs@gmail.com
+//
+//
+public class WordBean {
+
+    private ActiveXComponent word;
+
+    private Dispatch documents;
+    private Dispatch doc;
+    //
+     // Selection 对象 代表窗口或窗格中的当前所选内容。 所选内容代表文档中选定（或突出显示）的区域，如果文档中没有选定任何内容，则代表插入点。
+     // 每个文档窗格只能有一个Selection 对象，并且在整个应用程序中只能有一个活动的 Selection 对象。
+     //
+    private Dispatch selection;
+
+    //
+     // Range 对象 代表文档中的一个连续区域。 每个 Range 对象由一个起始字符位置和一个终止字符位置定义。
+     // 说明：与书签在文档中的使用方法类似，Range 对象在 Visual Basic 过程中用来标识文档的特定部分。
+     // 但与书签不同的是，Range对象只在定义该对象的过程运行时才存在。
+     // Range对象独立于所选内容。也就是说，您可以定义和处理一个范围而无需更改所选内容。还可以在文档中定义多个范围，但每个窗格中只能有一个所选内容。
+     //
+    private Dispatch range;
+
+    //
+     // PageSetup 对象 该对象包含文档的所有页面设置属性（如左边距、下边距和纸张大小）。
+     //
+    private Dispatch pageSetup;
+
+    private boolean saveOnExit = true;
+
+    // ----表格对象----
+    private Dispatch tables;
+    private Dispatch table;
+    private Dispatch cell;
+    private Dispatch cols;
+    private Dispatch rows;
+    private Dispatch col;
+    private Dispatch row;
+
+    //
+     // 获得当前窗格中的选定区域或插入点 注：必须生成WINWORD的ActiveX组件
+     //
+    public Dispatch getSelection() {
+        this.selection = (Dispatch.get(this.word, "Selection").toDispatch());
+        return this.selection;
+    }
+
+    //
+     // 获得当前文档中用户可以修改的区域对象 注：选定区域或插入点必须存在
+     //
+     // @param selectedContent
+     //            目标区域
+     //
+    public Dispatch getRange(Dispatch selectedContent) {
+        this.range = Dispatch.get(selectedContent, "Range").toDispatch();
+        return this.range;
+    }
+
+    //
+     // 获得当前文档的文档页面属性 注：文档对象必须存在
+     //
+    public Dispatch getPageSetup() {
+        this.pageSetup = Dispatch.get(doc, "PageSetup").toDispatch();
+        return this.pageSetup;
+    }
+
+    //
+     // 为当前文档集产生一个单个文档 注：文档集对象必须存在
+     //
+    public Dispatch addDoc() {
+        doc = Dispatch.call(documents, "Add").toDispatch();
+        return this.doc;
+    }
+
+    //
+     // 打开指定文档
+     //
+     // @param docPath
+     //            指定文档所在路径
+     //
+    public void openDoc(String docPath) {
+        doc = Dispatch.call(documents, "Open", docPath).toDispatch();
+    }
+
+    //
+     // 获取当前文档中的表格数组对象。 注：文档对象必须存在
+     //
+    public Dispatch getTables() {
+        this.tables = Dispatch.get(doc, "Tables").toDispatch();
+        return this.tables;
+    }
+
+    //
+     // 获得当前文档表格数组中，指定的表格对象 注：表格数组对象必须存在
+     //
+     // @param tableIndex
+     //            指定表格的索引
+     //
+    public Dispatch getTable(int tableIndex) {
+        this.table = Dispatch.call(tables, "Item", new Variant(tableIndex))
+                .toDispatch();
+        return this.table;
+    }
+
+    public Dispatch addTable(int numRows, int numCols) {
+        this.table = Dispatch.call(tables, "Add", range, new Variant(numRows),
+                new Variant(numCols)).toDispatch();
+        return this.table;
+    }
+
+    //
+     // 获得当前文档中，指定表格的列数组对象 注：表格对象必须存在
+     //
+    public Dispatch getColumns() {
+        this.cols = Dispatch.get(this.table, "Columns").toDispatch();
+        return this.cols;
+    }
+
+    //
+     // 获取当前文档中，指定表格的行数组对象 注：表格对象必须存在
+     //
+    public Dispatch getRows() {
+        this.rows = Dispatch.get(table, "rows").toDispatch();
+        return this.rows;
+    }
+
+    //
+     // 获取当前文档中，列集合中的指定列对象 注：列数组对象必须存在
+     //
+     // @param columnIndex
+     //            指定列的索引
+     //
+    public Dispatch getColumn(int columnIndex) {
+        this.col = Dispatch.call(cols, "Item", new Variant(columnIndex))
+                .toDispatch();
+        return this.col;
+    }
+
+    //
+     // 获取当前文档中，行集合中的指定行对象 注：行数组对象必须存在
+     //
+     // @param rowIndex
+     //            指定行对象的索引
+     //
+    public Dispatch getRow(int rowIndex) {
+        this.row = Dispatch.call(rows, "Item", new Variant(rowIndex))
+                .toDispatch();
+        return this.row;
+    }
+
+    //
+     // 获取当前文档中，表格中的指定单元格 注：表格对象必须存在
+     //
+     // @param CellRowIdx
+     //            单元格所在行
+     // @param CellColIdx
+     //            单元格所在列
+     //
+    public Dispatch getCell(int cellRowIdx, int cellColIdx) {
+        this.cell = Dispatch.call(table, "Cell", new Variant(cellRowIdx),
+                new Variant(cellColIdx)).toDispatch();
+        return this.cell;
+    }
+
+    //
+     // 构造方法 生成activeX组件和一个文档doc组件
+     //
+    public WordBean() {
+        if (word == null) {
+
+            word = new ActiveXComponent("Word.Application");
+            word.setProperty("Visible", new Variant(false));
+        }
+        if (documents == null) {
+            documents = word.getProperty("Documents").toDispatch();
+        }
+    }
+
+    //
+     // 设置退出时参数
+     //
+     // @param saveOnExit
+     //            true-退出时保存文件，false-退出时不保存文件
+     //
+    public void setSaveOnExit(boolean saveOnExit) {
+        this.saveOnExit = saveOnExit;
+    }
+
+    //
+     // 创建一个新的文档 注：此方法已经封装了：获取插入点selection方法
+     //
+    public void createNewDocument() {
+        this.closeDocument();
+        this.addDoc();
+        this.getSelection();
+    }
+
+    //
+     // 打开一个已存在的文档 注：此方法已经封装了：获取插入点selection方法
+     //
+     // @param docPath
+     //            文档所在相对路径
+     //
+    public void openDocument(String docPath) {
+        this.closeDocument();
+        this.openDoc(docPath);
+        this.getSelection();
+    }
+
+    //
+     // 设置页面方向和页边距
+     //
+     // @param orientation
+     //            可取值0或1，分别代表横向和纵向
+     // @param leftMargin
+     //            左边距的值
+     // @param rightMargin
+     //            右边距的值
+     // @param topMargin
+     //            上边距的值
+     // @param buttomMargin
+     //            下边距的值
+     //
+    public void modifyPageSetup(int orientation, int leftMargin,
+            int rightMargin, int topMargin, int buttomMargin) {
+        this.getPageSetup();
+        Dispatch.put(pageSetup, "Orientation", orientation);
+        Dispatch.put(pageSetup, "LeftMargin", leftMargin);
+        Dispatch.put(pageSetup, "RightMargin", rightMargin);
+        Dispatch.put(pageSetup, "TopMargin", topMargin);
+        Dispatch.put(pageSetup, "BottomMargin", buttomMargin);
+    }
+
+    //
+     // 把选定的内容或插入点向上移动
+     //
+     // @param pos
+     //            移动的距离
+     //
+    public void moveUp(int pos) {
+        if (this.selection == null)
+            this.getSelection();
+        for (int i = 0; i < pos; i++)
+            Dispatch.call(this.selection, "MoveUp");
+
+    }
+
+    //
+     // 把选定的内容或者插入点向下移动
+     //
+     // @param pos
+     //            移动的距离
+     //
+    public void moveDown(int pos) {
+        if (this.selection == null)
+            this.getSelection();
+        for (int i = 0; i < pos; i++)
+            Dispatch.call(this.selection, "MoveDown");
+    }
+
+    //
+     // 把选定的内容或者插入点向左移动
+     //
+     // @param pos
+     //            移动的距离
+     //
+    public void moveLeft(int pos) {
+        if (this.selection == null)
+            this.getSelection();
+        for (int i = 0; i < pos; i++) {
+            Dispatch.call(this.selection, "MoveLeft");
+        }
+    }
+
+    //
+     // 把选定的内容或者插入点向右移动
+     //
+     // @param pos
+     //            移动的距离
+     //
+    public void moveRight(int pos) {
+        if (this.selection == null)
+            this.getSelection();
+        for (int i = 0; i < pos; i++)
+            Dispatch.call(this.selection, "MoveRight");
+    }
+
+    //
+     // 把插入点移动到文件首位置
+     //
+     //
+    public void moveStart() {
+        if (this.selection == null)
+            this.getSelection();
+        Dispatch.call(this.selection, "HomeKey", new Variant(6));
+    }
+
+    //
+     // 从选定内容或插入点开始查找文本 大小写、格式、全字匹配
+     //
+     // 如果要从头开始查找，要移动插入点到首位置(moveStart())
+     //
+     // @param toFindText
+     //            要查找的文本
+     // @param isForward
+     //            true-向前查找，false-向后查找
+     // @param isFormat
+     //            true-格式匹配，false-格式不匹配
+     // @param isMatchCase
+     //            true-大小写匹配，false-大小写不匹配
+     // @param isMatchWholeWord
+     //            true-全字匹配，false-全字不匹配
+     // @return boolean true-查找到并选中该文本，false-未查找到文本
+     //
+    public boolean find(String toFindText,
+            Boolean isForward,
+            Boolean isFormat,
+            Boolean isMatchCase,
+            Boolean isMatchWholeWord) {
+        System.out.println("正在查找匹配对象:" + toFindText + "...");
+        if (toFindText == null) {
+            System.out.println("匹配对象为空，返回...");
+            return false;
+        }
+        this.getSelection();
+        Dispatch find = Dispatch.get(this.selection, "Find").toDispatch();
+        Dispatch.call(find, "ClearFormatting");
+        Dispatch.put(find, "Text", toFindText);
+        Dispatch.put(find, "Forward", isForward);
+        Dispatch.put(find, "Format", isFormat);
+        Dispatch.put(find, "MatchCase", isMatchCase);
+        Dispatch.put(find, "MatchWholeWord", isMatchWholeWord);
+
+        boolean isFound=Dispatch.call(find, "Execute2007").getBoolean();
+        if (isFound) {
+            System.out.println("匹配对象:" + toFindText +"已经找到。");
+        }else{
+            System.out.println("匹配对象:" + toFindText +"没有找到。");
+        }
+        return isFound;
+       
+    }
+
+    //
+     // 查找并替换文本
+     //
+     // @param toFindText
+     //            查找字符串
+     // @param newText
+     //            要替换的内容
+     // @return
+     //
+    public boolean replaceText(String toFindText, String newText) {
+        if (!find(toFindText, true, true, true, true))
+            return false;
+        Dispatch.put(this.selection, "Text", newText);
+        return true;
+    }
+
+    //
+     // 查找并替换图片
+     //
+     // @param toFindText
+     //            要查找的字符串
+     // @param imagePath
+     //            图片绝对路径
+     // @return
+     //
+    public boolean replaceImage(String toFindText, String imagePath) {
+        if (!find(toFindText, true, true, true, true))
+            return false;
+        Dispatch.call(
+                Dispatch.get(this.selection, "InLineShapes").toDispatch(),
+                "AddPicture", imagePath);
+        return true;
+    }
+
+
+
+
+
+    //
+     // 在当前插入点插入字符串 注：在调用此方法前，插入点对象必须存在
+     //
+     // @param newText
+     //            要插入的新字符串
+     //
+    public void insertText(String newText) {
+        Dispatch.put(this.selection, "Text", newText);
+    }
+
+    //
+     // 在当前插入点插入图片
+     //
+     // @param imagePath
+     //            图片路径
+     // @param isTyped
+     //
+    public Dispatch insertImage(String imagePath,
+            boolean isBackgroundTransprent, boolean isTyped, float width,
+            float height) {
+        Dispatch image = Dispatch.call(
+                Dispatch.get(this.selection, "InlineShapes").toDispatch(),// InLineShapes是一个类
+                "AddPicture", imagePath).toDispatch();// addpicture是其中的一个方法
+        Dispatch.put(image, "Width", new Variant(width));
+        Dispatch.put(image, "Height", new Variant(height));
+        Dispatch shape = null;
+
+        // --------------------图片透明--------------
+        if (isBackgroundTransprent) {
+            shape = Dispatch.call(image, "ConvertToShape").toDispatch();
+            Dispatch shapeRange = Dispatch.call(this.selection, "ShapeRange")
+                    .toDispatch();
+            Dispatch pictureFormat = Dispatch.call(shape, "PictureFormat")
+                    .toDispatch();
+            Dispatch fillFormat = Dispatch.call(shape, "Fill").toDispatch();
+            Dispatch.put(pictureFormat, "TransparentBackground", true);
+            Dispatch.put(pictureFormat, "TransparencyColor", new Variant(
+                    0xFFFFFF));// TODO:16进制转换为rgb
+            Dispatch.put(fillFormat, "Visible", false);
+            // TODO:图片移动的距离
+            Dispatch.call(shape, "IncrementLeft", 50);
+            Dispatch.call(shape, "IncrementTop", 25);
+        }
+        // --------------------把图片设置为“在文字上方”--------------
+        if (isTyped) {
+            if (shape == null) {
+                shape = Dispatch.call(image, "ConvertToShape").toDispatch();
+            }
+            Dispatch wrapFormat = Dispatch.get(shape, "WrapFormat")
+                    .toDispatch();
+            Dispatch.put(wrapFormat, "Type", 3);
+            Dispatch.call(shape, "ZOrder", 4);
+        }
+        return image;
+    }
+
+    //
+     // 新建一张表格
+     //
+     // @param pos
+     //            标记位置，字符串型，新建的表格将覆盖字符串
+     // @param numCols
+     //            新建表格的行数
+     // @param numRows
+     //            新建表格的列数
+     //
+    public void createTable(String pos, int numCols, int numRows) {
+        if (find(pos, true, false, false, false)) {
+            System.out.println("--------------------");
+            this.getTables();
+            this.getRange(this.selection);
+            this.addTable(numRows, numCols);
+            // TODO:为何要moveright?
+            Dispatch.call(this.selection, "MoveRight");
+        }
+    }
+
+    //
+     // 合并单元格 注：在调用此方法前，表格数组与表格对象必须存在
+     //
+     // @param fstCellRowIdx
+     // @param fstCellColIdx
+     // @param secCellRowIdx
+     // @param secCellColIdx
+     //
+    public void mergeCell(int fstCellRowIdx, int fstCellColIdx,
+            int secCellRowIdx, int secCellColIdx) {
+        Dispatch fstCell = this.getCell(fstCellRowIdx, fstCellColIdx);
+        Dispatch secCell = this.getCell(secCellRowIdx, secCellColIdx);
+        Dispatch.call(fstCell, "Merge", secCell);
+    }
+
+    //
+     // 设置指定单元格的宽度和高度 注：在调用此方法前，表格数组，表格与单元格对象必须存在
+     //
+     // @param Width
+     //            指定单元格的宽度，0代表不修改
+     // @param Height
+     //            指定单元格的高度，0代表不修改
+     //
+    public void modifyCellSize(float Width, float Height) {
+        if (Width != 0) {
+            Dispatch.put(cell, "Width", new Variant(Width));
+        }
+        if (Height != 0) {
+            Dispatch.put(cell, "Height", new Variant(Height));
+        }
+    }
+
+    //
+     // 在指定的单元格里填写数据 注：在调用此方法前，表格数组、表格与单元格对象必须存在
+     //
+     // @param tableIndex
+     //            指定单元格所在表
+     // @param cellRowIdx
+     //            指定单元格的行索引
+     // @param cellColIdx
+     //            指定单元格的列索引
+     // @param txt
+     //            要填写的数据内容
+     //
+    public void putTxtToCell(int tableIndex, int cellRowIdx, int cellColIdx,
+            String txt) {
+        // this.getTables();
+        // this.getTable(tableIndex);
+        // this.getCell(cellRowIdx, cellColIdx);
+        Dispatch.call(cell, "Select");
+        Dispatch.put(this.selection, "Text", txt);
+    }
+
+    //
+     // 在指定的单元格里插入图片 注：在调用此方法前，表格数组、表格与单元格对象必须存在
+     //
+     // @param tableIndex
+     //            单元格所在表格
+     // @param cellRowIdx
+     //            单元格所在的行
+     // @param cellColIdx
+     //            单元格所在的列
+     // @param imagePath
+     //            图片所在位置的绝对路径
+     //
+    public void putImageToCell(int tableIndex, int cellRowIdx, int cellColIdx,
+            String imagePath, boolean isBackgroundTransprent, boolean isTyped,
+            float width, float height) {
+        // this.getTables();
+        // this.getTable(tableIndex);
+        // this.getCell(cellRowIdx, cellColIdx);
+        Dispatch.call(cell, "Select");
+        this.insertImage(imagePath, isBackgroundTransprent, isTyped, width,
+                height);
+    }
+
+    //
+     // 自动调整表格
+     //
+     //
+    // TODO:modify
+    public void autoFitTable() {
+        Dispatch tables = Dispatch.get(doc, "Tables").toDispatch();
+        int count = Dispatch.get(tables, "Count").toInt();
+        for (int i = 0; i < count; i++) {
+            Dispatch table = Dispatch.call(tables, "Item", new Variant(i + 1))
+                    .toDispatch();
+            Dispatch cols = Dispatch.get(table, "Columns").toDispatch();
+            Dispatch.call(cols, "AutoFit");
+        }
+    }
+
+    //
+     // 调用word里的宏以调整表格的宽度,其中宏保存在document下
+     //
+     //
+    // TODO:modify
+    public void callWordMacro() {
+        Dispatch tables = Dispatch.get(doc, "Tables").toDispatch();
+        int count = Dispatch.get(tables, "Count").toInt();
+        Variant vMacroName = new Variant("Normal.NewMacros.tableFit");
+        Variant vParam = new Variant("param1");
+        Variant para[] = new Variant[] { vMacroName };
+        for (int i = 0; i < count; i++) {
+            Dispatch table = Dispatch.call(tables, "Item", new Variant(i + 1))
+                    .toDispatch();
+            Dispatch.call(table, "Select");
+            Dispatch.call(word, "Run", "tableFitContent");
+        }
+    }
+
+    //
+     // 设置选定内容的字体 注：在调用此方法前，选定区域对象selection必须存在
+     //
+     // @param fontName
+     //            字体名称，例如 "宋体"
+     // @param isBold
+     //            粗体
+     // @param isItalic
+     //            斜体
+     // @param isUnderline
+     //            下划线
+     // @param rgbColor
+     //            颜色，例如"255,255,255"
+     // @param fontSize
+     //            字体大小
+     // @param Scale
+     //            字符间距，百分比值。例如 70代表缩放为70%
+     //
+    public void setFontScale(String fontName, boolean isBold, boolean isItalic,
+            boolean isUnderline, String rgbColor, String fontSize, int Scale) {
+        Dispatch font = Dispatch.get(this.selection, "Font").toDispatch();
+        Dispatch.put(font, "Name", fontName);
+        Dispatch.put(font, "Bold", isBold);
+        Dispatch.put(font, "Italic", isItalic);
+        Dispatch.put(font, "Underline", isUnderline);
+        Dispatch.put(font, "Color", rgbColor);
+        Dispatch.put(font, "Size", fontSize);
+        Dispatch.put(font, "Scaling", Scale);
+        // TODO:扩展更多字体设置
+
+    }
+
+    //
+     // 文件保存或另存为
+     //
+     // @param savePath
+     //            保存或另存为路径
+     //
+    public void save(String savePath) {
+        Dispatch.call(Dispatch.call(word, "WordBasic").getDispatch(),
+                "FileSaveAs", savePath);
+    }
+
+    //
+     // 关闭文档
+     //
+     // @param val
+     //            0不保存修改 -1 保存修改 -2 提示是否保存修改
+     //
+    public void closeDocument(int val) {
+        Dispatch.call(doc, "Close", new Variant(val));
+        doc = null;
+    }
+
+    //
+     // 关闭当前word文档
+     //
+     //
+    public void closeDocument() {
+        if (doc != null) {
+            Dispatch.call(doc, "Save");
+            Dispatch.call(doc, "Close", new Variant(saveOnExit));
+            doc = null;
+        }
+    }
+
+    //
+     // 关闭全部应用
+     //
+     //
+    public void close() {
+        if (word != null) {
+            Dispatch.call(word, "Quit");
+            word = null;
+        }
+        this.selection = (null);
+        documents = null;
+    }
+
+    //
+     // 打印当前word文档
+     //
+     //
+    public void printFile() {
+        if (doc != null) {
+            Dispatch.call(doc, "PrintOut");
+        }
+    }
+
+    //
+     // 设置选定内容居中
+     //
+     // @param selectedContent
+     //            所选定的内容
+     //
+    public void setSelectionCentered(Dispatch selectedContent) {
+        Dispatch oAlign = Dispatch.get(selectedContent, "ParagraphFormat")
+                .toDispatch();
+        Dispatch.put(oAlign, "Alignment", "1");
+    }
+
+    //
+     // 设置当前表格线的粗细 注：在调用此方法前，表格对象必须存在
+     //
+     // @param w
+     //            w范围：1<w<13,如果是0，就代表没有框
+     //
+
+    public void setTableBorderWidth(int w) {
+        try {
+            Dispatch borders = Dispatch.get(table, "Borders").toDispatch();
+            Dispatch border = null;
+
+            //
+             // 设置表格线的粗细 1：代表最上边一条线 2：代表最左边一条线 3：最下边一条线 4：最右边一条线 5：除最上边最下边之外的所有横线
+             // 6：除最左边最右边之外的所有竖线 7：从左上角到右下角的斜线 8：从左下角到右上角的斜线
+             //
+            for (int i = 1; i < 7; i++) {
+                border = Dispatch.call(borders, "Item", new Variant(i))
+                        .toDispatch();
+                if (w != 0) {
+                    Dispatch.put(border, "LineWidth", new Variant(w));
+                    Dispatch.put(border, "Visible", new Variant(true));
+                } else if (w == 0) {
+                    Dispatch.put(border, "Visible", new Variant(false));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+//--------------------------------结束--------------------------------------------
