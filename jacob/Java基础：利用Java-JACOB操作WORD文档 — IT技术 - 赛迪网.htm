@@ -1,0 +1,1791 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- 模版文件头 -->
+
+
+
+           
+
+
+
+
+
+
+
+ 
+
+
+<!-- 模版文件头 结束 -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>Java基础：利用Java-JACOB操作WORD文档 — IT技术 - 赛迪网</title>
+<meta name="keywords" content="Java">
+<meta name="description" content='Java基础：利用Java-JACOB操作WORD文档'>
+<link href="http://www.ccidnet.com/images/ccid_art/layout.css" rel="stylesheet" type="text/css" />
+<link href="http://www.ccidnet.com/images/ccid_art/main.css" rel="stylesheet" type="text/css" />
+<SCRIPT language=javascript>
+function window.onload() {
+
+if(top.location != self.location){
+
+var a = window.parent.document.getElementsByTagName('iframe');
+
+for (var i=0; i<a.length; i++){
+
+if (a[i].name == self.name) {a[i].height = document.body.scrollHeight; return;}}} 
+
+}
+</SCRIPT>
+<script language="JavaScript">
+function doZoom(size){
+document.getElementById('zoom').style.fontSize=size+'px';
+}
+</script>
+<script language="JavaScript" src="http://image.ccidnet.com/nav/toupiao_news.js"></script>
+
+<script language="javascript">
+	 function showList(n){
+         document.getElementById("art_body1").style.display='none';
+		 document.getElementById("art_body2").style.display='none';
+		 document.getElementById("art_body3").style.display='none';
+		 document.getElementById("art_body4").style.display='none';
+		 document.getElementById("art_body5").style.display='none';
+	     if(n==1){
+		 document.getElementById("art_list1").src="http://www.ccidnet.com/images/ccid_art/btn_01-1.jpg";
+		 document.getElementById("art_list2").src="http://www.ccidnet.com/images/ccid_art/btn_02.jpg";
+		 document.getElementById("art_list3").src="http://www.ccidnet.com/images/ccid_art/btn_03.jpg";
+		 document.getElementById("art_list4").src="http://www.ccidnet.com/images/ccid_art/btn_04.jpg";
+		 document.getElementById("art_list5").src="http://www.ccidnet.com/images/ccid_art/btn_05.jpg";
+		 document.getElementById("art_body"+n).style.display='block';
+		 }
+		 if(n==2){
+		 document.getElementById("art_list1").src="http://www.ccidnet.com/images/ccid_art/btn_01.jpg";
+		 document.getElementById("art_list2").src="http://www.ccidnet.com/images/ccid_art/btn_02-1.jpg";
+		 document.getElementById("art_list3").src="http://www.ccidnet.com/images/ccid_art/btn_03.jpg";
+		 document.getElementById("art_list4").src="http://www.ccidnet.com/images/ccid_art/btn_04.jpg";
+		 document.getElementById("art_list5").src="http://www.ccidnet.com/images/ccid_art/btn_05.jpg";
+		 document.getElementById("art_body"+n).style.display='block';
+		 }
+		 if(n==3){
+		 document.getElementById("art_list1").src="http://www.ccidnet.com/images/ccid_art/btn_01.jpg";
+		 document.getElementById("art_list2").src="http://www.ccidnet.com/images/ccid_art/btn_02.jpg";
+		 document.getElementById("art_list3").src="http://www.ccidnet.com/images/ccid_art/btn_03-1.jpg";
+		 document.getElementById("art_list4").src="http://www.ccidnet.com/images/ccid_art/btn_04.jpg";
+		 document.getElementById("art_list5").src="http://www.ccidnet.com/images/ccid_art/btn_05.jpg";
+		 document.getElementById("art_body"+n).style.display='block';
+		 }
+		 if(n==4){
+		 document.getElementById("art_list1").src="http://www.ccidnet.com/images/ccid_art/btn_01.jpg";
+		 document.getElementById("art_list2").src="http://www.ccidnet.com/images/ccid_art/btn_02.jpg";
+		 document.getElementById("art_list3").src="http://www.ccidnet.com/images/ccid_art/btn_03.jpg";
+		 document.getElementById("art_list4").src="http://www.ccidnet.com/images/ccid_art/btn_04-1.jpg";
+		 document.getElementById("art_list5").src="http://www.ccidnet.com/images/ccid_art/btn_05.jpg";
+		 document.getElementById("art_body"+n).style.display='block';
+		 }
+		 if(n==5){
+		 document.getElementById("art_list1").src="http://www.ccidnet.com/images/ccid_art/btn_01.jpg";
+		 document.getElementById("art_list2").src="http://www.ccidnet.com/images/ccid_art/btn_02.jpg";
+		 document.getElementById("art_list3").src="http://www.ccidnet.com/images/ccid_art/btn_03.jpg";
+		 document.getElementById("art_list4").src="http://www.ccidnet.com/images/ccid_art/btn_04.jpg";
+		 document.getElementById("art_list5").src="http://www.ccidnet.com/images/ccid_art/btn_05-1.jpg";
+		 document.getElementById("art_body"+n).style.display='block';
+		 }
+		
+	 }
+     
+	 function showBlog(n){
+	   document.getElementById("art_blog1").style.display='none';
+	   document.getElementById("art_blog2").style.display='none';
+	    if(n==1){
+		 document.getElementById("blog_label_1").src="http://www.ccidnet.com/images/ccid_art/btn_07-1.jpg";
+		 document.getElementById("blog_label_2").src="http://www.ccidnet.com/images/ccid_art/btn_08.jpg";
+		 document.getElementById("art_blog"+n).style.display='block';
+		 }
+		 if(n==2){
+		 document.getElementById("blog_label_1").src="http://www.ccidnet.com/images/ccid_art/btn_07.jpg";
+		 document.getElementById("blog_label_2").src="http://www.ccidnet.com/images/ccid_art/btn_08-1.jpg";
+		 document.getElementById("art_blog"+n).style.display='block';
+		 }
+	 }
+
+	  function showBBS(n){
+	   document.getElementById("art_bbs1").style.display='none';
+	   document.getElementById("art_bbs2").style.display='none';
+	    if(n==1){
+		 document.getElementById("bbs_label_1").src="http://www.ccidnet.com/images/ccid_art/btn_09-1.jpg";
+		 document.getElementById("bbs_label_2").src="http://www.ccidnet.com/images/ccid_art/btn_10.jpg";
+		 document.getElementById("art_bbs"+n).style.display='block';
+		 }
+		 if(n==2){
+		 document.getElementById("bbs_label_1").src="http://www.ccidnet.com/images/ccid_art/btn_09.jpg";
+		 document.getElementById("bbs_label_2").src="http://www.ccidnet.com/images/ccid_art/btn_10-1.jpg";
+		 document.getElementById("art_bbs"+n).style.display='block';
+		 }
+	 }
+	</script>
+
+</head>
+
+<body>
+<script language="javascript" src="http://www.ccidnet.com/images/image_service/blank_tech.js"></script>
+<script type="text/javascript" src="http://image.ccidnet.com/nav/flash.js"></script>
+<!-- 文章导航开始-->
+<script src="http://image.ccidnet.com/nav/CCID_JS/ccidnet_art_header.js"></script>
+<!-- 文章导航结束-->
+<div class="clear"></div>
+<!--通栏广告位-->
+
+<div class="pic1"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://www2.ccidnet.com/adpolestar/door/;ap=ECF62BA1_A707_90D8_D59F_1A6D952486DF;ct=js;pu=ccid;/?"></SCRIPT></div>
+<div class="clear"></div>
+<div class="nav-logo">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr valign="middle">
+    <td width="12%"><img src="http://www.ccidnet.com/images/ccid_art/logo-tech.jpg" width="114" height="38" /></td>
+    <td width="1%" align="center"><img src="http://www.ccidnet.com/images/ccid_art/tiao2.jpg" width="5" height="30" /></td>
+    <td width="27%" valign="bottom" style="padding-bottom:10px;"><a href="http://www.ccidnet.com" target="_blank">赛迪网</a>&nbsp;>&nbsp;<a href="http://tech.ccidnet.com" target="_blank">IT技术</a>&nbsp;>&nbsp;<a href="http://tech.ccidnet.com/col/3539/3539.html" target="_blank">技术动态</a>&nbsp;>&nbsp;文章</td>
+    <td width="30%" align="right" valign="middle">
+	<script language="javascript">
+			function changeactionzs(){
+				var channellvalue = document.searchForm1.channelid.value;
+				var searchwordvalues = document.searchForm1.searchword.value;
+				if (channellvalue == "001"){
+					document.searchForm1.wd.value = document.searchForm1.searchword.value;
+					document.searchForm1.action = "http://event.ccidnet.com/baidu";
+				}
+				else if(channellvalue == "002"){
+					document.searchForm1.q.value = document.searchForm1.searchword.value;
+					document.searchForm1.method = "get";
+					document.searchForm1.action = "http://www.google.com/custom";
+				}
+				else{
+				   document.searchForm1.action =  "http://search.ccidnet.com/search.wct";
+				}
+			}
+		 </script>
+	<table width="98%" border="0" cellspacing="0" cellpadding="0">
+	<form name="searchForm1" method=post action="http://search.ccidnet.com/search.wct" style="margin:0px" target=_blank onSubmit="changeactionzs()">
+      <tr>
+        <td align="right">IT资讯搜索</td>
+        <td><input name="searchword" type="text" size=10 /></td>
+		<td>
+		<select name="channelid" class="input2">
+                        <option value="1649" selected>赛迪网</option>
+                        <option value="2771">资讯中心</option>
+                        <option value="39179">通信产业</option>
+                        <option value="2581">IT技术</option>
+                        <option value="12082">IT产品</option>
+                        <option value="3544">信息化</option>
+                        <option value="38883">情报中心</option>
+                        <option value="001">百度</option>
+                        <option value="002">Google</option>
+         </select>
+		 <input type=hidden name=search5 value=page>
+         <input type=hidden name=wd value="">
+         <input type="hidden" name="client" value="pub-3653458698766474">
+         <input type=hidden name=q value="">
+         <input type=hidden name=domains value="www.ccidnet.com">
+         <input type=hidden name=sitesearch value="www.ccidnet.com">
+		</td>
+        <td width="11%"><input type="image" name="Submit2" src="http://www.ccidnet.com/images/ccid_art/btn_go.jpg" class="btngo" /></td>
+      </tr>
+	</form>
+    </table>
+	</td>
+    <td width="30%" align="right" valign="middle">
+	<table width="98%" border="0" cellspacing="0" cellpadding="0">
+	<form action="http://price.ccidnet.com/product/productSearch.do?method=searchProduct" method="post" name="quick_search" target="_blank">
+	<input type=hidden name=searchType value=1>
+    <input type=hidden name=innerClass value=0>
+      <tr>
+        <td>IT产品搜索</td>
+        <td><input name="keyword" type="text" size=10 /></td>
+        <td>
+		<select name="classID" class="input2">
+                        <option value="0">产品分类</option>
+                        <option value="15">手机</option>
+                        <option value="1">笔记本</option>
+                        <option value="3">台式机</option>
+                        <option value="2">服务器</option>
+                        <option value="1854">投影机</option>
+                        <option value="5">打印机</option>
+                      </select>
+		</td>
+        <td width="11%"><input type="image" name="imageField32" src="http://www.ccidnet.com/images/ccid_art/btn_go.jpg" class="btngo" /></td>
+      </tr>
+	  </form>
+    </table></td>
+  </tr>
+</table>
+
+</div>
+<div class="clear"></div>
+<div class="nr">
+	<div class="nleft">
+		<DIV id=aaaa 
+style="MARGIN-TOP: 5px; WIDTH: 639px">
+
+<!--文章页焦点 start-->
+<STYLE type=text/css>
+A:hover {
+	TEXT-DECORATION: underline
+}
+.a9c_1 {
+	FONT-SIZE: 12px; COLOR: #666666; LINE-HEIGHT: 210%; TEXT-DECORATION: none
+}
+.a10b {
+	FONT-SIZE: 12px; COLOR: #de5020; LINE-HEIGHT: 200%; TEXT-DECORATION: none
+}
+</STYLE>
+
+<DIV align=center style="border:1px #8fafd2 solid;">
+<!--文章页焦点 start-->
+<TABLE style="MARGIN-BOTTOM: 5px" cellSpacing=0 cellPadding=0 width="100%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD></TD></TR>
+  <TR>
+    <TD align=middle bgcolor="#edf5fd">
+      <TABLE style="MARGIN: 5px 0px 2px" cellSpacing=0 cellPadding=0 width="98%" 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=a9c_1 align=right width="4%">·</TD>
+                      <TD align=left><a href="http://bbs.java.ccidnet.com/" target="_blank" class="a10b">[Java论坛]</a><a href="http://bbs.security.ccidnet.com/" target="_blank" class="a10b">[安全论坛]</a><a href="http://bbs.database.ccidnet.com/thread.php?fid=29" target="_blank" class="a10b">[数据库论坛]</a><a href="http://bbs.linux.ccidnet.com/thread.php?fid=55" target="_blank" class="a10b">[操作系统论坛]</a></TD>
+                    </TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=a9c_1 align=right width="4%">·</TD>
+                      <TD align=left><a href="http://tech.ccidnet.com/col/317/317.html" target="_blank" class="a9c_1">[访谈]</a> <a href="http://tech.ccidnet.com/zt/Sc_nbs04/" target="_blank" class="a9c_1">网银安全系列访谈之：惊心动魄网银故事</a></TD>
+                    </TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=a9c_1 align=right width="4%">·</TD>
+                      <TD align=left><a href="http://tech.ccidnet.com/col/317/317.html" target="_blank" class="a9c_1">[热点专题]</a> <a href="http://tech.ccidnet.com/zt/Sz_nbs/" target="_blank" class="a9c_1">网银安全系列</a>　<a href="http://tech.ccidnet.com/zt/nz_3g/" target="_blank" class="a9c_1">3G上网卡巡礼</a></TD>
+                    </TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+          <TD vAlign=center align=left width=5>
+            <TABLE cellSpacing=0 cellPadding=0 width=1 border=0>
+              <TBODY>
+              <TR>
+                <TD width=1 
+                background=微软删减Windows%20XP服务%20为Windows%207让路%20—%20资讯中心%20-%20赛迪网_files/line4.gif 
+                height=64></TD></TR></TBODY></TABLE></TD>
+          <TD>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=a9c_1 align=right width="4%">·</TD>
+                      <TD align=left><a href="http://tech.ccidnet.com/zt/ITTech91/" target="_blank" class="a10b">[订阅IT技术周刊]</a><a href="http://bbs.tech.ccidnet.com/thread.php?fid=145" target="_blank" class="a10b">[IT资源下载专区]</a><a href="http://bbs.security.ccidnet.com/thread.php?fid=87" target="_blank" class="a10b">[病毒求助专区]</a></TD>
+                    </TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=a9c_1 align=right width="4%">·</TD>
+                      <TD align=left><a href="http://tech.ccidnet.com/col/5847/5847.html" target="_blank" class="a9c_1">[热点]</a> <a href="http://tech.ccidnet.com/art/9509/20090427/1751599_1.html" target="_blank" class="a9c_1">跨站脚本十二问</a> <a href="http://tech.ccidnet.com/art/1099/20090428/1752897_1.html" target="_blank" class="a9c_1">四步防范Conficker</a></TD>
+                    </TR></TBODY></TABLE></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=a9c_1 align=right width="4%">·</TD>
+              <TD align=left class="a9c_1"><a href="http://tech.ccidnet.com/col/5847/5847.html" target="_blank" class="a9c_1">[热点]</a> <a href="http://tech.ccidnet.com/art/18359/20090505/1757623_1.html" target="_blank" class="a9c_1">Windows 7 RC版公开下载　憾缺中文版</a></A></TD>
+                    </TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD>
+  </TR>
+  </TBODY></TABLE>
+</DIV>
+<!--文章页焦点 end-->
+
+<div class="clear"></div>
+<!--638广告位-->
+<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://www2.ccidnet.com/adpolestar/door/;ap=78ED3293_8580_D5AE_236A_6CF7ED1AFD99;ct=js;pu=ccid;/?"></script>
+<div class="clear"></div>
+<div class="blank5"></div>
+<!--638广告位2-->
+<SCRIPT LANGUAGE="JavaScript1.1" SRC="http://www2.ccidnet.com/adpolestar/door/;ap=7AD973FD_E7ED_2657_9929_CDD2D028B9DD;ct=js;pu=ccid;/?"></SCRIPT>
+<div class="clear"></div>
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0 style="margin-top:5px;">
+  <TBODY>
+  
+  <TR>
+    <TD align="center"><div style="border:1px #8fafd2 solid;">
+      <table class="titel" style="BORDER-TOP: #ffffff 17px solid" cellspacing="0" 
+      cellpadding="0" width="98%" border="0">
+        <tbody>
+          <tr>                 
+            <td align="middle"><h1 class="titel">Java基础：利用Java-JACOB操作WORD文档  </h1></td>
+          </tr>
+        </tbody>
+      </table>
+	  
+
+      <table style="MARGIN: 2px 0px 20px" cellspacing="0" cellpadding="0" width="560" 
+      border="0">
+        <tbody>
+          <tr>
+            <td bgcolor="#b1bcc0" height="1"></td>
+          </tr>
+        </tbody>
+      </table>
+      <table style="MARGIN-BOTTOM: 20px" cellspacing="0" cellpadding="0" width="98%" 
+      border="0">
+        <tbody>
+          <tr>
+            <td align="middle"><span class="content01"></span><span 
+            class="b">发布时间：2009.04.07 04:46</span>&nbsp;&nbsp;&nbsp;&nbsp;<span 
+            class="b"> 来源：blogjava</span>&nbsp;&nbsp;&nbsp;&nbsp;<span 
+            class="b">作者：blogjava</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="p11" cellspacing="0" cellpadding="0" width="560" border="0">
+        <tbody>
+          <tr>
+            <td style="WORD-WRAP: break-word" align="left">
+                <p class="a14c" style="TEXT-INDENT: 2em">
+				<span id="zoom" class="a14c">
+                 
+                <p style="text-indent:2em">JACOB是一个 JAVA到微软的COM接口的桥梁。使用JACOB允许任何JVM访问COM对象，从而使JAVA应用程序能够调用COM对象。如果你要对 MS Word、Excel 进行处理，JACOB 是一个好的选择。JACOB目前已经成为sourceforge（http://sourceforge.net/projects/jacob- project/）的一个开源项目，本文使用的版本是1.10.1。
+<p style="text-indent:2em">
+<p style="text-indent:2em">因为在项目中用到了这个技术，但是在网上没有查到很符合题目的文章，经过我自己的探索，总结写出了这篇文章。
+<p style="text-indent:2em">
+<p style="text-indent:2em">这篇文章可能不能完全满足你的要求，你也可以按照我的探索方法进行探索：参阅VBA操作Office的组件的书籍，然后参考下面的Tip完成需要的功能。文章最后附完整的测试代码。
+<p style="text-indent:2em">
+<p style="text-indent:2em">生成WORD文档的简单讲解：
+<p style="text-indent:2em">
+<p style="text-indent:2em">1. 初始化com的线程，非常重要，否则第二次创建com对象的时候会出现can’t co-create object异常 （参见jacob的帮助文档），完成操作com组件后要调用 realease方法
+<p style="text-indent:2em">ComThread.InitSTA();// 初始化com的线程，非常重要！！使用结束后要调用 realease方法
+<p style="text-indent:2em">
+<p style="text-indent:2em">2. 初始化word应用程序，新建一个空白文档，取得文档内容对象//Instantiate objWord //Declare word object
+<p style="text-indent:2em">ActiveXComponent objWord = new ActiveXComponent("Word.Application");
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Assign a local word object
+<p style="text-indent:2em">Dispatch wordObject = (Dispatch) objWord.getObject();
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Create a Dispatch Parameter to show the document that is opened
+<p style="text-indent:2em">Dispatch.put((Dispatch) wordObject, "Visible", new Variant(true));// new Variant(true)表示word应用程序可见
+<p style="text-indent:2em">Tip:设置一个对象的属性的时候，利用Dispatch的put方法，给属性赋值。上面这行语句相当于vb的 wordObject.Visible = true 语句
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Instantiate the Documents Property
+<p style="text-indent:2em">Dispatch documents = objWord.getProperty("Documents").toDispatch(); //documents表示word的所有文档窗口，（word是多文档应用程序）
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Add a new word document, Current Active Document
+<p style="text-indent:2em">Dispatch document = Dispatch.call(documents, "Add").toDispatch(); // 使用Add命令创建一个新文档，用Open命令可以打开一个现有文档
+<p style="text-indent:2em">Tip:调用一个对象的方法的时候，利用Dispatch的call方法，上面的语句相当于vb的document = documents.Add() 语句。
+<p style="text-indent:2em">
+<p style="text-indent:2em">Dispatch wordContent = Dispatch.get(document, "Content").toDispatch(); // 取得word文件的内容
+<p style="text-indent:2em">Tip:取得一个对象的成员变量（属性）时利用Dispatch的get方法，上面的语句相当于vb的wordContent = document.Content语句
+<p style="text-indent:2em">
+<p style="text-indent:2em">3. 取得word文档的内容后，可以对其内容进行操作
+<p style="text-indent:2em">Dispatch.call(wordContent, "InsertAfter", "这里是一个段落的内容");//插入一个段落
+<p style="text-indent:2em">
+<p style="text-indent:2em">4. 设置刚插入的段落的文字格式
+<p style="text-indent:2em">Dispatch paragraphs = Dispatch.get(wordContent, "Paragraphs").toDispatch(); // 所有段落
+<p style="text-indent:2em">int paragraphCount = Dispatch.get(paragraphs, "Count").toInt(); // 一共的段落数
+<p style="text-indent:2em">
+<p style="text-indent:2em">// 找到刚输入的段落，设置格式
+<p style="text-indent:2em">Dispatch lastParagraph = Dispatch.call(paragraphs, "Item",
+<p style="text-indent:2em">new Variant(paragraphCount)).
+<p style="text-indent:2em">toDispatch(); // 最后一段
+<p style="text-indent:2em">Dispatch lastParagraphRange = Dispatch.get(lastParagraph, "Range").
+<p style="text-indent:2em">toDispatch();
+<p style="text-indent:2em">Dispatch font = Dispatch.get(lastParagraphRange, "Font").toDispatch();
+<p style="text-indent:2em">Dispatch.put(font, "Bold", new Variant(true)); // 设置为黑体
+<p style="text-indent:2em">Dispatch.put(font, "Italic", new Variant(true)); // 设置为斜体
+<p style="text-indent:2em">Dispatch.put(font, "Name", new Variant("宋体")); //
+<p style="text-indent:2em">Dispatch.put(font, "Size", new Variant(12)); //小四
+<p style="text-indent:2em">注意：如果想插入一个新的空白行，也需要设置段落的文字格式，否则新插入行的文字格式会于刚插入的段落的格式相同。
+<p style="text-indent:2em">
+<p style="text-indent:2em">5. 将当前文档保存
+<p style="text-indent:2em">Dispatch.call(document, "SaveAs", new Variant("C:
+<p style="text-indent:2em">abc.doc")); // 保存一个新文档
+<p style="text-indent:2em">
+<p style="text-indent:2em">6. 释放COM线程
+<p style="text-indent:2em">ComThread.Release();//释放com线程。根据jacob的帮助文档，com的线程回收不由java的垃圾回收器处理
+<p style="text-indent:2em">
+<p style="text-indent:2em">完整测试代码：（StudyJacob.java 附件中有本文章和java源文件）
+<p style="text-indent:2em">import com.jacob.activeX.ActiveXComponent;
+<p style="text-indent:2em">import com.jacob.com.Dispatch;
+<p style="text-indent:2em">import com.jacob.com.Variant;
+<p style="text-indent:2em">import com.jacob.com.ComThread;
+<p style="text-indent:2em">
+<p style="text-indent:2em">public class StudyJacob {
+<p style="text-indent:2em">
+<p style="text-indent:2em">public static void main(String[] args) {
+<p style="text-indent:2em">ComThread.InitSTA();// 初始化com的线程，非常重要！！使用结束后要调用 realease方法
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Instantiate objWord //Declare word object
+<p style="text-indent:2em">ActiveXComponent objWord = new ActiveXComponent("Word.Application");
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Assign a local word object
+<p style="text-indent:2em">Dispatch wordObject = (Dispatch) objWord.getObject();
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Create a Dispatch Parameter to show the document that is opened
+<p style="text-indent:2em">Dispatch.put((Dispatch) wordObject, "Visible", new Variant(true));// new Variant(true)表示word应用程序可见
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Instantiate the Documents Property
+<p style="text-indent:2em">Dispatch documents = objWord.getProperty("Documents").toDispatch(); //documents表示word的所有文档窗口，（word是多文档应用程序）
+<p style="text-indent:2em">
+<p style="text-indent:2em">//Add a new word document, Current Active Document
+<p style="text-indent:2em">Dispatch document = Dispatch.call(documents, "Add").toDispatch(); // 使用Add命令创建一个新文档，用Open命令可以打开一个现有文档
+<p style="text-indent:2em">
+<p style="text-indent:2em">Dispatch wordContent = Dispatch.get(document, "Content").toDispatch(); // 取得word文件的内容
+<p style="text-indent:2em">
+<p style="text-indent:2em">Dispatch.call(wordContent, "InsertAfter", "这里是一个段落的内容");//插入一个段落
+<p style="text-indent:2em">
+<p style="text-indent:2em">Dispatch paragraphs = Dispatch.get(wordContent, "Paragraphs").toDispatch(); // 所有段落
+<p style="text-indent:2em">int paragraphCount = Dispatch.get(paragraphs, "Count").toInt(); // 一共的段落数
+<p style="text-indent:2em">
+<p style="text-indent:2em">// 找到刚输入的段落，设置格式
+<p style="text-indent:2em">Dispatch lastParagraph = Dispatch.call(paragraphs, "Item",
+<p style="text-indent:2em">new Variant(paragraphCount)).
+<p style="text-indent:2em">toDispatch(); // 最后一段
+<p style="text-indent:2em">Dispatch lastParagraphRange = Dispatch.get(lastParagraph, "Range").
+<p style="text-indent:2em">toDispatch();
+<p style="text-indent:2em">Dispatch font = Dispatch.get(lastParagraphRange, "Font").toDispatch();
+<p style="text-indent:2em">Dispatch.put(font, "Bold", new Variant(true)); // 设置为黑体
+<p style="text-indent:2em">Dispatch.put(font, "Italic", new Variant(true)); // 设置为斜体
+<p style="text-indent:2em">Dispatch.put(font, "Name", new Variant("宋体")); //
+<p style="text-indent:2em">Dispatch.put(font, "Size", new Variant(12)); //小四
+<p style="text-indent:2em">
+<p style="text-indent:2em">Dispatch.call(document, "SaveAs", new Variant("C:
+<p style="text-indent:2em">abc.doc")); // 保存一个新文档
+<p style="text-indent:2em">ComThread.Release();//释放com线程。根据jacob的帮助文档，com的线程回收不由java的垃圾回收器处理 
+<p style="text-indent:2em">}
+<p style="text-indent:2em">
+<p style="text-indent:2em">}
+<p style="text-indent:2em"><P align=right>(责任编辑：董建伟)</P>
+				 <p align="center">
+              
+              
+		
+		</p>
+
+</p>
+  <span><p align="center"><br />
+                    </p>
+                  </span></span>
+               </td>
+          </tr>
+          <tr>
+            <td><table class="index01" style="margin:10px 0;" cellspacing="0" 
+            cellpadding="0" width="100%" border="0">
+                <tbody>
+                  <tr>
+                    <td align="right" class="font30569d"><span class="b font30569d">[ </span><a href="http://comment1.ccidnet.com/comment/disp/add_newcomment?articleID=1730957&columnID=3539&articleTitle=Java%BB%F9%B4%A1%A3%BA%C0%FB%D3%C3Java-JACOB%B2%D9%D7%F7WORD%CE%C4%B5%B5&articleTime=2009-04-03&articleURL=http://news.ccidnet.com%2Fart%2F3539%2F20090403%2F1730957_1.html" target="_blank" class="b">发表评论</a><span class="b font30569d">&nbsp;]</span> <font 
+                  class="b font30569d">字体</font><span class="b font30569d">[ </span><a href="JavaScript:doZoom(16)" target="_self" class="b">大</a><a href="JavaScript:doZoom(14)" target="_self" class="b">中</a><a href="JavaScript:doZoom(12)" target="_self" class="b">小</a><span 
+                  class="b font30569d">&nbsp;]</span> <span class="b font30569d">[ </span><a href="javascript:self.print()" class="b">打印</a><span 
+                  class="b font30569d">&nbsp;]</span> <span class="b font30569d">[ </span><a href="http://blog.ccidnet.com" target="_blank" class="b">进入博客</a><span 
+                  class="b font30569d">&nbsp;]</span> <span class="b font30569d">[ <a href="http://bbs.ccidnet.com" target="_blank" class="b">进入论坛</a>&nbsp;] &nbsp;[ <a href="mailto:?subject=【赛迪网】”&body=我在【赛迪网】上看到“”这篇文章，特向您推荐
+             http://comm.ccidnet.com/art/3777/20070509/1077253_1.html" class="b">推荐给朋友</a>&nbsp;]</span></td>
+                  </tr>
+                </tbody>
+            </table></td>
+          </tr>
+        </tbody>
+      </table>
+    </div></TD></TR>
+  </TBODY></TABLE>
+<table style="margin-top:10px;" cellspacing="0" cellpadding="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td width="639" height="12" background="http://www.ccidnet.com/images/ccid_art/wz_left_4.jpg"><table cellspacing="0" cellpadding="0" width="100%" border="0">
+        <tbody>
+          <tr>
+            <td width="3%">&nbsp;</td>
+            <td class="a6" align="left" 
+        width="97%">【<strong>相关文章</strong>】</td>
+          </tr>
+        </tbody>
+      </table></td>
+    </tr>
+    <tr>
+      <td align="middle" 
+    background="http://www.ccidnet.com/images/ccid_art/wz_left_5.jpg"><!-- 相关文章显示开始 -->
+          <table cellspacing="0" cellpadding="0" width="98%" border="0">
+            <tbody>
+              <tr>
+                <td valign="bottom">
+				<table style="MARGIN: 10px 0px 14px" cellspacing="0" cellpadding="0" 
+            width="100%" border="0">
+                    <tbody>
+					
+				
+				<tr valign="top">
+
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/3737/20090402/1729665_1.html" target="_blank">用Java语言编写通过代理访问的应用程序</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-02)</td>
+                     
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/12015/20090402/1729659_1.html" target="_blank">实例教程：Java Socket编程的一个秘密类</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-02)</td>
+                     
+                  </tr>
+                  <tr valign="top">
+
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/12127/20090402/1729331_1.html" target="_blank">J2EE综合：关于Java EJB容器存取和实现</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-02)</td>
+                     
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/3737/20090401/1728027_1.html" target="_blank">J2EE综合：关于Java EJB容器存取和实现</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-01)</td>
+                     
+                  </tr>
+                  <tr valign="top">
+
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/3737/20090401/1728025_1.html" target="_blank">Java语言深入:编写高级 JScript应用代码</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-01)</td>
+                     
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/12013/20090401/1728021_1.html" target="_blank">开发框架--分析Tomcat下中文的彻底解决</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-01)</td>
+                     
+                  </tr>
+                  <tr valign="top">
+
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/3737/20090401/1728015_1.html" target="_blank">开发工具:程序员应如何提高系统分析能力</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-01)</td>
+                     
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/3737/20090401/1728011_1.html" target="_blank">进阶：怎样使用AJAX进行WEB应用程序开发</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-01)</td>
+                     
+                  </tr>
+                  <tr valign="top">
+
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/12013/20090401/1728005_1.html" target="_blank">J2EE综合--浅析Java程序员的存储过程</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-01)</td>
+                     
+                        <td width="3%" height="25" align="right" valign="middle" class="a9">·</td>
+                        <td align="left" valign="middle"><a href="http://tech.ccidnet.com/art/3737/20090401/1728003_1.html" target="_blank">教你如何应用EditPlus配置Java编译环境</a></td>
+                        <td align="middle" valign="middle" class="a9">(04-01)</td>
+                     
+                  </tr>
+                  
+                    </tbody>
+                </table>
+                    <!-- 相关文章显示结束 --></td>
+              </tr>
+            </tbody>
+          </table></td>
+    </tr>
+    <tr>
+      <td><img src="http://www.ccidnet.com/images/ccid_art/wz_left_6.jpg" width="639" height="5" /></td>
+    </tr>
+  </tbody>
+</table>
+<!--发表评论-->
+ <table style="margin-top:10px;" width="100%" border="0" cellspacing="0" cellpadding="0" align="center" >
+    <tr>
+      <td>
+        
+            <script src="http://comment1.ccidnet.com/comment/disp/article?articleID=1730957&columnID=3539&articleTime=2009-04-03&articleTitle=Java%BB%F9%B4%A1%A3%BA%C0%FB%D3%C3Java-JACOB%B2%D9%D7%F7WORD%CE%C4%B5%B5&articleURL=http://news.ccidnet.com%2Fart%2F3539%2F20090403%2F1730957_1.html" ></script>
+      </td>
+    </tr>
+  </table>
+
+<TABLE style="MARGIN-TOP: 9px" cellSpacing=0 cellPadding=0 width="100%" 
+border=0>
+  <TBODY>
+  <TR>
+    <TD width=639 
+    background=http://www.ccidnet.com/images/ccid_art/wz_left_7.jpg 
+    height=12>
+	  <SCRIPT LANGUAGE="JavaScript">
+<!--
+function submitForm(){
+        url="http://count.ccidnet.com:7001/pub/disp/Feedback?username="+document.form2.username.value
+            +"&unit="+document.form2.unit.value
+            +"&memo="+document.form2.memo.value
+            +"&telephone="+document.form2.telephone.value
+            +"&email="+document.form2.email.value
+            +"&articleURL="+document.form2.articleURL.value;
+
+            for(i=0;i<3;i++)
+            {
+            	if(document.form2.require[i].checked)
+            	{
+            	url+="&require="+document.form2.require[i].value;
+            	}
+            }
+
+           window.open(url,'用户反馈提交成功','width=400,height=300')
+}
+
+//-->
+</SCRIPT>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD width="3%">&nbsp;</TD>
+          <TD class=a6 align=left 
+        width="97%">【<STRONG>客户需求反馈表</STRONG>】</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+
+
+    <FORM name=form2 action="" method=post>
+    <TD align=middle 
+    background=http://www.ccidnet.com/images/ccid_art/wz_left_5.jpg>
+      <TABLE style="MARGIN: 8px 0px" cellSpacing=0 cellPadding=0 width="100%" 
+      border=0>
+	  <INPUT type=hidden value=/art/1032/20070726/1156119_1.html name=articleURL> 
+      <TBODY>
+        <TR>
+          <TD width="3%" align="center" class=a9b>*</TD>
+          <TD vAlign=middle width="15%"><SPAN class=a9b>姓　　名:</SPAN></TD>
+          <TD align="left"><INPUT 
+            style="PADDING-RIGHT: 1px; PADDING-LEFT: 1px; FONT-SIZE: 9pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; HEIGHT: 20px" 
+            size=30 name=username></TD>
+          <TD vAlign=bottom width="49%" rowSpan=4>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><INPUT class=a9b type=checkbox value=1 name=require> 更多资料　 
+                  <INPUT class=a9b type=checkbox value=2 name=require> 了解方案　 
+                  <INPUT class=a9b type=checkbox value=3 name=require> 认识厂商
+				</TD>
+			  </TR>
+              <TR>
+                <TD height=15></TD></TR>
+              <TR>
+                <TD><TEXTAREA name=memo rows=4 cols=35 style="padding:2px; font-size:12px;">详细需求信息请在此处填写!</TEXTAREA></TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD width="3%" align="center" class=a9b>*</TD>
+          <TD valign="middle" class=a9b>单位名称:</TD>
+          <TD align="left"><INPUT 
+            style="PADDING-RIGHT: 1px; PADDING-LEFT: 1px; FONT-SIZE: 9pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; HEIGHT: 20px" 
+            size=30 name=unit></TD></TR>
+        <TR>
+          <TD width="3%" align="center" class=a9b>*</TD>
+          <TD valign="middle" class=a9b>联系电话:</TD>
+          <TD align="left"><INPUT 
+            style="PADDING-RIGHT: 1px; PADDING-LEFT: 1px; FONT-SIZE: 9pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; HEIGHT: 20px" 
+            size=30 name=telephone></TD></TR>
+        <TR>
+          <TD width="3%" align="center" class=a9b>*</TD>
+          <TD valign="middle" class=a9b>电子邮件:</TD>
+          <TD align="left"><INPUT 
+            style="PADDING-RIGHT: 1px; PADDING-LEFT: 1px; FONT-SIZE: 9pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; HEIGHT: 20px" 
+            size=30 name=email></TD></TR>
+        <TR>
+          <TD height="40" colSpan=4 align=center class=a9b><INPUT onclick=javascript:submitForm() type=submit value=提交 name=Submit> 
+<INPUT type=reset value=重填 name=Submit2>    </TD></TR></TBODY></TABLE></TD>
+    </FORM><!-- 客户需求反馈结束 --></TR>
+  <TR>
+    <TD align=middle 
+    background=http://www.ccidnet.com/images/ccid_art/wz_left_5.jpg><img src="http://www.ccidnet.com/images/ccid_art/wz_left_6.jpg" width="639" height="5" /></TD>
+  </TR>
+  <TR>
+    <TD></TD></TR></TBODY></TABLE>
+		</DIV>
+	</div>
+  <div class="nright">
+		<table width="298" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+  <tr>
+    <td bgcolor="#427fc0"><table width="298" border="0" cellspacing="1" cellpadding="0">
+      <tr>
+        <td height="27" valign="bottom"><table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="87" align="center"><img id="art_list1" src="http://www.ccidnet.com/images/ccid_art/btn_01-1.jpg" width="85" height="22" onMouseOver="showList(1);"/></td>
+            <td width="39" align="center"><img id="art_list2" src="http://www.ccidnet.com/images/ccid_art/btn_02.jpg" width="37" height="22" onMouseOver="showList(2);"/></td>
+            <td width="54" align="center"><img id="art_list3" src="http://www.ccidnet.com/images/ccid_art/btn_03.jpg" width="52" height="22" onMouseOver="showList(3);"/></td>
+            <td width="54" align="center"><img id="art_list4" src="http://www.ccidnet.com/images/ccid_art/btn_04.jpg" width="52" height="22" onMouseOver="showList(4);"/></td>
+            <td width="54" align="center"><img id="art_list5" src="http://www.ccidnet.com/images/ccid_art/btn_05.jpg" width="52" height="22" onMouseOver="showList(5);"/></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td align="center" bgcolor="#FFFFFF">
+		<!--排行1 start-->
+		<div id="art_body1">
+		<table width="277" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+		
+
+
+
+
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">1</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090727/1840239_1.html" target="_blank">初一女生爆“酒瓶门” 90后再惹争议（图）</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">2</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090724/1838137_1.html" target="_blank">日本游戏媒体：CJ展台ShowGirl露的少</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">3</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090722/1835155_1.html" target="_blank">"魔兽世界"正式运营还待出版总署放行</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">4</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090728/1841133_1.html" target="_blank">"魔兽世界"游戏总监解析"十字军的呼唤"</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">5</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090723/1836665_1.html" target="_blank">专家称员工丢iPhone自杀或使富士康丢订单</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">6</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090727/1839689_1.html" target="_blank">焦点访谈：“妹妹五月天”里的黄毒与病毒</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">7</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090724/1838093_1.html" target="_blank">"贾君鹏"闹剧不断升级 网友开QQ群讨论</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">8</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090727/1839631_1.html" target="_blank">网络盛传胡斌为替身 已被猫扑人肉(组图)</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">9</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://news.ccidnet.com/art/1032/20090722/1835353_1.html" target="_blank">通过文化部审批 "魔兽"开服进入倒计时</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+        </table>
+		</div>
+		 <!--排行1 end-->
+		 <!--排行2 start-->
+		 <div id="art_body2" style="display:none;">
+		 <table width="277" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+         
+
+
+
+
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">1</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/1522/20090723/1837487_1.html" target="_blank">联通3G广东全省试商用 WCDMA上网速度最快 </a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">2</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/1522/20090722/1836041_1.html" target="_blank">手机上网深入生活 移动生活自浏览器开始</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">3</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/5399/20090727/1840333_1.html" target="_blank">时尚旋屏 蓝色版夏普SH9110C仅售1999</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">4</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/5399/20090727/1839439_1.html" target="_blank">机皇终被围攻！嗜杀诺基亚N97强敌一览</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">5</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/5399/20090722/1835447_1.html" target="_blank">全键盘商务典范 诺基亚E71降至白菜价</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">6</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/1522/20090722/1835615_1.html" target="_blank">工信部:TD运行质量改善 TD-LTE部署测试</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">7</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/5399/20090723/1836555_1.html" target="_blank">最快速最强大不完美 iPhone 3GS七宗罪</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">8</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/5399/20090721/1834633_1.html" target="_blank">首款OPhone 另类"G2"多普达A6188评测</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">9</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://comm.ccidnet.com/art/5399/20090727/1840343_1.html" target="_blank">520万像素日系旋屏机 夏普SH9020C小降</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+         </table>
+		</div>
+		 <!--排行2 end-->
+		 <!--排行3 start-->
+		 <div id="art_body3" style="display:none;">
+		<table width="277" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+         
+
+
+
+
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">1</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/5469/20090723/1836797_1.html" target="_blank">好本今夏决不能错过 ThinkPad三大系列暑促</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">2</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/5477/20090727/1840153_1.html" target="_blank">惠普新品13英寸商务笔记本ProBook 4311s</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">3</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/3383/20090724/1838881_1.html" target="_blank">HP MS200一体电脑重磅上市 运动电脑新体验</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">4</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/3387/20090722/1835629_1.html" target="_blank">替代入门级工作站 方正商祺N300简评</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">5</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/3383/20090724/1838335_1.html" target="_blank">Gateway QX2800上网机搭N330双核CPU</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">6</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/3387/20090722/1835495_1.html" target="_blank">小巧玲珑也能玩转高清 宏碁Rove机型评测</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">7</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/3387/20090722/1835657_1.html" target="_blank">强悍难以想象 飞利浦商用LCD外观评测</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">8</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/3387/20090723/1837359_1.html" target="_blank">小身材却有高配置 同方真爱U9360深度评测</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">9</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://product.ccidnet.com/art/3373/20090724/1838841_1.html" target="_blank">Nehalem平台守护神 华硕机箱新品拆解评测</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+        </table>
+		</div>
+		 <!--排行3 end-->
+		 <!--排行4 start-->
+		 <div id="art_body4" style="display:none;">
+		<table width="277" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+         
+
+
+
+
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">1</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/1099/20090727/1840111_1.html" target="_blank">瑞星官网遭黑客报复　卡卡网被入侵挂马</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">2</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/1099/20090728/1840967_1.html" target="_blank">越危险之处越"安全":瑞星黑客决战卡卡网</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">3</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/1099/20090723/1837613_1.html" target="_blank">2009年上半年度挂马网站案例综合分析</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">4</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/1099/20090722/1835981_1.html" target="_blank">微软被曝新漏洞 木马Downloader.Fostrem伺</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">5</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/11209/20090722/1836227_1.html" target="_blank">揭示迈克尔.杰克逊千变面孔下垃圾邮件</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">6</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/1099/20090728/1841625_1.html" target="_blank">清华、复旦、瑞星等官网被黑客“挂马”</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">7</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/239/20090723/1837139_1.html" target="_blank">“安吉广播电视台”、“晶报”等网站被挂马</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">8</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/1101/20090727/1840475_1.html" target="_blank">Adobe Flash曝严重漏洞  木马一击即中</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">9</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://tech.ccidnet.com/art/239/20090722/1835989_1.html" target="_blank">“西安招生考试网”、“2688网店”等网站被</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+        </table>
+		</div>
+		 <!--排行4 end-->
+		 <!--排行5 start-->
+		 <div id="art_body5" style="display:none;">
+		<table width="277" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+         
+
+
+
+
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">1</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090723/1836577_1.html" target="_blank"><font color="#F66300">SaaS模式风头正紧 SAP网上卖软件前景难料</font></a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">2</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090723/1836563_1.html" target="_blank">云计算的五大进展：云操作系统是里程碑</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">3</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090722/1835569_1.html" target="_blank">克服困难向战略层转化 IT部门的升级之道</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">4</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090723/1836907_1.html" target="_blank">专家支招 助CIO走出信息系统难整合的困惑</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">5</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090722/1835521_1.html" target="_blank">OA、ERP整合 中小企业信息化务实思考</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">6</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090723/1837503_1.html" target="_blank">周亮全面解读《09年中国政府网站绩效评估》</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">7</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090722/1835583_1.html" target="_blank">通过第三方数据中心实现虚拟化灾备的要点</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">8</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090723/1837131_1.html" target="_blank">天津市和平区出台电子政务专网管理规范</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+				<tr>
+                <td width="28" align="center">
+		    	<table width="15" height="12" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                <td align="center" background="http://www.ccidnet.com/images/news/news_art/szan.jpg" style="color:#FFFFFF; font-weight:bold; font-size:10px; display:block;">9</td>
+                </tr>
+                </table></td>
+                <td width="249" height="25" align="left"><a href="http://industry.ccidnet.com/art/1544/20090728/1840873_1.html" target="_blank">出口企业遭遇汇率门 供应链信息化解难题</a></td>
+                </tr>
+				
+                <tr>
+                <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+                </tr>	      
+			    
+        </table>
+		</div>
+		 <!--排行5 end-->
+		</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+	<div class="clear"></div>
+
+	<!--画中画按纽广告位-->
+	<div class="pic2"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://www2.ccidnet.com/adpolestar/door/;ap=516F3B42_1605_D1AF_5883_7AE3D193E485;ct=js;pu=ccid;/?"></SCRIPT></div>
+
+	<div class="clear"></div>
+	<table width="298" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+  <tr>
+    <td bgcolor="#427fc0"><table width="298" border="0" cellspacing="1" cellpadding="0">
+      <tr>
+        <td height="27" align="center" valign="bottom"><table width="280" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="85" align="left"><img src="http://www.ccidnet.com/images/ccid_art/btn_06.jpg" height="22" /></td>
+            <td width="195" align="right" class="fontfff"><a href="http://news.ccidnet.com/col/957/957.html" target="_blank">资讯</a> <a href="http://comm.ccidnet.com/col/1524/1524.html" target="_blank">通信</a> <a href="http://product.ccidnet.com/col/3437/3437.html" target="_blank">IT产品</a> <a href="http://tech.ccidnet.com/col/317/317.html" target="_blank">IT技术</a> <a href="http://cio.ccidnet.com/col/1327/1327.html" target="_blank">信息化</a></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td align="center" bgcolor="#FFFFFF">
+		<!--专题显示区 开始-->
+         
+
+
+
+
+<table width="277" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+          <tr>
+            <td width="110" align="left">
+			<table width="108" height="78" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td bgcolor="#cfcfcf">
+				    
+				<table width="108" height="78" border="0" cellpadding="0" cellspacing="1">
+                    <tr>
+                      <td align="center" valign="middle" bgcolor="#FFFFFF"><a href="http://news.ccidnet.com/art/957/20090723/1837573_1.html" target="_blank"><img src="http://news.ccidnet.com/col/attachment/2009/7/1865613.jpg" alt="专题：一部iPhone为何赔上一条人命？" width="100" height="70" /></a></td>
+                    </tr>
+                </table>
+				 
+				</td>
+              </tr>
+            </table></td>
+            <td width="167" height="95" align="center">
+			<table width="98%" border="0" cellspacing="0" cellpadding="0">
+			 
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://news.ccidnet.com/art/957/20090723/1836983_1.html" target="_blank" title="专题：2009 ChinaJoy ">专题：2009 ChinaJoy ..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://news.ccidnet.com/art/957/20090721/1834379_1.html" target="_blank" title="专题：电脑下乡——PC产业的“蓝海”">专题：电脑下乡——PC产..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://news.ccidnet.com/art/957/20090721/1834377_1.html" target="_blank" title="专题:09网页游戏市场群雄并起 且看谁主沉浮">专题:09网页游戏市场群..</a></td>
+              </tr>
+             
+            </table>            
+			</td>
+          </tr>
+          <tr>
+            <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+            </tr>
+          <tr>
+             <td align="left">
+			<table width="108" height="78" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td bgcolor="#cfcfcf">
+				    
+				<table width="108" height="78" border="0" cellpadding="0" cellspacing="1">
+                    <tr>
+                      <td align="center" valign="middle" bgcolor="#FFFFFF"><a href="http://comm.ccidnet.com/art/1524/20090728/1841159_1.html" target="_blank"><img src="http://comm.ccidnet.com/col/attachment/2009/7/1870217.jpg" alt="直播：2009通信网络规划优化大会" width="100" height="70" /></a></td>
+                    </tr>
+                </table>
+				 
+				</td>
+              </tr>
+            </table></td>
+            <td width="167" height="95" align="center">
+			<table width="98%" border="0" cellspacing="0" cellpadding="0">
+			 
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://comm.ccidnet.com/art/1524/20090715/1829807_1.html" target="_blank" title="TD网络三期招标:中兴大唐抱得半壁江山">TD网络三期招标:中兴大..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://comm.ccidnet.com/art/1524/20090715/1829785_1.html" target="_blank" title="专题：三大运营商执行短信限发令 日发短信禁超千条">专题：三大运营商执行短..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://comm.ccidnet.com/art/1524/20090710/1825103_1.html" target="_blank" title="专题：3G!智能！手机热门实用软件大推荐">专题：3G!智能！手机热..</a></td>
+              </tr>
+             
+            </table>            
+			</td>
+          </tr>
+          <tr>
+            <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+            </tr>
+          <tr>
+            <td align="left">
+			<table width="108" height="78" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td bgcolor="#cfcfcf">
+				    
+				<table width="108" height="78" border="0" cellpadding="0" cellspacing="1">
+                    <tr>
+                      <td align="center" valign="middle" bgcolor="#FFFFFF"><a href="http://product.ccidnet.com/art/3437/20090724/1838677_1.html" target="_blank"><img src="http://product.ccidnet.com/col/attachment/2009/7/1867105.jpg" alt="专题：家用照片一体机横评之佳能MP245" width="100" height="70" /></a></td>
+                    </tr>
+                </table>
+				 
+				</td>
+              </tr>
+            </table></td>
+            <td width="167" height="95" align="center">
+			<table width="98%" border="0" cellspacing="0" cellpadding="0">
+			 
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://product.ccidnet.com/art/3437/20090723/1836987_1.html" target="_blank" title="云计算标准破土而出 各家云计算策略回顾">云计算标准破土而出 各..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://product.ccidnet.com/art/3437/20090721/1833821_1.html" target="_blank" title="暑促系列之高清投影机选购指南">暑促系列之高清投影机选..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://product.ccidnet.com/art/3437/20090719/1832563_1.html" target="_blank" title="专题：今夏轻薄时尚笔记本推荐">专题：今夏轻薄时尚笔记..</a></td>
+              </tr>
+             
+            </table>            
+			</td>
+          </tr>
+          <tr>
+            <td colspan="2"><img src="http://www.ccidnet.com/images/news/news_art/tiao3.jpg" width="277" height="3" /></td>
+            </tr>
+          <tr>
+             <td align="left">
+			<table width="108" height="78" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td bgcolor="#cfcfcf">
+				    
+				<table width="108" height="78" border="0" cellpadding="0" cellspacing="1">
+                    <tr>
+                      <td align="center" valign="middle" bgcolor="#FFFFFF"><a href="http://tech.ccidnet.com/art/317/20090724/1838207_1.html" target="_blank"><img src="http://tech.ccidnet.com/col/attachment/2009/7/1866585.jpg" alt="安全焦点访谈：国庆信息系统安保" width="100" height="70" /></a></td>
+                    </tr>
+                </table>
+				 
+				</td>
+              </tr>
+            </table></td>
+            <td width="167" height="95" align="center">
+			<table width="98%" border="0" cellspacing="0" cellpadding="0">
+			 
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://tech.ccidnet.com/art/317/20090715/1829803_1.html" target="_blank" title="专题：了解与掌握Linux系统下安全编程">专题：了解与掌握Linux..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://tech.ccidnet.com/art/317/20090714/1828349_1.html" target="_blank" title="安全访谈：网银安全系列访谈之 U密揭秘">安全访谈：网银安全系列..</a></td>
+              </tr>
+          
+              <tr>
+                <td height="25" align="left">&middot;<a href="http://tech.ccidnet.com/art/317/20090709/1823981_1.html" target="_blank" title="专题：经典病毒木马回顾">专题：经典病毒木马回顾..</a></td>
+              </tr>
+             
+            </table>            
+			</td>
+          </tr>
+
+        </table>
+		<!--专题显示区 结束-->
+		</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<div class="clear"></div>
+<!--画中画按纽广告位2-->
+<div class="pic2"><SCRIPT LANGUAGE="JavaScript1.1" SRC="http://www2.ccidnet.com/adpolestar/door/;ap=87084976_139B_B1DA_4014_B36E00FD1EF7;ct=js;pu=ccid;/?"></SCRIPT></div>
+<div class="clear"></div>
+	<table width="298" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+      <tr>
+        <td bgcolor="#427fc0"><table width="298" border="0" cellspacing="1" cellpadding="0">
+            <tr>
+              <td height="27" valign="bottom">
+			  <table width="100%" border="0" align="center" valign="bottom" style="margin-bottom:-6px;" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td width="50%" align="center">
+					<img id="blog_label_1" src="http://www.ccidnet.com/images/ccid_art/btn_07-1.jpg" width="144" height="22" onMouseOver="showBlog(1);"/>
+					</td>
+                    <td align="center">
+					<img id="blog_label_2" src="http://www.ccidnet.com/images/ccid_art/btn_08.jpg" width="144" height="22" onMouseOver="showBlog(2);"/>
+					</td>
+                  </tr>
+              </table>
+			  </td>
+            </tr>
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">
+			  <!--博客 显示区 1 start-->
+			  <div id="art_blog1">
+			   <table width="280" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;"><tr>
+  <td width="280" height="25" align="left"><a href="http://wangk.blog.ccidnet.com/blog-htm-itemid-2481776-uid-244311-do-showone-type-blog.html" title="浅析“第三方与独立”B2B服务形态的关系" target="_blank">&middot;浅析“第三方与独立”B2B服务形态的关系</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://xiaodaoma.blog.ccidnet.com/blog-htm-itemid-2481613-uid-62265-do-showone-type-blog.html" title="山寨上网本为什么没有雄起？" target="_blank">&middot;山寨上网本为什么没有雄起？</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://bj1961sy.blog.ccidnet.com/blog-htm-itemid-2479838-uid-11237-do-showone-type-blog.html" title="IPv9革命论（3）不叠加的逻辑子集" target="_blank">&middot;IPv9革命论（3）不叠加的逻辑子集</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://gallonwang.blog.ccidnet.com/blog-htm-itemid-2476401-uid-65328-do-showone-type-blog.html" title="IT茶馆论坛答疑：论坛口碑营销建议" target="_blank">&middot;IT茶馆论坛答疑：论坛口碑营销建议</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://blovesky.blog.ccidnet.com/blog-htm-itemid-2475021-uid-64063-do-showone-type-blog.html" title="工信部“拿来”台湾技术推广自主知识产权标准" target="_blank">&middot;工信部“拿来”台湾技术推广自主知识产权..</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://jinshengxi.blog.ccidnet.com/blog-htm-itemid-2474910-uid-12997-do-showone-type-blog.html" title="Opera Unite，开辟新的共享之路" target="_blank">&middot;Opera Unite，开辟新的共享之路</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://hongyi.blog.ccidnet.com/blog-htm-itemid-2474641-uid-77345-do-showone-type-blog.html" title="asia域名的前途黯淡" target="_blank">&middot;asia域名的前途黯淡</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://xdzhang.blog.ccidnet.com/blog-htm-itemid-2473715-uid-310868-do-showone-type-blog.html" title="对话印象：我的第一任老板，当当网李国庆" target="_blank">&middot;对话印象：我的第一任老板，当当网李国庆</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://zhaofj.blog.ccidnet.com/blog-htm-itemid-2471128-uid-95516-do-showone-type-blog.html" title="迅雷杀入视频门户竞争红海 福兮祸兮" target="_blank">&middot;迅雷杀入视频门户竞争红海 福兮祸兮</a></td>
+</tr></table>
+              </div>
+			  <!--博客 显示区 1 end-->   
+			  
+			  <!--博客 显示区 2 start-->
+			  <div id="art_blog2" style="display:none">
+			   <table width="280" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;"><tr>
+  <td width="280" height="25" align="left"><a href="http://x078y.blog.ccidnet.com/blog-htm-itemid-2482440-uid-274098-do-showone-type-blog.html" title="超微型Java数据库连接池" target="_blank">&middot;超微型Java数据库连接池</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://x078y.blog.ccidnet.com/blog-htm-itemid-2456025-uid-274098-do-showone-type-blog.html" title="巧用Excel函数，简化批量导入AD用户及密码修改" target="_blank">&middot;巧用Excel函数，简化批量导入AD用户及密码..</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://cnp.blog.ccidnet.com/blog-htm-itemid-2456185-uid-62827-do-showone-type-blog.html" title="SQL SERVER 中如何使用行锁" target="_blank">&middot;SQL SERVER 中如何使用行锁</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://careerman.blog.ccidnet.com/blog-htm-itemid-2443667-uid-12026-do-showone-type-blog.html" title="互斥量（Mutex）和信号量(semaphore)在S60系统的区别" target="_blank">&middot;互斥量（Mutex）和信号量(semaphore)在S6..</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://gcody.blog.ccidnet.com/blog-htm-itemid-2443148-uid-36931-do-showone-type-blog.html" title="格格不入－vim插件的尝试" target="_blank">&middot;格格不入－vim插件的尝试</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://cnp.blog.ccidnet.com/blog-htm-itemid-2414366-uid-62827-do-showone-type-blog.html" title="JavaScript高手精通" target="_blank">&middot;JavaScript高手精通</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://zhangxinjie.blog.ccidnet.com/blog-htm-itemid-2402640-uid-20630-do-showone-type-blog.html" title="jquery操作各种input框" target="_blank">&middot;jquery操作各种input框</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://x078y.blog.ccidnet.com/blog-htm-itemid-2394940-uid-274098-do-showone-type-blog.html" title="X86服务器虚拟化的三种技术（1）" target="_blank">&middot;X86服务器虚拟化的三种技术（1）</a></td>
+</tr><tr>
+  <td width="280" height="25" align="left"><a href="http://dylan1971.blog.ccidnet.com/blog-htm-itemid-2394155-uid-37742-do-showone-type-blog.html" title="例解：如何分析同行评审的度量数据？" target="_blank">&middot;例解：如何分析同行评审的度量数据？</a></td>
+</tr></table>
+              </div>
+			  <!--博客 显示区 2 end-->
+			  </td>
+            </tr>
+        </table></td>
+      </tr>
+    </table>
+	<table width="298" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+      <tr>
+        <td bgcolor="#427fc0"><table width="298" border="0" cellspacing="1" cellpadding="0">
+            <tr>
+              <td height="27" valign="bottom">
+			  <table width="100%" border="0" align="center" valign="bottom" style="margin-bottom:-6px;" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td width="50%" align="center">
+					<img id="bbs_label_1" src="http://www.ccidnet.com/images/ccid_art/btn_09-1.jpg" width="144" height="22" onMouseOver="showBBS(1);"/>
+					</td>
+                    <td align="center">
+					<img id="bbs_label_2" src="http://www.ccidnet.com/images/ccid_art/btn_10.jpg" width="144" height="22" onMouseOver="showBBS(2);"/>
+					</td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">
+			  <!--社区显示区 1 start-->
+			  <div id="art_bbs1">
+               
+<table width="280" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681981" target="_blank">小猫小狗小刺猬，都来猜猜我是谁....</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681945" target="_blank">7月28集体午餐送行</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681102" target="_blank">3G带来的那点事儿（漫画）</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681044" target="_blank">【英雄贴】三步骤把WINDOWS7系统盘压缩 ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681011" target="_blank">【英雄贴】windows7安装方法荟萃及解析 ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681000" target="_blank">【英雄贴】Windows加密技术BitLocker T ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=675035" target="_blank">清凉一夏专题壁纸下载</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=674822" target="_blank">清凉一夏专题壁纸</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=674818" target="_blank">清凉一夏专题壁纸</a></td>
+                  </tr>
+               
+</table>
+
+
+	          </div>
+			  <!--社区显示区 1 end-->
+              
+			  <!--社区显示区 2 start-->
+			  <div id="art_bbs2" style="display:none">
+               
+<table width="280" border="0" cellspacing="0" cellpadding="0" style="margin:8px 0;">
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681948" target="_blank">赛迪网联手索爱打造超酷创意大赛</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681888" target="_blank">重拳出击 2009IBM Rational 软件高峰论 ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681476" target="_blank">诺基亚5530超低价限量团购啦~~</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=681212" target="_blank">微软windows7开发专家在线交流 有问题尽 ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=679865" target="_blank">Windows 7知多少 微软最新OS市场调查</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=679768" target="_blank">【调查】IT专业人员应该了解的Windows7 ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=679288" target="_blank">【免费白皮书下载】如果节省资金是您的 ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=679200" target="_blank">【有奖讨论】正版可信赖软件与山寨软件 ..</a></td>
+                  </tr>
+               
+    <tr>
+                    <td width="280" height="25" align="left">&middot;<a href="http://bbs.tech.ccidnet.com/read.php?tid=678686" target="_blank">【调查】你了解华为赛门铁克吗？</a></td>
+                  </tr>
+               
+              
+    </table>
+
+        	  </div>
+			  <!--社区显示区 2 end-->
+			  </td>
+            </tr>
+        </table></td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+<!-- 点击排行开始 -->
+
+<script src="http://count.ccidnet.com:7001/pub/tools/do_click.jsp?article_id=1730957&column_id=3539&create_time=2009-04-07&flag=tech"></script>
+<!-- 点击排行结束 -->
+<div class="clear"></div>
+<!--文章页copyright -->
+<script src="http://image.ccidnet.com/nav/CCID_JS/ccidnet_art_footer.js"></script>
+</body>
+</html>
+<!--ccidnet_page_end-->
+

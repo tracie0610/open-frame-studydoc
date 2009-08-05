@@ -1,0 +1,877 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>1、一个jacob操作Word的例子， - 电脑网络 -  科大家园论坛 陕西科技大学学生论坛 - Powered by Discuz!</title>
+<meta name="keywords" content="科大家园,SUSTHOME,陕西科技大学,陕西科技大学学生论坛,陕西科技大学论坛,陕科大,陕科大论坛,科大论坛" />
+<meta name="description" content=" 科大家园论坛 1、一个jacob操作Word的例子，　　import java.io.File;　　import com.jacob.com.*;　　import com.jacob.activeX.*;　　public class WordTest {　　　 ... - Discuz! Board" />
+<meta name="generator" content="Discuz! 7.0.0" />
+<meta name="author" content="Discuz! Team and Comsenz UI Team" />
+<meta name="copyright" content="2001-2009 Comsenz Inc." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<link rel="archives" title="科大家园论坛" href="http://bbs.susthome.com/archiver/" />
+<style type="text/css">
+@import url(forumdata/cache/style_44_common.css?zmx);
+@import url(forumdata/cache/style_44_viewthread.css?zmx);
+#f_post td { padding-top: 15px; padding-bottom: 20px; vertical-align: top; }
+#f_post p, .fastcheck { margin: 5px 0; }
+#f_post .txtarea { margin: -1px 0 0; width: 596px; height: 120px; border-color: #999999 #CCCCCC #CCCCCC #999999; border-top: none; overflow: auto; }
+.defaultpost { height: auto !important; height:280px; min-height:280px !important; }
+.signatures { max-height: 100px; }
+* html .signatures { height: expression(signature(this)); }
+.t_msgfontfix { min-height: 100px; }
+* html .t_msgfontfix { height: 100px; overflow: visible; }
+</style><script type="text/javascript">var STYLEID = '44', IMGDIR = 'images/default', VERHASH = 'zmx', charset = 'utf-8', discuz_uid = 0, cookiedomain = '', cookiepath = '/', attackevasive = '0', allowfloatwin = '0', creditnotice = '2|魅力|,3|威望|,4|现金|,5|存款|,6|工资|', gid = parseInt('61'), fid = parseInt('19'), tid = parseInt('18196')</script>
+<script src="include/js/common.js?zmx" type="text/javascript"></script>
+</head>
+
+<body id="viewthread" onkeydown="if(event.keyCode==27) return false;">
+
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+<div id="header">
+<div class="wrap s_clear">
+<h2><a href="index.php" title="科大家园论坛"><img src="templates/beach/images/logo.png" alt="科大家园论坛" border="0" /></a></h2>
+<div id="umenu">
+<a href="susthomebbs.php" onclick="floatwin('open_register', this.href, 600, 400, '600,0');return false;" class="noborder">注册</a>
+<a href="logging.php?action=login" onclick="floatwin('open_login', this.href, 600, 400);return false;">登录</a>
+</div>
+<div id="ad_headerbanner">
+<!-- hitMe Ad Start --><iframe width='468' height='60' src='http://cernet.hitme.com.cn/count/PreSchedule.aspx?pID=186' marginheight=0 marginwidth=0 frameborder=0 scrolling=no></iframe><!-- hitMe Ad End-->
+</div>
+<div id="menu">
+<ul>
+<li class="menu_1"><a href="" hidefocus="true" id="mn_">论坛</a></li><li class="menu_8"><a href="http://www.susthome.com" hidefocus="true" target="_blank" id="mn_www" style="color: purple">主页</a></li><li class="menu_7"><a href="http://u.susthome.com" hidefocus="true" target="_blank" id="mn_u" style="color: blue">博客</a></li><li class="menu_12" id="xW1K1r" onmouseover="showMenu(this.id)"><a href="http://xiaoyou.susthome.com/default.asp" hidefocus="true" target="_blank"  class="dropmenu" style="color: orange">校友录</a></li><li class="menu_6"><a href="radio.html" hidefocus="true" title="科大家园网络电台" target="_blank" id="mn_radio" style="color: green">电台</a></li><li class="menu_3" id="plugin" onmouseover="showMenu(this.id)"><a href="javascript:;" hidefocus="true" target="_blank" class="dropmenu" style="color: blue">插件</a></li><li class="menu_11" id="u82x22" onmouseover="showMenu(this.id)"><a href="http://bbs.susthome.com" hidefocus="true" target="_blank"  class="dropmenu" style="color: green">网址</a></li><li class="menu_9"><a href="http://qq.susthome.com" hidefocus="true" title="科大家园网站收集QQ群" target="_blank" id="mn_qq" style="color: purple">Ｑ群</a></li><li class="menu_4"><a href="faq.php" hidefocus="true" id="mn_faq" style="color: red">帮助</a></li></ul>
+<script type="text/javascript">
+var currentMenu = $('mn_') ? $('mn_') : $('mn_index');
+currentMenu.parentNode.className = 'current';
+</script>				
+</div>
+<script type="text/javascript">
+function setstyle(styleid) {
+str = unescape('tid%3D18196');
+str = str.replace(/(^|&)styleid=\d+/ig, '');
+str = (str != '' ? str + '&' : '') + 'styleid=' + styleid
+location.href = 'viewthread.php?' + str;
+}
+</script>
+<ul id="style_switch"><li><a href="###" onclick="setstyle(1)" title="默认风格" style="background: #1E4B7E;">默认风格</a></li><li><a href="###" onclick="setstyle(27)" title="jeans" style="background: #55616A;">jeans</a></li><li><a href="###" onclick="setstyle(13)" title="fashion" style="background: #3A000F;">fashion</a></li><li><a href="###" onclick="setstyle(24)" title="fervor" style="background: #C36;">fervor</a></li><li><a href="###" onclick="setstyle(25)" title="greenwall" style="background: #51A482;">greenwall</a></li><li><a href="###" onclick="setstyle(29)" title="newyear" style="background: #420000;">newyear</a></li><li><a href="###" onclick="setstyle(43)" title="christmas" style="background: #DC4F57;">christmas</a></li><li class="current"><a href="###" onclick="setstyle(44)" title="beach" style="background: #0D9FCF;">beach</a></li><li><a href="###" onclick="setstyle(42)" title="war" style="background: #55514d;">war</a></li><li><a href="###" onclick="setstyle(45)" title="Water" style="background: ;">Water</a></li><li><a href="###" onclick="setstyle(46)" title="Girlstudent" style="background: ;">Girlstudent</a></li><li><a href="###" onclick="setstyle(47)" title="getshell" style="background: ;">getshell</a></li></ul>
+</div>
+</div>
+<script src="include/js/viewthread.js?zmx" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(0);var imagemaxwidth = '600';var aimgcount = new Array();</script>
+
+<div id="nav">
+<a href="index.php">科大家园论坛</a> &raquo; <a href="forumdisplay.php?fid=19">电脑网络</a> &raquo; 1、一个jacob操作Word的例子，</div>
+
+<div id="ad_text"></div><div id="wrap" class="wrap s_clear threadfix">
+<div class="forumcontrol">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td class="modaction">
+</td>
+<td>
+<span class="pageback"><a href="forumdisplay.php?fid=19">返回列表</a></span>
+<span class="replybtn"><a href="post.php?action=reply&amp;fid=19&amp;tid=18196" onclick="floatwin('open_reply', this.href, 600, 410, '600,0');return false;">回复</a></span>
+<span class="postbtn" id="newspecial" onmouseover="$('newspecial').id = 'newspecialtmp';this.id = 'newspecial';showMenu(this.id)"><a href="post.php?action=newthread&amp;fid=19" onclick="floatwin('open_newthread', this.href, 600, 410, '600,0');return false;">发帖</a></span>
+</td>
+</tr>
+</table>
+</div>
+
+<ul class="popupmenu_popup postmenu" id="newspecial_menu" style="display: none">
+<li><a href="post.php?action=newthread&amp;fid=19" onclick="floatwin('open_newthread', this.href, 600, 410, '600,0');doane(event)">发新话题</a></li><li class="poll"><a href="post.php?action=newthread&amp;fid=19&amp;special=1">发布投票</a></li><li class="reward"><a href="post.php?action=newthread&amp;fid=19&amp;special=3">发布悬赏</a></li><li class="debate"><a href="post.php?action=newthread&amp;fid=19&amp;special=5">发布辩论</a></li><li class="activity"><a href="post.php?action=newthread&amp;fid=19&amp;special=4">发布活动</a></li><li class="video"><a href="post.php?action=newthread&amp;fid=19&amp;special=6">发布视频</a></li><li class="trade"><a href="post.php?action=newthread&amp;fid=19&amp;special=2">发布商品</a></li></ul>
+
+<div id="postlist" class="mainbox viewthread"><div id="post_1192964">
+<table id="pid1192964" summary="pid1192964" cellspacing="0" cellpadding="0">
+<tr>
+<td class="postauthor">
+<div class="popupmenu_popup userinfopanel" id="userinfo1192964" style="display: none; position: absolute;">
+<div class="popavatar">
+<div id="userinfo1192964_ma"></div>
+<ul class="profile_side">
+<li class="pm"><a href="pm.php?action=new&amp;uid=10561" onclick="floatwin('open_sendpm', this.href, 600, 410);return false;" title="发短消息">发短消息</a></li>
+<li class="buddy"><a href="my.php?item=buddylist&amp;newbuddyid=10561&amp;buddysubmit=yes" target="_blank" id="ajax_buddy_0" title="加为好友" onclick="ajaxmenu(event, this.id, 3000, 0)">加为好友</a></li>
+</ul>
+</div>
+<div class="popuserinfo">
+<p>
+<a href="space.php?uid=10561" target="_blank">mkmkmk</a>
+<em>当前离线
+</em>
+</p>
+
+<dl class="s_clear"><dt>UID</dt><dd>10561&nbsp;</dd><dt>精华</dt><dd>0&nbsp;</dd><dt>积分</dt><dd>1&nbsp;</dd><dt>魅力</dt><dd>6 &nbsp;</dd><dt>威望</dt><dd>0 &nbsp;</dd><dt>存款</dt><dd>0 &nbsp;</dd><dt>工资</dt><dd>0 &nbsp;</dd><dt>阅读权限</dt><dd>10&nbsp;</dd><dt>注册时间</dt><dd>2007-3-5&nbsp;</dd></dl>
+<div class="imicons">
+<a href="http://u.susthome.com/space.php?uid=10561" target="_blank" title="个人空间"><img src="images/default/home.gif" alt="个人空间"  /></a>
+<a href="space.php?uid=10561" target="_blank" title="查看详细资料"><img src="images/default/userinfo.gif" alt="查看详细资料"  /></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+ <div id="userinfo1192964_a">
+<div class="avatar" onmouseover="showauthor(this, 'userinfo1192964')"><a href="space.php?uid=10561" target="_blank"><img src="http://center.susthome.com/avatar.php?uid=10561&size=middle" /></a></div>
+<p><em><font color="Maroon">幼稚园</font></em></p>
+</div>
+<p><img src="images/default/star_level1.gif" alt="Rank: 1" /></p>
+<dl class="profile s_clear"><dt>帖子</dt><dd>1&nbsp;</dd><dt>现金</dt><dd>53 &nbsp;</dd><dt>入学时间</dt><dd>1959&nbsp;</dd><dt>所在学院</dt><dd>&nbsp;</dd><dt>您的身份</dt><dd>&nbsp;</dd><dt>最后登录</dt><dd>2007-3-9&nbsp;</dd></dl></td>
+<td class="postcontent">
+<div class="postinfo">
+<strong><a title="复制本帖链接" id="postnum1192964" href="javascript:;" onclick="setcopy('http://bbs.susthome.com/viewthread.php?tid=18196&amp;page=1#pid1192964', '帖子地址已经复制到剪贴板')"><font color=red>楼主</font> 1F</a></strong>
+<div class="posterinfo">
+<div class="pagecontrol">
+<a href="viewthread.php?action=printable&amp;tid=18196" target="_blank" class="print left">打印</a>
+<div class="msgfsize right">
+<label>字体大小: </label><small onclick="$('postlist').className='mainbox viewthread'" title="正常">t</small><big onclick="$('postlist').className='mainbox viewthread t_bigfont'" title="放大">T</big>
+</div>
+</div>
+<div class="authorinfo">
+<img class="authicon" id="authicon1192964" src="images/common/online_member.gif" onclick="showauthor(this, 'userinfo1192964');" />
+<a href="space.php?uid=10561" class="posterlink" target="_blank">mkmkmk</a><em id="authorposton1192964">发表于 2007-3-6 09:36</em>
+ | <a href="viewthread.php?tid=18196&amp;page=1&amp;authorid=10561" rel="nofollow">只看该作者</a>
+<font color=navy>VIEWED</font><font color=red><span class="smalltxt">&nbsp;<b>1457</b>&nbsp;</span></font><font color=navy>TIMES</font>
+</div>
+</div>
+</div>
+<div class="defaultpost">
+<div id="ad_thread2_0"></div><div id="ad_thread3_0"></div><div id="ad_thread4_0"></div>
+<div class="postmessage firstpost">
+<div id="threadtitle">
+<h1>1、一个jacob操作Word的例子，</h1>
+</div>
+<div class="t_msgfontfix">
+<table cellspacing="0" cellpadding="0"><tr><td class="t_msgfont" id="postmessage_1192964">1、一个jacob操作Word的例子，<br />
+　　import java.io.File;<br />
+　　import com.jacob.com.*;<br />
+　　import com.jacob.activeX.*;<br />
+　　public class WordTest {<br />
+　　<br />
+　　　public static void main(String[] args) {<br />
+　　　　　WordBean word=new WordBean();<br />
+　　　　　word.openWord(true);<br />
+　　　　　word.createNewDocument();<br />
+　　　　　word.insertText(&quot;Hello word.&quot;);<br />
+　　　}<br />
+　　}<br />
+　　import com.jacob.activeX.*;<br />
+　　import com.jacob.com.*;<br />
+　　public class WordBean extends java.awt.Panel<br />
+　　{<br />
+　　　private ActiveXComponent MsWordApp = null;<br />
+　　　private Dispatch document = null;<br />
+　　　public WordBean()<br />
+　　　{<br />
+　　　　　super();<br />
+　　　}<br />
+　　　public void openWord(boolean makeVisible)<br />
+　　　{<br />
+　　//Open Word if we've not done it already<br />
+　　　　　if (MsWordApp == null)<br />
+　　　　　{<br />
+　　　　　　　MsWordApp = new ActiveXComponent<br />
+(&quot;Word.Application&quot;);<br />
+　　　　　}<br />
+　　//Set the visible property as required.<br />
+　　　　　Dispatch.put(MsWordApp, &quot;Visible&quot;,<br />
+　　　　　　　　　　　 new Variant<br />
+(makeVisible));<br />
+　　　}<br />
+　　　public void createNewDocument()<br />
+　　　{<br />
+　　//Find the Documents collection object <br />
+maintained by Word<br />
+　　　　　Dispatch documents =<br />
+　　　　　　　　　Dispatch.get<br />
+(MsWordApp,&quot;Documents&quot;).toDispatch();<br />
+　　//Call the Add method of the Documents <br />
+collection to create<br />
+　　//a new document to edit<br />
+　　　　　document = Dispatch.call<br />
+(documents,&quot;Add&quot;).toDispatch();<br />
+　　　}</td></tr></table>
+</div>
+
+<div id="post_rate_div_1192964"></div>
+
+		<fieldset style="width:550px;">
+			<legend><font color="#ff0000"><strong>楼主最新帖子</strong></font>&nbsp;&nbsp;★☆★☆★&nbsp;&nbsp;<a href="http://u.susthome.com/space.php?uid=10561" target="_blank"><font color="purple"><strong>进入楼主博客>></strong></font></a></legend>
+			<ul>
+		
+			<li style="padding: 3px;"><a href="viewthread.php?tid=18196" target="_blank"><font color="#0000ff">1、一个jacob操作Word的例子，</font></a>&nbsp;&nbsp;[<a href="viewthread.php?tid=18196" target="_blank">去支持一下</a>]
+			</li>
+			
+			</ul>
+		</fieldset>
+		<div class="useraction">
+<a id="ajax_favorite" href="logging.php?action=login" onclick="floatwin('open_login', this.href, 600, 400);return false;">收藏</a>
+<a id="emailfriend" href="misc.php?action=emailfriend&amp;tid=18196" onclick="floatwin('open_emailfriend', this.href, 250, 200);return false;">分享</a>
+<a id="ratelink" href="logging.php?action=login" onclick="floatwin('open_login', this.href, 600, 400);return false;">评分</a>
+</div>
+<div align="center">
+<script language="JavaScript">
+<!--
+function susthome(sust){
+var content='';
+window.clipboardData.setData("Text",sust);
+alert("Copy successfully,please paste it and recommend to your friends !");
+}//-->
+</script>
+<a href="javascript:susthome('1、一个jacob操作Word的例子，\nhttp://bbs.susthome.com/viewthread.php?tid=18196')">
+<img src="images/dangliu_copy.gif" border="0"></a>
+</div>
+</div>
+
+</div>
+<div id="ad_thread1_0"></div></td>
+</tr>
+<tr>
+<td class="postauthor"></td>
+<td class="postcontent">
+<div class="postactions">
+<div class="postact s_clear">
+<em>
+<a class="fastreply" href="post.php?action=reply&amp;fid=19&amp;tid=18196&amp;reppost=1192964&amp;extra=&amp;page=1" onclick="floatwin('open_reply', this.href, 600, 410, '600,0');return false;">回复</a>
+<a class="repquote" href="post.php?action=reply&amp;fid=19&amp;tid=18196&amp;repquote=1192964&amp;extra=&amp;page=1" onclick="floatwin('open_reply', this.href, 600, 410, '600,0');return false;">引用</a>
+</em>
+<p>
+<a href="my.php?item=subscriptions&amp;subadd=18196" id="ajax_subscription" onclick="ajaxmenu(event, this.id, 3000, null, 0)">订阅</a>
+<a href="javascript:;" onclick="scrollTo(0,0);">TOP</a>
+</p>
+</div>
+</div>
+</td>
+</tr>
+<tr class="threadad">
+<td class="postauthor"></td>
+<td class="adcontent">
+<div id="ad_interthread"></div></td>
+</tr>
+</table>
+</div><div id="post_1193080">
+<table id="pid1193080" summary="pid1193080" cellspacing="0" cellpadding="0">
+<tr>
+<td class="postauthor">
+<div class="popupmenu_popup userinfopanel" id="userinfo1193080" style="display: none; position: absolute;">
+<div class="popavatar">
+<div id="userinfo1193080_ma"></div>
+<ul class="profile_side">
+<li class="pm"><a href="pm.php?action=new&amp;uid=72" onclick="floatwin('open_sendpm', this.href, 600, 410);return false;" title="发短消息">发短消息</a></li>
+<li class="buddy"><a href="my.php?item=buddylist&amp;newbuddyid=72&amp;buddysubmit=yes" target="_blank" id="ajax_buddy_1" title="加为好友" onclick="ajaxmenu(event, this.id, 3000, 0)">加为好友</a></li>
+</ul>
+</div>
+<div class="popuserinfo">
+<p>
+<a href="space.php?uid=72" target="_blank">fsky</a>
+<em>(秦帝)</em><em>当前离线
+</em>
+</p>
+<p class="customstatus">§独孤剑〓黑鹰〓</p>
+<dl class="s_clear"><dt>UID</dt><dd>72&nbsp;</dd><dt>精华</dt><dd>9&nbsp;</dd><dt>积分</dt><dd>17223&nbsp;</dd><dt>魅力</dt><dd>1096 &nbsp;</dd><dt>威望</dt><dd>6 &nbsp;</dd><dt>存款</dt><dd>22 &nbsp;</dd><dt>工资</dt><dd>236 &nbsp;</dd><dt>阅读权限</dt><dd>150&nbsp;</dd><dt>注册时间</dt><dd>2006-6-2&nbsp;</dd></dl>
+<div class="imicons">
+<a href="http://wpa.qq.com/msgrd?V=1&amp;Uin=345476690&amp;Site=科大家园论坛&amp;Menu=yes" target="_blank" title="QQ"><img src="images/default/qq.gif" alt="QQ" /></a><a href="http://u.susthome.com/space.php?uid=72" target="_blank" title="个人空间"><img src="images/default/home.gif" alt="个人空间"  /></a>
+<a href="http://www.fsky501.cn" target="_blank" title="查看个人网站"><img src="images/default/forumlink.gif" alt="查看个人网站"  /></a><a href="space.php?uid=72" target="_blank" title="查看详细资料"><img src="images/default/userinfo.gif" alt="查看详细资料"  /></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+ <div id="userinfo1193080_a">
+<div class="avatar" onmouseover="showauthor(this, 'userinfo1193080')"><a href="space.php?uid=72" target="_blank"><img src="http://center.susthome.com/avatar.php?uid=72&size=middle" /></a></div>
+<p><em>论坛元老</em></p>
+</div>
+<p><img src="images/default/star_level3.gif" alt="Rank: 18" /><img src="images/default/star_level3.gif" alt="Rank: 18" /></p>
+<dl class="profile s_clear"><dt>帖子</dt><dd>5508&nbsp;</dd><dt>现金</dt><dd>2212 &nbsp;</dd><dt>入学时间</dt><dd>2004&nbsp;</dd><dt>所在学院</dt><dd>设计与艺术学院&nbsp;</dd><dt>您的身份</dt><dd>毕业校友&nbsp;</dd><dt>性别</dt><dd>男&nbsp;</dd><dt>来自</dt><dd>中原&nbsp;</dd><dt>最后登录</dt><dd>2009-7-25&nbsp;</dd></dl><p><img src="images/common/medal1.gif" alt="终身成就奖" title="终身成就奖" /><img src="images/common/medal4.gif" alt="论坛之星奖" title="论坛之星奖" /><img src="images/common/medal6.gif" alt="金点子奖" title="金点子奖" /><img src="images/common/medal9.gif" alt="元老勋章" title="元老勋章" /><img src="images/common/medal10.gif" alt="建设勋章" title="建设勋章" /></p>
+</td>
+<td class="postcontent">
+<div class="postinfo">
+<strong><a title="复制本帖链接" id="postnum1193080" href="javascript:;" onclick="setcopy('http://bbs.susthome.com/viewthread.php?tid=18196&amp;page=1#pid1193080', '帖子地址已经复制到剪贴板')"><font color=blue>沙发</font> 2F</a></strong>
+<div class="posterinfo">
+<div class="pagecontrol">
+</div>
+<div class="authorinfo">
+<img class="authicon" id="authicon1193080" src="images/common/online/11.gif" onclick="showauthor(this, 'userinfo1193080')" />
+<a href="space.php?uid=72" class="posterlink" target="_blank">fsky</a><em id="authorposton1193080">发表于 2007-3-6 17:48</em>
+ | <a href="viewthread.php?tid=18196&amp;page=1&amp;authorid=72" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div>
+<div class="defaultpost">
+<div id="ad_thread2_1"></div><div id="ad_thread3_1"></div><div id="ad_thread4_1"></div>
+<div class="postmessage ">
+<div class="t_msgfontfix">
+<table cellspacing="0" cellpadding="0"><tr><td class="t_msgfont" id="postmessage_1193080">看不明白<br />
+还是顶下</td></tr></table>
+</div>
+
+<div id="post_rate_div_1193080"></div>
+<div align="center">
+<script language="JavaScript">
+<!--
+function susthome(sust){
+var content='';
+window.clipboardData.setData("Text",sust);
+alert("Copy successfully,please paste it and recommend to your friends !");
+}//-->
+</script>
+<a href="javascript:susthome('\nhttp://bbs.susthome.com/viewthread.php?tid=18196')">
+<img src="images/dangliu_copy.gif" border="0"></a>
+</div>
+</div>
+
+</div>
+<div class="signatures" style="maxHeightIE: 100px;">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<a href="http://www.fsky501.cn" target="_blank"><img src="http://fsky501.googlepages.com/gif" border="0" onclick="zoom(this, this.src)" onload="attachimg(this, 'load')" alt="" /><br />
+<font color="blue">非主旋律</font></a><br />
+<font color="red">言非多，在精</font></td>
+</tr>
+</table>
+</div>
+<div id="ad_thread1_1"></div></td>
+</tr>
+<tr>
+<td class="postauthor"></td>
+<td class="postcontent">
+<div class="postactions">
+<div class="postact s_clear">
+<em>
+<a class="fastreply" href="post.php?action=reply&amp;fid=19&amp;tid=18196&amp;reppost=1193080&amp;extra=&amp;page=1" onclick="floatwin('open_reply', this.href, 600, 410, '600,0');return false;">回复</a>
+<a class="repquote" href="post.php?action=reply&amp;fid=19&amp;tid=18196&amp;repquote=1193080&amp;extra=&amp;page=1" onclick="floatwin('open_reply', this.href, 600, 410, '600,0');return false;">引用</a>
+</em>
+<p>
+<a href="javascript:;" onclick="scrollTo(0,0);">TOP</a>
+</p>
+</div>
+</div>
+</td>
+</tr>
+<tr class="threadad">
+<td class="postauthor"></td>
+<td class="adcontent">
+</td>
+</tr>
+</table>
+</div><div id="post_1193187">
+<table id="pid1193187" summary="pid1193187" cellspacing="0" cellpadding="0">
+<tr>
+<td class="postauthor">
+<div class="popupmenu_popup userinfopanel" id="userinfo1193187" style="display: none; position: absolute;">
+<div class="popavatar">
+<div id="userinfo1193187_ma"></div>
+<ul class="profile_side">
+<li class="pm"><a href="pm.php?action=new&amp;uid=5200" onclick="floatwin('open_sendpm', this.href, 600, 410);return false;" title="发短消息">发短消息</a></li>
+<li class="buddy"><a href="my.php?item=buddylist&amp;newbuddyid=5200&amp;buddysubmit=yes" target="_blank" id="ajax_buddy_2" title="加为好友" onclick="ajaxmenu(event, this.id, 3000, 0)">加为好友</a></li>
+</ul>
+</div>
+<div class="popuserinfo">
+<p>
+<a href="space.php?uid=5200" target="_blank">java_and_cisco</a>
+<em>当前离线
+</em>
+</p>
+
+<dl class="s_clear"><dt>UID</dt><dd>5200&nbsp;</dd><dt>精华</dt><dd>0&nbsp;</dd><dt>积分</dt><dd>13238&nbsp;</dd><dt>魅力</dt><dd>207 &nbsp;</dd><dt>威望</dt><dd>1 &nbsp;</dd><dt>存款</dt><dd>5 &nbsp;</dd><dt>工资</dt><dd>0 &nbsp;</dd><dt>阅读权限</dt><dd>100&nbsp;</dd><dt>注册时间</dt><dd>2006-12-10&nbsp;</dd></dl>
+<div class="imicons">
+<a href="http://wpa.qq.com/msgrd?V=1&amp;Uin=35448847&amp;Site=科大家园论坛&amp;Menu=yes" target="_blank" title="QQ"><img src="images/default/qq.gif" alt="QQ" /></a><a href="http://u.susthome.com/space.php?uid=5200" target="_blank" title="个人空间"><img src="images/default/home.gif" alt="个人空间"  /></a>
+<a href="space.php?uid=5200" target="_blank" title="查看详细资料"><img src="images/default/userinfo.gif" alt="查看详细资料"  /></a>
+</div>
+<div id="avatarfeed"><span id="threadsortswait"></span></div>
+</div>
+</div>
+ <a name="lastpost"></a><div id="userinfo1193187_a">
+<div class="avatar" onmouseover="showauthor(this, 'userinfo1193187')"><a href="space.php?uid=5200" target="_blank"><img src="http://center.susthome.com/avatar.php?uid=5200&size=middle" /></a></div>
+<p><em><font color="#0033FF">版主</font></em></p>
+</div>
+<p><img src="images/default/star_level3.gif" alt="Rank: 9" /></p>
+<dl class="profile s_clear"><dt>帖子</dt><dd>1991&nbsp;</dd><dt>现金</dt><dd>3129 &nbsp;</dd><dt>入学时间</dt><dd>1961&nbsp;</dd><dt>所在学院</dt><dd>&nbsp;</dd><dt>您的身份</dt><dd>&nbsp;</dd><dt>性别</dt><dd>男&nbsp;</dd><dt>来自</dt><dd>咸阳&nbsp;</dd><dt>最后登录</dt><dd>2009-7-28&nbsp;</dd></dl></td>
+<td class="postcontent">
+<div class="postinfo">
+<strong><a title="复制本帖链接" id="postnum1193187" href="javascript:;" onclick="setcopy('http://bbs.susthome.com/viewthread.php?tid=18196&amp;page=1#pid1193187', '帖子地址已经复制到剪贴板')"><font color=green>板凳</font> 3F</a></strong>
+<div class="posterinfo">
+<div class="pagecontrol">
+</div>
+<div class="authorinfo">
+<img class="authicon" id="authicon1193187" src="images/common/online/5.gif" onclick="showauthor(this, 'userinfo1193187')" />
+<a href="space.php?uid=5200" class="posterlink" target="_blank">java_and_cisco</a><em id="authorposton1193187">发表于 2007-3-7 09:54</em>
+ | <a href="viewthread.php?tid=18196&amp;page=1&amp;authorid=5200" rel="nofollow">只看该作者</a>
+</div>
+</div>
+</div>
+<div class="defaultpost">
+<div id="ad_thread2_2"></div><div id="ad_thread3_2"></div><div id="ad_thread4_2"></div>
+<div class="postmessage ">
+<div class="t_msgfontfix">
+<table cellspacing="0" cellpadding="0"><tr><td class="t_msgfont" id="postmessage_1193187">import java.io.File;<br />
+　　import com.jacob.com.*;<br />
+　　import com.jacob.activeX.*;<br />
+　　public class WordTest {<br />
+　　<br />
+　　　public static void main(String[] args) {<br />
+　　　　　WordBean word=new WordBean();<br />
+　　　　　word.openWord(true);<br />
+　　　　　word.createNewDocument();<br />
+　　　　　word.insertText(&quot;Hello word.&quot;);<br />
+　　　}<br />
+　　}<br />
+　　import com.jacob.activeX.*;<br />
+　　import com.jacob.com.*;<br />
+　　public class WordBean extends java.awt.Panel<br />
+　　{<br />
+　　　private ActiveXComponent MsWordApp = null;<br />
+　　　private Dispatch document = null;<br />
+　　　public WordBean()<br />
+　　　{<br />
+　　　　　super();<br />
+　　　}<br />
+<br />
+　　　public void openWord(boolean makeVisible)<br />
+　　　{<br />
+　　//Open Word if we've not done it already<br />
+　　　　　if (MsWordApp == null)<br />
+　　　　　{<br />
+　　　　　　　MsWordApp = new ActiveXComponent(&quot;Word.Application&quot;);<br />
+　　　　　}<br />
+　　//Set the visible property as required.<br />
+　　　　　Dispatch.put(MsWordApp, &quot;Visible&quot;, new Variant(makeVisible));<br />
+　　　}<br />
+<br />
+　　　public void createNewDocument()<br />
+　　　{<br />
+　　//Find the Documents collection object maintained by Word<br />
+　　　　　Dispatch documents =Dispatch.get(MsWordApp,&quot;Documents&quot;).toDispatch();//<font color="darkorange">临时文件吧，创建了word文档<br />
+</font>　　//Call the Add method of the Documents collection to create<br />
+　　//a new document to edit<br />
+　　　　　document = Dispatch.call(documents,&quot;Add&quot;<font color="darkorange">文件的名字吧</font>).toDispatch();//<font color="darkorange">用临时文件来替换主文件</font><br />
+　　　}<br />
+<br />
+由于微软到现在都没有公开word和excle的文件格式,所以导致了java社区很多关于office的开源项目.<br />
+JXL,POI和JACOB应该是其中较著名的.<br />
+jxl主要用来对excle文档进行操作.而poi和jacob则相对强大点.<br />
+jacob是采用的jni的方式,通过一个c++编写的dll文件来操作office文档.下载地址为:http://danadler.com/jacob/index.html,直接下载它的最新版1.7版;<br />
+采用jacob的时候,除了需要把jacob.jar包含到classpath中,还需要把jacob.dll复制到system32目录中.<br />
+<br />
+有空交流一下吧<br />
+<br />
+[<i> 本帖最后由 java_and_cisco 于 2007-3-8 10:30 编辑 </i>]</td></tr></table>
+</div>
+
+<div id="post_rate_div_1193187"></div>
+<div align="center">
+<script language="JavaScript">
+<!--
+function susthome(sust){
+var content='';
+window.clipboardData.setData("Text",sust);
+alert("Copy successfully,please paste it and recommend to your friends !");
+}//-->
+</script>
+<a href="javascript:susthome('\nhttp://bbs.susthome.com/viewthread.php?tid=18196')">
+<img src="images/dangliu_copy.gif" border="0"></a>
+</div>
+</div>
+
+</div>
+<div class="signatures" style="maxHeightIE: 100px;">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td>
+只想做技术，不想搞人黑人</td>
+</tr>
+</table>
+</div>
+<div id="ad_thread1_2"></div></td>
+</tr>
+<tr>
+<td class="postauthor"></td>
+<td class="postcontent">
+<div class="postactions">
+<div class="postact s_clear">
+<em>
+<a class="fastreply" href="post.php?action=reply&amp;fid=19&amp;tid=18196&amp;reppost=1193187&amp;extra=&amp;page=1" onclick="floatwin('open_reply', this.href, 600, 410, '600,0');return false;">回复</a>
+<a class="repquote" href="post.php?action=reply&amp;fid=19&amp;tid=18196&amp;repquote=1193187&amp;extra=&amp;page=1" onclick="floatwin('open_reply', this.href, 600, 410, '600,0');return false;">引用</a>
+</em>
+<p>
+<a href="javascript:;" onclick="scrollTo(0,0);">TOP</a>
+</p>
+</div>
+</div>
+</td>
+</tr>
+<tr class="threadad">
+<td class="postauthor"></td>
+<td class="adcontent">
+</td>
+</tr>
+</table>
+</div></div>
+
+<div id="postlistreply" class="mainbox viewthread"><div id="post_new" style="display: none"></div></div>
+
+<form method="post" name="modactions" id="modactions">
+<input type="hidden" name="formhash" value="260b63a3" />
+<input type="hidden" name="optgroup" />
+<input type="hidden" name="operation" />
+<input type="hidden" name="listextra" value="" />
+</form>
+
+
+<div class="forumcontrol s_clear">
+<table cellspacing="0" cellpadding="0" class="narrow">
+<tr>
+<td class="modaction">
+</td>
+<td>
+<span class="pageback"><a href="forumdisplay.php?fid=19">返回列表</a></span>
+</td>
+</tr>
+</table>
+</div>
+
+
+<script type="text/javascript">
+var maxpage = 1;
+if(maxpage > 1) {
+document.onkeyup = function(e){
+e = e ? e : window.event;
+var tagname = is_ie ? e.srcElement.tagName : e.target.tagName;
+if(tagname == 'INPUT' || tagname == 'TEXTAREA') return;
+actualCode = e.keyCode ? e.keyCode : e.charCode;
+}
+}
+</script>
+</div><ul class="popupmenu_popup headermenu_popup" id="plugin_menu" style="display: none">          <li><a href="attachmentList.php" target="_blank">附件中心</a></li>
+               <li><a href="/tools/bbx" target="_blank">百宝箱</a></li>
+               <li><a href="2Fly_image.php" target="_blank">图库中心</a></li>
+               <li><a href="plugins.php?p=nkflash" target="_blank">小游戏</a></li>
+               <li><a href="lovewall.php" target="_blank">许愿墙</a></li>
+               <li><a href="bank.php" target="_blank">社区银行</a></li>
+               <li><a href="tools/info/index.htm" target="_blank">西安实用信息</a></li>
+               <li><a href="tools/bm/" target="_blank">便民信息</a></li>
+               <li><a href="shengri.php" target="_blank">同生缘</a></li>
+               <li><a href="/tools/help/zt.htm" target="_blank"><font color=red>转帖工具</font></a></li>
+     </ul>
+<ul class="popupmenu_popup headermenu_popup" id="xW1K1r_menu" style="display: none"><li><a href="http://xiaoyou.susthome.com/default.asp" hidefocus="true" target="_blank"  style="color: red">校友同学录</a></li><li><a href="http://www.szsust.com" hidefocus="true" target="_blank" >深圳校友会</a></li><li><a href="http://www.sustwz.net" hidefocus="true" target="_blank" >温州校友会</a></li></ul><ul class="popupmenu_popup headermenu_popup" id="u82x22_menu" style="display: none"><li><a href="http://bbs.susthome.com/job.php" hidefocus="true" target="_blank" >就业直通车</a></li><li><a href="http://218.30.12.146:6169/selfservice/" hidefocus="true" target="_blank" >快卡余额查询</a></li><li><a href="http://chaxun.sust.edu.cn/2009sscj.jsp" hidefocus="true" target="_blank" >09考研成绩查询</a></li></ul><div id="ad_footerbanner1"></div><div id="ad_footerbanner2"></div><div id="ad_footerbanner3"></div>
+
+<div id="footer">
+<div class="wrap s_clear">
+<div id="footlink">
+<p>
+<strong><a href="http://www.susthome.com/" target="_blank">科大家园</a></strong>
+( <a href="http://www.miibeian.gov.cn/" target="_blank">陕ICP备06007748号</a>)<span class="pipe">|</span><a href="mailto:382342004@qq.com">联系我们</a>
+<span class="pipe">|</span><a href="archiver/" target="_blank">Archiver</a><span class="pipe">|</span><a href="wap/" target="_blank">WAP</a><span class="pipe">| <span style="color:red !important"><script language='JavaScript' src='http://s44.cnzz.com/stat.php?id=164907&web_id=164907' type="text/javascript" charset='gb2312'></script></span></span></p>
+<p class="smalltext">
+GMT+8, 2009-7-29 09:58, <span id="debuginfo">Processed in 0.121283 second(s), 7 queries</span>.
+</p>
+</div>
+<div id="rightinfo">
+<p>Powered by <strong><a href="http://www.discuz.net" target="_blank">Discuz!</a></strong> <em>7.0.0</em></p>
+<p class="smalltext">&copy; 2001-2009 <a href="http://www.comsenz.com" target="_blank">Comsenz Inc.</a></p>
+</div></div>
+</div>
+  <div class="maintable">
+  
+﻿<script language="JavaScript">
+        var isNS = 0;  // new code
+                                if (navigator.appName.indexOf('Netscape') != -1) {isNS = 1;}//new code
+        var popupWinoldonloadHndlr=window.onload, popupWinpopupHgt, popupWinactualHgt, popupWintmrId=-1, popupWinresetTimer;
+        var popupWintitHgt, popupWincntDelta, popupWintmrHide=-1, popupWinhideAfter=80000, popupWinhideAlpha, popupWinhasFilters=true;
+        var popupWinnWin, popupWinshowBy=null, popupWindxTimer=-1, popupWinpopupBottom;
+        var popupWinnText,popupWinnMsg,popupWinnTitle,popupWinbChangeTexts=false;
+        window.onload=popupWinespopup_winLoad;
+
+        var popupWinoldonscrollHndr=window.onscroll;
+        window.onscroll=popupWinespopup_winScroll;
+        popupWinnText="<head><title>Title here</title><style type=\"text/css\">body {    background:#E0E9F8; padding:5px;    filter:progid:DXImageTransform.Microsoft.Gradient(     GradientType=0,StartColorStr='#FFE0E9F8', EndColorStr='#FFFFFFFF');  }  h1 {    font:bold 16px arial,sans-serif; color:#1F336B;     text-align:center; margin:0px;  }  p {    font:14px arial,sans-serif; color:#1F336B;  }</style></head><body><h1>Title here</h1><p>This very long text will be displayed in new window. To open this window click on \"Show Popup\" button and then click on popup window.</p></body>";
+
+        function popupWinespopup_winScroll()
+        {
+          if (popupWinoldonscrollHndr!=null) popupWinoldonscrollHndr();
+          if (popupWintmrHide!=-1)
+          {
+            el=document.getElementById('popupWin');
+            el.style.display='none'; el.style.display='block';
+          }
+        }
+
+        function popupWinespopup_ShowPopup(show)
+        {
+          if (popupWindxTimer!=-1) { el.filters.blendTrans.stop(); }
+
+          if ((popupWintmrHide!=-1) && ((show!=null) && (show==popupWinshowBy)))
+          {
+            clearInterval(popupWintmrHide);
+            popupWintmrHide=setInterval(popupWinespopup_tmrHideTimer,popupWinhideAfter);
+            return;
+          }
+          if (popupWintmrId!=-1) return;
+          popupWinshowBy=show;
+
+          elCnt=document.getElementById('popupWin_content')
+          elTit=document.getElementById('popupWin_header');
+          el=document.getElementById('popupWin');
+          el.style.left='';
+          el.style.top='';
+          el.style.filter='';
+
+          if (popupWintmrHide!=-1) clearInterval(popupWintmrHide); popupWintmrHide=-1;
+
+          document.getElementById('popupWin_header').style.display='none';
+          document.getElementById('popupWin_content').style.display='none';
+
+          if (navigator.userAgent.indexOf('Opera')!=-1)
+            el.style.bottom=(document.body.scrollHeight*1-document.body.scrollTop*1
+                            -document.body.offsetHeight*1+1*popupWinpopupBottom)+'px';
+
+          if (popupWinbChangeTexts)
+          {
+            popupWinbChangeTexts=false;
+            document.getElementById('popupWinaCnt').innerHTML=popupWinnMsg;
+            document.getElementById('popupWintitleEl').innerHTML=popupWinnTitle;
+          }
+
+          popupWinactualHgt=0; el.style.height=popupWinactualHgt+'px';
+          el.style.visibility='';
+          if (!popupWinresetTimer) el.style.display='';
+          popupWintmrId=setInterval(popupWinespopup_tmrTimer,(popupWinresetTimer?1000:20));
+        }
+
+        function popupWinespopup_winLoad()
+        {
+          if (popupWinoldonloadHndlr!=null) popupWinoldonloadHndlr();
+
+          elCnt=document.getElementById('popupWin_content')
+          elTit=document.getElementById('popupWin_header');
+          el=document.getElementById('popupWin');
+          popupWinpopupBottom=el.style.bottom.substr(0,el.style.bottom.length-2);
+
+          popupWintitHgt=elTit.style.height.substr(0,elTit.style.height.length-2);
+          popupWinpopupHgt=el.style.height;
+          popupWinpopupHgt=popupWinpopupHgt.substr(0,popupWinpopupHgt.length-2); popupWinactualHgt=0;
+          popupWincntDelta=popupWinpopupHgt-(elCnt.style.height.substr(0,elCnt.style.height.length-2));
+
+          if (true)
+          {
+            popupWinresetTimer=true;
+            popupWinespopup_ShowPopup(null);
+          }
+        }
+
+        function popupWinespopup_tmrTimer()
+        {
+          el=document.getElementById('popupWin');
+          if (popupWinresetTimer)
+          {
+            el.style.display='';
+            clearInterval(popupWintmrId); popupWinresetTimer=false;
+            popupWintmrId=setInterval(popupWinespopup_tmrTimer,20);
+          }
+          popupWinactualHgt+=5;
+          if (popupWinactualHgt>=popupWinpopupHgt)
+          {
+            popupWinactualHgt=popupWinpopupHgt; clearInterval(popupWintmrId); popupWintmrId=-1;
+            document.getElementById('popupWin_content').style.display='';
+            if (popupWinhideAfter!=-1) popupWintmrHide=setInterval(popupWinespopup_tmrHideTimer,popupWinhideAfter);
+          }
+          if (popupWintitHgt<popupWinactualHgt-6)
+            document.getElementById('popupWin_header').style.display='';
+          if ((popupWinactualHgt-popupWincntDelta)>0)
+          {
+            elCnt=document.getElementById('popupWin_content')
+            elCnt.style.display='';
+            elCnt.style.height=(popupWinactualHgt-popupWincntDelta)+'px';
+          }
+          el.style.height=popupWinactualHgt+'px';
+        }
+
+        function popupWinespopup_tmrHideTimer()
+        {
+          clearInterval(popupWintmrHide); popupWintmrHide=-1;
+          el=document.getElementById('popupWin');
+          if ((popupWinhasFilters)&&(isNS == 0)) //new code
+          {
+
+            backCnt=document.getElementById('popupWin_content').innerHTML;
+            backTit=document.getElementById('popupWin_header').innerHTML;
+            document.getElementById('popupWin_content').innerHTML='';
+            document.getElementById('popupWin_header').innerHTML='';
+            el.style.filter='blendTrans(duration=1)';
+            el.filters.blendTrans.apply();
+            el.style.visibility='hidden';
+            el.filters.blendTrans.play();
+            document.getElementById('popupWin_content').innerHTML=backCnt;
+            document.getElementById('popupWin_header').innerHTML=backTit;
+
+            popupWindxTimer=setInterval(popupWinespopup_dxTimer,1000);
+
+
+          }
+          else el.style.visibility='hidden';
+        }
+
+        function popupWinespopup_dxTimer()
+        {
+          clearInterval(popupWindxTimer); popupWindxTimer=-1;
+        }
+
+        function popupWinespopup_Close()
+        {
+          if (popupWintmrId==-1)
+          {
+            el=document.getElementById('popupWin');
+            el.style.filter='';
+            el.style.display='none';
+
+            if (popupWintmrHide!=-1) clearInterval(popupWintmrHide); popupWintmrHide=-1;
+
+          }
+        }
+
+        function popupWinespopup_ShowWindow()
+        {
+
+          if (popupWinnWin!=null) popupWinnWin.close();
+          popupWinnWin=window.open('','popupWinnWin','width=300,height=200,scrollbars=no, '+
+            'menubar=no, resizable=no, status=no, toolbar=no, location=no');
+          popupWinnWin.document.write(popupWinnText);
+        }
+
+        var popupWinmousemoveBack,popupWinmouseupBack;
+        var popupWinofsX,popupWinofsY;
+        function popupWinespopup_DragDrop(e)
+        {
+          popupWinmousemoveBack=document.body.onmousemove;
+          popupWinmouseupBack=document.body.onmouseup;
+          ox=(e.offsetX==null)?e.layerX:e.offsetX;
+          oy=(e.offsetY==null)?e.layerY:e.offsetY;
+          popupWinofsX=ox; popupWinofsY=oy;
+
+          document.body.onmousemove=popupWinespopup_DragDropMove;
+          document.body.onmouseup=popupWinespopup_DragDropStop;
+          if (popupWintmrHide!=-1) clearInterval(popupWintmrHide);
+        }
+
+        function popupWinespopup_DragDropMove(e)
+        {
+          el=document.getElementById('popupWin');
+          if (e==null&&event!=null)
+          {
+            el.style.left=(event.clientX*1+document.body.scrollLeft-popupWinofsX)+'px';
+            el.style.top=(event.clientY*1+document.body.scrollTop-popupWinofsY)+'px';
+            event.cancelBubble=true;
+          }
+          else
+          {
+            el.style.left=(e.pageX*1-popupWinofsX)+'px';
+            el.style.top=(e.pageY*1-popupWinofsY)+'px';
+            e.cancelBubble=true;
+          }
+          if ((event.button&1)==0) popupWinespopup_DragDropStop();
+        }
+
+        function popupWinespopup_DragDropStop()
+        {
+          document.body.onmousemove=popupWinmousemoveBack;
+          document.body.onmouseup=popupWinmouseupBack;
+        }
+</script>
+<div id="popupWin" style="border:0px solid #000000; display:none; position:absolute; z-index:9999;  width:180px; height:115px; right:1px; bottom:1px; background-image:url('images/common/pmlogin.jpg')" onselectstart="return false;"  onmousedown="return popupWinespopup_DragDrop(event);" >
+<div id="popupWin_header" style="cursor:default; display:none; position:absolute; left:0px; width:178px; top:5px; height:18px; font:12px arial,sans-serif; color:#000000; text-decoration:none;">
+
+<span id="popupWintitleEl"><b>[科大家园]登录提示</b></span>
+<span style="position:absolute; right:0px; top:2px; cursor:pointer; color:#FFFFFF; font:bold 10px arial,sans-serif; position:absolute; right:4px;" onclick="popupWinespopup_Close()"  onmousedown="event.cancelBubble=true;" onmouseover="style.color='#FFFFFF';" onmouseout="style.color='#FFFFFF';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;·</span></div>
+
+<div id="popupWin_content" onmousedown="event.cancelBubble=true;" style="display:none; border-left:0px solid #000000; border-top:0px solid #000000; border-bottom:0px solid #000000; border-right:0px solid #000000; padding:0px; overflow:hidden; text-align:center; position:absolute; left:0px; width:178px; top:35px; height:80px;">
+<font color="red">&nbsp; 欢迎您的光临！</font><br>登陆后将有更多的精彩等着您<br>
+<font color=#000000>请您花3秒钟<br>【<a href="logging.php?action=login">登录</a>】或【<a href="susthomebbs.php">注册</a>】</font><br>
+注册需要邮件激活<br><br>
+</div></div>  </div>
+<div style="display: none" id="hide_ads">
+<div id="hide_ad_headerbanner"></div>
+<div class="ad_text" id="hide_ad_text">
+<div class="banner">
+</div>
+<div class="banner" style="display:none;">
+<script type="text/JavaScript"> 
+alimama_pid="mm_10432603_1387824_3579143"; 
+alimama_type="f";
+alimama_sizecode ="tl_1x4_12"; 
+alimama_fontsize=12; 
+alimama_bordercolor="A6D5E9"; 
+alimama_bgcolor="A6D5E9"; 
+alimama_titlecolor="535353"; 
+alimama_underline=0; 
+alimama_height=22; 
+alimama_width=0; 
+</script> 
+<script src="http://a.alimama.cn/inf.js" type="text/javascript" type=text/javascript></script>
+</div>
+<table summary="Text Ad" cellpadding="0" cellspacing="1"><tr><td width="25%"><a href="http://bbs.susthome.com/tools/bbx" target="_blank"><font color=black><b>生活帮手</b></font></a> | <a href="http://bbs.susthome.com/plugins.php?p=nkflash" target="_blank" ><font color=blue><b>游戏</b></font></a> | <a href="http://bbs.susthome.com/tools/info/index.htm" target="_blank" ><font color=green><b>西安实用信息</b></font></a></td><td width="25%"><a href="http://bbs.susthome.com/forumdisplay.php?fid=75" target="_blank" ><font color=red><b>2009级新生报考咨询室</b></font></a></td><td width="25%"><a href="http://bbs.susthome.com/job.php" target="_blank"><font color=purple><b>就业直通车</b></font></a> | <a href="http://bbs.susthome.com/forumdisplay.php?fid=76" target="_blank" ><font color=#FE7E03><b>拍摄自爆</b></font></a> | <a href="http://u.susthome.com/" target="_blank"><font color=green><b>博文相册</b></font></a></td><td width="25%"><a href="http://bbs.susthome.com/viewthread.php?tid=70313" target="_blank"><font color=black><b>论坛会员自助免费广告系统开放</b></font></a></td></tr>
+<tr><td width="25%"><a href="http://u.susthome.com/cp.php?ac=friend&op=find" target="_blank"><font color=blue><b>有缘人</b></font></a> | <a href="http://xiaoyou.susthome.com/default.asp" target="_blank"><font color=red><b>校友录</b></font></a> | <a href="http://u.susthome.com/userapp.php?id=1010474" target="_blank"><b>猫鼠大战</b></a></td><td width="25%"><a href="http://bbs.susthome.com/forumdisplay.php?fid=82" target="_blank"><font color=#FE7E03><b>四年的回忆[献给2009届毕业生]</b></font></a></td><td width="25%"><a href="http://shop57143225.taobao.com/" target="_blank" ><b><font color=purple>范衣舍のFansroom-猪兜店铺</font></b></a></td><td width="25%"><a href="http://bbs.susthome.com/forumdisplay.php?fid=48" target="_blank"><font color=blue><b>毕业设计、课程设计交流专区</b></font></a></td></tr>
+</table></div>
+<div class="ad_textlink1" id="hide_ad_thread1_0"></div>
+<div class="ad_textlink2" id="hide_ad_thread2_0"></div>
+<div class="ad_pip" id="hide_ad_thread3_0"><a href="http://shop57143225.taobao.com/" target="_blank"><img src="http://www.songweiwei.com/attachments/month_0906/p200961212434.jpg" alt="范衣舍-猪兜的淘宝店 欢迎大家捧场！" border="0"></a></div>
+<div class="ad_pip" id="hide_ad_thread3_1"><script type=text/javascript>DisAD_URL='http://bbs.susthome.com/';DisAD_ADID='3';DisAD_W=120;DisAD_H=240;</script>
+<script src='http://bbs.susthome.com/disad/disad.js' type=text/javascript></script></div><div class="ad_pip" id="hide_ad_thread3_2"><script type=text/javascript>DisAD_URL='http://bbs.susthome.com/';DisAD_ADID='4';DisAD_W=120;DisAD_H=240;</script>
+<script src='http://bbs.susthome.com/disad/disad.js' type=text/javascript></script></div><div class="ad_column" id="hide_ad_interthread"></div>
+<div class="ad_footerbanner" id="hide_ad_footerbanner1"><a href="http://shop57143225.taobao.com/" target="_blank"><img src="http://songweiwei.com/attachments/month_0906/6200961183849.jpg" alt="范衣舍——猪兜的淘宝店  欢迎大家捧场！" border="0"></a></div>
+<div class="ad_footerbanner" id="hide_ad_footerbanner2"></div>
+<div class="ad_footerbanner" id="hide_ad_footerbanner3"><script type=text/javascript>DisAD_URL='http://bbs.susthome.com/';DisAD_ADID='2';DisAD_W=960;DisAD_H=70;</script>
+<script src='http://bbs.susthome.com/disad/disad.js' type=text/javascript></script></div>
+</div>
+<script type="text/javascript">
+function showads(unavailables, filters) {
+var ad, re;
+var hideads = $('hide_ads').getElementsByTagName('div');
+var insenzads = {'headerbanner' : '1', 'thread3_0' : '2', 'thread2_0' : '3', 'thread1_0' : '4', 'interthread' : '5', 'footerbanner1' : '6', 'footerbanner2' : '7', 'footerbanner3' : '8'};
+for(var i = 0; i < hideads.length; i++) {
+if(hideads[i].id.substr(0, 8) == 'hide_ad_' && (ad = $(hideads[i].id.substr(5))) && hideads[i].innerHTML && trim(ad.innerHTML) == '') {
+if(unavailables) {
+re = new RegExp(insenzads[hideads[i].id.substr(8)] + "\:(0" + "|" + gid + "|" + fid + ")", "ig");
+if(re.exec(unavailables) != null) continue;
+} else if(filters) {
+if(in_array(insenzads[hideads[i].id.substr(8)], filters)) continue;
+}
+ad.innerHTML = hideads[i].innerHTML;
+ad.className = hideads[i].className;
+}
+}
+}
+</script>
+<script type="text/javascript">
+var insenz_cached = true;
+showads();
+</script>
+
+					<script type="text/javascript" reload="1" charset="utf-8">
+		
+			if (typeof(tid) == 'undefined')  var tid=0; 
+			if (typeof(gid) == 'undefined')  var gid=0;
+				var aN = new Array();
+				var aC = new Array();
+				aN[1] = 'ad_headerbanner';aC[1] = 'ad_headerbanner';aN[2] = 'ad_thread3_0';aC[2] = 'ad_pip';aN[3] = 'ad_thread2_0';aC[3] = 'ad_textlink2';aN[4] = 'ad_thread1_0';aC[4] = 'ad_textlink1';aN[5] = 'ad_interthread';aC[5] = 'ad_column';
+		var atS='';
+		var atJs='';
+		for (at in aN) {
+			if ($(aN[at]))
+			{
+				atS += '_'+at;
+			}
+		}
+		atJs = 'http://st02.insenz.com/s.gif?sid=7473&gid='+gid+'&atid='+atS+'&rando='+(new Date()).getSeconds();
+		var atImg = new Image();
+		atImg.src = atJs;
+		
+		</script>
+<script type="text/javascript" src='http://a02.insenz.com/adv?sid=7473&gid=61&fid=19&tid=18196&uid=0&random=G2b0' charset="UTF-8"></script>
+<script type="text/javascript">
+if(typeof insenz_hash != 'undefined' && insenz_hash != '41778f36157864b946c2fa9122409f5f') {
+document.write('<scr'+'ipt type="text/javas'+'cript" src="api/advcache.php"></'+'script>');
+}
+</script>
+<script type="text/javascript">$('hide_ads').parentNode.removeChild($('hide_ads'));</script>
+
+</body>
+</html>
