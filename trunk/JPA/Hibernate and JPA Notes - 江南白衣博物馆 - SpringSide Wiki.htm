@@ -1,0 +1,503 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+            <title>Hibernate and JPA Notes - 江南白衣博物馆 - SpringSide Wiki</title>
+            
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+    <script language="javascript">
+      var contextPath = '';
+    </script>
+            <link rel="stylesheet" href="/styles/main-action.css?spaceKey=calvin" type="text/css" />
+            <link rel="shortcut icon" href="/images/icons/favicon.ico">
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png">
+    <script src="/decorators/effects.js"></script>
+
+
+        
+
+    <meta name="keywords" content="Java,JavaEE,SOA,WebService,ajax,hibernate,architecture, programmer,project manager"/>
+<meta name="description" content="江南白衣的资料站,关于Java企业应用,系统架构,软件工程的笔记"/>
+</head>
+
+            <body onload="placeFocus()">
+    
+
+<div id="PageContent">
+
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+                <tr class="topBar">
+            <td align="left" width="85%">
+                &nbsp;
+                <span class="topBarDiv">             
+    <script language="JavaScript">
+        function showBreadcrumbsEllipsis()
+        {
+            document.getElementById('breadcrumbsEllipsis').style.display = 'none';
+            document.getElementById('breadcrumbsExpansion').style.display = 'inline';
+        }
+    </script>
+
+                <a href="/dashboard.action">Dashboard</a>
+     &gt;
+
+                        <a href="/display/calvin">江南白衣博物馆</a> &gt;
+        
+        
+        
+        
+        
+                                    <span id="breadcrumbs"><span id="breadcrumbsEllipsis"/><a href="#" onclick="showBreadcrumbsEllipsis();return false;" title="Home&nbsp;&gt;&nbsp;Java World&nbsp;&gt;&nbsp;Java Daily">...</a></span><span id="breadcrumbsExpansion" style="display:none;"><a href='/display/calvin/Home'>Home</a>&nbsp;&gt;&nbsp;<a href='/display/calvin/Java+World'>Java World</a>&nbsp;&gt;&nbsp;<a href='/display/calvin/Java+Daily'>Java Daily</a></span>&nbsp;&gt;&nbsp;</span><a href='/display/calvin/DataBase+Access'>DataBase Access</a>&nbsp;&gt;&nbsp;<a href="/display/calvin/Hibernate+and+JPA+Notes">Hibernate and JPA Notes</a>
+                                                                        
+     </span>
+            </td>
+
+            <td align="right" valign="middle" width="1%" nowrap>
+                    <form method="POST" action="/dosearchsite.action" name="searchForm" style="padding: 1px; margin: 1px">
+        <input type="hidden" name="quickSearch" value="true" />
+        
+        <input type="hidden" name="searchQuery.spaceKey" value="conf_global" />
+        <input type="text" accessKey="s" name="searchQuery.queryString" size="25"/>
+        <input type="submit" value="Search"/>
+    </form>
+            </td>
+        </tr>
+        
+                <tr>
+            <td style="padding: 5px" colspan="2">
+            <table style="padding: 0px; margin: 0px 5px; width: 100%;" cellspacing="0" cellpadding="1" border="0">
+                <tr>
+										<td rowspan="2" valign="bottom" width="1%"><a href="/homepage.action"><img src="/images/confluence_logo.gif" align="absmiddle" border="0"></a></td>
+										<td valign="bottom" align="left" width="1%" nowrap>&nbsp;
+                        <span class="logoSpaceLink">            <a href="/display/calvin">江南白衣博物馆</a>    </span>
+                    </td>
+                    <td align="right" valign="top" width="98%">
+                                                    
+    <span class="smalltext">
+                    
+
+            <a href="/login.action?os_destination=%2Fdisplay%2Fcalvin%2FHibernate%2Band%2BJPA%2BNotes">Log In</a>
+
+                                            | <a href="/signup.action">Sign Up</a>
+                                &nbsp;
+                        </span>
+    						
+						        <a href="/display/calvin/Hibernate+and+JPA+Notes?decorator=printable" rel="nofollow"><img src="/images/icons/print_16.gif" width="16" height="16" hspace="1" vspace="1" align="absmiddle" border="0" alt="View a printable version of the current page." title="View a printable version of the current page."/></a>
+
+                                                        
+                                                                                &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td height="22" align="left" colspan="2">&nbsp;
+                        <span class="pagetitle" style="line-height: 1; margin: 0px; text-decoration: none">
+                                        Hibernate and JPA Notes
+                            </span>
+                    </td>
+                </tr>
+            </table>
+            </td>
+        </tr>
+            </table>
+
+        <!--
+    Root decorator: all decisions about how a page is to be decorated via the
+                    inline decoration begins here.
+-->
+
+
+
+<!--
+    Switch based upon the context. However, for now, just delegate to a decorator
+    identified directly by the context.
+-->
+
+
+    
+    
+
+
+    
+    
+        
+    
+    
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+    <tr>
+        <td>
+            <div class="greynavbar">
+                <span style="float:right; padding: 6px 10px 4px 0px">
+								
+					<a href="/spaces/browsespace.action?key=calvin"><img src="/images/icons/browse_space.gif" height="16" width="16" border="0" align="absmiddle" title="Browse Space"></a>&nbsp;<a href="/spaces/browsespace.action?key=calvin">Browse Space</a>
+							</span>
+
+				<ul id="foldertab" style="margin-bottom: 0px; padding-top: 10px;">
+											<li><a  id="viewPageLink"  href="/display/calvin/Hibernate+and+JPA+Notes"  class="current"    accessKey="v">View</a></li>
+											<li><a  id="viewPageLink"  href="/pages/pageinfo.action?pageId=4346"    accessKey="i"><u>I</u>nfo</a></li>
+									</ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" class="pagebody">
+
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="clear: both">
+                <tr>
+                    <td width='100%' class="pagecontent" valign="top">
+
+                    
+                    
+                                                                        
+                            <table width="100%" style="margin-bottom: 5px" cellspacing="0">
+                                <tr>
+                                    <td align="left" valign="top">
+                                        <span class="smalltext">
+                                                        Added by     <a href="/display/~calvin">Calvin</a>, last edited by     <a href="/display/~calvin">Calvin</a> on 2009-05-01
+                      &nbsp;(<a href="/pages/diffpages.action?pageId=4346&originalId=7943">view change</a>)
+              
+                                            
+ 
+<style type="text/css">
+div.auto_complete {
+    width: 350px;
+    background: #fff;
+}
+
+div.auto_complete ul {
+    border: 1px solid #888;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    list-style-type: none;
+}
+
+div.auto_complete ul li {
+    margin: 0;
+    padding: 3px;
+}
+
+div.auto_complete ul li.selected {
+    background-color: #ffb;
+}
+
+div.auto_complete ul strong.highlight {
+    color: #800;
+    margin: 0;
+    padding: 0;
+}
+</style>
+
+
+<!-- Delay the loading of the external javascript file needed for labels (as it takes too long to load and visibly holds loading of the page body) -->
+<!-- To do this without javascript errors over undefined functions, we need to declare stubs here (that are overrided later by the proper implementations) -->
+<script language="JavaScript" type="text/javascript">
+    function doAddLabel(hideTextfieldAfterAddParam)
+    {
+        // stub
+    }
+
+    function onAddLabel()
+    {
+        // stub
+    }
+
+    function showLabelsInput()
+    {
+        // stub
+    }
+</script>
+
+<!-- This is a hack to work around an apparent SiteMesh bug - http://jira.opensymphony.com/browse/SIM-198 -->
+
+
+<span class="error"><span class="errorMessage" id="errorSpan"></span></span>
+<form name="addLabelForm" method="" action="" onSubmit="doAddLabel(false); return false;" style="margin: 0px; padding: 0px">
+    <div style="float: left">Labels:&nbsp;</div>
+    <div id="labelsInfo" style="float: left; width: 90%">
+        <span id="labelsList">
+                    (None)
+                </span>
+            </div>
+    <br clear="all"/><!-- Do not remove this line-break. You will make Safari cry. -->
+    <div id="labelInputSpan" style="display: none; clear: both;">
+        <br/>
+        <div style="border: 1px solid #cccccc; padding: 8px; align: center; background-color: #f0f0f0">
+
+        <div id="labelOperationErrorContainer" style="display: none"><span class="error"><span class="errorMessage" id="labelOperationErrorMessage"></span></span></div>
+
+        <table width="100%">
+            <tr>
+                <td>
+                    <div class="formtitle" style="padding-bottom: 3px; font-size: 13px;">Add Labels</div>
+                </td>
+                <td align="right"><div id="waitImageAndStatus" style="display: none; height: 16px;"><img alt="Wait Image" border=0 align="absmiddle" src="/images/icons/wait.gif">&nbsp;<span id="labelOperationStatus" class="smalltext" style="vertical-align: middle"></span></div></td>
+            </tr>
+            <tr><td width="50%">
+                    Enter labels to add to this page:<br/>
+        <input autocomplete="off" type="text" id="labelName" name="labelsString" value="" class="monospaceInput" size="40">
+        <input type="submit" onclick="doAddLabel(false); return false;" value="Add"><input type="button" onclick="doAddLabel(true); return false;" value="Done">
+        <div class="auto_complete" id="labelsAutocompleteList"></div>
+        <div class="smalltext">
+            <em>Tip:</em> Looking for a label? Just start typing.
+        </div>
+        </td>
+            <td width="50%" valign="top">
+                <div id="suggestedLabelsSpan"></div>
+            </td>
+        </tr></table>
+        </div>
+    </div>
+</form>
+    <script type="text/javascript">
+        // if there is javascript support, enable the [Edit] link that enables AJAX label adding/removing functionality
+        if (document.getElementById('editLabelsLink'))
+        {
+            document.getElementById('editLabelsLink').style.display = 'inline';
+        }
+    </script>
+                                        </span>
+                                    </td>
+  <td align="right" valign="top"><script type="text/javascript"><!--
+google_ad_client = "pub-2429212051207422";
+/* Wiki页头 */
+google_ad_slot = "8579584039";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></td>
+                                    <td align="right" valign="top">
+                                                                            </td>
+                                </tr>
+                            </table>
+
+                            
+                            <div class="wiki-content">
+                               <!-- wiki content -->
+            <h2><a name="HibernateandJPANotes-1.JPAannotation%E4%B8%AD%E7%9A%84%E9%BB%98%E8%AE%A4%E5%80%BC"></a>1.JPA annotation中的默认值</h2>
+
+<ul>
+	<li>表名与字段名都尽量与Entity对象相同则无需重复配置</li>
+	<li>在sessinFactory中使用ImprovedNamingStrategy，即可将LOGIN_NAME 这种带下划线的列名自动映射为loginName的属性。</li>
+	<li>在多对多关联关系中，@JoinTable的默认名为"主表名_子表名"</li>
+</ul>
+
+
+
+
+<h2><a name="HibernateandJPANotes-2.%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"></a>2.二级缓存</h2>
+
+<p>并不是所有对象都适合二级缓存，King的大实话：</p>
+<ul>
+	<li>更新大大小于读取的。</li>
+	<li>非重要性的.如CMS的数据，财务数据就不要了。</li>
+	<li>独立的.与遗留系统共同维护同一个表的就不要了。</li>
+</ul>
+
+
+<p>最适合的，是那种Reference表，数据量又少，与之相连的类又多，如区域表，角色表。</p>
+
+<p>四种隔离级别：</p>
+<ul>
+	<li>Transactional 只用于JTA环境。</li>
+	<li>Read-write 提交读(本事务只可以看到另一事务已提交的数据。不可重复读。)。</li>
+	<li>Nonstrict-read-write 完全无并发访问保证，用于极少更新的表，或脏数据无所谓的表。</li>
+	<li>Read-only 如题。只执行create，不update的数据。集群环境最爱。</li>
+</ul>
+
+
+<p>一般在Read-write与Nonstrict-read-write 中选择，默认就还是用Read-write吧。</p>
+
+<p> 一般选用<a href="/display/calvin/Ehcache" title="Ehcache">Ehcache</a>作为二级缓存，并使用它的RMI分布式方案，同步发送Invalid信息实现集群同步。</p>
+
+<p>Cache有三种，一般只采用前两种：</p>
+<ul>
+	<li>二级缓存：缓存对象及属性，建议使用。</li>
+	<li>集合缓存：缓存对象关联集合的ID，建议使用</li>
+	<li>查询缓存 : 缓存查询结果类型及ID，不建议使用。因为是否采用缓存中的查询结果，是靠比较查询涉及的表，每个表的最后更新时间来确定。每个表的最后更新时间在集群中需要实时同步，很是麻烦。</li>
+</ul>
+
+
+<h2><a name="HibernateandJPANotes-3.equals%28%29andhashCode%28%29"></a>3.equals() and hashCode()</h2>
+
+<p>&nbsp;&nbsp;&nbsp; 在《Hibernate in Action 2&gt;第9章有详细介绍。Hibernate在自己Session范围内，能够保证对同一个数据库id，永远只返回同一个Java对象。只有在你在把从POST参数组装的VO或者从前一个session取得的Detached Object，与另一个代表同一个数据库对象的PO或VO放进同一个hash-base collections(如Set)中时，Java的Set才会让你郁闷一把，Set会认为这是两个对象。所以说这是hash-base collections的固有问题，Hibernate只是把它再次暴露而已。在Hibernate One Session per Request的模式下，情况还是会发生的。比如从页面参数里取得OrderItem对象，放进从数据库查出来的Order-&gt;OrderItems Set里。如果你的对象不需要放入Set(比如作为另一个对象的子对象)，或者自己会在模式上避免把两个代表同一个数据库对象的对象放入同一Set中，你可以无需重载。</p>
+
+<p>&nbsp;&nbsp;&nbsp; 如果一定要重载，有三种策略</p>
+<ul>
+	<li>以ID列作比较，这贴近数据库ID比较，但Hibernate在持久化之前是没有ID值的。New Items的时候会很麻烦。</li>
+	<li>以除ID列和Collesions列(因为collctions代表另一个表了)的外所有列进行比较，比较贴近Java本身的比较，但这个也有问题，比如剩下的列里没有好的unique组合等。</li>
+	<li>以业务主键做比较，这是King唯一相对满意的方式，但就苦了程序员要自己精心挑选Unique的Business Key，变体力劳动为智力劳动。</li>
+</ul>
+
+
+<h2><a name="HibernateandJPANotes-4.%E5%9B%9B%E7%A7%8DFetch%E7%AD%96%E7%95%A5"></a>4. 四种Fetch策略</h2>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 按顺序从懒到积极的四种策略。</p>
+<ul>
+	<li>Lazy：一般人好像只会用这种策略。查询一批Order，只返回Order实例，当访问某个Order的items时，查询某个Order的Items。这种策略会产生著名的N+1查询，比如查询所有Order,再查询它们的Items时，会为每个Order的Items发出一条查询语句。(注意，只查一条Order，然后遍历它的所有item不会N+1)</li>
+	<li>Batch：查询一批Order，只返回Order实例，当访问某个Order的items时，批量查询一定数量Order的Items(如10个Order)。如果需要遍历所有Order的Items，需要N/10+1条语句。当然采用这种模式的前提是认为需要一些，但不是全部的Order的Items.</li>
+	<li>SubSelect：依然在查询一批Order时，只返回Order实例，当访问某个Order的items时，查询所有Order的Items，需要两条语句。适合在不一定需要Items，如果需要就全需要的情况。</li>
+	<li>Eager：只有一条语句，查询时返回Order与Items实例。适合一定全需要Items的情况。</li>
+</ul>
+
+
+<p>看来Lazy,SubSelect,Eager的情况都很清晰。Batch介于Lazy与SubSelect之间，用得好时也不错。可惜不能在session级动态改变annotation，一设就是全局的了。</p>
+
+<h2><a name="HibernateandJPANotes-5.%E7%BA%A7%E8%81%94"></a>5. 级联</h2>
+
+<p>1. 如果在一个新建对象中插入一个新建的子对象，持久化新对象时持久化新子对象:&nbsp;&nbsp;&nbsp; @ManyToMany(cascade ={&nbsp; CascadeType.PERSIST,CascadeType.MERGE&nbsp; })<br/>
+ 2. 删除关联的子对象: &nbsp;&nbsp;&nbsp; @ManyToMany(cascade ={&nbsp; CascadeType.REMOVE&nbsp; })<br/>
+3. 1+2: &nbsp;&nbsp;&nbsp; @ManyToMany(cascade ={&nbsp; CascadeType.ALL&nbsp; })<br/>
+4. 删除一个旧对象时，如果它的子对象已经不被其他对象引用时删除，这个是Hibernate特有</p>
+<div class="code"><div class="codeContent">
+<pre class="code-java"> @org.hibernate.annotations.Cascade(
+value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN
+)</pre>
+</div></div>
+<p>5.@ManyToMany 级联删除JoinTable中间表的数据</p>
+
+<p>&nbsp; &nbsp; 如果是删除ManyToMany中的主对象，会自动删除中间表数据</p>
+
+<p>&nbsp; &nbsp; 如果是删除子对象(没有定义@JoinTable，只定义了mappedBy的对象)，不会自动删除中间表，需要执行如下代码：</p>
+<div class="code"><div class="codeContent">
+<pre class="code-java"> <span class="code-keyword">public</span> void delete(<span class="code-object">Long</span> id) {
+		Role role = <span class="code-keyword">this</span>.get(id);
+		<span class="code-keyword">for</span> (User user : role.getUsers()) {
+			user.getRoles().remove(role);
+		}
+		<span class="code-keyword">super</span>.delete(role);
+	}</pre>
+</div></div>
+
+<h2><a name="HibernateandJPANotes-6.%E6%9D%82%E8%AE%B0"></a>6.杂记</h2>
+
+<p><b>集合类对象的排序：</b></p>
+
+<p>需要集合是可排序的，比如List，LinkedHashSet 等，注意Set与Map时，如果属性要显式初始化，要写成private Set&lt;Role&gt; roles = new LinkedHashSet&lt;Role&gt;()。如果是HashSet就依然是无序。&nbsp;</p>
+
+<p>用@OrderBy("publishDate desc,price") 规定顺序，默认是ASC 升序，在sql中会插入相关语句.<br/>
+<b>flush的操作步骤：</b></p>
+<ol>
+	<li>all entity insertions, in the same order the corresponding objects were saved using <tt>Session.save()</tt></li>
+	<li>all entity updates</li>
+	<li>all collection deletions</li>
+	<li>all collection element deletions, updates and insertions</li>
+	<li>all collection insertions</li>
+	<li>all entity deletions, in the same order the corresponding objects were deleted using <tt>Session.delete()</tt></li>
+</ol>
+
+
+<p><tt><b>Replicating方法:</b></tt></p>
+
+<p>session2.replicate(cat, ReplicationMode.LATEST_VERSION); 将session1的cat对象复制到session2,如果session2中已存在cat，使用其中一种策略。</p>
+
+<p><b>批量插入与更新时:</b></p>
+
+<p>必须定期执行session.flush()，以减少lvl 1缓存的大小。</p>
+
+<p><b>Hibernate filters：</b></p>
+
+<p>&nbsp;&lt;class name="myClass" ...&gt;<br/>
+&nbsp;&nbsp;&nbsp; ...<br/>
+&nbsp;&nbsp;&nbsp; &lt;filter name="myFilter" condition=":myFilterParam&nbsp;&gt; MY_FILTERED_COLUMN"/&gt;<br/>
+&lt;/class&gt;</p>
+
+<p>session.enableFilter("myFilter").setParameter("myFilterParam", "some-value");</p>
+
+<p>但不支持按id retrive。</p>
+
+<p><b>Fillter Collctions：</b></p>
+
+<p>过滤对象的关联Collection，使得lazy load的user.getRoles() 不会返回所有的关联对象，可以按条件返回，分页返回。</p>
+
+<p><b>StatelessSession：</b></p>
+
+<p>无persistence context，因此无lvl1，2级缓存和query缓存；无自动状态检查与保存，需显式调用session.update()；不获取关联对象；不调用event/inceptor。</p>
+                            </div>
+
+                            <!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+    rdf:about="http://wiki.springside.org.cn/display/calvin/Hibernate+and+JPA+Notes"
+    dc:identifier="http://wiki.springside.org.cn/display/calvin/Hibernate+and+JPA+Notes"
+    dc:title="Hibernate and JPA Notes"
+    trackback:ping="http://wiki.springside.org.cn/rpc/trackback/4346"/>
+</rdf:RDF>
+-->
+
+                            
+                    
+                                <!--
+    Root decorator: all decisions about how a page is to be decorated via the
+                    inline decoration begins here.
+-->
+
+
+
+<!--
+    Switch based upon the context. However, for now, just delegate to a decorator
+    identified directly by the context.
+-->
+
+
+    
+    
+
+<div class="wiki-content" style="margin-right:10px;">
+    <p style="clear: both"/><!-- comments should always display underneath the content. we should have a 'clear:both' here just in case there are floats or aligned images in the content -->
+
+    
+    
+    
+    
+                                    </div>
+
+
+
+                                                            </td>
+
+
+                                                    </tr>
+        </table>
+
+        
+        </td>
+    </tr>
+</table>
+
+    </div>
+
+  	                                                    <div class="license-nonprofit">
+                    Site powered by a free <b>Open Source Project / Non-profit License</b> (<a href="http://www.atlassian.com/c/conf/10138">more</a>) of <b><a href="http://www.atlassian.com/c/conf/10137">Confluence - the Enterprise wiki</a>.<br/> <a href="http://www.atlassian.com/c/conf/10137">Learn more</a> or <a href="http://www.atlassian.com/c/conf/10137">evaluate Confluence for your organisation</a>.
+                    </div>
+                                            <div class="bottomshadow"></div>
+  	<div id="poweredby" class="smalltext">
+		Powered by <a href="http://www.atlassian.com/wiki/?clicked=footer" class="smalltext">Atlassian Confluence</a>, the <a href="http://www.atlassian.com/wiki/?clicked=footer" class="smalltext">Enterprise Wiki</a>. (Version: 2.2.9 Build:#527 2006-09-07)
+		-
+		<a href="http://jira.atlassian.com/secure/BrowseProject.jspa?id=10470" class="smalltext">Bug/feature request</a>
+		-
+		<a href="/administrators.action">Contact Administrators</a>
+		<br/>
+	</div>
+
+<!-- delay the loading of large javascript files to the end so that they don't interfere with the loading of page content -->
+<span style="display: none">
+    <script type="text/javascript" language="JavaScript">var domainName = 'http://wiki.springside.org.cn'; var entityId = '4346'; var spaceKey = 'calvin'</script>
+    <script type="text/javascript" language="JavaScript" src="/labels-javascript"></script>
+    <script>new Ajax.Autocompleter('labelName', 'labelsAutocompleteList', '4346', { tokens: new Array(',', ' '), dwrFunction: GenerateAutocompleteLabelsListForEntity.autocompleteLabels});</script>
+</span>
+
+<div>
+<embed width="468" height="60" src="http://www.redsaga.com/redsaga-hosting-ad.swf" type="application/x-shockwave-flash"></embed>
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/253758.js"></script>
+
+<a href="http://sourceforge.net/projects/springside"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=160619&type=10" width="80" height="15" border="0" alt="Get SpringSide at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a>
+</div>
+</body>
+</html>

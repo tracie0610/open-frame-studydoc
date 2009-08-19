@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>fusionChart 使用手记 - 雨烛的小小空间 - JavaEye技术网站</title>
+    <meta name="description" content="  最近看了些开源的统计图表组件，主要看了fusionChart 和JfreeChart jfreeChart还没有深入了解，暂不做评论。    使用fusionChart主要是被其界面吸引了，各类图表都很好看，下载以后文档也很周全，支持的语言也很多种 ，容易上手。fusionChart工作原理主要是通过后台传xml数据源给报表前台flash flash复杂接收数据并渲染成最终的图表。   至于好不 ..." />
+    <meta name="keywords" content="fusionchart  fusionChart 使用手记" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="雨烛的小小空间" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1250087106" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/green.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1248170042" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://www.javaeye.com/job">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" title="查看我的博客首页" class="welcome">欢迎frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</a>
+      <a href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</a>
+      <a href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</a>
+    </div>
+        <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">雨烛的小小空间</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://sind.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      
+      
+      <a href="/blog/354227" class="pre" title="java 中的一些异常类">java 中的一些异常类</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2009</span><span class='sep_year'>-</span><span class='month'>04</span><span class='sep_month'>-</span><span class='day'>17</span></div>
+    <h3 class='type_original' title='原创'><a href="/blog/369889">fusionChart 使用手记</a></h3>
+                <strong>关键字: fusionchart</strong>
+  </div>
+
+  <div class="blog_content">
+    &nbsp; 最近看了些开源的统计图表组件，主要看了fusionChart 和JfreeChart jfreeChart还没有深入了解，暂不做评论。<br /><br />&nbsp;&nbsp; 使用fusionChart主要是被其界面吸引了，各类图表都很好看，下载以后文档也很周全，支持的语言也很多种 ，容易上手。fusionChart工作原理主要是通过后台传xml数据源给报表前台flash flash复杂接收数据并渲染成最终的图表。<br /><br />&nbsp; 至于好不好用，仁者见仁了。我用起来感觉还是很舒服的，暂时还没做比较复杂的图表，目前的功能是够用的。这里主要说说使用中碰到的问题，和我的解决办法<br /><br />&nbsp; <strong>第一 用过的人肯定都有会碰到，就是中文支持</strong>，按照默认的输出，肯定最后数据无法渲染。 fusionChart 有两种调用xml数据方法 setDataURL 和setDataXml方法。现就两种方式中文支持方法一一描述一下<br /><br />&nbsp;&nbsp;&nbsp;&nbsp; 1 先说<strong> setDataXml</strong>吧，这个好解决，只要输出是response.setCaractEncoding("utf-8")即可，我的系统统一都是utf-8编码，其它我没试。由于配置时已经加过编码过滤器了，所以这部也可省略。这样做的缺点就是输出xml过长可能会有问题。<br /><br />&nbsp;&nbsp;&nbsp;&nbsp; 2 <strong>setDataURL</strong>方法，我之前上网查过很多网站，说法都是fusionChart free版本的这个有bug，用这个不能支持中文。我试了很多方法也确实都不行，后翻到官方文档中带的例子中输出日语的一个，恍然大悟 <br /><br /><pre name="code" class="java">byte[] utf8Bom =  new byte[]{(byte) 0xef, (byte) 0xbb, (byte) 0xbf};
+String utf8BomStr = new String(utf8Bom,"UTF-8");</pre><br /><br />&nbsp;&nbsp;&nbsp; <span style="color: red">这一段是关键，就是需要在你输出的xml字符串之前加上utf-8 bom技术标示，这样前台就可以读出中文了</span>。还有一点需要注意，就是url是带参数的如下<br /><span style="color: darkblue">/statistics/chartData.do?name=${searchName}${urlParam}</span>“&amp;”符号fusionChart是不认的，也需要<span style="color: darkblue">URLEncoder.encoding</span>转换中文的支持就先说到这了，我用的 setDataURL 中文显示现在已经没什么问题了<br /><br /> <br />&nbsp;&nbsp; <strong>第二 就是比较头疼的 柱状图中横坐标 标题中文不显示的问题</strong>，主要因为fusionChart强行旋转了y轴标题的文字，汉字是不支持的 网上的解决办法是加上xml根结点加属性 rotateYAxisName=‘0’ 我试过不起作用<br /><br />&nbsp;&nbsp;&nbsp; 后来才知道是&nbsp; <span style="color: red">fusionChart free版本是不支持这个属性</span>，fusionChart&nbsp; v3版本支持这个，我下载过破解的v3版试过，确实好用，但我不喜欢v3的默认风格，所以还是想从free版上解决问题。我的解决办法就是<span style="color: blue">sothink swf decompiler</span>工具把相应的swf破解了，直接改源代码 既然是yAxisName出了问题当然就是从这下手，找到yAxisName的相关代码，很快找到生成的那段AS<br /><pre name="code" class="js">if (this.Params.xAxisName != "")
+    {
+        createText(this.getLevel(), this.Params.xAxisName, this.Objects.Canvas.xPos + this.Objects.Canvas.width / 2, this.Objects.Canvas.height + this.Objects.xAxisName.yPos, this.Params.outCnvBaseFont, this.Params.outCnvBaseFontSize, this.Params.outCnvBaseFontColor, true, "center", "center", null, true);
+    } // end if
+    if (this.Params.yAxisName != "")
+    {
+        createText(this.getLevel(), this.Params.yAxisName, this.Objects.yAxisName.xPos, this.Objects.Canvas.yPos + this.Objects.Canvas.height / 2, "Verdana", Number(this.Params.outCnvBaseFontSize) + 1, this.Params.outCnvBaseFontColor, false, "center", "center", 270, true);
+    } // end if</pre><br /><span style="color: red">注意看倒数第五 和倒数第二个参数 输出x轴和y轴有什么不同，改成一样就可以了</span>，编译好把flash替换了刷新页面 横向输出的y轴坐标已经出来了。还有点不完美的就是第一个字显示了一半被截掉了一样，看着不舒服，解决办法: 输出的xml根节点加上 chartLeftMargin=‘30’属性。ok大功告成<br /><br />&nbsp;&nbsp;&nbsp; 破解过fusionChart的free版才知道，这个版是用的as1.0写的，还好不难改，估计和历史原因有关吧，看了v3版的代码用的高版本 要规范很多了，很多as独立成文件，文件夹也组织有序些。<br /><br /><br /><br />
+  </div>
+
+  <div>
+<script type="text/javascript">
+google_ad_client = "pub-9971846879634397";
+google_ad_slot = "8644581328";
+google_ad_width = 468;
+google_ad_height = 60;
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+  
+  
+  
+  
+    
+  <div class="blog_bottom">
+    <ul>
+      <li>23:00</li>
+      <li>浏览 (650)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      <li>分类: <a href="/category/62635">统计</a></li>
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=fusionChart+%E4%BD%BF%E7%94%A8%E6%89%8B%E8%AE%B0&amp;user_favorite%5Burl%5D=http%3A%2F%2Fsind.javaeye.com%2Fblog%2F369889' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/369889" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://sind.javaeye.com'><img alt="aixinnature的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/73840/22f91564-d88a-38bb-a240-d7880d0239f9.jpg?1236837284" title="aixinnature的博客: 雨烛的小小空间" /></a></div>
+            <div id="blog_owner_name">aixinnature</div>
+          </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 8236 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 北京</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=aixinnature" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=aixinnature" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="frankswu的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div>
+                  <div class="left"><a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://star022.javaeye.com' target='_blank'><img alt="star022的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="star022的博客: 星空间" /></a></div>
+                  <div class="left"><a href='http://star022.javaeye.com' target='_blank'>star022</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://rootjo.javaeye.com' target='_blank'><img alt="rootjo的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/121473/f92d648d-c55a-3c82-a3bd-a1e943a73cbc-thumb.bmp?1246549178" title="rootjo的博客: 青春不留白" /></a></div>
+                  <div class="left"><a href='http://rootjo.javaeye.com' target='_blank'>rootjo</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://ok000boy.javaeye.com' target='_blank'><img alt="ok000boy的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="ok000boy的博客: " /></a></div>
+                  <div class="left"><a href='http://ok000boy.javaeye.com' target='_blank'>ok000boy</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (31)</a></li>
+                
+                  <li><a href="/category/43763">JSP基础 (5)</a></li>
+                
+                  <li><a href="/category/43365">图像处理算法 (1)</a></li>
+                
+                  <li><a href="/category/42978">正则 (4)</a></li>
+                
+                  <li><a href="/category/43133">JavaScript (2)</a></li>
+                
+                  <li><a href="/category/43420">CSS (2)</a></li>
+                
+                  <li><a href="/category/43480">delphi流操作 (2)</a></li>
+                
+                  <li><a href="/category/43528">文件操作 (2)</a></li>
+                
+                  <li><a href="/category/43750">Hibernate (2)</a></li>
+                
+                  <li><a href="/category/49140">SQL (1)</a></li>
+                
+                  <li><a href="/category/49224">Spring (3)</a></li>
+                
+                  <li><a href="/category/51114">随笔 (1)</a></li>
+                
+                  <li><a href="/category/52194">PDF (1)</a></li>
+                
+                  <li><a href="/category/52213">算法 (1)</a></li>
+                
+                  <li><a href="/category/52557">Xml (1)</a></li>
+                
+                  <li><a href="/category/54595">备忘 (1)</a></li>
+                
+                  <li><a href="/category/56815">IDE (1)</a></li>
+                
+                  <li><a href="/category/62635">统计 (1)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿 <span style='font-weight:normal;font-size:12px;padding-left:20px;'><a href="/blog/guest_book">&gt;&gt;更多留言</a></span></h5>
+                <ul>
+                  
+                    <li>
+                      你好，我现在也在用FusionCharts横坐标不能显示中文我照你说的那样该了 ...<br/>
+                      -- by <a href="/blog/guest_book#7759">whf0524</a>
+                    </li>
+                  
+                </ul>
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (37)</li>
+                                                <li><a href="/blog/forum">我的论坛帖子</a> (15)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://wangyu.javaeye.com/" target="_blank"> 用心做事，诚信做人！</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-04">2009-04</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-03">2009-03</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-02">2009-02</a> (3)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/254399#comments" title="使用apache commons-fileupload.jar 实现文件上传">使用apache commons-fileu ...</a><br/>
+                    tcrct 写道fileList = sfu.parseRequest(requ ...<br/>
+                    -- by <a href='http://sind.javaeye.com' target='_blank'>aixinnature</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/254399#comments" title="使用apache commons-fileupload.jar 实现文件上传">使用apache commons-fileu ...</a><br/>
+                    fileList = sfu.parseRequest(request);    ...<br/>
+                    -- by <a href='http://tcrct.javaeye.com' target='_blank'>tcrct</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/254399#comments" title="使用apache commons-fileupload.jar 实现文件上传">使用apache commons-fileu ...</a><br/>
+                    项目中正有需要，谢谢<br/>
+                    -- by <a href='http://tcrct.javaeye.com' target='_blank'>tcrct</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/254399#comments" title="使用apache commons-fileupload.jar 实现文件上传">使用apache commons-fileu ...</a><br/>
+                    很不错，借鉴了。<br/>
+                    -- by <a href='http://278506470.javaeye.com' target='_blank'>278506470</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/254399" title="使用apache commons-fileupload.jar 实现文件上传">使用apache commons-fileupload.jar 实现文 ...</a></li>
+                
+                  <li><a href="/blog/255506" title="Java 获取客户端代码大全">Java 获取客户端代码大全</a></li>
+                
+                  <li><a href="/blog/327204" title="区别不同浏览器，CSS hack写法：">区别不同浏览器，CSS hack写法：</a></li>
+                
+                  <li><a href="/blog/285995" title="Spring事务详细说明">Spring事务详细说明</a></li>
+                
+                  <li><a href="/blog/253235" title="A*寻路算法">A*寻路算法</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://sind.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://sind.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://sind.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>

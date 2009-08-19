@@ -1,0 +1,851 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>struts2采用convention-plugin实现零配置 - 吾生也有涯，而知也无涯 - JavaEye技术网站</title>
+    <meta name="description" content="最近开始关注struts2的新特性，从这个版本开始，Struts开始使用convention-plugin代替codebehind-plugin来实现struts的零配置。  配置文件精简了，的确是简便了开发过程，但是，我们熟悉的配置突然disappear了，真是一下很不适应。跟着潮流走吧，看看该怎样来搞定convention-plugin。  使用Convention插件，你需要将其JAR文件放到 ..." />
+    <meta name="keywords" content="  struts2采用convention-plugin实现零配置" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="吾生也有涯，而知也无涯" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1249980530" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1248170042" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://www.javaeye.com/job">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" title="查看我的博客首页" class="welcome">欢迎frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</a>
+      <a href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</a>
+      <a href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</a>
+    </div>
+        <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">吾生也有涯，而知也无涯</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://javeye.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/411923" class="next" title="dtree使用笔记">dtree使用笔记</a>
+      |
+      <a href="/blog/353640" class="pre" title="JUnit4学习小结">JUnit4学习小结</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2009</span><span class='sep_year'>-</span><span class='month'>04</span><span class='sep_month'>-</span><span class='day'>01</span></div>
+    <h3 class='type_original' title='原创'><a href="/blog/358744">struts2采用convention-plugin实现零配置</a></h3>
+                
+  </div>
+
+  <div class="blog_content">
+    <p>最近开始关注struts2的新特性，从这个版本开始，Struts开始使用convention-plugin代替codebehind-plugin来实现struts的零配置。<br>
+配置文件精简了，的确是简便了开发过程，但是，我们熟悉的配置突然disappear了，真是一下很不适应。跟着潮流走吧，看看该怎样来搞定convention-plugin。<br>
+使用Convention插件，你需要将其JAR文件放到你应用的WEB-INF/lib目录中，你也可以在你Maven项目的POM文件中添加下面包依赖</p>
+<pre name="code" class="xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
+  &lt;artifactId&gt;struts2-convention-plugin&lt;/artifactId&gt;
+  &lt;version&gt;2.1.6&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+<p>
+<br><br>
+零配置并不是没有配置，而是通过约定大于配置的方式，大量通过约定来调度页面的跳转而使得配置大大减少。所以，首先应该了解下convention-plugin的约定：<br>
+1.	默认所有的结果页面都存储在WEB-INF/content下，你可以通过设置struts.convention.result.path这个属性的值来改变到其他路径。如：</p>
+<pre name="code" class="xml">&lt;constant name="struts.convention.result.path" value="/WEB-INF/page" /&gt;</pre>
+<p>
+<br>
+则将路径配置到了WEB-INF/page 下。<br>
+2.	默认包路径包含action,actions,struts,struts2的所有包都会被struts作为含有Action类的路径来搜索。你可以通过设置struts.convention.package.locators属性来修改这个配置。如：</p>
+<pre name="code" class="xml">&lt;constant name="struts.convention.package.locators" value="web,action" /&gt;</pre>
+<p>
+<br>
+则定义了在项目中，包路径包含web和action的将被视为Action存在的路径来进行搜索。<br>
+Com.ustb.web.*/com.ustb.action.*都将被视为含有Action的包路径而被搜索。<br>
+3.	接着，Convention从前一步找到的package以及其子package中寻找 com.opensymphony.xwork2.Action 的实现以及以Action结尾的类：</p>
+<pre name="code" class="java">com.example.actions.MainAction
+com.example.actions.products.Display (implements com.opensymphony.xwork2.Action)
+com.example.struts.company.details.ShowCompanyDetailsAction</pre>
+<p>
+<br><br>
+4.	命名空间。从定义的.package.locators标示开始到包结束的部分，就是命名空间。举个例子：<br>
+Com.ustb.web.user.userAction的命名空间是：”/user”。Com.ustb.web.user.detail.UserAction的命名空间是：”/user/detail”<br>
+5.	Convention通过如下规则确定URL的具体资源部分:去掉类名的Action部分。然后将将每个分部的首字母转为小写，用’-’分割，你可以设置struts.convention.action.name.separator 如</p>
+<pre name="code" class="xml">&lt;constant name="struts.convention.action.name.separator" value="-" /&gt;</pre>
+<p>
+<br>
+还是举个例子：<br>
+UserAction-&gt;user  UserDetailAction -&gt;user-detail。结合上面的。对于com.ustb.web.user.detail.UserDetailAction，映射的url就是/WEB-INF/content/user/detail/user-detail.jsp<br>
+6.	struts支持.jsp .html .htm .vm格式的文件。<br>
+下面是actiong和结果模版的映射关系：<strong><br></strong>
+</p>
+<table style="height: 130px;" border="1" width="590" align="left"><tbody>
+<tr>
+<td>
+<strong>URL</strong>
+</td>
+<td>
+<strong>Result <br></strong>
+</td>
+<td>
+<strong>File that could match</strong>
+</td>
+<td>
+<strong>Result Type</strong>
+</td>
+</tr>
+<tr>
+<td>/hello</td>
+<td>success</td>
+<td>/WEB-INF/content/hello.jsp</td>
+<td>Dispatcher</td>
+</tr>
+<tr>
+<td>/hello</td>
+<td>success</td>
+<td>/WEB-INF/content/hello-success.htm	</td>
+<td>Dispatcher</td>
+</tr>
+<tr>
+<td>/hello</td>
+<td>success</td>
+<td>/WEB-INF/content/hello.ftl	</td>
+<td> FreeMarker</td>
+</tr>
+<tr>
+<td>/hello-world</td>
+<td>input</td>
+<td>/WEB-INF/content/hello-world-input.vm</td>
+<td>Velocity</td>
+</tr>
+<tr>
+<td>/test1/test2/hello</td>
+<td>error</td>
+<td>/WEB-INF/content/test/test2/hello-error.html</td>
+<td>Dispatcher</td>
+</tr>
+</tbody></table>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p>以上的内容来自struts2的文档<a href="http://struts.apache.org/2.1.6/docs/convention-plugin.html" target="_blank">http://struts.apache.org/2.1.6/docs/convention-plugin.html</a>
+<a href="http://cwiki.apache.org/WW/convention-plugin.html" target="_blank"></a>
+</p>
+<p> </p>
+<p><br>
+当然，简单的通过默认的方式来进行配置不能完全满足实际项目的需要。所幸，convention的零配置是非常灵活的。<br><strong>通过@Action注释</strong>
+<br>
+对如下例子：</p>
+<pre name="code" class="java">package com.example.web;
+
+import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionSupport; 
+
+public class HelloAction extends ActionSupport {
+    @Action("action1")
+    public String method1() {
+        return SUCCESS;
+    }
+
+    @Action("/user/action2")
+    public String method2() {
+        return SUCCESS;
+}
+}
+
+</pre>
+<p> </p>
+<table style="height: 65px;" border="0" width="640"><tbody>
+<tr>
+<td>
+<strong>方法名</strong>
+</td>
+<td>
+<strong>默认调用路径</strong>
+</td>
+<td>
+<strong>默认映射路径</strong>
+</td>
+</tr>
+<tr>
+<td>
+<span style="font-size: small;">method1</span>
+</td>
+<td>
+<span style="font-size: small;">/hello!method1.action
+.</span>
+</td>
+<td>
+<span style="font-size: small;">/WEB-INF/content/hello.jsp</span>
+</td>
+</tr>
+<tr>
+<td>
+<span style="font-size: small;">method2</span>
+</td>
+<td>
+<span style="font-size: small;">/hello!method2.action.</span>
+</td>
+<td>
+<span style="font-size: small;">/WEB-INF/content/hello.jsp</span>
+</td>
+</tr>
+</tbody></table>
+<p><span style="color: #ff6600;"><span style="text-decoration: underline;">通过@Action注释后</span>
+</span>
+</p>
+<table style="height: 64px;" border="0" width="639"><tbody>
+<tr>
+<td>
+<strong>方法名</strong>
+</td>
+<td>
+<strong>@Action注释后调用路径</strong>
+</td>
+<td>
+<strong>@Action注释</strong>
+<strong>后映射路径</strong>
+</td>
+</tr>
+<tr>
+<td>
+<span style="font-size: small;">method1</span>
+</td>
+<td>
+<span style="font-size: small;">/action1!method1.action.</span>
+ </td>
+<td>
+<span style="font-size: small;">/WEB-INF/content/action1.jsp</span>
+</td>
+</tr>
+<tr>
+<td>
+<span style="font-size: small;">method1</span>
+</td>
+<td>
+<span style="font-size: small;">/user/action2!method2.action</span>
+</td>
+<td>
+<span style="font-size: small;">/WEB-INF/content/user/action2.jsp</span>
+</td>
+</tr>
+</tbody></table>
+<p><br><strong>通过@Actions注释</strong>
+</p>
+<pre name="code" class="java">package com.example.web;
+
+import com.opensymphony.xwork2.ActionSupport; 
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+
+public class HelloAction extends ActionSupport {
+  @Actions({
+    @Action("/different/url"),
+    @Action("/another/url")
+  })
+  public String method1() {
+    return “error”;
+  }</pre>
+<p>
+<br>
+我们可以通过：<span style="font-size: medium;"><strong><span style="color: #008000;"><span style="color: #0000ff;"><span style="font-size: small;"><em>/different/url!method1.action</em>
+</span>
+</span>
+</span>
+</strong>
+或</span>
+<span style="font-size: medium;">
+</span>
+<span style="color: #008000; font-size: small;"><strong><span style="font-size: medium;"><span style="color: #0000ff;"><span style="font-size: small;"><em>/another/url!method1.action</em>
+</span>
+</span>
+</span>
+</strong>
+</span>
+来调用<strong>method1</strong>
+方法。<br>
+对应的映射路径分别是<strong><span style="color: #0000ff; font-size: small;"><em>/WEB-INF/content/different/url-error.jsp; /WEB-INF/content/another/url-error.jsp</em>
+</span>
+<br></strong>
+
+<br>
+可能误导了大家，一个方法被@Action注释后，只是多了一种调用方式，而不是说覆盖了原来的调用方式。比如对于如下例子：</p>
+<pre name="code" class="java">package com.example.web;
+
+import com.opensymphony.xwork2.ActionSupport; 
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+
+public class HelloAction extends ActionSupport {
+  @Action("/another/url")
+  public String method1() {
+    return “error”;
+  }</pre>
+<p>
+<br>
+	我们调用method1方法可以通过两种方式：<br>
+1 <span style="color: #0000ff; font-size: medium;"> <span style="font-size: small;"><strong>/hello!method1.action</strong>
+</span>
+</span>
+<span style="font-size: small;">
+ 映射</span>
+<span style="font-size: small;">url：<strong><span style="color: #0000ff; font-size: small;">/WEB-INF/content/hello-error.jsp</span>
+</strong>
+
+</span>
+<span style="font-size: small;"><br>
+	2</span>
+<span style="font-size: small;"><span style="color: #0000ff;"> </span>
+<span style="font-size: medium;"><strong><span style="color: #0000ff; font-size: small;">/another/url!method1.action</span>
+</strong>
+ </span>
+</span>
+<span style="font-size: small;">
+映射</span>
+<span style="font-size: small;">url：<span style="font-size: small;"><strong><span style="color: #0000ff;">/WEB-INF/content/another/url-error.jsp</span>
+</strong>
+</span>
+</span>
+<br>
+可见，两种方式均可对method1方法进行调用，唯一的区别就是，两种调用的映射是不一样的，所以，想跳转到不同的界面，这是一个非常好的选择。<br><br><br><strong>通过@Namespace 注释</strong>
+</p>
+<pre name="code" class="java">package com.example.web;
+
+import com.opensymphony.xwork2.ActionSupport; 
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+@Namespace("/other")
+public class HelloWorld extends ActionSupport {
+
+  public String method1() {
+    return “error”;
+  }
+	@Action("url")
+  public String method2() {
+return “error”;
+  }
+
+	@Action("/different/url")
+  public String method3() {
+return “error”;
+  }
+}</pre>
+<p>
+<br><br><span style="font-size: small;">通过 <strong><span style="color: #0000ff; font-size: small;">/other/hello-world!method1.action</span>
+</strong>
+</span>
+<span style="font-size: small;">
+访问<strong>method1</strong>
+方法。<br>
+通过</span>
+<strong>
+<span style="font-size: medium;">
+</span>
+<span style="color: #0000ff; font-size: small;">/other/url!method2.action</span>
+</strong>
+
+<span style="font-size: small;">
+访问<strong>method2</strong>
+方法<br>
+通过</span>
+<strong><span style="color: #0000ff; font-size: small;">/different /url!method3.action</span>
+</strong>
+<span style="font-size: small;">
+访问<strong>method3</strong>
+方法</span>
+<br>
+与@Action 注释不同的是，该注释覆盖了默认的namespace(这里是’/’)，此时再用<span style="font-size: small;">hello!method1.action</span>
+已经不能访问<strong>method1</strong>
+了.<br><strong>@Results和@Result</strong>
+<br><strong>1 全局的（global）。</strong>
+<br>
+全局results可以被action类中所有的action分享，这种results在action类上使用注解进行声明。</p>
+<pre name="code" class="java">package com.example.actions;
+
+import com.opensymphony.xwork2.ActionSupport; 
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+@Results({
+  @Result(name="failure", location="/WEB-INF/fail.jsp")
+})
+public class HelloWorld extends ActionSupport {
+  public String method1() {
+    return “failure”;
+  }
+	@Action("/different/url")
+  public String method2() {
+    return “failure”;
+  }
+
+}</pre>
+<p>
+<span style="font-size: small;"><br></span>
+<span style="font-size: small;">当我们访问</span>
+<span style="font-size: small;">
+<strong><span style="color: #0000ff;">
+</span>
+<span style="color: #0000ff;">
+</span>
+<span style="color: #0000ff;">
+</span>
+</strong>
+</span>
+
+<span style="font-size: small;"><strong><span style="color: #0000ff; font-size: small;">/hello</span>
+</strong>
+</span>
+<span style="font-size: small;"><strong><span style="color: #0000ff; font-size: small;">-world</span>
+</strong>
+</span>
+<span style="font-size: small;"><strong><span style="color: #0000ff; font-size: small;">!method1.action</span>
+</strong>
+<span style="font-size: small;">时，返回</span>
+<span style="color: #0000ff; font-size: small;">
+<strong>/WEB-INF/fail.jsp</strong>
+</span>
+<br><span style="font-size: small;">当我们访问</span>
+<strong><span style="color: #0000ff; font-size: small;">/hello</span>
+</strong>
+</span>
+<span style="font-size: small;"><strong><span style="color: #0000ff; font-size: small;">-world</span>
+</strong>
+</span>
+<span style="font-size: small;"><strong><span style="color: #0000ff; font-size: small;">!method2.action</span>
+</strong>
+<span style="font-size: small;">时，返回</span>
+<strong><span style="color: #0000ff; font-size: small;">/WEB-INF/fail.jsp</span>
+</strong>
+
+<br><span style="font-size: small;">当我们访问</span>
+<strong><span style="color: #0000ff; font-size: small;">
+/different/url!method2.action</span>
+</strong>
+<span style="font-size: small;">时，返回</span>
+<strong>
+<span style="color: #0000ff; font-size: small;">/WEB-INF/fail.jsp</span>
+</strong>
+
+</span>
+<br><br><strong>2 本地的（local）。</strong>
+<br>
+本地results只能在action方法上进行声明。</p>
+<pre name="code" class="java">package com.example.actions;
+
+import com.opensymphony.xwork2.ActionSupport; 
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+public class HelloWorld extends ActionSupport {
+	@Action(value="/other/bar",results={@Result(name = "error", location = "www.baidu.com",type="redirect")})
+  public String method1() {
+    return “error”;
+  }
+}</pre>
+<p>
+<br><span style="font-size: small;">当我们调用</span>
+<span style="color: #0000ff; font-size: medium;">
+</span>
+<span style="font-size: small;"><strong><span style="color: #0000ff;">/hello</span>
+</strong>
+</span>
+<span style="font-size: small;"><strong><span style="color: #0000ff; font-size: small;">-world</span>
+</strong>
+</span>
+<span style="font-size: small;"><strong><span style="color: #0000ff;">!method1.action</span>
+</strong>
+</span>
+<span style="font-size: small;">
+时，返回</span>
+<strong><span style="color: #0000ff; font-size: medium;">
+</span>
+<span style="color: #0000ff; font-size: small;">/WEB-INF/content/hello-error.jsp</span>
+</strong>
+
+<span style="font-size: small;"><br></span>
+<span style="font-size: small;">当我们调用</span>
+<strong><span style="font-size: medium;">
+</span>
+<span style="font-size: medium;">
+</span>
+<span style="color: #0000ff; font-size: small;">/other/bar!method1.action</span>
+</strong>
+
+<span style="font-size: small;">
+时，返回</span>
+<span style="font-size: small;"><strong>
+<span>
+</span>
+<span style="color: #0000ff;">www.baidu.com</span>
+</strong>
+</span>
+
+<br><br>
+夜深了，想学习的，靠你们自己了哈……</p>
+<p> </p>
+  </div>
+
+  <div>
+<script type="text/javascript">
+google_ad_client = "pub-9971846879634397";
+google_ad_slot = "8644581328";
+google_ad_width = 468;
+google_ad_height = 60;
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+  
+  
+  
+  
+    
+  <div class="blog_bottom">
+    <ul>
+      <li>09:36</li>
+      <li>浏览 (1311)</li>
+            <li><a href="#comments">评论</a> (4)</li>
+      <li>分类: <a href="/category/39839">JavaEE</a></li>
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=struts2%E9%87%87%E7%94%A8convention-plugin%E5%AE%9E%E7%8E%B0%E9%9B%B6%E9%85%8D%E7%BD%AE&amp;user_favorite%5Burl%5D=http%3A%2F%2Fjaveye.javaeye.com%2Fblog%2F358744' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/358744" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc1105858">
+  <div class="comment_title">
+    4 楼
+    <a href='http://ytsolar.javaeye.com' target='_blank'>ytsolar</a>
+    2009-07-27&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1105858);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">其实我自己感觉，要是在action中用到这些注释，反而把这个东西搞复杂了，还不如不用convention-plugin，本来用这个东西要的就是简单明了，约定胜于配置，可要是这些注释被滥用了，那估计比以前老的方式还复杂多了</div>
+</div>
+<div id="bc1105814">
+  <div class="comment_title">
+    3 楼
+    <a href='http://ytsolar.javaeye.com' target='_blank'>ytsolar</a>
+    2009-07-27&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(1105814);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">居然google搜到你这篇文章。。。<br /><br />还写得这么详细，我先看会儿</div>
+</div>
+<div id="bc949202">
+  <div class="comment_title">
+    2 楼
+    <a href='http://javeye.javaeye.com' target='_blank'>javeye</a>
+    2009-04-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(949202);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><div class="quote_title">caiceclb 写道</div><div class="quote_div"><br />你好，我也在研究convention，那你有没有想过遇到http://javeye.javaeye.com/blog/358744类似这样的URL如何来匹配呢？358744这个好比是id参赛一样，很难匹配到的。<br /></div><br />我也是刚开始学习这个东西，对你说的这种情况，的确还没有考虑过，struts有一个config-browser的插件，可以非常清楚的看见每个action的调用方式和映射的url结果，你可以安装后看一下。<a href="http://struts.apache.org/2.1.6/docs/config-browser-plugin.html" target="_blank">http://struts.apache.org/2.1.6/docs/config-browser-plugin.html</a></div>
+</div>
+<div id="bc949028">
+  <div class="comment_title">
+    1 楼
+    <a href='http://caiceclb.javaeye.com' target='_blank'>caiceclb</a>
+    2009-04-01&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(949028);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">你好，我也在研究convention，那你有没有想过遇到http://javeye.javaeye.com/blog/358744类似这样的URL如何来匹配呢？358744这个好比是id参赛一样，很难匹配到的。</div>
+</div>
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://javeye.javaeye.com'><img alt="javeye的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/87207/60f91ddb-78d8-3dbf-96bf-364d7f090b32.jpg?1237869116" title="javeye的博客: 吾生也有涯，而知也无涯" /></a></div>
+            <div id="blog_owner_name">javeye</div>
+          </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 12990 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 北京</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=javeye" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=javeye" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="frankswu的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div>
+                  <div class="left"><a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://dewell.javaeye.com' target='_blank'><img alt="dewell的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="dewell的博客: dewell" /></a></div>
+                  <div class="left"><a href='http://dewell.javaeye.com' target='_blank'>dewell</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://hanting99.javaeye.com' target='_blank'><img alt="hanting99的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="hanting99的博客: hanting99" /></a></div>
+                  <div class="left"><a href='http://hanting99.javaeye.com' target='_blank'>hanting99</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://insomnia-moto.javaeye.com' target='_blank'><img alt="insomnia_moto的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="insomnia_moto的博客: " /></a></div>
+                  <div class="left"><a href='http://insomnia-moto.javaeye.com' target='_blank'>insomnia_moto</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (29)</a></li>
+                
+                  <li><a href="/category/39839">JavaEE (9)</a></li>
+                
+                  <li><a href="/category/39840">RCP (10)</a></li>
+                
+                  <li><a href="/category/43530">CoreJava (2)</a></li>
+                
+                  <li><a href="/category/59502">JUnit (1)</a></li>
+                
+              </ul>
+            </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (1)</li>
+                                                <li><a href="/blog/forum">我的论坛帖子</a> (4)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://www.blogjava.net/chengang" target="_blank">子在川上曰——陈刚</a></li>
+                  
+                    <li><a href="http://calvin.javaeye.com/" target="_blank">花钱的年华——江南白衣</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-08">2009-08</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-06">2009-06</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-04">2009-04</a> (1)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/358744#comments" title="struts2采用convention-plugin实现零配置">struts2采用convention-p ...</a><br/>
+                    其实我自己感觉，要是在action中用到这些注释，反而把这个东西搞复杂了，还不如不 ...<br/>
+                    -- by <a href='http://ytsolar.javaeye.com' target='_blank'>ytsolar</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/358744#comments" title="struts2采用convention-plugin实现零配置">struts2采用convention-p ...</a><br/>
+                    居然google搜到你这篇文章。。。还写得这么详细，我先看会儿<br/>
+                    -- by <a href='http://ytsolar.javaeye.com' target='_blank'>ytsolar</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/353640#comments" title="JUnit4学习小结">JUnit4学习小结</a><br/>
+                    ytsolar 写道全哥原来对测试也这么有研究啊我很想念你！lc有事干了，没 ...<br/>
+                    -- by <a href='http://javeye.javaeye.com' target='_blank'>javeye</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/353640#comments" title="JUnit4学习小结">JUnit4学习小结</a><br/>
+                    全哥原来对测试也这么有研究啊<br/>
+                    -- by <a href='http://ytsolar.javaeye.com' target='_blank'>ytsolar</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/230682#comments" title="RCP中view大小的设置">RCP中view大小的设置</a><br/>
+                    請問能IFolderLayout 　　做最大化及最小化嗎<br/>
+                    -- by <a href='http://j202036.javaeye.com' target='_blank'>j202036</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/358744" title="struts2采用convention-plugin实现零配置">struts2采用convention-plugin实现零配置</a></li>
+                
+                  <li><a href="/blog/242787" title="RCP中采用actionSet配置菜单的方法总结">RCP中采用actionSet配置菜单的方法总结</a></li>
+                
+                  <li><a href="/blog/353640" title="JUnit4学习小结">JUnit4学习小结</a></li>
+                
+                  <li><a href="/blog/230682" title="RCP中view大小的设置">RCP中view大小的设置</a></li>
+                
+                  <li><a href="/blog/241196" title="RCP中采用配置perspectiveExtensions方式配置view的方法介绍">RCP中采用配置perspectiveExtensions方式 ...</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://javeye.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://javeye.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://javeye.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>

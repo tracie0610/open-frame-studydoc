@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Language" content="UTF-8" />
+	<meta name="robots" content="all" />
+	<meta name="author" content="seekroad@163.com,夜空寂灭" />
+	<meta name="Copyright" content="星夜下。。。 CopyRight 2008" />
+	<meta name="keywords" content="FusionCharts,参数,SeekRoad Studio,火种,srspark,思路,康少,夜空" />
+	<meta name="description" content="今天刚把调用FusionCharts的代码封装好<br/><br/>还测试了一下，去除了查数据库返回空的bug<br/><br/>打算好好整理一下FusionCharts的各项参数使用效果" />
+	<meta name="generator" content="PJBlog3" />
+	<link rel="service.post" type="application/atom+xml" title="星夜下。。。 - Atom" href="http://www.ykjm.net/xmlrpc.asp" />
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.ykjm.net/rsd.asp" />
+	<title>FusionCharts的参数使用 - 星夜下。。。</title>
+
+	
+	<link rel="alternate" type="application/rss+xml" href="http://www.ykjm.net/feed.asp?cateID=5" title="订阅 星夜下。。。 - 学习笔记 所有文章(rss2)" />
+	<link rel="alternate" type="application/atom+xml" href="http://www.ykjm.net/atom.asp?cateID=5"  title="订阅 星夜下。。。 - 学习笔记 所有文章(atom)"  />
+	
+	
+	<link rel="stylesheet" rev="stylesheet" href="mods/css/MyStyles.css" type="text/css" media="all" /><!--自定义样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/YeKongJM1/global.css" type="text/css" media="all" /><!--全局样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/YeKongJM1/layout.css" type="text/css" media="all" /><!--层次样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/YeKongJM1/typography.css" type="text/css" media="all" /><!--局部样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/YeKongJM1/link.css" type="text/css" media="all" /><!--超链接样式表-->
+	<link rel="stylesheet" rev="stylesheet" href="skins/YeKongJM1/UBB/editor.css" type="text/css" media="all" /><!--UBB编辑器代码-->
+	<link rel="stylesheet" rev="stylesheet" href="FCKeditor/editor/css/Dphighlighter.css" type="text/css" media="all" /><!--FCK块引用&代码样式-->
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<script type="text/javascript" src="common/common.js"></script>
+	<script type="text/javascript" src="mods/js/MyJs.js"></script><!--自定义JS函数-->
+	<script type="text/javascript" src="common/ajax.js"></script>
+	<script type="text/javascript" src="common/AjaxRequest.js"></script>
+	<script type="text/javascript" src="common/Action.js"></script>
+	<!--<script type="text/javascript" src="common/nicetitle.js"></script>-->
+	<style type="text/css"> 
+		.ownerClassLog{display:none}
+		.ownerClassComment{display:none;}
+		/*全局的提示框样式*/
+		h5.tips{
+			background:#FFCC00;border:1px solid #FFCC00;background-image:url(images/bg_tips.png);color:#990000;padding:3px;margin:0;font-size:13px
+		}
+		h5.tips img{
+			border:0;background:transparent none !important;
+		}
+		.tips_body{
+			background:#FFFFCC;border:1px solid #FFCC00;padding:4px;
+		}
+		.tips_body form{
+			margin:0;
+		}
+		.tips_body a:link,.tips_body a:visited,.tips_body a:hover{
+			color:#990000;
+		}
+		.tips_body .input{
+			height:17px;
+			border:1px solid #BD5B21
+		}
+		.tips_body .hints{
+				margin:3px 0 0 3px;
+				padding:2px 2px 2px 18px;
+				background:url(images/notify.gif) no-repeat left 4px
+		}
+		.tips_body .error{
+			border:1px solid #CC0033;
+			padding:1px 3px 1px 21px;
+			color:#990000;
+			margin-bottom:2px;
+			background:#FF9F88 url(images/tips.gif) no-repeat 3px 4px
+		}
+	</style>
+</head>
+<body onLoad="initJS()" onkeydown="PressKey()">
+<div id="loader">
+<img style="margin:3px 0px -3px 5px;" src="mods/images/page_loading.gif" />页面用力 o&gt;﹏&lt;o  加载中...<br>
+</div>
+<a href="default.asp" accesskey="i"></a>
+<a href="javascript:history.go(-1)" accesskey="z"></a>
+
+ <div id="container">
+ <!--顶部-->
+  <div id="header">
+   <div id="blogname">星夜下。。。
+    <div id="blogTitle">有些事情本身我们无法控制，只好控制自己</div>
+   </div>
+   		<div id="menu"><div id="Left"></div><div id="Right"></div><ul><li class="menuL"></li><li><a class="menuA" href="default.asp" title="日志首页">首页</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=3" title="收集技术[SQL][ASP][JavaScript]">技术专区</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=4" title="设计技巧、教程及推荐展示">平面设计</a></li><li class="menuDiv"></li><li><a class="menuA menuB" href="default.asp?cateID=5" title="学习过程的一点点记录～">学习笔记</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=6" title="夜空的作品哦，给点意见啊～">夜空作品</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=8" title="你应该知道的东东～">知识积累</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=9" title="可助你高效完成一些事情的东西～">技巧收集</a></li><li class="menuDiv"></li><li><a class="menuA" href="default.asp?cateID=10" title="杂七杂八东西一大堆～">杂七杂八</a></li><li class="menuDiv"></li><li><a class="menuA" href="tag.asp" title="关键词">标签</a></li><li class="menuR"></li></ul></div>
+  </div>
+
+ <!--内容-->
+  <div id="Tbody">
+  <div id="mainContent">
+   <div id="innermainContent">
+       <div id="mainContent-topimg"></div>
+	   <div id="Content_SRS_CopyRight" class="content-width">
+	<script defer>
+	document.body.oncopy=new Function("setTimeout(addDataToArticleEnd,300);");
+	document.oncopy=new Function("setTimeout(addDataToArticleEnd,300);");
+	function addDataToArticleEnd(){
+	  var d = window.clipboardData.getData('Text');
+	  window.clipboardData.setData('Text',d+"\r\n原文网址："+document.location.href+"");
+	}
+	function addDataToParagraphEnd(){
+	  var d = window.clipboardData.getData('Text');
+	  d=d.replace(/\r\n/g,"原文网址："+document.location.href+"\r\n");
+	  if(d.charAt(d.length-1)!='\n')
+	    d=d+"\r\n原文网址："+document.location.href+"";
+	  window.clipboardData.setData('Text',d);
+	}
+	function couldNotCopyArticle(){
+	  window.clipboardData.setData('Text',"原文网址："+document.location.href+"");
+	}
+	function doNothing(){
+	}
+	</script>
+  </div><div id="Content_SRS_Sign" class="content-width">
+<script language="javascript">
+_VC_DocumentTitles = new Array('生活的理想，就是为了理想的生活','好好扮演自己的角色，做自己该做的事','心有多大，舞台就有多大','人生的真理，只是藏在平淡无味之中','想像力比知识更重要','每一种创伤，都是一种成熟','激情是成功的必要前提!!','记住该访住的事，忘掉该忘掉的人','越学习,就越发现自己无知','凡事皆有代价，快乐的代价便是痛苦','工作是一种乐趣','爱情, 原来是含笑饮毒酒','年轻就是无限的可能','追求自我的突破','记住该记住的 忘记该忘记的','只要开始，虽晚不迟！','有些事情本身我们无法控制，只好控制自己','经验是由痛苦中粹取出来的','明天的希望，让我们忘了今天的痛苦','发光并非太阳的专利，你也可以发光','你可以用爱得到全世界，你也可以用恨失去全世界','年轻是我们唯一拥有权利去编织梦想的时光','人的价值，在遭受诱惑的一瞬间被决定','有希望在的地方，痛苦也成欢乐','少一点预设的期待，那份对人的关怀会更自在','人只要不失去方向，就不会失去自己');
+_VC_DocumentTitleId = Math.floor(Math.random()*_VC_DocumentTitles.length);
+document.getElementById("blogTitle").innerText =_VC_DocumentTitles[_VC_DocumentTitleId];
+</script>
+<style type=text/css>#container #header #blogname #blogTitle{padding:10px 0px 0px 0px;font-size:12px;height:20px;color:#fff;visibility:;}</style>
+</div><div id="Content_SRS_Attachment" class="content-width">
+<script language="javascript">
+var SRSAttachXMLHttp={p:[],g:function(){for(var i=0;i<this.p.length;i++){if(this.p[i].readyState==0||this.p[i].readyState==4){return this.p[i];}}this.p[this.p.length]=this.c();return this.p[this.p.length-1];},c:function(){if(window.XMLHttpRequest){var o=new XMLHttpRequest();}else{var m=['MSXML2.XMLHTTP.5.0','MSXML2.XMLHTTP.4.0','MSXML2.XMLHTTP.3.0','MSXML2.XMLHTTP','Microsoft.XMLHTTP'];for(var n=0;n<m.length;n++){try{var o=new ActiveXObject(m[n]);break;}catch(e){}}}if(o.readyState==null){o.readyState=0;o.addEventListener("load",function(){o.readyState=4;if(typeof o.onreadystatechange=="function"){o.onreadystatechange();}},false);}return o;},sendReq:function(mt,u,d,b){var o=this.g();with(o){try{if(u.indexOf("?")>0){u+="&randnum="+Math.random();}else{u+="?randnum="+Math.random();}open(mt,u,true);setRequestHeader('Content-Type','application/x-www-form-urlencoded; charset=UTF-8');send(d);onreadystatechange=function(){if(o.readyState==4&&(o.status==200||o.status==304)){b(o.responseText);}}}catch(e){alert(e);}}}};
+function getSRSAttach(id){
+document.getElementById("SRSAttachCount"+id).innerHTML = '[<img src="Plugins/SRS_Attachment/srsaloading.gif" alt="下载文件" style="margin:0px 2px -4px 0px"/>附件信息Loading...]';
+url="Plugins/SRS_Attachment/getSRSAttach.asp?id="+id;
+SRSAttachXMLHttp.sendReq('GET',url,'',updateSRSAttMessage);
+}function updateSRSAttMessage(str){
+var SRSAttachArr=str.split("|");
+document.getElementById("SRSAttachCount"+SRSAttachArr[0]).innerHTML=SRSAttachArr[1];}
+</script></div>        
+			<div id="Content_ContentList" class="content-width"><a name="body" accesskey="B" href="#body"></a>
+				<div class="pageContent">
+					<div style="float:right;width:auto"><a href="?id=269" title="上一篇日志: 网页图表之FusionCharts的使用" accesskey=","><img border="0" src="images/Cprevious.gif" alt=""/>上一篇</a> | <a href="?id=271" title="下一篇日志: 基于FusionCharts Free v2.1的调用封装   " accesskey="."><img border="0" src="images/Cnext.gif" alt=""/>下一篇</a></div> 
+					<img src="images/icons/3.gif" style="margin:0px 2px -4px 0px" alt=""/> <strong><a href="default.asp?cateID=5" title="查看所有学习笔记的日志">学习笔记</a></strong> <a href="feed.asp?cateID=5" target="_blank" title="订阅所有学习笔记的日志" accesskey="O"><img border="0" src="images/rss.png" alt="订阅所有学习笔记的日志" style="margin-bottom:-1px"/></a>
+				</div>
+				<div class="Content">
+					<div class="Content-top"><div class="ContentLeft"></div><div class="ContentRight"></div>
+					<h1 class="ContentTitle"><strong>FusionCharts的参数使用</strong></h1>
+					<h2 class="ContentAuthor">作者:夜空寂灭 日期:2009-07-29</h2>
+				</div>
+			    <div class="Content-Info">
+					<div class="InfoOther">字体大小: <a href="javascript:SetFont('12px')" accesskey="1">小</a> <a href="javascript:SetFont('14px')" accesskey="2">中</a> <a href="javascript:SetFont('16px')" accesskey="3">大</a></div>
+					<div class="InfoAuthor"><img src="images/weather/hn2_sunny.gif" style="margin:0px 2px -6px 0px" alt=""/><img src="images/weather/hn2_t_sunny.gif" alt=""/> <img src="images/level3.gif" style="margin:0px 2px -1px 0px" alt=""/></div>
+				</div>
+				<div id="logPanel" class="Content-body">
+<script type="text/JavaScript"> 
+/* 『星夜下』内容页面顶部图片文字广告 */
+alimama_pid="mm_10569080_1543881_6586772"; 
+alimama_titlecolor="0000FF"; 
+alimama_descolor ="000000"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="E6E6E6"; 
+alimama_linkcolor="008000"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="4"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="14"; 
+alimama_width=728; 
+alimama_height=90; 
+alimama_type=2; 
+</script> 
+<script src="http://a.alimama.cn/inf.js" type=text/javascript> 
+</script><br>
+					今天刚把调用FusionCharts的代码封装好<br/><br/>还测试了一下，去除了查数据库返回空的bug<br/><br/>打算好好整理一下FusionCharts的各项参数使用效果<br/><br/>却发现，原来FusionCharts已经更新到v3 了……<br/><br/>好在只是一下标签换了个名，其他没大的变化，修改起来还是很简单的<br/><br/><div class="UBBPanel quotePanel"><div class="UBBTitle"><img src="images/quote.gif" style="margin:0px 2px -3px 0px" alt="引用内容"/> 引用内容</div><div class="UBBContent"><strong>FusionCharts v2.3升级到FusionCharts v3的方法</strong><br/><br/>本节的目的是为用户谁实施FusionCharts v2.3在他们的应用，而现在升级到v3的。 <br/><br/>我们已努力使FusionCharts v3的是向后兼容的。实际上，这意味着您只需过度收件您现有v2.3 SWF文件的新v3的SWF文件，他们仍然可以以同样的方式工作，而不引起任何变化的XML 。然而，可能会有轻微的差别在期待新的图表，因为我们试过，以提高期待在v3的。 <br/><br/>升级FusionCharts v2.3到v3的图表上，所有你需要做的是： <br/><br/>取代v2.3的SWF新v3的SWF文件（在下载包“图文件夹中） 。 <br/>重新命名的v3的SWF文件使用旧的SWF的名字v2.3或更新您的代码，就可以使用新的SWF的名字。 <br/>清除浏览器缓存。 <br/>&nbsp;&nbsp;<br/>上述进程不会自动使图表使用所有的新功能介绍v3的。要做到这一点，你需要添加相应的v3的元素/属性中的XML文件。 <br/>&nbsp;&nbsp; <br/>改变行为 <br/>很少有改变行为从v2.3到v3的列举如下： <br/><br/>根元素的XML数据文件已改为&lt;graph&gt;以&lt;chart&gt; 。然而， &lt;graph&gt;因素仍将继续努力，从旧的XML文件。但是，我们建议您使用&lt;chart&gt;元素的任何新的图表，你现在。 <br/>&lt;set name='' ...&gt;已变更为&lt;set label=''&gt;更好的解释。 &lt;set name=''&gt;仍将继续努力，为了向后兼容，但我们建议您使用&lt;set label=''&gt;现在。 <br/>同样， &lt;category name='' ...&gt;已变更为&lt;category label='' ...&gt; 。 <br/>showNames和rotateNames属性&lt;chart&gt;元现在showLabels和rotateLabels分别。 <br/>hoverText属性转换为toolText 。此外， toolText现在显示的确切信息的提供，从而不增加属性数据值的一部分提示。 <br/>vDivLines和纵向网格颜色不支持律师和列图表任何更多，纵向分隔线路已经推出。 <br/>开发商谁是URLEncoding的字符dataURL模式不必这样做了。 <br/>现在管理showYAxisValues属性都showLimits和showDivLineValues 。 <br/>showAnchors属性更名为drawAnchors <br/>双Y轴图表，数字格式内容（如numberPrefix ， numberSuffix等） ，现在提供的属性&lt;chart&gt;元素不是&lt;dataset&gt;元素。<br/></div></div><br/><br/>还有FusionCharts的参数的详细说明： <a href="http://www.fusioncharts.com/FileMaker/fdocs/Contents/QS/QSFChartParams.html" target="_blank" rel="external">http://www.fusioncharts.com/FileMaker/fdocs/Contents/QS/QSFChartParams.html</a><br/><br/>有很多图片，比较容易理解参数表示的位置：<br/><a href="http://www.blogjava.net/daozhanga/archive/2009/03/23/261415.html" target="_blank" rel="external">http://www.blogjava.net/daozhanga/archive/2009/03/23/261415.html</a><br/><br/>以下是我整理出来的：（比英文版的多几个，看了半天e文，头晕眼花的）<br/><br/><strong>功能特性</strong><br/>animation&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否动画显示数据，默认为1(True)<br/>showNames&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否显示横向坐标轴(x轴)标签名称<br/>rotateNames&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否旋转显示标签，默认为0(False):横向显示<br/>showValues&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否在图表显示对应的数据值，默认为1(True)<br/>yAxisMinValue&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;指定纵轴(y轴)最小值，数字<br/>yAxisMaxValue &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;指定纵轴(y轴)最小值，数字<br/>showLimits&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否显示图表限值(y轴最大、最小值)，默认为1(True)<br/><br/><strong>图表标题和轴名称</strong> <br/>caption&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表主标题<br/>subCaption&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表副标题<br/>xAxisName&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;横向坐标轴(x轴)名称<br/>yAxisName&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;纵向坐标轴(y轴)名称<br/><br/><strong>图表和画布的样式</strong><br/>bgColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表背景色，6位16进制颜色值<br/>canvasBgColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;画布背景色，6位16进制颜色值<br/>canvasBgAlpha&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;画布透明度，[0-100]<br/>canvasBorderColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;画布边框颜色，6位16进制颜色值<br/>canvasBorderThickness&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;画布边框厚度，[0-100]<br/>shadowAlpha&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;投影透明度，[0-100]<br/>showLegend&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否显示系列名，默认为1(True)<br/><br/><strong>字体属性</strong><br/>baseFont&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表字体样式<br/>baseFontSize&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表字体大小<br/>baseFontColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表字体颜色，6位16进制颜色值<br/>outCnvBaseFont&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表画布以外的字体样式<br/>outCnvBaseFontSize&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表画布以外的字体大小<br/>outCnvBaseFontColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;图表画布以外的字体颜色，6位16进制颜色值<br/><br/><strong>分区线和网格</strong><br/>numDivLines&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;画布内部水平分区线条数，数字<br/>divLineColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;水平分区线颜色，6位16进制颜色值<br/>divLineThickness&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;水平分区线厚度，[1-5]<br/>divLineAlpha&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;水平分区线透明度，[0-100]<br/>showAlternateHGridColor&#160;&#160;&#160;&#160;是否在横向网格带交替的颜色，默认为0(False)<br/>alternateHGridColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;横向网格带交替的颜色，6位16进制颜色值<br/>alternateHGridAlpha&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;横向网格带的透明度，[0-100]<br/>showDivLineValues&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否显示Div行的值，默认？？<br/>numVDivLines&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;画布内部垂直分区线条数，数字<br/>vDivLineColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;垂直分区线颜色，6位16进制颜色值<br/>vDivLineThickness&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;垂直分区线厚度，[1-5]<br/>vDivLineAlpha&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;垂直分区线透明度，[0-100]<br/>showAlternateVGridColor&#160;&#160;&#160;&#160;是否在纵向网格带交替的颜色，默认为0(False)<br/>alternateVGridColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;纵向网格带交替的颜色，6位16进制颜色值<br/>alternateVGridAlpha&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;纵向网格带的透明度，[0-100]<br/><br/><strong>数字格式</strong><br/>numberPrefix&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;增加数字前缀<br/>numberSuffix&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;增加数字后缀&#160;&#160;&#160;&#160;% 为 '%25'<br/>formatNumberScale&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否格式化数字,默认为1(True),自动的给你的数字加上K（千）或M（百万）；若取0,则不加K或M<br/>decimalPrecision&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;指定小数位的位数，[0-10]&#160;&#160;&#160;&#160;例如：='0' 取整<br/>divLineDecimalPrecision&#160;&#160;&#160;&#160;指定水平分区线的值小数位的位数，[0-10]<br/>limitsDecimalPrecision&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;指定y轴最大、最小值的小数位的位数，[0-10]<br/>formatNumber&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;逗号来分隔数字(千位，百万位),默认为1(True)；若取0,则不加分隔符<br/>decimalSeparator&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;指定小数分隔符,默认为'.'<br/>thousandSeparator&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;指定千分位分隔符,默认为','<br/><br/><strong>Tool-tip/Hover标题</strong><br/>showhovercap&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;是否显示悬停说明框，默认为1(True)<br/>hoverCapBgColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;悬停说明框背景色，6位16进制颜色值<br/>hoverCapBorderColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;悬停说明框边框颜色，6位16进制颜色值<br/>hoverCapSepChar&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;指定悬停说明框内值与值之间分隔符,默认为','<br/><br/><strong>折线图的参数</strong><br/>lineThickness&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;折线的厚度<br/>anchorRadius&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;折线节点半径，数字<br/>anchorBgAlpha&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;折线节点透明度，[0-100]<br/>anchorBgColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;折线节点填充颜色，6位16进制颜色值<br/>anchorBorderColor&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;折线节点边框颜色，6位16进制颜色值<br/><br/><strong>Set标签使用的参数</strong><br/>value&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;数据值<br/>color&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;颜色<br/>link&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;链接（本窗口打开[Url]，新窗口打开[n-Url]，调用JS函数[JavaScript:函数]）<br/>name&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;横向坐标轴标签名称
+					<script language="javascript">var g_logID='270';</script><script language="JavaScript" src="Plugins/mood/mood.js"></script>
+					<br/><br/><br/>
+				</div>
+				<div class="Content-body">
+					[本日志由 夜空寂灭 于 2009-07-29 05:29 PM 编辑]<br/>
+<script type="text/JavaScript"> 
+/* 『星夜下』内容页面底部文字链 */
+alimama_pid="mm_10569080_1543881_6586758"; 
+alimama_type="f";
+alimama_sizecode ="tl_2x5_8"; 
+alimama_fontsize=12; 
+alimama_bordercolor="FFFFFF"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_titlecolor="0000FF"; 
+alimama_underline=0; 
+alimama_height=42; 
+alimama_width=0; 
+</script> 
+<script src="http://a.alimama.cn/inf.js" type=text/javascript> 
+</script><br>
+					<img src="images/From.gif" style="margin:0px 2px -4px 0px" alt=""/><strong>文章来自:</strong> <a href="http://www.ykjm.net/" target="_blank">本站原创</a><br/>
+					<img src="images/icon_trackback.gif" style="margin:4px 2px -4px 0px" alt=""/><strong>引用通告:</strong> <a href="trackback.asp?tbID=270&amp;action=view" target="_blank">查看所有引用</a> | <a href="javascript:;" title="获得引用文章的链接" onclick="getTrackbackURL(270)">我要引用此文章</a><br/>
+					<img src="images/tag.gif" style="margin:4px 2px -4px 0px" alt=""/><strong>Tags:</strong> <a href="default.asp?tag=FusionCharts">FusionCharts</a> <a href="default.asp?tag=%E5%8F%82%E6%95%B0">参数</a> <br/>
+					<img src="images/tag.gif" style="margin:4px 2px -4px 0px" alt=""/><strong>相关日志:</strong>
+                    <div class="Content-body" id="wbc_tag"></div>
+                    <script language="javascript" type="text/javascript">check('Getarticle.asp?id=270&blog_postFile=1','wbc_tag','wbc_tag')</script>
+				</div>
+				<div class="Content-bottom"><div class="ContentBLeft"></div><div class="ContentBRight"></div>评论: 0 | <a href="trackback.asp?tbID=270&amp;action=view" target="_blank">引用: 0</a> | 查看次数: 43</div>
+			</div>
+		</div>
+<a name="comm_top" href="#comm_top" accesskey="C"></a>
+<div id="MsgContent" style="width:94%;"><div id="MsgHead">发表评论</div><div id="MsgBody">
+
+		      <script type="text/javascript">
+		      		function checkCommentPost(){
+		      			if (!CheckPost) return false
+						// 备用方法
+		      			return true
+		      		}
+		      </script>
+		      <form name="frm" action="blogcomm.asp" method="post" onsubmit="return checkCommentPost()" style="margin:0px;">	  
+			  <table width="100%" cellpadding="0" cellspacing="0">	  
+			  <tr><td align="right" width="70"><strong>昵　称:</strong></td><td align="left" style="padding:3px;"><input name="username" type="text" size="18" class="userpass" maxlength="24" onmouseover="this.select();"/><script type="text/javascript">getSRSPasser(document.frm.username);</script></td></tr>
+		      <tr><td align="right" width="70"><strong>密　码:</strong></td><td align="left" style="padding:3px;"><input name="password" type="password" size="18" class="userpass" maxlength="24"/> 游客发言不需要密码.</td></tr>
+			  <tr><td align="right" width="70" valign="top"><strong>内　容:</strong><br/>
+			  </td><td style="padding:2px;">
+			   <script language="javascript" type="text/javascript" src="common/UBBCode.js"></script><script language="javascript" type="text/javascript" src="common/UBBCode_help.js"></script><div id="UBBSmiliesPanel" class="UBBSmiliesPanel"></div><textarea id="editMask" class="editTextarea" style="width:99%;height:100px" onfocus="loadUBB('Message')"></textarea><div id="editorbody" style="display:none"><div id="editorHead">正在加载编辑器...</div><div class="editorContent"><textarea name="Message" class="editTextarea" style="height:150px;;" cols="1" rows="1" accesskey="R"></textarea></div></div><script language="javascript" type="text/javascript">initUBB("Message")</script>
+			  </td></tr>
+			  <tr><td align="right" width="70"><strong>验证码:</strong></td><td align="left" style="padding:3px;"><input name="validate" type="text" size="4" class="userpass" maxlength="4" onfocus="this.select()"/> <span>= 4 + 15</span></td></tr>
+			  <tr><td align="right" width="70" valign="top"><strong>选　项:</strong></td><td align="left" style="padding:3px;">
+		             <label for="label5"><input name="log_DisSM" type="checkbox" id="label5" value="1" />禁止表情转换</label>
+		             <label for="label6"><input name="log_DisURL" type="checkbox" id="label6" value="1" />禁止自动转换链接</label>
+		             <label for="label7"><input name="log_DisKey" type="checkbox" id="label7" value="1" />禁止自动转换关键字</label>
+			  </td></tr>
+		          <tr>
+		            <td colspan="2" align="center" style="padding:3px;">
+					  <input name="logID" type="hidden" value="270"/>
+		              <input name="action" type="hidden" value="post"/>
+					  <input name="submit2" type="submit" class="userbutton" value="发表评论" accesskey="S"/>
+		              <input name="button" type="reset" class="userbutton" value="重写"/></td>
+		          </tr>
+		          <tr>
+		            <td colspan="2" align="right" >
+					 
+					 	虽然发表评论不用注册，但是为了保护您的发言权，建议您<a href="register.asp">注册帐号</a>. <br/>
+					 
+			  字数限制 <b>1000 字</b> |
+			  UBB代码 <b>开启</b> |
+			  [img]标签 <b>关闭</b>
+		
+					</td>
+		          </tr>		  
+			  </table></form>
+	</div></div><br/>
+       <div id="mainContent-bottomimg"></div>
+   </div>
+   </div>
+   
+   <div id="sidebar">
+	   <div id="innersidebar">
+		     <div id="sidebar-topimg"><!--工具条顶部图象--></div>
+			  <div id="Side_ArticleVote" class="sidepanel"><h4 class="Ptitle">Article Grade</h4><div class="Pcontent">给当前日志评分:<div id="voteDiv" style="MARGIN:3px 3px 0px 24px"><img src="Plugins/ArticleVote/sendVote.gif" border="0" alt="Loading Vote"/></div><div id="voteInfo" style="margin-top:6px;height:32px">正在读取评分信息...</div><script src="Plugins/ArticleVote/vote.js" type="text/javascript"></script><script type="text/javascript">var LogID='270';var voteStar=document.getElementById("voteDiv");function AddArticleVote(){  var e;  e=document.createElement("script");  e.type="text/javascript";  e.language="javascript";  e.src="Plugins/ArticleVote/vote.asp?LogID=270&action=show&s=" + Math.random();  document.getElementsByTagName("head")[0].appendChild(e);};window.setTimeout("AddArticleVote()",1000)</script></div><div class="Pfoot"></div></div><div id="Side_AlimamaAD" class="sidepanel"><h4 class="Ptitle">淘宝搜索</h4><div class="Pcontent"><div style="width:215px; margin-left:-7px;overflow: hidden;">
+<div style="width:215px; margin-left:-5px; overflow: hidden;">
+<!--taobao搜索栏--><script type='text/javascript'>
+alimama_pid='mm_10569080_0_0';
+alimama_type='g';
+alimama_tks={};
+alimama_tks.style_i=2;
+alimama_tks.lg_i=0;
+alimama_tks.w_i=249;
+alimama_tks.h_i=57;
+alimama_tks.btn_i=2;
+alimama_tks.txt_s='';
+alimama_tks.hot_i=1;
+alimama_tks.hc_c='#999999';
+alimama_tks.c_i=0;
+alimama_tks.cid_i=0;
+</script>
+<script type='text/javascript' src='http://a.alimama.cn/inf.js'></script><!--taobao搜索栏--></div></div>
+<div style="width:210px; margin-left:-3px; overflow: hidden;">
+<div width="100" style="float:left;"><!--『星夜下』侧边栏广告位100x100-->
+<script type="text/JavaScript"> 
+alimama_pid="mm_10569080_1543881_5294977"; 
+alimama_titlecolor="0000FF"; 
+alimama_descolor ="000000"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="E6E6E6"; 
+alimama_linkcolor="008000"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="4"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="42"; 
+alimama_width=100; 
+alimama_height=100; 
+alimama_type=2; 
+</script><script src="http://a.alimama.cn/inf.js" type=text/javascript></script>
+<!--『星夜下』侧边栏广告位100x100--></div>
+<div width="100" style="float:left;margin:0 0 0 5px;text-align:center"><!--主题推广--><a href="http://cam.taoke.alimama.com/event.php?pid=mm_10569080_0_0&eventid=100204" target="_blank"><img src='http://img.alimama.cn/topicfile/2009-01-09/123146947837918.gif' border="0"></a><!--主题推广--></div>
+<!--推广店铺--><div width="210" style="margin:5px 0 0 0;text-align:center;clear:both;"><a href="http://s.click.alimama.com/a/qXw59YKxmag=-10569080" target="_blank">◢◤80工厂◥◣<br>亚洲最大最全(B2C)创意家居礼品</a></div><!--推广店铺-->
+<!--推广店铺--><div width="210" style="margin:5px 0 0 0;text-align:center;clear:both;"><a href="http://s.click.alimama.com/a/qXKcqi0ZJ5M=-10569080">E尚小站---时尚男装，物美价廉第一站</a></div><!--推广店铺-->
+</div></div><div class="Pfoot"></div></div><div id="Side_Comment" class="sidepanel"><h4 class="Ptitle">评论</h4><div class="Pcontent">		 <div class="commentTable">
+		  <a class="sideA" href="http://www.ykjm.net/article.asp?id=185#comm_80" title="路人BH5689型 于 22/04/2009 15:04:38 发表评论
+为什么无法使用仅会员下载 不登陆也可以下载。。 可能是哪里出问题了？ [reply=夜空寂灭,2009-06-14 10:17 PM]版本问题，检查发现，PJ3已经使用了Ajax检查是否已登录，所...">为什么无法使用仅会员下载 不登陆也可以下载。。 ...</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=185#comm_79" title="路人CI4809型 于 10/03/2009 12:48:26 发表评论
+strContent=SRSAttachDownload(strContent,strMatch.Value,tmpStr1,tmpStr2,tmpStr3) 错误提示: Microsoft VB...">strContent=SRSAttachDownl...</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=188#comm_78" title="路人HC6704型 于 03/03/2009 10:00:15 发表评论
+[F_cry2]">[F_cry2]</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=185#comm_77" title="simjet 于 19/02/2009 00:45:07 发表评论
+我看了 不会 能帮我找一下吗">我看了 不会 能帮我找一下吗</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=185#comm_76" title="夜空寂灭 于 18/02/2009 14:16:58 发表评论
+[quote=simjet]之前手机登陆的问题解决了  再问一下 静态要怎么弄这个插件 不支持静态啊[/quote] 静态也是一样，缺少了一些函数，只要在静态的模版页面加上就可以了，好像是stat...">[quote=simjet]之前手机登陆的问题解决...</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=185#comm_75" title="simjet 于 18/02/2009 13:21:14 发表评论
+之前手机登陆的问题解决了   再问一下 静态要怎么弄这个插件 不支持静态啊">之前手机登陆的问题解决了   再问一下 静态要...</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=185#comm_74" title="夜空寂灭 于 11/02/2009 13:25:04 发表评论
+[quote=路人OB3708型]安装后 WAP访问出错 能不能解决一下 我只想要下载次数统计和文件大小 能不能帮个忙？ www.simjet.net[/quote] 可能缺少一些js函数吧，可...">[quote=路人OB3708型]安装后 WAP访...</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=185#comm_73" title="路人OB3708型 于 11/02/2009 12:55:11 发表评论
+安装后 WAP访问出错 能不能解决一下  我只想要下载次数统计和文件大小 能不能帮个忙？  www.simjet.net">安装后 WAP访问出错 能不能解决一下  我只...</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=179#comm_72" title="夜空寂灭 于 11/01/2009 00:23:45 发表评论
+[quote=倾城之恋]请问！！安装的时候如何修改源码。。不添加分类显示。。我只要显示侧边栏就行了[/quote]后台分类管理可以设置">[quote=倾城之恋]请问！！安装的时候如何修改...</a><a class="sideA" href="http://www.ykjm.net/article.asp?id=179#comm_71" title="路人QC7884型 于 08/01/2009 23:51:44 发表评论
+怎么删掉一个纸条啊">怎么删掉一个纸条啊</a>
+	     </div></div><div class="Pfoot"></div></div><div id="Side_Category" class="sidepanel"><h4 class="Ptitle">分类</h4><div class="Pcontent"><img src="images/icons/21.gif" border="0" style="margin:3px 4px -4px 0px;" alt="收集技术[SQL][ASP][JavaScript]"/><a class="CategoryA" href="default.asp?cateID=3" title="收集技术[SQL][ASP][JavaScript]">技术专区 [76]</a> <a href="feed.asp?cateID=3" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/8.gif" border="0" style="margin:3px 4px -4px 0px;" alt="设计技巧、教程及推荐展示"/><a class="CategoryA" href="default.asp?cateID=4" title="设计技巧、教程及推荐展示">平面设计 [1]</a> <a href="feed.asp?cateID=4" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/3.gif" border="0" style="margin:3px 4px -4px 0px;" alt="学习过程的一点点记录～"/><a class="CategoryA" href="default.asp?cateID=5" title="学习过程的一点点记录～">学习笔记 [42]</a> <a href="feed.asp?cateID=5" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/10.gif" border="0" style="margin:3px 4px -4px 0px;" alt="夜空的作品哦，给点意见啊～"/><a class="CategoryA" href="default.asp?cateID=6" title="夜空的作品哦，给点意见啊～">夜空作品 [16]</a> <a href="feed.asp?cateID=6" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/18.gif" border="0" style="margin:3px 4px -4px 0px;" alt="看过就算啦～"/><a class="CategoryA" href="default.asp?cateID=7" title="看过就算啦～">琐碎生活 [79]</a> <a href="feed.asp?cateID=7" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/18.gif" border="0" style="margin:3px 4px -4px 0px;" alt="你应该知道的东东～"/><a class="CategoryA" href="default.asp?cateID=8" title="你应该知道的东东～">知识积累 [21]</a> <a href="feed.asp?cateID=8" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/18.gif" border="0" style="margin:3px 4px -4px 0px;" alt="可助你高效完成一些事情的东西～"/><a class="CategoryA" href="default.asp?cateID=9" title="可助你高效完成一些事情的东西～">技巧收集 [12]</a> <a href="feed.asp?cateID=9" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/18.gif" border="0" style="margin:3px 4px -4px 0px;" alt="杂七杂八东西一大堆～"/><a class="CategoryA" href="default.asp?cateID=10" title="杂七杂八东西一大堆～">杂七杂八 [32]</a> <a href="feed.asp?cateID=10" title="订阅该分类内容"><img src="images/rss.png" border="0" style="margin:3px 4px -1px 0px;" alt=""/></a><br/><img src="images/icons/1.gif" border="0" style="margin:3px 4px -4px 0px;" alt="小纸条"/><a class="CategoryA" href="LoadMod.asp?plugins=XiaoZhiTiao" title="小纸条">小纸条</a><br/></div><div class="Pfoot"></div></div><div id="Side_GGSearch" class="sidepanel"><h4 class="Ptitle">搜索</h4><div class="Pcontent"><!-- SiteSearch Google -->
+<form method="get" action="http://www.google.cn/search" target="google_window">
+<table border="0" bgcolor="#ffffff">
+<tr><td nowrap="nowrap" valign="top" align="left">
+<input type="hidden" name="domains" value="www.ykjm.net"></input>
+<label for="sbi" style="display: none">输入您的搜索字词</label>
+<input type="text" name="q" size="22" maxlength="255" value="" id="sbi"></input>
+</td></tr>
+<tr><td nowrap="nowrap" align="center">
+<table><tr><td>
+<input type="radio" name="sitesearch" value="" checked id="ss0"></input><label for="ss0" title="搜索网络"><font size="-1" color="black">互联网搜索</font></label></td>
+<td>
+<input type="radio" name="sitesearch" value="www.ykjm.net" id="ss1"></input><label for="ss1" title="搜索『夜空寂灭』(www.ykjm.net)"><font size="-1" color="black">本站搜索</font></label>
+</td></tr></table>
+<label for="sbb" style="display: none">提交搜索表单</label>
+<input type="submit" name="sa" value=" 搜 索 " id="sbb"></input>
+<input type="hidden" name="client" value="pub-5753622872535710"></input>
+<input type="hidden" name="forid" value="1"></input>
+<input type="hidden" name="prog" value="aff"></input>
+<input type="hidden" name="channel" value="5503643387"></input>
+<input type="hidden" name="ie" value="UTF-8"></input>
+<input type="hidden" name="oe" value="UTF-8"></input>
+<input type="hidden" name="hl" value="zh-CN"></input>
+</td></tr></table>
+</form>
+<!-- SiteSearch Google --></div><div class="Pfoot"></div></div><div id="Side_XiaoZhiTiaoSubItem1" class="sidepanel"><h4 class="Ptitle">小纸条</h4><div class="Pcontent">
+<div><style>
+#minixzt {width:95%;border:1px #888 solid;text-align:left;}
+#minixzt form{margin:2px;padding:2px;}
+#minixzt form .text{}
+#minixzt form .button{font-size:10px;}
+#minixzt .xzt_order{}
+#minixzt .xzt_author{color:#00f;}
+#minixzt .xzt_time{color:#00f;}
+#minixzt .xzt_content{}
+#minixzt .xzt_secret{color:#f00;}
+
+#minixzt ul {
+MARGIN: 0px;
+PADDING: 4px;
+BORDER: medium none; /*不显示边框*/
+LINE-HEIGHT: normal; 
+LIST-STYLE-TYPE: none;
+}
+#minixzt li {BORDER-TOP: #FFF 1px solid; MARGIN: 0px;border-bottom:#eee 1px solid;} 
+</style></div>
+<div id="minixzt">
+<div style="text-align:center;"><img src="Plugins/SRS_XiaoZhiTiao/loading.gif"></div>
+</div>
+<script charset="utf-8" src="Plugins/SRS_XiaoZhiTiao/minixzt.asp"></script>
+	 </div><div class="Pfoot"></div></div><div id="Side_User" class="sidepanel"><h4 class="Ptitle">用户</h4><div class="Pcontent"><a href="login.asp" class="sideA" accesskey="L">登录</a><a href="register.asp" class="sideA" accesskey="U">用户注册</a></div><div class="Pfoot"></div></div><div id="Side_Calendar" class="sidepanel"><h4 class="Ptitle">日历</h4><div class="Pcontent"><div id="Calendar_Body"><div id="Calendar_Top"><div id="LeftB" onclick="location.href='http://www.ykjm.net/default.asp?log_Year=2009&amp;log_Month=7'"></div><div id="RightB" onclick="location.href='http://www.ykjm.net/default.asp?log_Year=2009&amp;log_Month=9'"></div>2009年8月</div><div id="Calendar_week"><ul class="Week_UL"><li><font color="#FF0000">日</font></li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul></div><div class="Calendar_Day"><ul class="Day_UL"><li class="DayA"><a class="otherday" href="default.asp?log_Year=2009&amp;log_Month=7&amp;log_Day=26" title="当天共写了1篇日志 - UNION ALL之后的日期格式排序问题">26</a></li><li class="DayA"><a class="otherday" href="default.asp?log_Year=2009&amp;log_Month=7&amp;log_Day=27" title="当天共写了1篇日志 - 网页图表之FusionCharts的使用">27</a></li><li class="DayA"><a class="otherday">28</a></li><li class="DayA"><a class="otherday" href="default.asp?log_Year=2009&amp;log_Month=7&amp;log_Day=29" title="当天共写了2篇日志 - FusionCharts的参数使用
+ - 基于FusionCharts Free v2.1的调用封装   ">29</a></li><li class="DayA"><a class="otherday">30</a></li><li class="DayA"><a class="otherday" href="default.asp?log_Year=2009&amp;log_Month=7&amp;log_Day=31" title="当天共写了1篇日志 - JMail发送附件实例代码">31</a></li><li class="DayA"><a class="haveD" href="default.asp?log_Year=2009&amp;log_Month=8&amp;log_Day=1" title="当天共写了1篇日志 - JMail包含附件的一些使用记录">1</a></li></ul></div><div class="Calendar_Day"><ul class="Day_UL"><li class="DayA"><a class="haveD" href="default.asp?log_Year=2009&amp;log_Month=8&amp;log_Day=2" title="当天共写了1篇日志 - 每年考证时间表（绝对有用）">2</a></li><li class="DayA"><a >3</a></li><li class="DayA"><a >4</a></li><li class="DayA"><a >5</a></li><li class="DayA"><a class="haveD" href="default.asp?log_Year=2009&amp;log_Month=8&amp;log_Day=6" title="当天共写了4篇日志 - 精妙的SQL语句
+ - 一段不错的代码JS脚本
+ - 正确用JQ的AJAX加载XML并解析(转载)
+ - 网页设计CSS常用属性大全">6</a></li><li class="DayA"><a >7</a></li><li class="DayA"><a >8</a></li></ul></div><div class="Calendar_Day"><ul class="Day_UL"><li class="DayA"><a >9</a></li><li class="DayA"><a class="haveD" href="default.asp?log_Year=2009&amp;log_Month=8&amp;log_Day=10" title="当天共写了1篇日志 - 每个中国人必须知道的国学常识">10</a></li><li class="DayA"><a >11</a></li><li class="DayA"><a >12</a></li><li class="DayA"><a class="today">13</a></li><li class="DayA"><a >14</a></li><li class="DayA"><a >15</a></li></ul></div><div class="Calendar_Day"><ul class="Day_UL"><li class="DayA"><a >16</a></li><li class="DayA"><a >17</a></li><li class="DayA"><a >18</a></li><li class="DayA"><a >19</a></li><li class="DayA"><a >20</a></li><li class="DayA"><a >21</a></li><li class="DayA"><a >22</a></li></ul></div><div class="Calendar_Day"><ul class="Day_UL"><li class="DayA"><a >23</a></li><li class="DayA"><a >24</a></li><li class="DayA"><a >25</a></li><li class="DayA"><a >26</a></li><li class="DayA"><a >27</a></li><li class="DayA"><a >28</a></li><li class="DayA"><a >29</a></li></ul></div><div class="Calendar_Day"><ul class="Day_UL"><li class="DayA"><a >30</a></li><li class="DayA"><a >31</a></li><li class="DayA"><a class="otherday">1</a></li><li class="DayA"><a class="otherday">2</a></li><li class="DayA"><a class="otherday">3</a></li><li class="DayA"><a class="otherday">4</a></li><li class="DayA"><a class="otherday">5</a></li></ul></div></div></div><div class="Pfoot"></div></div><div id="Side_Archive" class="sidepanel"><h4 class="Ptitle">归档</h4><div class="Pcontent"><a class="sideA" style="margin:0px 0px 0px -2px;" href="default.asp?log_Year=2009" title="查看2009年的日志">2009</a><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=1" title="2009年1月有7篇日志">01月</a><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=2" title="2009年2月有9篇日志">02月</a><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=3" title="2009年3月有7篇日志">03月</a><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=4" title="2009年4月有8篇日志">04月</a><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=5" title="2009年5月有10篇日志">05月</a><br/><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=6" title="2009年6月有5篇日志">06月</a><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=7" title="2009年7月有17篇日志">07月</a><a style="margin-right:5px;" href="default.asp?log_Year=2009&log_Month=8" title="2009年8月有7篇日志">08月</a><a class="sideA" style="margin:6px 0px 0px -2px;" href="default.asp?log_Year=2008" title="查看2008年的日志">2008</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=1" title="2008年1月有4篇日志">01月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=2" title="2008年2月有7篇日志">02月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=3" title="2008年3月有17篇日志">03月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=4" title="2008年4月有14篇日志">04月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=5" title="2008年5月有7篇日志">05月</a><br/><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=6" title="2008年6月有2篇日志">06月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=7" title="2008年7月有5篇日志">07月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=8" title="2008年8月有18篇日志">08月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=9" title="2008年9月有7篇日志">09月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=10" title="2008年10月有8篇日志">10月</a><br/><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=11" title="2008年11月有17篇日志">11月</a><a style="margin-right:5px;" href="default.asp?log_Year=2008&log_Month=12" title="2008年12月有11篇日志">12月</a><a class="sideA" style="margin:6px 0px 0px -2px;" href="default.asp?log_Year=2007" title="查看2007年的日志">2007</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=1" title="2007年1月有8篇日志">01月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=2" title="2007年2月有5篇日志">02月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=3" title="2007年3月有5篇日志">03月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=4" title="2007年4月有16篇日志">04月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=5" title="2007年5月有3篇日志">05月</a><br/><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=6" title="2007年6月有8篇日志">06月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=7" title="2007年7月有7篇日志">07月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=8" title="2007年8月有3篇日志">08月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=9" title="2007年9月有5篇日志">09月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=10" title="2007年10月有10篇日志">10月</a><br/><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=11" title="2007年11月有4篇日志">11月</a><a style="margin-right:5px;" href="default.asp?log_Year=2007&log_Month=12" title="2007年12月有2篇日志">12月</a><a class="sideA" style="margin:6px 0px 0px -2px;" href="default.asp?log_Year=2006" title="查看2006年的日志">2006</a><a style="margin-right:5px;" href="default.asp?log_Year=2006&log_Month=11" title="2006年11月有9篇日志">11月</a><a style="margin-right:5px;" href="default.asp?log_Year=2006&log_Month=12" title="2006年12月有7篇日志">12月</a></div><div class="Pfoot"></div></div>
+		     <div id="sidebar-bottomimg"></div>
+	   </div>
+   </div>
+   <div style="clear: both;height:1px;overflow:hidden;margin-top:-1px;"></div>
+  </div>
+  
+ <!--底部-->
+  <div id="foot">
+    <p>Powered By <strong>PJBlog3 夜空增强版 For v3.0.6.170</strong></a> CopyRight 2005 - 2008, <strong>星夜下。。。</strong> <a href="http://validator.w3.org/check/referer" target="_blank">xhtml</a> | <a href="http://jigsaw.w3.org/css-validator/validator-uri.html">css</a> &nbsp;<a href="http://www.srspark.net" target="_blank">本空间由『火种数据』友情提供</a></p>
+    <p style="font-size:11px;">Processed in <b>0.109375</b> second(s) , <b>2</b> queries , <a href="http://www.ykjm.net/" target="_blank"><strong>夜空1号</strong></a> Design By <a href="mailto:seekroad#163.com" target="_blank"><strong>夜空寂灭</strong></a> <a href="http://www.codefense.cn" target="_blank"><img border="0" src="images/detect.gif" alt="Code Detection By Codefense" style="margin-bottom:-2px;height:14px;width:12px"/></a> &nbsp;<a href="http://www.miibeian.gov.cn" style="font-size:12px"><b>粤ICP备08005033号</b></a>
+	<span style="display:none">
+<!-- *** Vdoing Code *** -->
+<script type="text/javascript" charset="UTF-8" src="http://s.vdoing.com/u/57/29210.js"></script>
+<noscript><a href="http://www.vdoing.com" title="Vdoing StatsX No.29210"><img src="http://simg.vdoing.com/m/29210/x01.gif?noscript" border="0"></a></noscript>
+<!-- *** End of Vdoing Code *** -->
+<script src="http://s103.cnzz.com/stat.php?id=394167&web_id=394167" language="JavaScript" charset="gb2312"></script>
+<script language="javascript" src="http://count34.51yes.com/click.aspx?id=345344759&logo=12"></script>
+<script type="text/javascript" src="http://js.tongji.linezing.com/852767/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/852767/tongji.gif"/></a></noscript>
+    </span></p>
+   </div>
+ </div>
+<script type="text/javascript">initAccessKey()  //转换AccessKey For IE
+document.getElementById("loader").style.display = "none"; //隐藏Loading</script>
+</body>
+</html>
