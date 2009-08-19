@@ -1,0 +1,1 @@
+document.write("<a href='http://ad.ccw.com.cn/adClick.asp?adID=1888&positionID=101&url=http%3A%2F%2Fcio.ccw.com.cn%2Ftopic%2Fdcms20090617%2F' target='_blank'><img  alt='' src='http://imgs.ccw.com.cn/200906/090601_shenma_HP_260_80.jpg' width='260' height='80' border=0></a>");

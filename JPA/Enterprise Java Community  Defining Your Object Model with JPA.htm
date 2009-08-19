@@ -1,0 +1,1090 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0069)http://www.theserverside.com/tt/articles/article.tss?l=JPAObjectModel -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META name="generator" content="Tapestry Application Framework, version 3.0.1">
+
+<TITLE>Enterprise Java Community: Defining Your Object Model with JPA</TITLE>
+<LINK rel="stylesheet" type="text/css" href="./Enterprise Java Community  Defining Your Object Model with JPA_files/sitestyle.css">
+<LINK rel="stylesheet" type="text/css" href="./Enterprise Java Community  Defining Your Object Model with JPA_files/tapestry.css">
+</HEAD><BODY>
+<SCRIPT language="JavaScript" type="text/javascript" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/Validator.js"></SCRIPT>
+<SCRIPT language="JavaScript"><!--
+
+var tapestry_preload = new Array();
+if (document.images)
+{
+  tapestry_preload[0] = new Image();
+  tapestry_preload[0].src = "/tt/skin/images/tab_news_mo.gif";
+  tapestry_preload[1] = new Image();
+  tapestry_preload[1].src = "/tt/skin/images/tab_news.gif";
+  tapestry_preload[2] = new Image();
+  tapestry_preload[2].src = "/tt/skin/images/tab_blog_mo.gif";
+  tapestry_preload[3] = new Image();
+  tapestry_preload[3].src = "/tt/skin/images/tab_blog.gif";
+  tapestry_preload[4] = new Image();
+  tapestry_preload[4].src = "/tt/skin/images/tab_discussions_mo.gif";
+  tapestry_preload[5] = new Image();
+  tapestry_preload[5].src = "/tt/skin/images/tab_discussions.gif";
+  tapestry_preload[6] = new Image();
+  tapestry_preload[6].src = "/tt/skin/images/tab_techtalks_mo.gif";
+  tapestry_preload[7] = new Image();
+  tapestry_preload[7].src = "/tt/skin/images/tab_techtalks.gif";
+  tapestry_preload[8] = new Image();
+  tapestry_preload[8].src = "/tt/skin/images/tab_whitepapers_mo.gif";
+  tapestry_preload[9] = new Image();
+  tapestry_preload[9].src = "/tt/skin/images/tab_whitepapers.gif";
+  tapestry_preload[10] = new Image();
+  tapestry_preload[10].src = "/tt/skin/images/tab_itdownloads_mo.gif";
+  tapestry_preload[11] = new Image();
+  tapestry_preload[11].src = "/tt/skin/images/tab_itdownloads.gif";
+  tapestry_preload[12] = new Image();
+  tapestry_preload[12].src = "/tt/skin/images/tab_patterns_mo.gif";
+  tapestry_preload[13] = new Image();
+  tapestry_preload[13].src = "/tt/skin/images/tab_patterns.gif";
+  tapestry_preload[14] = new Image();
+  tapestry_preload[14].src = "/tt/skin/images/tab_reviews_mo.gif";
+  tapestry_preload[15] = new Image();
+  tapestry_preload[15].src = "/tt/skin/images/tab_reviews.gif";
+  tapestry_preload[16] = new Image();
+  tapestry_preload[16].src = "/tt/skin/images/tab_articles_mo.gif";
+  tapestry_preload[17] = new Image();
+  tapestry_preload[17].src = "/tt/skin/images/tab_articles_sel.gif";
+  tapestry_preload[18] = new Image();
+  tapestry_preload[18].src = "/tt/skin/images/tab_feeds_mo.gif";
+  tapestry_preload[19] = new Image();
+  tapestry_preload[19].src = "/tt/skin/images/tab_feeds.gif";
+  tapestry_preload[20] = new Image();
+  tapestry_preload[20].src = "/tt/skin/images/tab_about_mo.gif";
+  tapestry_preload[21] = new Image();
+  tapestry_preload[21].src = "/tt/skin/images/tab_about.gif";
+}
+
+
+
+
+function focus_rollover()
+{
+  if (document.images)
+    document.rollover.src = tapestry_preload[0].src;
+}
+
+function blur_rollover()
+{
+  if (document.images)
+    document.rollover.src = tapestry_preload[1].src;
+}
+
+
+
+function focus_rollover$0()
+{
+  if (document.images)
+    document.rollover$0.src = tapestry_preload[2].src;
+}
+
+function blur_rollover$0()
+{
+  if (document.images)
+    document.rollover$0.src = tapestry_preload[3].src;
+}
+
+
+
+function focus_rollover$1()
+{
+  if (document.images)
+    document.rollover$1.src = tapestry_preload[4].src;
+}
+
+function blur_rollover$1()
+{
+  if (document.images)
+    document.rollover$1.src = tapestry_preload[5].src;
+}
+
+
+
+function focus_rollover$2()
+{
+  if (document.images)
+    document.rollover$2.src = tapestry_preload[6].src;
+}
+
+function blur_rollover$2()
+{
+  if (document.images)
+    document.rollover$2.src = tapestry_preload[7].src;
+}
+
+
+
+function focus_rollover$3()
+{
+  if (document.images)
+    document.rollover$3.src = tapestry_preload[8].src;
+}
+
+function blur_rollover$3()
+{
+  if (document.images)
+    document.rollover$3.src = tapestry_preload[9].src;
+}
+
+
+
+function focus_rollover$4()
+{
+  if (document.images)
+    document.rollover$4.src = tapestry_preload[10].src;
+}
+
+function blur_rollover$4()
+{
+  if (document.images)
+    document.rollover$4.src = tapestry_preload[11].src;
+}
+
+
+
+function focus_rollover$5()
+{
+  if (document.images)
+    document.rollover$5.src = tapestry_preload[12].src;
+}
+
+function blur_rollover$5()
+{
+  if (document.images)
+    document.rollover$5.src = tapestry_preload[13].src;
+}
+
+
+
+function focus_rollover$6()
+{
+  if (document.images)
+    document.rollover$6.src = tapestry_preload[14].src;
+}
+
+function blur_rollover$6()
+{
+  if (document.images)
+    document.rollover$6.src = tapestry_preload[15].src;
+}
+
+
+
+function focus_rollover$7()
+{
+  if (document.images)
+    document.rollover$7.src = tapestry_preload[16].src;
+}
+
+function blur_rollover$7()
+{
+  if (document.images)
+    document.rollover$7.src = tapestry_preload[17].src;
+}
+
+
+function validate_inputEmail()
+{
+  var field = document.Form0.inputEmail;
+
+  if (field.value.length == 0)
+     return validator_invalid_field(field, "You must enter a value for E-Mail.");
+
+
+
+
+
+  return true;
+}
+
+function validate_inputPassword()
+{
+  var field = document.Form0.inputPassword;
+
+  if (field.value.length == 0)
+     return validator_invalid_field(field, "You must enter a value for Password.");
+
+
+
+
+
+  return true;
+}
+
+
+function focus_feedsRollover()
+{
+  if (document.images)
+    document.feedsRollover.src = tapestry_preload[18].src;
+}
+
+function blur_feedsRollover()
+{
+  if (document.images)
+    document.feedsRollover.src = tapestry_preload[19].src;
+}
+
+
+
+function focus_aboutRollover()
+{
+  if (document.images)
+    document.aboutRollover.src = tapestry_preload[20].src;
+}
+
+function blur_aboutRollover()
+{
+  if (document.images)
+    document.aboutRollover.src = tapestry_preload[21].src;
+}
+
+
+
+window.onload = function ()
+{
+document.Form0.inputEmail.focus();
+document.Form0.inputEmail.select();
+document.Form0.onsubmit = function ()
+{
+
+  return validate_inputEmail() &&
+    validate_inputPassword();
+}
+
+
+
+var styleclass_inputEmail = document.Form0.inputEmail.className;
+
+document.Form0.inputEmail.onblur = function()
+{
+  var field = document.Form0.inputEmail;
+  field.className = styleclass_inputEmail;
+  
+  if (field.value == '') field.value = 'email';
+}
+
+document.Form0.inputEmail.onfocus = function()
+{
+  var field = document.Form0.inputEmail;
+  field.className = 'focus';
+  
+  if (field.value == 'email') field.value = '';
+}
+
+if (document.Form0.inputEmail.value == '') document.Form0.inputEmail.value = 'email';
+
+
+var styleclass_inputPassword = document.Form0.inputPassword.className;
+
+document.Form0.inputPassword.onblur = function()
+{
+  var field = document.Form0.inputPassword;
+  field.className = styleclass_inputPassword;
+  
+  if (field.value == '') field.value = 'password';
+}
+
+document.Form0.inputPassword.onfocus = function()
+{
+  var field = document.Form0.inputPassword;
+  field.className = 'focus';
+  
+  if (field.value == 'password') field.value = '';
+}
+
+if (document.Form0.inputPassword.value == '') document.Form0.inputPassword.value = 'password';
+
+}
+
+// --></SCRIPT>
+<SCRIPT src="./Enterprise Java Community  Defining Your Object Model with JPA_files/openwindow.js" language="javascript"></SCRIPT>
+<!--WEBSIDESTORY CODE HBX1.0 (Universal)--
+<!--COPYRIGHT 1997-2004 WEBSIDESTORY,INC. ALL RIGHTS RESERVED. U.S.PATENT No.6,393,479B1 & 6,766,370. INFO:http://websidestory.com/privacy-->
+<SCRIPT language="javascript">
+
+var _hbEC=0,_hbE=new Array;function _hbEvent(a,b){b=_hbE[_hbEC++]=new Object();b._N=a;b._C=0;return b;}
+var hbx=_hbEvent("pv");hbx.vpc="HBX0103u";hbx.gn="ehg-techtarget.hitbox.com";
+
+function getURLParam(param) {
+	param = param.toLowerCase() + "=";
+	var paramq = "?" + param;
+	var parama = "&" + param;
+	var wls = "?" + window.location.search.toLowerCase();
+	if (wls.indexOf(paramq) != -1) wls = wls.substring(wls.indexOf(paramq),wls.length); //first search value
+	if (wls.indexOf(parama) != -1) wls = wls.substring(wls.indexOf(parama),wls.length); //any other search value
+	wls = wls.substring(1, wls.length); //remove leading ? or &
+	if (wls.indexOf("&") != -1) wls = wls.substring(0,wls.indexOf("&")); //remove any additional values
+	return wls;
+}
+function urlParamExists(param) {
+	param = param.toLowerCase() + "=";
+	var result = false;
+	var paramq = "?" + param;
+	var parama = "&" + param;
+	var wls = "?" + window.location.search.toLowerCase();
+	if (wls.indexOf(paramq) != -1 || wls.indexOf(parama) != -1) result = true;
+	return result;
+}
+
+//BEGIN EDITABLE SECTION
+//CONFIGURATION VARIABLES
+hbx.acct="DM54121089AE83EN3;DM5212204PCA83EN3";//ACCOUNT NUMBER(S)
+
+//PAGENAME
+var wlp = window.location.pathname.toLowerCase().substring(1,window.location.pathname.length);
+var spn = "";
+if (window.location.search) {
+	spn = window.location.search;
+	spn = spn.replace(/\?/g, "--");
+	spn = spn.replace(/&/g, "-");
+}
+hbx.pn=(wlp.length < 2) ? "home" : wlp;//PAGE NAME(S)
+hbx.pn = hbx.pn.replace(eval("/\\//g"),"-");
+hbx.pn += spn; //add in any search params
+hbx.pndef="title";//DEFAULT PAGE NAME
+
+//MULTI-LEVEL CONTENT
+hbx.mlc="/theServerSideCom";
+if (wlp.length > 1) hbx.mlc += "/" + wlp.substring(0,wlp.indexOf("/", 1));//MULTI-LEVEL CONTENT CATEGORY
+hbx.ctdef="full";//DEFAULT CONTENT CATEGORY
+
+//OPTIONAL PAGE VARIABLES
+//ACTION SETTINGS
+hbx.fv="";//FORM VALIDATION MINIMUM ELEMENTS OR SUBMIT FUNCTION NAME
+hbx.lt="none";//LINK TRACKING
+hbx.dlf="n";//DOWNLOAD FILTER
+hbx.dft="n";//DOWNLOAD FILE NAMING
+hbx.elf="n";//EXIT LINK FILTER
+
+//SEGMENTS AND FUNNELS
+hbx.seg="";//VISITOR SEGMENTATION
+hbx.fnl="";//FUNNELS
+
+//CAMPAIGNS
+hbx.cmp="";//CAMPAIGN ID
+hbx.cmpn="";//CAMPAIGN ID IN QUERY
+hbx.dcmp="";//DYNAMIC CAMPAIGN ID
+hbx.dcmpn="";//DYNAMIC CAMPAIGN ID IN QUERY
+hbx.dcmpe="";//DYNAMIC CAMPAIGN EXPIRATION
+hbx.dcmpre="";//DYNAMIC CAMPAIGN RESPONSE EXPIRATION
+hbx.hra="";//RESPONSE ATTRIBUTE
+hbx.hqsr="";//RESPONSE ATTRIBUTE IN REFERRAL QUERY
+hbx.hqsp="";//RESPONSE ATTRIBUTE IN QUERY
+hbx.hlt="";//LEAD TRACKING
+hbx.hla="";//LEAD ATTRIBUTE
+hbx.gp="";//CAMPAIGN GOAL
+hbx.gpn="";//CAMPAIGN GOAL IN QUERY
+hbx.hcn="";//CONVERSION ATTRIBUTE
+hbx.hcv="";//CONVERSION VALUE
+hbx.cp="null";//LEGACY CAMPAIGN
+hbx.cpd="";//CAMPAIGN DOMAIN
+
+//CUSTOM VARIABLES
+hbx.ci="";//CUSTOMER ID
+hbx.hc1="";//CUSTOM 1
+hbx.hc2="";//CUSTOM 2
+hbx.hc3="";//CUSTOM 3
+hbx.hc4="";//CUSTOM 4
+hbx.hrf="";//CUSTOM REFERRER
+hbx.pec="";//ERROR CODES
+
+//INSERT CUSTOM EVENTS
+if (window.location.search.indexOf('wrTest=on') != -1) window.alert(hbx.pn + " :: " + hbx.mlc + " :: " + wlp);
+//END EDITABLE SECTION
+</SCRIPT>
+<SCRIPT language="javascript1.1" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/hbx.js"></SCRIPT>
+<!--END WEBSIDESTORY CODE-->
+<SCRIPT src="./Enterprise Java Community  Defining Your Object Model with JPA_files/dart.js" language="javascript"></SCRIPT>
+
+<SCRIPT src="./Enterprise Java Community  Defining Your Object Model with JPA_files/doubleclickad.js" language="javascript"></SCRIPT>
+
+<TABLE cellspacing="0" class="head">
+<TBODY><TR>
+<TD class="left" norwrap="" style="white-space:nowrap" valign="top"><A href="http://www.theserverside.com/" class="nodecoration" title="Go to the front page news"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/header_logotype.gif" width="321" height="72" border="0"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/header_div.gif" width="71" height="72" border="0"></A></TD>
+<TD class="right" valign="middle"><!-- begin ZEDO -->  
+     <SCRIPT type="text/javascript">          
+        if ( typeof renderDartAd == "function" )   
+            renderDartAd( /* textAdNumber */ 1,
+                          /* adWidth */  468 ,
+                          /* adHeight */ 60 ,
+                          /* iHeight */  60 ,
+                          /* adColor */  "FFFFFF",
+                          /* showSpacer*/ false);
+    </SCRIPT><IFRAME src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tt_articles;bkg=FFFFFF;kw=;dcopt=ist;pos=1;sz=468x60;ptile=1.htm" width="468" height="60" border="0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">
+&lt;a href='http://ad.doubleclick.net/jump/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=ist;pos=1;sz=468x60;ptile=1;ord=7302311?''&gt;
+&lt;img src='http://ad.doubleclick.net/ad/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=ist;pos=1;sz=468x60;ptile=1;ord=7302311?'' width='468' height='60' border='0'&gt;&lt;/a&gt;
+</IFRAME>
+<!-- end ZEDO -->
+</TD>
+<TD valign="top"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/header_endbar.gif" width="6" height="72"></TD>
+</TR>
+</TBODY></TABLE>
+<TABLE cellspacing="0" class="tabs">
+  <TBODY><TR><TD colspan="2"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" width="1" height="1"></TD></TR>
+  </TBODY><TBODY>
+    <TR>	
+        <TD class="menuimages" style="white-space:nowrap;"><A href="http://www.theserverside.com/" onmouseover="javascript:focus_rollover();" onmouseout="javascript:blur_rollover();" title="News"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_news.gif" border="0" name="rollover" height="57" vspace="0" width="43"></A><A href="http://www.theserverside.com/blogs/index.tss" onmouseover="javascript:focus_rollover$0();" onmouseout="javascript:blur_rollover$0();" title="Blogs"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_blog.gif" border="0" name="rollover$0" height="57" vspace="0" width="49"></A><A href="http://www.theserverside.com/discussions/index.tss" onmouseover="javascript:focus_rollover$1();" onmouseout="javascript:blur_rollover$1();" title="Discussions"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_discussions.gif" border="0" name="rollover$1" height="57" vspace="0" width="63"></A><A href="http://www.theserverside.com/talks/index.tss" onmouseover="javascript:focus_rollover$2();" onmouseout="javascript:blur_rollover$2();" title="Tech talks"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_techtalks.gif" border="0" name="rollover$2" height="57" vspace="0" width="55"></A><A href="http://library.theserverside.com/" onmouseover="javascript:focus_rollover$3();" onmouseout="javascript:blur_rollover$3();" title="White Papers"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_whitepapers.gif" border="0" name="rollover$3" height="57" vspace="0" width="64"></A><A href="http://library.theserverside.com/itdownloads" onmouseover="javascript:focus_rollover$4();" onmouseout="javascript:blur_rollover$4();" title="Downloads"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_itdownloads.gif" border="0" name="rollover$4" height="57" vspace="0" width="56"></A><A href="http://www.theserverside.com/patterns/index.tss" onmouseover="javascript:focus_rollover$5();" onmouseout="javascript:blur_rollover$5();" title="Patterns"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_patterns.gif" border="0" name="rollover$5" height="57" vspace="0" width="50"></A><A href="http://www.theserverside.com/reviews/index.tss" onmouseover="javascript:focus_rollover$6();" onmouseout="javascript:blur_rollover$6();" title="Reviews"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_reviews.gif" border="0" name="rollover$6" height="57" vspace="0" width="64"></A><A href="http://www.theserverside.com/tt/articles/index.tss" onmouseover="javascript:focus_rollover$7();" onmouseout="javascript:blur_rollover$7();" title="Articles"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_articles_sel.gif" border="0" name="rollover$7" height="57" vspace="0" width="46"></A>
+</TD>
+        
+      <TD class="menuutilimages"><TABLE cellspacing="0" class="borderless" align="right">
+          <TBODY><TR>
+            <TD class="divisor"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" width="1" height="1"></TD>
+                        
+            <TD class="formcontainer">
+              <FORM class="search" action="http://www.theserverside.com/search.tss">
+                  <INPUT size="15" type="text" name="q">
+                  <BUTTON type="submit">Go</BUTTON>
+              </FORM>
+            </TD>
+            <TD class="divisor"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" width="1" height="1"></TD>
+
+<TD class="formcontainer">
+<FORM method="post" name="Form0" action="http://www.theserverside.com/tt/tss" class="login">
+<INPUT type="hidden" name="service" value="direct/0/Article/border.login">
+<INPUT type="hidden" name="sp" value="S0">
+<INPUT type="hidden" name="Form0" value="inputEmail,inputPassword,callbackHidden">
+<INPUT type="hidden" name="callbackHidden" value="OH4sIAAAAAAAAAFvzloG1uIhBpiC_qCQxR68gMT21WM-xqCQzOSfVOTEnJykxOXtJq41BYf19SR4GhoqCEgY-rwBH_6Ss1OQS3_yU1JyCCgALcKLQRAAAAA..">
+
+<INPUT type="text" name="inputEmail" size="15" class="">
+<INPUT type="password" name="inputPassword" maxlength="10" size="10">
+ <BUTTON type="submit">Login</BUTTON>
+                <BR><SPAN class="smalltext">661610
+ members! <A href="http://www.theserverside.com/tt/user/signupemail.tss">Sign up</A> to stay informed.</SPAN>
+</FORM>
+
+
+</TD> <TD class="divisor"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" width="1" height="1"></TD>
+            <TD><A href="http://www.theserverside.com/tt/rss/index.tss" onmouseover="javascript:focus_feedsRollover();" onmouseout="javascript:blur_feedsRollover();" title="RSS Feeds"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_feeds.gif" border="0" name="feedsRollover" height="57" width="56"></A></TD>
+            <TD class="divisor"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" width="1" height="1"></TD>
+            <TD><A href="http://www.theserverside.com/tt/common/about.tss" onmouseover="javascript:focus_aboutRollover();" onmouseout="javascript:blur_aboutRollover();" title="About ..."><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tab_about.gif" border="0" name="aboutRollover" height="57" width="56"></A></TD>
+          </TR>
+        </TBODY></TABLE></TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<!--<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr><td><img src="/tt/images/spacer.gif" width="868" height="1"></td></tr>
+	<tr><td align="center" class="announcement"><span class="quiet">Attention:</span> Registration Is Open for the <a href="#">Third Annual O'Reilly Emerging Technology Conference.</a></td></tr>
+</table>-->
+
+<TABLE class="layout" cellspacing="0" border="0">
+    <TBODY><TR>
+      <TD class="center" width="75&percnt;">
+<TABLE class="layout" cellspacing="0">
+              <TBODY><TR>
+
+<TD width="125">
+
+<TABLE>
+ <TBODY><TR>
+    <TD class="ad" width="120">
+
+
+ <P><SPAN id="nointelliTXT">
+
+<!-- Text Ads ( ad-articles ) -->
+ </SPAN></P><DIV style="text-align:center;width:130px;padding-right:5px;">
+     
+   <DIV class="adtitle" align="center">Sponsored Links<BR><BR></DIV>
+                    
+   <SCRIPT type="text/javascript">          
+        if ( typeof renderDartAd == "function" )   
+            renderDartAd( /* textAdNumber */ 4,
+                          /* adWidth */  125 ,
+                          /* adHeight */ 100 ,
+                          /* iHeight */  82 ,
+                          /* adColor */  "FFFFFF",
+                          /* showSpacer */ true,
+                          /* startIndex */ 1);
+   </SCRIPT><IFRAME src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=1;sz=125x100;ptile=1.htm" width="125" height="82" border="0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">
+&lt;a href='http://ad.doubleclick.net/jump/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=1;sz=125x100;ptile=1;ord=7302311?''&gt;
+&lt;img src='http://ad.doubleclick.net/ad/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=1;sz=125x100;ptile=1;ord=7302311?'' width='125' height='82' border='0'&gt;&lt;/a&gt;
+</IFRAME><BR><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" height="5" width="1" border="0"><BR><IFRAME src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=2;sz=125x100;ptile=2.htm" width="125" height="82" border="0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">
+&lt;a href='http://ad.doubleclick.net/jump/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=2;sz=125x100;ptile=2;ord=7302311?''&gt;
+&lt;img src='http://ad.doubleclick.net/ad/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=2;sz=125x100;ptile=2;ord=7302311?'' width='125' height='82' border='0'&gt;&lt;/a&gt;
+</IFRAME><BR><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" height="5" width="1" border="0"><BR><IFRAME src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=3;sz=125x100;ptile=3.htm" width="125" height="82" border="0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">
+&lt;a href='http://ad.doubleclick.net/jump/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=3;sz=125x100;ptile=3;ord=7302311?''&gt;
+&lt;img src='http://ad.doubleclick.net/ad/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=3;sz=125x100;ptile=3;ord=7302311?'' width='125' height='82' border='0'&gt;&lt;/a&gt;
+</IFRAME><BR><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" height="5" width="1" border="0"><BR><IFRAME src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=4;sz=125x100;ptile=4.htm" width="125" height="82" border="0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">
+&lt;a href='http://ad.doubleclick.net/jump/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=4;sz=125x100;ptile=4;ord=7302311?''&gt;
+&lt;img src='http://ad.doubleclick.net/ad/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=4;sz=125x100;ptile=4;ord=7302311?'' width='125' height='82' border='0'&gt;&lt;/a&gt;
+</IFRAME><BR><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" height="5" width="1" border="0"><BR>
+     
+   <BR>
+   
+<!-- Bitpipe Library-->
+	<DIV class="adtitle" align="center">Resources<BR><BR></DIV>
+	<DIV class="adtext" align="right" style="text-align:right;padding-right:5px;">
+	  <A href="http://library.theserverside.com/" onclick="return (true);">Enterprise Java<BR>Research Library</A>
+      <BR>
+	  Get Java white papers, product information, case studies and webcasts
+    </DIV>
+    
+  <BR>
+
+<!-- Skyscrapper Ad -->
+     <SCRIPT type="text/javascript">          
+        if ( typeof renderDartAd == "function" )   
+            renderDartAd( /* textAdNumber */ 1,
+                          /* adWidth */  120 ,
+                          /* adHeight */ 600 ,
+                          /* iHeight */  600 ,
+                          /* adColor */  "FFFFFF");
+    </SCRIPT><IFRAME src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=1;sz=120x600;ptile=1.htm" width="120" height="600" border="0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">
+&lt;a href='http://ad.doubleclick.net/jump/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=1;sz=120x600;ptile=1;ord=7302311?''&gt;
+&lt;img src='http://ad.doubleclick.net/ad/atssc/tt_articles;bkg=FFFFFF;kw=;dcopt=;pos=1;sz=120x600;ptile=1;ord=7302311?'' width='120' height='600' border='0'&gt;&lt;/a&gt;
+</IFRAME><BR><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" height="5" width="1" border="0"><BR>
+     
+  </DIV>   
+
+
+<P></P> 
+ </TD>
+  </TR>
+ <TR>
+    <TD class="ad" width="120">
+
+
+<SPAN id="nointelliTXT">
+   <SCRIPT type="text/javascript">          
+        if ( typeof renderDartAd == "function" )   
+            renderDartAd( /* textAdNumber */ 1,
+                          /* adWidth */ 125 ,
+                          /* adHeight */ 138 ,
+                          /* iHeight */ 138 ,
+                          /* adColor */      "FFFFFF",
+                          /* spacerBool */ false,
+                          /* countStart */ 1 );
+   </SCRIPT> 
+</SPAN> </TD>
+   </TR>  <TR>
+        <TD class="ad" width="120">
+
+     
+ </TD>
+    </TR>
+    
+</TBODY></TABLE>
+
+
+</TD>
+<TD><IMG height="1" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" width="6"></TD>
+
+<TD width="*">
+
+
+<IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/JPAObjectModel.gif" align="center" border="0" alt="Defining Your Object Model with JPA">
+
+<BR>
+<BR>
+<BR>
+<B>September 2007</B>
+<BR>
+
+<H2><B><A href="http://www.theserverside.com/news/thread.tss?thread_id=46926">Discussion</A></B></H2>
+<BR>
+
+<P>In the perfect world, your object model would map seamlessly to your database schema. Most organizations however, have database naming standards, requirements for how relationships are modeled and columns that all tables must have. </P>
+<P>The following example will show how to use JPA in a real-world scenario. You’ve been asked to quickly mock up a simple blog application; here are your constraints: </P>
+<UL>
+  <LI>All database table names are uppercase, words separated by an underscore (“_”) </LI>
+  <LI>All table columns must start with the table name, or its initials </LI>
+  <LI>All mutable tables need to track who created and updated a row and when the insert and update occurred </LI>
+  <LI>Object relationships need to be managed intelligently </LI>
+  <LI>You should use as few trips as possible to the database to make sure we can handle current and future load </LI>
+</UL>
+<P>The application should include the following objects: </P>
+<UL>
+  <LI>User </LI>
+  <LI>Blog entry </LI>
+  <LI>Comments </LI>
+  <LI>The comments need to support nesting, so a user can reply to another’s comment, there is no limit to the nesting </LI>
+  <LI>You need to list all users who start comment threads, comments without responses, etc. </LI>
+</UL>
+<P>Here is one possible object model: </P>
+<P align="center"><IMG width="570" height="317" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/clip_image002.jpg"></P>
+<P align="center"><STRONG>Figure 1: Blog Object Model </STRONG></P>
+<P> ModelBase is an abstract superclass of three entities: BlogPost, Comment, and User. It also defines fields for who created and modified each entity and when the changes occurred. The nested comment requirement is taken care of by Comment’s parent and child relationships. </P>
+<P>The database schema for the object model is: </P>
+<P align="center"><IMG width="576" height="281" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/clip_image004.jpg"></P>
+<P align="center"><STRONG>Figure 2: Blog Entity Relationship Diagram </STRONG></P>
+<P>The database tables can be seen here:</P>
+<P align="center"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tss-db.gif"></P>
+<P>The root object of the class hierarchy is ModeBase. The @Column annotation maps each field in ModelBase to a database table column. The problem is, ModelBase does not follow the database naming conventions listed above. This will be fixed with the concrete class definitions a little later. Here is ModelBase: </P>
+<PRE> 1 <FONT color="0000ff"><STRONG>import javax.persistence.*;</STRONG></FONT>
+ 2
+ 3 @<FONT color="#2040a0">MappedSuperclass</FONT>
+ 4 @<FONT color="#2040a0">EntityListeners</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>{</STRONG></FONT><FONT color="#2040a0">ModelListener</FONT>.<STRONG>class</STRONG><FONT color="4444FF"><STRONG>}</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+ 5 <STRONG>public</STRONG> <STRONG>abstract</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">ModelBase</FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 6
+ 7     @<FONT color="#2040a0">Id</FONT>
+ 8     @<FONT color="#2040a0">GeneratedValue</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">strategy</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">GenerationType</FONT>.<FONT color="#2040a0">IDENTITY</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+ 9     @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"id"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+10     <STRONG>private</STRONG> <FONT color="#2040a0">Long</FONT> <FONT color="#2040a0">id</FONT><FONT color="4444FF">;</FONT>
+11
+12     @<FONT color="#2040a0">Version</FONT>
+13     @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"version"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+14     <STRONG>private</STRONG> <FONT color="#2040a0">Integer</FONT> <FONT color="#2040a0">version</FONT><FONT color="4444FF">;</FONT>
+15
+16     @<FONT color="#2040a0">ManyToOne</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">fetch</FONT><FONT color="4444FF">=</FONT><FONT color="#2040a0">FetchType</FONT>.<FONT color="#2040a0">LAZY</FONT>, <FONT color="#2040a0">cascade</FONT><FONT color="4444FF">=</FONT><FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">ALL</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+17     @<FONT color="#2040a0">JoinColumn</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"created_by_user_id"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+18     <STRONG>private</STRONG> <FONT color="#2040a0">User</FONT> <FONT color="#2040a0">createdByUser</FONT><FONT color="4444FF">;</FONT>
+19
+20     @<FONT color="#2040a0">Temporal</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">value</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">TemporalType</FONT>.<FONT color="#2040a0">TIMESTAMP</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+21     @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"date_created"</FONT>, <FONT color="#2040a0">nullable</FONT> <FONT color="4444FF">=</FONT> <STRONG>false</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+22     <STRONG>private</STRONG> <FONT color="#2040a0">Date</FONT> <FONT color="#2040a0">dateCreated</FONT><FONT color="4444FF">;</FONT>
+23
+24     @<FONT color="#2040a0">ManyToOne</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">fetch</FONT><FONT color="4444FF">=</FONT><FONT color="#2040a0">FetchType</FONT>.<FONT color="#2040a0">LAZY</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+25     @<FONT color="#2040a0">JoinColumn</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"updated_by_user_id"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+26     <STRONG>private</STRONG> <FONT color="#2040a0">User</FONT> <FONT color="#2040a0">updatedByUser</FONT><FONT color="4444FF">;</FONT>
+27
+28     @<FONT color="#2040a0">Temporal</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">value</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">TemporalType</FONT>.<FONT color="#2040a0">TIMESTAMP</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+29     @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"date_updated"</FONT>, <FONT color="#2040a0">nullable</FONT> <FONT color="4444FF">=</FONT> <STRONG>false</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+30     <STRONG>private</STRONG> <FONT color="#2040a0">Date</FONT> <FONT color="#2040a0">dateUpdated</FONT><FONT color="4444FF">;</FONT>
+31
+32     <FONT color="#444444">// methods removed for readability</FONT>
+33 <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+</PRE>
+
+<P>ModelBase uses the @MappedSuperclass annotation to tell the JPA persistence provide that this object is not an entity but it’s fields will be included in each entities table (for the entities that subclass ModelBase). You can use a mapped superclass to define all common fields. In this case it defines a field for optimist locking, version, primary key, id and fields for date created and updated. The second annotation, @EntityListener defines a class to be called by the JPA persistence provider at various lifecycle events. ModelListener, sets the user who created and modified each entity and when it was created and updated. Here is ModelListener: </P>
+<PRE> 1 <STRONG>public</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">ModelListener</FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 2
+ 3     @<FONT color="#2040a0">PrePersist</FONT>
+ 4     <STRONG>public</STRONG> <STRONG>void</STRONG> <FONT color="#2040a0">setDatesAndUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">ModelBase</FONT> <FONT color="#2040a0">modelBase</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 5
+ 6         <FONT color="#444444">// set createdBy and updatedBy User information</FONT>
+ 7         <FONT color="#2040a0">User</FONT> <FONT color="#2040a0">currentUser</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">UserUtil</FONT>.<FONT color="#2040a0">getCurrentUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+ 8
+ 9         <FONT color="#444444">// check to see if modelBase and currentUser are </FONT>
+10         <FONT color="#444444">// the same, if so, make currentUser modelBase.</FONT>
+11         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">modelBase</FONT>.<FONT color="#2040a0">equals</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">currentUser</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+12             <FONT color="#2040a0">currentUser</FONT> <FONT color="4444FF">=</FONT> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">User</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="#2040a0">modelBase</FONT><FONT color="4444FF">;</FONT>
+13         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+14
+15         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">currentUser</FONT> <FONT color="4444FF">!</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+16             <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">modelBase</FONT>.<FONT color="#2040a0">getCreatedByUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF">=</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+17                 <FONT color="#2040a0">modelBase</FONT>.<FONT color="#2040a0">setCreatedByUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">currentUser</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+18             <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+19             <FONT color="#2040a0">modelBase</FONT>.<FONT color="#2040a0">setUpdatedByUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">currentUser</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+20         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+21
+22         <FONT color="#444444">// set dateCreated and dateUpdated fields</FONT>
+23         <FONT color="#2040a0">Date</FONT> <FONT color="#2040a0">now</FONT> <FONT color="4444FF">=</FONT> <STRONG>new</STRONG> <FONT color="#2040a0">Date</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+24         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">modelBase</FONT>.<FONT color="#2040a0">getDateCreated</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF">=</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+25             <FONT color="#2040a0">modelBase</FONT>.<FONT color="#2040a0">setDateCreated</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">now</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+26         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+27         <FONT color="#2040a0">modelBase</FONT>.<FONT color="#2040a0">setDateUpdated</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">now</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+28     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+29 <FONT color="4444FF"><STRONG>}</STRONG></FONT></PRE>
+<P> ModelListener has only one method, setDatesAndUser(ModelBase modelBase). This method is tied to the pre-persist entity lifecycle event and will always be called just before an entity is persisted to the database. This gives us a convenient way to set when and by whom the object is created and updated. </P>
+<P>JPA requires that entity listeners be stateless and therefore we need a way to establish who the current user of our system is so we can set the createdByUser and updatedByUser fields. The UserUtil class uses a ThreadLocal to store the current user and provides an easy way for clients to establish the “current” user of the system. </P>
+<PRE> 1 <STRONG>public</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">UserUtil</FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 2
+ 3     <STRONG>private</STRONG> <STRONG>static</STRONG> <FONT color="#2040a0">ThreadLocal</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">User</FONT><FONT color="4444FF">&gt;</FONT> <FONT color="#2040a0">currentUser</FONT> <FONT color="4444FF">=</FONT>
+ 4         <STRONG>new</STRONG> <FONT color="#2040a0">ThreadLocal</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">User</FONT><FONT color="4444FF">&gt;</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+ 5
+ 6     <STRONG>public</STRONG> <STRONG>static</STRONG> <STRONG>void</STRONG> <FONT color="#2040a0">setCurrentUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">User</FONT> <FONT color="#2040a0">user</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 7         <FONT color="#2040a0">currentUser</FONT>.<FONT color="#2040a0">set</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">user</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+ 8     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+ 9
+10     <STRONG>public</STRONG> <STRONG>static</STRONG> <FONT color="#2040a0">User</FONT> <FONT color="#2040a0">getCurrentUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+11         <STRONG>return</STRONG> <FONT color="#2040a0">currentUser</FONT>.<FONT color="#2040a0">get</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+12     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+13 <FONT color="4444FF"><STRONG>}</STRONG></FONT></PRE>
+<P>If you want to turn off any inherited entity listeners for a particular entity, you can use @ExcludeSuperclassListeners. This annotation does not have any elements, you add it to your entity like this: </P>
+<PRE>1 @<FONT color="#2040a0">ExcludeDefaultListeners</FONT>
+2 <STRONG>public</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">Comment</FONT> <STRONG>extends</STRONG> <FONT color="#2040a0">ModelBase</FONT> <STRONG>implements</STRONG> <FONT color="#2040a0">Serializable</FONT>
+</PRE>
+<P>Now, Comment will not be passed to ModelListener when it’s persisted. </P>
+<P>There are a couple of drawbacks to using entity listeners, most notably the lack of any lifecycle methods for the listener itself, it must be stateless, and it must have a public no-arg constructor. If you can live with these restrictions entity listeners are a good way to hook into the JPA entity lifecycle. </P>
+<P>JPA also supports callback methods, these are methods in your object model class itself and must have the following method signature: void methodName(). Use the entity lifecycle event annotations (e.g. @PrePersist or @PostPersist) to indicate which event the callback method participates in. Here is an example of a callback method (continuing with the example of Comment turning off it’s entity listeners): </P>
+<PRE> 1 @<FONT color="#2040a0">ExcludeDefaultListeners</FONT>
+ 2 <STRONG>public</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">Comment</FONT> <STRONG>extends</STRONG> <FONT color="#2040a0">ModelBase</FONT> <STRONG>implements</STRONG> <FONT color="#2040a0">Serializable</FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 3
+ 4     <FONT color="#444444">// code removed for readability </FONT>
+ 5
+ 6     @<FONT color="#2040a0">PrePersist</FONT>
+ 7     <STRONG>public</STRONG> <STRONG>void</STRONG> <FONT color="#2040a0">setDates</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 8         <FONT color="#2040a0">Date</FONT> <FONT color="#2040a0">now</FONT> <FONT color="4444FF">=</FONT> <STRONG>new</STRONG> <FONT color="#2040a0">Date</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+ 9         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">getDateCreated</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF">=</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+10              <FONT color="#2040a0">setDateCreated</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">now</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+11         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+12         <FONT color="#2040a0">setDateUpdated</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">now</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+13     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+14 <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+</PRE>
+<P>By default, an entities table name is the same as the entity itself. In the case of BlogPost, the default table name would be BlogPost. To explicitly set the table name an entity is mapped to, use the @Table annotation. To change the column mappings defined in ModelBase, use @AttributeOverride. If you need to override more than one field, use the @AttributeOverrides (plural) annotation. Here is how you change the mappings: </P>
+<PRE>1 @<FONT color="#2040a0">Entity</FONT>
+2 @<FONT color="#2040a0">Table</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"BLOG_POST"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+3 @<FONT color="#2040a0">AttributeOverrides</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT> @<FONT color="#2040a0">AttributeOverride</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"id"</FONT>, <FONT color="#2040a0">column</FONT> <FONT color="4444FF">=</FONT> @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"BP_ID"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+4     @<FONT color="#2040a0">AttributeOverride</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"version"</FONT>, <FONT color="#2040a0">column</FONT><FONT color="4444FF">=</FONT>@<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"BP_VERSION"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+5     @<FONT color="#2040a0">AttributeOverride</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"dateCreated"</FONT>, <FONT color="#2040a0">column</FONT><FONT color="4444FF">=</FONT>@<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"BP_DATE_CREATED"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+6     @<FONT color="#2040a0">AttributeOverride</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"dateUpdated"</FONT>, <FONT color="#2040a0">column</FONT><FONT color="4444FF">=</FONT>@<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"BP_DATE_UPDATED"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+7     <FONT color="4444FF"><STRONG>}</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+8 <STRONG>public</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">BlogPost</FONT> <STRONG>extends</STRONG> <FONT color="#2040a0">ModelBase</FONT> <STRONG>implements</STRONG> <FONT color="#2040a0">Serializable</FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT></PRE>
+<P>The two remaining fields to remap from ModelBase are not attributes but associations, so you need to use a different set of annotations, @AssociationOverrides (plural) and @AssociationOverride. Here is how you rename the createdByUser and updatedByUser foreign key columns in the BlogPost entity: </P>
+<PRE>1 @<FONT color="#2040a0">AssociationOverrides</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+2     @<FONT color="#2040a0">AssociationOverride</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"createdByUser"</FONT>,
+3                <FONT color="#2040a0">joinColumns</FONT><FONT color="4444FF">=</FONT>@<FONT color="#2040a0">JoinColumn</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"BP_CREATED_BY_USER_ID"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+4
+5     @<FONT color="#2040a0">AssociationOverride</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"updatedByUser"</FONT>,
+6                <FONT color="#2040a0">joinColumns</FONT><FONT color="4444FF">=</FONT>@<FONT color="#2040a0">JoinColumn</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"BP_UPDATED_BY_USER_ID"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+7 <FONT color="4444FF"><STRONG>}</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+</PRE>
+<P>As you can see, the @AssociationOverride annotation is a little be more complex than @AttributeOverride because it has a nested annotation, @JoinColumn. </P>
+<P>As you can see in Figure 1, there are three more fields to be defined in BlogPost. Here is their definition: </P>
+<PRE>1     @<FONT color="#2040a0">Lob</FONT>
+2     @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"BP_CONTENT"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+3     <STRONG>private</STRONG> <FONT color="#2040a0">String</FONT> <FONT color="#2040a0">content</FONT><FONT color="4444FF">;</FONT>
+4
+5     @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"BP_TITLE"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+6     <STRONG>private</STRONG> <FONT color="#2040a0">String</FONT> <FONT color="#2040a0">title</FONT><FONT color="4444FF">;</FONT>
+7
+8     @<FONT color="#2040a0">Column</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"BP_EDIT_COUNT"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+9     <STRONG>private</STRONG> <FONT color="#2040a0">Integer</FONT> <FONT color="#2040a0">editCount</FONT><FONT color="4444FF">;</FONT>
+</PRE>
+<P>The @Lob annotation tells the persistence provider that content is bound to a large object type column. The @Column annotation defines the column name the content field is mapped to. Use the @Column annotation to map an entities field to a specific column name. </P>
+<P>One last thing to look at is BlogPost’s relationship to Comment. Here is how the comments field is defined: </P>
+<PRE>1     @<FONT color="#2040a0">OneToMany</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">cascade</FONT><FONT color="4444FF">=</FONT><FONT color="4444FF"><STRONG>{</STRONG></FONT><FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">PERSIST</FONT>,<FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">MERGE</FONT><FONT color="4444FF"><STRONG>}</STRONG></FONT>,
+2             <FONT color="#2040a0">fetch</FONT><FONT color="4444FF">=</FONT><FONT color="#2040a0">FetchType</FONT>.<FONT color="#2040a0">LAZY</FONT>)
+3     @<FONT color="#2040a0">Cascade</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">org</FONT>.<FONT color="#2040a0">hibernate</FONT>.<FONT color="#2040a0">annotations</FONT>.<FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">DELETE_ORPHAN</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+4     <STRONG>private</STRONG> <FONT color="#2040a0">List</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT> <FONT color="#2040a0">comments</FONT> <FONT color="4444FF">=</FONT> <STRONG>new</STRONG> <FONT color="#2040a0">ArrayList</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+</PRE>
+<P>The OneToMany annotation tells the persistence provider this is an association and not an attribute. The cascade element tells the persistence provider to persist or merge any comments associated with this instance when blog post is persisted or merged. Unfortunately, JPA does not provide a cascade type for managing orphaned deletes. Fortunately, the Hibernate team has created a set of Hibernate extension annotations to make managing relationships (and every other aspect of an entity) easier. The delete orphan cascade annotation lets Hibernate know it can delete a row from the comment table if a comment is removed from the comments list. Without this annotation, you would have to manually delete the removed comment. </P>
+<P>There are two ways for the persistence provider to map a one-to-many relationship in the database. One is to use a join table (a unidirectional relationship) and the other is to have a foreign key column in the many side of the relationship (a bidirectional relationship). Given the BlogPost to Comment relationship, if you just defined the blog post to comment relationship as shown above, JPA should expect the following tables in the database: </P>
+<P align="center"><IMG width="393" height="161" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/clip_image006.jpg"></P>
+<P align="center"><STRONG>Figure 3: Blog Post to Comment join table </STRONG></P>
+<P>You eliminate the join table, BlogPost_Comment, by defining a bidirectional relationship. To tell JPA this is a bidirectional relationship, you need to add the mappedBy element to the @OneToMany annotation like this: </P>
+<PRE>1     @<FONT color="#2040a0">OneToMany</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">cascade</FONT><FONT color="4444FF">=</FONT><FONT color="4444FF"><STRONG>{</STRONG></FONT><FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">PERSIST</FONT>,<FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">MERGE</FONT><FONT color="4444FF"><STRONG>}</STRONG></FONT>,
+2             <FONT color="#2040a0">fetch</FONT><FONT color="4444FF">=</FONT><FONT color="#2040a0">FetchType</FONT>.<FONT color="#2040a0">LAZY</FONT>, <FONT color="#2040a0">mappedBy</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"blogPost"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+3     @<FONT color="#2040a0">Cascade</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">org</FONT>.<FONT color="#2040a0">hibernate</FONT>.<FONT color="#2040a0">annotations</FONT>.<FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">DELETE_ORPHAN</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+4     <STRONG>private</STRONG> <FONT color="#2040a0">List</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT> <FONT color="#2040a0">comments</FONT> <FONT color="4444FF">=</FONT> <STRONG>new</STRONG> <FONT color="#2040a0">ArrayList</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT></PRE>
+<P>The mappedBy element indicates the owning-side of the relationship, or the field in Comment that will hold a reference to BlogPost. Here is the comment side of the relationship: </P>
+<PRE>1     @<FONT color="#2040a0">ManyToOne</FONT>
+2     @<FONT color="#2040a0">JoinColumn</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"COMMENT_BLOG_POST_ID"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+3     <STRONG>private</STRONG> <FONT color="#2040a0">BlogPost</FONT> <FONT color="#2040a0">blogPost</FONT><FONT color="4444FF">;</FONT>
+</PRE>
+
+<P>By defining the post to comments relationship this way we eliminate the need for a join table. </P>
+<P>The Comment entity has the same attribute and association overrides as BlogPost (mapping to different column names of course), however it has an interesting relationship to itself. Comments support nested comments, so a comment can contain a list of responses to itself. To create this relationship, Comment needs two fields, one for the collection of comments and another to represent the parent comment. Here is how the fields are defined: </P>
+<PRE>1     @<FONT color="#2040a0">ManyToOne</FONT>
+2     @<FONT color="#2040a0">JoinColumn</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"COMMENT_PARENT"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+3     <STRONG>private</STRONG> <FONT color="#2040a0">Comment</FONT> <FONT color="#2040a0">parent</FONT><FONT color="4444FF">;</FONT>
+4
+5     @<FONT color="#2040a0">OneToMany</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">mappedBy</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"parent"</FONT>,
+6             <FONT color="#2040a0">cascade</FONT><FONT color="4444FF">=</FONT><FONT color="4444FF"><STRONG>{</STRONG></FONT><FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">MERGE</FONT>, <FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">PERSIST</FONT><FONT color="4444FF"><STRONG>}</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+7     @<FONT color="#2040a0">OrderBy</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#008000">"dateCreated DESC"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+8     <STRONG>private</STRONG> <FONT color="#2040a0">List</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT> <FONT color="#2040a0">children</FONT> <FONT color="4444FF">=</FONT> <STRONG>new</STRONG> <FONT color="#2040a0">ArrayList</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+</PRE>
+<P>These relationships are the same as any other one-to-many bidirectional relationship between BlogPost and Comment; the only difference is both sides of the relationship are in the same class. The parent field holds the primary key of the parent comment. </P>
+<P>Now that you have the fields defined, you need to add methods to manage the relationship. Both sides of the relationship need to be set in order for the Comment entity to behave properly. To ensure the relationship is set up correctly the java bean property methods for children need to be slightly modified. Since the JPA annotations used in the Comment entity are field based, the JPA persistence provider does not use property accessor methods to set its state. This means we do not need the public void setChildren(List&lt;Comment&gt; children) method for the persistence provider. In addition, by removing this method clients of our model cannot directly set the collection. Next is the public List&lt;Comment&gt; getChildren() method; like setChildren() this method allows clients to directly modify a comments children. To fix this, make getChildren() return an immutable list, like this: </P>
+<PRE>1     <STRONG>public</STRONG> <FONT color="#2040a0">List</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT> <FONT color="#2040a0">getChildren</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+2         <STRONG>return</STRONG> <FONT color="#2040a0">Collections</FONT>.<FONT color="#2040a0">unmodifiableList</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">children</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+3     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+</PRE>
+<P>The final step is to define methods to add and remove child comments. Here is the method for adding child comments: </P>
+<PRE> 1     <STRONG>public</STRONG> <STRONG>void</STRONG> <FONT color="#2040a0">addChildComment</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">Comment</FONT> <FONT color="#2040a0">comment</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 2         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">comment</FONT> <FONT color="4444FF">=</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 3             <STRONG>throw</STRONG> <STRONG>new</STRONG> <FONT color="#2040a0">IllegalArgumentException</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#008000">"child comment is null!"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+ 4         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+ 5
+ 6         <FONT color="#444444">// check to see if comment has a parent</FONT>
+ 7         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">comment</FONT>.<FONT color="#2040a0">getParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF">!</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 8             <FONT color="#444444">// if there is a parent check to see if it's already </FONT>
+ 9             <FONT color="#444444">// associated to this comment</FONT>
+10             <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">comment</FONT>.<FONT color="#2040a0">getParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>.<FONT color="#2040a0">equals</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><STRONG>this</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+11                 <FONT color="#444444">// if this instance is already the parent, we can just return</FONT>
+12                 <STRONG>return</STRONG><FONT color="4444FF">;</FONT>
+13             <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+14             <STRONG>else</STRONG> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+15                 <FONT color="#444444">// disconnect post from it's current relationship</FONT>
+16                 <FONT color="#2040a0">comment</FONT>.<FONT color="#2040a0">getParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>.<FONT color="#2040a0">children</FONT>.<FONT color="#2040a0">remove</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><STRONG>this</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+17             <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+18         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+19
+20         <FONT color="#444444">// make this instance the new parent</FONT>
+21         <FONT color="#2040a0">comment</FONT>.<FONT color="#2040a0">setParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><STRONG>this</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+22         <FONT color="#2040a0">children</FONT>.<FONT color="#2040a0">add</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">comment</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+23     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+</PRE>
+<P> If you want to add a remove comment method, it might look like this: </P>
+<PRE> 1     <STRONG>public</STRONG> <STRONG>void</STRONG> <FONT color="#2040a0">removeChildComment</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">Comment</FONT> <FONT color="#2040a0">comment</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 2         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">comment</FONT> <FONT color="4444FF">=</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 3             <STRONG>throw</STRONG> <STRONG>new</STRONG> <FONT color="#2040a0">IllegalArgumentException</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#008000">"child comment is null!"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+ 4         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+ 5
+ 6         <FONT color="#444444">// make sure we are the parent before we break the relationship</FONT>
+ 7         <STRONG>if</STRONG> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">comment</FONT>.<FONT color="#2040a0">parent</FONT> <FONT color="4444FF">!</FONT><FONT color="4444FF">=</FONT> <STRONG>null</STRONG> <FONT color="4444FF">&amp;</FONT><FONT color="4444FF">&amp;</FONT> <FONT color="#2040a0">comment</FONT>.<FONT color="#2040a0">getParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>.<FONT color="#2040a0">equals</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><STRONG>this</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 8             <FONT color="#2040a0">comment</FONT>.<FONT color="#2040a0">setParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><STRONG>null</STRONG><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+ 9             <FONT color="#2040a0">children</FONT>.<FONT color="#2040a0">remove</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">comment</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+10         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+11         <STRONG>else</STRONG> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+12             <STRONG>throw</STRONG> <STRONG>new</STRONG> <FONT color="#2040a0">IllegalArgumentException</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT>
+13                     <FONT color="#008000">"child comment not associated with this instance"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+14         <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+15     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+</PRE>
+<P> Not only does this method remove a comment from its parents children collection, it makes sure the parent of comment is this instance. If comment were not associated with this instance, removing it from children would have no affect. However, setting its parent to null would leave a dangling comment in the database. </P>
+<P> The last two methods to deal with are getParent() and setParent() . Here is their definition: </P>
+<PRE>1     <STRONG>public</STRONG> <FONT color="#2040a0">Comment</FONT> <FONT color="#2040a0">getParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+2         <STRONG>return</STRONG> <FONT color="#2040a0">parent</FONT><FONT color="4444FF">;</FONT>
+3     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+4
+5     <STRONG>private</STRONG> <STRONG>void</STRONG> <FONT color="#2040a0">setParent</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">Comment</FONT> <FONT color="#2040a0">parent</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+6         <STRONG>this</STRONG>.<FONT color="#2040a0">parent</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">parent</FONT><FONT color="4444FF">;</FONT>
+7     <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+</PRE>
+<P>The addChildComment() method uses setParent() , however; clients of the object model should not be able to change a comments parent. The easiest way to ensure this is to make setParent() private. getParent() is fine the way it is. The pattern used for Comments parent/child relationship can be applied to any bidirectional association in your object model. </P>
+<P>Deciding where to put the relationship management methods in a bidirectional relationship is rather arbitrary since the purpose of the methods is to ensure the relationships are established correctly. With one-to-many bidirectional relationships, I tend to put the management methods on the “one” side. In the case of Comment this isn’t obvious, but in the BlogPost to Comment relationship I placed the relationship methods in BlogPost. This seems more natural; you add comments to a blog post, not the other way around. If you have a many-to-many relationship it really doesn’t matter which side has the methods so pick one and restrict the other side. </P>
+<P>JPA provides methods for fetching entities by their primary key but it might be a good idea to provide some queries to fetch blog posts and comments by User, count the number of comments and blog posts a user has made, determine which comments do not have child comments, and find all root comments (those without a parent). </P>
+<P>JPA provides three different types of queries, dynamic queries, static or named queries, and native queries. Dynamic and static queries use the Java Persistence Query Language and native queries use SQL. A dynamic query is one that is processed at runtime, meaning it is parsed and SQL generated every time it’s created. Static queries are processed when the persistence provider loads your object model. This means static queries are parsed once and reused every time you run the query. </P>
+<P>To declare a named or static query, you use the @NamedQuery annotation. If you have more than one named query, you need to use the @NamedQueries annotation. Both annotations can be placed on an entity or mapped superclass and are declared at the class or type level. Query names are global, that is, they are not bound to any entity. As a result, you should use some sort of naming convention. One approach is to prefix every query name with the entity name it’s associated with. </P>
+<P>Here are the named queries used in Comment and BlogPost: </P>
+<PRE> 1 @<FONT color="#2040a0">NamedQueries</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>{</STRONG></FONT>
+ 2     <FONT color="#444444">// select comments that do not have parent comments</FONT>
+ 3     @<FONT color="#2040a0">NamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"comment.rootComments"</FONT>,
+ 4             <FONT color="#2040a0">query</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"SELECT c FROM Comment c WHERE c.parent IS NULL"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+ 5
+ 6     <FONT color="#444444">// select comments made by a User</FONT>
+ 7     @<FONT color="#2040a0">NamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"comment.userComments"</FONT>,
+ 8             <FONT color="#2040a0">query</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"SELECT c FROM Comment c WHERE c.createdByUser = :user"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+ 9
+10     <FONT color="#444444">// count the number of comments made by a user</FONT>
+11     @<FONT color="#2040a0">NamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"comment.userCount"</FONT>,
+12             <FONT color="#2040a0">query</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"SELECT COUNT(c) FROM Comment c WHERE c.createdByUser = :user"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+13
+14     <FONT color="#444444">// select the comments a user made without responses</FONT>
+15     @<FONT color="#2040a0">NamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"comment.noChildren"</FONT>,
+16             <FONT color="#2040a0">query</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"SELECT c FROM Comment c WHERE c.children IS EMPTY AND c.parent IS NULL AND c.createdByUser = ?1"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+17 <FONT color="4444FF"><STRONG>}</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+18 <STRONG>public</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">Comment</FONT> <STRONG>extends</STRONG> <FONT color="#2040a0">ModelBase</FONT> <STRONG>implements</STRONG> <FONT color="#2040a0">Serializable</FONT><FONT color="4444FF"><STRONG>{</STRONG></FONT> ... <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+19
+20
+21 @<FONT color="#2040a0">NamedQueries</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT>
+22     @<FONT color="#2040a0">NamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"blogPost.createdByUser"</FONT>,
+23             <FONT color="#2040a0">query</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"SELECT p FROM BlogPost p WHERE p.createdByUser = ?1"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+24
+25     <FONT color="#444444">// determine the number of posts a User has made</FONT>
+26     @<FONT color="#2040a0">NamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"blogPost.postCount"</FONT>,
+27             <FONT color="#2040a0">query</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"SELECT COUNT(p) FROM BlogPost p WHERE p.createdByUser = ?1"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>,
+28
+29     <FONT color="#444444">// fetch a blog post and eagerly fetch its comments</FONT>
+30     @<FONT color="#2040a0">NamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">name</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"blogPost.createdByUserComments"</FONT>,
+31             <FONT color="#2040a0">query</FONT> <FONT color="4444FF">=</FONT> <FONT color="#008000">"SELECT p FROM BlogPost p JOIN FETCH p.comments as c WHERE p.createdByUser = ?1"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+32 <FONT color="4444FF"><STRONG>}</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+33 <STRONG>public</STRONG> <STRONG>class</STRONG> <FONT color="#2040a0">BlogPost</FONT> <STRONG>extends</STRONG> <FONT color="#2040a0">ModelBase</FONT> <STRONG>implements</STRONG> <FONT color="#2040a0">Serializable</FONT> <FONT color="4444FF"><STRONG>{</STRONG></FONT> ... <FONT color="4444FF"><STRONG>}</STRONG></FONT>
+</PRE>
+<P>Each of the above queries uses either positional or named parameters; positional parameters use the “?1” syntax and named parameters use the “:name” syntax. Here is how you would create and execute a static query which uses named parameters: </P>
+<PRE>1 <FONT color="#444444">// assume entityManager exists</FONT>
+2 <FONT color="#2040a0">User</FONT> <FONT color="#2040a0">user</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">UserUtil</FONT>.<FONT color="#2040a0">getCurrentUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+3
+4 <FONT color="#444444">// Here is the definition of comment.userComments for reference</FONT>
+5 <FONT color="#444444">// SELECT c FROM Comment c WHERE c.createdByUser = :user </FONT>
+6
+7 <FONT color="#2040a0">Query</FONT> <FONT color="#2040a0">q</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">entityManager</FONT>.<FONT color="#2040a0">createNamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#008000">"comment.userComments"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+8 <FONT color="#2040a0">q</FONT>.<FONT color="#2040a0">setParameter</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#008000">"user"</FONT>, <FONT color="#2040a0">user</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+9 <FONT color="#2040a0">List</FONT> <FONT color="#2040a0">results</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">q</FONT>.<FONT color="#2040a0">getResultList</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+</PRE>
+<P>Another query using positional parameters (note: the count function returns a Long): </P>
+<PRE>1 <FONT color="#444444">// assume entityManager exists</FONT>
+2 <FONT color="#2040a0">User</FONT> <FONT color="#2040a0">user</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">UserUtil</FONT>.<FONT color="#2040a0">getCurrenstUser</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+3
+4 <FONT color="#444444">// Here is the definition of blogPost.postCount for reference</FONT>
+5 <FONT color="#444444">// SELECT COUNT(p) FROM BlogPost p WHERE p.createdByUser = ?1</FONT>
+6
+7 <FONT color="#2040a0">Query</FONT> <FONT color="#2040a0">q</FONT> <FONT color="4444FF">=</FONT> <FONT color="#2040a0">entityManager</FONT>.<FONT color="#2040a0">createNamedQuery</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#008000">"blogPost.postCount"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+8 <FONT color="#2040a0">q</FONT>.<FONT color="#2040a0">setParameter</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#FF0000">1</FONT>, <FONT color="#2040a0">user</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+9 <FONT color="#2040a0">Long</FONT> <FONT color="#2040a0">result</FONT> <FONT color="4444FF">=</FONT> <FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">Long</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT> <FONT color="#2040a0">q</FONT>.<FONT color="#2040a0">getSingleResult</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT>
+</PRE>
+<P>The JPQL has many built in functions and expressions to assist you in working with your object model. If you have not checked out JPQL before, you might be surprised by how powerful it is. </P>
+<P>The last query to look at is blogPost.createdByUserComments. This query uses the fetch join operator to eagerly fetch a blog posts’ comments. The BlogPost to Comment association is defined as being LAZY (here is the relationship again): </P>
+<PRE>1     @<FONT color="#2040a0">OneToMany</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">cascade</FONT><FONT color="4444FF">=</FONT><FONT color="4444FF"><STRONG>{</STRONG></FONT><FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">PERSIST</FONT>,<FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">MERGE</FONT><FONT color="4444FF"><STRONG>}</STRONG></FONT>,
+2             <FONT color="#2040a0">fetch</FONT><FONT color="4444FF">=</FONT><FONT color="#2040a0">FetchType</FONT>.<FONT color="#2040a0">LAZY</FONT>, <FONT color="#2040a0">mappedBy</FONT><FONT color="4444FF">=</FONT><FONT color="#008000">"blogPost"</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+3     @<FONT color="#2040a0">Cascade</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="#2040a0">org</FONT>.<FONT color="#2040a0">hibernate</FONT>.<FONT color="#2040a0">annotations</FONT>.<FONT color="#2040a0">CascadeType</FONT>.<FONT color="#2040a0">DELETE_ORPHAN</FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT>
+4     <STRONG>private</STRONG> <FONT color="#2040a0">List</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT> <FONT color="#2040a0">comments</FONT> <FONT color="4444FF">=</FONT> <STRONG>new</STRONG> <FONT color="#2040a0">ArrayList</FONT><FONT color="4444FF">&lt;</FONT><FONT color="#2040a0">Comment</FONT><FONT color="4444FF">&gt;</FONT><FONT color="4444FF"><STRONG>(</STRONG></FONT><FONT color="4444FF"><STRONG>)</STRONG></FONT><FONT color="4444FF">;</FONT></PRE>
+<P>Making the relationship LAZY (by setting the fetch element of the @OneToMany annotation to FetchType.LAZY) enables your application to fetch a blog post, say when a user wants to edit the post, without also fetching all the comments. When you want to fetch the blog post and its comments, you can use the named query, blogPost.createdByUserComments. Sometimes you will want to make a relationship eager, by setting the fetch element of the @OneToMany annotation to FetchType.EAGER, so when you fetch entity “A” the persistence provider will also fetch entity “B”. Having one fetch to get back several objects is more efficient than multiple trips to the database but you will need to decide the correct semantics for each collection in your object model. </P>
+<P>If you haven’t looked at JPA before, I hope this short example will encourage you to give it a try. Hibernate’s latest release has excellent JPA support and provides an extensive set of JPA extension annotations. </P>
+
+<P><A href="http://rateyourwriting.com/maven2/site/" target="_blank">Get the Source Code here</A>.
+</P>
+
+<H2>Biography</H2>
+<P>Chris Maki is a Principal Software Engineer at Overstock.com.  Before joining Overstock.com, Chris was an independent consultant specializing in server-side Java development. He has been designing and building server-side systems for 15 years in C++, Objective-C, and Java.  </P>
+
+<P>Chris spent many years working as an enterprise architect specializing in large-scale Java system design and development.  In addition to being a Java evangelist, he is an avid proponent of Agile Software Development. </P>
+
+<P>Chris is the President of the Utah Java User Group and a member of the WebBeans  (JSR-299) and JPA 2.0 (JSR-317) expert groups.</P>
+
+<P>When Chris isn�t playing with his computer, you can find him hanging out with his wonderful wife of 12 years, Nicole, and their three boys, Trenton, Avery, and Brayden. You can find Chris on his blog at http://www.jroller.com/page/cmaki.</P>
+
+<BR>
+
+<P align="center">
+<A href="http://www.theserverside.com/tt/articles/content/JPAObjectModel/article.html">PRINTER FRIENDLY VERSION</A>
+<BR>
+<IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/tss_white.gif" align="center">
+</P>
+
+
+
+<!-- 
+YOU MUST CHANGE THE variable "google_ad_channel" at the bottom of this page 
+to be one of the following values depending on the page type : 
+
+	news
+	discussions
+	techtalks
+	patterns
+	reviews
+	articles
+	other
+
+-->
+
+<!-- Begin AdSense -->
+<SCRIPT>
+<!--
+function ss(w){window.status=w;return true;}
+function cs(){window.status='';}
+function ga(o,e){
+	if (document.getElementById){
+		a=o.id.substring(1);
+		p="";
+		g=e.target;
+			if(g){
+				t=g.id;f=g.parentNode;
+					if(f)p=f.id;
+				}
+			else{t=e.srcElement.id;}
+				if(t==a||p==a)return;location.href=document.getElementById(a).href
+	}
+}
+//-->
+</SCRIPT>
+
+
+<STYLE type="text/css">
+ .ch{cursor:pointer;cursor:hand}
+</STYLE>
+
+<SCRIPT language="JavaScript">
+<!--
+function google_ad_request_done(google_ads) {
+var i;
+var header;
+accip = "off";
+
+if(google_ads.length > 0) {
+
+		document.write('<table cellspacing="0" class="box">');
+		document.write('<thead>');
+		document.write('    <tr>');
+		document.write('        <th><img src="/tt/skin/images/bar_begin.gif" width="8" height="18"/>');
+		document.write('<span class="container"><span class="text">Related Links</span><span class="shadow">Related Links</span></span><span class="fill">Related Links</span> </th>');
+		document.write('     </td>');
+		document.write('    </tr>');
+		document.write('   <tr>');
+		document.write('       <td class="barbottom"><img src="/tt/images/spacer.gif" width="10" height="10"/></td>');
+		document.write('   </tr>');
+		document.write('</thead>');
+    
+		document.write('<tbody>');
+		document.write('  <tr>');
+		document.write('      <td>');
+		document.write('          <table cellspace="2"> ');
+		document.write('<tr>');
+		document.write('              <td><span class="text"><b>Ads by Google</b></span>');
+		document.write('              </td>');
+		document.write('</tr>');
+
+    	for(i = 0; i < google_ads.length; ++i) {
+			document.write('<TR><td width="100%" onClick="window.open(\'' + google_ads[i].url + '\',\'_blank\')" style="cursor:pointer; cursor:hand" onMouseOver="return ss(\'' + google_ads[i].visible_url + '\')" onMouseOut="cs()">');
+			document.write('<A HREF="#marketplace_top"><b>');
+			document.write(google_ads[i].line1);
+			document.write('</b></a><br>');
+			document.write(' ' + google_ads[i].line2 + ' ');
+			document.write(' ' + google_ads[i].line3 + ' ');
+			document.write('<br>');
+			document.write('<h2><A HREF="#marketplace_top">' + google_ads[i].visible_url + '</a></h2>');
+			document.write('              </td>');
+			document.write('</tr>');
+		
+		}
+	
+		document.write('	</table>');
+		document.write('          </td>');
+		document.write('          </tr>');
+		document.write('</tbody>');
+		document.write('</table>');
+	}
+}
+// -->
+</SCRIPT>
+
+<SCRIPT language="JavaScript">
+<!--
+   var      google_ad_client = 'ca-techtargetserver_js';
+   var      google_ad_channel = 'articles';
+   var      google_ad_output = 'js';
+   var      google_max_num_ads = 5;
+// -->
+</SCRIPT>
+
+<A name="marketplace_top"></A>
+<SCRIPT language="JavaScript" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/show_ads.js"></SCRIPT><SCRIPT src="./Enterprise Java Community  Defining Your Object Model with JPA_files/test_domain.js"></SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><SCRIPT language="JavaScript1.1" src="./Enterprise Java Community  Defining Your Object Model with JPA_files/ads"></SCRIPT><TABLE cellspacing="0" class="box"><THEAD>    <TR>        <TH><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/bar_begin.gif" width="8" height="18"><SPAN class="container"><SPAN class="text">Related Links</SPAN><SPAN class="shadow">Related Links</SPAN></SPAN><SPAN class="fill">Related Links</SPAN> </TH>         </TR>   <TR>       <TD class="barbottom"><IMG src="./Enterprise Java Community  Defining Your Object Model with JPA_files/spacer.gif" width="10" height="10"></TD>   </TR></THEAD><TBODY>  <TR>      <TD>          <TABLE cellspace="2"> <TBODY><TR>              <TD><SPAN class="text"><B>Ads by Google</B></SPAN>              </TD></TR><TR><TD width="100&percnt;" onclick="window.open(&#39;http://googleads.g.doubleclick.net/aclk?sa=l&amp;ai=BMPCxYciISordFZLUvgOlobibBK6zuD-a2M_vAcCNtwGQThABGAEgy4b4AigCOABQxrKLlfj_____AWCd0dSBsAWyARV3d3cudGhlc2VydmVyc2lkZS5jb23IAQHaAUVodHRwOi8vd3d3LnRoZXNlcnZlcnNpZGUuY29tL3R0L2FydGljbGVzL2FydGljbGUudHNzP2w9SlBBT2JqZWN0TW9kZWyAAgGpAu5LSG_p7bc-qAMB6AMf6APcBegD1wL1AwIAAAT1AwQAAAA&amp;num=1&amp;sig=AGiWqtyaMsNwRoOviNxy1jzwyTDmMljZcQ&amp;client=ca-techtargetserver_js&amp;adurl=http://www.versant.com/en_US/products/objectdatabase&#39;,&#39;_blank&#39;)" style="cursor:pointer; cursor:hand" onmouseover="return ss(&#39;www.versant.com/objectdatabase&#39;)" onmouseout="cs()"><A href="http://www.theserverside.com/tt/articles/article.tss?l=JPAObjectModel#marketplace_top"><B>Object Database</B></A><BR> High Concurrency, High Availability  Large Data Sets, High Performance <BR><H2><A href="http://www.theserverside.com/tt/articles/article.tss?l=JPAObjectModel#marketplace_top">www.versant.com/objectdatabase</A></H2>              </TD></TR><TR><TD width="100&percnt;" onclick="window.open(&#39;http://googleads.g.doubleclick.net/aclk?sa=l&amp;ai=BzEw_YciISordFZLUvgOlobibBPXTsJoB6YPa4Q3AjbcBkE4QAhgCIMuG-AIoAjgAUOeijIEBYJ3R1IGwBbIBFXd3dy50aGVzZXJ2ZXJzaWRlLmNvbcgBAdoBRWh0dHA6Ly93d3cudGhlc2VydmVyc2lkZS5jb20vdHQvYXJ0aWNsZXMvYXJ0aWNsZS50c3M_bD1KUEFPYmplY3RNb2RlbKkC8x0U6jiipj6oAwHoAx_oA9wF6APXAvUDAgAABPUDBAAAAA&amp;num=2&amp;sig=AGiWqtwE9fICVKbfebLB5xwthi1H1drNAQ&amp;client=ca-techtargetserver_js&amp;adurl=http://programtutorials.com/free/java&#39;,&#39;_blank&#39;)" style="cursor:pointer; cursor:hand" onmouseover="return ss(&#39;programtutorials.com/free/java&#39;)" onmouseout="cs()"><A href="http://www.theserverside.com/tt/articles/article.tss?l=JPAObjectModel#marketplace_top"><B>Free Java eBooks</B></A><BR> Improve Java skills with useful  tutorials, books and lectures <BR><H2><A href="http://www.theserverside.com/tt/articles/article.tss?l=JPAObjectModel#marketplace_top">programtutorials.com/free/java</A></H2>              </TD></TR>	</TBODY></TABLE>          </TD>          </TR></TBODY></TABLE>
+
+</TD>
+
+
+</TR>
+          </TBODY></TABLE>
+
+     </TD>
+   </TR>
+</TBODY></TABLE>
+
+<HR>
+
+<DIV class="center">
+  <SPAN class="smalltext">
+<A href="http://www.theserverside.com/news/index.tss">News</A> |
+<A href="http://www.theserverside.com/blogs/index.tss">Blogs</A> |
+<A href="http://www.theserverside.com/discussions/index.tss">Discussions</A> |
+<A href="http://www.theserverside.com/talks/index.tss">Tech talks</A> |
+<A href="http://www.theserverside.com/patterns/index.tss">Patterns</A> |
+<A href="http://www.theserverside.com/reviews/index.tss">Reviews</A> |
+<A href="http://library.theserverside.com/">White Papers</A> |
+<A href="http://library.theserverside.com/itdownloads/">Downloads</A> |
+<A href="http://www.theserverside.com/tt/articles/index.tss">Articles</A> |
+<A href="mailto:bmcgovern@techtarget.com">Media kit</A> |
+
+<A href="http://www.theserverside.com/tt/common/about.tss">About</A> </SPAN>
+</DIV>
+
+<DIV class="center">
+	<SPAN class="smalltext">
+
+<A href="http://javasolutions.theserverside.com/">Java Solutions</A>	</SPAN>
+</DIV>
+
+<DIV class="center">
+  <SPAN class="smalltext">All Content Copyright ©2007 TheServerSide <A target="_blank" href="http://www.techtarget.com/html/privacy_policy.html">Privacy Policy</A></SPAN>
+</DIV>
+
+<DIV class="center">
+	<SPAN class="smalltext">
+
+<A href="http://www.theserverside.com/sitemap.html">Site Map</A>	</SPAN>
+</DIV>
+
+
+
+
+
+<!-- Render time: ~ 10 ms -->
+
+</BODY></HTML>

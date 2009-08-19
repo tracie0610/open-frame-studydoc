@@ -1,0 +1,631 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/><title>使用 Spring 2.5 注释驱动的 IoC 功能</title><!-- s-header-meta  for china -->
+<meta http-equiv="PICS-Label" content='(PICS-1.1 "http://www.icra.org/ratingsv02.html" l gen true r (cz 1 lz 1 nz 1 oz 1 vz 1) "http://www.rsac.org/ratingsv01.html" l gen true r (n 0 s 0 v 0 l 0) "http://www.classify.org/safesurf/" l gen true r (SS~~000 1))' />
+<link rel="schema.DC" href="http://purl.org/DC/elements/1.0/" />
+<link rel="SHORTCUT ICON" href="http://www.ibm.com/favicon.ico" />
+<meta name="Owner" content="dw@cn.ibm.com" />
+<meta name="DC.Language" scheme="rfc1766" content="zh-CN" />
+<meta name="IBM.Country" content="CN" />
+<meta name="Security" content="Public" />
+<!-- 5.8 0421 egd: Added IBM.Special.Purpose meta tag and the meta tag to suppress the WI login in the masthead -->
+<meta name="IBM.SpecialPurpose" content="SP001" />
+<meta name="IBM.PageAttributes" content="sid=1003"/><meta name="Abstract" content="基于注释（Annotation）的配置有越来越流行的趋势，Spring 2.5 顺应这种趋势，提供了完全基于注释配置 Bean、装配 Bean 的功能，您可以使用基于注释的 Spring IoC 替换原来基于 XML 的配置。本文通过实例详细讲述了 Spring 2.5 基于注释 IoC 功能的使用。" /><meta name="Description" content="基于注释（Annotation）的配置有越来越流行的趋势，Spring 2.5 顺应这种趋势，提供了完全基于注释配置 Bean、装配 Bean 的功能，您可以使用基于注释的 Spring IoC 替换原来基于 XML 的配置。本文通过实例详细讲述了 Spring 2.5 基于注释 IoC 功能的使用。" /><meta name="Keywords" content="Spring 2.5, 注释, IoC, JSR-250, tttjca, tttosca" /><meta name="DC.Date" scheme="iso8601" content="2008-02-28" /><meta name="DC.Type" scheme="IBM_ContentClassTaxonomy" content="CT316" /><meta name="DC.Subject" scheme="IBM_SubjectTaxonomy" content="TT300" /><meta name="DC.Rights" content="Copyright (c) 2008 by IBM Corporation" /> <meta name="Robots" content="index,follow" /><meta name="IBM.Effective" scheme="W3CDTF" content="2008-02-28" /><meta name="Last update" content="27072009ketring@us.ibm.com" /><!-- STYLESHEETS/SCRIPTS -->
+<!-- for tables -->
+<link rel="stylesheet" type="text/css" media="screen,print" href="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/common/v14/table.css" /> 
+<!-- end for tables -->
+<script language="JavaScript" src="//a248.e.akamai.net/f/248/69561/1d/www.ibm.com/developerworks/js/dwcss14.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/common/v14/main.css" />
+<link rel="stylesheet" type="text/css" media="all" href="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/common/v14/cn/zh/screen.css" />
+<link rel="stylesheet" type="text/css" media="print" href="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/common/v14/cn/zh/print.css" />
+<script type="text/javascript" src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/common/js/ibmcommon.js">//</script>
+<script language="JavaScript" src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/common/v14/cn/zh/detection.js" type="text/javascript"></script>
+<script language="JavaScript" src="//a248.e.akamai.net/f/248/69561/1d/www.ibm.com/developerworks/js/dropdown.js" type="text/javascript"></script>
+<script language="JavaScript" src="//a248.e.akamai.net/f/248/69561/1d/www.ibm.com/developerworks/email/grabtitle.js" type="text/javascript"></script>
+<script language="JavaScript" src="//a248.e.akamai.net/f/248/69561/1d/www.ibm.com/developerworks/email/emailfriend2.js" type="text/javascript"></script><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><script language="javascript" src="//a248.e.akamai.net/f/248/69561/1d/www.ibm.com/developerworks/js/ajax1.js" type="text/javascript"></script><script language="javascript" src="//a248.e.akamai.net/f/248/69561/1d/www.ibm.com/developerworks/js/searchcount.js" type="text/javascript"></script><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><script language="JavaScript" type="text/javascript">var emailAbstract = "基于注释（Annotation）的配置有越来越流行的趋势，Spring 2.5 顺应这种趋势，提供了完全基于注释配置 Bean、装配 Bean 的功能，您可以使用基于注释的 Spring IoC 替换原来基于 XML 的配置。本文通过实例详细讲述了 Spring 2.5 基于注释 IoC 功能的使用。"; </script></head><body><!--MASTHEAD_BEGIN--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td class="bbg" width="110"><a href="http://www.ibm.com/cn/"><img alt="IBM&reg;" border="0" height="52" src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/v14/t/ibm-logo.gif" width="110"/></a></td><td class="bbg"><img src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/c.gif" width="1" height="1" border="0" alt=""/></td><td align="right" class="mbbg" width="650"><table border="0" cellpadding="0" cellspacing="0" align="right"><tr class="cty-tou"><td rowspan="2" width="17" class="upper-masthead-corner"><a href="#main"><img src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/c.gif" border="0" width="1" height="1" alt="跳转到主要内容"/></a></td><td align="left"><table border="0" cellpadding="0" cellspacing="0" align="left"><tr><td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span><b class="country">中国</b><span class="spacer">&nbsp;[</span><a class="ur-link" href="http://www.ibm.com/developerworks/cn/country/">选择</a><span class="spacer">]</span></td><td width="29" class="upper-masthead-divider">&nbsp;&nbsp;&nbsp;&nbsp;</td><td align="left"><a class="ur-link" href="http://www.ibm.com/legal/cn/">使用条款</a></td></tr></table></td><td width="40">&nbsp;</td></tr><tr><td class="cty-tou-border" height="1" colspan="2"><img src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/c.gif" alt="" height="1" width="1"/></td></tr><tr><td colspan="3"><img alt="" height="8" src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/c.gif" width="1"/></td></tr><tr><td>&nbsp;</td><td align="center" colspan="2"><form method="get" action="http://www-128.ibm.com/developerworks/search/searchResults.jsp" id="form1" name="form1"><input type="hidden" name="searchType" value="1"/><input type="hidden" name="searchSite" value="dWChina"/><input type="hidden" name="pageLang" value="zh"/><input type="hidden" name="langEncoding" value="UTF8"/><table border="0" cellpadding="0" cellspacing="0"><tr><td width="1"><img src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/c.gif" width="1" height="1" alt="Select a scope:"/></td><td align="right">
+
+<label for="sq"></label>
+<select id="sq" name="searchScope" class="input-scope">
+<option value="dW" selected="selected">dW 全部内容</option>
+<option value="dW">-----------------</option>
+<option value="aixunix">&nbsp;&nbsp;AIX and UNIX</option>
+<option value="dmdd">&nbsp;&nbsp;Information management</option>
+<option value="lotusdd">&nbsp;&nbsp;Lotus</option>
+<option value="rdd">&nbsp;&nbsp;Rational</option>
+<option value="wsdd">&nbsp;&nbsp;WebSphere</option>
+<option value="dW">-----------------</option>
+<option value="archZ">&nbsp;&nbsp;Architecture</option>
+<option value="gridZ">&nbsp;&nbsp;Grid computing</option>
+<option value="javaZ">&nbsp;&nbsp;Java 技术</option>
+<option value="linuxZ">&nbsp;&nbsp;Linux</option>
+<option value="paZ">&nbsp;&nbsp;Multicore acceleration</option>
+<option value="opensrcZ">&nbsp;&nbsp;Open source</option>
+<option value="securityZ">&nbsp;&nbsp;Security</option>
+<option value="webservZ">&nbsp;&nbsp;SOA &amp; Web services</option>
+<option value="webarchZ">&nbsp;&nbsp;Web development</option>
+<option value="xmlZ">&nbsp;&nbsp;XML</option>
+<option value="dW">-----------------</option>
+<option value="all">IBM 全部内容</option>
+</select>
+</td><td width="1" align="right"><img src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/c.gif" width="1" height="1" alt="Search for:"/>&nbsp;&nbsp;</td><td align="right"><input class="input" id="q" maxlength="100" name="query" size="15" type="text" value=""/></td><td width="7">&nbsp;</td><td><label for="q"></label><input alt="搜索" name="Search" src="//a248.e.akamai.net/f/248/47542/30d/www.ibm.com/i/v14/t/cn/zh/search.gif" type="image" value="搜索"/></td><td width="20">&nbsp;</td></tr></table></form></td></tr></table></td></tr><tr><td class="blbg" colspan="3"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><table border="0" cellpadding="0" cellspacing="0"><tr><td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td><a class="masthead-mainlink" href="http://www.ibm.com/cn/">首页</a></td><td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/products/cn/">产品</a></td><td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/servicessolutions/cn/">服务与解决方案</a></td>	<td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/support/cn/">支持与下载</a></td><td class="masthead-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a class="masthead-mainlink" href="http://www.ibm.com/account/cn/">个性化服务</a></td><td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr></table></td></tr></table></td></tr></table><!--
+<script src="//www.ibm.com/common/v14/pmh.js" language="JavaScript" type="text/javascript"></script>
+-->
+<!-- end masthead dw liquid -->
+<!--MASTHEAD_END--><!-- CMA ID: 291922 --> <!-- Site ID: 10 --><table id="v14-body-table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><!--LEFTNAV_BEGIN--><td id="navigation" width="150"><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td class="left-nav-spacer"><a href="http://www.ibm.com/developerworks/cn/" class="left-nav-overview"> </a></td></tr></table><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="2" class="left-nav-overview"><a href="http://www.ibm.com/developerworks/cn/" class="left-nav-overview">developerWorks<br />中国</a></td></tr></table><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td colspan="2" class="left-nav-highlight"><a href="#" class="left-nav">本文内容包括：</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N1004A" class="left-nav-child">概述</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N10060" class="left-nav-child">原来我们是怎么做的</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N100A7" class="left-nav-child">使用 @Autowired 注释</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N10139" class="left-nav-child">当候选 Bean 数目不为 1 时的应对方法</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N101F9" class="left-nav-child">使用 JSR-250 的注释</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N102C3" class="left-nav-child">简化配置</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N102FA" class="left-nav-child">使用 @Component</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N103D9" class="left-nav-child">采用具有特殊语义的注释</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N10409" class="left-nav-child">注释配置和 XML 配置的适用场合</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#N1042C" class="left-nav-child">小结</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#resources" class="left-nav-child">参考资料 </a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#author" class="left-nav-child">关于作者</a></td></tr><tr class="left-nav-child-highlight"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/cl-bullet.gif"/></td><td><a href="#rate" class="left-nav-child">对本文的评价</a></td></tr><tr class="left-nav-last"><td width="14"><img class="display-img" alt="" height="1" width="14" src="//www.ibm.com/i/c.gif"/></td><td width="136"><img class="display-img" alt="" height="19" width="136" src="//www.ibm.com/i/v14/t/left-nav-corner.gif"/></td></tr></table><br /><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td class="related" colspan="2"><b class="related">相关链接：</b></td></tr><tr class="rlinks"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/rl-bullet.gif"/></td><td><a class="rlinks" href="http://www.ibm.com/developerworks/cn/views/java/libraryview.jsp">Java technology 技术文档库</a></td></tr><tr class="rlinks"><td><img alt="" height="8" width="2" src="//www.ibm.com/i/v14/t/rl-bullet.gif"/></td><td><a class="rlinks" href="http://www.ibm.com/developerworks/cn/views/opensource/libraryview.jsp">Open source 技术文档库</a></td></tr><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- No content currently --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><tr><td width="14"><img class="display-img" alt="" height="1" width="14" src="//www.ibm.com/i/c.gif"/></td><td width="136"><img class="display-img" alt="" height="19" width="136" src="//www.ibm.com/i/c.gif"/></td></tr></table><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- Next Steps Area:  Start -->
+<!-- Commented out the include call in the dwmaster version of this file to prevent ajax calls
+     being made during article previews and testing.  Live site has uncommented copy of this file (jpp) -->
+<!-- Call Next Steps Servlet -->
+<script language="JavaScript" type="text/javascript">
+<!--
+/*
+ * ajaxInclude makes a call to the url and render the results in the div tag specified in divId
+ */
+function ajaxInclude(url, divId) { 
+ var req = newXMLHttpRequest(); 
+ if (req) { 
+   req.onreadystatechange = getReadyStateHandler(req, 
+	function (result) {  
+           var contents = document.getElementById(divId);  
+           if (result != null && result.length > 0 && contents != null) {
+	     contents.innerHTML = result;  
+           }
+        }); 
+   req.open("GET", url, true);
+   req.send("");
+ }
+}
+//-->
+</script>
+
+<!-- Display Next Steps Result -->
+<div id="nextsteps"></div>
+
+<!-- Initiate Next Steps Call -->
+<script language="JavaScript" type="text/javascript">
+<!-- 
+ ajaxInclude("/developerworks/niagara/jsp/getNiagaraContent.jsp?url="+window.location.href,"nextsteps");
+//-->
+</script>
+<!-- Next Steps Area:  End --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--></td><!--LEFTNAV_END--><td width="100%"><table id="content-table" border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td width="100%"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><a name="main"><img border="0" alt="跳转到主要内容" height="1" width="592" src="//www.ibm.com/i/c.gif"/></a></td></tr></table><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td height="18" width="10"><img alt="" height="18" width="10" src="//www.ibm.com/i/c.gif"/></td><td width="100%"><img alt="" height="6" width="1" src="//www.ibm.com/i/c.gif"/><br /><a href="http://www.ibm.com/developerworks/cn/" class="bctl">developerWorks 中国</a><span class="bct">  &gt;  </span><a class="bctl" href="http://www.ibm.com/developerworks/cn/java/">Java technology</a><span class="bct"> | </span><a href="http://www.ibm.com/developerworks/cn/opensource/" class="bctl">Open source</a><span class="bct">  &gt;</span><img alt="" height="1" width="1" src="//www.ibm.com/i/c.gif"/><br /><h1>使用 Spring 2.5 注释驱动的 IoC 功能</h1><img alt="" height="6" width="1" src="//www.ibm.com/i/c.gif" class="display-img"/></td><td class="no-print" width="192"><img alt="developerWorks" height="18" width="192" src="/developerworks/i/dw.gif"/></td></tr></table></td></tr></table><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td width="10"><img alt="" height="1" width="10" src="//www.ibm.com/i/c.gif"/></td><td width="100%"><table class="no-print" border="0" width="160" cellspacing="0" cellpadding="0" align="right"><tr><td width="10"><img alt="" height="1" width="10" src="//www.ibm.com/i/c.gif"/></td><td><table width="150" cellspacing="0" cellpadding="0" border="0"><tr><td class="v14-header-1-small">文档选项</td></tr></table><table class="v14-gray-table-border" cellspacing="0" cellpadding="0" border="0"><tr><td class="no-padding" width="150"><table width="143" cellspacing="0" cellpadding="0" border="0"><script language="JavaScript" type="text/javascript">
+<!--
+document.write('<tr valign="top"><td width="8"><img src="//www.ibm.com/i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img alt="将打印机的版面设置成横向打印模式" height="16" src="//www.ibm.com/i/v14/icons/printer.gif" width="16" vspace="3" /></td><td width="122"><p><b><a class="smallplainlink" href="javascript:print()">打印本页</a></b></p></td></tr>');
+//-->
+</script>
+<noscript></noscript><form action="https://www.ibm.com/developerworks/secure/email-it.jsp" name="email"><input value="基于注释（Annotation）的配置有越来越流行的趋势，Spring 2.5 顺应这种趋势，提供了完全基于注释配置 Bean、装配 Bean 的功能，您可以使用基于注释的 Spring IoC 替换原来基于 XML 的配置。本文通过实例详细讲述了 Spring 2.5 基于注释 IoC 功能的使用。" name="body" type="hidden"/><input value="使用 Spring 2.5 注释驱动的 IoC 功能" name="subject" type="hidden"/><input value="cn" name="lang" type="hidden"/><script language="JavaScript" type="text/javascript">
+<!--
+document.write('<tr valign="top"><td width="8"><img src="//www.ibm.com/i/c.gif" width="8" height="1" alt=""/></td><td width="16"><img src="//www.ibm.com/i/v14/icons/em.gif" height="16" width="16" vspace="3" alt="将此页作为电子邮件发送" /></td><td width="122"><p><a class="smallplainlink" href="javascript:document.email.submit();"><b>将此页作为电子邮件发送</b></a></p></td></tr>');
+//-->
+</script><noscript><tr valign="top"><td width="8"><img alt="" height="1" width="8" src="//www.ibm.com/i/c.gif"/></td><td width="16"><img alt="" width="16" height="16" src="//www.ibm.com/i/c.gif"/></td><td class="small" width="122"><p><span class="ast">未显示需要 JavaScript 的文档选项</span></p></td></tr></noscript></form></table></td></tr></table><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- this content will be automatically generated across all content areas --><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><br /></td></tr></table><p>级别： 初级</p><p><a href="#author">陈 雄华</a> (<a href="mailto:quickselect@163.com?subject=使用 Spring 2.5 注释驱动的 IoC 功能">quickselect@163.com</a>), 技术总监, 宝宝淘网络科技有限公司<br /></p><p>2008 年  2 月  28 日</p><blockquote>基于注释（Annotation）的配置有越来越流行的趋势，Spring 2.5 顺应这种趋势，提供了完全基于注释配置 Bean、装配 Bean 的功能，您可以使用基于注释的 Spring IoC 替换原来基于 XML 的配置。本文通过实例详细讲述了 Spring 2.5 基于注释 IoC 功能的使用。</blockquote><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><!-- include java script once we verify teams wants to use this and it will work on dbcs and cyrillic characters -->
+
+<!--END RESERVED FOR FUTURE USE INCLUDE FILES-->
+            <p><a name="N1004A"><span class="atitle">概述</span></a></p>
+            <p>注释配置相对于 XML 配置具有很多的优势：</p>
+            <ul>
+                <li>它可以充分利用 Java 的反射机制获取类结构信息，这些信息可以有效减少配置的工作。如使用 JPA 注释配置 ORM 映射时，我们就不需要指定 PO 的属性名、类型等信息，如果关系表字段和 PO 属性名、类型都一致，您甚至无需编写任务属性映射信息——因为这些信息都可以通过 Java 反射机制获取。</li>
+                <li>注释和 Java 代码位于一个文件中，而 XML 配置采用独立的配置文件，大多数配置信息在程序开发完成后都不会调整，如果配置信息和 Java 代码放在一起，有助于增强程序的内聚性。而采用独立的 XML 配置文件，程序员在编写一个功能时，往往需要在程序文件和配置文件中不停切换，这种思维上的不连贯会降低开发效率。</li>
+            </ul>
+            <p>因此在很多情况下，注释配置比 XML 配置更受欢迎，注释配置有进一步流行的趋势。Spring 2.5 的一大增强就是引入了很多注释类，现在您已经可以使用注释配置完成大部分 XML 配置的功能。在这篇文章里，我们将向您讲述使用注释进行 Bean 定义和依赖注入的内容。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N10060"><span class="atitle">原来我们是怎么做的</span></a></p>
+            <p>在使用注释配置之前，先来回顾一下传统上是如何配置 Bean 并完成 Bean 之间依赖关系的建立。下面是 3 个类，它们分别是 Office、Car 和 Boss，这 3 个类需要在 Spring 容器中配置为 Bean：</p>
+            <p>Office 仅有一个属性：</p>
+            <br /><a name="N1006E"><b>清单 1. Office.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+public class Office {
+    private String officeNo =”001”;
+
+    //省略 get/setter
+
+    @Override
+    public String toString() {
+        return "officeNo:" + officeNo;
+    }
+}
+</pre></td></tr></table><br />
+            <p>Car 拥有两个属性：</p>
+            <br /><a name="N1007A"><b>清单 2. Car.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+public class Car {
+    private String brand;
+    private double price;
+
+    // 省略 get/setter
+
+    @Override
+    public String toString() {
+        return "brand:" + brand + "," + "price:" + price;
+    }
+}
+</pre></td></tr></table><br />
+            <p>Boss 拥有 Office 和 Car 类型的两个属性：</p>
+            <br /><a name="N10086"><b>清单 3. Boss.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+public class Boss {
+    private Car car;
+    private Office office;
+
+    // 省略 get/setter
+
+    @Override
+    public String toString() {
+        return "car:" + car + "\n" + "office:" + office;
+    }
+}
+</pre></td></tr></table><br />
+            <p>我们在 Spring 容器中将 Office 和 Car 声明为 Bean，并注入到 Boss Bean 中：下面是使用传统 XML 完成这个工作的配置文件 beans.xml：</p>
+            <br /><a name="N10092"><b>清单 4. beans.xml 将以上三个类配置成 Bean</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"&gt;
+    &lt;bean id="boss" class="com.baobaotao.Boss"&gt;
+        &lt;property name="car" ref="car"/&gt;
+        &lt;property name="office" ref="office" /&gt;
+    &lt;/bean&gt;
+    &lt;bean id="office" class="com.baobaotao.Office"&gt;
+        &lt;property name="officeNo" value="002"/&gt;
+    &lt;/bean&gt;
+    &lt;bean id="car" class="com.baobaotao.Car" scope="singleton"&gt;
+        &lt;property name="brand" value=" 红旗 CA72"/&gt;
+        &lt;property name="price" value="2000"/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</pre></td></tr></table><br />
+            <p>当我们运行以下代码时，控制台将正确打出 boss 的信息：</p>
+            <br /><a name="N1009E"><b>清单 5. 测试类：AnnoIoCTest.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class AnnoIoCTest {
+
+    public static void main(String[] args) {
+        String[] locations = {"beans.xml"};
+        ApplicationContext ctx = 
+		    new ClassPathXmlApplicationContext(locations);
+        Boss boss = (Boss) ctx.getBean("boss");
+        System.out.println(boss);
+    }
+}
+</pre></td></tr></table><br />
+            <p>这说明 Spring 容器已经正确完成了 Bean 创建和装配的工作。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N100A7"><span class="atitle">使用 @Autowired 注释</span></a></p>
+            <p>Spring 2.5 引入了 <code>@Autowired</code> 注释，它可以对类成员变量、方法及构造函数进行标注，完成自动装配的工作。来看一下使用 <code>@Autowired</code> 进行成员变量自动注入的代码：</p>
+            <br /><a name="N100BA"><b>清单 6. 使用 @Autowired 注释的 Boss.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class Boss {
+
+    @Autowired
+    private Car car;
+
+    @Autowired
+    private Office office;
+
+    …
+}
+</pre></td></tr></table><br />
+            <p>Spring 通过一个 <code>BeanPostProcessor</code> 对 <code>@Autowired</code> 进行解析，所以要让 <code>@Autowired</code> 起作用必须事先在 Spring 容器中声明 <code>AutowiredAnnotationBeanPostProcessor</code> Bean。</p>
+            <br /><a name="N100D6"><b>清单 7. 让 @Autowired 注释工作起来</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"&gt;
+
+    &lt;!-- 该 BeanPostProcessor 将自动起作用，对标注 @Autowired 的 Bean 进行自动注入 --&gt;
+    &lt;bean class="org.springframework.beans.factory.annotation.
+        AutowiredAnnotationBeanPostProcessor"/&gt;
+
+    &lt;!-- 移除 boss Bean 的属性注入配置的信息 --&gt;
+    &lt;bean id="boss" class="com.baobaotao.Boss"/&gt;
+ 
+    &lt;bean id="office" class="com.baobaotao.Office"&gt;
+        &lt;property name="officeNo" value="001"/&gt;
+    &lt;/bean&gt;
+    &lt;bean id="car" class="com.baobaotao.Car" scope="singleton"&gt;
+        &lt;property name="brand" value=" 红旗 CA72"/&gt;
+        &lt;property name="price" value="2000"/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</pre></td></tr></table><br />
+            <p>这样，当 Spring 容器启动时，<code>AutowiredAnnotationBeanPostProcessor</code> 将扫描 Spring 容器中所有 Bean，当发现 Bean 中拥有 <code>@Autowired</code> 注释时就找到和其匹配（默认按类型匹配）的 Bean，并注入到对应的地方中去。</p>
+            <p>按照上面的配置，Spring 将直接采用 Java 反射机制对 Boss 中的 <code>car</code> 和 <code>office</code> 这两个私有成员变量进行自动注入。所以对成员变量使用 <code>@Autowired</code> 后，您大可将它们的 setter 方法（<code>setCar()</code> 和 <code>setOffice()</code>）从 Boss 中删除。</p>
+            <p>当然，您也可以通过 <code>@Autowired</code> 对方法或构造函数进行标注，来看下面的代码：</p>
+            <br /><a name="N10108"><b>清单 8. 将 @Autowired 注释标注在 Setter 方法上</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+public class Boss {
+    private Car car;
+    private Office office;
+
+     @Autowired
+    public void setCar(Car car) {
+        this.car = car;
+    }
+ 
+    @Autowired
+    public void setOffice(Office office) {
+        this.office = office;
+    }
+    …
+}
+</pre></td></tr></table><br />
+            <p>这时，<code>@Autowired</code> 将查找被标注的方法的入参类型的 Bean，并调用方法自动注入这些 Bean。而下面的使用方法则对构造函数进行标注：</p>
+            <br /><a name="N10118"><b>清单 9. 将 @Autowired 注释标注在构造函数上</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+public class Boss {
+    private Car car;
+    private Office office;
+ 
+    @Autowired
+    public Boss(Car car ,Office office){
+        this.car = car;
+        this.office = office ;
+    }
+ 
+    …
+}
+</pre></td></tr></table><br />
+            <p>由于 <code>Boss()</code> 构造函数有两个入参，分别是 <code>car</code> 和 <code>office</code>，<code>@Autowired</code> 将分别寻找和它们类型匹配的 Bean，将它们作为 <code>Boss(Car car ,Office office)</code> 的入参来创建 <code>Boss</code> Bean。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N10139"><span class="atitle">当候选 Bean 数目不为 1 时的应对方法</span></a></p>
+            <p>在默认情况下使用 <code>@Autowired</code> 注释进行自动注入时，Spring 容器中匹配的候选 Bean 数目必须有且仅有一个。当找不到一个匹配的 Bean 时，Spring 容器将抛出 <code>BeanCreationException</code> 异常，并指出必须至少拥有一个匹配的 Bean。我们可以来做一个实验：</p>
+            <br /><a name="N1014C"><b>清单 10. 候选 Bean 数目为 0 时</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd "&gt;
+ 
+    &lt;bean class="org.springframework.beans.factory.annotation.
+        AutowiredAnnotationBeanPostProcessor"/&gt; 
+
+    &lt;bean id="boss" class="com.baobaotao.Boss"/&gt;
+
+    &lt;!-- 将 office Bean 注释掉 --&gt;
+    &lt;!-- &lt;bean id="office" class="com.baobaotao.Office"&gt;
+    &lt;property name="officeNo" value="001"/&gt;
+    &lt;/bean&gt;--&gt;
+
+    &lt;bean id="car" class="com.baobaotao.Car" scope="singleton"&gt;
+        &lt;property name="brand" value=" 红旗 CA72"/&gt;
+        &lt;property name="price" value="2000"/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</pre></td></tr></table><br />
+            <p>由于 <code>office</code> Bean 被注释掉了，所以 Spring 容器中将没有类型为 <code>Office</code> 的 Bean 了，而 Boss 的 <code>office</code> 属性标注了 <code>@Autowired</code>，当启动 Spring 容器时，异常就产生了。</p>
+
+            <p>当不能确定 Spring 容器中一定拥有某个类的 Bean 时，可以在需要自动注入该类 Bean 的地方可以使用 <code>@Autowired(required = false)</code>，这等于告诉 Spring：在找不到匹配 Bean 时也不报错。来看一下具体的例子：</p>
+            <br /><a name="N1016F"><b>清单 11. 使用 @Autowired(required = false)</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+
+public class Boss {
+
+    private Car car;
+    private Office office;
+
+    @Autowired
+    public void setCar(Car car) {
+        this.car = car;
+    }
+    @Autowired(required = false)
+    public void setOffice(Office office) {
+        this.office = office;
+    }
+    …
+}
+</pre></td></tr></table><br />
+            <p>当然，一般情况下，使用 <code>@Autowired</code> 的地方都是需要注入 Bean 的，使用了自动注入而又允许不注入的情况一般仅会在开发期或测试期碰到（如为了快速启动 Spring 容器，仅引入一些模块的 Spring 配置文件），所以 <code>@Autowired(required = false)</code> 会很少用到。</p>
+
+            <p>和找不到一个类型匹配 Bean 相反的一个错误是：如果 Spring 容器中拥有多个候选 Bean，Spring 容器在启动时也会抛出 <code>BeanCreationException</code> 异常。来看下面的例子：</p>
+            <br /><a name="N1018A"><b>清单 12. 在 beans.xml 中配置两个 Office 类型的 Bean</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+… 
+&lt;bean id="office" class="com.baobaotao.Office"&gt;
+    &lt;property name="officeNo" value="001"/&gt;
+&lt;/bean&gt;
+&lt;bean id="office2" class="com.baobaotao.Office"&gt;
+    &lt;property name="officeNo" value="001"/&gt;
+&lt;/bean&gt;
+…
+</pre></td></tr></table><br />
+            <p>我们在 Spring 容器中配置了两个类型为 <code>Office</code> 类型的 Bean，当对 Boss 的 <code>office</code> 成员变量进行自动注入时，Spring 容器将无法确定到底要用哪一个 Bean，因此异常发生了。</p>
+            <p>Spring 允许我们通过 <code>@Qualifier</code> 注释指定注入 Bean 的名称，这样歧义就消除了，可以通过下面的方法解决异常：</p>
+            <br /><a name="N101A5"><b>清单 13. 使用 @Qualifier 注释指定注入 Bean 的名称</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+@Autowired
+public void setOffice(@Qualifier("office")Office office) {
+    this.office = office;
+}
+</pre></td></tr></table><br />
+            <p>
+                <code>@Qualifier("office")</code> 中的 <code>office</code> 是 Bean 的名称，所以 <code>@Autowired</code> 和 <code>@Qualifier</code> 结合使用时，自动注入的策略就从 byType 转变成 byName 了。<code>@Autowired</code> 可以对成员变量、方法以及构造函数进行注释，而 <code>@Qualifier</code> 的标注对象是成员变量、方法入参、构造函数入参。正是由于注释对象的不同，所以 Spring 不将 <code>@Autowired</code> 和 <code>@Qualifier</code> 统一成一个注释类。下面是对成员变量和构造函数入参进行注释的代码：</p>
+            <p>对成员变量进行注释：</p>
+            <br /><a name="N101D4"><b>清单 14. 对成员变量使用 @Qualifier 注释</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+public class Boss {
+    @Autowired
+    private Car car;
+ 
+    @Autowired
+    @Qualifier("office")
+    private Office office;
+    …
+}
+</pre></td></tr></table><br />
+            <p>对构造函数入参进行注释：</p>
+            <br /><a name="N101E0"><b>清单 15. 对构造函数变量使用 @Qualifier 注释</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+public class Boss {
+    private Car car;
+    private Office office;
+
+    @Autowired
+    public Boss(Car car , @Qualifier("office")Office office){
+        this.car = car;
+        this.office = office ;
+	}
+}
+</pre></td></tr></table><br />
+            <p>
+                <code>@Qualifier</code> 只能和 <code>@Autowired</code> 结合使用，是对 <code>@Autowired</code> 有益的补充。一般来讲，<code>@Qualifier</code> 对方法签名中入参进行注释会降低代码的可读性，而对成员变量注释则相对好一些。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N101F9"><span class="atitle">使用 JSR-250 的注释</span></a></p>
+            <p>Spring 不但支持自己定义的 <code>@Autowired</code> 的注释，还支持几个由 JSR-250 规范定义的注释，它们分别是 <code>@Resource</code>、<code>@PostConstruct</code> 以及 <code>@PreDestroy</code>。</p>
+            <p><a name="N10211"><span class="smalltitle">@Resource</span></a></p>
+            <p>
+                <code>@Resource</code> 的作用相当于 <code>@Autowired</code>，只不过 <code>@Autowired</code> 按 byType 自动注入，面 <code>@Resource</code> 默认按 byName 自动注入罢了。<code>@Resource</code> 有两个属性是比较重要的，分别是 name 和 type，Spring 将 <code>@Resource</code> 注释的 name 属性解析为 Bean 的名字，而 type 属性则解析为 Bean 的类型。所以如果使用 name 属性，则使用 byName 的自动注入策略，而使用 type 属性时则使用 byType 自动注入策略。如果既不指定 name 也不指定 type 属性，这时将通过反射机制使用 byName 自动注入策略。</p>
+
+            <p>Resource 注释类位于 Spring 发布包的 lib/j2ee/common-annotations.jar 类包中，因此在使用之前必须将其加入到项目的类库中。来看一个使用 <code>@Resource</code> 的例子：</p>
+            <br /><a name="N1023B"><b>清单 16. 使用 @Resource 注释的 Boss.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+import javax.annotation.Resource;
+
+public class Boss {
+    // 自动注入类型为 Car 的 Bean
+    @Resource
+    private Car car;
+
+    // 自动注入 bean 名称为 office 的 Bean
+    @Resource(name = "office")
+    private Office office;
+}
+</pre></td></tr></table><br />
+            <p>一般情况下，我们无需使用类似于 <code>@Resource(type=Car.class)</code> 的注释方式，因为 Bean 的类型信息可以通过 Java 反射从代码中获取。</p>
+
+            <p>要让 JSR-250 的注释生效，除了在 Bean 类中标注这些注释外，还需要在 Spring 容器中注册一个负责处理这些注释的 <code>BeanPostProcessor</code>：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+&lt;bean 
+  class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/&gt;
+</pre></td></tr></table><br />
+            <p>
+                <code>CommonAnnotationBeanPostProcessor</code> 实现了 <code>BeanPostProcessor</code> 接口，它负责扫描使用了 JSR-250 注释的 Bean，并对它们进行相应的操作。</p>
+            <p><a name="N1025E"><span class="smalltitle">@PostConstruct 和 @PreDestroy</span></a></p>
+            <p>Spring 容器中的 Bean 是有生命周期的，Spring 允许在 Bean 在初始化完成后以及 Bean 销毁前执行特定的操作，您既可以通过实现 InitializingBean/DisposableBean 接口来定制初始化之后 / 销毁之前的操作方法，也可以通过 &lt;bean&gt; 元素的 init-method/destroy-method 属性指定初始化之后 / 销毁之前调用的操作方法。关于 Spring 的生命周期，笔者在《精通 Spring 2.x—企业应用开发精解》第 3 章进行了详细的描述，有兴趣的读者可以查阅。</p>
+            <p>JSR-250 为初始化之后/销毁之前方法的指定定义了两个注释类，分别是 @PostConstruct 和 @PreDestroy，这两个注释只能应用于方法上。标注了 @PostConstruct 注释的方法将在类实例化后调用，而标注了 @PreDestroy 的方法将在类销毁之前调用。</p>
+            <br /><a name="N1026C"><b>清单 17. 使用 @PostConstruct 和 @PreDestroy 注释的 Boss.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+import javax.annotation.Resource;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+public class Boss {
+    @Resource
+    private Car car;
+
+    @Resource(name = "office")
+    private Office office;
+
+    @PostConstruct
+    public void postConstruct1(){
+        System.out.println("postConstruct1");
+    }
+
+    @PreDestroy
+    public void preDestroy1(){
+        System.out.println("preDestroy1"); 
+    }
+    …
+}
+</pre></td></tr></table><br />
+            <p>您只需要在方法前标注 <code>@PostConstruct</code> 或 <code>@PreDestroy</code>，这些方法就会在 Bean 初始化后或销毁之前被 Spring 容器执行了。</p>
+            <p>我们知道，不管是通过实现 <code>InitializingBean</code>/<code>DisposableBean</code> 接口，还是通过 &lt;bean&gt; 元素的 <code>init-method/destroy-method</code> 属性进行配置，都只能为 Bean 指定一个初始化 / 销毁的方法。但是使用 <code>@PostConstruct</code> 和 <code>@PreDestroy</code> 注释却可以指定多个初始化 / 销毁方法，那些被标注 <code>@PostConstruct</code> 或 <code>@PreDestroy</code> 注释的方法都会在初始化 / 销毁时被执行。</p>
+            <p>通过以下的测试代码，您将可以看到 Bean 的初始化 / 销毁方法是如何被执行的：</p>
+            <br /><a name="N102A2"><b>清单 18. 测试类代码</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class AnnoIoCTest {
+
+    public static void main(String[] args) {
+        String[] locations = {"beans.xml"};
+        ClassPathXmlApplicationContext ctx = 
+            new ClassPathXmlApplicationContext(locations);
+        Boss boss = (Boss) ctx.getBean("boss");
+        System.out.println(boss);
+        ctx.destroy();// 关闭 Spring 容器，以触发 Bean 销毁方法的执行
+    }
+}
+</pre></td></tr></table><br />
+            <p>这时，您将看到标注了 <code>@PostConstruct</code> 的 <code>postConstruct1()</code> 方法将在 Spring 容器启动时，创建 <code>Boss</code> Bean 的时候被触发执行，而标注了 <code>@PreDestroy</code> 注释的 <code>preDestroy1()</code> 方法将在 Spring 容器关闭前销毁 <code>Boss</code> Bean 的时候被触发执行。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N102C3"><span class="atitle">使用 &lt;context:annotation-config/&gt; 简化配置</span></a></p>
+            <p>Spring 2.1 添加了一个新的 context 的 Schema 命名空间，该命名空间对注释驱动、属性文件引入、加载期织入等功能提供了便捷的配置。我们知道注释本身是不会做任何事情的，它仅提供元数据信息。要使元数据信息真正起作用，必须让负责处理这些元数据的处理器工作起来。 </p>
+            <p>而我们前面所介绍的 <code>AutowiredAnnotationBeanPostProcessor</code> 和 <code>CommonAnnotationBeanPostProcessor</code> 就是处理这些注释元数据的处理器。但是直接在 Spring 配置文件中定义这些 Bean 显得比较笨拙。Spring 为我们提供了一种方便的注册这些 <code>BeanPostProcessor</code> 的方式，这就是 &lt;context:annotation-config/&gt;。请看下面的配置：</p>
+            <br /><a name="N102DE"><b>清单 19. 调整 beans.xml 配置文件</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ http://www.springframework.org/schema/context 
+ http://www.springframework.org/schema/context/spring-context-2.5.xsd"&gt;
+ 
+    &lt;context:annotation-config/&gt; 
+
+    &lt;bean id="boss" class="com.baobaotao.Boss"/&gt;
+    &lt;bean id="office" class="com.baobaotao.Office"&gt;
+        &lt;property name="officeNo" value="001"/&gt;
+    &lt;/bean&gt;
+    &lt;bean id="car" class="com.baobaotao.Car" scope="singleton"&gt;
+        &lt;property name="brand" value=" 红旗 CA72"/&gt;
+        &lt;property name="price" value="2000"/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</pre></td></tr></table><br />
+            <p>&lt;context:annotationconfig/&gt; 将隐式地向 Spring 容器注册 <code>AutowiredAnnotationBeanPostProcessor</code>、<code>CommonAnnotationBeanPostProcessor</code>、<code>PersistenceAnnotationBeanPostProcessor</code> 以及 <code>equiredAnnotationBeanPostProcessor</code> 这 4 个 BeanPostProcessor。</p>
+            <p>在配置文件中使用 context 命名空间之前，必须在 &lt;beans&gt; 元素中声明 context 命名空间。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N102FA"><span class="atitle">使用 @Component</span></a></p>
+            <p>虽然我们可以通过 <code>@Autowired</code> 或 <code>@Resource</code> 在 Bean 类中使用自动注入功能，但是 Bean 还是在 XML 文件中通过 &lt;bean&gt; 进行定义 —— 也就是说，在 XML 配置文件中定义 Bean，通过 <code>@Autowired</code> 或 <code>@Resource</code> 为 Bean 的成员变量、方法入参或构造函数入参提供自动注入的功能。能否也通过注释定义 Bean，从 XML 配置文件中完全移除 Bean 定义的配置呢？答案是肯定的，我们通过 Spring 2.5 提供的 <code>@Component</code> 注释就可以达到这个目标了。</p>
+            <p>下面，我们完全使用注释定义 Bean 并完成 Bean 之间装配：</p>
+            <br /><a name="N1031C"><b>清单 20. 使用 @Component 注释的 Car.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Car {
+    …
+}
+</pre></td></tr></table><br />
+            <p>仅需要在类定义处，使用 <code>@Component</code> 注释就可以将一个类定义了 Spring 容器中的 Bean。下面的代码将 <code>Office</code> 定义为一个 Bean：</p>
+            <br /><a name="N10330"><b>清单 21. 使用 @Component 注释的 Office.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Office {
+    private String officeNo = "001";
+    …
+}
+</pre></td></tr></table><br />
+            <p>这样，我们就可以在 Boss 类中通过 <code>@Autowired</code> 注入前面定义的 <code>Car</code> 和 <code>Office Bean</code> 了。</p>
+            <br /><a name="N10348"><b>清单 22. 使用 @Component 注释的 Boss.java</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component("boss")
+public class Boss {
+    @Autowired
+    private Car car;
+
+    @Autowired
+    private Office office;
+    …
+}
+</pre></td></tr></table><br />
+            <p>
+                <code>@Component</code> 有一个可选的入参，用于指定 Bean 的名称，在 Boss 中，我们就将 Bean 名称定义为“<code>boss</code>”。一般情况下，Bean 都是 singleton 的，需要注入 Bean 的地方仅需要通过 byType 策略就可以自动注入了，所以大可不必指定 Bean 的名称。</p>
+            <p>在使用 <code>@Component</code> 注释后，Spring 容器必须启用类扫描机制以启用注释驱动 Bean 定义和注释驱动 Bean 自动注入的策略。Spring 2.5 对 context 命名空间进行了扩展，提供了这一功能，请看下面的配置：</p>
+            <br /><a name="N10363"><b>清单 23. 简化版的 beans.xml</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ http://www.springframework.org/schema/context 
+ http://www.springframework.org/schema/context/spring-context-2.5.xsd"&gt;
+    &lt;context:component-scan base-package="com.baobaotao"/&gt;
+&lt;/beans&gt;
+</pre></td></tr></table><br />
+            <p>这里，所有通过 &lt;bean&gt; 元素定义 Bean 的配置内容已经被移除，仅需要添加一行 &lt;context:component-scan/&gt; 配置就解决所有问题了——Spring XML 配置文件得到了极致的简化（当然配置元数据还是需要的，只不过以注释形式存在罢了）。&lt;context:component-scan/&gt; 的 base-package 属性指定了需要扫描的类包，类包及其递归子包中所有的类都会被处理。</p>
+            <p>&lt;context:component-scan/&gt; 还允许定义过滤器将基包下的某些类纳入或排除。Spring 支持以下 4 种类型的过滤方式，通过下表说明：</p>
+            <br /><a name="N1036F"><b>表 1. 扫描过滤方式</b></a><br />
+            <table border="0" cellpadding="0" cellspacing="0" class="data-table-1" summary="" width="100%"><tr><th width="20%">过滤器类型</th><th width="80%">说明</th></tr><tr><td>注释</td><td>假如 com.baobaotao.SomeAnnotation 是一个注释类，我们可以将使用该注释的类过滤出来。</td></tr><tr><td>类名指定</td><td>通过全限定类名进行过滤，如您可以指定将 com.baobaotao.Boss 纳入扫描，而将 com.baobaotao.Car 排除在外。</td></tr><tr><td>正则表达式</td><td>通过正则表达式定义过滤的类，如下所示：
+com\.baobaotao\.Default.*</td></tr><tr><td>AspectJ 表达式</td><td>通过 AspectJ 表达式定义过滤的类，如下所示：
+com. baobaotao..*Service+</td></tr></table>
+            <p>下面是一个简单的例子：</p>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+&lt;context:component-scan base-package="com.baobaotao"&gt;
+    &lt;context:include-filter type="regex" 
+        expression="com\.baobaotao\.service\..*"/&gt;
+    &lt;context:exclude-filter type="aspectj" 
+        expression="com.baobaotao.util..*"/&gt;
+&lt;/context:component-scan&gt;
+</pre></td></tr></table><br />
+
+            <p>值得注意的是 &lt;context:component-scan/&gt; 配置项不但启用了对类包进行扫描以实施注释驱动 Bean 定义的功能，同时还启用了注释驱动自动注入的功能（即还隐式地在内部注册了 <code>AutowiredAnnotationBeanPostProcessor</code> 和 <code>CommonAnnotationBeanPostProcessor</code>），因此当使用 &lt;context:component-scan/&gt; 后，就可以将 &lt;context:annotation-config/&gt; 移除了。</p>
+            <p>默认情况下通过 <code>@Component</code> 定义的 Bean 都是 singleton 的，如果需要使用其它作用范围的 Bean，可以通过 <code>@Scope</code> 注释来达到目标，如以下代码所示：</p>
+            <br /><a name="N103CC"><b>清单 24. 通过 @Scope 指定 Bean 的作用范围</b></a><br /><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="code-outline"><pre class="displaycode">
+                
+package com.baobaotao;
+import org.springframework.context.annotation.Scope;
+…
+@Scope("prototype")
+@Component("boss")
+public class Boss {
+    …
+}
+</pre></td></tr></table><br />
+            <p>这样，当从 Spring 容器中获取 <code>boss</code> Bean 时，每次返回的都是新的实例了。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N103D9"><span class="atitle">采用具有特殊语义的注释</span></a></p>
+            <p>Spring 2.5 中除了提供 <code>@Component</code> 注释外，还定义了几个拥有特殊语义的注释，它们分别是：<code>@Repository</code>、<code>@Service</code> 和 <code>@Controller</code>。在目前的 Spring 版本中，这 3 个注释和 <code>@Component</code> 是等效的，但是从注释类的命名上，很容易看出这 3 个注释分别和持久层、业务层和控制层（Web 层）相对应。虽然目前这 3 个注释和 <code>@Component</code> 相比没有什么新意，但 Spring 将在以后的版本中为它们添加特殊的功能。所以，如果 Web 应用程序采用了经典的三层分层结构的话，最好在持久层、业务层和控制层分别采用 <code>@Repository</code>、<code>@Service</code> 和 <code>@Controller</code> 对分层中的类进行注释，而用 <code>@Component</code> 对那些比较中立的类进行注释。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N10409"><span class="atitle">注释配置和 XML 配置的适用场合</span></a></p>
+            <p>是否有了这些 IOC 注释，我们就可以完全摒除原来 XML 配置的方式呢？答案是否定的。有以下几点原因：</p>
+            <ul>
+                <li>注释配置不一定在先天上优于 XML 配置。如果 Bean 的依赖关系是固定的，（如 Service 使用了哪几个 DAO 类），这种配置信息不会在部署时发生调整，那么注释配置优于 XML 配置；反之如果这种依赖关系会在部署时发生调整，XML 配置显然又优于注释配置，因为注释是对 Java 源代码的调整，您需要重新改写源代码并重新编译才可以实施调整。</li>
+                <li>如果 Bean 不是自己编写的类（如 <code>JdbcTemplate</code>、<code>SessionFactoryBean</code> 等），注释配置将无法实施，此时 XML 配置是唯一可用的方式。</li>
+                <li>注释配置往往是类级别的，而 XML 配置则可以表现得更加灵活。比如相比于 <code>@Transaction</code> 事务注释，使用 aop/tx 命名空间的事务配置更加灵活和简单。</li>
+            </ul>
+            <p>所以在实现应用中，我们往往需要同时使用注释配置和 XML 配置，对于类级别且不会发生变动的配置可以优先考虑注释配置；而对于那些第三方类以及容易发生调整的配置则应优先考虑使用 XML 配置。Spring 会在具体实施 Bean 创建和 Bean 注入之前将这两种配置方式的元信息融合在一起。</p>
+            <br /><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><img width="100%" src="//www.ibm.com/i/v14/rules/blue_rule.gif" height="1" alt=""/><br /><img alt="" width="8" height="6" border="0" src="//www.ibm.com/i/c.gif"/></td></tr></table><table class="no-print" cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="4" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /><p><a name="N1042C"><span class="atitle">小结</span></a></p>
+            <p>Spring 在 2.1 以后对注释配置提供了强力的支持，注释配置功能成为 Spring 2.5 的最大的亮点之一。合理地使用 Spring 2.5 的注释配置，可以有效减少配置的工作量，提高程序的内聚性。但是这并不意味着传统 XML 配置将走向消亡，在第三方类 Bean 的配置，以及那些诸如数据源、缓存池、持久层操作模板类、事务管理等内容的配置上，XML 配置依然拥有不可替代的地位。</p>
+        <br /><br /><p><a name="resources"><span class="atitle">参考资料 </span></a></p><b>学习</b><br /><ul><li>
+                <a href="http://www.ibm.com/developerworks/cn/java/wa-spring1/">Spring 系列：Spring 框架简介</a>：优秀的 Spring 框架入门系列，了解 Spring 框架的基本概念。<br /><br /></li><li>
+                <a href="http://www.ibm.com/developerworks/cn/opensource/os-lightweight3/">轻量级开发的成功秘诀，第 3 部分: Spring 露出水面</a>：介绍了在 Spring 框架的轻量级 Ioc 容器。<br /><br /></li><li>
+                <a href="http://www.ibm.com/developerworks/cn/websphere/library/techarticles/0706_johnsonbuck/0706_johnsonbuck.html">Spring Framework 和 IBM WebSphere Application Server</a>：Interface21 的首席执行官 Rod Johnson 和 IBM 的 WebSphere Open Source 主管 Paul Buck 讨论了 Spring Framework 通过 IBM WebSphere Application Server 认证对 Spring 和 WebSphere 产品系列的开发人员和客户有何重要意义。<br /><br /></li><li>
+                <a href="http://www.ibm.com/developerworks/cn/java/j-annotate1/">Tiger 中的注释，第 1 部分: 向 Java 代码中添加元数据</a>：解释了元数据如此有用的原因，向您介绍了 Java 语言中的注释，并研究了 Tiger 的内置注释。<br /><br /></li><li>
+                <a href="http://www.ibm.com/developerworks/cn/java/j-annotate2.html">Tiger 中的注释，第 2 部分: 定制注释</a>：说明了如何创建定制注释，如何用自己的注释注解文档，并进一步定制代码。<br /><br /></li></ul><br /><b>获得产品和技术</b><br /><ul><li>
+                <a href="http://www.springframework.org/download">Springframework 网站</a>：下载 Spring 框架。</li></ul><br /><br /><p><a name="author"><span class="atitle">关于作者</span></a></p><table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td colspan="3"><img alt="" width="100%" height="5" src="//www.ibm.com/i/c.gif"/></td></tr><tr align="left" valign="top"><td><p><img align="left" alt="陈雄华照片" src="chenxh.jpg" valign="top"/></p></td><td><img alt="" width="4" height="5" src="//www.ibm.com/i/c.gif"/></td><td width="100%"><p>陈雄华，2002 年毕业于厦门大学计算机与信息工程学院，获硕士学位。是宝宝淘科技有限公司的创始人之一（<a href="http://www.baobaotao.com" target="_blank">http://www.baobaotao.com</a>），这是一个服务于全国母婴用户的综合性网站，作者负责网站整体框架设计以及核心代码开发的工作。技术开发之余，常将经验所得行诸于文字，作者是国内多个著名技术网站的专栏作者，在各大技术网站、报刊杂志发表过数十篇技术文章，广受读者好评。于 2005 年出版《精通 JBuilder 2005》，于2007年出版《精通 Spring 2.x--企业应用开发详解》，其新作《EXT 2.x开发详解――AJAX和Web页面布局王者至尊》即将出版。</p></td></tr></table><br /><br /><br /><p class="no-print"><span class="atitle"><a name="rate">对本文的评价</a></span></p><span class="no-print"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr valign="top"><td><form action="https://www.ibm.com/developerworks/secure/cnratings.jsp" method="GET"><input value="使用 Spring 2.5 注释驱动的 IoC 功能" name="ArticleTitle" type="hidden"/><input value="Java technology, Open source" name="Zone" type="hidden"/><input value="http://www.ibm.com/developerworks/cn/thankyou/" name="RedirectURL" type="hidden"/><input value="china" name="localsite" type="hidden"/><script language="javascript">document.write('<input type="hidden" name="url" value="'+location.href+'" />');</script><table cellspacing="0" cellpadding="0" border="0"><tr><td><img alt="" border="0" height="8" width="100" src="//www.ibm.com/i/c.gif"/></td></tr><tr valign="top"><td><input value="1" id="one" name="Rating" type="RADIO"/><label for="one">太差！ (1)</label></td></tr><tr valign="top"><td><input value="2" id="two" name="Rating" type="RADIO"/><label for="two">需提高 (2)</label></td></tr><tr valign="top"><td><input value="3" id="three" name="Rating" type="RADIO"/><label for="three">一般；尚可 (3)</label></td></tr><tr valign="top"><td><input value="4" id="four" name="Rating" type="RADIO"/><label for="four">好文章 (4)</label></td></tr><tr valign="top"><td><input value="5" id="five" name="Rating" type="RADIO"/><label for="five">真棒！(5)</label></td></tr></table><br /><b><label for="cmts"/>建议？</b><br /><textarea cols="60" rows="5" wrap="virtual" id="cmts" name="Comments"> </textarea><br /><br /><label for="fback"/><input value="反馈意见" id="fback" type="SUBMIT"/></form></td></tr><tr valign="top"><td bgcolor="#FFFFFF"><img alt="" border="0" height="8" width="100" src="//www.ibm.com/i/c.gif"/></td></tr></table></span><br /><p><!-- --></p><!--START RESERVED FOR FUTURE USE INCLUDE FILES--><br /><!--END RESERVED FOR FUTURE USE INCLUDE FILES--><br /><span class="no-print"><table cellspacing="0" cellpadding="0" align="right"><tr align="right"><td><img width="100%" height="8" src="//www.ibm.com/i/c.gif" alt=""/><br /><table border="0" cellpadding="0" cellspacing="0"><tr><td valign="middle"><img width="16" src="//www.ibm.com/i/v14/icons/u_bold.gif" height="16" border="0" alt=""/><br /></td><td valign="top" align="right"><a href="#main" class="fbox"><b>回页首</b></a></td></tr></table></td></tr></table><br /><br /></span></td><td width="10"><img alt="" height="1" width="10" src="//www.ibm.com/i/c.gif"/></td></tr></table><span class="small">IBM 公司保留在 developerWorks 网站上发表的内容的著作权。未经IBM公司或原始作者的书面明确许可，请勿转载。如果您希望转载，请通过 <a href="https://www.ibm.com/developerworks/secure/reprintreq.jsp?domain=dwchina">提交转载请求表单</a> 联系我们的编辑团队。</span></td></tr></table><!--FOOTER_BEGIN--><!-- IBM FOOTER -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+<tr>
+<td class="bbg" height="19">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span><a class="mainlink" href="http://www.ibm.com/cn/ibm/index.shtml">关于 IBM</a></td>
+<td class="footer-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><a class="mainlink" href="http://www.ibm.com/cn/ibm/privacy/index.shtml">隐私条约</a></td>
+<td class="footer-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><a class="mainlink" href="http://www.ibm.com/contact/cn/">联系 IBM</a></td>
+<td class="footer-divider" width="27">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><a class="mainlink" href="http://www.ibm.com/legal/cn/zh/">使用条款</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<!-- end footer -->
+<script type="text/javascript" language="JavaScript1.2" src="//www.ibm.com/common/stats/stats.js"></script>
+<noscript><img src="//stats.www.ibm.com/rc/images/uc.GIF?R=noscript" width="1" height="1" alt="" border="0" /></noscript><!--FOOTER_END--><!--XSLT stylesheet used to transform this file:  dw-document-html-5.11.xsl--></body></html>

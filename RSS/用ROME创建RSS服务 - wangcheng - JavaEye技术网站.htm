@@ -1,0 +1,611 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>用ROME创建RSS服务 - wangcheng - JavaEye技术网站</title>
+    <meta name="description" content="1.RSS标准 RSS标准比较混乱，主要有以下3个系列  RSS 0.9x / 2.0 : RSS技术诞生于1999年的网景公司(Netscape)，其发布了一个0.9版本的规范。2001年，RSS技术标准的发展工作被Userland Software公司的戴夫 温那(Dave Winer)所接手。陆续发布了0.9x的系列版本。当W3C小组发布RSS 1.0后，Dave Winer不承认其有效性。并 ..." />
+    <meta name="keywords" content="rss rome  用ROME创建RSS服务" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="wangcheng" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1250402672" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1248170042" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://www.javaeye.com/job">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" title="查看我的博客首页" class="welcome">欢迎frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</a>
+      <a href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</a>
+      <a href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</a>
+    </div>
+        <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">wangcheng</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://wangcheng.javaeye.com</a></div>
+      </div>
+      
+      <div>
+      <script type="text/javascript">
+      alimama_pid="mm_10785519_1266962_2686278"; 
+      alimama_titlecolor="37499C"; 
+      alimama_descolor ="5892CB"; 
+      alimama_bgcolor="EDF9F7"; 
+      alimama_bordercolor="D6E9FC"; 
+      alimama_linkcolor="5768AC"; 
+      alimama_bottomcolor="FFFFFF"; 
+      alimama_anglesize="10"; 
+      alimama_bgpic="0"; 
+      alimama_icon="0"; 
+      alimama_sizecode="15"; 
+      alimama_width=950; 
+      alimama_height=90; 
+      alimama_type=2; 
+      </script>
+      <script src="http://a.alimama.cn/inf.js" type=text/javascript>
+      </script>  
+    </div>
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/54026" class="next" title="Ant配合Log4j不能输出log文件">Ant配合Log4j不能输出log文件</a>
+      |
+      <a href="/blog/53746" class="pre" title="LF and CR">LF and CR</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2007</span><span class='sep_year'>-</span><span class='month'>02</span><span class='sep_month'>-</span><span class='day'>11</span></div>
+    <h3 class='' title=''><a href="/blog/53778">用ROME创建RSS服务</a></h3>
+                <strong>关键字: rss rome</strong>
+  </div>
+
+  <div class="blog_content">
+    <p><strong><font size='3' color='#0000ff'>1.</font></strong><font>RSS标准</font></p>
+<p><font><font>RSS标准</font>比较混乱，主要有以下3个系列</font></p>
+<ul>
+    <li> <font><strong>RSS 0.9x / 2.0 :</strong> RSS技术诞生于1999年的网景公司(Netscape)，其发布了一个0.9版本的规范。2001年，RSS技术标准的发展工作被Userland Software公司的戴夫 温那(Dave Winer)所接手。陆续发布了0.9x的系列版本。当W3C小组发布RSS 1.0后，Dave Winer不承认其有效性。并于2002年9月独自把RSS升级到了2.0版本(<span class='p2'>Really Simple Syndication</span>)，并交由哈佛大学<font><a href='http://blogs.law.harvard.edu/tech/'>Technology at Harvard Law</a></font>进行维护。</font> </li>
+    <li><font><strong>RSS 1.0 :</strong> 在RSS发展过程中，为使RSS成为一个通用的规范，并进一步标准化。一个联合小组根据W3C新一代的Resource Description Framework  (RDF) 对RSS进行了重新定义，发布了RSS 1.0版，并把RSS定义为“RDF Site Summary”。现在<a href='http://web.resource.org/rss/1.0/'>RSS 1.0版</a>由W3C联合小组维护。</font> </li>
+    <li><font><strong>Atom</strong> : <a href='http://www.atomenabled.org/'>Atom</a>是一个项目的名字，主要是开发一个新的博客摘要格式以解决目前RSS存在的问题(混乱的版本号，不是一个真正的开放标准，表示方法的不一致，定义贫乏等等)。</font> </li>
+</ul>
+<p> <font size='3' color='#0000ff'><strong>2.</strong></font><font>如何实现RSS</font></p>
+<p><font>RSS标准虽然混乱，但是其本质都是XML文档。你可以只使用<font>notepad, <font>按照某个RSS标准, 手写一个xml, <font>并提供给客户端。</font></font></font></font></p>
+<p><font>现在也有许多开源项目来提供RSS的解决方案。</font></p>
+<p><font>Rome <a href='https://rome.dev.java.net/'>https://rome.dev.java.net/</a></font></p>
+<p><font>RSSLibJ <a href='http://enigmastation.com/rsslibj/'>http://enigmastation.com/rsslibj/</a></font></p>
+<p>RSSLib4J <font><a href='http://devzone.stealthp.org/cms/index.php?page=RSSLib4J'>http://devzone.stealthp.org/cms/index.php?page=RSSLib4J</a></font></p>
+<p>使用这些解决方案可以更方便的处理RSS.</p>
+<p><font size='3' color='#0000ff'><strong>3.</strong></font>用 <font>Rome 实现 RSS 服务</font></p>
+<p><font>目前Rome最新版本为rome-0.9. 本例是在Struts的Action中实现的RSS服务. </font></p>
+<p>新建一个<font>RssAction</font></p>
+<div class='code_title'>java 代码</div>
+<div class='dp-highlighter'>
+<div class='bar'/>
+<ol class='dp-j'>
+    <li class='alt'><span><span class='keyword'>import</span><span> other classes...   </span></span> </li>
+    <li class=''><span/><span class='keyword'>import</span><span> com.sun.syndication.feed.synd.SyndFeed;   </span> </li>
+    <li class='alt'><span/><span class='keyword'>import</span><span> com.sun.syndication.io.SyndFeedOutput;   </span> </li>
+    <li class=''><span>  </span> </li>
+    <li class='alt'><span/><span class='keyword'>public</span><span> </span><span class='keyword'>class</span><span> RssAction </span><span class='keyword'>extends</span><span> DispatchAction {   </span> </li>
+    <li class=''><span>  </span> </li>
+    <li class='alt'><span>    </span><span class='keyword'>private</span><span> </span><span class='keyword'>static</span><span> </span><span class='keyword'>final</span><span> String MIME_TYPE = </span><span class='string'>"application/xml; charset=UTF-8"</span><span>;   </span> </li>
+    <li class=''><span>       </span> </li>
+    <li class='alt'><span>    </span><span class='comment'>// Rome中RSS的可选标准 </span><span>  </span> </li>
+    <li class=''><span>    </span><span class='comment'>// rss_0.90, rss_0.91, rss_0.92, rss_0.93, rss_0.94, rss_1.0, rss_2.0, atom_0.3  </span><span>  </span> </li>
+    <li class='alt'><span>    </span><span class='keyword'>private</span><span> </span><span class='keyword'>static</span><span> </span><span class='keyword'>final</span><span> String RSS_TYPE = </span><span class='string'>"rss_2.0"</span><span>;   </span> </li>
+    <li class=''><span>  </span> </li>
+    <li class='alt'><span>    </span><span class='keyword'>public</span><span> ActionForward newsFeed(ActionMapping mapping,   </span> </li>
+    <li class=''><span>            ActionForm form, HttpServletRequest request,   </span> </li>
+    <li class='alt'><span>            HttpServletResponse response) </span><span class='keyword'>throws</span><span> Exception {   </span> </li>
+    <li class=''><span>        NewsFeedBA newsFeedBA = </span><span class='keyword'>new</span><span> NewsFeedBA();   </span> </li>
+    <li class='alt'><span>        newsFeedBA.doExecute();   </span> </li>
+    <li class=''><span>        outputRssFeed(response, newsFeedBA.getFeed());   </span> </li>
+    <li class='alt'><span>        </span><span class='keyword'>return</span><span> </span><span class='keyword'>null</span><span>;   </span> </li>
+    <li class=''><span>    }   </span> </li>
+    <li class='alt'><span>  </span> </li>
+    <li class=''><span>    </span><span class='keyword'>public</span><span> ActionForward blogFeed(ActionMapping mapping,   </span> </li>
+    <li class='alt'><span>            ActionForm form, HttpServletRequest request,   </span> </li>
+    <li class=''><span>            HttpServletResponse response) </span><span class='keyword'>throws</span><span> Exception {   </span> </li>
+    <li class='alt'><span>        String uid = request.getParameter(</span><span class='string'>"userId"</span><span>);   </span> </li>
+    <li class=''><span>        BlogFeedBA blogFeedBA = </span><span class='keyword'>new</span><span> BlogFeedBA();   </span> </li>
+    <li class='alt'><span>        blogFeedBA.setUserId(uid);   </span> </li>
+    <li class=''><span>        blogFeedBA.doExecute();   </span> </li>
+    <li class='alt'><span>        outputRssFeed(response, blogFeedBA.getFeed());   </span> </li>
+    <li class=''><span>        </span><span class='keyword'>return</span><span> </span><span class='keyword'>null</span><span>;   </span> </li>
+    <li class='alt'><span>    }   </span> </li>
+    <li class=''><span>       </span> </li>
+    <li class='alt'><span>    </span><span class='comment'>//将SyndFeed写入HttpServletResponse </span><span>  </span> </li>
+    <li class=''><span>    </span><span class='keyword'>private</span><span> </span><span class='keyword'>boolean</span><span> outputRssFeed(HttpServletResponse response, SyndFeed feed) {   </span> </li>
+    <li class='alt'><span>        </span><span class='keyword'>boolean</span><span> result = </span><span class='keyword'>false</span><span>;   </span> </li>
+    <li class=''><span>        feed.setFeedType(RSS_TYPE);   </span> </li>
+    <li class='alt'><span>        response.setContentType(MIME_TYPE);   </span> </li>
+    <li class=''><span>        SyndFeedOutput output = </span><span class='keyword'>new</span><span> SyndFeedOutput();   </span> </li>
+    <li class='alt'><span>        </span><span class='keyword'>try</span><span> {   </span> </li>
+    <li class=''><span>            output.output(feed, response.getWriter());   </span> </li>
+    <li class='alt'><span>            result = </span><span class='keyword'>true</span><span>;   </span> </li>
+    <li class=''><span>        } </span><span class='keyword'>catch</span><span> (IOException e) {   </span> </li>
+    <li class='alt'><span>            e.printStackTrace();   </span> </li>
+    <li class=''><span>        } </span><span class='keyword'>catch</span><span> (FeedException e) {   </span> </li>
+    <li class='alt'><span>            e.printStackTrace();   </span> </li>
+    <li class=''><span>        }   </span> </li>
+    <li class='alt'><span>        </span><span class='keyword'>return</span><span> result;   </span> </li>
+    <li class=''><span>    }   </span> </li>
+    <li class='alt'><span>}  </span> </li>
+</ol>
+</div>
+<p>然后在业务逻辑中，查询数据库，用返回的数据组织相应的Feed.</p>
+<div class='code_title'>java 代码</div>
+<div class='dp-highlighter'>
+<div class='bar'/>
+<ol class='dp-j'>
+    <li class='alt'><span><span class='keyword'>public</span><span> SyndFeed createFeed(List&lt;newsdto&gt;&lt;/newsdto&gt; news) {   </span></span> </li>
+    <li class=''><span>    SyndFeed feed = </span><span class='keyword'>new</span><span> SyndFeedImpl();   </span> </li>
+    <li class='alt'><span>  </span> </li>
+    <li class=''><span>    feed.setTitle(</span><span class='string'>"My RSS Service : news "</span><span>);   </span> </li>
+    <li class='alt'><span>    feed.setLink(</span><span class='string'>"http://www.myHomePage.com"</span><span>);   </span> </li>
+    <li class=''><span>    feed.setDescription(</span><span class='string'>"My first RSS service ."</span><span>);   </span> </li>
+    <li class='alt'><span>       </span> </li>
+    <li class=''><span>    feed.setEntries(getEntries(news));   </span> </li>
+    <li class='alt'><span>    </span><span class='keyword'>return</span><span> feed;   </span> </li>
+    <li class=''><span>}   </span> </li>
+    <li class='alt'><span>  </span> </li>
+    <li class=''><span/><span class='keyword'>private</span><span> List&lt;syndentry&gt;&lt;/syndentry&gt; getEntries(List&lt;newsdto&gt;&lt;/newsdto&gt; news) {   </span> </li>
+    <li class='alt'><span>    List&lt;syndentry&gt;&lt;/syndentry&gt; entries = </span><span class='keyword'>new</span><span> ArrayList&lt;syndentry&gt;&lt;/syndentry&gt;();   </span> </li>
+    <li class=''><span>       SyndEntry entry;   </span> </li>
+    <li class='alt'><span>       SyndContent description;   </span> </li>
+    <li class=''><span>          </span> </li>
+    <li class='alt'><span>       </span><span class='keyword'>for</span><span> (NewsDTO dto : news) {   </span> </li>
+    <li class=''><span>           entry = </span><span class='keyword'>new</span><span> SyndEntryImpl();   </span> </li>
+    <li class='alt'><span>           entry.setTitle(dto.getTitle());   </span> </li>
+    <li class=''><span>           entry.setLink(dto.getLink());   </span> </li>
+    <li class='alt'><span>           entry.setPublishedDate(</span><span class='keyword'>new</span><span> Date());   </span> </li>
+    <li class=''><span>          </span> </li>
+    <li class='alt'><span>           description = </span><span class='keyword'>new</span><span> SyndContentImpl();   </span> </li>
+    <li class=''><span>           description.setType(</span><span class='string'>"text/html"</span><span>);   </span> </li>
+    <li class='alt'><span>           description.setValue(dto.getContent());   </span> </li>
+    <li class=''><span>              </span> </li>
+    <li class='alt'><span>           entry.setDescription(description);   </span> </li>
+    <li class=''><span>           entries.add(entry);   </span> </li>
+    <li class='alt'><span>       }   </span> </li>
+    <li class=''><span>       </span><span class='keyword'>return</span><span> entries;   </span> </li>
+    <li class='alt'><span>}  </span> </li>
+</ol>
+</div>
+<p> <font>在struts-config.xml中配置RssAction</font></p>
+<div class='code_title'>xml 代码</div>
+<div class='dp-highlighter'>
+<div class='bar'/>
+<ol class='dp-xml'>
+    <li class='alt'><span><span class='tag'>&lt;</span><span class='tag-name'>action</span><span> </span><span class='attribute'>path</span><span>=</span><span class='attribute-value'>"/rss"</span><span> </span><span class='attribute'>type</span><span>=</span><span class='attribute-value'>"com.web.action.RssAction"</span><span>  </span></span> </li>
+    <li class=''><span>    </span><span class='attribute'>parameter</span><span>=</span><span class='attribute-value'>"method"</span><span>  </span> </li>
+    <li class='alt'><span>    </span><span class='attribute'>scope</span><span>=</span><span class='attribute-value'>"request"</span><span class='tag'>&gt;</span><span>  </span> </li>
+    <li class=''><span/><span class='tag'><span class='tag-name'>action</span><span class='tag'>&gt;</span><span>  </span> </span></li>
+</ol>
+</div>
+<p> 启动Tomcat，并访问/rss.do?method=<font>newsFeed  就可以得到新闻的RSS</font></p>
+<p>访问/rss.do?method=<font><font>blogFeed&amp;<font>userId=123</font> </font>就可以得到123的blog的RSS了。</font></p>
+<p>现在IE7和Opera都集成了RSS功能。</p>
+  </div>
+
+  
+
+  <div>
+      <script type="text/javascript"><!--
+      google_ad_client = "pub-6565372398832111";
+      google_ad_slot = "3850013921";
+      google_ad_width = 715;
+      google_ad_height = 90;
+      //--></script>
+      <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+      </script>  
+    </div>
+
+  
+  
+
+  <div class="blog_bottom">
+    <ul>
+      <li>13:12</li>
+      <li>浏览 (2501)</li>
+            <li><a href="#comments">评论</a> (2)</li>
+      
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E7%94%A8ROME%E5%88%9B%E5%BB%BARSS%E6%9C%8D%E5%8A%A1&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwangcheng.javaeye.com%2Fblog%2F53778' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/53778" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc516915">
+  <div class="comment_title">
+    2 楼
+    <a href='http://solid-snake-live-cn.javaeye.com' target='_blank'>solid.snake</a>
+    2008-04-14&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(516915);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content">不好意思&nbsp; 点错了&nbsp; 正在研究关于rss的订阅，文章挺有帮助</div>
+</div>
+<div id="bc516914">
+  <div class="comment_title">
+    1 楼
+    <a href='http://solid-snake-live-cn.javaeye.com' target='_blank'>solid.snake</a>
+    2008-04-14&nbsp;&nbsp;
+    <a href="#" onclick="quote_comment(516914);return false;">引用</a>
+    
+  </div>
+  <div class="comment_content"><pre name="code" class="[code="java"><pre name="code" class="java"></pre><pre name="code" class="java"></pre><pre name="code" class="java"></pre><pre name="code" class="java"></pre><pre name="code" class="java"></pre>java"]</pre></div>
+</div>
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+<div id="search_engine_box" style="display:none;">
+<h2>您正在搜索 rome rss <a href="#" onclick="$('search_engine_box').hide();return false;">[ X ]</a></h2>
+<div>
+关键字已在页面上高亮显示<br/>
+您可能对下列文章也感兴趣<ul><li><a href='http://www.javaeye.com/topic/112048' title='ROME解析baidu RSS' target='_blank'>ROME解析baidu RSS</a></li><li><a href='http://www.javaeye.com/topic/20717' title='使用WebWork和Rome轻松暴露RSS' target='_blank'>使用WebWork和Rome轻松暴露RSS</a></li><li><a href='http://www.javaeye.com/topic/214099' title='Rome解析Rss' target='_blank'>Rome解析Rss</a></li><li><a href='http://www.javaeye.com/topic/117505' title='ROME解析RSS(代码)' target='_blank'>ROME解析RSS(代码)</a></li><li><a href='http://www.javaeye.com/topic/55895' title='如何利用Rome parser 163.com的rss的日期' target='_blank'>如何利用Rome parser 163.com的 ...</a></li></ul>
+<a href='#' onclick="var f = document.createElement('form'); f.target = '_blank'; f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = 'http://www.javaeye.com/search?type=all';var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'query'); m.setAttribute('value', 'rome rss'); f.appendChild(m);f.submit();return false;">站内搜索更多 rome rss</a>
+</div>
+</div>
+<script src="http://www.javaeye.com/javascripts/se_hilite.js?1224057847" type="text/javascript"></script>
+<script type="text/javascript">
+document.observe('dom:loaded',function() {
+  Hilite.hiliteElement($("main"), "rome rss");
+      document.body.appendChild($('search_engine_box').remove());
+      $('search_engine_box').appear();
+});
+</script>
+      
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://wangcheng.javaeye.com'><img alt="wangcheng的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/79925/4c33f1e6-344d-34d8-b723-77fac119ae88.jpg?1236837577" title="wangcheng的博客: wangcheng" /></a></div>
+            <div id="blog_owner_name">wangcheng</div>
+          </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 227020 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 青岛人在北京</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=wangcheng" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=wangcheng" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="frankswu的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div>
+                  <div class="left"><a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://everlasting-188.javaeye.com' target='_blank'><img alt="everlasting_188的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="everlasting_188的博客: everlasting_188" /></a></div>
+                  <div class="left"><a href='http://everlasting-188.javaeye.com' target='_blank'>everlasting_188</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://mostaron.javaeye.com' target='_blank'><img alt="mostaron的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="mostaron的博客: mostaron" /></a></div>
+                  <div class="left"><a href='http://mostaron.javaeye.com' target='_blank'>mostaron</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://hexaemeron.javaeye.com' target='_blank'><img alt="hexaemeron的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="hexaemeron的博客: hexaemeron" /></a></div>
+                  <div class="left"><a href='http://hexaemeron.javaeye.com' target='_blank'>hexaemeron</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (216)</a></li>
+                
+                  <li><a href="/category/12986">Flex Flash (61)</a></li>
+                
+                  <li><a href="/category/25742">Groovy Grails (8)</a></li>
+                
+                  <li><a href="/category/10036">Linux (2)</a></li>
+                
+                  <li><a href="/category/10390">java (38)</a></li>
+                
+                  <li><a href="/category/9913">struts (3)</a></li>
+                
+                  <li><a href="/category/10391">ajax (25)</a></li>
+                
+                  <li><a href="/category/17233">RoR (1)</a></li>
+                
+                  <li><a href="/category/10037">数据库 (5)</a></li>
+                
+                  <li><a href="/category/10983">海阔天空 (54)</a></li>
+                
+                  <li><a href="/category/42292">Seam JSF (7)</a></li>
+                
+                  <li><a href="/category/52885">python (2)</a></li>
+                
+                  <li><a href="/category/55016">php (1)</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="blog_album">
+                <h5>我的相册</h5>
+                <div class="picture_thumb" style="float: none">
+                  <div><span class='thumb_box'><a href='/album'><img alt="01471ffc-d713-46d6-84f8-6b05ce27ed41-thumb" src="http://www.javaeye.com/upload/picture/pic/6289/01471ffc-d713-46d6-84f8-6b05ce27ed41-thumb.jpg?1196125824" /></a></span></div>
+                  <span><img src='http://img.tongji.linezing.com/690230/tongji.gif'></img><br/> <a href="/album">共 1 张</a></span>
+                </div>
+              </div>
+            
+            
+              <div id="guest_books">
+                <h5>我的留言簿 <span style='font-weight:normal;font-size:12px;padding-left:20px;'><a href="/blog/guest_book">&gt;&gt;更多留言</a></span></h5>
+                <ul>
+                  
+                    <li>
+                      你好，你的flex白板画图能不能发给我参考一下，无限感激.我的邮箱是yellown ...<br/>
+                      -- by <a href="/blog/guest_book#8234">yellownew8707</a>
+                    </li>
+                  
+                    <li>
+                      已经将您的Google account添加到了keepleaping projec ...<br/>
+                      -- by <a href="/blog/guest_book#1196">dearshor</a>
+                    </li>
+                  
+                    <li>
+                      帖子不错，有点问题就是：else {   #                  ...<br/>
+                      -- by <a href="/blog/guest_book#451">shgen</a>
+                    </li>
+                  
+                </ul>
+              </div>
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (135)</li>
+                                                <li><a href="/blog/forum">我的论坛帖子</a> (18)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (1)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+                  <li><a href="http://qingdao.group.javaeye.com">青岛javaeye</a></li>
+                
+                  <li><a href="http://onlypython.group.javaeye.com">Python</a></li>
+                
+                  <li><a href="http://seam.group.javaeye.com">JBoss SEAM</a></li>
+                
+                  <li><a href="http://JSFgroup.group.javaeye.com">JSF</a></li>
+                
+                  <li><a href="http://seo.group.javaeye.com">SEO</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://www.blogjava.net/idkkk/" target="_blank">idkkk的blog</a></li>
+                  
+                    <li><a href="http://groups.google.com/group/agilechina" target="_blank">敏捷中国</a></li>
+                  
+                    <li><a href="http://tzngvi.spaces.live.com/blog/" target="_blank">同事tzngvi</a></li>
+                  
+                    <li><a href="http://zqs77713.spaces.live.com/Blog/" target="_blank">同事Kris</a></li>
+                  
+                    <li><a href="http://lwz7512.javaeye.com/" target="_blank">lwz7512</a></li>
+                  
+                    <li><a href="http://riameeting.com/" target="_blank">RIAMeeting</a></li>
+                  
+                    <li><a href="http://www.anyflex.cn/bbs/index.php" target="_blank">AnyFlex</a></li>
+                  
+                    <li><a href="http://blog.80s.net.cn/" target="_blank">温飞飞</a></li>
+                  
+                    <li><a href="http://www.zhaohongri.cn/" target="_blank">zhaohongri</a></li>
+                  
+                    <li><a href="http://hi.baidu.com/pmzcn" target="_blank">同事pmz</a></li>
+                  
+                    <li><a href="http://hi.csdn.net/HarryDuanChina" target="_blank">同事HarryDuanChina</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-07">2009-07</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-06">2009-06</a> (7)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-05">2009-05</a> (3)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/248096#comments" title="在Seam中自定义interceptor拦截器">在Seam中自定义intercepto ...</a><br/>
+                    非常感谢你的回复！！！！我还有问题要请教@Scope(ScopeType.SE ...<br/>
+                    -- by <a href='http://langren.javaeye.com' target='_blank'>langren</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/248096#comments" title="在Seam中自定义interceptor拦截器">在Seam中自定义intercepto ...</a><br/>
+                    不是MySeam调用MySeamInterceptor，而是MySeamInter ...<br/>
+                    -- by <a href='http://wangcheng.javaeye.com' target='_blank'>wangcheng</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/248096#comments" title="在Seam中自定义interceptor拦截器">在Seam中自定义intercepto ...</a><br/>
+                    我刚接触seam框架，要实现拦截器，思路应该和楼主一样，看了楼主的代码还是云里雾里 ...<br/>
+                    -- by <a href='http://langren.javaeye.com' target='_blank'>langren</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/292878#comments" title="生成网站CSS和HTML架构的站点">生成网站CSS和HTML架构的 ...</a><br/>
+                    Free Html Css Templatehttp://www.freecsst ...<br/>
+                    -- by <a href='http://wangcheng.javaeye.com' target='_blank'>wangcheng</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/409548#comments" title="配置整合DWR3.0和Spring2.5使用annotation注解">配置整合DWR3.0和Spring2. ...</a><br/>
+                    在spring配置文件最后加上
+&lt;bean class=&quot;or ...<br/>
+                    -- by <a href='http://watertao.javaeye.com' target='_blank'>watertao</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/248096" title="在Seam中自定义interceptor拦截器">在Seam中自定义interceptor拦截器</a></li>
+                
+                  <li><a href="/blog/233113" title="POJO加Annotation做validation验证">POJO加Annotation做validation验证</a></li>
+                
+                  <li><a href="/blog/332829" title="Flex中加载Flash CS3制作的swf文件">Flex中加载Flash CS3制作的swf文件</a></li>
+                
+                  <li><a href="/blog/283603" title="Flex视频教学 (RIAMeeting翻译Flex in a Week)">Flex视频教学 (RIAMeeting翻译Flex in a We ...</a></li>
+                
+                  <li><a href="/blog/292878" title="生成网站CSS和HTML架构的站点">生成网站CSS和HTML架构的站点</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://wangcheng.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://wangcheng.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://wangcheng.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>

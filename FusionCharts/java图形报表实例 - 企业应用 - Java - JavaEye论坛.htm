@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>java图形报表实例 - 企业应用 - Java - JavaEye论坛</title>
+    <meta name="description" content="在上两个关于图形化分析中!有朋友反映说java和FusionChart到底有什么关系！下面就这一问题做一个java实例!进行讲解!在讲解之前先笼统的说一下！起始FusionChart就是利用flash作为模板！当然这些模板是官方已经写好的！只需要去官方下载！其次我们只需要利用java生成相应的xml文档！在用特定的方法调用就可 /** * 该类是生成FusionCharts图形的主要方法【生成图形时 ..." />
+    <meta name="keywords" content="java图形化报表 企业应用 Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1250087106" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1248170042" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+          <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+          </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" title="查看我的博客首页" class="welcome">欢迎frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</a>
+    
+    
+      <a href="http://app.javaeye.com" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</a>
+      <a href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</a>
+      <a href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</a>
+    </div>
+        <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div></div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye-最棒的软件开发交流社区" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/J2EE">企业应用</a> <span class="arrow">&rarr;</span>
+    <h1>java图形报表实例</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+      <a href='/forums/tag/Swing'>Swing</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"><a href='/forums/39/topics/313178/posts/new' class='new_post' title='发表回复'>&nbsp;</a></div>
+  <div class="wrapper">
+    <div id="forum_advert_f4"></div>
+    
+    <div class="info">浏览 956 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"> <a href="/topic/313178">主题：java图形报表实例</a></div>
+        <div id='topic_rate_box'><a href="#" onclick="rate_topic('good'); return false;">精华帖</a> (0) :: <a href="#" onclick="rate_topic('mid'); return false;">良好帖</a> (0) :: <a href="#" onclick="rate_topic('new'); return false;">新手帖</a> (0) :: <a href="#" onclick="rate_topic('hidden'); return false;">隐藏帖</a> (1)</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="835952">
+  <td class="postauthor">
+    <ul>
+      <li class="name">skywen</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://skywen.javaeye.com' target='_blank'><img alt="skywen的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/65132/4a961590-bdb1-3670-80e5-4c9776190f4c.jpg?1236836715" title="skywen的博客: JAVA交流" /></a></li>
+      <li>文章: 17</li>
+      <li>积分: 70</li>
+      <li>来自: 武汉</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2009-01-09
+        关键字: <strong>java图形化报表</strong>
+      </div>
+      <div class="links">
+        
+          <a href='/forums/39/topics/313178/posts/835952/quote' class='quote'>引用</a>
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=java%E5%9B%BE%E5%BD%A2%E6%8A%A5%E8%A1%A8%E5%AE%9E%E4%BE%8B&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F313178' target='_blank' class='favorite'>收藏</a>
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+                                            <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+              <ul>
+                                    <li><a href='http://www.javaeye.com/topic/104649' title='pdf word xls  parser 效率' target='_blank'>pdf word xls  parser 效率</a></li>
+                                      <li><a href='http://www.javaeye.com/topic/135015' title='JFreeChart1.0.6的一个通用Web Demo' target='_blank'>JFreeChart1.0.6的一个通用Web Demo</a></li>
+                                      <li><a href='http://www.javaeye.com/topic/89386' title='webwork与orm结合时，参数绑定的方法' target='_blank'>webwork与orm结合时，参数绑定的方法</a></li>
+                                  </ul>
+                <br/><span>推荐圈子: <a href="http://EXT.group.javaeye.com" target="_blank">EXT</a></span>
+                <br/><a href="/wiki/topic/313178" target="_blank">更多相关推荐</a>
+              </div>
+              <script type="text/javascript">
+                new Draggable("related_topics");
+              </script>
+                              
+        <p>在上两个关于图形化分析中!有朋友反映说java和FusionChart到底有什么关系！下面就这一问题做一个java实例!进行讲解!在讲解之前先笼统的说一下！起始FusionChart就是利用flash作为模板！当然这些模板是官方已经写好的！只需要去官方下载！其次我们只需要利用java生成相应的xml文档！在用特定的方法调用就可</p>
+<p>/**<br/> * 该类是生成FusionCharts图形的主要方法【生成图形时主要调用该类中的createChart这个静态的方法】<br/> * @author SkyWen<br/> *<br/> */<br/>public class FusionChartsCreator {</p>
+<p>    /**<br/>     * Adds additional string to the url to and encodes the parameters,&lt;br&gt;<br/>     * so as to disable caching of data.&lt;br&gt;  <br/>     * @param strDataURL -<br/>     *                dataURL to be fed to chart<br/>     * @param addNoCacheStr -<br/>     *                Whether to add aditional string to URL to disable<br/>     *                caching of data<br/>     * @return cachedURL - URL with the additional string added<br/>     */</p>
+<p>    public static String addCacheToDataURL(String strDataURL) {<br/> String cachedURL = strDataURL;<br/> // Add the no-cache string if required</p>
+<p> // We add ?FCCurrTime=xxyyzz<br/> // If the dataURL already contains a ?, we add &amp;FCCurrTime=xxyyzz<br/> // We replace : with _, as FusionCharts cannot handle : in URLs<br/> Calendar nowCal = Calendar.getInstance();<br/> Date now = nowCal.getTime();<br/> SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH_mm_ss a");<br/> String strNow = sdf.format(now);</p>
+<p> try {</p>
+<p>     if (strDataURL.indexOf("?") &gt; 0) {<br/>  cachedURL = strDataURL + "&amp;FCCurrTime="<br/>  + URLEncoder.encode(strNow, "UTF-8");<br/>     } else {<br/>  cachedURL = strDataURL + "?FCCurrTime="<br/>  + URLEncoder.encode(strNow, "UTF-8");<br/>     }</p>
+<p> } catch (UnsupportedEncodingException e) {<br/>     // TODO Auto-generated catch block<br/>     e.printStackTrace();<br/>     cachedURL = strDataURL + "?FCCurrTime=" + strNow;<br/> }</p>
+<p> return cachedURL;<br/>    }</p>
+<p>    /**<br/>     * Creates the JavaScript + HTML code required to embed a chart.&lt;br&gt;<br/>     * Uses the javascript FusionCharts class to create the chart by supplying &lt;br&gt;<br/>     * the required parameters to it.&lt;br&gt;<br/>     * Note: Only one of the parameters strURL or strXML has to be not null for this&lt;br&gt;<br/>     * method to work. If both the parameters are provided then strURL is used for further processing.&lt;br&gt;<br/>     * <br/>     * @param chartSWF -<br/>     *                SWF File Name (and Path) of the chart which you intend<br/>     *                to plot<br/>     * @param strURL -<br/>     *                If you intend to use dataURL method for this chart,<br/>     *                pass the URL as this parameter. Else, set it to "" (in<br/>     *                case of dataXML method)<br/>     * @param strXML -<br/>     *                If you intend to use dataXML method for this chart,<br/>     *                pass the XML data as this parameter. Else, set it to ""<br/>     *                (in case of dataURL method)<br/>     * @param chartId -<br/>     *                Id for the chart, using which it will be recognized in<br/>     *                the HTML page. Each chart on the page needs to have a<br/>     *                unique Id.<br/>     * @param chartWidth -<br/>     *                Intended width for the chart (in pixels)<br/>     * @param chartHeight -<br/>     *                Intended height for the chart (in pixels)<br/>     * @param debugMode -<br/>     *                Whether to start the chart in debug mode<br/>     * @param registerWithJS -<br/>     *                Whether to ask chart to register itself with<br/>     *                JavaScript<br/>     */<br/>    public static String createChart(String chartSWF, String strURL,<br/>     String strXML, String chartId, int chartWidth, int chartHeight,<br/>     boolean debugMode, boolean registerWithJS) {<br/> StringBuffer strBuf = new StringBuffer();<br/> // First we create a new DIV for each chart. We specify the name of DIV<br/> // as "chartId"Div.<br/> // DIV names are case-sensitive.</p>
+<p> strBuf.append("\t\t&lt;!-- START Script Block for Chart--&gt;\n");<br/> strBuf.append("\t\t&lt;script LANGUAGE='Javascript' SRC='/FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;\n");<br/> strBuf.append("\t\t&lt;div id='" + chartId + "Div' align='center'&gt;\n");<br/> strBuf.append("\t\t\t\tChart.\n");</p>
+<p> /*<br/>  * The above text "Chart" is shown to users before the chart has started<br/>  * loading (if there is a lag in relaying SWF from server). This text is<br/>  * also shown to users who do not have Flash Player installed. You can<br/>  * configure it as per your needs.<br/>  */</p>
+<p> strBuf.append("\t\t&lt;/div&gt;\n");</p>
+<p> /*<br/>  * Now, we create the chart using FusionCharts js class. Each chart's<br/>  * instance (JavaScript) Id is named as chart_"chartId".<br/>  */</p>
+<p> strBuf.append("\t\t&lt;script type='text/javascript'&gt;\n");<br/> // Instantiate the Chart<br/> Boolean registerWithJSBool = new Boolean(registerWithJS);<br/> Boolean debugModeBool = new Boolean(debugMode);<br/> int regWithJSInt = boolToNum(registerWithJSBool);<br/> int debugModeInt = boolToNum(debugModeBool);</p>
+<p> strBuf.append("\t\t\t\tvar chart_" + chartId + " = new FusionCharts('"<br/>  + chartSWF + "', '" + chartId + "', '" + chartWidth + "', '"<br/>  + chartHeight + "', '" + debugModeInt + "', '" + regWithJSInt<br/>  + "');\n");<br/> // Check whether we've to provide data using dataXML method or dataURL<br/> // method<br/> if (strXML.equals("")) {<br/>     strBuf.append("\t\t\t\t// Set the dataURL of the chart\n");<br/>     strBuf.append("\t\t\t\tchart_" + chartId + ".setDataURL(\"" + strURL<br/>      + "\");\n");<br/> } else {<br/>     strBuf.append("\t\t\t\t// Provide entire XML data using dataXML method\n");<br/>     strBuf.append("\t\t\t\tchart_" + chartId + ".setDataXML(\"" + strXML<br/>      + "\");\n");<br/> }<br/> strBuf.append("\t\t\t\t// Finally, render the chart.\n");<br/> strBuf.append("\t\t\t\tchart_" + chartId + ".render(\"" + chartId + "Div\");\n");<br/> strBuf.append("\t\t&lt;/script&gt;\n");<br/> strBuf.append("\t\t&lt;!--END Script Block for Chart--&gt;\n");<br/> System.out.println(strBuf);<br/> return strBuf.substring(0);<br/>    }</p>
+<p>    /**<br/>     * Creates the object tag required to embed a chart.<br/>     * Generates the object tag to embed the swf directly into the html page.&lt;br&gt;<br/>     * Note: Only one of the parameters strURL or strXML has to be not null for this&lt;br&gt;<br/>     * method to work. If both the parameters are provided then strURL is used for further processing.&lt;br&gt;<br/>     *  <br/>     * @param chartSWF -<br/>     *                SWF File Name (and Path) of the chart which you intend<br/>     *                to plot<br/>     * @param strURL -<br/>     *                If you intend to use dataURL method for this chart,<br/>     *                pass the URL as this parameter. Else, set it to "" (in<br/>     *                case of dataXML method)<br/>     * @param strXML -<br/>     *                If you intend to use dataXML method for this chart,<br/>     *                pass the XML data as this parameter. Else, set it to ""<br/>     *                (in case of dataURL method)<br/>     * @param chartId -<br/>     *                Id for the chart, using which it will be recognized in<br/>     *                the HTML page. Each chart on the page needs to have a<br/>     *                unique Id.<br/>     * @param chartWidth -<br/>     *                Intended width for the chart (in pixels)<br/>     * @param chartHeight -<br/>     *                Intended height for the chart (in pixels)<br/>     * @param debugMode -<br/>     *                Whether to start the chart in debug mode<br/>     */<br/>    public static String createChartHTML(String chartSWF, String strURL,<br/>     String strXML, String chartId, int chartWidth, int chartHeight,<br/>     boolean debugMode) { /*<br/>      * Generate the FlashVars string based<br/>      * on whether dataURL has been provided<br/>      * or dataXML.<br/>      */<br/> String strFlashVars = "";<br/> Boolean debugModeBool = new Boolean(debugMode);</p>
+<p> if (strXML.equals("")) {<br/>     // DataURL Mode<br/>     strFlashVars = "chartWidth=" + chartWidth + "&amp;chartHeight="<br/>     + chartHeight + "&amp;debugMode=" + boolToNum(debugModeBool)<br/>     + "&amp;dataURL=" + strURL + "";<br/> } else {<br/>     // DataXML Mode<br/>     strFlashVars = "chartWidth=" + chartWidth + "&amp;chartHeight="<br/>     + chartHeight + "&amp;debugMode=" + boolToNum(debugModeBool)<br/>     + "&amp;dataXML=" + strXML + "";<br/> }<br/> StringBuffer strBuf = new StringBuffer();</p>
+<p> strBuf.append("\t\t&lt;!--START Code Block for Chart--&gt;\n");<br/> strBuf<br/> .append("\t\t&lt;object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' codebase='http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0' width='"<br/>  + chartWidth<br/>  + "' height='"<br/>  + chartHeight<br/>  + "' id='"<br/>  + chartId + "'&gt;\n");<br/> strBuf.append("\t\t\t\t&lt;param name='allowScriptAccess' value='always' /&gt;\n");<br/> strBuf.append("\t\t\t\t&lt;param name='movie' value='" + chartSWF + "'/&gt;\n");<br/> strBuf.append("\t\t\t\t&lt;param name='FlashVars' value=\"" + strFlashVars<br/>  + "\" /&gt;\n");<br/> strBuf.append("\t\t\t\t&lt;param name='quality' value='high' /&gt;\n");<br/> strBuf<br/> .append("\t\t\t\t&lt;embed src='"<br/>  + chartSWF<br/>  + "' FlashVars=\""<br/>  + strFlashVars<br/>  + "\" quality='high' width='"<br/>  + chartWidth<br/>  + "' height='"<br/>  + chartHeight<br/>  + "' name='"<br/>  + chartId<br/>  + "' allowScriptAccess='always' type='application/x-shockwave-flash' pluginspage='http://www.macromedia.com/go/getflashplayer' /&gt;\n");<br/> strBuf.append("\t\t&lt;/object&gt;\n");<br/> strBuf.append("\t\t&lt;!--END Code Block for Chart--&gt;\n");<br/> return strBuf.substring(0);<br/>    }</p>
+<p>    /**<br/>     * Converts a Boolean value to int value&lt;br&gt;<br/>     * <br/>     * @param bool Boolean value which needs to be converted to int value <br/>     * @return int value correspoding to the boolean : 1 for true and 0 for false<br/>     */<br/>   public static int boolToNum(Boolean bool) {<br/> int num = 0;<br/> if (bool.booleanValue()) {<br/>     num = 1;<br/> }<br/> return num;<br/>    }<br/>}</p>
+<p>  注意 strBuf.append("\t\t&lt;script LANGUAGE='Javascript' SRC='/FusionCharts/FusionCharts.js'&gt;&lt;/script&gt;\n");</p>
+<p>说明在你的根目录下请放置一个文件夹FusionCharts 下面有这样一个js</p>
+<p>FusionCharts.js内容是</p>
+<p>/**<br/> * FusionCharts: Flash Player detection and Chart embed <br/> * <br/> * Morphed from SWFObject (<a href='http://blog.deconcept.com/swfobject/'>http://blog.deconcept.com/swfobject/</a>) under MIT License:<br/> * <a href='http://www.opensource.org/licenses/mit-license.php'>http://www.opensource.org/licenses/mit-license.php</a><br/> *<br/> */<br/>if(typeof infosoftglobal == "undefined") var infosoftglobal = new Object();<br/>if(typeof infosoftglobal.FusionChartsUtil == "undefined") infosoftglobal.FusionChartsUtil = new Object();<br/>infosoftglobal.FusionCharts = function(swf, id, w, h, debugMode, registerWithJS, c, scaleMode, lang){<br/> if (!document.getElementById) { return; }<br/> <br/> //Flag to see whether data has been set initially<br/> this.initialDataSet = false;<br/> <br/> //Create container objects<br/> this.params = new Object();<br/> this.variables = new Object();<br/> this.attributes = new Array();<br/> <br/> //Set attributes for the SWF<br/> if(swf) { this.setAttribute('swf', swf); }<br/> if(id) { this.setAttribute('id', id); }<br/> if(w) { this.setAttribute('width', w); }<br/> if(h) { this.setAttribute('height', h); }<br/> <br/> //Set background color<br/> if(c) { this.addParam('bgcolor', c); }<br/> <br/> //Set Quality <br/> this.addParam('quality', 'high');<br/> <br/> //Add scripting access parameter<br/> this.addParam('allowScriptAccess', 'always');<br/> <br/> //Pass width and height to be appended as chartWidth and chartHeight<br/> this.addVariable('chartWidth', w);<br/> this.addVariable('chartHeight', h);</p>
+<p> //Whether in debug mode<br/> debugMode = debugMode ? debugMode : 0;<br/> this.addVariable('debugMode', debugMode);<br/> //Pass DOM ID to Chart<br/> this.addVariable('DOMId', id);<br/> //Whether to registed with JavaScript<br/> registerWithJS = registerWithJS ? registerWithJS : 0;<br/> this.addVariable('registerWithJS', registerWithJS);<br/> <br/> //Scale Mode of chart<br/> scaleMode = scaleMode ? scaleMode : 'noScale';<br/> this.addVariable('scaleMode', scaleMode);<br/> //Application Message Language<br/> lang = lang ? lang : 'EN';<br/> this.addVariable('lang', lang);<br/>}</p>
+<p>infosoftglobal.FusionCharts.prototype = {<br/> setAttribute: function(name, value){<br/>  this.attributes[name] = value;<br/> },<br/> getAttribute: function(name){<br/>  return this.attributes[name];<br/> },<br/> addParam: function(name, value){<br/>  this.params[name] = value;<br/> },<br/> getParams: function(){<br/>  return this.params;<br/> },<br/> addVariable: function(name, value){<br/>  this.variables[name] = value;<br/> },<br/> getVariable: function(name){<br/>  return this.variables[name];<br/> },<br/> getVariables: function(){<br/>  return this.variables;<br/> },<br/> getVariablePairs: function(){<br/>  var variablePairs = new Array();<br/>  var key;<br/>  var variables = this.getVariables();<br/>  for(key in variables){<br/>   variablePairs.push(key +"="+ variables[key]);<br/>  }<br/>  return variablePairs;<br/> },<br/> getSWFHTML: function() {<br/>  var swfNode = "";<br/>  if (navigator.plugins &amp;&amp; navigator.mimeTypes &amp;&amp; navigator.mimeTypes.length) { <br/>   // netscape plugin architecture   <br/>   swfNode = '&lt;embed type="application/x-shockwave-flash" src="'+ this.getAttribute('swf') +'" width="'+ this.getAttribute('width') +'" height="'+ this.getAttribute('height') +'"  ';<br/>   swfNode += ' id="'+ this.getAttribute('id') +'" name="'+ this.getAttribute('id') +'" ';<br/>   var params = this.getParams();<br/>    for(var key in params){ swfNode += [key] +'="'+ params[key] +'" '; }<br/>   var pairs = this.getVariablePairs().join("&amp;");<br/>    if (pairs.length &gt; 0){ swfNode += 'flashvars="'+ pairs +'"'; }<br/>   swfNode += '/&gt;';<br/>  } else { // PC IE   <br/>   swfNode = '&lt;object id="'+ this.getAttribute('id') +'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="'+ this.getAttribute('width') +'" height="'+ this.getAttribute('height') +'"&gt;';<br/>   swfNode += '&lt;param name="movie" value="'+ this.getAttribute('swf') +'" /&gt;';<br/>   var params = this.getParams();<br/>   for(var key in params) {<br/>    swfNode += '&lt;param name="'+ key +'" value="'+ params[key] +'" /&gt;';<br/>   }<br/>   var pairs = this.getVariablePairs().join("&amp;");   <br/>   if(pairs.length &gt; 0) {swfNode += '&lt;param name="flashvars" value="'+ pairs +'" /&gt;';}<br/>   swfNode += "&lt;/object&gt;";<br/>  }<br/>  return swfNode;<br/> },<br/> setDataURL: function(strDataURL){<br/>  //This method sets the data URL for the chart.<br/>  //If being set initially<br/>  if (this.initialDataSet==false){<br/>   this.addVariable('dataURL',strDataURL);<br/>   //Update flag<br/>   this.initialDataSet = true;<br/>  }else{<br/>   //Else, we update the chart data using External Interface<br/>   //Get reference to chart object<br/>   var chartObj = infosoftglobal.FusionChartsUtil.getChartObject(this.getAttribute('id'));<br/>   chartObj.setDataURL(strDataURL);<br/>  }<br/> },<br/> setDataXML: function(strDataXML){<br/>  //If being set initially<br/>  if (this.initialDataSet==false){<br/>   //This method sets the data XML for the chart INITIALLY.<br/>   this.addVariable('dataXML',strDataXML);<br/>   //Update flag<br/>   this.initialDataSet = true;<br/>  }else{<br/>   //Else, we update the chart data using External Interface<br/>   //Get reference to chart object<br/>   var chartObj = infosoftglobal.FusionChartsUtil.getChartObject(this.getAttribute('id'));<br/>   chartObj.setDataXML(strDataXML);<br/>  }<br/> },<br/> render: function(elementId){<br/>  var n = (typeof elementId == 'string') ? document.getElementById(elementId) : elementId;<br/>  n.innerHTML = this.getSWFHTML();<br/>  return true;  <br/> }<br/>}</p>
+<p>// ------------ Fix for Out of Memory Bug in IE in FP9 ---------------//<br/>/* Fix for video streaming bug */<br/>infosoftglobal.FusionChartsUtil.cleanupSWFs = function() {<br/> if (window.opera || !document.all) return;<br/> var objects = document.getElementsByTagName("OBJECT");<br/> for (var i=0; i &lt; objects.length; i++) {<br/>  objects[i].style.display = 'none';<br/>  for (var x in objects[i]) {<br/>   if (typeof objects[i][x] == 'function') {<br/>    objects[i][x] = function(){};<br/>   }<br/>  }<br/> }<br/>}<br/>// Fixes bug in fp9<br/>infosoftglobal.FusionChartsUtil.prepUnload = function() {<br/> __flash_unloadHandler = function(){};<br/> __flash_savedUnloadHandler = function(){};<br/> if (typeof window.onunload == 'function') {<br/>  var oldUnload = window.onunload;<br/>  window.onunload = function() {<br/>   infosoftglobal.FusionChartsUtil.cleanupSWFs();<br/>   oldUnload();<br/>  }<br/> } else {<br/>  window.onunload = infosoftglobal.FusionChartsUtil.cleanupSWFs;<br/> }<br/>}<br/>if (typeof window.onbeforeunload == 'function') {<br/> var oldBeforeUnload = window.onbeforeunload;<br/> window.onbeforeunload = function() {<br/>  infosoftglobal.FusionChartsUtil.prepUnload();<br/>  oldBeforeUnload();<br/> }<br/>} else {<br/> window.onbeforeunload = infosoftglobal.FusionChartsUtil.prepUnload;<br/>}</p>
+<p>/* Add Array.push if needed (ie5) */<br/>if (Array.prototype.push == null) { Array.prototype.push = function(item) { this[this.length] = item; return this.length; }}</p>
+<p>/* Function to return Flash Object from ID */<br/>infosoftglobal.FusionChartsUtil.getChartObject = function(id)<br/>{<br/>  if (window.document[id]) {<br/>      return window.document[id];<br/>  }<br/>  if (navigator.appName.indexOf("Microsoft Internet")==-1) {<br/>    if (document.embeds &amp;&amp; document.embeds[id])<br/>      return document.embeds[id]; <br/>  } else {<br/>    return document.getElementById(id);<br/>  }<br/>}<br/>/* Aliases for easy usage */<br/>var getChartFromId = infosoftglobal.FusionChartsUtil.getChartObject;<br/>var FusionCharts = infosoftglobal.FusionCharts;</p>
+<p> </p>
+<p style='text-align: left;'><strong><span style='color: #339966;'>下面就createChart这个静态的方法进行解读!</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'> createChart(String chartSWF, String strURL,String strXML, String chartId, int chartWidth,     inchartHeight,<br/> boolean debugMode, boolean registerWithJS) </span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'>  注意该方法需要传递的参数!</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'> String chartSWF就是一个flash也就是所谓的模板</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'> String strURL可以传递空字符串</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'> String strXML 就是我们用java语言写的一个特定的xml文档[注意该文档需要一定的格式！将在下面讲解]</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'>String chartId 就是整个图形的标题[就是说明要显示图形的意图]; int chartWidth就是生成图形的宽度；</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'>  int chartHeight就是生成图形的高度!</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'>   boolean debugMode是否为调试模式 一般为false;</span></strong></p>
+<p style='text-align: left;'><strong><span style='color: #339966;'> boolean registerWithJS 是否将js一起发布一般为了保证代码的绝对安全 为false</span></strong></p>
+<p style='text-align: left;'> </p>
+<p style='text-align: left;'>具体的做法已经完成 下面就讲一下调用 在action或者servlet中  我们只需要</p>
+<p style='text-align: left;'>  String  strChartCode=FusionChartsCreator.createChart("模板", "","用java生成的xml文档","标题", 600, 500, false, false);</p>
+<p style='text-align: left;'> PrintWriter out = response.getWriter();</p>
+<p style='text-align: left;'>out.print(strChartCode);</p>
+<p style='text-align: left;'>return null;</p>
+<p style='text-align: left;'>一个falsh图形就可以出现在你的面前了!</p>
+<p style='text-align: left;'><br/> </p>
+      </div>
+
+      
+      
+
+              <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_f5"><span>推荐链接</span><ul class='adverts'><li><a href='/adverts/170' target='_blank'><span style="color:blue;font-weight:bold;"> 【8月推荐】JAVA技术沙龙活动通知--欢迎并期待您的参与!</span></a></li></ul></div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://skywen.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://skywen.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=skywen" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://skywen.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        最后修改：2009-01-09
+                
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"><a href='/forums/39/topics/313178/posts/new' class='new_post' title='发表回复'>&nbsp;</a></div>
+  <div class="wrapper"></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/J2EE'>企业应用</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java编程和Java企业应用</option>
+<option value="web">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_f6"></div>
+  </div>
+
+  
+    <div class="quick_reply">
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+    </div>
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":313178, "type":type}});
+  }
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://www.javaeye.com/job">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>    
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://primeton.javaeye.com" >普元</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <li class="last"><a href="http://book.javaeye.com" >图书</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>
