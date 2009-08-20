@@ -1,0 +1,1244 @@
+<!--STATUS OK-->
+<html><head><meta http-equiv=content-type content="text/html; charset=gb2312"><title>RSS格式规范_轻快的好JAVA　      </title>
+<style type="text/css">
+.error{color:#FF0000;font-size:12px}
+
+
+	
+
+
+</style>
+<script type="text/javascript" src="/ui/scripts/global.js"></script>
+<script language="javascript" src="/js/popup.js"></script>
+<script type="text/javascript" src="/ui/scripts/CommentEditor/BdEditor-mined.js?v=2.3"></script>
+<script LANGUAGE="JavaScript" src="/js/g_spjs.js"></script>
+<script language="javascript">
+<!--
+
+(function(){var A=109;function C(D){var F="nslog__"+(new Date()).getTime();var E=window[F]=new Image();E.onload=(E.onerror=function(){window[F]=null});E.src="http://nsclick.baidu.com/v.gif?pid="+A+"&url="+encodeURIComponent(D)+"&type=0&_t="+Math.random();E=null}function B(F){F=F||event;var E=F.srcElement||F.target;if(E.nodeType!=1){E=E.parentNode}while(E&&E.tagName&&E.tagName.toUpperCase()!="A"){E=E.parentNode}if(E&&E.tagName&&E.tagName.toUpperCase()=="A"){if(!/^([\w-]+\.)*?baidu\.com/i.test(E.host)){var D=E.href;setTimeout(function(){C(D)},1)}}E=null}if(document.attachEvent){document.attachEvent("onmousedown",B);window.attachEvent("onunload",function(){document.detachEvent("onmousedown",B)})}else{document.addEventListener("mousedown",B,false);window.addEventListener("unload",function(){document.removeEventListener("mousedown",B,false)},false)}})();
+
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+
+function checkMail(s)
+{
+  	var pattern=/\w+@\w+\.[a-z]+/;
+  	if(pattern.test(s))
+    {
+       return true;
+    }
+  	else
+   {
+      return false;
+   }
+}
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{
+		 return true;
+	}
+
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+String.prototype.byteLength = function() {
+    return this.replace(/[^\u0000-\u007f]/g,"\u0061\u0061").length;
+}
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else
+	{
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}
+
+}
+
+function checktext(textid)
+{
+        var tempStr='';
+        var isLightFont=false;
+		if(editor&&textid=="spBlogCmtText"){
+			//document.getElementById("spBlogCmtText").value=editor.getHtml();
+			tempStr=editor.getHtml();
+			tempStr=tempStr.replace(/<span style="filter:glow\(color=#([0-9a-z]{3,6}),strength=2\);height:0px;color:#([0-9a-z]{3,6})">/ig,'');
+			tempStr=tempStr.replace(/<\/span>/ig,'');
+			document.getElementById("spBlogCmtText").value=tempStr;
+            isLightFont=!(tempStr==editor.getHtml());
+        }
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else
+        {
+                len=str.byteLength();
+                var maxLength=isLightFont?916:1000;
+				if(len > maxLength)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+				if(editor&&textid=="spBlogCmtText"){
+					document.getElementById("spBlogCmtText").value=editor.getHtml();
+					document.getElementById(textid).value=trimlr(textid);
+				}
+
+			return true;
+		}
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=0;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+    try{document.getElementById("btn_ok").disabled = "";}catch(e){}
+}
+
+function addToFavor(){
+var blogTitle='RSS格式规范'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes');
+return false;
+}
+
+var isIE = /*@cc_on!@*/false;
+function tracker(did,a){
+	return function(){
+		var t=new Date().getTime();
+		var href=a.href;
+        if(isIE){
+            var r = /href\s*=\s*("|')?([^\s]*)\1/gi;
+            if(r.test(a.outerHTML))
+                href = RegExp.$2;
+        }
+        new Image().src = "http://hi.baidu.com/sys/statlog/1.gif?m=" + did + "&v=" + encodeURIComponent(href) + "&c=" + encodeURIComponent(location.href) + "&t="+t;
+	}
+}
+
+function tracker_init(did){
+	var _s=document.getElementById(did);
+	var as = _s.getElementsByTagName('A');
+	for(var i = 0, j = as.length; i < j; i ++){
+		var a = as[i];
+		if(isIE){
+			a.attachEvent("onclick", tracker(did,a));
+		}else{
+			a.addEventListener("click", tracker(did,a), false);
+		}
+	}
+}
+
+
+/* some functions for cmt-reply */
+		function cmtreply(cmtName,cmtPorID)
+		{
+			cmtName=cmtName.replace(/<|>/g,"");
+			window.location.hash="#send";
+			var cmtForm=document.form1;
+			cmtForm.cm.value="3";
+			if(!cmtForm.spReferTarget)
+			{
+				var ipt=document.createElement("input");
+				ipt.type="hidden";
+				ipt.name="spReferTarget";
+				ipt.value=cmtPorID;
+				cmtForm.appendChild(ipt);
+			}else cmtForm.spReferTarget.value=cmtPorID;
+
+
+			 //G("reTitle").innerHTML="回复"+cmtName+"：";
+			 G("cancleReLink").style.display="";
+			 cmtForm.btn_ok.value="回复评论";
+
+
+			 try{
+				editor.window.focus();
+                editor.window.document.body.innerHTML="回复"+cmtName+"：";
+
+                var w = editor.window;
+				if(w.getSelection){
+					var d = w.document;
+					var s = w.getSelection();
+					var r = d.createRange();
+					r.setStartAfter(d.body.firstChild);
+					r.setEndAfter(d.body.lastChild);
+					s.removeAllRanges();
+					s.addRange(r);
+				}
+			}catch(e){
+			 		try{
+				 		cmtForm.getElementsByTagName("textarea")[0].focus();
+				 		cmtForm.getElementsByTagName("textarea")[0].value="回复"+cmtName+"：";
+				 	}catch(e){}
+			}
+		}
+
+		function canclereply()
+		{
+			var cmtForm=document.form1;
+			cmtForm.cm.value="1";
+			try{cmtForm.removeChild(cmtForm.spReferTarget);}catch(e){}
+			/*
+			try{
+					var cmt=cmtForm.getElementsByTagName("textarea")[0]
+					cmt.value="";
+					cmt.focus();
+			}catch(e){}
+			*/
+
+			try{
+					var ed=editor.window.document.body;
+					ed.innerHTML="";
+					editor.window.focus();
+				}catch(e){
+					var cmt=cmtForm.getElementsByTagName("textarea")[0];
+					cmt.value="";
+					cmt.focus();
+			}
+
+			G("cancleReLink").style.display="none";
+			cmtForm.btn_ok.value="发表评论";
+		}
+
+		function gotoreply()
+		{//to checking whether reply cmt
+			if( window.location.hash.indexOf("&re=1")<0) return;
+			var cmtID=window.location.hash.split("&")[0].replace("#","");
+			var cmtlinks=document.getElementsByTagName("a");
+			for(var i=0,n=cmtlinks.length;i<n;i++)
+			{
+				if(cmtlinks[i].name==cmtID){ var rename=cmtlinks[i].getAttribute("rename");  repid=cmtlinks[i].getAttribute("repid"); break;}
+			}
+			if(typeof(rename)!="undefined"){
+				cmtreply(rename, repid);
+			}
+		}
+
+//-->
+</script>
+
+<script type="text/javascript">
+    /*<![CDATA[*/
+
+window.onerror=function(){return true;}
+
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var xhr = BdAjax.getXHR();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=RSS%B8%F1%CA%BD%B9%E6%B7%B6&item=f3327cfaf005f59358ee9078&t=" + new Date().getTime(), true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</script>
+
+</head>
+<body onLoad="formatonlinpic();">
+<center>
+<script type="text/javascript">
+/*<![CDATA[*/
+if(top.location != self.location){
+	top.location = self.location;
+}
+var myref = encodeURIComponent("http://hi.baidu.com/openj/blog/item/f3327cfaf005f59358ee9078%2Ehtml");
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="/ui/css/mods.css" />
+
+<link rel="stylesheet" type="text/css" href="/openj/css/item/f71c091ea4c0aef41ad576de.css" />
+
+<link rel="stylesheet" type="text/css" href="/space.css" />
+<style type="text/css">
+/*<![CDATA[*/
+
+#usrbar{padding:4px 10px 3px 0;font-size:12px;height:19px;line-height:19px;color:#000000;font-family:Arial;text-align:right;background:#ffffff;filter:alpha(opacity=65);-moz-opacity:0.5;width:auto !important;width:100%;letter-spacing:normal}
+#usrbar a,#usrbar a:link,#usrbar a:visited{color:#0000CC;text-decoration:underline}
+#ft{clear:both;height:20px;line-height:20px;color:#666666;font-size:12px;font-family:Arial;text-align:center}
+#ft a,#ft a:link,#ft a:visited{color:#7777CC;text-decoration:underline}
+#usrbar,#usrbar a,#usrbar a:link,#usrbar a:visited,#ft,#ft a,#ft a:link,#ft a:visited{letter-spacing:normal}
+/*]]>*/
+</style>
+
+
+
+<div id="usrbar"><nobr>
+
+			<a id="hi_index" href="http://hi.baidu.com" target="_blank">百度空间</a>&nbsp;|&nbsp;<a href="http://www.baidu.com/" target="_blank">百度首页</a>&nbsp;<script type="text/javascript">
+		document.write('| <a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u=http://hi.baidu.com' + encodeURIComponent('/openj/blog/item/f3327cfaf005f59358ee9078%2Ehtml') + '">登录</a>');
+		</script>
+		
+</nobr></div>
+
+
+
+		<div id="newUserTip" style="text-align:right; width:225px; height:130px; position:absolute; top:26px; right:0; float:right; z-index:30000;" >
+	<a id="newUserTipShadow" onclick="newUserRegLog()" href="http://hi.baidu.com/st/reg.html" target="_blank" style="color:#4242F9 !important; background:transparent none !important;text-decoration:none !important;font-size:14px;width:55px; height:14px; position:absolute; top:108px; right:14px; z-index:30001; display:block; overflow:hidden;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+	<embed id="newUserTipSwf" allowScriptAcess="always" style="width:225px; height:130px;" src="http://hi.baidu.com/ui/flash/userReg/guide.swf" wmode="transparent">
+	</div>
+	<script language="javascript">
+	<!--
+		function newUserTipShow(f)
+		{
+			if(f=="0"){//close
+				G("newUserTipSwf").style.width="40px";
+				G("newUserTip").style.width="40px";
+				G("newUserTipShadow").style.display="none";
+			}else{//show
+				G("newUserTip").style.width="225px";
+				G("newUserTipSwf").style.width="225px";
+				G("newUserTipShadow").style.display="block";
+
+			}
+		}
+
+		function newUserRegLog(){
+			var now=new Date();
+			now.setTime(now.getTime()+5*60*1000);
+			document.cookie="BDSP_REGFLAG=1;expires="+now.toGMTString()+";path=/";
+			new Image().src="http://hi.baidu.com/sys/statlog/1.gif?m=blog_newer_pro2_click&v=/openj&t="+Math.random();
+		}
+	//-->
+	</script>
+	
+
+
+
+<script type="text/javascript">
+
+function set_cookie_4_bdtip(index/* start from one */, value){
+	var bdtip = document.cookie.match(/(^| )BDTIP=([^;]*)(;|$)/);
+	if(!bdtip){
+		bdtip=new Array(index);
+		for(var i=0,n=bdtip.length;i<n;i++)
+		{
+			if(bdtip[i]=="" || bdtip[i]==null)  bdtip[i]=0;
+			if(i == index - 1){
+				bdtip[i] = value;
+			}
+		}
+	}else{
+	bdtip = bdtip[2].split('-');
+	if(index > bdtip.length)  bdtip.length= index;
+	for(var i = 0, j = bdtip.length; i < j; i ++){
+		if(bdtip[i]=="" || bdtip[i]==null) bdtip[i]=0;
+		if(i == index - 1){
+			bdtip[i] = value;
+		}
+	}
+	}
+	bdtip = bdtip.join('-');
+	document.cookie = "BDTIP=" + bdtip+ ";expires=Wed, 28-Nov-37 01:45:46 GMT;path=/;";
+}
+</script>
+<div id="main" align="left">
+<!--[if IE]>
+<script>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</script>
+<![endif]-->
+	<div id="header">
+	<div class="lc"><div class="rc"></div></div>
+<div class="tit"><a href="/openj" class="titlink" title="jnduan的空间 http://hi.baidu.com/openj">轻快的好JAVA　</a></div>
+<div class="desc">——多思则明；多学则精；多问则博。　</div>
+<div id="tabline">&nbsp;</div>
+	<div id="tab"><a href="/openj">主页</a><a href="/openj/blog" class="on">博客</a><a href="/openj/album">相册</a><span>|</span><a href="/openj/profile">个人档案</a>
+	<span>|</span><a href="/openj/friends">好友</a>
+
+
+
+	</div>
+</div>
+
+<div class="stage">
+<div class="stagepad">
+<div style="width:100%">
+
+
+	
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="modth">
+	<tr><td class="modtl" width="7">&nbsp;</td>
+	<td class="modtc" nowrap><div class="modhead"><span class="modtit">查看文章</span></div></td>
+	<td class="modtc" nowrap align="right"></td>
+	<td class="modtr" width="7">&nbsp;</td>
+	</tr></table>
+
+<div id="m_blog" class="modbox" style="overflow-x:hidden;">
+<div class="tit">RSS格式规范</div>
+<div class="date">2008年03月20日 星期四  下午 12:38</div>
+<table style="table-layout:fixed;width:100%"><tr><td><div id="blog_text" class="cnt"  ><p><strong>什么是RSS？</strong> <br>
+&nbsp;&nbsp;&nbsp;  RSS是一种网页内容联合格式（web content sydication format）。 <br>
+&nbsp;&nbsp;&nbsp;  它的名字是Really Simple Syndication的缩写。 <br>
+&nbsp;&nbsp;&nbsp;  RSS是XML的一种。所有的RSS文档都遵循XML 1.0规范，该规范发布在W3C网站上。 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;  <br>
+&nbsp;&nbsp;&nbsp;  在一个RSS文档的开头是一个&lt;rss&gt;节点和一个规定的属性version，该属性规定了该文档将以RSS的哪个版本表示。如果该文档以这个规范来表示，那么它的version属性就必须等于2.0。 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;  <br>
+&nbsp;&nbsp;&nbsp;  在&lt;rss&gt;节点的下一级是一个独立的&lt;channel&gt;节点，该节点包含关于channel的信息和内容。 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;  <br>
+<strong>关于本文档</strong>&nbsp;&nbsp;&nbsp;&nbsp;  <br>
+&nbsp;&nbsp;&nbsp;  该文档是在2002年秋天撰写的，当时的RSS版本为2.0.1。 <br>
+&nbsp;&nbsp;&nbsp;  它包含从RSS 0.91规范(2000年)开始的所有的修改和添加，以及包含在RSS 0.92（2000年12月）和RSS 0.94（2002年8月）中的新的特性。 <br>
+&nbsp;&nbsp;&nbsp;  <br>
+<strong>必需的频道节点 <br>
+</strong>&nbsp;&nbsp;&nbsp;  下面有一份必须包含的频道(channel)节点的列表，每一个都有一个简单的描述、一个例子、应该出现的位置和更详细描述的超链接。 <br>
+&nbsp;&nbsp;&nbsp;</p>
+<table style="width: 500px; border-collapse: collapse; height: 207px" cellspacing="0" cellpadding="3" border="1">
+    <tbody>
+        <tr>
+            <td>元素</td>
+            <td>描述</td>
+            <td>范例</td>
+        </tr>
+        <tr>
+            <td>title</td>
+            <td>频道(channel)名称。它可以告诉别人如何访问你的服务。如果你有一个与你的RSS文件内容一致的HTML网站，你的title元素值应该与你的网站的标题相同。</td>
+            <td>GoUpstate.com News Headings</td>
+        </tr>
+        <tr>
+            <td>link</td>
+            <td>响应该频道的网站的URL</td>
+            <td><a href="http://www.goupstate.com/"><font color="#0000ff">http://www.goupstate.com/</font></a></td>
+        </tr>
+        <tr>
+            <td>description</td>
+            <td>关于该频道的描述</td>
+            <td>The latest news from GoUpstate.com, a Spartanburg Herald-Joural Web Site</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<strong>可选的频道元素</strong> <br>
+&nbsp;&nbsp;&nbsp;  下面是可选的频道元素列表 <br>
+ 
+<table style="width: 634px; border-collapse: collapse; height: 424px" cellspacing="0" cellpadding="3" border="1">
+    <tbody>
+        <tr>
+            <td>节点</td>
+            <td>描述</td>
+            <td>范例</td>
+        </tr>
+        <tr>
+            <td>language</td>
+            <td> 使用的语言。这允许聚合器对所有的意大利语站点分组。</td>
+            <td>en-us</td>
+        </tr>
+        <tr>
+            <td>copyright</td>
+            <td>版权声明</td>
+            <td> Copyright 2002, Spartanburg Herald-Journal</td>
+        </tr>
+        <tr>
+            <td>managingEditor</td>
+            <td>内容负责人的Email</td>
+            <td>geo@herald.com (George Matesky)</td>
+        </tr>
+        <tr>
+            <td>webMaster</td>
+            <td>技术人员的Email</td>
+            <td>betty@herald.com (Betty Guernsey)</td>
+        </tr>
+        <tr>
+            <td>pubDate</td>
+            <td>内容的发布时间</td>
+            <td>Sat, 07 Sep 2002 00:00:01 GMT</td>
+        </tr>
+        <tr>
+            <td>lastBuildDate</td>
+            <td>最后更新时间</td>
+            <td>Sat, 07 Sep 2002 09:42:31 GMT</td>
+        </tr>
+        <tr>
+            <td>category</td>
+            <td>指定该频道所属的一个或多个分类。遵循与item级category元素相同的规则。</td>
+            <td>&lt;category&gt;Newspapers&lt;/category&gt;</td>
+        </tr>
+        <tr>
+            <td>generator</td>
+            <td>生成该频道的<a class="bluekey" href="http://dev.yesky.com/" target="_blank">程序</a>名称</td>
+            <td>MightyInHouse Content System v2.3</td>
+        </tr>
+        <tr>
+            <td>docs</td>
+            <td>指向rss格式文档的url地址?</td>
+            <td>http://blogs.law.harvard.edu/tech/rss</td>
+        </tr>
+        <tr>
+            <td>cloud</td>
+            <td>允许所有进程注册一个cloud用于获得频道的更新通知，并为rss种子实现一个轻量级的发布订阅协议。</td>
+            <td>&lt;cloud domain=&quot;rpc.sys.com&quot; port=&quot;80&quot; path=&quot;/RPC2&quot; registerProcedure=&quot;pingMe&quot; protocol=&quot;soap&quot;/&gt;</td>
+        </tr>
+        <tr>
+            <td>ttl</td>
+            <td>ttl是Time to live的缩写。它指示cache的有效保存时间。</td>
+            <td>&lt;ttl&gt;60&lt;/ttl&gt;</td>
+        </tr>
+        <tr>
+            <td>image</td>
+            <td>与频道一起<a class="bluekey" href="http://diy.yesky.com/monitor/" target="_blank">显示</a>的<a class="bluekey" href="http://pic.yesky.com/" target="_blank">图片</a>地址</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>rating</td>
+            <td>该频道的统计图片地址</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>textInput</td>
+            <td>指定一个textbox与该频道一起显示</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>skipHours</td>
+            <td>告诉使用者哪些时段是可以忽略的</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>skipDays</td>
+            <td>告诉使用着哪些天是可以忽略的</td>
+            <td> </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<strong>&lt;channel&gt;子节点&lt;image&gt;</strong> <br>
+&lt;image&gt;是一个可选的&lt;channel&gt;子节点，该节点包含三个必需的子元素和三个可选的子元素。 <br>
+&lt;url&gt;是GIF、JPEG或PNG图像文件的URL地址，该图像代表整个频道 <br>
+&lt;title&gt;用于描述上面的图像，等同于HTML语言中的&lt;img&gt;的alt属性 <br>
+&lt;link&gt;是要连接的站点的url，当显示频道时，图像的连接指向该站点。 <br>
+&lt;title&gt;和&lt;link&gt;应该与频道的&lt;title&gt;和&lt;link&gt;有相同的值 <br>
+可选的节点包括&lt;width&gt;和&lt;height&gt;，它们是数字类型，指定图像的宽度和高度，单位为像素 <br>
+&lt;description&gt;就是link的TITLE属性中文本，它将在调用<a class="bluekey" href="http://homepage.yesky.com/" target="_blank">网页</a>时显示出来。 <br>
+<br>
+图像宽度的最大值为144，默认值为88 <br>
+图像高度的最大值为400，默认值为31 <br>
+<br>
+<strong>&lt;channel&gt;子节点&lt;cloud&gt;</strong> <br>
+&lt;cloud&gt;是一个可选的&lt;channel&gt;子节点。 <br>
+它指定一个可以支持rssCloud接口的web服务，rssCloud接口可以用HTTP-POST，XML-RPC或SOAP1.1实现。 <br>
+它的目的是允许通知注册为cloud的进程频道被更新，从而实现一个轻量级的发布订阅协议。 <br>
+<div style="border-right: windowtext 0.5pt solid; padding-right: 5.4pt; border-top: windowtext 0.5pt solid; padding-left: 5.4pt; background: #e6e6e6; padding-bottom: 4px; border-left: windowtext 0.5pt solid; width: 98%; word-break: break-all; padding-top: 4px; border-bottom: windowtext 0.5pt solid" twffan="done">
+<div twffan="done"><img height="16" src="http://www.cnblogs.com/Images/OutliningIndicators/None.gif" width="11" align="top" twffan="done"><span style="color: #0000ff" twffan="done">&lt;</span><span style="color: #800000" twffan="done">cloud </span><span style="color: #ff0000" twffan="done">domain</span><span style="color: #0000ff" twffan="done">=&quot;rpc.sys.com&quot;</span><span style="color: #ff0000" twffan="done"> port</span><span style="color: #0000ff" twffan="done">=&quot;80&quot;</span><span style="color: #ff0000" twffan="done"> path</span><span style="color: #0000ff" twffan="done">=&quot;/RPC2&quot;</span><span style="color: #ff0000" twffan="done"> registerProcedure</span><span style="color: #0000ff" twffan="done">= &quot;myCloud.rssPleaseNotify&quot;</span><span style="color: #ff0000" twffan="done"> protocol</span><span style="color: #0000ff" twffan="done">=&quot;xml-rpc&quot;</span><span style="color: #ff0000" twffan="done"> </span><span style="color: #0000ff" twffan="done">/&gt;</span></div>
+</div>
+在这个例子中，为了请求频道通知，你需要发送一个XML-RPC消息到rpc.sys.com的80端口，路径为/RPC2。调用的过程为myCloud.rssPleaseNotify。 <br>
+<br>
+<strong>&lt;channel&gt;子节点&lt;ttl&gt;</strong> <br>
+&lt;ttl&gt;是一个可选的&lt;channel&gt;子节点。 <br>
+ttl是time to live的缩写。它表示频道在被刷新前应该被缓存的时间。这使得rss源可以被一个支持文件共享的<a class="bluekey" href="http://net.yesky.com/" target="_blank">网络</a>所管理，例如<a title="Gnutella" style="color: #333399" href="http://www.gnutellanews.com/information/what_is_gnutella.shtml" target="_blank">Gnutella <br>
+</a>例如：&lt;ttl&gt;60&lt;/ttl&gt; <br>
+<strong><br>
+&lt;channel&gt;子节点&lt;textInput&gt; <br>
+</strong>&lt;textInput&gt;是&lt;channel&gt;的可选的子节点，&lt;textInput&gt;包含四个子节点。 <br>
+&lt;title&gt;--提交按钮的标签 <br>
+&lt;description&gt;--该文本输入区的描述 <br>
+&lt;name&gt;--文本输入区的名称 <br>
+&lt;link&gt;--处理文本输入的CGI脚本的URL <br>
+使用&lt;textInput&gt;的目的有些神秘（？）。你可以用它提供一个搜索引擎输入框，或让读者提供反馈信息。许多聚合器忽略该节点。 <br>
+<br>
+<strong>&lt;item&gt;的节点</strong> <br>
+一个频道可以包含许多项目（item）节点。一个项目可以代表一个故事&mdash;&mdash;比如说一份报纸或杂志上的故事，如果是这样的话，那么项目的描述则是故事的概要，项目的链接则指向整个故事的存放位置。项目的所有节点都是可选的，但是至少要包含至少一个标题(title)和描述(description)。 <br>
+<br>
+<table style="width: 678px; border-collapse: collapse; height: 415px" cellspacing="0" cellpadding="3" border="1">
+    <tbody>
+        <tr>
+            <td>节点</td>
+            <td>描述</td>
+            <td>范例</td>
+        </tr>
+        <tr>
+            <td>title</td>
+            <td>item的标题</td>
+            <td>Venice Film Festival Tries to Quit Sinking</td>
+        </tr>
+        <tr>
+            <td>link</td>
+            <td>item的URL</td>
+            <td> http://www.nytimes.com/2002/09/07/movies/07FEST.html</td>
+        </tr>
+        <tr>
+            <td>description</td>
+            <td>item概要</td>
+            <td>Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.</td>
+        </tr>
+        <tr>
+            <td>author</td>
+            <td>作者的email地址</td>
+            <td><a href="mailto:oprah@oxygen.net"><font color="#0000ff">oprah@oxygen.net</font></a></td>
+        </tr>
+        <tr>
+            <td>category</td>
+            <td>item可以包含在一个或多个分类中</td>
+            <td>Simpsons Characters</td>
+        </tr>
+        <tr>
+            <td>comments</td>
+            <td>与item相关的评论的地址</td>
+            <td>http://www.myblog.org/cgi-local/mt/mt-comments.cgi?entry_id=290</td>
+        </tr>
+        <tr>
+            <td>enclosure</td>
+            <td>附加的媒体对象</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>guid</td>
+            <td>可以唯一确定item的字符串</td>
+            <td>http://inessential.com/2002/09/01.php#a2</td>
+        </tr>
+        <tr>
+            <td>pubDate</td>
+            <td>item发布的时间</td>
+            <td>Sun, 19 May 2002 15:21:36 GMT</td>
+        </tr>
+        <tr>
+            <td>source</td>
+            <td>rss频道来源</td>
+            <td>Quotes of the Day</td>
+        </tr>
+    </tbody>
+</table>
+<strong>&lt;item&gt;子节点&lt;source&gt;</strong> <br>
+&lt;source&gt;是&lt;item&gt;的可选节点。 <br>
+它的值是item来自的rss频道的名称，从item的title衍生而来。它有一个必须包含的属性url, 该属性链接到XML序列化源。 <br>
+<div style="border-right: windowtext 0.5pt solid; padding-right: 5.4pt; border-top: windowtext 0.5pt solid; padding-left: 5.4pt; background: #e6e6e6; padding-bottom: 4px; border-left: windowtext 0.5pt solid; width: 98%; word-break: break-all; padding-top: 4px; border-bottom: windowtext 0.5pt solid" twffan="done">
+<div twffan="done"><img height="16" src="http://www.cnblogs.com/Images/OutliningIndicators/None.gif" width="11" align="top" twffan="done"><span style="color: #0000ff" twffan="done">&lt;</span><span style="color: #800000" twffan="done">source </span><span style="color: #ff0000" twffan="done">url</span><span style="color: #0000ff" twffan="done">=&quot;http://static.userland.com/tomalak/links2.xml&quot;</span><span style="color: #0000ff" twffan="done">&gt;</span><span style="color: #000000" twffan="done">Tomalak's Realm</span><span style="color: #0000ff" twffan="done">&lt;/</span><span style="color: #800000" twffan="done">source</span><span style="color: #0000ff" twffan="done">&gt;</span></div>
+</div>
+该节点的作用是提高连接的声望，进一步推广<a class="bluekey" href="http://news.chinabyte.com/" target="_blank"><font color="#003399">新闻</font></a>项目的源头。它可以用在聚合器的Post命令中。当从聚合器通过webblog访问一个item时，&lt;source&gt;能够自动被生成。 <br>
+<br>
+<strong>&lt;item&gt;子节点&lt;enclosure&gt; <br>
+</strong>&lt;enclosure&gt;是&lt;item&gt;的可选节点。 <br>
+它有三个必要的属性。url属性指示enclosure的位置，length指出它的字节大小，type属性指出它的标准MIME类型 <br>
+url必须为一个http url。 <br>
+<div style="border-right: windowtext 0.5pt solid; padding-right: 5.4pt; border-top: windowtext 0.5pt solid; padding-left: 5.4pt; background: #e6e6e6; padding-bottom: 4px; border-left: windowtext 0.5pt solid; width: 98%; word-break: break-all; padding-top: 4px; border-bottom: windowtext 0.5pt solid" twffan="done">
+<div twffan="done"><img height="16" src="http://www.cnblogs.com/Images/OutliningIndicators/None.gif" width="11" align="top" twffan="done"><span style="color: #0000ff" twffan="done">&lt;</span><span style="color: #800000" twffan="done">enclosure </span><span style="color: #ff0000" twffan="done">url</span><span style="color: #0000ff" twffan="done">=&quot;http://www.scripting.com/mp3s/weatherReportSuite.<a class="bluekey" href="http://mp3.yesky.com/" target="_blank"><font color="#003399">mp3</font></a>&quot;</span><span style="color: #ff0000" twffan="done"> length</span><span style="color: #0000ff" twffan="done">=&quot;12216320&quot;</span><span style="color: #ff0000" twffan="done"> type</span><span style="color: #0000ff" twffan="done">=&quot;audio/mpeg&quot;</span><span style="color: #ff0000" twffan="done"> </span><span style="color: #0000ff" twffan="done">/&gt;</span></div>
+</div>
+<br>
+<strong>&lt;item&gt;子节点&lt;category&gt; <br>
+</strong>&lt;category&gt;是&lt;item&gt;的可选节点。 <br>
+它有一个可选属性或域，该属性是一个用来定义分类法的字符串。 <br>
+该节点的值是一个正斜杠分割的字符串，它用来在指定的分类法中识别一个分级位置（hierarchic  location）。处理器可以为分类的识别建立会话。（Processors may establish conventions for the interpretation of categories）下面有两个例子： <br>
+<div style="border-right: windowtext 0.5pt solid; padding-right: 5.4pt; border-top: windowtext 0.5pt solid; padding-left: 5.4pt; background: #e6e6e6; padding-bottom: 4px; border-left: windowtext 0.5pt solid; width: 98%; word-break: break-all; padding-top: 4px; border-bottom: windowtext 0.5pt solid" twffan="done">
+<div twffan="done"><img height="16" src="http://www.cnblogs.com/Images/OutliningIndicators/None.gif" width="11" align="top" twffan="done"><span style="color: #0000ff" twffan="done">&lt;</span><span style="color: #800000" twffan="done">category</span><span style="color: #0000ff" twffan="done">&gt;</span><span style="color: #000000" twffan="done">Grateful Dead</span><span style="color: #0000ff" twffan="done">&lt;/</span><span style="color: #800000" twffan="done">category</span><span style="color: #0000ff" twffan="done">&gt;</span><span style="color: #000000" twffan="done"> <br>
+<img height="16" src="http://www.cnblogs.com/Images/OutliningIndicators/None.gif" width="11" align="top" twffan="done"></span><span style="color: #0000ff" twffan="done">&lt;</span><span style="color: #800000" twffan="done">category </span><span style="color: #ff0000" twffan="done">domain</span><span style="color: #0000ff" twffan="done">=&quot;http://www.fool.com/cusips&quot;</span><span style="color: #0000ff" twffan="done">&gt;</span><span style="color: #000000" twffan="done">MSFT</span><span style="color: #0000ff" twffan="done">&lt;/</span><span style="color: #800000" twffan="done">category</span><span style="color: #0000ff" twffan="done">&gt;</span></div>
+</div>
+你可以根据你的需要为不同的域（domain）包含很多category节点，并且可以在相同域的不同部分拥有一个前后参照的item。 <br>
+<br>
+<strong>&lt;item&gt;子节点&lt;pubDate&gt; <br>
+</strong>&lt;pubDate&gt;是&lt;item&gt;的可选节点。 <br>
+它的值是item发布的日期。如果它是一个没有到达的日期，聚合器在日期到达之前可以选择不显示该item。 <br>
+<div style="border-right: windowtext 0.5pt solid; padding-right: 5.4pt; border-top: windowtext 0.5pt solid; padding-left: 5.4pt; background: #e6e6e6; padding-bottom: 4px; border-left: windowtext 0.5pt solid; width: 98%; word-break: break-all; padding-top: 4px; border-bottom: windowtext 0.5pt solid" twffan="done">
+<div twffan="done"><img height="16" src="http://www.cnblogs.com/Images/OutliningIndicators/None.gif" width="11" align="top" twffan="done"><span style="color: #0000ff" twffan="done">&lt;</span><span style="color: #800000" twffan="done">pubDate</span><span style="color: #0000ff" twffan="done">&gt;</span><span style="color: #000000" twffan="done">Sun, 19 May 2002 15:21:36 GMT</span><span style="color: #0000ff" twffan="done">&lt;/</span><span style="color: #800000" twffan="done">pubDate</span><span style="color: #0000ff" twffan="done">&gt;</span></div>
+</div>
+<p><br>
+<strong>&lt;item&gt;子节点&lt;guid&gt; <br>
+</strong>&lt;guid&gt;是&lt;item&gt;的可选节点。 <br>
+guid是globally unique identifier的缩写。它是一个可以唯一识别item的字符串。当item发布之后，聚合器可以选择使用该字符串判断该item是否是新的。 <br>
+<font face="Courier New">&lt;guid&gt;http://some.server.com/weblogItem3207&lt;/guid&gt;</font> <br>
+guid没有特定的语法规则，聚合器必须将他们看作一个字符串。生成具有唯一性的字符串guid取决于种子的源头。 <br>
+如果guid节点有isPermaLink属性，并且值为真，读取器就会认为它是item的permalink。permalink是一个可在web浏览器中打开的url链接，它指向&lt;item&gt;节点所描述的全部item。 <br>
+<font face="Courier New">&lt;guid isPermaLink=&quot;true&quot;&gt;http://inessential.com/2002/09/01.php#a2&lt;/guid&gt;</font></p>
+<p>isPermaLink是可选属性，默认值为真。如果值为假，guid将不会被认为是一个url或指向任何对象的url。 <br>
+<br>
+<strong>&lt;item&gt;子节点&lt;comment&gt; <br>
+ </strong>&lt;comment&gt;是&lt;item&gt;的可选节点。 <br>
+如果出现，它指向该item评论的url <br>
+&lt;comments&gt;http://rateyourmusic.com/yaccs/commentsn/blogId=705245&amp;amp;itemId=271&lt;/comments&gt; <br>
+<br>
+<strong>&lt;item&gt;子节点&lt;author&gt; <br>
+ </strong>&lt;author&gt;是&lt;item&gt;的可选节点。 <br>
+它是item的作者的email。对于通过rss传播的报纸和杂志，作者可能是写该item所描述的文章的人。对于聚集型webblogs，作者可能不是责任编辑或站长。对于个人维护的webblog，忽略&lt;author&gt;节点是有意义的。 <br>
+&lt;author&gt;example@abc.com(abc)&lt;/author&gt;</p></div></td></tr></table>
+<br>
+<div class="opt">
+<a href="/openj/blog/category/Xml" title="查看该分类中所有文章">类别：Xml</a>
+
+	
+	| <a title="将此文章添加到百度搜藏" href="http://cang.baidu.com/do/add" onClick="return addToFavor();" target="_blank">添加到搜藏</a>
+	
+	| 浏览(<span id="result"></span>)
+	| <a href="#send">评论</a>&nbsp;(0)
+
+<script language="javascript">
+/*<![CDATA[*/
+var pre = [true,'[转]Apache Commons工具集', '[转]Apache Commons工具集','/openj/blog/item/f8ba774f12513832aec3abe1.html'];
+var post = [true,'一个比 nohup 更好处理后台任务的工具','一个比 nohup 更好处理后台任务...', '/openj/blog/item/7be66b3062d16b9da8018ebd.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</script>
+
+</div>
+<div class="line">&nbsp;</div>
+
+
+
+    <style type="text/css">
+/*<![CDATA[*/
+#in_related_doc a { text-decoration:none; }
+/*]]>*/
+</style>
+<div id="in_related_tmp"></div>
+<script language="javascript" type="text/javascript">
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=RSS%B8%F1%CA%BD%B9%E6%B7%B6&item=f3327cfaf005f59358ee9078">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+	window.setTimeout("tracker_init('in_related_doc')",100);
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=RSS%B8%F1%CA%BD%B9%E6%B7%B6&item=f3327cfaf005f59358ee9078&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</script>
+    
+
+
+
+
+
+
+<div id="in_reader">
+<div class="tit">最近读者：</div>
+
+<script>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+
+["soid","bbc2736f69640000","soid"],
+
+["susdisk","a14f7375736469736b0801","susdisk"],
+
+["liida86","103e6c6969646138367c06","liida86"],
+
+["l531095762","e4986c3533313039353736322b04","l531095762"],
+
+["szb522","0dd3737a623532329c02","szb522"],
+
+["opqe","215c6f7071650300","opqe"],
+
+["roundblog","9675726f756e64626c6f670804","roundblog"],
+
+["runtim","971d72756e74696dce02","runtim"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+='<a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'" target="_self">登录</a>后，您就出现在这里。</td>';
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</script>
+
+
+
+
+
+	</div>
+
+<div class="line">&nbsp;</div>
+
+
+
+<script language="JavaScript">
+allkey=allkey+"7cf0cd38c88e3bc2d46225d9_f3327cfaf005f59358ee9078_";
+</script>
+
+<div id="in_comment">
+<a name="comment"></a>
+<div class="tit">网友评论：</div>
+<script>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+	cmturl=cmturl.replace("https://","http://");
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+function filterCmtContent(n){
+	if(!BdBrowser.isIE){
+		var defaultfilter1='<span style="filter:glow(color=#000000,strength=2);height:0px;color:#000000">';
+		var defaultfilter2='<span style="height: 0px; color: rgb(0, 0, 0);">';
+		var commentDiv=document.getElementById(n);
+		var divs=commentDiv.getElementsByTagName('div');
+		var d,tmp;
+		for( var i=0,len=divs.length;i<len;i++){
+			d=divs[i];
+			if(d.getAttribute('name')=='cmtcontent'){
+				tmp=d.innerHTML;
+				tmp=tmp.replace(/<span style="filter:glow\(color=#([0-9a-z]{3,6}),strength=2\);height:0px;color:#([0-9a-z]{3,6})">/ig,defaultfilter1);
+				tmp=tmp.replace('<span style="height: 0px; color: rgb(255, 255, 255);">',defaultfilter2);
+				d.innerHTML=tmp;
+			}
+		}
+	}
+}
+
+</script>
+
+
+
+
+
+<div id="page"></div>
+
+</div>
+<script>filterCmtContent('in_comment');</script>
+
+
+<div id="in_send">
+<a name="send"></a>
+<form name="form1" id="popFormSubmit" action="/openj/commit" method="post" onSubmit="return checkcmtform()">
+<input type="hidden" name="bdstoken" value="0d83670787cf9f9feeac3b71f7311a04">
+<input type="hidden" name="ct" value="8">
+<input type="hidden" name="cm" value="1">
+<input type="hidden" name="spBlogID" value="f3327cfaf005f59358ee9078">
+<input type="hidden" name="spRefURL" id="spRefURL" />
+<script>
+    document.getElementById("spRefURL").value = window.location.href;
+</script>
+<div class="tit">发表评论：</div>
+<table width="620" border="0" cellspacing="5" cellpadding="0">
+<tr>
+
+<td class="f14">姓　名：</td>
+<td><input type="text" name="spBlogCmtor" id="spBlogCmtor" style="width:220px" onChange="checkname('spBlogCmtor')" maxlength="49" onFocus="hidErr(1);">
+<script>
+document.write(" &nbsp;&nbsp; <a href='http://hi.baidu.com/st/reg.html' target='_blank'>注册</a>");
+document.write(' | <a href="https://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u='+myref+'">登录</a>');
+
+</script>
+
+<div style="display:none" id="nmerror">*姓名最长为50字节</div></td>
+</tr>
+
+<tr id="1_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="1_err_con"></div></td>
+</tr>
+
+<tr>
+<td class="f14">网址或邮箱：</td>
+<td><input type="text" name="spBlogCmtURL" id="spBlogCmtURL" style="width:360px" maxlength="128" onChange="checkeandu('spBlogCmtURL')" onFocus="hidErr(2);"> (选填)</td>
+<script>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</script>
+
+</tr>
+
+<tr id="2_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="2_err_con"></div></td>
+</tr>
+
+<tr>
+<td valign="top" class="f14" id="reTitle">内　容：</td>
+<td><textarea name="spBlogCmtText" id="spBlogCmtText" style="width:520px;height:155px" onFocus="hidErr(3);" ></textarea>
+<script>
+	var editor=null;
+	try{
+		editor=new BdEditor("spBlogCmtText",{width:"100%",height:"155px"});
+		editor.onfocus = function(){hidErr(3);}
+		editor.render();
+	}catch(e){
+		var spBlogCmtText = document.getElementById("spBlogCmtText");
+		var p = spBlogCmtText.previousSibling;
+		while(p && p.nodeType != 1) p = p.previousSibling;
+		if(p && /bdeditor_container/.test(p.id)){
+			p.parentNode.removeChild(p);
+		}
+		spBlogCmtText.style.display = '';
+		editor=null;
+	}
+</script>
+
+<script>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</script>
+</td>
+</tr>
+<tr id="3_err" style="display:none">
+<td>&nbsp;</td>
+<td><div class="error" id="3_err_con"></div></td>
+</tr>
+
+<tr id="vercode">
+<td valign="top" class="f14">验证码：</td>
+<td valign="top"><input type="hidden" name="spVcode" value="" />
+<input type="text" onFocus="f_focus()" id="spVerifyKey" name="spVerifyKey" size="6"  maxlength="4" autocomplete="off" tabindex=4>  请点击后输入四位验证码，字母不区分大小写<br/>
+<script type="text/javascript">
+/*<![CDATA[*/
+
+function f_focus(){
+	getVcode();
+}
+function getVcode(){
+	var url="http://hi.baidu.com/sys/file/getvcode?echoback=getVcodeDone&t="+(new Date().getTime());
+	BdAjax.loadJS(url)
+}
+
+function getVcodeDone(vcode){
+	document.form1.spVcode.value=vcode;
+	var imgsrc="http://hiup.baidu.com/cgi-bin/genimg?"+vcode;
+	G('verifypic').src=imgsrc;
+	G('yanzheng').style.display="block";
+}
+function newverifypic(){
+	getVcode();
+	return false;
+}
+/*]]>*/
+</script>
+<div id="yanzheng" style="display:none">
+<img id='verifypic' width='120' height='40'><wbr /><a onFocus="this.blur();" href="#" onClick="return newverifypic();" title="看不清左边的字符" >看不清?</a>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<td valign="top"class="f14">&nbsp;</td>
+<td valign="top" class="f14"><input id="btn_ok" name="btn_ok" type="submit" value="发表评论" tabindex=5>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="cancleReLink" onClick="canclereply(); return false;" style="display:none; font-size:12px;color:#666;">取消回复</a></td>
+</tr>
+</table>
+</form>
+</div>
+
+
+
+
+<br>
+</div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="8">
+<tr><td class="modbl" width="7">&nbsp;</td>
+<td class="modbc">&nbsp;</td>
+<td class="modbr" width="7">&nbsp;</td>
+</tr></table>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+</div>
+<script language="javascript">
+
+//fck layout rework
+</script>
+<script src="/js/bgmusic.js?v=1.0.js" language="javascript"></script>
+<script language="javascript">
+function initBlogTextForFCK(){
+	//fck layout resize
+    /*
+    var fckLayoutArr=document.getElementById('blog_text').getElementsByTagName('table');
+	for(var i=0,n=fckLayoutArr.length;i<n;i++){
+		if(fckLayoutArr[i].className.indexOf('FCKLAYOUT')>-1){
+			fckLayoutArr[i].width="100%";
+			fckLayoutArr[i].style.width="100%";
+			fckLayoutArr[i].style.height="100%";
+		}
+	}
+    */
+
+	//fck init music
+	if(window.Node){Node.prototype.replaceNode=function(Node){this.parentNode.replaceChild(Node,this);}}
+	var imgBox=document.getElementsByName('musicName');
+	var isAutoPlay=true;
+	for(var i=0,n=imgBox.length;i<n;i++){
+		var img=imgBox[i];
+		if(img.getAttribute('rel')){
+			var musicSrc=img.getAttribute('rel');
+			var musicDiv = document.createElement("SPAN");
+			var tmp=musicSrc.substr (musicSrc.indexOf('#')+1, 1);
+			var tmpAutoPlay=(tmp=='1');
+			if(isAutoPlay&&tmpAutoPlay){
+				isAutoPlay=false;
+				tmpAutoPlay=true;
+			}else{
+				tmpAutoPlay=false;
+			}
+			var shtml=creatbgmusic(musicSrc.substr(0,musicSrc.indexOf('#')),1,true,false,tmpAutoPlay,tmpAutoPlay,'FckMusicHelper');
+			shtml=shtml.replace('width=100%','width=200').replace('width="100%"','width=200 height=45');			img.replaceNode(musicDiv);
+			musicDiv.innerHTML=shtml;
+			i--;n--;
+		}
+	}
+	//document.getElementById('blog_text').style.display='';
+}
+initBlogTextForFCK();
+</script>
+<script language="javascript">
+<!--
+var hstr="/openj/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</script>
+<br><center><div id="ft">&copy;2009 Baidu</div></center>
+
+<script>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+    for(var i=0; i<imgarray.length; i++){
+    	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) {
+	    	imgarray[i].width=imgw;
+        }
+    }
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+gotoreply();
+</script>
+</center>
+
+
+<img src="http://c.baidu.com/c.gif?t=6&p=3" style="display:none;"/>
+<iframe id="submitiframe" name="submitiframe" src="/st/blank.html" style="display:none;"></iframe>
+</body></html>
