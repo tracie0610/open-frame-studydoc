@@ -1,0 +1,683 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0039)http://www.petefreitag.com/item/465.cfm -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>Howto Create an RSS 2.0 Feed</TITLE>
+<META name="keywords" content="rss,xml,feeds,howto">
+<META name="author" content="Peter Freitag">
+<LINK rel="alternate" type="application/rss+xml" title="RSS Feed for petefreitag.com" href="http://www.petefreitag.com/rss/">
+<LINK rel="stylesheet" href="./Howto Create an RSS 2.0 Feed.htm_files/style.css" type="text/css">
+<STYLE type="text/css" media="screen">#adroll-flash-content-34137893 {visibility:hidden}</STYLE></HEAD><BODY>
+<DIV align="center"><DIV id="main"><H1><A href="http://www.petefreitag.com/" title="Pete Freitag&#39;s Homepage">pf</A> » Howto Create an RSS 2.0 Feed</H1>
+<DIV id="contentCell"><!-- end header -->
+
+
+<DIV class="entryDate">September 13, 2005</DIV>
+<H2 class="entryTitle">Howto Create an RSS 2.0 Feed</H2>
+<DIV class="entryBody">
+<SPAN class="catImg"><A href="http://www.petefreitag.com/category/web.cfm" title="Web category"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/web.gif" align="right" border="0" alt="web"></A></SPAN>
+<P>If you can learn HTML, you can easily learn how to build your own RSS 2.0 feeds. I'll take you through the steps to creating an RSS feed from scratch.</P>
+<P><STRONG>Step 1: XML Declaration</STRONG></P>
+<P>Since RSS 2.0 <STRONG>must</STRONG> validate as XML, the <STRONG>first</STRONG> line in your rss feed must be the XML declaration.</P>
+<PRE>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+</PRE>
+<P>The encoding is optional but recommended. If your using something other than UTF-8 be sure to change the above line.</P>
+<BLOCKQUOTE>Note: If you are using CFML and have whitespace due to the Application.cfm file you can reset the output buffer using <CODE>&lt;cfcontent reset="true"&gt;</CODE></BLOCKQUOTE>
+<P><STRONG>Step 2: RSS Channel</STRONG></P>
+<P>In this step we need to open up the <CODE>rss</CODE> tag, and the <CODE>channel</CODE> tag, all of your feed content goes inside these tags.</P>
+<PRE>&lt;rss version="2.0"&gt;
+&lt;channel&gt;
+</PRE>
+<P><STRONG>Step 3: RSS Feed Information</STRONG></P>
+<P>Next you place information about your RSS feed such as the title of it, the description, and a link to the the site.</P>
+<PRE>&lt;title&gt;The title of my RSS 2.0 Feed&lt;/title&gt;
+&lt;link&gt;http://www.example.com/&lt;/link&gt;
+&lt;description&gt;This is my rss 2 feed description&lt;/description&gt;
+&lt;lastBuildDate&gt;Mon, 12 Sep 2005 18:37:00 GMT&lt;/lastBuildDate&gt;
+&lt;language&gt;en-us&lt;/language&gt;
+</PRE>
+<P>The <CODE>lastBuildDate</CODE> should be the date and time that the feed was last changed. Dates in RSS feeds should comply to RFC 822. In CFML the DateFormat mask would be <CODE>ddd, dd mmm yyyy</CODE> and the TimeFormat would be <CODE>HH:mm:ss</CODE>. Dates should be offset to GMT. The <CODE>lastBuildDate</CODE> tag is not required but is highly recommended.</P>
+<P><STRONG>Step 4: RSS Items</STRONG></P>
+<P>Next we enumerate over each RSS item, each item has a title, link, and description, publication date, and guid.</P>
+<PRE>&lt;item&gt;
+&lt;title&gt;Title of an item&lt;/title&gt;
+&lt;link&gt;http://example.com/item/123&lt;/link&gt;
+&lt;guid&gt;http://example.com/item/123&lt;/guid&gt;
+&lt;pubDate&gt;Mon, 12 Sep 2005 18:37:00 GMT&lt;/pubDate&gt;
+&lt;description&gt;[CDATA[ This is the description. ]]&lt;/description&gt;
+&lt;/item&gt;
+&lt;!-- put more items here --&gt;
+</PRE>
+<P>Make sure you escape any characters that might cause your XML to invalidate, these characters include &lt;, &gt;, &amp; - I like to enclose any content that may contain HTML inside a <CODE>CDATA</CODE> section.</P>
+<BLOCKQUOTE>Note: In CFML you can use the XmlFormat function to escape special characters in XML.</BLOCKQUOTE>
+<P><STRONG>Step 5: Close Channel and RSS tags.</STRONG></P>
+<PRE>&lt;/channel&gt;
+&lt;/rss&gt;
+</PRE>
+<P><STRONG>Step 6: Validate your feed</STRONG></P>
+<P>Validate your feed using <A href="http://feedvalidator.org/">FeedValidator.org</A>.</P>
+<P><STRONG>Other things to take note of</STRONG></P>
+<UL>
+<LI><STRONG>Content Type</STRONG> - See my post on <A href="http://www.petefreitag.com/item/381.cfm">content types for RSS feeds</A></LI>
+<LI><STRONG>Encoding</STRONG> - You should include the encoding in your <CODE>Content-Type</CODE> HTTP header, and in the XML declaration.</LI>
+<LI><STRONG>Styling</STRONG> - If you want to make your RSS feed look a little nicer you can <A href="http://www.petefreitag.com/item/208.cfm">CSS stylesheet for your RSS feed</A>.</LI>
+<LI><STRONG>Categories</STRONG> - It's a good idea to include <CODE>category</CODE> tags in your RSS feeds as well, these go inside the <CODE>item</CODE> tag. You can give an item multiple categories by adding a tag for each one.</LI>
+</UL>
+<P>I have just scratched the surface of what you can do with RSS feeds, so check out the <A href="http://www.rssboard.org/rss-specification">RSS 2.0 Spec</A> for more info.</P>
+</DIV>
+
+
+<BR>
+<DIV class="entryLinks">
+<A href="./Howto Create an RSS 2.0 Feed.htm_files/Howto Create an RSS 2.0 Feed.htm.0 Feed" class="permalink">Permalink</A> | <A href="http://www.petefreitag.com/item/465.cfm#postcomment">Add Comment</A> |
+<A href="http://del.icio.us/post?url=http%3A%2F%2Fwww.petefreitag.com%2Fitem%2F465.cfm&title=Howto%20Create%20an%20RSS%202.0%20Feed" rel="nofollow" title="Bookmark on del.icio.us"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/del.icio.us.gif" border="0" style="padding:4px 2px 0px 0px;" alt="">add to del.icio.us</A>
+| Tags: <A href="http://www.petefreitag.com/tag/rss" rel="tag">rss</A>, <A href="http://www.petefreitag.com/tag/xml" rel="tag">xml</A>, <A href="http://www.petefreitag.com/tag/feeds" rel="tag">feeds</A>, <A href="http://www.petefreitag.com/tag/howto" rel="tag">howto</A>
+</DIV>
+<BR>
+<STRONG>Related Entries</STRONG>
+<UL>
+<LI><A href="http://www.petefreitag.com/item/664.cfm" title="Foundeo&#39;s 2007 End of the Year Sale">Foundeo's 2007 End of the Year Sale</A> - December 21, 2007</LI>
+<LI><A href="http://www.petefreitag.com/item/525.cfm" title="Apple still likes their RSS icon">Apple still likes their RSS icon</A> - January 10, 2006</LI>
+<LI><A href="http://www.petefreitag.com/item/642.cfm" title="8 Ways to Save Bandwidth on your RSS Feed">8 Ways to Save Bandwidth on your RSS Feed</A> - July 12, 2007</LI>
+<LI><A href="http://www.petefreitag.com/item/627.cfm" title="Yahoo Pipes Generates Invalid RSS Feeds">Yahoo Pipes Generates Invalid RSS Feeds</A> - February 22, 2007</LI>
+<LI><A href="http://www.petefreitag.com/item/583.cfm" title="Zookoda For Sale">Zookoda For Sale</A> - September 22, 2006</LI>
+</UL>
+<DIV align="right" class="rating">
+144 people found this page useful, what do you think? <FORM action="http://www.petefreitag.com/doRating.cfm" method="post" style="display:inline;"><INPUT type="hidden" name="id" value="465"><SELECT class="rating" name="rating"><OPTION value="1" selected="selected">Useful</OPTION><OPTION value="2">Very Useful</OPTION><OPTION value="-1">Not Useful</OPTION></SELECT> <INPUT type="submit" value="Rate" class="rating"></FORM>
+</DIV>
+<BR>
+<DIV style="position:absolute;width:200px;float:left;padding:20px;margin:0px;height:250px;min-height:250px;" align="right">
+<A href="http://foundeo.com/security/" title="Web Application Firewall for ColdFusion"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/firewall-logo-250.png" height="250" width="157" alt="WAF for CF" border="0"></A>
+</DIV>
+<DIV class="ad" align="right" style="height:250px;">
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-6020654670144156";
+google_ad_width = 300;
+google_ad_height = 250;
+google_ad_format = "300x250_as";
+google_ad_channel ="";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "0098E1";
+google_color_url = "0098E1";
+google_color_text = "000000";
+//--></SCRIPT>
+<SCRIPT type="text/javascript" src="./Howto Create an RSS 2.0 Feed.htm_files/show_ads.js">
+</SCRIPT><SCRIPT src="./Howto Create an RSS 2.0 Feed.htm_files/expansion_embed.js"></SCRIPT><SCRIPT src="./Howto Create an RSS 2.0 Feed.htm_files/test_domain.js"></SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><INS style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><IFRAME allowtransparency="true" frameborder="0" height="250" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./Howto Create an RSS 2.0 Feed.htm_files/ads.htm" style="left:0;position:absolute;top:0" vspace="0" width="300"></IFRAME></INS></INS>
+</DIV>
+<DIV class="trackbackTitle"><A name="trackbacks">Trackbacks</A></DIV>
+<DIV class="tbURL">Trackback Address: <EM><SCRIPT language="javascript">document.write('http://www.petefreitag.com/tb/');</SCRIPT>http://www.petefreitag.com/tb/465/BA48A6DE5019AD7D7052FD50AE32FB4E</EM></DIV>
+<UL>
+<LI class="tb"><A href="http://mxblogspace.journurl.com/users/admin/index.cfm?mode=article&entry=9334" rel="nofollow" class="tbLink">CFML and Escaped RSS Descriptions</A> Big Damn Heroes (MXBlogspace)</LI>
+<LI class="tb"><A href="http://blog.abettergeek.com/?p=32" rel="nofollow" class="tbLink">ColdFusion: generating and parsing RSS feeds</A> A Better Geek</LI>
+<LI class="tb"><A href="http://tektag.com/bookmark?bid=7918_Howto_Create_an_RSS_2.0_Feed" rel="nofollow" class="tbLink">Tektag / jd42</A> Howto Create an RSS 2.0 Feed</LI>
+</UL>
+<DIV class="commentsTitle"><A name="comments">Comments</A></DIV>
+<DIV class="commentCredit">On 09/14/2005 at 12:14:04 AM MDT <STRONG>Mark H.</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">1</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar.php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks for this great information as always. Your CF Cookbook is an awesome resource as well. <P>I assume the answer to the following question is "yes" but figured I'd ask anyway before delving in, as you will likely know the answer off the top of your head.</P><P>You alluded to this in your posting... is it possible to evaluate cfml variables inside of the RSS &lt;item&gt; tags? </P><P>For instance: &lt;item&gt; &lt;title&gt;&lt;cfouptput&gt;#feed1title#&lt;/cfoutput&gt;&lt;/title&gt; &lt;link&gt;&lt;cfouptput&gt;#feed1link#&lt;/cfoutput&gt;&lt;/link&gt; &lt;guid&gt;&lt;cfouptput&gt;#feed1guid#&lt;/cfoutput&gt;&lt;/guid&gt; &lt;pubDate&gt;&lt;cfouptput&gt;#feed1pubDate#&lt;/cfoutput&gt;&lt;/pubDate&gt; &lt;description&gt;&lt;![CDATA[ This is the description. ]]&gt;&lt;/description&gt; &lt;/item&gt;</P><P>Thanks again for helping with the understanding of this powerful capability. </P><P></P></DIV>
+<DIV class="commentCredit">On 09/14/2005 at 3:02:28 AM MDT <STRONG>Tjarko</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">2</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(1).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Also handy is to place the following tag in the headsection of your RSS &lt;ttl&gt;60&lt;/ttl&gt; This wil make sure that an RSS reader does not read your feed more then 1 time every 60 minutes. (feeddemon etc...)<P></P></DIV>
+<DIV class="commentCredit">On 09/14/2005 at 9:24:23 AM MDT <STRONG>Pete Freitag</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">3</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(2).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody myComment">Hi Mark,<P>Thanks! </P><P>Yes you can generate an RSS feed with CFML variables just like you would a HTML page with CFML. So suppose you have a db table with company news. If you wanted to create a RSS feed for that you would do a &lt;cfoutput query="news"&gt; &lt;item&gt; ...&lt;/item&gt;&lt;/cfoutput&gt; One thing to keep in mind is that all the content inside the tags needs to be XML save, so you either want to use CDATA or XmlFormat or both.</P><P></P></DIV>
+<DIV class="commentCredit">On 09/14/2005 at 9:27:05 AM MDT <STRONG>Pete Freitag</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">4</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(2).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody myComment">Tjarko,<P>Yes the TTL feature is very handy, I omitted it from this example because I didn't want to overload people with details. Also handy is the skipDays, skipHours tags, if your a business and you only update the content on weekdays you can tell readers to take the weekend off.</P><P></P></DIV>
+<DIV class="commentCredit">On 09/14/2005 at 7:19:00 PM MDT <STRONG>Mark Holton</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">5</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar.php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Pete, Many thanks for the reply and great info. I am working on getting my first feed up and running in the next 5 weeks (among other work) and this is a great head-start/ encouraging questions. Thanks and cheers-<P></P></DIV>
+<DIV class="commentCredit">On 09/16/2005 at 4:23:50 AM MDT <STRONG>Sudar</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">6</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(3).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks. I was looking for something like this recently<P></P></DIV>
+<DIV class="commentCredit">On 09/16/2005 at 9:14:27 AM MDT <STRONG>Bill Smith</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">7</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Or you could use a service such as Nooked, or FeedForAll<P>A whole lot easier...</P><P></P></DIV>
+<DIV class="commentCredit">On 09/16/2005 at 7:38:00 PM MDT <STRONG>Mark Holton</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">8</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar.php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks for these links, Bill. ...easier to use these services, well, maybe in the short term. It depends on what you want to do with RSS, what your goals are. Understanding the technology and how to create feeds makes it "easier" to leverage in your site(s), through automation, etc. Thanks again, Pete, for the great references. Looking forward to the next post.<P></P></DIV>
+<DIV class="commentCredit">On 09/17/2005 at 11:25:30 AM MDT <STRONG>cate</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">9</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(5).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">excellent 'how to.' just wanted to alert you to a free application that will create an xml file automatically. you just have to input your information. it's called, RSS WRITER and you can find it here: http://www.phelios.net/rss-writer.html<P></P></DIV>
+<DIV class="commentCredit">On 09/20/2005 at 10:36:23 AM MDT <STRONG>Surender Taalla</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">10</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">check out https://rome.dev.java.net/ to build dynamic RSS feeds using java.<P></P></DIV>
+<DIV class="commentCredit">On 10/04/2005 at 5:41:26 AM MDT <STRONG>George</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">11</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(6).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hi there, I have finished my RSS feed, tested it and all works perfectly, but when I remove an article from my feed it still showed in the reader. How do i get the reader to see the article is no longer part of the feed. <P>When using firefox Sage extension the reader notifies that the change has been made and removes the no longer available feeds. Whereas when using FeedReader, Feed Demon etc, this is not the case. </P><P>If someone could please help that would be great. </P><P>Thank you in advance </P><P></P></DIV>
+<DIV class="commentCredit">On 10/04/2005 at 5:41:55 AM MDT <STRONG>George</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">12</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(6).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hi there, I have finished my RSS feed, tested it and all works perfectly, but when I remove an article from my feed it still showed in the reader. How do i get the reader to see the article is no longer part of the feed. <P>When using firefox Sage extension the reader notifies that the change has been made and removes the no longer available feeds. Whereas when using FeedReader, Feed Demon etc, this is not the case. </P><P>If someone could please help that would be great. </P><P>Thank you in advance </P><P></P></DIV>
+<DIV class="commentCredit">On 10/04/2005 at 11:22:06 AM MDT <STRONG>Pete Freitag</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">13</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(2).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody myComment">George,<P>I think that depends on the reader - most of them will store a copy locally. So once you publish something to your RSS feed, you can remove it but some people will still get it - it's kind of like sending an email.</P><P></P></DIV>
+<DIV class="commentCredit">On 10/11/2005 at 11:40:41 AM MDT <STRONG>podcast.redevelopments.co.uk</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">14</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Need help creating RSS 2.0 feeds for podcasting? Try this FREE online tool to help create your first RSS 2.0 XML file!<P>http://podcast.redevelopments.co.uk</P><P></P></DIV>
+<DIV class="commentCredit">On 10/17/2005 at 6:21:39 AM MDT <STRONG>Jamesy</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">15</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hello, <P>I'm very new to using RSS, I have one fundamental question:</P><P>How do I ensure that RSS readers update my feed when I update it?</P><P>I author a financial news RSS feed and it's important that new stories are updated promptly. </P><P>Can you help?</P><P></P></DIV>
+<DIV class="commentCredit">On 10/17/2005 at 8:51:01 AM MDT <STRONG>Pete Freitag</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">16</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(2).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody myComment">Jamesy, most rss readers will grab your feed every hour. You can use the ttl tag to specify a time to live for your feed, they will obey that if it is set higher than one hour, and some readers may grab it more often if it is set below an hour.<P></P></DIV>
+<DIV class="commentCredit">On 10/17/2005 at 8:54:34 AM MDT <STRONG>Jamesy</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">17</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thank you for the lucid response. <P>It is possible to specify a specific date to check for updates. I ask because my rss feed is updated once weekly at the same time each week. </P><P>- Thank you</P><P></P></DIV>
+<DIV class="commentCredit">On 10/17/2005 at 9:19:33 AM MDT <STRONG>Pete Freitag</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">18</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(2).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody myComment">Jamsey,<P>Yes, you can specify skip days, and skip hours in your rss feed as well, aggregators should not download your feed on a skip day or skip hour. See: http://blogs.law.harvard.edu/tech/skipHoursDays for details.</P><P></P></DIV>
+<DIV class="commentCredit">On 10/22/2005 at 9:02:35 AM MDT <STRONG>David Mimms</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">19</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Nice comments about RSS. Thanks, I've now made my feed: http://www.itnewsnow.com/feed.rss<P></P></DIV>
+<DIV class="commentCredit">On 11/06/2005 at 1:11:40 PM MST <STRONG>Mike</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">20</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hi everybody. I have a question about Feeds. I'm developing a Feed Reader, and I have to update the feeds, but I don't know how to do it. I'm working with java Rome. I'm guessing I can do it considering pubDate and the current date. I compare both dates to check if there are changes in those feeds. If you have a better idea, please advice me, I'll be thankful.<P></P></DIV>
+<DIV class="commentCredit">On 11/16/2005 at 10:18:59 PM MST <STRONG>netboard</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">21</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(7).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">hi, I have some questions, I tried something about rss ut I couldnt have what I want. I want to have rss same as down simple, with link . Have can I create it same ? If somebody can help me I will be very happy.<P>Thanks. sorry for my english :(</P><P>http://www.etikhaber.com/index2.php?option=com_rss&amp;feed=RSS2.0&amp;no_html=1</P><P></P></DIV>
+<DIV class="commentCredit">On 12/20/2005 at 2:00:00 AM MST <STRONG>inigoes</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">22</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(8).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Is there any comparable RSS 2.0 tag to the &lt;itunes:block&gt; tag? I've redone my feeds, but the old ones still show up in aggregators and would like to eliminate them. Is there a way to do that with Yahoo Podcasts?<P></P></DIV>
+<DIV class="commentCredit">On 12/24/2005 at 9:00:18 PM MST <STRONG>Anonymous</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">23</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hi everbody. Firefox rss read icon view -0.92 update rss 2.0 ? -0.92 code change ? -page add code ?<P>http://www.donanimmerkezi.com/rss.php</P><P></P></DIV>
+<DIV class="commentCredit">On 12/25/2005 at 6:44:47 AM MST <STRONG>Anonymous</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">24</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Alright, i am extremly new to rss. I've made my feed and now i have a problem. I have absoloutly no idea what to do next.<P>How do i go about adding this feed to a webpage. Is it just like adding a bit of html.</P><P>But most importantly, if anyone has a pda and knows of the program "Avantgo" i really need some help on how i can allow users to use it to find my channel. Sorry for the frustratingly ignorant questions.</P><P></P></DIV>
+<DIV class="commentCredit">On 01/04/2006 at 4:31:47 AM MST <STRONG>ss</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">25</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(9).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I have created a feed. I want to know how to publish my feed, for my users to know, without using the Feed Readers available on the net. Please help me.<P></P></DIV>
+<DIV class="commentCredit">On 01/14/2006 at 9:57:46 AM MST <STRONG>Gladys C.</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">26</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks for this useful tutorial, it has helped me build my own feed in no time.<P></P></DIV>
+<DIV class="commentCredit">On 02/02/2006 at 8:48:21 AM MST <STRONG>Stacy</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">27</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(10).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Is there a program that will automatically update my RSS feed for viewers when there are new articles placed on the site? Thanks!<P></P></DIV>
+<DIV class="commentCredit">On 02/06/2006 at 4:25:46 AM MST <STRONG>john</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">28</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">hi,<P>im using rapidfeeds.com to publish my feed.. its easy and simple with ther web based system... </P><P></P></DIV>
+<DIV class="commentCredit">On 02/09/2006 at 6:42:22 PM MST <STRONG>Mehdi</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">29</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(11).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">hi, thanx for your useful help i have tow questions : 1. How can I generate rss without this error by validators? : &lt;i&gt;should not be served with the "text/html" media type&lt;/i&gt;&lt;br&gt; this is my rss : http://www.naghsh.net/rss2.0.asp 2. how can i use html in contents of "description" tag? i don't know how can i use CDATA<P></P></DIV>
+<DIV class="commentCredit">On 02/13/2006 at 11:12:52 PM MST <STRONG>penis</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">30</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">psps can use rss's im on one now<P></P></DIV>
+<DIV class="commentCredit">On 03/05/2006 at 12:40:02 AM MST <STRONG>Snmz</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">31</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks for this sharing. I will try to install this on my sites. http://www.turkdreams.com http://www.flashgameworld.net http://www.sonmoda.com<P></P></DIV>
+<DIV class="commentCredit">On 03/15/2006 at 7:41:49 AM MST <STRONG>sheryl wood</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">32</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(12).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I am in the process of opening an Yahoo store built with Yahoo Store Editor and even though the web design tools include and "Add On" feature and talk you through putting an RSS feed onto your store site, it doesn't work. I can perform all the directions and cut the html for the news section I want to put on my site, but then the directions become unclear as to WHERE TO PASTE IT! A call to Yahoo tech service said, "Oh, you can't really put an RSS feed on your site with those directions and I don't know how to do it either". Can that possibly be true?? www.alleducationalsoftware.com <P></P></DIV>
+<DIV class="commentCredit">On 03/16/2006 at 4:31:09 PM MST <STRONG>http://www.voyagevietnam.net</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">33</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(13).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Useful! I will create one for our motorcycle tour site. Many thanks.<P></P></DIV>
+<DIV class="commentCredit">On 04/01/2006 at 2:43:18 AM MST <STRONG>jackie</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">34</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">thanks<P></P></DIV>
+<DIV class="commentCredit">On 05/22/2006 at 4:50:33 PM MDT <STRONG>www.resimekle.com</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">35</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thank you in advance<P></P></DIV>
+<DIV class="commentCredit">On 08/14/2006 at 5:19:03 PM MDT <STRONG>Evan</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">36</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">How do I have a feed without a &lt;link&gt; tag?<P></P></DIV>
+<DIV class="commentCredit">On 10/26/2006 at 9:10:10 AM MDT <STRONG>Tim Cummings</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">37</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(14).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I am somewhat new at this. If I create an xml document for the RSS feed with CF variables, it will need to be saved as a .cfm document. How do I define the resulting output to be .xml instead of .html after parsing by the CFServer?<P></P></DIV>
+<DIV class="commentCredit">On 10/29/2006 at 8:31:48 PM MST <STRONG>Ryan</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">38</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Stacy, as far as software that will automatically update your feed, checkout PodAdmin: http://podadmin.sourceforge.net. You put it on your web server (requires PHP), and it will parse out MP3 files and update your RSS file accordingly.<P></P></DIV>
+<DIV class="commentCredit">On 12/11/2006 at 6:13:06 PM MST <STRONG>R Cecil</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">39</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(15).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">what do you save the rss file as?<P></P></DIV>
+<DIV class="commentCredit">On 12/15/2006 at 3:53:54 PM MST <STRONG>Jason</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">40</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">You can name your feed file anything. You can even generate your feed dynamically!<P>The only important thing is that the correct XML is returned when someone visits your feed URL. I often use perl scripts, Java Server Pages, and ASP Class Libraries to generate feeds.</P><P>To get users to your feed, you can use several methods. One is to just tell them the URL (http://mysite/rss.pl OR http://mysite/myfeed.xml). You can also provide a hyperlink to the url (the XML/RSS image works great for this). Lastly, you can tell browsers that there is a feed associated with your webpage by adding the feed's URL to the header section of your webpage (remove spaces as needed):</P><P>&lt; head &gt; &lt; link rel="alternate" type="application/rss+xml" title="My Feed" href="http://mysite/myfeed.xml" /&gt; &lt;/ head &gt;</P><P></P></DIV>
+<DIV class="commentCredit">On 12/27/2006 at 6:53:03 AM MST <STRONG>Deborah</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">41</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(16).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I'm sorry but your instructions were incomplete. all you have are code snippets, but if someone like me for example, has no idea where to put them, what they are supposed to do, or what to save the file as (xml or cfml) all I get is, nothing from this at all. I need the whole thing coded out from top to bottm, what you are saving each page as, and how exactly do I get the feed to post on my page anyway, I got a link, and so what? how do I make that link post something on my site? It validated very well, but did nothing. I ended up going in circles, I even made and xsl sheet to try and get it to do something, and I got nothing. So whatever. I just need more detailed instructions. You have these code snippets and they are just hanging in the air. Which is probably why so many people have written something to you. It's just too vague. Sorry for the criticism but...I just wasted a half hour of my life for nothing on this. when I "could" be making money.<P></P></DIV>
+<DIV class="commentCredit">On 01/20/2007 at 7:42:50 AM MST <STRONG>Nety</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">42</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks. Question: I'm wondering if we really need to use the www prefix, at the beginning of the URL. Example, are those lines the same? &lt;link&gt;http://chunga.info&lt;/link&gt; and, &lt;link&gt;http://www.chunga.info&lt;/link&gt;<P></P><P></P></DIV>
+<DIV class="commentCredit">On 01/27/2007 at 8:22:58 AM MST <STRONG>Emma Snow</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">43</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(17).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Why not use software rather than handcoding a feed? There are so many good tools out there I use FeedForAll http://www.feedforall.com and it saves a whole lot of time and effort.<P></P></DIV>
+<DIV class="commentCredit">On 01/31/2007 at 9:15:51 AM MST <STRONG>Mark Hathaway</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">44</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I have managed to integrate an RSS 2.0 ASP script (similar to one found at http://www.codebeach.com/tutorials/displaying-rss-feeds-using-asp.asp) which retrieves RSS news feeds with a Dynamic Drive horizontal scroller, you can view a working example of this at yourdebate.net. The question I would like to ask is: Is there any way of retrieving the whole news article and any associated images and not just the Title, Link and Description within the ASP script, so when the user clicks on the link they will be able to read the news item on a page on my site? I will of course ask the BBC for permission to do this. Thanking you in advance.<P></P></DIV>
+<DIV class="commentCredit">On 04/04/2007 at 11:35:53 PM MDT <STRONG>jonathan</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">45</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(18).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">ive been trying to get images in my items,to output into my phone. but have been failing everytime. i have even tried src='loadimg.php?file=example.jpg'but somehow it doesnt seem to work, have seen a good example on http://www.view2offer.com/newpropertiesxml.aspx anyone has a solution?<P></P></DIV>
+<DIV class="commentCredit">On 04/19/2007 at 2:41:47 AM MDT <STRONG>Kay</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">46</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(19).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">you have a little mistake in your item definition<P>CDATA section starts with "&lt;![CDATA[" and ends with "]]&gt;":</P><P>but thanks for the rest, it saved me a lot of time ;)</P><P></P></DIV>
+<DIV class="commentCredit">On 04/28/2007 at 7:02:31 AM MDT <STRONG>Donna</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">47</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(20).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Currently I have been using an RSS publication application called Flaremaker. <P>I wanted to find an application that would allow me to easily create my own feeds and publish them on my own website. Within minutes I had entered in the content and it produced a snip bit of code to put into my site. It?s so easy. </P><P>It also allows me to track all the items in my feeds. Flaremaker is a Very Cool application.</P><P>Check it out www.flaremaker.com</P><P></P><P></P></DIV>
+<DIV class="commentCredit">On 05/02/2007 at 8:35:00 AM MDT <STRONG>william</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">48</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hey, I'm a 17 year old that has a PodCast on my school's website and I am looking for help on how to connect an RSS Feed to the PodCast on the website so that iTunes will pick up the tag whenever someone searches on iTunes.<P>Please Help, I'm Totally LOST!!! </P><P>Thanks!!</P><P></P></DIV>
+<DIV class="commentCredit">On 05/17/2007 at 2:25:03 PM MDT <STRONG>Todd</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">49</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks! As a coder that needed to create a dynamic feed, and so can't use any of the popular RSS-generators, this post helped me very much! It was the first page out of 15 that I looked at the explained how to do it clearly and succinctly. This should be ranked at the top of google when searching for how to code RSS feeds. Thanks again!<P></P></DIV>
+<DIV class="commentCredit">On 05/21/2007 at 2:21:28 PM MDT <STRONG>fakhre</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">50</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(21).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">hey guys! thanks for all this.. but i m really new in RSS WORLD :) will guys please help me out about this.. where should i start? where i have my site which update its news section on almost daily bases.. thank you!<P></P></DIV>
+<DIV class="commentCredit">On 05/21/2007 at 2:24:00 PM MDT <STRONG>fakhre</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">51</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(21).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">also i would like to tell you that my site is written in asp (not .net). Is it possible to write asp generated data for RSS? <P></P></DIV>
+<DIV class="commentCredit">On 05/30/2007 at 10:32:43 AM MDT <STRONG>Shiv</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">52</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hey,<P>Thanx needed sumthin simple like this</P><P></P></DIV>
+<DIV class="commentCredit">On 06/02/2007 at 6:28:15 AM MDT <STRONG>fakhre</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">53</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">well its all fine, but i really want to know how can we write an XML file may be RSS.XML using any programing languag, my prior langs are ASP, .ASP etc. thanks!<P></P></DIV>
+<DIV class="commentCredit">On 06/20/2007 at 10:13:20 AM MDT <STRONG>tenfourzero</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">54</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(22).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">There's a website at www.IrisFeed.com that allows you to create an RSS/Atom feed for any website. Pop the URL in and the rest is done automatically!<P>Its very easy and doesn't require registration. Could save some headaches!</P><P></P></DIV>
+<DIV class="commentCredit">On 06/20/2007 at 4:55:08 PM MDT <STRONG>Mark E</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">55</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(23).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">This stuff did not work AT ALL. My feed validator keeps giving me errors. Really aggrivating. Really aggrivating.<P></P></DIV>
+<DIV class="commentCredit">On 07/25/2007 at 1:58:19 AM MDT <STRONG>lahuua</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">56</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(24).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Feedity (www.feedity.com) seems to be a much simpler and quicker tool at building instant custom RSS feeds fro ANY webpage.<P></P></DIV>
+<DIV class="commentCredit">On 07/27/2007 at 1:48:05 PM MDT <STRONG>Philip</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">57</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(25).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I'm definitely a newbie. Please help, if this is possible. Unfortunately, there are several parts to my question:<P>If a file is updated (or uploaded) in a folder on the server. Is it possible to have an RSS feed show that updated or new file and have a hyperlink to it?</P><P>Is it possible to have the RSS Reader integrated into my webpage so no client specific software is loaded? (What's a good reader for this?)</P><P>Is it possible to have the rss feed checked often...like every minute? I want updated stuff to be shown immediately.</P><P>Thanks!</P><P></P></DIV>
+<DIV class="commentCredit">On 07/30/2007 at 3:32:01 AM MDT <STRONG>comp</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">58</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(26).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hi,<P> I'm a newbie to RSS. I am creating a tool to read rss. Is there anyway i can know when a particular rss will get updated or do i have to reload the whole rss again after some time?</P><P></P></DIV>
+<DIV class="commentCredit">On 08/29/2007 at 10:01:27 AM MDT <STRONG>mr_allen</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">59</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(27).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">is rome compatible to tomcat 6..how to install rome? and jdom?. where to extract those jdom and rome folders..<P>Thanks.</P><P></P></DIV>
+<DIV class="commentCredit">On 09/04/2007 at 9:58:56 PM MDT <STRONG>Erin</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">60</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">i am trying to build a RSS feed for my year 11 IPT assignment and i am not sure if i am doing the right thing. I dont what to put in the link part since my website has not been published. Am i able to put it on my website even though it is not published. Thanks<P></P></DIV>
+<DIV class="commentCredit">On 09/12/2007 at 6:13:30 AM MDT <STRONG>Samuel Becket</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">61</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Awesome very easy to understand. <P></P></DIV>
+<DIV class="commentCredit">On 09/16/2007 at 8:27:07 AM MDT <STRONG>Evan S</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">62</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(28).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks for the awesome crash-course in RSS Feeds. I do have one question: Is there any simple way to have my rss.xml file be automatically updated, or do I have to manually enter each item? Thanks again!<P></P></DIV>
+<DIV class="commentCredit">On 09/20/2007 at 8:21:44 PM MDT <STRONG>Nicole</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">63</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(29).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hi, I did my website by dreamweaver and I don't know anything about programming. So I don't know how to start to make a rss 2.0 feed. Can I create it in dreamweaver or wordpad or another software? Could you please tell me in plain details step by step. Thank you so much <P></P></DIV>
+<DIV class="commentCredit">On 10/08/2007 at 11:27:02 AM MDT <STRONG>plc programming</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">64</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(30).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">""When using firefox Sage extension the reader notifies that the change has been made and removes the no longer available feeds.""<P>thank you for this.</P><P>www.plcprogramming.org</P><P></P></DIV>
+<DIV class="commentCredit">On 10/20/2007 at 5:01:18 AM MDT <STRONG>motor</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">65</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(31).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">The quality of education is, is not lower than 15 years ago <P></P></DIV>
+<DIV class="commentCredit">On 10/20/2007 at 6:51:43 AM MDT <STRONG>abdulwahab</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">66</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(32).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hi. am new to blog and am finding it so difficult to post and i can't viewing my site in order to know where i can still proceed. also don't no mush about rss feed. pls help, thanks. from Nigeria. <P></P></DIV>
+<DIV class="commentCredit">On 05/12/2008 at 7:43:08 AM MDT <STRONG>oana</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">67</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(33).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Hy, i am new in using and searching more informations about rss,i need to get adviced,regarding a few sites for help and to lern how to update the news. Thank you! wiew my e mail adress!!<P></P></DIV>
+<DIV class="commentCredit">On 06/24/2008 at 7:44:00 AM MDT <STRONG>www.anhsclassmates.com</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">68</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(34).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Cool Tip on Howto Create an RSS 2.0 Feed Testing it www.anhsclassmates.com www.gadgetbites.com www.mywifefashion.com<P></P></DIV>
+<DIV class="commentCredit">On 07/17/2008 at 2:38:54 PM MDT <STRONG>Sameer Jaffer</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">69</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(35).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I am using an xsl schema for my RSS feed, if a perticular feed is down. I need to know how to handle it gracefully so I dont show a nasty error message to the user. Is there a way to show a handled/custom error message if a feed is down??<P></P></DIV>
+<DIV class="commentCredit">On 07/23/2008 at 6:59:54 AM MDT <STRONG>Dipesh</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">70</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(36).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I want to make a new line in only one description tag, but it display whole text in justify form. So tell me how i can create a new line without creating new description tag. such like a below.<P>e.g. New News. \\Then new Line and print Another News.</P><P></P><P></P></DIV>
+<DIV class="commentCredit">On 07/31/2008 at 12:24:02 AM MDT <STRONG>Mark Thien</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">71</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(37).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">so after creating this rss.xml, where should I put it so that the world can get it?<P></P></DIV>
+<DIV class="commentCredit">On 08/15/2008 at 4:20:29 PM MDT <STRONG>Azz</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">72</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">What script do you use to add a Icon to your XML document?<P></P></DIV>
+<DIV class="commentCredit">On 10/27/2008 at 1:52:13 PM MDT <STRONG>ecommy</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">73</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(38).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">http://www.referatenelimitate.ro/rss.php?tip=stiri this is an example of how to add images too to an rss feed.<P></P></DIV>
+<DIV class="commentCredit">On 11/20/2008 at 7:29:29 AM MST <STRONG>sumit pradhan</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">74</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(39).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">nice tips but how to make a feed for the website not blog reply http://www.cash4onlinejob.net/<P></P></DIV>
+<DIV class="commentCredit">On 01/28/2009 at 5:27:56 PM MST <STRONG>Anonymous</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">75</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thank you! I couldn't get my description to support html until i added an exclamation mark on this line &lt;description&gt;&lt;![CDATA[ This is the description. ]]&lt;/description&gt;<P></P></DIV>
+<DIV class="commentCredit">On 01/29/2009 at 3:15:29 PM MST <STRONG>Ann</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">76</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(40).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Here's another nice atricle on how to create a rss feed:<P>http://blue-and-orange.net/display/post/index.cfm/68:Creating_a_newsfeed_generator_Coldfusion</P><P></P></DIV>
+<DIV class="commentCredit">On 02/05/2009 at 8:58:52 AM MST <STRONG>retards</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">77</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">thanks I followed this, and it worked right off the bat, the only error is "&lt;description&gt;&lt;![CDATA[ This is the description. ]]&lt;/description&gt;"<P>all you babies need stop crying and learn how to read, </P><P></P></DIV>
+<DIV class="commentCredit">On 02/22/2009 at 8:16:50 AM MST <STRONG>PJ</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">78</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(41).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I found this through google and noticed a lot of comments weren't answered. I posted a simple but full code example and some info--based on Pete's helpful overview here-- on my blog:<P>coldfusionhell.blogspot.com dated 2/22/2009, I don't think the comments will let me paste the whole long link in here but I'll try:</P><P>coldfusionhell.blogspot.com/2009/02/coldfusion-cfml-to-make-create-generate.html</P><P></P></DIV>
+<DIV class="commentCredit">On 03/19/2009 at 11:59:09 AM MDT <STRONG>Sridhar</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">79</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(42).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">This was easy. However, validating the feed, the validator also suggested "xmlns:atom="http://www.w3.org/2005/Atom" to be added to &lt;rss version="2.0"&gt;.<P>As well as adding &lt;atom:link href="http://www.signature.co.in/rss.xml" rel="self" type="application/rss+xml" /&gt; just before the first &lt;item&gt;. This seems to help the widest range of readers to parse it.</P><P></P></DIV>
+<DIV class="commentCredit">On 04/02/2009 at 10:16:25 AM MDT <STRONG>mma183</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">80</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(43).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">I have issue in the title with double quotes. It did not display property. The double quotes display square instead. Any ideas how to fix it? Thanks...<P></P></DIV>
+<DIV class="commentCredit">On 06/25/2009 at 1:10:07 PM MDT <STRONG>Anonymous</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">81</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(4).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Thanks, very efficient.<P></P></DIV>
+<DIV class="commentCredit">On 08/10/2009 at 10:19:01 AM MDT <STRONG>avril lavigne nude galleries</STRONG> wrote:</DIV>
+<DIV class="commentNumber" align="right">82</DIV>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/avatar(44).php" align="left" class="gravitar" alt="">
+<DIV class="commentBody">Yes. "&gt;avril lavine nude&lt;/a&gt;<P>http://javascriptcompressor.com/members/didvwpbxw/default.aspx</P><P></P><P></P></DIV>
+<DIV align="center" class="ad">
+<SCRIPT type="text/javascript"><!--
+google_ad_client = "pub-6020654670144156";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "BE5BBE";
+google_color_url = "000000";
+google_color_text = "000000";
+//--></SCRIPT>
+<SCRIPT type="text/javascript" src="./Howto Create an RSS 2.0 Feed.htm_files/show_ads.js">
+</SCRIPT><SCRIPT>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</SCRIPT><INS style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><INS style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px"><IFRAME allowtransparency="true" frameborder="0" height="60" hspace="0" id="google_ads_frame2" marginheight="0" marginwidth="0" name="google_ads_frame" scrolling="no" src="./Howto Create an RSS 2.0 Feed.htm_files/ads(1).htm" style="left:0;position:absolute;top:0" vspace="0" width="468"></IFRAME></INS></INS>
+</DIV>
+<DIV class="postCommentTitle"><A name="postcomment">Post a Comment</A></DIV>
+<DIV class="commentForm">
+<SCRIPT language="JavaScript" src="./Howto Create an RSS 2.0 Feed.htm_files/spell.js" type="text/javascript"></SCRIPT>
+<FORM action="http://www.petefreitag.com/postComment.cfm" method="post" name="commentsForm">
+<INPUT type="hidden" name="entryid" value="465">
+<INPUT type="hidden" name="website" value="http://">
+<LABEL for="name" style="margin:1px;">Name:</LABEL><BR>
+<INPUT type="text" id="name" name="name" maxlength="50"><BR>
+<LABEL for="email" style="margin:1px;">Email: <SMALL>(optional, not displayed on site, gravatar enabled)</SMALL></LABEL><BR>
+<INPUT type="text" name="email" id="email" maxlength="50"> &nbsp;&nbsp;<INPUT type="checkbox" name="subscribe" id="sub" value="1"> <LABEL for="sub">Subscribe to this thread</LABEL> <BR>
+<LABEL for="comment" style="margin:1px;">Comments: <SMALL>(html will be escaped)</SMALL></LABEL><BR>
+<TEXTAREA name="comment" cols="40" id="comment" rows="6"></TEXTAREA><BR>
+<BR>
+<INPUT type="submit" value="Post Comment">
+<INPUT type="button" value="Check Spelling" onclick="spell(&#39;document.commentsForm.comment.value&#39;)">
+</FORM>
+<A href="http://foundeo.com/spell-checker/">Spell Checker by Foundeo</A><BR><BR>
+</DIV>
+<DIV class="recentEntriesTitle"><A name="recent">Recent Entries</A></DIV>
+<UL>
+<LI><A href="http://www.petefreitag.com/item/711.cfm" title="ColdFusion Security Hotfixes Released">ColdFusion Security Hotfixes Released</A></LI>
+<LI><A href="http://www.petefreitag.com/item/710.cfm" title="Security Tradeoffs">Security Tradeoffs</A></LI>
+<LI><A href="http://www.petefreitag.com/item/709.cfm" title="Creating a Derby Datasource with ColdFusion Admin API">Creating a Derby Datasource with ColdFusion Admin API</A></LI>
+<LI><A href="http://www.petefreitag.com/item/708.cfm" title="How CFThread Can Help OR Hurt Performance">How CFThread Can Help OR Hurt Performance</A></LI>
+<LI><A href="http://www.petefreitag.com/item/707.cfm" title="Hotfix for CF8 FCKeditor Vulnerability Released">Hotfix for CF8 FCKeditor Vulnerability Released</A></LI>
+<LI><A href="http://www.petefreitag.com/item/706.cfm" title="Hardening ColdFusion - cfObjective 2009 Presentation Slides">Hardening ColdFusion - cfObjective 2009 Presentation Slides</A></LI>
+<LI><A href="http://www.petefreitag.com/item/705.cfm" title="Risks of FCKeditor Vulnerability in CF8">Risks of FCKeditor Vulnerability in CF8</A></LI>
+<LI><A href="http://www.petefreitag.com/item/704.cfm" title="ColdFusion 8 FCKeditor Vulnerability">ColdFusion 8 FCKeditor Vulnerability</A></LI>
+</UL>
+<BR><BR>
+<BR><BR>
+<!-- google_ad_section_start(weight=ignore) -->
+<!-- begin footer -->
+<DIV class="footnotes">
+Subscribe to my RSS Feed: <A href="http://solosub.com/sub/http://www.petefreitag.com/rss/" title="Subscribe to this Feed"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/feed_button.gif" align="middle" alt="solosub" border="0"></A> <A href="http://www.petefreitag.com/rss/" title="Subscribe to my RSS feed" class="rss" rel="nofollow">RSS</A>
+</DIV>
+</DIV>
+<DIV align="center"><SMALL><A href="http://www.petefreitag.com/tags/" rel="nofollow" title="Tag Cloud">Tags</A></SMALL></DIV>
+<DIV style="width:100&percnt;" align="left">
+<DIV id="navBox">
+<DIV class="navlet">
+<P><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/pf3.jpg" border="0" alt="pete" align="left" class="pf"> <STRONG>Pete Freitag</STRONG> is a software engineer, and web developer located in <A href="http://mvny.org/">central new york</A>.</P>
+<P>Pete's company <EM>Foundeo Inc.</EM> builds <A href="http://foundeo.com/products/">products for web developers</A> and provides <A href="http://foundeo.com/consulting/">consulting services</A>.</P>
+<IMG src="./Howto Create an RSS 2.0 Feed.htm_files/cfcb_sm.jpg" border="0" alt="cookbook" align="right" class="cb">
+<P>In 2003 Pete published the <A href="http://www.petefreitag.com/bookshelf/">ColdFusion MX Developers Cookbook</A> with SAMs Publishing.</P>
+<P>More <A href="http://www.petefreitag.com/about/">about Pete</A>.</P>
+<DIV align="center"><A href="http://twitter.com/pfreitag" title="pfreitag on twitter"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/follow-me-on-twitter.gif" alt="follow me on twitter" border="0"></A></DIV>
+</DIV>
+<DIV class="navlet">
+<DIV class="navBoxTitle">currently reading</DIV>
+<BR>
+<DIV align="center">
+<A href="http://spendfish.com/product/059652689X" title="Programming Flex 2"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/059652689X.01._SCTHUMBZZZ_.jpg" alt="flex" border="0" class="reading"></A>
+<A href="http://spendfish.com/product/0596007248" title="Apache Security"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/0596007248.01._SCTHUMBZZZ_.jpg" alt="book cover" border="0" class="reading"></A>
+<A href="http://spendfish.com/product/1847194125" title="ColdFusion 8 Developer Tutorial"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/1847194125.01._SCTHUMBZZZ_.jpg" alt="coldfusion 8 developer tutorial" border="0" class="reading"></A>
+</DIV>
+<BR>
+</DIV>
+<DIV class="navlet">
+<DIV class="navBoxTitle">categories</DIV>
+<DIV style="padding-top:10px;" align="center">
+&nbsp;<A href="http://www.petefreitag.com/category/apple.cfm" title="Apple"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/apple.gif" border="0" alt="apple"></A>&nbsp;
+&nbsp;<A href="http://www.petefreitag.com/category/books.cfm" title="Books"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/books.gif" border="0" alt="books"></A>&nbsp;
+&nbsp;<A href="http://www.petefreitag.com/category/coldfusion.cfm" title="ColdFusion"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/coldfusion.gif" border="0" alt="coldfusion"></A>&nbsp;
+<BR><BR>
+&nbsp;<A href="http://www.petefreitag.com/category/databases.cfm" title="Databases"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/databases.gif" border="0" alt="databases"></A>&nbsp;
+&nbsp;<A href="http://www.petefreitag.com/category/java.cfm" title="Java"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/java.gif" border="0" alt="java"></A>&nbsp;
+&nbsp;<A href="http://www.petefreitag.com/category/linux.cfm" title="Linux"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/linux.gif" border="0" alt="linux"></A>&nbsp;
+<BR><BR>
+&nbsp;<A href="http://www.petefreitag.com/category/misc.cfm" title="Misc"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/misc.gif" border="0" alt="misc"></A>&nbsp;
+&nbsp;<A href="http://www.petefreitag.com/category/music.cfm" title="Music"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/music.gif" border="0" alt="music"></A>&nbsp;
+&nbsp;<A href="http://www.petefreitag.com/category/web.cfm" title="Web"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/web.gif" border="0" alt="web"></A>&nbsp;
+<BR><BR>
+</DIV>
+</DIV>
+<DIV class="navlet">
+<DIV align="center">
+<A href="http://foundeo.com/fusionkit/" title="Web 2.0 Goodies for ColdFusion"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/fusionkit-goodies.jpg" alt="fusionkit goodies" border="0"></A>
+<BR><BR>
+<DIV style="text-align: center;">
+<!-- Start: Ads -->
+<SCRIPT type="text/javascript" src="http://c.adroll.com/r/IXH6GAKRSJGSRGV7YYVUWG/PQGKD65RPVDRRL2CO6T54X/">
+</SCRIPT><SCRIPT src="http://c.adroll.com/r/IXH6GAKRSJGSRGV7YYVUWG/PQGKD65RPVDRRL2CO6T54X/ad?pv=25987689569.592476&cookie=&width=125&height=125&x=13&y=634&keyw="></SCRIPT><DIV class="adroll-block">
+    
+
+
+    
+        <SCRIPT type="text/javascript">
+          /*<![CDATA[*/ 
+                if (typeof(swfobject) == "undefined") {
+                    document.write('<scr' + 'ipt src="http://d5mbci7bo0gog.cloudfront.net/j/swfobject2.js" type="text/javascript"><' + '/script>');
+                }
+        /*]]>*/
+        </SCRIPT><SCRIPT src="./Howto Create an RSS 2.0 Feed.htm_files/swfobject2.js" type="text/javascript"></SCRIPT>
+        <SCRIPT type="text/javascript">
+            /*<![CDATA[*/ 
+                (function () {
+                    var fuid = "" + Math.round(Math.random()*100000000);
+                    var tag = '<div style="cursor: pointer;"><div id="adroll-flash-content-'+fuid;
+                    tag = tag + '" style="width:' + adroll_width + 'px; height: ' + adroll_height + 'px;"></div></div>'; 
+                    document.write(tag);
+                    var count = 0;
+                    var fuid = fuid;
+                    var width = adroll_width;
+                    var height = adroll_height;
+                    var renderer = function(args_for_flash, params_for_flash) {
+                        if (count > 10) {
+                            return
+                        };
+                        count = count + 1;
+                        var version = swfobject.getFlashPlayerVersion();
+                        if (version.major >= 8) {
+                                var version = "8.0.0";
+
+                            swfobject.embedSWF("http://d5mbci7bo0gog.cloudfront.net/f/liquid.swf",
+                                               "adroll-flash-content-"+fuid,
+                                               ""+width,
+                                               ""+height,
+                                               version,
+                                               "http://d5mbci7bo0gog.cloudfront.net/f/expressinstall.swf",
+                                               args_for_flash,
+                                               params_for_flash);
+                        } else {
+                            
+                            var div = document.getElementById("adroll-flash-content-"+flash_uid);
+                            div.innerHTML = unescape("%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ca%20target%3D%5C%22_blank%5C%22%20href%3D%5C%22http%3A//www.adroll.com/publishers/petefreitagsblog%3Fr%3D4GAAOJNPW5D7PNLWLWPAEB%5C%22%3E%20%20%20%20%20%20%20%20%20%20%3Cimg%20src%3D%5C%22http%3A//d5mbci7bo0gog.cloudfront.net/a/ref/err/referral_ad_2_125_125.gif%5C%22%20width%3D%5C%22125%5C%22%20height%3D%5C%22125%5C%22%20border%3D%5C%220%5C%22%20alt%3D%5C%22%5C%22%20/%3E%20%20%20%20%20%20%20%20%3C/a%3E");
+                        }
+                    };
+                var fvars = {clickTAG: escape("http://c.adroll.com/r/IXH6GAKRSJGSRGV7YYVUWG/PQGKD65RPVDRRL2CO6T54X/6710c88e3f2a7fd95440682fe9d9be1c.re")};
+                var fpars = {};
+                    
+                    
+                    fvars.linkTextColor = 0x0066ff;
+                    fvars.linkBackgroundHoverColor = 0xffffff;
+                    fvars.title = escape('Advertise across <a href=\"http://www.adroll.com/rolls/programming?r=4GAAOJNPW5D7PNLWLWPAEB\" target=\"_parent\">Programming Roll</a>');
+                    fpars.allowscriptaccess = "always";
+                var f = function (){
+                    try {
+                        renderer(fvars, fpars);
+                    } catch(err) {
+                        setTimeout(f, 100);
+                    }
+                };
+                f();
+                })();
+            /*]]>*/
+        </SCRIPT><DIV style="cursor: pointer;"><OBJECT type="application/x-shockwave-flash" data="http://d5mbci7bo0gog.cloudfront.net/f/liquid.swf" width="125" height="125" id="adroll-flash-content-34137893" style="visibility: visible; "><PARAM name="allowscriptaccess" value="always"><PARAM name="flashvars" value="clickTAG=http&percnt;3A//c.adroll.com/r/IXH6GAKRSJGSRGV7YYVUWG/PQGKD65RPVDRRL2CO6T54X/6710c88e3f2a7fd95440682fe9d9be1c.re&amp;linkTextColor=26367&amp;linkBackgroundHoverColor=16777215&amp;title=Advertise&percnt;20across&percnt;20&percnt;3Ca&percnt;20href&percnt;3D&percnt;22http&percnt;3A//www.adroll.com/rolls/programming&percnt;3Fr&percnt;3D4GAAOJNPW5D7PNLWLWPAEB&percnt;22&percnt;20target&percnt;3D&percnt;22_parent&percnt;22&percnt;3EProgramming&percnt;20Roll&percnt;3C/a&percnt;3E"></OBJECT></DIV>
+
+
+
+</DIV>
+
+<!-- Start: Your Profile Link -->
+<SCRIPT type="text/javascript" src="./Howto Create an RSS 2.0 Feed.htm_files/link">
+</SCRIPT><DIV class="adroll-link" style="text-align: center"><A target="_blank" href="http://www.adroll.com/" style="font-size: 10px; font-family: sans-serif">Managed by Adroll</A></DIV>
+</DIV>
+<BR>
+<SCRIPT type="text/javascript" src="./Howto Create an RSS 2.0 Feed.htm_files/widget.cfm"></SCRIPT><EMBED src="http://widgets.developercircuit.com/widget.swf" width="180" height="280" align="middle" quality="high" bgcolor="#FFFFF" name="DeveloperCircuit_Widget" wmode="transparent" flashvars="id=2624" allowscriptaccess="always" pluginspage="http://www.adobe.com/go/getflashplayer" type="application/x-shockwave-flash"> 
+</DIV>
+</DIV>
+<DIV class="navlet">
+<DIV class="navBoxTitle">my side projects</DIV>
+<DIV style="padding:4px;">
+<A href="http://spendfish.com/" title="Shop for Deals from Amazon with SpendFish">SpendFish - Fish for Deals</A><BR>
+<A href="http://surf11.com/" title="Surf 11 - My Link Blog" rel="nofollow">Surf 11 - my link blog</A><BR>
+<A href="http://cfdocs.org/" title="cfdocs.org - CFML documentation">cfdocs.org - CFML documentation</A><BR>
+<A href="http://javadocs.org/" title="Java Documentation Shortcut" rel="nofollow">javadocs.org - Java documentation</A><BR>
+<A href="http://cfmx.org/" rel="nofollow" title="ColdFusion news aggregator">cfmx.org - news aggregator</A>
+</DIV>
+<BR>
+</DIV>
+<DIV class="navlet">
+<DIV class="navBoxTitle">archives</DIV>
+&nbsp;<A href="http://www.petefreitag.com/archive/2009/0.cfm">2009</A><BR>
+&nbsp;<A href="http://www.petefreitag.com/archive/2008/0.cfm">2008</A><BR>
+&nbsp;<A href="http://www.petefreitag.com/archive/2007/0.cfm">2007</A><BR>
+&nbsp;<A href="http://www.petefreitag.com/archive/2006/0.cfm">2006</A><BR>
+&nbsp;<A href="http://www.petefreitag.com/archive/2005/0.cfm">2005</A><BR>
+&nbsp;<A href="http://www.petefreitag.com/archive/2004/0.cfm">2004</A><BR>
+&nbsp;<A href="http://www.petefreitag.com/archive/2003/0.cfm">2003</A><BR>
+&nbsp;<A href="http://www.petefreitag.com/archive/2002/0.cfm">2002</A><BR>
+<BR>
+</DIV>
+<DIV class="navlet">
+<DIV class="navBoxTitle">hosting by</DIV>
+<DIV align="center"><A href="http://www.cfdynamics.com/" title="ColdFusion Hosting by CFDynamics"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/cfdynamics.gif" alt="coldfusion hosting" border="0"></A></DIV>
+</DIV>
+<DIV class="navlet">
+<DIV class="navBoxTitle">subscribe</DIV>
+<DIV align="center" style="background-color:white;padding:5px;margin:5px;border:1px solid silver;">
+<A href="http://solosub.com/sub/http://www.petefreitag.com/rss/" title="Subscribe to my RSS Feed"><IMG src="./Howto Create an RSS 2.0 Feed.htm_files/solosub_small.gif" style="vertical-align:middle;" alt="solosub" border="0"></A>
+<DIV style="border-top:1px solid #f1f1f1;margin:2px;" align="left">Use <A href="http://solosub.com/">SoloSub</A> to subscribe to my RSS feed using Bloglines, MyYahoo, NewsGator, and more.</DIV>
+</DIV>
+</DIV>
+</DIV>
+<BR>
+</DIV>
+</DIV></DIV>
+<DIV class="searchBox" align="right">
+<FORM method="get" action="http://www.google.com/custom">
+<INPUT type="text" name="q" maxlength="255" value="Search This Site" onclick="this.form.q.value=&#39;&#39;;">
+<INPUT type="submit" name="sa" value="search">
+<INPUT type="hidden" name="client" value="pub-6020654670144156">
+<INPUT type="hidden" name="forid" value="1">
+<INPUT type="hidden" name="channel" value="1556783522">
+<INPUT type="hidden" name="ie" value="ISO-8859-1">
+<INPUT type="hidden" name="oe" value="ISO-8859-1">
+<INPUT type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:FFFFFF;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1;">
+<INPUT type="hidden" name="hl" value="en">
+<INPUT type="hidden" name="domains" value="www.petefreitag.com">
+<INPUT type="hidden" name="sitesearch" value="www.petefreitag.com">
+</FORM>
+</DIV>
+<!-- google_ad_section_end -->
+<SCRIPT src="./Howto Create an RSS 2.0 Feed.htm_files/urchin.js" type="text/javascript">
+</SCRIPT>
+<SCRIPT type="text/javascript">
+_uacct = "UA-82573-6";
+urchinTracker();
+</SCRIPT>
+
+
+
+
+</BODY></HTML>

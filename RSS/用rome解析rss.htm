@@ -1,0 +1,524 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0043)http://www.mxjava.com/blog/archives/54.html -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="zh-CN"><HEAD profile="http://gmpg.org/xfn/11"><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<TITLE>用rome解析rss</TITLE>
+<SCRIPT language="javascript" type="text/javascript" src="./用rome解析rss_files/v3.php"></SCRIPT><SCRIPT language="javascript" type="text/javascript" src="./用rome解析rss_files/c.php"></SCRIPT><META name="description" content="关注Java相关技术，关注互联网。"><META name="author" content="hiswing"><META name="ROBOTS" content="ALL"><META name="generator" content="WordPress"><META name="generator" content="WordPress 2.7.1"><META name="description" content="　　之前一直在用RSSLib4J解析rss，不过RSSLib4J似乎不能解析rss"><META name="keywords" content="java,rome,rss"></HEAD><BODY><DIV style="width:0px;height:0px;border:0px"><IMG height="0" width="0" border="0" style="width:0px;height:0px;border:0px;"></DIV>
+	
+	
+	
+	 <!-- leave this for stats -->
+	<LINK rel="stylesheet" href="./用rome解析rss_files/style.css" type="text/css" media="screen">
+	<LINK rel="icon" type="image/ico" href="http://www.mxjava.com/blog/favicon.ico">
+	<LINK rel="alternate" type="application/rss+xml" title="MXJAVA RSS Feed" href="http://www.mxjava.com/blog/feed">
+	<LINK rel="pingback" href="http://www.mxjava.com/blog/xmlrpc.php">
+	<SCRIPT type="text/javascript" src="./用rome解析rss_files/toggle.js"></SCRIPT>
+<LINK rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.mxjava.com/blog/xmlrpc.php?rsd">
+<LINK rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.mxjava.com/blog/wp-includes/wlwmanifest.xml"> 
+<SCRIPT type="text/javascript" src="./用rome解析rss_files/jquery.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="./用rome解析rss_files/jquery.dimensions.js"></SCRIPT>
+
+
+<STYLE type="text/css">#bs-17fav-pop{background:#fff;width:310px;border:1px solid #69f;position:absolute;display:none} #bs-17fav-pop h1{margin:0;padding:5px 10px;text-align:left;font-size:14px;color:#fff;background:#69f} #bs-17fav-pop h3{clear:both;margin:0;padding:2px 10px;text-align:right;font-size:10px;font-weight:normal;background:#69f;color:#fff} #bs-17fav-pop h3 a,#bs-17fav-pop h3 a:hover{color:#fff} ul.bs-17fav-list{margin:0;padding:5px;list-style:none;width:300px;} li.bs-17fav-item{cursor:pointer;display:block;float:left;width:140px;overflow:hidden;height:22px;padding:1px;margin:2px 4px;list-style:none;position:relative} li.bs-17fav-item-hover{padding:0;border:1px solid #69f} li.bs-17fav-item span.bs-17fav-icon{display:block;position:absolute;width:16px;height:16px;top:3px;left:3px;overflow:hidden} li#bs-17fav-item-365key span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -320px} li#bs-17fav-item-delicious span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -0px} li#bs-17fav-item-baidu span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -32px} li#bs-17fav-item-qq span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -48px} li#bs-17fav-item-google span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -64px} li#bs-17fav-item-fanfou span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -96px} li#bs-17fav-item-sina-vivi span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -288px} li#bs-17fav-item-yahoo span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -80px} li#bs-17fav-item-mister-wong-cn span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -16px} li#bs-17fav-item-facebook span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -144px} li#bs-17fav-item-jiwai span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -304px} li#bs-17fav-item-quzhai span.bs-17fav-icon{background:url(http://17fav.com/icons.jpg) no-repeat -0px -240px} li.bs-17fav-item span.bs-17fav-text{display:block;height:22px;line-height:22px;width:110px;position:absolute;top:0;left:30px;text-align:left;font-size:12px;color:#069} </STYLE><SCRIPT type="text/javascript">jQuery(document).ready(function(){jQuery(".bs-17fav-item").hover(function(){jQuery(this).addClass("bs-17fav-item-hover");},function(){jQuery(this).removeClass("bs-17fav-item-hover");});});var BSJS={mouse_in_pos: [],bsthis:function(i,s){if (i<=0) return;var fid = "fav-post-"+i;theForm = jQuery("#"+fid);if (s.length>0) { theForm.get(0).action = "http://17fav.com/redirect.php";theForm.children("input").each(function(){if (this.name == "bs17fav_server") this.value=s;});} else {theForm.get(0).action = "http://17fav.com/index.php";}theForm.submit(function(){var e=window.open("http://17fav.com/","bs_popwin"); if (e==null) {alert("Your browser doesn't allow our window to popup. Please fix the settings"); return false;} else {return true;}});theForm.submit();},hover_in_btn: function(e){var btn_rel = this.rel;BSJS.mouse_in_pos =[e.pageX,e.pageY];var btnp = jQuery(this).position();jQuery("#bs-17fav-pop").css({left:btnp.left,top:btnp.top,marginTop:jQuery(this).height()});jQuery("#bs-17fav-pop").children("ul").children("li").each(function(){this.rel=btn_rel;});jQuery("#bs-17fav-pop").fadeIn("fast");},hover_out_btn: function(e){if (e.pageY <= BSJS.mouse_in_pos[1]) jQuery("#bs-17fav-pop").fadeOut("fast");},hover_in_box: function(){},hover_out_box: function(){jQuery(this).fadeOut("fast");}};jQuery(document).ready(function(){jQuery(".btn-17fav").hover(BSJS.hover_in_btn,BSJS.hover_out_btn);jQuery("#bs-17fav-pop").hover(BSJS.hover_in_box,BSJS.hover_out_box);jQuery(".btn-17fav").click(function(){BSJS.bsthis(this.rel,"");return false;});jQuery(".bs-17fav-item").click(function(){BSJS.bsthis(this.rel,this.id.substr(14));});});</SCRIPT>
+<!-- all in one seo pack 1.4.6.14 [306,345] -->
+
+
+<!-- /all in one seo pack -->
+		<!-- Start of Where Go JS -->
+		<SCRIPT type="text/javascript" src="./用rome解析rss_files/tw-sack.js"></SCRIPT>
+		<SCRIPT type="text/javascript">
+		//<![CDATA[
+			where_go_count = new sack("http://www.mxjava.com/blog/wp-content/plugins/where-did-they-go-from-here/where-go-add.js.php");    
+			where_go_count.setVar( "id", 54 );
+			where_go_count.setVar( "sitevar", document.referrer );
+			where_go_count.method = 'GET';
+			where_go_count.onError = function() { alert('Ajax error' )};
+			where_go_count.runAJAX();
+			where_go_count = null;
+		//]]>
+		</SCRIPT>
+		<!-- Start of Where Go JS -->
+
+<!-- Start Of Script Generated By WP-PageNavi 2.31 -->
+<LINK rel="stylesheet" href="./用rome解析rss_files/pagenavi-css.css" type="text/css" media="screen">
+<!-- End Of Script Generated By WP-PageNavi 2.31 -->
+<!-- wp thread comment 1.4.9.1.001 -->
+
+<SCRIPT type="text/javascript">
+	String.prototype.Trim = function() {
+		return this.replace(/(^\s*)|(\s*$)/g, ""); 
+	}
+
+	// 查询
+	function mySearchKey(key) {
+		if (key == null || key.value.Trim() == "") {
+			alert("请输入查询的关键字。");
+			key.focus();
+		} else {
+			mySearch.submit();
+		}
+	}
+</SCRIPT>
+
+
+
+<DIV id="container">
+	<DIV id="header">
+		<DIV id="tag"><!--?php bloginfo('rss2_url'); ?-->
+			<P><A href="http://feed.mxjava.com/" rel="alternate" type="application/rss+xml">关注Java相关技术，关注互联网。				<IMG src="http://www.mxjava.com/blog/wp-content/themes/mxjava/images/feed-icon-14x14.png" alt="Subscribe to feed" style="vertical-align:top;border:0"></A>
+			</P>
+		</DIV>
+		<DIV id="logo" onclick="location.href=&#39;http://www.mxjava.com/blog&#39;;" style="cursor: pointer;">
+			MXJAVA		</DIV>
+		<DIV id="navcontainer"><UL class="navlist">
+<LI><A href="http://www.mxjava.com/blog">首页</A></LI>
+	<LI class="cat-item cat-item-18"><A href="http://www.mxjava.com/blog/archives/category/blog" title="查看Blog下的所有日志">Blog</A>
+</LI>
+	<LI class="cat-item cat-item-55"><A href="http://www.mxjava.com/blog/archives/category/opus" title="空闲的时候，会写一些小程序，打发时间。">折腾捣鼓</A>
+</LI>
+	<LI class="cat-item cat-item-65"><A href="http://www.mxjava.com/blog/archives/category/download" title="互联网就是分享。">精品下载</A>
+</LI>
+	<LI class="cat-item cat-item-53"><A href="http://www.mxjava.com/blog/archives/category/technic" title="技术相关文章">编程开发</A>
+</LI>
+<LI class="page_item page-item-81"><A href="http://www.mxjava.com/blog/about" title="关于">关于</A></LI>
+								<DIV id="navcontainerSearch">
+					<FORM action="http://www.google.cn/search" method="get" name="mySearch">
+						<INPUT name="sitesearch" value="www.mxjava.com" type="hidden">
+						<INPUT name="ie" value="UTF-8" type="hidden">
+						<INPUT name="q" id="s" type="text" onkeydown="if (event.keyCode==13) mySearchKey(this);">
+						<INPUT name="Search" value="Search" attr="value" id="searchsubmit" onclick="javascript:mySearchKey(q);" type="button">
+						<INPUT type="text" style="display:none;">
+						<INPUT name="hl" value="zh-CN" type="hidden">
+					</FORM>
+				</DIV>
+			</UL>
+		</DIV>
+	</DIV><DIV id="entries">
+<DIV id="ad468x60">
+<SCRIPT type="text/JavaScript"> 
+alimama_pid="mm_10040003_132921_3990991"; 
+alimama_titlecolor="3366FF"; 
+alimama_descolor ="000000"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="FFFFFF"; 
+alimama_linkcolor="3366FF"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="0"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="12"; 
+alimama_width=468; 
+alimama_height=60; 
+alimama_type=2; 
+</SCRIPT> 
+<SCRIPT src="./用rome解析rss_files/inf.js" type="text/javascript"> 
+</SCRIPT><IMG name="alimamatmpf0.540712371468544" id="alimamatmpf0.540712371468544" style="width:0px;height:0px;padding:0px;margin:0px;border:0px;vertical-align:baseline;" border="0" src="./用rome解析rss_files/alimamal.php"><IFRAME name="alimamaf0.540712371468544" id="alimamaf0.540712371468544" border="0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="width:468px; height:60px;" src="./用rome解析rss_files/alimama.htm"></IFRAME>
+</DIV>
+<H3><A href="http://www.mxjava.com/blog/archives/category/technic/java-technic" title="显示JAVA开发的所有日志" rel="category tag">JAVA开发</A></H3>
+<H1>用rome解析rss</H1><DIV><SMALL>08-06-14 <B>|</B> 1 Comment <B>|</B> </SMALL></DIV>
+
+<DIV class="post">
+	<P>　　之前一直在用RSSLib4J解析rss，不过RSSLib4J似乎不能解析rss v0.92，在初期化时就会报错。这可不是什么好消息，因为WordPress的rss就是v0.92的。</P>
+<P>　　rome是为RSS聚合而开发的开源包，它可以支持0.91、0.92、0.93、0.94、1.0、2.0，可以说rss的版本基本上都支持了。它的使用也非常简单，看下面的例子：<SYNDENTRY><SPAN id="more-54"></SPAN><BR>
+</SYNDENTRY></P>
+<DIV class="codeText">
+<OL class="dp-j">
+<LI class="alt"><SPAN><SPAN>SyndFeedInput&nbsp;input&nbsp;=&nbsp;</SPAN><SPAN class="keyword">new</SPAN><SPAN>&nbsp;SyndFeedInput();&nbsp;</SPAN></SPAN></LI>
+<LI><SPAN>SyndFeed&nbsp;feed&nbsp;=&nbsp;input.build(<SPAN class="keyword">new</SPAN><SPAN>&nbsp;XmlReader(</SPAN><SPAN class="keyword">new</SPAN><SPAN>&nbsp;URL(url)));&nbsp;</SPAN></SPAN></LI>
+<LI class="alt"><SPAN>System.out.println(feed.getTitle());&nbsp;</SPAN></LI>
+<LI><SPAN>&nbsp;</SPAN></LI>
+<LI class="alt"><SPAN>List&nbsp;list&nbsp;=&nbsp;<SPAN class="keyword">this</SPAN><SPAN>.feed.getEntries();&nbsp;</SPAN></SPAN></LI>
+<LI><SPAN><SPAN class="keyword">if</SPAN><SPAN>&nbsp;(list&nbsp;!=&nbsp;</SPAN><SPAN class="keyword">null</SPAN><SPAN>&nbsp;&amp;&amp;&nbsp;!list.isEmpty())&nbsp;{&nbsp;</SPAN></SPAN></LI>
+<LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="keyword">for</SPAN><SPAN>&nbsp;(SyndEntry&nbsp;entry&nbsp;:&nbsp;list)&nbsp;{&nbsp;</SPAN></SPAN></LI>
+<LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(entry.getTitle());&nbsp;</SPAN></LI>
+<LI class="alt"><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;</SPAN></LI>
+<LI><SPAN>}&nbsp;</SPAN></LI>
+</OL>
+</DIV>
+<P>　　你可以用以下语句得到它的所有方法：</P>
+<DIV class="codeText">
+<OL class="dp-j">
+<LI class="alt"><SPAN><SPAN>SyndFeedInput&nbsp;input&nbsp;=&nbsp;</SPAN><SPAN class="keyword">new</SPAN><SPAN>&nbsp;SyndFeedInput();&nbsp;</SPAN></SPAN></LI>
+<LI><SPAN>SyndFeed&nbsp;feed&nbsp;=&nbsp;input.build(<SPAN class="keyword">new</SPAN><SPAN>&nbsp;XmlReader(</SPAN><SPAN class="keyword">new</SPAN><SPAN>&nbsp;URL(url)));&nbsp;</SPAN></SPAN></LI>
+<LI class="alt"><SPAN>System.out.println(feed);&nbsp;</SPAN></LI>
+</OL>
+</DIV>
+<P>　　下载：<A href="http://wiki.java.net/bin/view/Javawsxml/Rome">http://wiki.java.net/bin/view/Javawsxml/Rome</A><BR>
+<IMG src="./用rome解析rss_files/zyuf5asr.jpg" alt="rome"></P>
+<A href="http://17fav.com/" rel="54" class="btn-17fav" title="用 17fav 收藏和分享本文"><IMG src="http://www.mxjava.com/blog/wp-content/plugins/17fav-bookmark-share/bookmark-blue.gif" alt="17fav 收藏本文"></A><DIV id="wherego_related"><H3>其他读者还看过</H3><UL><LI><A href="http://www.mxjava.com/blog/archives/185.html">Groovy In Action（PDF）</A></LI><LI><A href="http://www.mxjava.com/blog/archives/186.html">Groovy经典入门（PDF）</A></LI><LI><A href="http://www.mxjava.com/blog/archives/178.html">java反射（三）</A></LI></UL></DIV><H3>相关文章</H3><UL class="related_post"><LI><A href="http://www.mxjava.com/blog/archives/290.html" title="Grape 的 Skin 处理机制">Grape 的 Skin 处理机制</A></LI><LI><A href="http://www.mxjava.com/blog/archives/287.html" title="Grape 的编辑器 &mdash; WordEditor ">Grape 的编辑器 — WordEditor </A></LI><LI><A href="http://www.mxjava.com/blog/archives/273.html" title="测试Grape发布日志功能">测试Grape发布日志功能</A></LI><LI><A href="http://www.mxjava.com/blog/archives/260.html" title="JTextPane设置背景色的问题及解决">JTextPane设置背景色的问题及解决</A></LI><LI><A href="http://www.mxjava.com/blog/archives/224.html" title="Java动态代理">Java动态代理</A></LI><LI><A href="http://www.mxjava.com/blog/archives/190.html" title="精品：深入Java虚拟机（PDF）">精品：深入Java虚拟机（PDF）</A></LI><LI><A href="http://www.mxjava.com/blog/archives/186.html" title="Groovy经典入门（PDF）">Groovy经典入门（PDF）</A></LI><LI><A href="http://www.mxjava.com/blog/archives/185.html" title="Groovy In Action（PDF）">Groovy In Action（PDF）</A></LI><LI><A href="http://www.mxjava.com/blog/archives/178.html" title="java反射（三）">java反射（三）</A></LI><LI><A href="http://www.mxjava.com/blog/archives/61.html" title="程序设计不是这么简单">程序设计不是这么简单</A></LI></UL><BR>
+	<!--
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+				xmlns:dc="http://purl.org/dc/elements/1.1/"
+				xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+			<rdf:Description rdf:about="http://www.mxjava.com/blog/archives/54.html"
+    dc:identifier="http://www.mxjava.com/blog/archives/54.html"
+    dc:title="用rome解析rss"
+    trackback:ping="http://www.mxjava.com/blog/archives/54.html/trackback" />
+</rdf:RDF>	-->
+</DIV><!--end posts-->
+
+	 	
+	
+
+
+<!-- You can start editing here. -->
+
+
+	<OL class="commentlist">
+
+	
+		<LI id="comment-3446">
+			<SMALL class="commentmetadata"><A href="http://www.siaaa.com/Index.html" rel="external nofollow" class="url">技术资料</A>&nbsp;:&nbsp;08-11-16 at 6:38 am</SMALL>
+						<P>文章不错啊，继续加点好的文章来看看。看完了给你顶几下。(*^__^*) 嘻嘻…</P>
+<P class="thdrpy">[<A href="javascript:void(0)" onclick="movecfm(event,3446,1,&#39;技术资料&#39;);">补充两句</A>]</P>		</LI>
+
+	
+	</OL>
+
+ 
+
+
+<H3 id="respond">Leave a Reply</H3>
+
+
+<FORM action="http://www.mxjava.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<P><INPUT type="text" name="author" id="author" value="" size="22" tabindex="1">
+<LABEL for="author"><SMALL>Name (required)</SMALL></LABEL></P>
+
+<P><INPUT type="text" name="email" id="email" value="" size="22" tabindex="2">
+<LABEL for="email"><SMALL>Mail (will not be published) (required)</SMALL></LABEL></P>
+
+<P><INPUT type="text" name="url" id="url" value="" size="22" tabindex="3">
+<LABEL for="url"><SMALL>Website</SMALL></LABEL></P>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<P><TEXTAREA name="comment" id="comment" class="commentbox" tabindex="4"></TEXTAREA></P>
+
+<P><INPUT name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment">
+<INPUT type="hidden" name="comment_post_ID" value="54">
+</P>
+
+
+	<P style="clear: both;" class="subscribe-to-comments">
+	<INPUT type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;">
+	<LABEL for="subscribe">通过邮件订阅新评论（可以随时在邮件中退订）</LABEL>
+	</P>
+
+
+<P><INPUT type="hidden" id="comment_reply_ID" name="comment_reply_ID" value="0"><INPUT type="hidden" id="comment_reply_dp" name="comment_reply_dp" value="0"></P><DIV id="cancel_reply" style="display:none;"><A href="javascript:void(0)" onclick="movecfm(null,0,1,null);" style="color:red;">下回再说</A></DIV><SCRIPT type="text/javascript">
+/* <![CDATA[ */
+var commentformid = "commentform";
+var COOKIEHASH = "670c0673e3197a5c4616f801bdc829a6";
+var USERINFO = false;
+var atreply = "no";
+/* ]]> */
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./用rome解析rss_files/wp-thread-comment.js.php"></SCRIPT>
+<SCRIPT type="text/javascript">
+/* <![CDATA[ */
+var lstcommentid=3446;
+var needauthoremail=true;
+var sortflag="ASC";
+/* ]]> */
+</SCRIPT>
+<SCRIPT type="text/javascript" src="./用rome解析rss_files/wp-thread-comment.js(1).php"></SCRIPT>
+
+</FORM>
+
+
+<BR>
+
+« <A href="http://www.mxjava.com/blog/archives/53.html">奇怪的问题</A><BR>
+» <A href="http://www.mxjava.com/blog/archives/60.html">java动态代理实现数据库事务拦截器</A>	
+
+</DIV><!--end entries-->
+
+﻿<DIV id="sidebar">
+<!--AdSense Begin>
+<iframe frameborder="0" marginheight="0" marginwidth="0" border="0" id="alimamaifrm" name="alimamaifrm" scrolling="no" height="190px" width="360px" style="width:360px;height:190px" src="http://www.mxjava.com/ad/ad_360x190_link.html"></iframe>
+<AdSense End-->
+
+<!--AdSense Begin-->
+<DIV id="ad360c190" style="width:360px; height:190px; table-layout: fixed; word-wrap: break-word; overflow: hidden;">
+<SCRIPT type="text/javascript">
+alimama_pid="mm_10040003_132921_7479225";
+alimama_type="h";
+alimama_sizecode="33";
+alimama_tkw = {};
+alimama_tkw.w_i=360;
+alimama_tkw.h_i=190;
+</SCRIPT>
+<SCRIPT src="./用rome解析rss_files/inf.js" type="text/javascript"></SCRIPT><IMG name="alimamatmpf0.36502641811966896" id="alimamatmpf0.36502641811966896" style="width:0px;height:0px;padding:0px;margin:0px;border:0px;vertical-align:baseline;" border="0" src="./用rome解析rss_files/alimamal(1).php"><IFRAME name="alimamaf0.36502641811966896" id="alimamaf0.36502641811966896" border="0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="width:360px; height:190px;" src="./用rome解析rss_files/alimama(1).htm"></IFRAME>
+</DIV>
+<!--AdSense End-->
+<H2 class="widgettitle">热门标签</H2>
+<A href="http://www.mxjava.com/blog/archives/tag/%e4%bd%9c%e5%93%81" class="tag-link-56" title="11 篇主题" rel="tag" style="font-size: 13.833333333333pt;">作品</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e5%85%8b%e9%9a%86" class="tag-link-94" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">克隆</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e5%8f%8d%e5%b0%84" class="tag-link-92" title="5 篇主题" rel="tag" style="font-size: 10.333333333333pt;">反射</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e5%9f%ba%e7%a1%80" class="tag-link-100" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">基础</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e5%ae%9d%e5%ae%9d" class="tag-link-76" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">宝宝</A>
+<A href="http://www.mxjava.com/blog/archives/tag/life" class="tag-link-54" title="1 篇主题" rel="tag" style="font-size: 8pt;">心情随笔</A>
+<A href="http://www.mxjava.com/blog/archives/tag/final" class="tag-link-28" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">总结</A>
+<A href="http://www.mxjava.com/blog/archives/tag/phone" class="tag-link-36" title="5 篇主题" rel="tag" style="font-size: 10.333333333333pt;">手机</A>
+<A href="http://www.mxjava.com/blog/archives/tag/game" class="tag-link-34" title="1 篇主题" rel="tag" style="font-size: 8pt;">游戏</A>
+<A href="http://www.mxjava.com/blog/archives/tag/trouble" class="tag-link-41" title="1 篇主题" rel="tag" style="font-size: 8pt;">烦</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e7%94%b5%e5%ad%90%e4%b9%a6" class="tag-link-68" title="21 篇主题" rel="tag" style="font-size: 19.666666666667pt;">电子书</A>
+<A href="http://www.mxjava.com/blog/archives/tag/virus" class="tag-link-37" title="1 篇主题" rel="tag" style="font-size: 8pt;">病毒</A>
+<A href="http://www.mxjava.com/blog/archives/tag/hsbd" class="tag-link-22" title="4 篇主题" rel="tag" style="font-size: 9.75pt;">瞎扯</A>
+<A href="http://www.mxjava.com/blog/archives/tag/bless" class="tag-link-30" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">祝福</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1" class="tag-link-47" title="7 篇主题" rel="tag" style="font-size: 11.5pt;">程序设计</A>
+<A href="http://www.mxjava.com/blog/archives/tag/basketball" class="tag-link-32" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">篮球</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e7%bd%91%e9%a1%b5" class="tag-link-77" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">网页</A>
+<A href="http://www.mxjava.com/blog/archives/tag/space" class="tag-link-48" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">虚拟空间</A>
+<A href="http://www.mxjava.com/blog/archives/tag/scheme" class="tag-link-29" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">计划</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e8%af%bb%e4%b9%a6" class="tag-link-60" title="1 篇主题" rel="tag" style="font-size: 8pt;">读书</A>
+<A href="http://www.mxjava.com/blog/archives/tag/%e8%b5%84%e6%ba%90" class="tag-link-101" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">资源</A>
+<A href="http://www.mxjava.com/blog/archives/tag/input" class="tag-link-57" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">输入法</A>
+<A href="http://www.mxjava.com/blog/archives/tag/man" class="tag-link-27" title="1 篇主题" rel="tag" style="font-size: 8pt;">铁血男儿</A>
+<A href="http://www.mxjava.com/blog/archives/tag/net" class="tag-link-51" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">.NET</A>
+<A href="http://www.mxjava.com/blog/archives/tag/agile" class="tag-link-17" title="1 篇主题" rel="tag" style="font-size: 8pt;">Agile</A>
+<A href="http://www.mxjava.com/blog/archives/tag/ajax" class="tag-link-14" title="1 篇主题" rel="tag" style="font-size: 8pt;">Ajax</A>
+<A href="http://www.mxjava.com/blog/archives/tag/blog" class="tag-link-18" title="11 篇主题" rel="tag" style="font-size: 13.833333333333pt;">Blog</A>
+<A href="http://www.mxjava.com/blog/archives/tag/c" class="tag-link-88" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">C++</A>
+<A href="http://www.mxjava.com/blog/archives/tag/cfms" class="tag-link-62" title="1 篇主题" rel="tag" style="font-size: 8pt;">cfms</A>
+<A href="http://www.mxjava.com/blog/archives/tag/china" class="tag-link-42" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">china</A>
+<A href="http://www.mxjava.com/blog/archives/tag/classloader" class="tag-link-9" title="1 篇主题" rel="tag" style="font-size: 8pt;">ClassLoader</A>
+<A href="http://www.mxjava.com/blog/archives/tag/cmmi" class="tag-link-16" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">CMMI</A>
+<A href="http://www.mxjava.com/blog/archives/tag/feedsky" class="tag-link-26" title="1 篇主题" rel="tag" style="font-size: 8pt;">FeedSky</A>
+<A href="http://www.mxjava.com/blog/archives/tag/google" class="tag-link-19" title="4 篇主题" rel="tag" style="font-size: 9.75pt;">google</A>
+<A href="http://www.mxjava.com/blog/archives/tag/grails" class="tag-link-86" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">Grails</A>
+<A href="http://www.mxjava.com/blog/archives/tag/grape" class="tag-link-49" title="12 篇主题" rel="tag" style="font-size: 14.416666666667pt;">GRAPE</A>
+<A href="http://www.mxjava.com/blog/archives/tag/groovy" class="tag-link-71" title="4 篇主题" rel="tag" style="font-size: 9.75pt;">Groovy</A>
+<A href="http://www.mxjava.com/blog/archives/tag/hibernate" class="tag-link-69" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">Hibernate</A>
+<A href="http://www.mxjava.com/blog/archives/tag/java" class="tag-link-50" title="25 篇主题" rel="tag" style="font-size: 22pt;">JAVA</A>
+<A href="http://www.mxjava.com/blog/archives/tag/javafx" class="tag-link-99" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">JavaFX</A>
+<A href="http://www.mxjava.com/blog/archives/tag/javascript" class="tag-link-43" title="4 篇主题" rel="tag" style="font-size: 9.75pt;">javascript</A>
+<A href="http://www.mxjava.com/blog/archives/tag/jcaptcha" class="tag-link-12" title="1 篇主题" rel="tag" style="font-size: 8pt;">jcaptcha</A>
+<A href="http://www.mxjava.com/blog/archives/tag/jpword" class="tag-link-58" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">JPWord</A>
+<A href="http://www.mxjava.com/blog/archives/tag/jsp" class="tag-link-15" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">jsp</A>
+<A href="http://www.mxjava.com/blog/archives/tag/jtextpane" class="tag-link-111" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">JTextPane</A>
+<A href="http://www.mxjava.com/blog/archives/tag/junesky" class="tag-link-59" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">junesky</A>
+<A href="http://www.mxjava.com/blog/archives/tag/jws" class="tag-link-10" title="1 篇主题" rel="tag" style="font-size: 8pt;">jws</A>
+<A href="http://www.mxjava.com/blog/archives/tag/nba" class="tag-link-31" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">nba</A>
+<A href="http://www.mxjava.com/blog/archives/tag/plugin" class="tag-link-82" title="6 篇主题" rel="tag" style="font-size: 10.916666666667pt;">Plugin</A>
+<A href="http://www.mxjava.com/blog/archives/tag/pronetwork" class="tag-link-61" title="1 篇主题" rel="tag" style="font-size: 8pt;">ProNetwork</A>
+<A href="http://www.mxjava.com/blog/archives/tag/proxy" class="tag-link-98" title="3 篇主题" rel="tag" style="font-size: 9.1666666666667pt;">Proxy</A>
+<A href="http://www.mxjava.com/blog/archives/tag/rome" class="tag-link-45" title="1 篇主题" rel="tag" style="font-size: 8pt;">rome</A>
+<A href="http://www.mxjava.com/blog/archives/tag/rss" class="tag-link-44" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">rss</A>
+<A href="http://www.mxjava.com/blog/archives/tag/ruby" class="tag-link-72" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">Ruby</A>
+<A href="http://www.mxjava.com/blog/archives/tag/spring" class="tag-link-102" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">spring</A>
+<A href="http://www.mxjava.com/blog/archives/tag/struts" class="tag-link-11" title="5 篇主题" rel="tag" style="font-size: 10.333333333333pt;">struts</A>
+<A href="http://www.mxjava.com/blog/archives/tag/swing" class="tag-link-21" title="11 篇主题" rel="tag" style="font-size: 13.833333333333pt;">Swing</A>
+<A href="http://www.mxjava.com/blog/archives/tag/thinkpad" class="tag-link-119" title="2 篇主题" rel="tag" style="font-size: 8.5833333333333pt;">ThinkPad</A>
+<A href="http://www.mxjava.com/blog/archives/tag/velocity" class="tag-link-13" title="5 篇主题" rel="tag" style="font-size: 10.333333333333pt;">Velocity</A>
+<A href="http://www.mxjava.com/blog/archives/tag/yupoo" class="tag-link-20" title="1 篇主题" rel="tag" style="font-size: 8pt;">yupoo</A>
+<H2 class="widgettitle">最新评论</H2>
+<UL><LI><A href="http://www.mxjava.com/blog/archives/300.html#comment-10933" rel="bookmark" title="08月 18, 2009 at 11:23 am on &#39;两台ThinkPad笔记本&#39;">网上订花</A> - ThinkPad的确不错，就怕水货…(共1条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/293.html#comment-10372" rel="bookmark" title="08月 15, 2009 at 8:32 am on &#39;我的第二台笔记本&#39;">hiswing</A> - 我觉得挺好，T43是绝版IBM，我会一直保存它。…(共2条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/135.html#comment-9533" rel="bookmark" title="08月 10, 2009 at 8:44 pm on &#39;快成插件狂人了&#39;">北极寒流实用软件</A> - 不多啊，才10来个，我20多个了…(共5条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/293.html#comment-9520" rel="bookmark" title="08月 10, 2009 at 7:30 pm on &#39;我的第二台笔记本&#39;">Andy</A> - 你看着t400不觉得别扭么？怎么也要买t400s啊，哎……
+
+T43出不？出联系我…(共2条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/287.html#comment-9315" rel="bookmark" title="08月 9, 2009 at 4:37 pm on &#39;Grape 的编辑器 &mdash; WordEditor&#39;">hiswing</A> - 你好，Grape发布时会将源码一起放送。…(共2条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/287.html#comment-8171" rel="bookmark" title="07月 31, 2009 at 11:58 am on &#39;Grape 的编辑器 &mdash; WordEditor&#39;">joypen</A> - 你好
+我正在学习做一个类似的编辑器，请发一下这个源码，谢谢了！…(共2条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/260.html#comment-8106" rel="bookmark" title="07月 31, 2009 at 12:22 am on &#39;JTextPane设置背景色的问题及解决&#39;">979</A> - …(共1条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/213.html#comment-7231" rel="bookmark" title="07月 25, 2009 at 5:16 pm on &#39;HelloFlash使用方法及注意事项&#39;">hiswing</A> - 你搞错了，这个插件不是我写的:-)…(共13条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/213.html#comment-6937" rel="bookmark" title="07月 24, 2009 at 8:47 am on &#39;HelloFlash使用方法及注意事项&#39;">千年私服</A> - 如果能使用其它使用更方便，效果更炫目的幻灯插件那真是太好了。期待你的正式版发布。…(共13条评论)</LI>
+
+<LI><A href="http://www.mxjava.com/blog/archives/213.html#comment-6196" rel="bookmark" title="07月 20, 2009 at 10:20 pm on &#39;HelloFlash使用方法及注意事项&#39;">生长中的苗苗</A> - 和７楼出现的情况一个样。…(共13条评论)</LI>
+</UL><!-- Recent Comments took 11.825 ms -->
+<DIV class="sbwidgets">
+
+<UL id="sidebarright">
+	<LI id="links">
+		<H2 class="widgettitle">订阅</H2>
+		<UL>
+			<LI><A href="http://feed.mxjava.com/" target="_blank"><IMG border="0" src="./用rome解析rss_files/gif" alt="定阅MXJAVA" vspace="2" style="margin-bottom:1px;margin-top:1px;border:0px;padding:0px;"></A></LI>
+			<LI><A href="http://www.xianguo.com/subscribe.php?url=http://feed.mxjava.com" target="_blank"><IMG border="0" src="./用rome解析rss_files/icon_subshot01_xianguo.gif" alt="鲜果" vspace="2" style="margin-bottom:1px;border:0px;padding:0px;"></A></LI>
+			<LI><A href="http://www.zhuaxia.com/add_channel.php?url=http://feed.mxjava.com" target="_blank"><IMG border="0" src="./用rome解析rss_files/icon_subshot01_zhuaxia.gif" alt="抓虾" vspace="2" style="margin-bottom:1px;border:0px;padding:0px;"></A></LI>
+			<LI><A href="http://fusion.google.com/add?feedurl=http://feed.mxjava.com" target="_blank"><IMG border="0" src="./用rome解析rss_files/icon_subshot01_google.gif" alt="google reader" vspace="2" style="margin-bottom:1px;border:0px;padding:0px;"></A></LI>
+			<LI><IMG src="http://www.mxjava.com/mail.png" style="margin-bottom:1px;border:0px;padding:0px;"></LI>
+		</UL>
+ 	</LI>
+
+	
+	<LI id="archives">
+		<H3>Archives</H3>
+			<UL>
+					<LI><A href="http://www.mxjava.com/blog/archives/date/2009/08" title="2009年08月">2009年08月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2009/06" title="2009年06月">2009年06月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2009/05" title="2009年05月">2009年05月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2009/01" title="2009年01月">2009年01月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/12" title="2008年12月">2008年12月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/11" title="2008年11月">2008年11月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/10" title="2008年10月">2008年10月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/09" title="2008年09月">2008年09月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/08" title="2008年08月">2008年08月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/07" title="2008年07月">2008年07月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/06" title="2008年06月">2008年06月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/05" title="2008年05月">2008年05月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/04" title="2008年04月">2008年04月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/03" title="2008年03月">2008年03月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/02" title="2008年02月">2008年02月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2008/01" title="2008年01月">2008年01月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2007/12" title="2007年12月">2007年12月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2007/09" title="2007年09月">2007年09月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2007/08" title="2007年08月">2007年08月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2007/07" title="2007年07月">2007年07月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2007/06" title="2007年06月">2007年06月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2007/05" title="2007年05月">2007年05月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2006/12" title="2006年12月">2006年12月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2006/11" title="2006年11月">2006年11月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2006/08" title="2006年08月">2006年08月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2006/06" title="2006年06月">2006年06月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2006/01" title="2006年01月">2006年01月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2005/09" title="2005年09月">2005年09月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2005/08" title="2005年08月">2005年08月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2004/11" title="2004年11月">2004年11月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2004/09" title="2004年09月">2004年09月</A></LI>
+	<LI><A href="http://www.mxjava.com/blog/archives/date/2004/08" title="2004年08月">2004年08月</A></LI>
+			</UL>
+	</LI>
+	
+			</UL>
+ 	
+	
+
+<UL id="sidebarleft">
+
+	<LI id="links">
+		<H2 class="widgettitle">最新文章</H2>
+		<UL>
+    	    			<LI><A href="http://www.mxjava.com/blog/archives/300.html">两台ThinkPad笔记本</A></LI>
+				<LI><A href="http://www.mxjava.com/blog/archives/293.html">我的第二台笔记本</A></LI>
+				<LI><A href="http://www.mxjava.com/blog/archives/290.html">Grape 的 Skin 处理机制</A></LI>
+				<LI><A href="http://www.mxjava.com/blog/archives/287.html">Grape 的编辑器 — WordEditor</A></LI>
+				<LI><A href="http://www.mxjava.com/blog/archives/273.html">测试Grape发布日志功能</A></LI>
+				</UL>
+ 	</LI>
+
+		
+		<LI id="links">
+		<H3>Links</H3>
+		<UL>
+			<LI><A href="http://www.infoq.com/cn/" title="时刻关注企业软件开发领域的变化与创新" target="_blank">InfoQ</A></LI>
+<LI><A href="http://waiwai.name/" title="歪歪的代码人生自记、自省、自忆&hellip;" target="_blank">waiwai</A></LI>
+<LI><A href="http://www.appinn.com/" title="没有流氓的软件" target="_blank">小众软件</A></LI>
+<LI><A href="http://www.namipan.com/" title="免费网络硬盘" target="_blank">纳米盘</A></LI>
+<LI><A href="http://www.bluefeel.com/" title="很会做skin，但不是wordpress" target="_blank">蓝风网络日志</A></LI>
+<LI><A href="http://www.dubox.cn/" target="_blank">读博网</A></LI>
+<LI><A href="http://www.docin.com/" title="分享你的文档，浏览整个世界" target="_blank">豆丁网</A></LI>
+<LI><A href="http://blog.csdn.net/hivon" title="朋友的blog" target="_blank">软件信雅达</A></LI>
+<LI><A href="http://www.gomain.net/" title="互联网疯狂评测" target="_blank">过门网</A></LI>
+<LI><A href="http://nofocus.net/" rel="me" title="创意、科技、娱乐还有博客" target="_blank">非焦点</A></LI>
+<LI><A href="http://www.no133.cn/" target="_blank">风声边界</A></LI>
+		</UL>
+ 	</LI>
+
+	<LI id="meta">
+		<H3>Meta</H3>
+		<UL>
+	    	<LI>
+							</LI>
+	        <LI>
+	        	<A href="http://www.mxjava.com/blog/wp-login.php">登录</A>	        </LI>
+			<LI>
+				<A href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress</A>
+			</LI>
+			<LI>
+	        			</LI>
+		</UL>
+	</LI>
+	<LI id="meta">
+		<H3>Advertise</H3>
+<!--AdSense Begin-->
+<DIV id="ad160c600" style="width:160px; height:600px; table-layout: fixed; word-wrap: break-word; overflow: hidden;">
+<SCRIPT type="text/JavaScript"> 
+alimama_pid="mm_10040003_132921_7503650"; 
+alimama_titlecolor="3366FF"; 
+alimama_descolor ="000000"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="FFFFFF"; 
+alimama_linkcolor="3366FF"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="0"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="21"; 
+alimama_width=120; 
+alimama_height=600; 
+alimama_type=2; 
+</SCRIPT> 
+<SCRIPT src="./用rome解析rss_files/inf.js" type="text/javascript"> 
+</SCRIPT><IMG name="alimamatmpf0.40303852409124374" id="alimamatmpf0.40303852409124374" style="width:0px;height:0px;padding:0px;margin:0px;border:0px;vertical-align:baseline;" border="0" src="./用rome解析rss_files/alimamal(2).php"><IFRAME name="alimamaf0.40303852409124374" id="alimamaf0.40303852409124374" border="0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="width:120px; height:600px;" src="./用rome解析rss_files/alimama(2).htm"></IFRAME>
+</DIV>
+<!--AdSense End-->
+	</LI>
+</UL>
+
+</DIV><!-- end sbwidgets-->
+</DIV><!--end sidebar--><DIV id="footer">
+	<DIV id="footerinfo">
+		<DIV class="left">
+			Design by <A href="http://www.mxjava.com/" title="mxjava">www.mxjava.com</A>.  Powered by <A href="http://wordpress.org/" title="WordPress">WordPress</A>.  <A href="http://www.miibeian.gov.cn/">浙ICP备05076793号</A><BR>
+		</DIV>
+		<DIV class="right"><A href="http://www.mxjava.com/blog/archives/54.html#header" title="Back to Top">Back to Top&nbsp;↑</A></DIV>
+	</DIV>
+	<DIV class="clear">Copyright © 2008 MXJAVA. All rights reserved.</DIV>
+	<DIV id="bs-17fav-pop"><H1>收藏 &amp; 分享</H1><UL class="bs-17fav-list"><LI class="bs-17fav-item" id="bs-17fav-item-365key"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">365Key网摘</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-delicious"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">del.icio.us</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-baidu"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">百度搜藏</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-qq"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">QQ 书签 </SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-google"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">Google 书签</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-fanfou"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">饭否</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-sina-vivi"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">新浪 ViVi</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-yahoo"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">雅虎收藏</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-mister-wong-cn"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">mister-wong.cn</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-facebook"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">Facebook</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-jiwai"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">叽歪</SPAN></LI><LI class="bs-17fav-item" id="bs-17fav-item-quzhai"><SPAN class="bs-17fav-icon"></SPAN><SPAN class="bs-17fav-text">趣摘网</SPAN></LI></UL><H3>Powered by <A href="http://17fav.com/">17fav.com</A></H3></DIV><DIV style="display:none"><FORM id="fav-post-54" style="display:none" method="post" action="" target="bs_popwin"><INPUT type="hidden" name="bs17fav_v" value="3.0.2"><INPUT type="hidden" name="bs17fav_hash" value="670c0673e3197a5c4616f801bdc829a6"><INPUT type="hidden" name="bs17fav_url" value="http://www.mxjava.com/blog/archives/54.html"><INPUT type="hidden" name="bs17fav_title" value="用rome解析rss"><INPUT type="hidden" name="bs17fav_description" value="　　之前一直在用RSSLib4J解析rss，不过RSSLib4J似乎不能解析rss v0.92，在初期化时就会报错。这可不是什么好消息，因为WordPress的rss就是v0.92的。
+　　rome..."><INPUT type="hidden" name="bs17fav_tags" value="JAVA,rome,rss"><INPUT type="hidden" name="bs17fav_server" value=""></FORM></DIV></DIV><!-- end container -->
+<DIV id="footerad468x60" style="display:none;"></DIV>
+<SCRIPT>
+	var ad468x60Obj = document.getElementById("ad468x60");
+	var footerad468x60Obj = document.getElementById("footerad468x60");
+	if (ad468x60Obj != null && ad468x60Obj != undefined &&
+		footerad468x60Obj != null && footerad468x60Obj != undefined) {
+		ad468x60Obj.innerHTML = footerad468x60Obj.innerHTML;
+		footerad468x60Obj.innerHTML = "";
+	}
+</SCRIPT>
+
+<DIV id="footerad360x190" style="display:none;"></DIV>
+<SCRIPT>
+	var ad360c190Obj = document.getElementById("ad360c190");
+	var footerad360x190Obj = document.getElementById("footerad360x190");
+	if (ad360c190Obj != null && ad360c190Obj != undefined &&
+		footerad360x190Obj != null && footerad360x190Obj != undefined) {
+		ad360c190Obj.innerHTML = footerad360x190Obj.innerHTML;
+		footerad360x190Obj.innerHTML = "";
+	}
+</SCRIPT>
+
+<DIV id="footerad160x600" style="display:none;"></DIV>
+<SCRIPT>
+	var ad160c600Obj = document.getElementById("ad160c600");
+	var footerad160x600Obj = document.getElementById("footerad160x600");
+	if (ad160c600Obj != null && ad160c600Obj != undefined &&
+		footerad160x600Obj != null && footerad160x600Obj != undefined) {
+		ad160c600Obj.innerHTML = footerad160x600Obj.innerHTML;
+		footerad160x600Obj.innerHTML = "";
+	}
+</SCRIPT><!--Google Analytics-->
+<SCRIPT type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT><SCRIPT src="./用rome解析rss_files/ga.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+var pageTracker = _gat._getTracker("UA-922402-2");
+pageTracker._trackPageview();
+</SCRIPT>
+<!--Google Analytics-->
+</DIV></BODY></HTML>
