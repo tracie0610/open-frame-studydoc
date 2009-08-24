@@ -1,0 +1,469 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Spring 和Struts 中BeanUtils的一点区别和hibernate 遇到的一个异常 - vtyi - JavaEye技术网站</title>
+    <meta name="description" content=" spring:BeanUtils.copyProperties(a(赋予b),b(获得a)）； Struts中相反  ids   for  this  class   must   be  manually   assigned   be for e  calling   save  ()  hibe rnate出现这个错误的原因有可能因为，你的表中有个主键。 但是你插入的（调用save  )时那 ..." />
+    <meta name="keywords" content="  Spring 和Struts 中BeanUtils的一点区别和hibernate 遇到的一个异常" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss" rel="alternate" title="vtyi" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/blog.css?1250743581" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://www.javaeye.com/stylesheets/themes/blog/blue.css?1235723792" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1248170042" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+  <style>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </style>
+  </head>
+  <body>
+    <div id="header">
+      <div id="blog_site_nav">
+  <a href="http://www.javaeye.com/" class="homepage">首页</a>
+  <a href="http://www.javaeye.com/news">新闻</a>
+  <a href="http://www.javaeye.com/forums">论坛</a>
+  <a href="http://www.javaeye.com/blogs">博客</a>
+  <a href="http://www.javaeye.com/job">招聘</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a href="http://www.javaeye.com/ask">问答</a>
+    <a href="http://www.javaeye.com/wiki">知识库</a>
+    <a href="http://www.javaeye.com/groups">圈子</a>
+    <a href="http://www.javaeye.com/search">搜索</a>
+  </div>
+</div>
+      <div id="user_nav">
+      <a href="http://frankswu.javaeye.com" title="查看我的博客首页" class="welcome">欢迎frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" />收件箱(1)</a>
+    
+    
+      <a href="http://app.javaeye.com" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</a>
+      <a href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</a>
+      <a href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</a>
+    </div>
+        <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div>
+    </div>
+
+    <div id="page">
+      <div id="branding" class="clearfix">
+        <div id="blog_name"><h1><a href="/">vtyi</a></h1></div>
+        <div id="blog_preview"></div>
+        <div id="blog_domain">永久域名 <a href="/">http://vtyi.javaeye.com</a></div>
+      </div>
+      
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+
+<div class="blog_main"> 
+  <div id="blog_nav">
+    
+    <div id="pre_next">
+      <a href="/blog/191002" class="next" title="synonym sequence 权限">synonym sequence 权限</a>
+      |
+      <a href="/blog/187577" class="pre" title="swing 重绘">swing 重绘</a>
+    </div>
+  </div>
+  <div class="blog_title">
+    <div class="date"><span class='year'>2008</span><span class='sep_year'>-</span><span class='month'>05</span><span class='sep_month'>-</span><span class='day'>05</span></div>
+    <h3 class='' title=''><a href="/blog/189651">Spring 和Struts 中BeanUtils的一点区别和hibernate 遇到的一个异常</a></h3>
+                
+  </div>
+
+  <div class="blog_content">
+    <div class='blog_content'>
+<h4 class='TextColor1' id='subjcns!FE5182B5938F174C!197' style='margin-bottom: 0px;'>spring:BeanUtils.copyProperties(a(赋予b),b(获得a)）；</h4>
+<p>Struts中相反</p>
+<h4 class='TextColor1' style='margin-bottom: 0px;'><br/>
+</h4>
+<h4 class='TextColor1' style='margin-bottom: 0px;'><strong style='color: black; background-color: #ffff66;'><span class='hilite1'>ids</span>
+</strong>
+ <span class='hilite2'>for</span>
+ <span class='hilite3'>this</span>
+ <strong style='color: black; background-color: #a0ffff;'><span class='hilite4'>class</span>
+</strong>
+ <strong style='color: black; background-color: #99ff99;'><span class='hilite5'>must</span>
+</strong>
+ <span class='hilite6'>be</span>
+ <strong style='color: black; background-color: #ff9999;'><span class='hilite7'>manually</span>
+</strong>
+ <strong style='color: black; background-color: #ff66ff;'><span class='hilite8'>assigned</span>
+</strong>
+ <strong style='color: white; background-color: #880000;'><span class='hilite6'>be</span>
+<span class='hilite2'>for</span>
+e</strong>
+ <strong style='color: white; background-color: #00aa00;'><span class='hilite10'>calling</span>
+</strong>
+ <strong style='color: white; background-color: #886800;'><span class='undefined'>save</span>
+</strong>
+()</h4>
+<div class='bvMsg' id='msgcns!FE5182B5938F174C!197'>
+<div>hi<span class='hilite6'>be</span>
+rnate出现这个错误的原因有可能因为，你的表中有个主键。 但是你插入的（调用<strong style='color: white; background-color: #886800;'><span class='undefined'>save</span>
+</strong>
+)时那个值是null</div>
+<div><br/>
+</div>
+<div>
+  在设置成<strong style='color: black; background-color: #ff66ff;'><span class='hilite8'>assigned</span>
+</strong>
+时报：<strong style='color: black; background-color: #ffff66;'><span class='hilite1'>ids</span>
+</strong>
+ <span class='hilite2'>for</span>
+ <span class='hilite3'>this</span>
+ <strong style='color: black; background-color: #a0ffff;'><span class='hilite4'>class</span>
+</strong>
+ <strong style='color: black; background-color: #99ff99;'><span class='hilite5'>must</span>
+</strong>
+ <span class='hilite6'>be</span>
+ <strong style='color: black; background-color: #ff9999;'><span class='hilite7'>manually</span>
+</strong>
+ <strong style='color: black; background-color: #ff66ff;'><span class='hilite8'>assigned</span>
+</strong>
+ <strong style='color: white; background-color: #880000;'><span class='hilite6'>be</span>
+<span class='hilite2'>for</span>
+e</strong>
+ <strong style='color: white; background-color: #00aa00;'><span class='hilite10'>calling</span>
+</strong>
+ <strong style='color: white; background-color: #886800;'><span class='undefined'>save</span>
+</strong>
+()：
+<br/>
+在设置成native,sequence时同报：org.hi<span class='hilite6'>be</span>
+rnate.exception.GenericJDBCException： could not get next sequence value
+<br/>
+<br/>
+<br/>
+解决办法:
+<br/>
+如果是<strong style='color: black; background-color: #ff66ff;'><span class='hilite8'>assigned</span>
+</strong>
+，就必须给id赋值，如果是native、increment就不用了；
+<br/>
+<br/>
+如果用<strong style='color: black; background-color: #ff66ff;'><span class='hilite8'>assigned</span>
+</strong>
+的话程序里一定要自行设定主键，如果你数据库表id字段使用autoincrement话可以用native</div>
+</div>
+</div>
+  </div>
+
+  
+
+  <div>
+<script type="text/javascript">
+google_ad_client = "pub-9971846879634397";
+google_ad_slot = "8644581328";
+google_ad_width = 468;
+google_ad_height = 60;
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+  
+  
+
+  <div class="blog_bottom">
+    <ul>
+      <li>11:50</li>
+      <li>浏览 (450)</li>
+            <li><a href="#comments">评论</a> (0)</li>
+      <li>分类: <a href="/category/34359">OpenSourceFramework</a></li>
+      
+      
+        <li><a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=Spring+%E5%92%8CStruts+%E4%B8%ADBeanUtils%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB%E5%92%8Chibernate+%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%BC%82%E5%B8%B8&amp;user_favorite%5Burl%5D=http%3A%2F%2Fvtyi.javaeye.com%2Fblog%2F189651' target='_blank' class='favorite'>收藏</a></li>
+        
+      
+      
+      <li class='last'><a href="http://www.javaeye.com/wiki/topic/189651" target="_blank" class="more">相关推荐</a></li>
+    </ul>
+  </div>
+
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+          
+      
+        <a href="/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</a>
+      
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</script>
+
+
+<div id="search_engine_box" style="display:none;">
+<h2>您正在搜索 spring beanutils <a href="#" onclick="$('search_engine_box').hide();return false;">[ X ]</a></h2>
+<div>
+关键字已在页面上高亮显示<br/>
+您可能对下列文章也感兴趣<ul><li><a href='http://www.javaeye.com/topic/35449' title='有没有类似BeanUtils.copyProperties实现Map和Bean之间的复制' target='_blank'>有没有类似BeanUtils.copyProper ...</a></li><li><a href='http://www.javaeye.com/topic/246797' title='利用Commons-BeanUtils实现简易的依赖注入框架' target='_blank'>利用Commons-BeanUtils实现简易 ...</a></li><li><a href='http://www.javaeye.com/topic/39913' title='初探spring applicationContext' target='_blank'>初探spring applicationContext</a></li><li><a href='http://www.javaeye.com/topic/17628' title='J2EE application without Spring' target='_blank'>J2EE application without Sprin ...</a></li><li><a href='http://www.javaeye.com/topic/36778' title='Spring部署Unix问题 ' target='_blank'>Spring部署Unix问题 </a></li></ul>
+<a href='#' onclick="var f = document.createElement('form'); f.target = '_blank'; f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = 'http://www.javaeye.com/search?type=all';var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', 'query'); m.setAttribute('value', 'spring beanutils'); f.appendChild(m);f.submit();return false;">站内搜索更多 spring beanutils</a>
+</div>
+</div>
+<script src="http://www.javaeye.com/javascripts/se_hilite.js?1224057847" type="text/javascript"></script>
+<script type="text/javascript">
+document.observe('dom:loaded',function() {
+  Hilite.hiliteElement($("main"), "spring beanutils");
+      document.body.appendChild($('search_engine_box').remove());
+      $('search_engine_box').appear();
+});
+</script>
+      
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+            <div id="blog_owner_logo"><a href='http://vtyi.javaeye.com'><img alt="vtyi的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/21953/760cc1b5-1078-3da3-b945-8ae83d1ea649.jpg?1236832564" title="vtyi的博客: vtyi" /></a></div>
+            <div id="blog_owner_name">vtyi</div>
+          </div>
+          
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 12110 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="http://www.javaeye.com/images/icon_minigender_1.gif?1192779195" title="男" /></li>
+              <li>来自: 深圳</li>
+              <li><img src='/images/status/offline.gif'/></li>
+              <li>
+                <a href="/blog/profile" class="profile">详细资料</a>
+                <a href="/blog/guest_book" class="guest_book">留言簿</a>
+              </li>
+              
+                <li>
+                  <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=vtyi" class="message" title="发送站内短信">发短消息</a>
+                  
+                    <a href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=vtyi" class="subscription" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;">订阅</a>
+                  
+                </li>
+              
+            </ul>
+            <h5>搜索本博客</h5>
+            <form action="/blog/search" method="get">              <input class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text" />
+              <input class="submit" type="submit" value="搜索" />
+            </form>          </div>
+          
+            <div id="user_visits" class="clearfix">
+              <h5>最近访客 <span style='font-weight:normal;font-size:12px;padding-left:30px;'><a href="/blog/user_visits">&gt;&gt;更多访客</a></span></h5>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://frankswu.javaeye.com' target='_blank'><img alt="frankswu的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="frankswu的博客: " /></a></div>
+                  <div class="left"><a href='http://frankswu.javaeye.com' target='_blank'>frankswu</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://flyfan.javaeye.com' target='_blank'><img alt="flyfan的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="flyfan的博客: flyfan" /></a></div>
+                  <div class="left"><a href='http://flyfan.javaeye.com' target='_blank'>flyfan</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://suntercel.javaeye.com' target='_blank'><img alt="suntercel的博客" class="logo" src="http://www.javaeye.com/images/user-logo-thumb.gif?1194185304" title="suntercel的博客: " /></a></div>
+                  <div class="left"><a href='http://suntercel.javaeye.com' target='_blank'>suntercel</a></div>
+                </div>
+              
+                <div class="user_visit">
+                  <div class="logo"><a href='http://netfork.javaeye.com' target='_blank'><img alt="netfork的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/117259/9dc26f0d-f2c8-31c5-8b1d-6cff8ee98247-thumb.png?1245552733" title="netfork的博客: 从腚再来" /></a></div>
+                  <div class="left"><a href='http://netfork.javaeye.com' target='_blank'>netfork</a></div>
+                </div>
+              
+            </div>
+          
+                      <div id="blog_menu">
+              <h5>博客分类</h5>
+              <ul>
+                <li><a href="/">全部博客 (32)</a></li>
+                
+                  <li><a href="/category/34357">DataBase (10)</a></li>
+                
+                  <li><a href="/category/34358">JavaScript (8)</a></li>
+                
+                  <li><a href="/category/34359">OpenSourceFramework (10)</a></li>
+                
+                  <li><a href="/category/34360">Program (4)</a></li>
+                
+              </ul>
+            </div>
+            
+              <div id="blog_album">
+                <h5>我的相册</h5>
+                <div class="picture_thumb" style="float: none">
+                  <div><span class='thumb_box'><a href='/album'><img alt="506f4284-df39-377c-b69e-a818cf39af77-thumb" src="http://www.javaeye.com/upload/picture/pic/12987/506f4284-df39-377c-b69e-a818cf39af77-thumb.gif?1209224777" /></a></span></div>
+                  <span>B2DCE531EEAC8029C7BBF694D394EEE3<br/> <a href="/album">共 1 张</a></span>
+                </div>
+              </div>
+            
+            
+            <div id="blog_others">
+              <h5>其他分类</h5>
+              <ul>
+                <li><a href="/blog/favorite">我的收藏</a> (0)</li>
+                                                <li><a href="/blog/forum">我的论坛帖子</a> (3)</li>
+                <li><a href="/blog/article">我的精华良好贴</a> (0)</li>
+                              </ul>
+            </div>
+            
+            <div id="recent_groups">
+              <h5>最近加入圈子</h5>
+              <ul>
+                
+              </ul>
+            </div>
+            
+              <div id="user_links">
+                <h5>链接</h5>
+                <ul>
+                  
+                    <li><a href="http://hi.baidu.com/wangming1248/blog/index/1" target="_blank">NEW YERY LUCK</a></li>
+                  
+                    <li><a href="http://doc.javanb.com/hibernate-reference-3-2-0-zh/ch23s04.html" target="_blank">composite</a></li>
+                  
+                    <li><a href="http://www.javaeye.com/topic/168138" target="_blank">composite_id</a></li>
+                  
+                    <li><a href="http://203.208.37.104/search?q=cache:EvlpmDHqDZ4J:www.redsaga.com/hibernate-ref/3.2/html/example-mappings.html+composite-id&amp;hl=zh-CN&amp;ct=clnk&amp;cd=15&amp;gl=cn&amp;st_usg=ALhdy28VhasJng1MRZ-cox60eAX2SqGqUQ" target="_blank">composite2</a></li>
+                  
+                    <li><a href="http://www.javaeye.com/topic/80270" target="_blank">jtable</a></li>
+                  
+                    <li><a href="http://www.szikao.com/public/page/szikao_81481.htm" target="_blank">xiazai</a></li>
+                  
+                    <li><a href="http://www.cjsdn.net/post/view?bid=46&amp;id=117491&amp;sty=1&amp;tpg=1&amp;age=30" target="_blank">jtable duohang</a></li>
+                  
+                    <li><a href="http://x98zero.javaeye.com/blog/170064" target="_blank">hibernate</a></li>
+                  
+                    <li><a href="http://shenyu.javaeye.com" target="_blank">数据结构</a></li>
+                  
+                    <li><a href="http://www.w3school.com.cn/js/jsref_obj_string.asp" target="_blank">JavaScript String 对象参考手册</a></li>
+                  
+                    <li><a href="http://wiki.javascud.org/dashboard.action" target="_blank">欢迎访问JavaScud开源知识库</a></li>
+                  
+                </ul>
+              </div>
+            
+            
+                          <div id="month_blogs">
+                <h5>存档</h5>
+                <ul>
+                  
+                    <li><a href="/blog/monthblog/2009-06">2009-06</a> (2)</li>
+                  
+                    <li><a href="/blog/monthblog/2009-05">2009-05</a> (1)</li>
+                  
+                    <li><a href="/blog/monthblog/2008-12">2008-12</a> (4)</li>
+                  
+                  <li><a href="/blog/monthblog_more">更多存档...</a></li>
+                </ul>
+              </div>
+                        <div id="recent_comments">
+              <h5>最新评论</h5>
+              <ul>
+                
+                  <li>
+                    <a href="/blog/289000#comments" title="textarea 光标处插入和滚动条移动">textarea 光标处插入和滚 ...</a><br/>
+                    ?????????????<br/>
+                    -- by <a href='http://luoli-17.javaeye.com' target='_blank'>luoli-17</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/191263#comments" title="oracle中去重复记录,不用distinct并可以过hibernate">oracle中去重复记录,不用 ...</a><br/>
+                    兄弟。看到你的文章之后，我想说谢谢。帮助我解决了很棘手的问题。3Q<br/>
+                    -- by <a href='http://paul-yunzai.javaeye.com' target='_blank'>paul_yunzai</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/207264#comments" title="java中文汉字排序">java中文汉字排序</a><br/>
+                    这个方法是准确点了，可是效率太低了<br/>
+                    -- by <a href='http://jetlee1982.javaeye.com' target='_blank'>jetlee1982</a>
+                  </li>
+                
+                  <li>
+                    <a href="/blog/191263#comments" title="oracle中去重复记录,不用distinct并可以过hibernate">oracle中去重复记录,不用 ...</a><br/>
+                    搜到的第一篇比较详细的讲解distict的文章，有收获。<br/>
+                    -- by <a href='http://zhenting.javaeye.com' target='_blank'>zhenting</a>
+                  </li>
+                
+              </ul>
+            </div>
+            <div id="comments_top">
+              <h5>评论排行榜</h5>
+              <ul>
+                
+                  <li><a href="/blog/289000" title="textarea 光标处插入和滚动条移动">textarea 光标处插入和滚动条移动</a></li>
+                
+                  <li><a href="/blog/305447" title="oracle db 死锁">oracle db 死锁</a></li>
+                
+                  <li><a href="/blog/417320" title="demo js">demo js</a></li>
+                
+                  <li><a href="/blog/396595" title="dba常用检查脚本">dba常用检查脚本</a></li>
+                
+                  <li><a href="/blog/300648" title="oracle function memo">oracle function memo</a></li>
+                
+              </ul>
+            </div>
+            <div id="rss">
+              <ul>
+                <li><a href="/rss" target="_blank"><img alt="Rss" src="http://www.javaeye.com/images/rss.png?1195448807" /></a></li>
+                <li><a href="http://fusion.google.com/add?feedurl=http://vtyi.javaeye.com/rss" target="_blank"><img alt="Rss_google" src="http://www.javaeye.com/images/rss_google.gif?1197872161" /></a></li>
+                <li><a href="http://www.zhuaxia.com/add_channel.php?url=http://vtyi.javaeye.com/rss" target="_blank"><img alt="Rss_zhuaxia" src="http://www.javaeye.com/images/rss_zhuaxia.gif?1197872161" /></a></li>
+                <li><a href="http://www.xianguo.com/subscribe.php?url=http://vtyi.javaeye.com/rss" target="_blank"><img alt="Rss_xianguo" src="http://www.javaeye.com/images/rss_xianguo.jpg?1206446465" /></a></li>
+                <li><a href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</a></li>
+              </ul>
+            </div>
+            <div class="local_bottom"></div>
+          
+        </div>
+      </div>
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr/>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br />
+          &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </div>
+      </div>
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+    
+  </body>
+</html>
