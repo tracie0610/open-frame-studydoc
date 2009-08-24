@@ -1,0 +1,682 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta http-equiv="Content-Type"	content="text/html;	charset=gb2312">
+<title>spring junit集成测试 - 停不了的V - 51CTO技术博客</title>
+<meta name="description" content="利用spring来进行集成测试：1、AbstractSpringContextTests类[1],该类全部方法是protected的，通常不使用这个类，而使用它的子类们。2、AbstractDependencyInjectionSpringContextTests类[2]：继承于类[1]：名字N..">
+<meta name="keywords" content="spring junit集成测试">
+<meta http-equiv="Cache-Control" content="private">
+<base href="http://2024486.blog.51cto.com/"></base>
+<script src="/js/def.js"></script>
+<SCRIPT language=javascript src="http://blog.51cto.com/js/message.js" type=text/javascript></SCRIPT>
+<SCRIPT language=javascript src="http://blog.51cto.com/js/user_comment.js" type=text/javascript></SCRIPT>
+<SCRIPT language=javascript src="http://blog.51cto.com/js/base2.js" type=text/javascript></SCRIPT>
+<SCRIPT language=javascript src="http://blog.51cto.com/js/dialog_utf8.js" type=text/javascript></SCRIPT>
+<link href="/css/skin/1.css" rel="stylesheet" type="text/css">
+<link href="/css/group/group.css" rel="stylesheet" type="text/css">
+<link rel="alternate" href="../rss.php?uid=339445" type="application/rss+xml" title="RSS 2.0">
+<link rel="edituri" type="application/rsd+xml" title="rsd" href="xmlrpc.php?rsd=1" />
+<script>
+var myid = "";
+function add_flink(){
+	if(myid){
+		var url='/mod/edit_flink.php?type=addflink&uid=339445&flink=http://2024486.blog.51cto.com';
+		var ajax = InitAjax1();
+		ajax.open("GET", url, true);
+		ajax.onreadystatechange = function() {
+			if (ajax.readyState == 4 && ajax.status == 200) {
+				if(ajax.responseText==""){
+					alert("添加成功。");
+				}
+				if(ajax.responseText=="1"){
+				alert("链接指向自己。");
+				}
+				if(ajax.responseText=="2"){
+				alert("友情链接已存在。")
+				}
+			}
+		}
+		ajax.send(null);
+	}else{
+
+	var refurlk = "http://2024486.blog.51cto.com/339445/116708";	
+
+		commentSubmit("",refurlk);
+		return false;
+	}
+	
+}
+function sendmessage(){
+
+	var refurlk = "http://2024486.blog.51cto.com/339445/116708";	
+
+	if(myid){
+		return true;
+	}else{
+		commentSubmit("",refurlk);
+		return false;
+	}
+}
+function copylink(ourl){
+	if(!ourl){
+		var clipBoardContent = "http://2024486.blog.51cto.com";
+	}else{
+		var clipBoardContent = ourl;
+	}
+	window.clipboardData.setData("Text",clipBoardContent);
+	alert("复制成功!");
+	return false;
+}
+function correctPNG() {
+if (document.getElementById('blog_touxian'))
+{
+var img = document.getElementById('blog_touxian');
+      var imgName = img.src.toUpperCase()
+      var imgID = (img.id) ? "id='" + img.id + "' " : ""
+      var imgClass = (img.className) ? "class='" + img.className + "' " : ""
+      var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' "
+      var imgStyle = "display:inline-block;" + img.style.cssText 
+      if (img.align == "left") imgStyle = "float:left;" + imgStyle
+      if (img.align == "right") imgStyle = "float:right;" + imgStyle
+      if (img.parentElement.href) imgStyle = "cursor:hand;" + imgStyle        
+      var strNewHTML = "<span " + imgID + imgClass + imgTitle
+         + " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"
+         + "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
+         + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>" ;
+      img.outerHTML = strNewHTML;
+} 
+}
+//window.attachEvent("onload", correctPNG);
+window.onload=correctPNG;
+</script>
+<style type="text/css">
+#layout_0{
+	width:;
+	float:left;
+}
+#layout_1{
+	width:;
+	float:left;
+}
+#layout_3{
+	width:;
+	float:left;
+}
+.albumalert{
+	width:250px;
+	height:150px;
+	background:#fff;
+	border:1px solid #777;
+}
+.alerttitle{
+	text-align:left;
+	color:#000;
+	padding:6px;
+	background-image:url("http://img1.51cto.com/images/quickwindow.jpg");
+	background-repeat:repeat-x;
+	font-size:14px;
+	height:22px;
+}
+.alertcentent{
+	line-height:30px;
+}
+.alertcentent p{
+color:#000;
+}
+
+#fixed{position:fixed;top:120px;right:40%;z-index:255;}
+</style>
+<!--[if IE 6]>
+<style type="text/css">
+#fixed{position:absolute;z-index:255;left:40%;top:expression(eval(document.documentElement.scrollTop+100));}
+</style>
+<![endif]-->
+<body>
+
+<div id="fixed" align="center" style="display:none;">
+<form action="/login.php" method="post" >
+<div class="albumalert">
+<div class="alerttitle"><span style="float:left;width:80%;color:#000"><b>博客登录</b></span><span style="float:right;width:5%;"><a href="" onclick="document.getElementById('fixed').style.display='none';return false;"><img src="http://img1.51cto.com/images/pic/alertcolse.gif" border="0"></a></span></div>
+<div class="alertcentent">
+<p>用户名：<input type="text" name="pwuser"><br>密　码：<input type="password" id="password" name="pwpwd"><br><input type='hidden' name='cktime' value='31536000'><input type='hidden' value='http://2024486.blog.51cto.com/339445/116708' name='jumpurl'>
+<input type='hidden' value='2' name='step'><input type="submit" value=" 登 录 " name="submit" > 
+</p>
+</div>
+</div>
+</form>
+</div>
+<center>
+<table cellpadding="0" cellspacing="0" border="0" id="banner51cto" style="border-bottom:1px solid #444;color:#000;">
+<tr>
+	<td id="bloglogo" width="142"><a href="http://blog.51cto.com" title="IT BLOG" target="_blank"><img src="http://img1.51cto.com/image/default/51ctologo_.gif" border="0" alt="网络技术博客"></a></td>
+
+	<td width="150"><a href="http://ucenter.51cto.com/reg_01.php" target="_blank" class="ffb">注册</a> | <a href="http://blog.51cto.com/login.php" onclick="document.getElementById('fixed').style.display='';return false;" class="ffb">登录</a> <a href="http://ucenter.51cto.com/getpass.php" target="_blank" class="fft">忘记密码？</a></td>
+	<td width="280" class="top_txt"><a href='http://www.51cto.com' target="_blank" class="fft">51cto首页</a> | <a href='http://blog.51cto.com' target="_blank" class="fft">博客</a> | <a href='http://bbs.51cto.com' target="_blank" class="fft">论坛</a> | <a href='http://job.51cto.com' target="_blank" class="fft">招聘</a>
+</td>
+	<td width="250"><table cellpadding="0" cellspacing="0" border="0"><tr><td class="hot_art" width="60" align="center"><b>热点文章</b></td><td id="blogtopart"> <a href="http://yuelei.blog.51cto.com/202879/194113" title="ASUS RT-N11+使用体验" target=_blank>ASUS RT-N11+使用体验</a></td></tr></table></td>
+	<td width="180">
+	<form method=post action="http://blog.51cto.com/search.php" name=searchform target=_blank><div id="blogword">
+	<div id="blogso"><input type=image src="http://img1.51cto.com/image/default/blogso.gif" border="0"></div>
+
+	<div id="blogsotext" align=right>
+	  <input type=hidden name=search_type vfbalue=art>
+	  <input name=step type=hidden value=2>
+	  <input type=text id=keyword name="keyword"></div></div>
+	  </form>
+    </td>
+	<td width="40" aling="right">　<a href="http://51ctoblog.blog.51cto.com/all/26414/4" target="_blank" class="fft">帮助</a></td>
+  </tr>
+</table>
+</center>
+<div id="wrapper">
+	<div id="innerWrapper">
+	<div id="topPadding"></div>
+<div id="header">
+	<div id="innerHeader">
+	<div>
+	<div id="head_right">
+	<div class="sign"><a href="http://2024486.blog.51cto.com/339445/c" title="察看lsb_48所有转载文章">转载</a>:29 &nbsp;</div>
+	<div class="sign"><a href="http://2024486.blog.51cto.com/339445/t" title="察看lsb_48所有翻译文章">翻译</a>:0</div>
+	<div class="sign"><a href="http://2024486.blog.51cto.com/339445/o" title="察看lsb_48所有原创文章">原创</a>:29</div>
+	
+</div>
+	<h1 id="blogTitle">&nbsp;<a href="http://2024486.blog.51cto.com">停不了的V</a>
+&nbsp;<a href="/rss.php?uid=339445" target='_blank'><img src='http://img1.51cto.com/image/skin/1/rss.gif'></a></h1></div>
+
+<div id="blogDesc">
+<a href="http://2024486.blog.51cto.com">http://2024486.blog.51cto.com</a> > <a href="http://2024486.blog.51cto.com" onClick="return copylink()">复制链接</a> <a href="http://g.51cto.com/addgroup.php?uid=339445">邀请加入技术圈</a></div>			
+
+	<div class="top_bottom_left">
+</div>
+	<div class="top_bottom_right">
+<div class='top_link'><a href='/' onclick='add_flink(339445);return false'>加友情链接</a></div>
+<div class='top_link'><a href='javascript:void(0)'  onclick="pmwin('open','lsb_48')">发短消息</a></div>
+<div class='top_link'><a href='/pic'>相册</a></div>
+<div class='top_link'><a href='/mygroup.php'>技术圈</a></div>
+<div class='top_link'><a href='/'>博客</a></div>
+
+	</div>
+	<div class="clear"></div>
+	</div>
+</div>
+<!-- add by cao2xi 2008-11-20 -->
+<div class="wd" id="my_menu" style="display:none;">
+<div class="wd1">
+<div class="wd_tit">
+<div class="wd_l"><a href="http://www.51cto.com" target="_blank"><span><font style="color:#CC0000;">51CTO</font></span>首页</a> | <a href="http://bbs.51cto.com" target="_blank">技术论坛</a> | <a href='javascript:void(0)'  onclick="pmwin('open','1')">短消息</a></div>
+<div class="wd_r"><img src="http://img1.51cto.com/images/wd_gb.gif" width="15" height="14" border="0" onclick="dis_menu();return false"/></div>
+</div>
+<div class="wd_list">
+<div class="wd_list_l">
+<div class="wd_list_t"><a href="http://blog.51cto.com" target="_blank">博 客</a></div>
+<div class="wd_list_li"><ul>
+<li><a href='http://.blog.51cto.com' target="_blank">我的博客</a></li>
+<li><a href='http://.blog.51cto.com/addblog.php' target="_blank">发表文章</a></li>
+<li><a href="http://blog.51cto.com/user_index.php" target="_blank">管理博客</a></li>
+</ul>
+</div>
+</div>
+<div class="wd_list_m">
+<div class="wd_list_t1"><a href="http://g.51cto.com/" target="_blank">技术圈</a></div>
+<div class="wd_list_li"><ul>
+<li><a href="http://blog.51cto.com/user_index.php?action=creategroup" target="_blank">创建圈子</a></li>
+<li><a href='http://.blog.51cto.com/mygroup.php'  target="_blank">我的圈子</a></li>
+<li><a href='http://g.51cto.com/grouptag.php' target="_blank">寻找圈子</a></li>
+</ul>
+</div>
+</div>
+<div class="wd_list_r">
+<div class="wd_list_t"><a href='http://.blog.51cto.com/pic' target="_blank">相 册</a></div>
+<div class="wd_list_li"><ul>
+<li><a href='http://.blog.51cto.com/pic' target="_blank">我的相册</a></li>
+<li><a href='http://.blog.51cto.com/pic/uploadphoto.php' target="_blank">上传图片</a></li>
+<li><a href="http://.blog.51cto.com/pic/manage_album.php?uid=339445" target="_blank">管理相册</a></li>
+</ul></div>
+</div>
+</div>
+</div>
+</div>
+<!-- add end -->
+<div id="navBar">
+	<div id="innerNavBar">
+	<div class="userdir">
+		<a href="/">首页</a>
+		| <a href="/339445/d-1">我的LINUX</a>
+		| <a href="/339445/d-2">我的生物计算</a>
+		| <a href="/339445/d-3">我的数据库</a>
+		| <a href="/339445/d-4">我的程序设计</a>
+		| <a href="/339445/d-5">我的生活</a>
+		| <a href="/339445/d-6">网络评审j2ee</a>
+		| <a href="/339445/d-7">垂直搜索</a>
+
+</div>
+</div>
+</div>
+<div id="mainWrapper">
+<div id="innerMainWrapper">
+<div id="append_parent"></div>
+
+
+  <div id="add_sys_type_div" style="width:600px;border:1px #58B0DD solid; background-color:#FFF; position:absolute;left:20%;display:none;z-index:255">
+  </div>
+  <div id="add_sys_type_divs" style="width:550px;border:1px #58B0DD solid; background-color:#FFF; position:absolute;left:20%;display:none;z-index:255">
+  </div>
+<script language="JavaScript" src="http://g.51cto.com/js/alert.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://g.51cto.com/js/group.js"></script>
+
+<div class="mod" id="layout_1" style="width:74%;float:right">
+
+<div id="face" class="nouse">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+	<div class="modHeader"><table cellpadding="0" cellspacing="0" border=0 width=96% ><tr><td><a href="http://blog.51cto.com/active/no1/ing.html" target="_blank" style="color:red;text-decoration:underline;">金秋九月，博客No.1的荣誉属于你我</a>&nbsp;&nbsp;<a href="http://bbs.51cto.com/thread-587776-1.html" target="_blank" style="color:red;text-decoration:underline;">51CTO博客急招兼职
+	</a></td>
+	<td align="right"><a href="/all/339445" target="_blank">博主的更多文章>></a></td></tr></table></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+	<div class="article" id="article" align="left">
+		<h1 class="subject" style="word-wrap: break-word">
+			<b><img src='http://img1.51cto.com/images/zt_1.gif' border=0> spring junit集成测试  </b>
+		</h1>
+		<hr size=1 align="center" style="border:1px solid #EEEEEE" width="94%">
+		<div>
+		<div class="posttime"><small>2008-12-02 15:18:28</small></div>
+		<div style="width:94%;padding-left:20px;">　标签：<span style="color:#AAAAAA;"><a href="http://blog.51cto.com/tagindex.php?keyword=spring" target="_blank" class="operlink">spring</a> <a href="http://blog.51cto.com/tagindex.php?keyword=%B2%E2%CA%D4" target="_blank" class="operlink">测试</a> <a href="http://blog.51cto.com/tagindex.php?keyword=junit" target="_blank" class="operlink">junit</a></span>　　　[<a  href="#"  onclick="javascript:dfanologin();return false;" class="operlink">推送到技术圈</a>]
+
+<br><br></div>
+		</div>
+		<div>
+		<table width="650" cellpadding="0" cellspacing="10" border="0" id="content" style="width:650px;table-layout: fixed;word-wrap: break-all;">
+
+		<tr><td><div style="font-size:10pt;position:relative;word-wrap:break-word;word-break:break-all;"><div><font color="#000000"><strong>利用spring来进行集成测试</strong>： <br />1、AbstractSpringContextTests类[1],该类全部方法是protected的，通常不使用这个类，而使用它的子类们。</font></div>
+<div><font color="#000000">2、AbstractDependencyInjectionSpringContextTests类[2]：继承于类[1]：名字N长的。如果仅仅使用Spring依赖注入功能，可以让测试用例继承该类。</font></div>
+<div><font color="#000000">3、AbstractTransactionalSpringContextTests类[3]:继承于类[2]，继承该类的测试用例在spring管理的事务中进行，测试完后对数据库的记录不会造成任何影响。你对数据库进行一些操作后，它会自动把数据库回滚，这样就保证了你的测试对于环境没有任何影响</font></div>
+<div><font color="#000000">4、AbstractTransactionalDataSourceSpringContextTests：继承于类[3]，功能更强大，用于测试持久层组件,看其源代码，有一行"protected JdbcTemplate jdbcTemplate;"，提供了一个JdbcTemplate的变量，通过该对象可以直接操作数据库。</font></div>
+<div><a href="http://lighter.javaeye.com/blog/41733" target="_blank"><font color="#000000">[url]http://lighter.javaeye.com/blog/41733[/url]</font></a><font color="#000000">&nbsp;还提供了两个用spring来进行集成测试(对数据库操作进行测试)，业务测试(对业务层进行测试)的例子供下载。</font></div>
+<div><font color="#000000" size="3"><strong>***如何在你的TestCase Class里取得spring context (注意路径问题)？***</strong></font></div>
+<div><font color="#000000">你的TestCase Class必须继承的是上述四个AbstractXXXSpringContextTests中的其中一个，那么就必须实现下面这个方法来取得spring context：</font></div>
+<div><font color="#000000">&nbsp;&nbsp; protected abstract String[] <b style="color: black; background-color: #ffff66">getConfigLocations</b>();</font></div>
+<div><font color="#000000">例如：</font></div>
+<div><font color="#000000">&nbsp;public String[] <b style="color: black; background-color: #ffff66">getConfigLocations</b>() {<br />&nbsp;&nbsp;&nbsp; String[] configLocations = { "applicationContext.xml","hibernate-context.xml" };<br />&nbsp;&nbsp;&nbsp; return configLocations;<br />&nbsp;}</font></div>
+<div><br /><font color="#000000" size="4"><strong>请 注意要加载的context xml file的路径问题：上述的代码是基于classpath，因此applicationContext.xml和hibernate- context.xml必须放在classpath里（方法一是把xml files放到WEB-INF/classes目录下，另一种方法就是在project properties里把xml files的路径加到classpath里）</strong></font></div>
+<div><font color="#000000">那么<font size="3"><strong>如果你一定要把context xml files放到WEB-INF目录下，也是可以的，那么应该基于file(基于file的相对路径是相对于project root folder)，代码如下：</strong></font></font></div>
+<div><font color="#000000">&nbsp;public String[] <b style="color: black; background-color: #ffff66">getConfigLocations</b>() {<br />&nbsp;&nbsp;&nbsp; String[] configLocations = { "file:WebContent/WEB-INF/applicationContext.xml"};<br />&nbsp;&nbsp;&nbsp; return configLocations;<br />&nbsp;}<br /></font></div>
+<div><font color="#000000">AbstractXXXSpringContextTests就会根据根据<b style="color: black; background-color: #ffff66">getConfigLocations</b>方法返回的context xml位置的数组来加载并且对加载的Context提供缓存。 这是非常重要的，因为如果你在从事一个大项目时，启动时间可能成为一个问题－－这不是Spring自身的开销，而是被Spring容器实例化的对象在实例 化自身时所需要的时间。例如，一个包括50-100个Hibernate映射文件的项目可能需要10-20秒的时间来加载上述的映射文件，如果在运行每个 测试fixture里的每个测试案例前都有这样的开销，将导致整个测试工作的延时，最终有可能（实际上很可能）降低效率。</font></div>
+<div><font color="#000000">在某种极偶然的情况下，某个测试可能“弄脏”了配置场所，并要求重新加载－－例如改变一个bean的定义或者一个应用对象的状态－－你可以调用 <code class=classname><font face=新宋体>AbstractDependencyInjectionSpringContextTests</font></code> 上的 <code class=literal><font face=新宋体>setDirty()</font></code> 方法来重新加载配置并在执行下一个测试案例前重建application context</font></div>
+<div><font color="#000000"></font>&nbsp;</div>
+<div><font color="#000000">当类 AbstractDependencyInjectionSpringContextTests（及其子类）装载你的Application Context时，你可以通过Setter方法来注入你想要的来自context的bean,而不需要显式的调用applicationContext.getBean(XXX)。因为AbstractDependencyInjectionSpringContextTests会从<b style="color: black; background-color: #ffff66">getConfigLocations</b>()方法指定的配置文件中帮你自动注入</font></div>
+<div><font color="#000000">下面的例子就是通过setter方法来获得context里的ProductManager bean：</font></div>
+<div><font color="#000000">public class MyTest extends AbstractDependencyInjectionSpringContextTests {<br />&nbsp;&nbsp;&nbsp; ProductManager productManager;</font></div>
+<div><font color="#000000">&nbsp;&nbsp;&nbsp; public String[] <b style="color: black; background-color: #ffff66">getConfigLocations</b>() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String[] configLocations = { "file:WebContent/WEB-INF/applicationContext.xml" };<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return configLocations;<br />&nbsp;&nbsp;&nbsp; }</font></div>
+<div><font color="#000000">&nbsp;&nbsp;&nbsp; public void testGetProduct() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; assertEquals("tomson",productManager.getProductByName("tomson").getName());<br />&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp; </font></div>
+<div><font color="#000000">&nbsp;&nbsp;&nbsp; //通过setter方法自动从context里注入productManager bean，而不用显示调用applicationContext.getBean(XXX)<br />&nbsp;&nbsp;&nbsp; public void setProductManager(ProductManager productManager) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.productManager = productManager;<br />&nbsp;&nbsp;&nbsp; }<br />}<br /></font></div>
+<div><font color="#000000">但是<strong>如 果context里有多个bean都定义为一个类型（例如有多个bean都是ProductManager class类型的），那么对这些bean就无法通过setter方法来自动依赖注入（因为有多个bean同一个类型，不知要自动注入哪个）。在这种情况下 你需要显示的调用applicationContext.getBean(XXX)来注入</strong>。如：</font></div>
+<div><font color="#000000">public class MyTest extends AbstractDependencyInjectionSpringContextTests {<br />&nbsp;&nbsp; ProductManager productManager;</font></div>
+<div><font color="#000000">&nbsp;&nbsp; public String[] <b style="color: black; background-color: #ffff66">getConfigLocations</b>() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String[] configLocations = { "file:WebContent/WEB-INF/applicationContext.xml" };<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return configLocations;<br />&nbsp;&nbsp; }</font></div>
+<div><font color="#000000">&nbsp;&nbsp;&nbsp;public void onSetUp() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; productManager = (ProductManager) applicationContext.getBean("productManager");<br />&nbsp;&nbsp; }</font></div>
+<div><font color="#000000">&nbsp;&nbsp; public void testGetProduct() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; assertEquals("tomson",productManager.getProductByName("tomson").getName());<br />&nbsp;&nbsp; }<br />&nbsp;<br />}<br /></font></div>
+<div><font color="#000000">如果你的TestCase不使用依赖注入，只要不定义任何setters方法即可。或者你可以继承 AbstractSpringContextTests －－这个 org.springframework.test 包中的根类，而不是继承AbstractDependencyInjectionSpringContextTests（及其子类）。这是因为AbstractSpringContextTests 只包括用来加载Spring Context的便利方法但没有自动依赖注入的功能。</font></div>
+<div><font color="#000000">另外还有一篇文章介绍了spring单元测试的策略，见</font><a href="http://blog.csdn.net/wangjian5748/archive/2006/09/09/1199549.aspx" target="_blank"><font color="#000000">[url]http://blog.csdn.net/wangjian5748/archive/2006/09/09/1199549.aspx[/url]</font></a></div><a href="http://2024486.blog.51cto.com/339445/116708" class="hidden">本文出自 51CTO.COM技术博客</a></div></td></tr>
+		</table>
+		</div>
+
+			</div>
+		<br><br>
+		<div align="center">上一篇 <a href="/339445/116650" class="operlink" title="JUnit的框架设计及其使用的设计模式（精）">JUnit的框架设计及其使用的设计模式（精）</a>　　下一篇 <a href="/339445/134063" class="operlink" title="使用高效的日志工具—Log4J">使用高效的日志工具—Log4J</a>
+<br><br>
+</div>
+
+		<div align="right">
+		<a href="/339445/d-6" class="operlink">类别：网络评审j2ee</a> ┆
+			<a  href="#"  onclick="javascript:joingroups(116708,'2024486');return false;" class="operlink">
+			技术圈(<script src="http://blog.51cto.com/js/joingroup.php?tid=116708"></script>)</a>  ┆ <span class="article_views">阅读(<script src="http://blog.51cto.com/js/header.php?uid=339445&tid=116708"></script>) ┆ 
+			评论(<script>document.write(replies)</script>)</span> 
+			┆<a  href="#"  onclick="javascript:dfanologin();return false;" class="operlink">推送到技术圈</a>
+		┆<a href="/" class="operlink">返回首页</a>&nbsp;&nbsp;
+		</div>
+		<div class="clear"></div>
+		<br><br>
+		</div>
+		</div>
+	</div>
+	</div>
+
+	<div class="nouse">
+	<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+		<div class="modHeader"> <div class="commenttitle">&nbsp;&nbsp;&nbsp;&nbsp;<b>相关文章</b></div></div>
+	</div>
+	<div class="l">
+	<div class="r">
+	<div class="c">
+		<div class="side_sinfo">
+
+	<div class="related"><a href="http://mingxinzhicheng.blog.51cto.com/15/3219" title="[原创]基于mock对象和JUnit框架简化Spring Web组件单元测试" target="_blank">[原创]基于mock对象和JUnit框架简化Spring W..</a></div>
+
+	<div class="related"><a href="http://su3390.blog.51cto.com/176528/47715" title="Eclipse中建立自己的JUnit测试" target="_blank">Eclipse中建立自己的JUnit测试</a></div>
+
+	<div class="related"><a href="http://tianli.blog.51cto.com/190322/32066" title="Junit测试框架" target="_blank">Junit测试框架</a></div>
+
+	<div class="related"><a href="http://lavasoft.blog.51cto.com/62575/95141" title="Spring2.5 下单元测试" target="_blank">Spring2.5 下单元测试</a></div>
+
+	<div class="related"><a href="http://maomao.blog.51cto.com/115985/20358" title="Spring2 Hibernate3 Junit 应用示例1" target="_blank">Spring2 Hibernate3 Junit 应用示例1</a></div>
+
+	<div class="related"><a href="http://maomao.blog.51cto.com/115985/20359" title="Spring2 Hibernate3 Junit 应用示例2" target="_blank">Spring2 Hibernate3 Junit 应用示例2</a></div>
+
+	<div class="related"><a href="http://maomao.blog.51cto.com/115985/20361" title="Spring2 Hibernate3 Junit 应用示例4" target="_blank">Spring2 Hibernate3 Junit 应用示例4</a></div>
+
+	<div class="related"><a href="http://maomao.blog.51cto.com/115985/20362" title="Spring2 Hibernate3 Junit 应用示例5" target="_blank">Spring2 Hibernate3 Junit 应用示例5</a></div>
+
+	<div class="related"><a href="http://maomao.blog.51cto.com/115985/20360" title="Spring2 Hibernate3 Junit 应用示例3" target="_blank">Spring2 Hibernate3 Junit 应用示例3</a></div>
+
+	<div class="related"><a href="http://xiaocai.blog.51cto.com/504098/106909" title="JUnit测试驱动开发学习笔记1" target="_blank">JUnit测试驱动开发学习笔记1</a></div>
+
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="modFrame">
+	<div class="modTable"></div>
+	</div>
+	</div>
+
+	<div class="nouse">
+	<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+		<div class="modHeader"> <div class="commenttitle">&nbsp;&nbsp;&nbsp;&nbsp;<b>文章评论</b></div></div>
+	</div>
+	<div class="l">
+	<div class="r">
+	<div class="c" id="artcomment"><div>  &nbsp;</div><div>  &nbsp;</div>
+</div><a href="" id="com_top_top"></a>
+	</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</div>
+
+<div class="nouse">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+		<br>
+		<a name='comment'></a>
+		<form action='/comment.php?' method='post' name='form1' id='form1' onSubmit='return commentSubmit(this,"");'>
+		<input type='hidden' name='action' value='comment'>
+		<input  id='commenttid' type='hidden' name='tid' value='116708'>
+        <input type="hidden" name="com_count_ajax" id="com_count_ajax" value="1" />		
+        <fieldset id="reply_box">
+		<legend class=legend><b>发表评论</b></legend>
+		<div class=sddd>
+		<a name="feedback" id="feedback"></a>	
+        <br>
+		<center>
+		<table border='0' width=100% align='center' cellspacing='1' cellpadding='3'>
+	<tr>
+		<td class=commenttable width="12%">昵&nbsp;&nbsp; 称：</td>
+		<td colspan="2" align="left">
+		<script src="/js/user_com.php"></script>
+	</tr>
+
+<tr id='commentyanzheng'>
+
+		<td class=commenttable>验证码：</td>
+		<td valign=bottom align="left" width="20%"><input id="commentauthnum" name="authnum" type="text" style="height:18px;padding-bottom:2px"></td>
+		<script>
+			function refimg(){
+				var randval = Math.random();
+				document.getElementById("secunum").src="/seccode.php?rnum="+randval;
+			}
+		</script>
+		<td valign=bottom width="60%" align="left"><img src="/seccode.php" border=1 id="secunum" onclick="refimg()">　点击图片可刷新验证码　　<a href="http://51ctoblog.blog.51cto.com/26414/5591" target="_blank" style="text-decoration: underline;">博客过2级，无需填写验证码</a></td>
+	</tr>
+<tr>
+		<td valign=top class=commenttable>内&nbsp;&nbsp; 容：</td>
+		<td colspan="2" align="left"><textarea  id="commentcontent" name='content' rows=10 cols=60></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center">
+
+<input name='submit' type='button' id="commentsubmit" value='提 交' onclick="commentSubmitend2()"></td><td></td>
+
+</tr>
+</table>
+			  </center><br>
+			</div>
+			</fieldset>
+		  </form>
+				<br>
+<iframe id=iframe1 name=iframe1 width=0 height=0></iframe>
+</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="sidebar" id="layout_0" style="width:22%;">
+<div id="face" class="nouse">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+	<div class="modHeader"> <img src="http://img1.51cto.com/image/skin/def/face.gif"> <strong>lsb_48</strong></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+<div class="side" style="table-layout: fixed;word-wrap:	break-word;padding:8px 8px 8px 8px;">
+	<div class="side_center" align="center">
+		<br>
+		<script src="http://blog.51cto.com/mod/userface.php?useruid=339445"></script>
+	</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</div>
+
+
+<div id="stats" class="nouse"><div class="t"><div class="rt"></div><div class="lt"></div>
+<div class="modHeader"> <img src="http://img1.51cto.com/image/skin/def/stats.gif"> <strong>博客统计信息</strong></div></div>
+<div class="l"><div class="r"><div class="c"><div class="side" style="table-layout: fixed;word-wrap:	break-word;">
+<div class="side_sinfo"> 用户名：lsb_48<br>文章数：58<br>评论数：19<br>访问量：16279<br>
+无忧币：336<br>
+<a href="http://51ctoblog.blog.51cto.com/26414/5591" target="_blank" style="text-decoration:underline">博客积分</a>：409<br>博客等级：3 <br>
+注册日期：2008-03-16<br>
+<a href="http://blog.51cto.com/active/no1/ing.html" target="_blank" class="operlink">距离博客争夺赛结束还有<span style="color:#ff0000">30</span> 天</a></div></div></div></div></div><div class="modFrame"><div class="modTable"></div></div></div>
+
+
+<div id="hotblog" class="nouse">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+		<div class="modHeader"> <img src="http://img1.51cto.com/image/skin/def/hotblog.gif"> <b>热门文章</b></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+<div class="side" style="table-layout: fixed;word-wrap:	break-word;">
+	<div class="side_sinfo">
+<li><a href="/339445/70263">ORA-01033: ORACLE initi..</a></li>
+<li><a href="/339445/89747">div+css的图片滚动效果</a></li>
+<li><a href="/339445/89016">SQL Server中，varchar和..</a></li>
+<li><a href="/339445/91933">AspNetPager分页控件使用</a></li>
+<li><a href="/339445/109850">连接到localhost 提示：..</a></li>
+<li><a href="/339445/92454">fckeditor2.5.1上传图片..</a></li>
+<li><a href="/339445/70536">ORACLE误删数据的恢复</a></li>
+<li><a href="/339445/91943">FCKEditor 验证为空需要..</a></li>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</div>
+<div id="search" class="nouse">
+<form method=post action="search.php?">
+<input type="hidden" name="step" value="2">
+<input type="hidden" name="authorid" value="339445">
+<input type="hidden" name="sch_area" value="S">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+		<div class="modHeader"> <img src="http://img1.51cto.com/image/skin/def/search.gif"> <b>搜索本博客内文章</b></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+<div class="side" style="table-layout: fixed;word-wrap:	break-word;">
+	<div class="side_sinfo" style="text-align:center">
+	<input	type="text"	name="keyword" style="width:92%"><br><br>
+	<input	type="submit" value="提 交">
+	</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</form>
+</div>
+
+
+<script src="http://blog.51cto.com/js/mygroup.php?uid=339445"></script>
+
+
+<script src="http://blog.51cto.com/js/uservisit.php?uid=339445"></script>
+
+
+<div id="comment" class="nouse">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+	<div class="modHeader"><table cellpadding="0" cellspacing="0" border=0 width="86%"><tr><td> <img src="http://img1.51cto.com/image/skin/def/comment.gif"> <b>最新评论</b></td></tr></table></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+<div class="side" style="table-layout: fixed;word-wrap:	break-word;">
+	<div class="side_sinfo">
+<div><b><a href='http://ciorg.blog.51cto.com/' class='operlink' target=_blank><b>ciorg</b></a>：</b><a href="/339445/181986" target=_blank>总结的蛮不错的。谢谢分享啊。</a></div>
+<hr size=1 width=98% style="border:1px dotted #C0C0C0;" align=center>
+<div><b><a href='http://zipux.blog.51cto.com/' class='operlink' target=_blank><b>zipux</b></a>：</b><a href="/339445/162816" target=_blank>得来全不费工夫啊，不错不错。</a></div>
+<hr size=1 width=98% style="border:1px dotted #C0C0C0;" align=center>
+<div><b>[匿名]huihui：</b><a href="/339445/92454" target=_blank>挺不错的</a></div>
+<hr size=1 width=98% style="border:1px dotted #C0C0C0;" align=center>
+<div><b>[匿名]sdfjkl：</b><a href="/339445/71395" target=_blank>jsdklfjsl</a></div>
+<hr size=1 width=98% style="border:1px dotted #C0C0C0;" align=center>
+<div><b><a href='http://qwp122.blog.51cto.com/' class='operlink' target=_blank><b>qwp_122</b></a>：</b><a href="/339445/67012" target=_blank>飘过~</a></div>
+<hr size=1 width=98% style="border:1px dotted #C0C0C0;" align=center>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</div>
+
+
+<div id="com_art" class="nouse">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+		<div class="modHeader"> <img src="http://img1.51cto.com/image/skin/def/com_art.gif"> <a href="http://blog.51cto.com/artcommend" target="_blank"><b>51CTO推荐博文</b></a></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+<div class="side" style="table-layout: fixed;word-wrap:	break-word;">
+	<div class="side_sinfo">
+	<li><a href="http://jbean.blog.51cto.com/448512/194031" title="Qt学习之路(2)：Hello, world!" target="_blank">Qt学习之路(2)：Hello,..</a></li>
+<li><a href="http://java999.blog.51cto.com/259217/194116" title="《Head.First设计模式读书笔记》之策略模式" target="_blank">《Head.First设计模式..</a></li>
+<li><a href="http://lijun050802.blog.51cto.com/909213/194163" title="Sybase建多个服务和数据库备份和恢复详解" target="_blank">Sybase建多个服务和数..</a></li>
+<li><a href="http://ticktick.blog.51cto.com/823160/194307" title="c++构造函数详解" target="_blank">c++构造函数详解</a></li>
+<li><a href="http://lavasoft.blog.51cto.com/62575/191871" title="Spring整合Hessian" target="_blank">Spring整合Hessian</a></li>
+<li><a href="http://jbean.blog.51cto.com/448512/193918" title="Qt学习之路(1)：前言" target="_blank">Qt学习之路(1)：前言</a></li>
+<li><a href="http://bluejoe.blog.51cto.com/807902/192762" title="白乔原创：万能类型boost::any " target="_blank">白乔原创：万能类型boo..</a></li>
+<li><a href="http://jxwpx.blog.51cto.com/15242/193863" title="在单位用oracle备份到磁带的脚本（看不明白的地方交流）" target="_blank">在单位用oracle备份到..</a></li>
+<li><a href="http://smilecong.blog.51cto.com/121860/193860" title="SqlHelper 类" target="_blank">SqlHelper 类</a></li>
+<li><a href="http://kin111.blog.51cto.com/738881/168496" title="使用JDBC调用存储过程" target="_blank">使用JDBC调用存储过程</a></li>
+<li><a href="http://yqgao.blog.51cto.com/773490/178010" title="细说Java的接口（一）" target="_blank">细说Java的接口（一）</a></li>
+
+	</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</div>
+
+
+<div id="flink" class="nouse">
+<div class="t">
+	<div class="rt"></div>
+	<div class="lt"></div>
+		<div class="modHeader"> <img src="http://img1.51cto.com/image/skin/def/flink.gif"> <b>友情链接</b></div>
+</div>
+<div class="l">
+<div class="r">
+<div class="c">
+<div class="side" style="table-layout: fixed;word-wrap:	break-word;">
+	<div class="side_sinfo">
+<div>&nbsp;&nbsp;<a href="http://2024486.blog.51cto.com" title="停不了的V" target="_blank">停不了的V</a></div>
+<div>&nbsp;&nbsp;<a href="http://dannyyuan.blog.51cto.com" title="守望者的技术日记和六味生活" target="_blank">守望者的技术日记..</a> <img src='http://img1.51cto.com/images/tubiao3.gif' alt='本周内更新'></div>
+<div>&nbsp;&nbsp;<a href="http://2024486.blog.51cto.com" title="停不了的V" target="_blank">停不了的V</a></div>
+
+	</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modFrame">
+<div class="modTable"></div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+  <div id="innerFooter">
+	<center>
+		<small>
+			Copyright By 51CTO.COM 版权所有<br><br>
+			<a href="http://www.51cto.com" target="_blank"><img src="http://img1.51cto.com/image/skin/1/copyright.jpg"></a>
+	  </small>
+	</center>
+  </div>
+</div>
+<div style="display:none">
+<script src="http://logs.51cto.com/rizhi/count/count.js"></script>
+<iframe frameborder="0" scrolling="no" width="0" height="0" src="http://log.51cto.com/pageview.php?frompos=blog_art"></iframe>
+</div>
+</body>
+</html>
