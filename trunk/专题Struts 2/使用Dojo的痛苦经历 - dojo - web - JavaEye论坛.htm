@@ -1,0 +1,837 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title> 使用Dojo的痛苦经历 - dojo - web - JavaEye论坛</title>
+    <meta name="description" content="2007年6月项目准备开始了，刚来到一个新的项目组，什么都是新的，除了我自己。 需要一个新的框架来开发项目，香港的同事决定使用Dojo，DWR， 我开始学习使用dojo，时间很短，但是我还是基本上熟悉了dojo的基本控件和架构。在此基础上搭建起了项目的基本框架。这是一个单页面，基于ajax和dojo widget的系统，一切都那么的新奇，又充满挑战，但是既然dojo有这么多后台，又有香港同事的推荐， ..." />
+    <meta name="keywords" content="dojo dojo web" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/web" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1251266829" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1248170042" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+          <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+          </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" title="查看我的博客首页" class="welcome">欢迎frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" />收件箱(1)</a>
+    
+    
+      <a href="http://app.javaeye.com" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</a>
+      <a href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</a>
+      <a href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</a>
+    </div>
+        <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div></div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye-最棒的软件开发交流社区" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/web">Web前端技术：AJAX和RIA版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/dojo">dojo</a> <span class="arrow">&rarr;</span>
+    <h1> 使用Dojo的痛苦经历</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/web'>全部</a>
+      <a href='/forums/tag/JavaScript'>JavaScript</a>
+      <a href='/forums/tag/EXT'>EXT</a>
+      <a href='/forums/tag/ajax'>AJAX</a>
+      <a href='/forums/tag/UI'>UI</a>
+      <a href='/forums/tag/CSS'>CSS</a>
+      <a href='/forums/tag/prototype'>prototype</a>
+      <a href='/forums/tag/dojo'>dojo</a>
+      <a href='/forums/tag/YUI'>YUI</a>
+      <a href='/forums/tag/DWR'>DWR</a>
+      <a href='/forums/tag/GWT'>GWT</a>
+      <a href='/forums/tag/JQuery'>JQuery</a>
+      <a href='/forums/tag/JavaFX'>JavaFX</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_f4"></div>
+    <div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/195060?page=2" rel="next">2</a> <a href="/topic/195060?page=3">3</a> <span class="gap">&hellip;</span> <a href="/topic/195060?page=7">7</a> <a href="/topic/195060?page=8">8</a> <a href="/topic/195060?page=2" class="next_page" rel="next">下一页 &raquo;</a></div>
+    <div class="info">浏览 24685 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>锁定老贴子</span> <a href="/topic/195060">主题： 使用Dojo的痛苦经历</a></div>
+        <div id='topic_rate_box'><a href="#" onclick="rate_topic('good'); return false;">精华帖</a> (0) :: <a href="#" onclick="rate_topic('mid'); return false;">良好帖</a> (0) :: <a href="#" onclick="rate_topic('new'); return false;">新手帖</a> (1) :: <a href="#" onclick="rate_topic('hidden'); return false;">隐藏帖</a> (0)</div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="552336">
+  <td class="postauthor">
+    <ul>
+      <li class="name">jelly</li>
+      <li>等级: <img src="/images/star1.gif" alt="一星会员" title="一星会员"/></li>
+      <li><a href='http://jelly.javaeye.com' target='_blank'><img alt="jelly的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/45077/5be3c5a8-233f-4b32-b11d-9aa9e098ae61.jpg?1236834531" title="jelly的博客: jelly" /></a></li>
+      <li>文章: 45</li>
+      <li>积分: 139</li>
+      <li>来自: 广州</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        关键字: <strong>dojo</strong>
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060' target='_blank' class='favorite'>收藏</a>
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+                                            <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+              <ul>
+                                    <li><a href='http://www.javaeye.com/topic/99755' title='[翻译]Ext  vs. Dojo' target='_blank'>[翻译]Ext  vs. Dojo</a></li>
+                                      <li><a href='http://www.javaeye.com/topic/34931' title='Ajax一统天下之Dojo整合篇' target='_blank'>Ajax一统天下之Dojo整合篇</a></li>
+                                      <li><a href='http://www.javaeye.com/topic/139961' title='会让人疯掉的dojo' target='_blank'>会让人疯掉的dojo</a></li>
+                                  </ul>
+                <br/><span>推荐圈子: <a href="http://dojo.group.javaeye.com" target="_blank">dojo</a></span>
+                <br/><a href="/wiki/topic/195060" target="_blank">更多相关推荐</a>
+              </div>
+              <script type="text/javascript">
+                new Draggable("related_topics");
+              </script>
+                              
+        <p>2007年6月项目准备开始了，刚来到一个新的项目组，什么都是新的，除了我自己。</p>
+<p>需要一个新的框架来开发项目，香港的同事决定使用Dojo，DWR， 我开始学习使用dojo，时间很短，但是我还是基本上熟悉了dojo的基本控件和架构。在此基础上搭建起了项目的基本框架。这是一个单页面，基于ajax和dojo widget的系统，一切都那么的新奇，又充满挑战，但是既然dojo有这么多后台，又有香港同事的推荐，我显得自信满满。</p>
+<p>框架搭建的同事，也开始后了紧锣密鼓的招兵买马，一起都像是从零开始。陆陆续续，招了5个程序员和一个测试员。开始了整个项目的快速开发，由于需求由香港负责，而且需求做的比较细致，基本上问题很少。Dojo 却是麻烦不断。</p>
+<p>首先的一个坏消息是当我们做完了几乎全部300个页面的时候，dojo宣布0.43不在得到支持，取而代之是完全不同的dojo0.9。 而且dojo0.9 还不是稳定的版本，问题多多，让我们骑虎难下，最后还是决定按兵不动。 随之而来，是dojo1.0，dojo1.1 的陆续发布，但是一直都无法让我看到希望的曙光。 与之相对的是ext在国内的广泛使用和热烈追捧。</p>
+<p>Dojo 的控件有很多奇怪的地方，日期选择控件的行为非常怪异，与国内的使用习惯很不相同。而且样式极其丑陋，当字体放大缩小的时候更是丑陋。显示的格式和保存的格式需要分别指定。我们修改了大量的代码。</p>
+<p>dojo 的下拉框也被用户投诉，过滤之后一定要再选择一次或者按回车才能选定结果，前台值和后台值分开操作也带来很多不变。</p>
+<p>dojo 的验证文本框颜色现实有bug，我们不得不修改代码</p>
+<p>dojo的对话框也有问题，对话框中无法在弹出对话框。对话框的操作和控制很不灵活。</p>
+<p>js代码不利于管理，容易发生命名冲突。</p>
+<p> </p>
+<p>致命的问题发生在项目的后期，在客户的系统进行测试时发现。dojo的性能非常差，在赛扬2G的电脑上，一个页面显示的时间竟然需要17秒。简直就是噩梦。</p>
+<p>另外使用dojo的对话框时出现cpu占用100%而且一直不回落下来。</p>
+<p>页面载入完成的时候，它有将整个页面重新刷新一次，又需要花费额外的5到8s时间，不仅花费更多的时间，而且严重影响客户体验。</p>
+<p> </p>
+<p>还有开发过程中碰到的无数问题，虽然一个一个被解决，但是无疑是一次一次痛苦的煎熬。</p>
+<p> </p>
+<p>最后，在性能面前，我被dojo彻底打败，如此的速度是任何客户都无法忍受的，客户不可能为了这个系统全部升级电脑cpu。而且还有很多未知的问题可能还没有被发觉，不如内存泄露，可能导致资源耗尽，内存耗尽。cpu 的占用可能在使用时间长了之后越来越高，等等，这些都是我担心的问题。</p>
+<p> </p>
+<p>使用Ajax或者说Rich client，一定要谨慎啊。使用新的技术和框架，一定要谨慎，这是我的教训，希望给同行们一个参考。</p>
+<p> </p>
+      </div>
+
+      
+      
+
+              <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_f5"><span>推荐链接</span><ul class='adverts'><li><a href='/clicks/170' target='_blank'><span style="color:blue;font-weight:bold;"> 【8月推荐】JAVA技术沙龙活动通知--欢迎并期待您的参与!</span></a></li></ul></div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://jelly.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://jelly.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=jelly" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://jelly.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552339">
+  <td class="postauthor">
+    <ul>
+      <li class="name">csf177</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://csf177.javaeye.com' target='_blank'><img alt="csf177的博客" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="csf177的博客: " /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 30</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=csf177%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552339' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        Dojo也好Ext也好 不如自己弄来的实惠
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://csf177.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://csf177.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=csf177" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://csf177.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552339" title="csf177回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552339' class='post_rate_box'><a href='#' onclick='rate_post(552339, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552339, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552348">
+  <td class="postauthor">
+    <ul>
+      <li class="name">sp42</li>
+      <li>等级: <img src="/images/dimd3.gif" alt="三钻会员" title="三钻会员"/></li>
+      <li><a href='http://sp42.javaeye.com' target='_blank'><img alt="sp42的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/33322/441d6394-c7e5-36e2-9602-a0919c84b7df.gif?1236833423" title="sp42的博客: sp42" /></a></li>
+      <li>文章: 719</li>
+      <li>积分: 1517</li>
+      <li>来自: Canton</li>
+      <li><a href='/forums/tag/Flex' target='_blank'><img src='/images/status/forums.gif'/></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=sp42%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552348' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <br />dojo没ext那么多license问题。<br />SmartClient不知怎么样，使用LGPL的license。这不，就见到一个用户前来咨询ext--&gt;SmartClient的情况（估计受license的影响）：<br /><div class="quote_title">引用</div><div class="quote_div">Is there any better way to migrate from Ext to SmartClient?</div><br /><div class="quote_title">引用</div><div class="quote_div">For example, take the "Array Grid" Ext example source:<br /><br />new Ext.grid.GridPanel -&gt; isc.ListGrid.create<br />columns -&gt; fields<br />stripeRows -&gt; alternateRecordStyles<br /><br />Then in each field:<br /><br />id/dataIndex -&gt; name<br />renderer -&gt; formatCellValue<br />sortable -&gt; canSort<br />header -&gt; title</div><br /><a href="http://forums.smartclient.com/showthread.php?p=7615#post7615" target="_blank">http://forums.smartclient.com/showthread.php?p=7615#post7615</a>
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://sp42.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://sp42.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=sp42" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://sp42.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552348" title="sp42回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552348' class='post_rate_box'><a href='#' onclick='rate_post(552348, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552348, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552353">
+  <td class="postauthor">
+    <ul>
+      <li class="name">bottom</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://bottom.javaeye.com' target='_blank'><img alt="bottom的博客" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="bottom的博客: bottom" /></a></li>
+      <li>文章: 100</li>
+      <li>积分: 40</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=bottom%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552353' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        300个页面，不算是小项目了。solution 选择应该更慎重。连1.0都没达到得library，是不应该大量使用的。就当是买个教训吧。
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://bottom.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://bottom.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=bottom" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://bottom.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552353" title="bottom回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552353' class='post_rate_box'><a href='#' onclick='rate_post(552353, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552353, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552385">
+  <td class="postauthor">
+    <ul>
+      <li class="name">shatuo</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://shatuo.javaeye.com' target='_blank'><img alt="shatuo的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/24687/3055a6fc-cf3f-3c82-9497-b0662a055cd5.jpg?1236832718" title="shatuo的博客: 玩熊的" /></a></li>
+      <li>文章: 91</li>
+      <li>积分: 40</li>
+      <li>来自: 铁力</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=shatuo%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552385' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        dojo害了很多人，不过能从其源代码学到很多东西，看到维护一个js框架的艰辛了，还是等RIA算了，希望RIA不是苦海。
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://shatuo.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://shatuo.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=shatuo" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://shatuo.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552385" title="shatuo回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552385' class='post_rate_box'><a href='#' onclick='rate_post(552385, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552385, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552393">
+  <td class="postauthor">
+    <ul>
+      <li class="name">cscs31</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://cscs31.javaeye.com' target='_blank'><img alt="cscs31的博客" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="cscs31的博客: cscs31" /></a></li>
+      <li>文章: 55</li>
+      <li>积分: 80</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=cscs31%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552393' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        那么大家觉得现在的1.1版本如何？lz说的那些bug，1.1中依然存在吗？<br />原来听说过一个软件不到3.0不要使用它，现在觉得前台选择真的是很麻烦啊，举棋不定的。
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://cscs31.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://cscs31.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=cscs31" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://cscs31.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552393" title="cscs31回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552393' class='post_rate_box'><a href='#' onclick='rate_post(552393, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552393, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552395">
+  <td class="postauthor">
+    <ul>
+      <li class="name">cscs31</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://cscs31.javaeye.com' target='_blank'><img alt="cscs31的博客" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="cscs31的博客: cscs31" /></a></li>
+      <li>文章: 55</li>
+      <li>积分: 80</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=cscs31%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552395' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        1.1之后还会不会出现，0.4到0.9之类的迁移？
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://cscs31.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://cscs31.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=cscs31" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://cscs31.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552395" title="cscs31回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552395' class='post_rate_box'><a href='#' onclick='rate_post(552395, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552395, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552489">
+  <td class="postauthor">
+    <ul>
+      <li class="name">alexma</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://alexma.javaeye.com' target='_blank'><img alt="alexma的博客" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="alexma的博客: alexma" /></a></li>
+      <li>文章: 178</li>
+      <li>积分: 40</li>
+      <li>来自: ...</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=alexma%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552489' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        刚刚看了一下smartclient的demo，界面也挺华丽的，不过感觉速度比ext还慢。我是在FF3RC1上测得。
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://alexma.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://alexma.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=alexma" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://alexma.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552489" title="alexma回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552489' class='post_rate_box'><a href='#' onclick='rate_post(552489, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552489, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552499">
+  <td class="postauthor">
+    <ul>
+      <li class="name">LucasLee</li>
+      <li>等级: <img src="/images/dimd2.gif" alt="二钻会员" title="二钻会员"/></li>
+      <li><a href='http://lucaslee.javaeye.com' target='_blank'><img alt="LucasLee的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/13047/e8ea4baf-a9d7-4ab9-8f77-ad8c242ddbce.jpg?1236832163" title="LucasLee的博客: Lucas Lee" /></a></li>
+      <li>文章: 1177</li>
+      <li>积分: 1293</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=LucasLee%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552499' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        感谢lz分享经验
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://lucaslee.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://lucaslee.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=LucasLee" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://lucaslee.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552499" title="LucasLee回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552499' class='post_rate_box'><a href='#' onclick='rate_post(552499, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(552499, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="552530">
+  <td class="postauthor">
+    <ul>
+      <li class="name">yiaduo</li>
+      <li>等级: <img src="/images/star1.gif" alt="一星会员" title="一星会员"/></li>
+      <li><a href='http://yiaduo.javaeye.com' target='_blank'><img alt="yiaduo的博客" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="yiaduo的博客: yiaduo" /></a></li>
+      <li>文章: 14</li>
+      <li>积分: 106</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2008-05-21
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=yiaduo%E5%9B%9E%E8%B4%B4%3A+%E4%BD%BF%E7%94%A8Dojo%E7%9A%84%E7%97%9B%E8%8B%A6%E7%BB%8F%E5%8E%86&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F195060%23552530' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class='quote_title'>大哥，dojo基本上是所有ajax框架里面最好的。a11y, i18n，gfx这些，可以说大而全，但是又能灵活装配。<br/></div>
+<div class='quote_title'>从0.4.3到0.9的迁移也不是那么困难的。</div>
+<div class='quote_title'>你说的一些widget的bug的问题，每个框架都有，至于命名空间冲突的问题，我看dojo在这方面是最好的，真不明白你是怎么做的。</div>
+<div class='quote_title'>至于性能问题，那是你没有做package, 引起了过多的同步装载，怪不了dojo的。</div>
+<div class='quote_title'>至于界面样式的问题，dojo确实默认的theme难看了点。不过，我想没有太多公司直接拿着某个框架的default theme直接上吧。<br/></div>
+<div class='quote_title'><br/></div>
+<div class='quote_title'>jelly 写道</div>
+<div class='quote_div'>
+<p>2007年6月项目准备开始了，刚来到一个新的项目组，什么都是新的，除了我自己。</p>
+<p>需要一个新的框架来开发项目，香港的同事决定使用Dojo，DWR， 我开始学习使用dojo，时间很短，但是我还是基本上熟悉了dojo的基本控件和架构。在此基础上搭建起了项目的基本框架。这是一个单页面，基于ajax和dojo widget的系统，一切都那么的新奇，又充满挑战，但是既然dojo有这么多后台，又有香港同事的推荐，我显得自信满满。</p>
+<p>框架搭建的同事，也开始后了紧锣密鼓的招兵买马，一起都像是从零开始。陆陆续续，招了5个程序员和一个测试员。开始了整个项目的快速开发，由于需求由香港负责，而且需求做的比较细致，基本上问题很少。Dojo 却是麻烦不断。</p>
+<p>首先的一个坏消息是当我们做完了几乎全部300个页面的时候，dojo宣布0.43不在得到支持，取而代之是完全不同的dojo0.9。 而且dojo0.9 还不是稳定的版本，问题多多，让我们骑虎难下，最后还是决定按兵不动。 随之而来，是dojo1.0，dojo1.1 的陆续发布，但是一直都无法让我看到希望的曙光。 与之相对的是ext在国内的广泛使用和热烈追捧。</p>
+<p>Dojo 的控件有很多奇怪的地方，日期选择控件的行为非常怪异，与国内的使用习惯很不相同。而且样式极其丑陋，当字体放大缩小的时候更是丑陋。显示的格式和保存的格式需要分别指定。我们修改了大量的代码。</p>
+<p> </p>
+<p>dojo 的下拉框也被用户投诉，过滤之后一定要再选择一次或者按回车才能选定结果，前台值和后台值分开操作也带来很多不变。</p>
+<p>dojo 的验证文本框颜色现实有bug，我们不得不修改代码</p>
+<p>dojo的对话框也有问题，对话框中无法在弹出对话框。对话框的操作和控制很不灵活。</p>
+<p>js代码不利于管理，容易发生命名冲突。</p>
+<p> </p>
+<p>致命的问题发生在项目的后期，在客户的系统进行测试时发现。dojo的性能非常差，在赛扬2G的电脑上，一个页面显示的时间竟然需要17秒。简直就是噩梦。</p>
+<p>另外使用dojo的对话框时出现cpu占用100%而且一直不回落下来。</p>
+<p>页面载入完成的时候，它有将整个页面重新刷新一次，又需要花费额外的5到8s时间，不仅花费更多的时间，而且严重影响客户体验。</p>
+<p> </p>
+<p>还有开发过程中碰到的无数问题，虽然一个一个被解决，但是无疑是一次一次痛苦的煎熬。</p>
+<p> </p>
+<p>最后，在性能面前，我被dojo彻底打败，如此的速度是任何客户都无法忍受的，客户不可能为了这个系统全部升级电脑cpu。而且还有很多未知的问题可能还没有被发觉，不如内存泄露，可能导致资源耗尽，内存耗尽。cpu 的占用可能在使用时间长了之后越来越高，等等，这些都是我担心的问题。</p>
+<p> </p>
+<p>使用Ajax或者说Rich client，一定要谨慎啊。使用新的技术和框架，一定要谨慎，这是我的教训，希望给同行们一个参考。</p>
+<p> </p>
+</div>
+<p> </p>
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://yiaduo.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://yiaduo.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=yiaduo" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://yiaduo.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#552530" title="yiaduo回帖: 使用Dojo的痛苦经历">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_552530' class='post_rate_box'><a href='#' onclick='rate_post(552530, "good"); return false;' class='good' title='好'>2</a> <a href='#' onclick='rate_post(552530, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"><div class="pagination"><span class="disabled prev_page">&laquo; 上一页</span> <span class="current">1</span> <a href="/topic/195060?page=2" rel="next">2</a> <a href="/topic/195060?page=3">3</a> <span class="gap">&hellip;</span> <a href="/topic/195060?page=7">7</a> <a href="/topic/195060?page=8">8</a> <a href="/topic/195060?page=2" class="next_page" rel="next">下一页 &raquo;</a></div></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/web">Web前端技术：AJAX和RIA版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/dojo'>dojo</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java">Java编程和Java企业应用</option>
+<option value="web" selected="selected">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="Flash">Flash编程</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_f6"></div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":195060, "type":type}});
+  }
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://www.javaeye.com/job">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://primeton.javaeye.com" >普元</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <!--li><a href="http://kingdee.javaeye.com" >金蝶中间件</a></li-->
+    <li class="last"><a href="http://book.javaeye.com" >图书</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>

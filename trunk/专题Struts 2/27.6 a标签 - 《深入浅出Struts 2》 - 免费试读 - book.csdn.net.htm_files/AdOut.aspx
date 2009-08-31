@@ -1,0 +1,1 @@
+var script_ad_cnt="<A href='http://www.funfungolf.com/home/action-mtag-id-5.html' target=_blank><IMG border=0 src='/smallimg/mwei0907.gif'></A>";document.getElementById('ad_div').innerHTML=script_ad_cnt;

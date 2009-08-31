@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	Struts2 校验（XML配置校验） - Struts 2 的专栏 - CSDN博客
+</title>
+	<script src="http://hi.images.csdn.net/js/public/jquery-1.2.3.pack.js" type="text/javascript"></script>
+	<script src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/jquery.highlighter.js?v=20090609" type="text/javascript"></script>
+	<script src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/highlighter.js?v=20090609" type="text/javascript"></script>
+	<script src="/Scripts/common.js?version=20090618" type="text/javascript"></script>
+	<link href="http://hi.images.csdn.net/css/Cogitation/Cogitation_1.css" type="text/css" rel="stylesheet" media="all"/><link href="http://hi.images.csdn.net/css/csdn_favbykimi.css" type="text/css" rel="stylesheet" media="all" /><link rel="Shortcut Icon" href="http://profile.csdn.net/struts2/picture/1.ico"/><link href="http://feeds.feedsky.com/csdn.net/struts2" title="RSS" type="application/rss+xml" rel="alternate" /></head>
+<body id="defaultuser">
+	<div id="csdnblog_allwrap">
+	    <div id="csdnblog_midwrap">
+		    
+<div id="csdnblog_header">
+    <h1><a href="http://blog.csdn.net/struts2">Struts 2 的专栏</a></h1><h2>很高兴能够帮助大家！</h2>
+    <ul id="personalnav">
+		<li style="display:none;"><a id="a_login" href="http://passport.csdn.net/UserLogin.aspx">登录</a></li>
+		<li style="display:none;"><a id="a_register" href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</a></li>
+		<li style="display:none;"><a id="a_welcome" href="http://hi.csdn.net/" target="_blank">欢迎</a></li>
+		<li style="display:none;"><a id="a_exit" href="http://writeblog.csdn.net/Signout.aspx">退出</a></li>
+		<li style="display:none;"><a id="a_myblog" href="http://blog.csdn.net/">我的博客</a></li>
+		<li style="display:none;"><a id="a_configure" href="http://writeblog.csdn.net/configure.aspx" target="_blank">配置</a></li>
+		<li style="display:none;"><a id="a_postedit" href="http://writeblog.csdn.net/PostEditPlain.aspx" target="_blank">写文章</a></li>
+		<li style="display:none;"><a id="a_postlist" href="http://writeblog.csdn.net/PostList.aspx" target="_blank">文章管理</a></li>
+		<li style="display:none;"><a id="a_bloghome" href="http://blog.csdn.net" target="_blank">博客首页</a></li>
+	</ul>
+    <ul id="blogsearchsty">
+		<li><input id="inputSearch" type="text" class="bolgsearch"/></li>
+		<li class="selectsty">
+			<select name="Search:ddlSearchScope" id="Search_ddlSearchScope">
+				<option value="all">全站</option>
+				<option value="struts2">当前博客</option>
+			</select>
+		</li>
+		<li><input type="button" id="buttonSearch" value="搜索" class="bolggobtn" /></li>
+	</ul>
+    <ul id="menu">
+		<li><a href="http://hi.csdn.net/struts2">空间</a></li>
+		<li><a href="http://blog.csdn.net/struts2" class="on">博客</a></li>
+		<li><a href="http://hi.csdn.net/struts2/profile/contactlist/1.html">好友</a></li>
+		<li><a href="http://album.hi.csdn.net/views/albums/struts2" target="_blank">相册</a></li>
+		<li><a href="http://hi.csdn.net/struts2/profile/notebook/1.html" class="last">留言</a></li>
+	</ul>
+</div>
+
+		    
+<div id="csdnblog_sidebar">
+	<div class="gutter">
+		<div class="aboutauthor">
+			<dl>
+				<dt>用户操作</dt>
+				<dd class="middle">
+					<a href="http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=struts2" target="_blank">[发私信]</a>&nbsp;
+					<a href="http://webim.csdn.net/AddFriends/struts2.ashx" target="_blank">[加为好友]</a>&nbsp;
+				</dd>
+				<span id="userInfo"></span>
+				<span id="SubscriptionList">
+					<dt>订阅我的博客</dt>
+					<dd>
+						<a href="http://feeds.feedsky.com/csdn.net/struts2">
+							<img border="0" alt="XML聚合" src="http://img.feedsky.com/feeds/csdn.net/struts2/sc/gif"/>
+						</a>&nbsp;&nbsp;
+						<a href="http://feeds.feedsky.com/csdn.net/struts2" target="_blank">
+							<img border="0" alt="FeedSky" src="http://hi.images.csdn.net/images/blog/feedsky.gif"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://www.xianguo.com/subscribe.php?url=http://feeds.feedsky.com/csdn.net/struts2" target="_blank">
+							<img border="0" alt="订阅到鲜果" src="http://hi.images.csdn.net/images/blog/rss_xianguo.jpg"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://fusion.google.com/add?feedurl=http://feeds.feedsky.com/csdn.net/struts2" target="_blank">
+							<img border="0" alt="订阅到Google" src="http://hi.images.csdn.net/images/blog/rss_google.gif"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://www.zhuaxia.com/add_channel.php?url=http://feeds.feedsky.com/csdn.net/struts2" target="_blank">
+							<img border="0" alt="订阅到抓虾" src="http://hi.images.csdn.net/images/blog/rss_zhuaxia.gif"/>
+						</a>
+					</dd>
+				</span>
+				<dt>
+					struts2的公告
+				</dt>
+				<dd><br/>
+有些时候自己也在想，老外对开源做了那么多贡献，像Struts，Spring，Hibernate，iBatis等我们一直在使用。我为什么不能帮助他们推广一下他们心勤的劳动成果呢？<br/>
+于是就有了这个Blog，将来还会有一本根据这个Blog的内容整理的一本书。<br/>
+<br/>
+<br>
+对我来说Java是第一，Python是第二，大家会问我为什么不是Ruby呢？我会回答：“程序设计语言没有国界，可以使用程序设计语言的程序员却有国籍”
+其实Ruby的特性其他动态语言都有，随着技术融合的加速，ROR框架的优势其实也越来越淡化。Django绝对可以称得上是一个绝佳的Web开发框架。
+<br/>
+<br>
+欢迎大家阅读，反馈。<br/>
+任何意见请大家反馈，多谢多谢！</br>
+联系方式：<br/><b>
+Skyep： ma.zhao<br/>
+MSN：amose_ma@hotmail.com</br>
+Mail：ma.zhao@dl.cn<br/><br/></b>
+<b>如果你觉得这里的内容还不错，请一定告诉你的朋友，因为他可能也需要，非常感谢！</b>
+<br/><br/>
+另外，这里的内容都是我在工作之余赶出来的，难免有或多或少的纰漏，还请大家多多斧正。另外我不是每天都上这个Blog所以对于这里提出的问题我不一定会第一时间给出解决方法，但是我一定会尽快的，还希望大家体谅。如果有别紧急的事情可以在Skype上联系到我，我每天都在线。<br>
+
+<br/>
+
+<strong>盖茨十条成功箴言</strong><br/>
+1.生活是不公平的，要去适应它;<br/>
+2.这世界并不会在意你的自尊，这世界指望你在自我感觉良好之前先要有所成就;<br/>
+3.高中刚毕业你不会成为一个公司的副总裁，直到你将此职位挣到手;<br/>
+4.如果你认为你的老板严厉，等你当了老板再这样想;<br/>
+5.如果你陷入困境，不要尖声抱怨错误，要从中吸取教训;<br/>
+6.在你出生之前，你的父母并非像现在这样乏味。他们变成今天这个样子是因为这些年来他们一直在为你付账单，给你洗衣服，听你大谈你是如何的酷; <br/>
+7.你的学校也许已经不再分优等生和劣等生，但生活却仍在作出类似区分;<br/>
+8.生活不分学期，你并没有暑假可以休息，也没有几个人乐于帮你发现自我;<br/>
+9.电视并不是真实的生活，在现实生活中，人们实际上得离开咖啡屋去干自己的工作<br/>
+<strong>10.永远不要在背后批评别人，尤其不能批评你的老板无知、刻薄和无能。(因为这样的心态，会使你走上坎坷艰难的成长之路)。</strong><br/>
+<br/><br/>
+忧郁中前行，奋斗，奋斗，奋斗！！！<br/><br><br>
+<b>史蒂芬·乔布斯05年在斯坦福大学毕业典礼上的演讲</b><br><br>
+你在向前展望的时候不可能将这些片断串连起来；你只能在回顾的时候将点点滴滴串连起来。所以你必须相信这些片断会在你未来的某一天串 连起来。你必须要相信某些东西：你的勇气、目的、生命、因缘。这样做从没让我的希望落空过，只是让我的生命更加地与众不同而已。<br><br>
+有些时候，生 活会拿起一块砖头向你的脑袋上猛拍一下。不要失去信心。我很清楚唯一使我一直走下去的，就是我做的事情令我无比钟爱。你需要去找到你所爱的东西。对于工作 是如此, 对于你的爱人也是如此。你的工作将会占据生活中很大的一部分。你只有相信自己所做的是伟大的工作，你才能怡然自得。如果你现在还没有找到喜欢什么，那么就 继续找、不要停下来、全心全意的去找，当你找到的时候你就会知道的。就像任何真诚的关系，历久弥新。所以继续找，直到你找到它，不要停止！<br><br>
+求知若飢，虛心若愚。<br>
+(Stay Hungry. Stay Foolish )<br>
+<br>
+让简单的事情保持简单,让复杂的事情成为可能!<br>
+<br>
+<b>今天在朋友Skype上看到的留言：</b><br>
+真正去除不良情绪、不良感觉的途径是修养的提高，境界的提高。有一颗温暖热忱的心，有一种淡化得失的心性，有着智慧和追求，是会游刃于孤独，甚至将孤独雕成一瓣花，静静品味其香气。<br>
+
+<p>
+<b>吴小莉@读者：</b>
+</p>
+<p>
+人生角色的每次转换，痛苦的剥离中自有一份期盼。人生就是一场不断抉择的游戏，有风雨有艳阳，重要的是，抉择前重重思考，角色后轻轻放下。人生的寻宝图，或许只有一个宝藏，不要怕走错路，珍惜每份体验，保持好心情欣赏沿途风景。</p>
+
+<p>
+一个人的精力终归有限，虽心有不甘，但力所不逮！
+</p>
+
+<p><b>曼德拉</b></p>
+<p>
+生命中最伟大的光环不在于永不坠落，
+而是坠落后总能再度升起！
+</p>
+
+<p><b>南怀瑾　の　领导用人的9个顾虑</b></p>
+<p>
+<ol>
+<li>1.立小忠以售大不忠</br>
+<li>2.貌厉而内荏</br>
+<li>3.害同侪以专朝</br>
+<li>4.进邪说以乱是</br>
+<li>5.因赏以偿恩，因罚以作威</br>
+<li>6.欺君罔上</br>
+<li>7.托重臣以自结</br>
+<li>8.苟合以求进</br>
+<li>9.悦主意意以求亲</br>
+<ol>
+</p>
+<p>
+相信少数人，不伤任何人，爱护所有人，凡事但求心安就好！
+</p></dd>
+				<dt>文章分类</dt>
+				<dd>
+					<div class="publiclist_sidebar">
+						<ul><li><a href="/struts2/category/530864.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/530864.aspx" title="微软依据MVC模式推出的ASP.NET开发框架。<br />最近自己在研究，希望能够跟大家一起分享！">ASP.NET MVC</a></li><li><a href="/struts2/category/512414.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/512414.aspx" title="Grails Application Development">Grails</a></li><li><a href="/struts2/category/330281.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/330281.aspx" title="Google Web Toolkit 入门介绍">GWT</a></li><li><a href="/struts2/category/522955.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/522955.aspx" title="JavaFX Programming<br />Building GUI with JavaFX<br />Building Rich Internet Application with JavaFX<br />">JavaFX</a></li><li><a href="/struts2/category/476227.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/476227.aspx" title="新一代构建工具Maven 2">Maven 2</a></li><li><a href="/struts2/category/519404.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/519404.aspx" title="Python是一门简介的程序设计语言。<br />Django是基于Python的一个Web应用程序开发框架！<br />适合于有一定技术积累，能够成熟运用技术的企业来推广使用。<br />性能 &gt;&gt;&gt;&gt;&gt; ROR">Python &amp; Django</a></li><li><a href="/struts2/category/347915.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/347915.aspx" title="JBoss Seam Java EE 5 Light Framework">Seam</a></li><li><a href="/struts2/category/323536.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/323536.aspx" title="Struts Version 2.0">Struts2</a></li><li><a href="/struts2/category/397447.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/397447.aspx" title="Tapestry 5 相关">Tapestry 5</a></li><li><a href="/struts2/category/457175.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/457175.aspx" title="每天管理心得！">管理笔记</a></li><li><a href="/struts2/category/324408.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/324408.aspx" title="其他与Struts2不想关的内容，
+包括个人的想法，观点，其他的内容的研究等。
+">其他</a></li><li><a href="/struts2/category/482224.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/struts2/category/482224.aspx" title="软件开发中的思想！">软件开发思想</a></li></ul>
+					</div>
+				</dd>
+				
+				<dt>images</dt>
+				<dt>存档</dt>
+				<dd>
+					<div class="publiclist_sidebar">
+						<ul><li><a href="/struts2/archive/2009/08.aspx">2009年08月(9)</a></li><li><a href="/struts2/archive/2009/04.aspx">2009年04月(3)</a></li><li><a href="/struts2/archive/2009/03.aspx">2009年03月(3)</a></li><li><a href="/struts2/archive/2008/11.aspx">2008年11月(3)</a></li><li><a href="/struts2/archive/2008/10.aspx">2008年10月(1)</a></li><li><a href="/struts2/archive/2008/09.aspx">2008年09月(1)</a></li><li><a href="/struts2/archive/2008/05.aspx">2008年05月(3)</a></li><li><a href="/struts2/archive/2008/04.aspx">2008年04月(1)</a></li><li><a href="/struts2/archive/2008/03.aspx">2008年03月(1)</a></li><li><a href="/struts2/archive/2008/02.aspx">2008年02月(1)</a></li><li><a href="/struts2/archive/2007/12.aspx">2007年12月(8)</a></li><li><a href="/struts2/archive/2007/11.aspx">2007年11月(5)</a></li><li><a href="/struts2/archive/2007/10.aspx">2007年10月(1)</a></li><li><a href="/struts2/archive/2007/09.aspx">2007年09月(13)</a></li><li><a href="/struts2/archive/2007/08.aspx">2007年08月(23)</a></li><li><a href="/struts2/archive/2007/07.aspx">2007年07月(8)</a></li></ul>
+					</div>
+				</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+
+		    
+<div id="csdnblog_content">
+	<div class="gutter">
+		<div class="default_contents">
+			<div class="user_article">
+				<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/LoadFeedbackCount.js"></script>
+				<h1 class="title_txt">
+					<img src="http://hi.images.csdn.net/images/blog/authorship.gif" border="0" width="15" height="16" alt="原创"/>&nbsp;
+					Struts2 校验（XML配置校验）
+					<cite class="fav_csdnstylebykimi">
+						<a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a>
+					</cite>
+					
+				</h1>
+				<div class="blogstory">
+					<script type="text/javascript">
+						document.body.oncopy = function() {
+							if (window.clipboardData) {
+								setTimeout(function() {
+									var text = clipboardData.getData("text"); 
+									if (text && text.length>300) {
+										text = text + "\r\n\n本文来自CSDN博客，转载请标明出处：" + location.href;
+										clipboardData.setData("text", text); 
+									}
+								}, 100);
+							}
+						}
+					</script>
+					<script class="blogstory">function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</script>
+					<p align="left">参考文档：<br goog_ds_charindex="4" />&nbsp;&nbsp;&nbsp; http://struts.apache.org/2.0.9/docs/ajax-client-side-validation.html<br goog_ds_charindex="77" />&nbsp;&nbsp;&nbsp; http://struts.apache.org/2.0.9/docs/pure-javascript-client-side-validation.html<br goog_ds_charindex="161" />&nbsp;&nbsp;&nbsp; http://struts.apache.org/2.0.9/docs/client-validation.html<br goog_ds_charindex="224" /><br goog_ds_charindex="225" />参考示例：<br goog_ds_charindex="229" />&nbsp;&nbsp;&nbsp; <a href="http://struts.apache.org/2.0.9/docs/ajax-validation.html"><font color="#551a8b">http://struts.apache.org/2.0.9/docs/ajax-validation.html</font></a><br goog_ds_charindex="290" /><br goog_ds_charindex="291" /></p>
+<p align="center"><br goog_ds_charindex="292" /><strong>Struts2 校验（XML配置校验）</strong></p>
+
+
+<p><strong>基本说明：</strong></p>
+
+<p>Struts校验可以分为两种类型：Annotation型，XML配置型</p>
+
+<p>Annotation型主要使用Annotation来配置Action中的属性，这里我们做过多的介绍，需要看的请参看我的其他相关文章。</p>
+
+<p>XML配置型主要是指，使用XML来描述配置信息，之后提供给Struts框架做校验。</p>
+
+<p>使用Struts2，XML配置型的校验可以使用三种方式：普通的服务器端校验方式，客户纯JavaScript方式端校验，和Ajax方式的校验。</p>
+
+<p>普通的服务器端校验方式：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;客户端提交信息到服务器，在服务器上使用XML配置信息，校验客户端提交的信息，错误的情况下，返回input页面，显示校验错误信息。</p>
+
+<p>客户端纯JavaScript校验方式：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在输入画面上，根据XML文件中的配置内容生成对应的JavaScript校验脚本，在提交数据的时候首先使用这些生成的JavaScript校验输入信息，错误情况下在画面上显示错误信息，不需要向服务器提交内容，只有输入数据校验正确的情况下才向服务器提交请求。这种方式的校验不支持所有Struts2内置的校验，只支持一部分校验：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;required validator&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;requiredstring validator&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;stringlength validator&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;regex validator&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;email validator&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;url validator&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;int validator&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;double validator <br /></p>
+<p>Ajax方式校验</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在提交请求的时候，首先使用AJAX的方式将数据提交到服务器，在校验出错的情况下在页面显示错误信息，但是不刷新页面，在校验成功的情况下，才向服务器提交请求。</p>
+
+<p>三种方式比较</p>
+<div>
+<table id="p-0u" cellspacing="0" cellpadding="3" width="100%" border="1">
+    <tbody>
+        <tr>
+            <td width="25%">&nbsp;</td>
+            <td width="25%">普通的服务端校验方式</td>
+            <td width="25%">客户端纯JavaScript</td>
+            <td width="25%">Ajax方式</td>
+        </tr>
+        <tr>
+            <td width="25%">位置</td>
+            <td width="25%">服务器</td>
+            <td width="25%">客户端&nbsp;</td>
+            <td width="25%">服务器</td>
+        </tr>
+        <tr>
+            <td width="25%">是否刷新页面</td>
+            <td width="25%">是</td>
+            <td width="25%">否</td>
+            <td width="25%">否</td>
+        </tr>
+        <tr>
+            <td width="25%">校验代码</td>
+            <td width="25%">Java</td>
+            <td width="25%">JavaScript</td>
+            <td width="25%">Java</td>
+        </tr>
+        <tr>
+            <td width="25%">具体实现</td>
+            <td width="25%">
+            <p>1 定义Action类</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;Action.java</p>
+            <p>2 定义配置文件</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;Action-validation.xml</p>
+            <p>3 在struts.xml中定义action，注意由于使用了validation，所以必须定义input名字的result。</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;action name=&quot;&quot; class=&quot;&quot;&gt;</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;result&gt;&lt;/result&gt;</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;result name=&quot;input&quot;&gt;&lt;/result&gt;</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/action&gt;</p>
+            <p>4 定义JSP页面的Form，例如：</p>
+            <p>&lt;s:form action=&quot;quizAction&quot; &gt;</p>
+            <p>&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Name&quot; name=&quot;name&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Age&quot; name=&quot;age&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Favorite color&quot; name=&quot;answer&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:submit/&gt;</p>
+            <p>&lt;/s:form&gt;<br /></p>
+            </td>
+            <td width="25%">
+            <p>与&ldquo;普通的服务端校验方式&rdquo;基本相同，但是需要在form定义的时候添加validate=&quot;true&quot;，例如：</p>
+            <p>&lt;s:form action=&quot;quizAction&quot; <strong>validate=&quot;true&quot;</strong>&gt;</p>
+            <p>&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Name&quot; name=&quot;name&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Age&quot; name=&quot;age&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Favorite color&quot; name=&quot;answer&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:submit/&gt;</p>
+            <p>&lt;/s:form&gt;<br /></p>
+            </td>
+            <td width="25%">
+            <p>与&ldquo;普通的服务端校验方式&rdquo;基本相同，但是需要做如下修改：</p>
+            <p>1 安装dojo plugin</p>
+            <p>2 JSP中使用dojo plugin</p>
+            <p><span class="code-tag">&lt;%@ taglib prefix=<span class="code-quote">&quot;sx&quot;</span> uri=<span class="code-quote">&quot;/struts-dojo-tags&quot;</span> %&gt;</span><br />3 在head内部追加head标签（引入dojo的js库）</p>
+            <p>&nbsp;<span class="code-tag">&lt;sx:head /&gt;</span><br />4 修改form定义</p>
+            <p><span class="code-tag">&lt;s:form method=<span class="code-quote">&quot;post&quot;</span> theme=<span class="code-quote">&quot;ajax&quot;</span>&nbsp; action=<span class="code-quote">&quot;quizAjax&quot;</span> id=<span class="code-quote">&quot;form&quot;</span>&gt;</span><br />&nbsp;&nbsp;&nbsp; <span class="code-tag">&lt;s:textfield label=<span class="code-quote">&quot;Name&quot;</span> name=<span class="code-quote">&quot;name&quot;</span> /&gt;</span><br />&nbsp;&nbsp;&nbsp; <span class="code-tag">&lt;s:textfield label=<span class="code-quote">&quot;Age&quot;</span> name=<span class="code-quote">&quot;age&quot;</span> /&gt;</span><br />&nbsp;&nbsp;&nbsp; <span class="code-tag">&lt;s:textfield label=<span class="code-quote">&quot;Favorite color&quot;</span> name=<span class="code-quote">&quot;answer&quot;</span>/&gt;</span><br />&nbsp;&nbsp;&nbsp; <strong><span class="code-tag">&lt;sx:submit validate=<span class="code-quote">&quot;true&quot;</span> /&gt;</span><br /></strong><span class="code-tag">&lt;/s:form&gt;</span></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<p>说明：struts-dojo-plugin在2.1.0的时候可能会Release。现在使用需要从Subversion中去除2.1.0SNAPSHOT代码：</p>
+<p>svn <a href="http://svn.apache.org/repos/asf/struts/struts2/trunk">http://svn.apache.org/repos/asf/struts/struts2/trunk</a></p>
+
+<p><strong>代码示例</strong></p>
+
+<p>// QuizAction 类</p>
+
+<p>package example;</p>
+<p>import com.opensymphony.xwork2.ActionSupport;</p>
+<p>/**<br />&nbsp;* Created by IntelliJ IDEA.<br />&nbsp;* User:&nbsp;<a href="mailto:ma.zhao@dl.cn">ma.zhao@dl.cn</a><br />&nbsp;* Date: 2007-9-8<br />&nbsp;* Time: 13:58:16<br />&nbsp;* To change this template use File | Settings | File Templates.<br />&nbsp;*/<br />public class QuizAction extends ActionSupport {<br />&nbsp;&nbsp;&nbsp; private static final long serialVersionUID = -7505437345373234225L;</p>
+<p>&nbsp;&nbsp;&nbsp; private String name;<br />&nbsp;&nbsp;&nbsp; private int age;<br />&nbsp;&nbsp;&nbsp; private String answer;</p>
+<p>&nbsp;&nbsp;&nbsp; public String getName() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return name;<br />&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; public void setName(String name) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.name = name;<br />&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; public int getAge() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return age;<br />&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; public void setAge(int age) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.age = age;<br />&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; public String getAnswer() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return answer;<br />&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; public void setAnswer(String answer) {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.answer = answer;<br />&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; public String execute() {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return SUCCESS;<br />&nbsp;&nbsp;&nbsp; }<br />}<br /></p>
+<p>// QuizValidation.xml 校验配置文件</p>
+
+<p>&lt;!DOCTYPE validators PUBLIC &quot;-//OpenSymphony Group//XWork Validator 1.0.2//EN&quot;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<a href="http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd"><font color="#551a8b">http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd</font></a>&quot;&gt;<br />&lt;validators&gt;<br />&nbsp;&nbsp;&nbsp; &lt;field name=&quot;name&quot;&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;field-validator type=&quot;requiredstring&quot;&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;message&gt;You must enter a name&lt;/message&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/field-validator&gt;<br />&nbsp;&nbsp;&nbsp; &lt;/field&gt;<br />&nbsp;&nbsp;&nbsp; &lt;field name=&quot;age&quot;&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;field-validator type=&quot;int&quot;&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param name=&quot;min&quot;&gt;13&lt;/param&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param name=&quot;max&quot;&gt;19&lt;/param&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;message&gt;Only people ages 13 to 19 may take this quiz&lt;/message&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/field-validator&gt;<br />&nbsp;&nbsp;&nbsp; &lt;/field&gt;<br />&lt;/validators&gt;<br /></p>
+<p>// struts.xml配置文件</p>
+
+<p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br />&lt;!DOCTYPE struts PUBLIC<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;-//Apache Software Foundation//DTD Struts Configuration 2.0//EN&quot;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<a href="http://struts.apache.org/dtds/struts-2.0.dtd">http://struts.apache.org/dtds/struts-2.0.dtd</a>&quot;&gt;</p>
+<p>&lt;struts&gt;</p>
+<p>&nbsp;&nbsp;&nbsp; &lt;package name=&quot;example&quot; namespace=&quot;/example&quot; extends=&quot;struts-default&quot;&gt;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action name=&quot;quizAction&quot; class=&quot;example.QuizAction&quot;&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;result name=&quot;<strong>input</strong>&quot;&gt;/example/quiz-ajax.jsp&lt;/result&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;result&gt;/example/quiz-success.jsp&lt;/result&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/action&gt;<br />&nbsp;&nbsp;&nbsp; &lt;/package&gt;<br />&lt;/struts&gt;</p>
+
+<p>// JSP&nbsp;文件</p>
+<p>&lt;%--<br />&nbsp; Created by IntelliJ IDEA.<br />&nbsp; User:&nbsp;<a href="mailto:ma.zhao@dl.cn">ma.zhao@dl.cn</a><br />&nbsp; Date: 2007-9-8<br />&nbsp; Time: 14:02:17<br />&nbsp; To change this template use File | Settings | File Templates.<br />--%&gt;<br />&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;<br />&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;</p>
+<p>&lt;html&gt;<br />&lt;head&gt;&lt;title&gt;Quiz Action Validation&lt;/title&gt;&lt;/head&gt;<br />&lt;body&gt;</p>
+<p>&lt;s:form action=&quot;quizAction&quot; namespace=&quot;/example&quot; <strong>validate=&quot;true&quot;</strong>&gt;</p>
+<p>&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Name&quot; name=&quot;name&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Age&quot; name=&quot;age&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Favorite color&quot; name=&quot;answer&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:submit/&gt;</p>
+<p>&lt;/s:form&gt;</p>
+<p>&lt;/body&gt;<br />&lt;/html&gt;<br />&nbsp;</p>
+<p><strong>特别说明（Ajax Validation）：</strong></p>
+<p>为什么使用AJAX 校验？</p>
+<p>纯的JavaScript校验不刷新页面，但是也不能使用所有的Struts2校验方法；服务端校验可以使用所有Struts2的校验方法，但是需要刷新页面。</p>
+<p>Struts2 Ajax校验，既不需要刷新页面，又可以使用Struts2内置的所有的校验方法，所以我们比较倾向于使用Ajax校验。</p>
+
+<p>现在（2007/09/08）Struts2的最新版本为2.0.9，还不支持dojo-plugin，所以还没有办法使用Ajax校验。所以要想使用Ajax Validation必须使用Struts2.1.0 SNAPSHOT版本。</p>
+
+<p>下载：</p>
+<p>使用Subversion可以从以下位置下载最新的Struts2的源代码：</p>
+<p><a href="http://svn.apache.org/repos/asf/struts/struts2/trunk">http://svn.apache.org/repos/asf/struts/struts2/trunk</a>&nbsp;</p>
+
+<p>构造：</p>
+<p>在下载的apps目录下blank子目录下可以使用如下命令</p>
+<p>mvn compile jar：jar</p>
+<p>可以在target目录中看到：struts2-blank.war</p>
+
+<p>在plugins目录dojo子目录下使用如下命令</p>
+<p>mvn compile jar:jar</p>
+<p>可以在target目录中看到dojo-plugin：struts2-dojo-plugin-2.1.0-SNAPSHOT.jar</p>
+
+<p>按照上述的说明构造AJAX校验</p>
+
+<p>一些变化：</p>
+<p>Struts 配置文件：</p>
+
+<p>&lt;action name=&quot;quizAjax&quot; class=&quot;example.QuizAction&quot;&gt;<br />&nbsp;&nbsp;&nbsp; <strong>&lt;interceptor-ref name=&quot;jsonValidationWorkflowStack&quot;/&gt;<br /></strong>&nbsp;&nbsp;&nbsp; &lt;result name=&quot;input&quot;&gt;/example/quiz-ajax.jsp&lt;/result&gt;<br />&nbsp;&nbsp;&nbsp; &lt;result&gt;/example/quiz-success.jsp&lt;/result&gt;<br />&lt;/action&gt;</p>
+
+<p>这个interceptor是在Struts 2.1.0 才有的。</p>
+
+<p>JSP文件：</p>
+<p>&lt;%--<br />&nbsp; Created by IntelliJ IDEA.<br />&nbsp; User:&nbsp;<a href="mailto:ma.zhao@dl.cn">ma.zhao@dl.cn</a> <br />&nbsp; Date: 2007-9-8<br />&nbsp; Time: 17:29:43<br />&nbsp; To change this template use File | Settings | File Templates.<br />--%&gt;<br />&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;<br />&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;<br /><strong>&lt;%@ taglib prefix=&quot;sx&quot; uri=&quot;/struts-dojo-tags&quot; %&gt;</strong></p>
+<p>&lt;html&gt;<br />&lt;head&gt;<br />&nbsp;&nbsp;&nbsp; &lt;title&gt;Validation - AJAX&lt;/title&gt;<br />&nbsp;&nbsp;&nbsp; &lt;sx:head /&gt;<br />&lt;/head&gt;</p>
+<p><strong>&lt;s:url id=&quot;url&quot; namespace=&quot;/example&quot; action=&quot;quizAjax&quot;/&gt;</strong></p>
+<p>&lt;body&gt;<br />&lt;s:form method=&quot;post&quot; theme=&quot;xhtml&quot; namespace=&quot;/example&quot; action=&quot;quizAjax&quot; id=&quot;form&quot;&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Name&quot; name=&quot;name&quot; /&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Age&quot; name=&quot;age&quot; /&gt;<br />&nbsp;&nbsp;&nbsp; &lt;s:textfield label=&quot;Favorite color&quot; name=&quot;answer&quot;/&gt;<br />&nbsp;&nbsp;&nbsp; <strong>&lt;sx:submit validate=&quot;true&quot; /&gt;</strong><br />&lt;/s:form&gt;<br />&lt;/body&gt;<br />&lt;/html&gt;&nbsp;</p>
+
+<p>需要注意</p>
+<p><strong>&lt;s:url id=&quot;url&quot; namespace=&quot;/example&quot; action=&quot;quizAjax&quot;/&gt;</strong></p>
+
+<p>提供了Dojo校验的URL，一定要注意。</p>
+
+
+
+
+&nbsp;
+					<p class="right articalinfo">
+						发表于 @ 2007年09月08日　17:56:00&nbsp;&#124;
+						<a id="a_comment" href="#FeedBack" Title = "评论">
+							评论(
+							<span id="FeedbackCount_1777417">loading...</span>
+							<script type="text/javascript">
+								AddFeedbackCountStack("1777417")
+							</script>)
+						</a>&#124;
+						<span style="display:none;"><a id="a_postedit" href="http://writeblog.csdn.net/PostEdit.aspx?entryId=1777417" title="编辑">编辑</a>&#124</span>
+						<a href='m&#97;ilto&#58;yuexn&#64;csdn&#46;net?subject=Article%20Report!!!&body=Author:struts2%0D%0AURL:http://blog.csdn.net/ArticleContent.aspx?UserName=struts2&Entryid=1777417'>举报</a>&#124;
+						<cite class="fav_csdnstylebykimi">
+							<a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a>
+						</cite>
+					</p>
+					<span id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><h3 class="pagego"><a href="/struts2/archive/2007/09/05/1773841.aspx">旧一篇:GWT入门介绍（使用JSON格式的数据通讯）</a>&nbsp;|&nbsp;<a href="/struts2/archive/2007/09/10/1778953.aspx">新一篇:Sruts2 Blog 文章总索引</a></h3></span>
+				</div>
+			</div>
+			<div class="commentslist">
+				<script type="text/javascript">
+					var CurrentEntryId = '1777417';
+					var CurrentUserName = 'struts2';
+				</script>
+				<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/feedback.js?v=2009060902"></script>
+				<div id="commentslist"></div>
+			</div>
+			<div class="spacecommment">
+			</div>
+			<script type="text/javascript">
+			LoadFeedbackCount();
+			document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");
+			</script>
+		</div>
+	</div>
+</div>
+		    
+<div id="pubfooter">
+<dl>
+	<dt></dt>
+	<dd>Csdn Blog version 3.1a</dd>
+	<dd>Copyright &copy; struts2</dd>
+</dl>
+</div>
+
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-2688088-9");
+	pageTracker._trackPageview();
+} catch (err) { }
+</script>
+
+
+	    </div>
+    </div>
+    <img src='/Scripts/count.aspx?blogid=231569&entryid=1777417&title=Struts2 校验（XML配置校验）&url=http://www.google.cn/search?rlz=1C1CHMI_zh-CNCN330CN330&sourceid=chrome&ie=UTF-8&q=struts2+struts-dojo-tags' height=0px width=0px>
+</body>
+</html>
