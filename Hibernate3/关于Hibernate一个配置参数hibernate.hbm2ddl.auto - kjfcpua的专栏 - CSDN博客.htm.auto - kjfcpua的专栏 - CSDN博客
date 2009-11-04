@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	关于Hibernate一个配置参数hibernate.hbm2ddl.auto - kjfcpua的专栏 - CSDN博客
+</title>
+	<script src="http://hi.images.csdn.net/js/public/jquery-1.2.3.pack.js" type="text/javascript"></script>
+	<script src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/jquery.highlighter.js?v=20090609" type="text/javascript"></script>
+	<script src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/highlighter.js?v=20090609" type="text/javascript"></script>
+	<script src="/Scripts/common.js?version=20090618" type="text/javascript"></script>
+	<link href="http://hi.images.csdn.net/css/Cogitation/Cogitation_1.css" type="text/css" rel="stylesheet" media="all"/><link href="http://hi.images.csdn.net/css/csdn_favbykimi.css" type="text/css" rel="stylesheet" media="all" /><link rel="Shortcut Icon" href="http://profile.csdn.net/kjfcpua/picture/1.ico"/><link href="http://feeds.feedsky.com/csdn.net/kjfcpua" title="RSS" type="application/rss+xml" rel="alternate" /></head>
+<body id="defaultuser">
+	<div id="csdnblog_allwrap">
+	    <div id="csdnblog_midwrap">
+		    
+<div id="csdnblog_header">
+    <h1><a href="http://blog.csdn.net/kjfcpua">kjfcpua的专栏</a></h1><h2></h2>
+    <ul id="personalnav">
+		<li style="display:none;"><a id="a_login" href="http://passport.csdn.net/UserLogin.aspx">登录</a></li>
+		<li style="display:none;"><a id="a_register" href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</a></li>
+		<li style="display:none;"><a id="a_welcome" href="http://hi.csdn.net/" target="_blank">欢迎</a></li>
+		<li style="display:none;"><a id="a_exit" href="http://writeblog.csdn.net/Signout.aspx">退出</a></li>
+		<li style="display:none;"><a id="a_myblog" href="http://blog.csdn.net/">我的博客</a></li>
+		<li style="display:none;"><a id="a_configure" href="http://writeblog.csdn.net/configure.aspx" target="_blank">配置</a></li>
+		<li style="display:none;"><a id="a_postedit" href="http://writeblog.csdn.net/PostEditPlain.aspx" target="_blank">写文章</a></li>
+		<li style="display:none;"><a id="a_postlist" href="http://writeblog.csdn.net/PostList.aspx" target="_blank">文章管理</a></li>
+		<li style="display:none;"><a id="a_bloghome" href="http://blog.csdn.net" target="_blank">博客首页</a></li>
+	</ul>
+    <ul id="blogsearchsty">
+		<li><input id="inputSearch" type="text" class="bolgsearch"/></li>
+		<li class="selectsty">
+			<select name="Search:ddlSearchScope" id="Search_ddlSearchScope">
+				<option value="all">全站</option>
+				<option value="kjfcpua">当前博客</option>
+			</select>
+		</li>
+		<li><input type="button" id="buttonSearch" value="搜索" class="bolggobtn" /></li>
+	</ul>
+    <ul id="menu">
+		<li><a href="http://hi.csdn.net/kjfcpua">空间</a></li>
+		<li><a href="http://blog.csdn.net/kjfcpua" class="on">博客</a></li>
+		<li><a href="http://hi.csdn.net/kjfcpua/profile/contactlist/1.html">好友</a></li>
+		<li><a href="http://album.hi.csdn.net/views/albums/kjfcpua" target="_blank">相册</a></li>
+		<li><a href="http://hi.csdn.net/kjfcpua/profile/notebook/1.html" class="last">留言</a></li>
+	</ul>
+</div>
+
+		    
+<div id="csdnblog_sidebar">
+	<div class="gutter">
+		<div class="aboutauthor">
+			<dl>
+				<dt>用户操作</dt>
+				<dd class="middle">
+					<a href="http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=kjfcpua" target="_blank">[发私信]</a>&nbsp;
+					<a href="http://webim.csdn.net/AddFriends/kjfcpua.ashx" target="_blank">[加为好友]</a>&nbsp;
+				</dd>
+				<span id="userInfo"></span>
+				<span id="SubscriptionList">
+					<dt>订阅我的博客</dt>
+					<dd>
+						<a href="http://feeds.feedsky.com/csdn.net/kjfcpua">
+							<img border="0" alt="XML聚合" src="http://img.feedsky.com/feeds/csdn.net/kjfcpua/sc/gif"/>
+						</a>&nbsp;&nbsp;
+						<a href="http://feeds.feedsky.com/csdn.net/kjfcpua" target="_blank">
+							<img border="0" alt="FeedSky" src="http://hi.images.csdn.net/images/blog/feedsky.gif"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://www.xianguo.com/subscribe.php?url=http://feeds.feedsky.com/csdn.net/kjfcpua" target="_blank">
+							<img border="0" alt="订阅到鲜果" src="http://hi.images.csdn.net/images/blog/rss_xianguo.jpg"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://fusion.google.com/add?feedurl=http://feeds.feedsky.com/csdn.net/kjfcpua" target="_blank">
+							<img border="0" alt="订阅到Google" src="http://hi.images.csdn.net/images/blog/rss_google.gif"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://www.zhuaxia.com/add_channel.php?url=http://feeds.feedsky.com/csdn.net/kjfcpua" target="_blank">
+							<img border="0" alt="订阅到抓虾" src="http://hi.images.csdn.net/images/blog/rss_zhuaxia.gif"/>
+						</a>
+					</dd>
+				</span>
+				<dt>
+					kjfcpua的公告
+				</dt>
+				<dd></dd>
+				<dt>文章分类</dt>
+				<dd>
+					<div class="publiclist_sidebar">
+						<ul></ul>
+					</div>
+				</dd>
+				
+				
+				<dt>存档</dt>
+				<dd>
+					<div class="publiclist_sidebar">
+						<ul><li><a href="/kjfcpua/archive/2009/08.aspx">2009年08月(8)</a></li><li><a href="/kjfcpua/archive/2009/07.aspx">2009年07月(1)</a></li><li><a href="/kjfcpua/archive/2009/06.aspx">2009年06月(11)</a></li><li><a href="/kjfcpua/archive/2009/05.aspx">2009年05月(1)</a></li><li><a href="/kjfcpua/archive/2009/04.aspx">2009年04月(22)</a></li></ul>
+					</div>
+				</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+
+		    
+<div id="csdnblog_content">
+	<div class="gutter">
+		<div class="default_contents">
+			<div class="user_article">
+				<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/LoadFeedbackCount.js"></script>
+				<h1 class="title_txt">
+					
+					关于Hibernate一个配置参数hibernate.hbm2ddl.auto
+					<cite class="fav_csdnstylebykimi">
+						<a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a>
+					</cite>
+					
+				</h1>
+				<div class="blogstory">
+					<script type="text/javascript">
+						document.body.oncopy = function() {
+							if (window.clipboardData) {
+								setTimeout(function() {
+									var text = clipboardData.getData("text"); 
+									if (text && text.length>300) {
+										text = text + "\r\n\n本文来自CSDN博客，转载请标明出处：" + location.href;
+										clipboardData.setData("text", text); 
+									}
+								}, 100);
+							}
+						}
+					</script>
+					<script class="blogstory">function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</script>
+					<p><span style="color: #0000ff;">hibernate.cfg.xml 中hibernate.hbm2ddl.auto配置节点如下：<br /><span style="background-color: #c0c0c0;">&lt;</span></span><span style="background-color: #c0c0c0;"><span style="color: #800000;">properties</span><span style="color: #0000ff;">&gt;</span></span><span style="color: #000000;"><br /><span style="background-color: #c0c0c0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="background-color: #c0c0c0;"><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="hibernate.show_sql"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="true"</span><span style="color: #ff0000;"> </span><span style="color: #0000ff;">/&gt;</span></span><span style="background-color: #c0c0c0;"><span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="hibernate.hbm2ddl.auto"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="create"</span><span style="color: #ff0000;"> </span></span><span style="background-color: #c0c0c0;"><span style="color: #0000ff;">/&gt;<br /></span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">properties</span></span><span style="color: #0000ff;"><span style="background-color: #ccffff;"><span style="background-color: #c0c0c0;">&gt;</span><br /></span><br />Hibernate Reference Documentation 3.3.1解释如下：<br />Automatically validate or export schema DDL to the database when the SessionFactory is created.<br />With create-drop, the database schema will be dropped when the SessionFactory is closed explicitly.<br />eg. validate | update | create | create-drop</span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;"><br /></span></span></p>
+<p>其实这个<span style="color: #0000ff;">hibernate.hbm2ddl.auto</span>参数的作用主要用于：自动创建|更新|验证数据库表结构。如果不是此方面的需求建议set value="none"。<br />create：<br />&nbsp;&nbsp; 每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。<br />create-drop ：<br />&nbsp;&nbsp;&nbsp; 每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。<br />update：<br />&nbsp;&nbsp;&nbsp; 最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等应用第一次运行起来后才会。<br />validate ：<br />&nbsp;&nbsp;&nbsp; 每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</p>
+<p>再说点&ldquo;废话&rdquo;：<br />当我们把<span style="color: #0000ff;">hibernate.hbm2ddl.auto=create</span><span>时hibernate先用hbm2ddl来生成数据库schema。<br />当我们把hibernate.cfg.xml文件中hbm2ddl属性注释掉，这样我们就取消了在启动时用hbm2ddl来生成数据库schema。通常只有在不断重复进行单元测试的时候才需要打开它，但再次运行hbm2ddl会把你保存的一切都删除掉（drop）---- create配置的含义是：&ldquo;在创建SessionFactory的时候，从scema中drop掉所以的表，再重新创建它们&rdquo;。<br />注意，很多Hibernate新手在这一步会失败，我们不时看到关于Table not found错误信息的提问。但是，只要你根据上面描述的步骤来执行，就不会有这个问题，因为hbm2ddl会在第一次运行的时候创建数据库schema，后续的应用程序重启后还能继续使用这个schema。假若你修改了映射，或者修改了数据库schema,你必须把hbm2ddl重新打开一次。</span></p>
+
+
+
+
+
+<p><span style="font-size: small;">***********************************************************</span></p>
+
+
+<p>这两天在整理Spring + JPA（Hibernate实现），从网上copy了一段Hibernate连接参数的配置。</p>
+<p>&lt;properties&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;property name="hibernate.show_sql" value="true" /&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;property name="hibernate.hbm2ddl.auto" value="create" /&gt;<br />&lt;/properties&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 结果在测试时，老是发现数据库表数据丢失。这个参数以前没怎么用，查了一圈其它的东东，最后才定位到这个上面。赶紧查了一下Hibernate的参数配置，解释如下：</p>
+<p>hibernate.hbm2ddl.auto Automatically validate or export schema DDL to the database when the SessionFactory is created. With create-drop, the database schema will be dropped when the SessionFactory is closed explicitly.&nbsp; eg. validate | update | create | create-drop</p>
+<p>其实这个参数的作用主要用于：自动创建|更新|验证数据库表结构。如果不是此方面的需求建议set value="none".</p>
+<p>其它几个参数的意思，我解释一下：</p>
+<p>&nbsp;validate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 加载hibernate时，验证创建数据库表结构<br />&nbsp;create&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。<br />&nbsp;create-drop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 加载hibernate时创建，退出是删除表结构<br />&nbsp;update&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 加载hibernate自动更新数据库结构</p>
+<p>总结：</p>
+<p>1.请慎重使用此参数，没必要就不要随便用。</p>
+<p>2.如果发现数据库表丢失，请检查hibernate.hbm2ddl.auto的配置</p>
+					<p class="right articalinfo">
+						发表于 @ 2009年06月16日　10:18:00&nbsp;&#124;
+						<a id="a_comment" href="#FeedBack" Title = "评论">
+							评论(
+							<span id="FeedbackCount_4272415">loading...</span>
+							<script type="text/javascript">
+								AddFeedbackCountStack("4272415")
+							</script>)
+						</a>&#124;
+						<span style="display:none;"><a id="a_postedit" href="http://writeblog.csdn.net/PostEdit.aspx?entryId=4272415" title="编辑">编辑</a>&#124</span>
+						<a href='m&#97;ilto&#58;yuexn&#64;csdn&#46;net?subject=Article%20Report!!!&body=Author:kjfcpua%0D%0AURL:http://blog.csdn.net/ArticleContent.aspx?UserName=kjfcpua&Entryid=4272415'>举报</a>&#124;
+						<cite class="fav_csdnstylebykimi">
+							<a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a>
+						</cite>
+					</p>
+					<span id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><h3 class="pagego"><a href="/kjfcpua/archive/2009/06/03/4240581.aspx">旧一篇:java.math.BigDecimal的使用方法</a>&nbsp;|&nbsp;<a href="/kjfcpua/archive/2009/06/21/4287241.aspx">新一篇:Hibernate3的DetachedCriteria支持</a></h3></span>
+				</div>
+			</div>
+			<div class="commentslist">
+				<script type="text/javascript">
+					var CurrentEntryId = '4272415';
+					var CurrentUserName = 'kjfcpua';
+				</script>
+				<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/feedback.js?v=2009060902"></script>
+				<div id="commentslist"></div>
+			</div>
+			<div class="spacecommment">
+			</div>
+			<script type="text/javascript">
+			LoadFeedbackCount();
+			document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");
+			</script>
+		</div>
+	</div>
+</div>
+		    
+<div id="pubfooter">
+<dl>
+	<dt></dt>
+	<dd>Csdn Blog version 3.1a</dd>
+	<dd>Copyright &copy; kjfcpua</dd>
+</dl>
+</div>
+
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-2688088-9");
+	pageTracker._trackPageview();
+} catch (err) { }
+</script>
+
+
+	    </div>
+    </div>
+    <img src='/Scripts/count.aspx?blogid=281423&entryid=4272415&title=关于Hibernate一个配置参数hibernate.hbm2ddl.auto&url=http://www.google.cn/search?rlz=1C1CHMI_zh-CNCN330CN330&aq=f&sourceid=chrome&ie=UTF-8&q=hibernate.hbm2ddl.auto' height=0px width=0px>
+</body>
+</html>

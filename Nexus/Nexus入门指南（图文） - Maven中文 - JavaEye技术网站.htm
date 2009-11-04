@@ -1,0 +1,789 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0040)http://juvenshun.javaeye.com/blog/349534 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <TITLE>Nexus入门指南（图文） - Maven中文 - JavaEye技术网站</TITLE>
+    <META name="description" content="Nexus介绍 Nexus 是Maven仓库管理器，如果你使用Maven，你可以从Maven中央仓库 下载所需要的构件（artifact），但这通常不是一个好的做法，你应该在本地架设一个Maven仓库服务器，在代理远程仓库的同时维护本地仓库，以节省带宽和时间，Nexus就可以满足这样的需要。此外，他还提供了强大的仓库管理功能，构件搜索功能，它基于REST，友好的UI是一个extjs的REST客户端， ...">
+    <META name="keywords" content="maven nexus  Nexus入门指南（图文）">
+    <LINK rel="shortcut icon" href="http://juvenshun.javaeye.com/images/favicon.ico" type="image/x-icon">
+    <LINK href="http://juvenshun.javaeye.com/rss" rel="alternate" title="Maven中文" type="application/rss+xml">
+    <LINK href="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<LINK href="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/blue.css" media="screen" rel="stylesheet" type="text/css">
+    <SCRIPT src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/application.js" type="text/javascript"></SCRIPT>
+      <LINK href="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <SCRIPT src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/shCoreCommon.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/hotkey.js" type="text/javascript"></SCRIPT>
+  <STYLE>
+    div#main {background-color: transparent; border: 0; padding: 0px; width: 740px;}
+  </STYLE>
+  <STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE><STYLE type="text/css">.dp-xml .cdata { color: #ff1493; }.dp-xml .tag, .dp-xml .tag-name { color: #069; font-weight: bold; }.dp-xml .attribute { color: red; }.dp-xml .attribute-value { color: blue; }</STYLE></HEAD><BODY>
+    <DIV id="header">
+      <DIV id="blog_site_nav">
+  <A href="http://www.javaeye.com/" class="homepage">首页</A>
+  <A href="http://www.javaeye.com/news">新闻</A>
+  <A href="http://www.javaeye.com/forums">论坛</A>
+  <A href="http://www.javaeye.com/blogs">博客</A>
+  <A href="http://www.javaeye.com/job">招聘</A>
+  <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="return false;" id="msna"><U>更多</U> <SMALL>▼</SMALL></A>
+  <DIV class="quick_menu" style="display:none;">
+    <A href="http://www.javaeye.com/ask">问答</A>
+    <A href="http://www.javaeye.com/wiki">知识库</A>
+    <A href="http://www.javaeye.com/groups">圈子</A>
+    <A href="http://www.javaeye.com/google_search">搜索</A>
+  </DIV>
+</DIV>
+      <DIV id="user_nav">
+      <A href="http://frankswu.javaeye.com/" title="查看我的博客首页" class="welcome">欢迎frankswu</A>
+    
+      <A href="http://app.javaeye.com/messages" title="发送站内短信">收件箱</A>
+    
+    
+      <A href="http://app.javaeye.com/" title="我的应用首页">我的应用</A>
+    
+    <DIV class="quick_menu" style="display:none;">
+      <A href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</A>
+      <A href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</A>
+      <A href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</A>
+      <A href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</A>
+      <A href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</A>
+      <A href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</A>
+    </DIV>
+        <A href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</A>
+    <A href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</A>
+    <A href="http://juvenshun.javaeye.com/logout" class="nobg" onclick="var f = document.createElement(&#39;form&#39;); f.style.display = &#39;none&#39;; this.parentNode.appendChild(f); f.method = &#39;POST&#39;; f.action = this.href;var m = document.createElement(&#39;input&#39;); m.setAttribute(&#39;type&#39;, &#39;hidden&#39;); m.setAttribute(&#39;name&#39;, &#39;_method&#39;); m.setAttribute(&#39;value&#39;, &#39;put&#39;); f.appendChild(m);f.submit();return false;">退出</A>
+  </DIV>
+    </DIV>
+
+    <DIV id="page">
+      <DIV id="branding" class="clearfix">
+        <DIV id="blog_name"><H1><A href="http://juvenshun.javaeye.com/">Maven中文</A></H1></DIV>
+        <DIV id="blog_preview"></DIV>
+        <DIV id="blog_domain">永久域名 <A href="http://juvenshun.javaeye.com/">http://juvenshun.javaeye.com</A></DIV>
+      </DIV>
+      
+      
+      <DIV id="content" class="clearfix">
+        <DIV id="main">
+          
+
+
+          
+
+
+<DIV class="blog_main"> 
+  <DIV id="blog_nav">
+    <DIV class="digg" id="d349534"><H3><A href="http://juvenshun.javaeye.com/blog/349534#" onclick="digg(&quot;blogs&quot;, 349534, false);return false;" class="digg">24顶</A><BR><A href="http://juvenshun.javaeye.com/blog/349534#" onclick="digg(&quot;blogs&quot;, 349534, true);return false;" class="bury">7踩</A></H3></DIV>
+    <DIV id="pre_next">
+      <A href="http://juvenshun.javaeye.com/blog/358638" class="next" title="Maven中央仓库的中国镜像">Maven中央仓库的中国镜像</A>
+      |
+      <A href="http://juvenshun.javaeye.com/blog/345959" class="pre" title="&ldquo;第十七章 编写插件&rdquo; 发布">“第十七章 编写插件” 发布</A>
+    </DIV>
+  </DIV>
+  <DIV class="blog_title">
+    <DIV class="date"><SPAN class="year">2009</SPAN><SPAN class="sep_year">-</SPAN><SPAN class="month">03</SPAN><SPAN class="sep_month">-</SPAN><SPAN class="day">15</SPAN></DIV>
+    <H3 class="type_original" title="原创"><A href="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/Nexus入门指南（图文） - Maven中文 - JavaEye技术网站.htm">Nexus入门指南（图文）</A></H3>
+                <STRONG>关键字: maven nexus</STRONG>
+  </DIV>
+
+  <DIV class="blog_content">
+    <H2>Nexus介绍</H2>
+<P><A href="http://nexus.sonatype.org/">Nexus</A>
+是Maven仓库管理器，如果你使用Maven，你可以从<A href="http://repo1.maven.org/maven2/">Maven中央仓库</A>
+下载所需要的构件（artifact），但这通常不是一个好的做法，你应该在本地架设一个Maven仓库服务器，在代理远程仓库的同时维护本地仓库，以节省带宽和时间，Nexus就可以满足这样的需要。此外，他还提供了强大的仓库管理功能，构件搜索功能，它基于REST，友好的UI是一个extjs的REST客户端，它占用较少的内存，基于简单文件系统而非数据库。这些优点使其日趋成为最流行的Maven仓库管理器。</P>
+<P>&nbsp;</P>
+<H2>下载和安装</H2>
+<P>你可以从<A href="http://nexus.sonatype.org/downloads/">http://nexus.sonatype.org/downloads/</A>
+下载最新版本的Nexus，笔者使用的是1.3.0版本。</P>
+<P>Nexus提供了两种安装方式，一种是内嵌Jetty的bundle，只要你有JRE就能直接运行。第二种方式是WAR，你只须简单的将其发布到web容器中即可使用。</P>
+<P>&nbsp;</P>
+<H4><EM>Bundle方式安装</EM>
+</H4>
+<P>解压<EM>nexus-webapp-1.3.0-bundle.zip</EM>
+至任意目录，如<EM>D:\dev_tools</EM>
+，然后打开CMD，cd至目录<EM>D:\dev_tools\nexus-webapp-1.3.0\bin\jsw\windows-x86-32</EM>
+，运行<STRONG>Nexus.bat</STRONG>
+。你会看到Nexus的启动日志，当你看到“Started SelectChannelConnector@0.0.0.0:8081”之后，说明Nexus启动成功了，然后打开浏览器，访问http://127.0.0.1:8081/nexus，你会看到如下的页面：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/92809f97-0f8b-3fc5-af00-56b90b9eb05f.png" height="347" alt="" style="vertical-align: baseline;" width="599">
+</P>
+<P>要停止Nexus，Ctrl+C即可，此外InstallNexus.bat可以用来将Nexus安装成一个windows服务，其余的脚本则对应了启动，停止，暂停，恢复，卸载Nexus服务。</P>
+<P>&nbsp;</P>
+<H4><EM>WAR方式安装</EM>
+</H4>
+<P>你需要有一个能运行的web容器，这里以Tomcat为例，加入Tomcat的安装目录位于<EM>D:\dev_tools\apache-tomcat-6.0.18</EM>
+，首先我们将下载的<EM>nexus-webapp-1.3.0.war</EM>
+重命名为<EM>nexus.war</EM>
+，然后复制到<EM>D:\dev_tools\apache-tomcat-6.0.18\webapps\nexus.war</EM>
+，然后启动CMD，cd到<EM>D:\dev_tools\apache-tomcat-6.0.18\bin\</EM>
+目录，运行<STRONG>startup.bat</STRONG>
+。一切OK，现在可以打开浏览器访问http://127.0.0.1:8080/nexus，你会得到和上图一样的界面。</P>
+<P>&nbsp;</P>
+<H2>代理外部Maven仓库</H2>
+<H4><EM>登陆</EM>
+</H4>
+<P>要管理Nexus，你首先需要以管理员身份登陆，点击界面右上角的login，输入默认的登录名和密码：admin/admin123，登陆成功后，你会看到左边的导航栏增加了很多内容：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/7b7bc35b-1661-380a-95f6-806e5fabc50b.png" height="341" alt="" style="vertical-align: baseline;" width="600">
+</P>
+<P>这里，可以管理仓库，配置Nexus系统，管理任务，管理用户，角色，权限，查看系统的RSS源，管理及查看系统日志，等等。你会看到Nexus的功能十分丰富和强大，本文，笔者只介绍一些最基本的管理和操作。</P>
+<P>&nbsp;</P>
+<H4><EM>代理Maven中央仓库</EM>
+</H4>
+<P>点击左边导航栏的Repositories，界面的主面板会显示所有一个所有仓库及仓库组的列表，你会看到它们的Type字段的值有group，hosted，proxy，virtual。这里我们不关心virtual，只介绍下另外三种类型：</P>
+<UL>
+<LI>hosted，本地仓库，通常我们会部署自己的构件到这一类型的仓库。</LI>
+<LI>proxy，代理仓库，它们被用来代理远程的公共仓库，如maven中央仓库。</LI>
+<LI>group，仓库组，用来合并多个hosted/proxy仓库，通常我们配置maven依赖仓库组。</LI>
+</UL>
+<P>由此我们知道，我们需要配置一个Maven中央仓库的proxy，其实Nexus已经内置了Maven Central，但我们需要做一些配置。点击仓库列表中的Maven Central，你会注意到它的Policy是release，这说明它不会代理远程仓库的snapshot构件，这是有原因的，远程仓库的snapshot版本构件不稳定且不受你控制，使用这样的构件含有潜在的风险。然后我们发现主面板下方有三个Tab，分别为Browse，Configuration和Mirrors，我们点击Configuration进行配置，你现在需要关心的是两个配置项：“Remote Storage Location”为远程仓库的地址，对于Maven Central来说是http://repo1.maven.org/maven2/；“Download Remote Indexes”顾名思义是指是否下载远程索引文件，Maven Central的该字段默认为False，这是为了防止大量Nexus无意识的去消耗中央仓库的带宽（中央仓库有大量的构件，其索引文件也很大）。这里我们需要将其设置为True，然后点击Save。在Nexus下载的中央仓库索引文件之后，我们就可以在本地搜索中央仓库的所有构件。下图展示了我们刚才所涉及的配置：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/5af99752-a10d-3dd4-8524-00b24d930d87.png" height="340" alt="" style="vertical-align: baseline;" width="600">
+</P>
+<P>&nbsp;</P>
+<H4><EM>添加一个代理仓库</EM>
+</H4>
+<P>这里我们再举一个例子，我们想要代理Sonatype的公共仓库，其地址为：http://repository.sonatype.org/content/groups/public/。步骤如下，在Repositories面板的上方，点击Add，然后选择Proxy Repository，在下方的配置部分，我们填写如下的信息：Repository ID - sonatype；Repository Name - Sonatype Repository；Remote Storage Location - http://repository.sonatype.org/content/groups/public/。其余的保持默认值，需要注意的是Repository Policy，我们不想代理snapshot构件，原因前面已经描述。然后点击Save。配置页面如下：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/8c1fbf8e-d9c2-3e66-b051-770f677673c1.png" height="345" alt="" style="vertical-align: baseline;" width="601">
+</P>
+<P>&nbsp;</P>
+<H2>管理本地Maven仓库</H2>
+<P>Nexus预定义了3个本地仓库，分别为Releases，Snapshots，和3rd Party。这三个仓库都有各自明确的目的。Releases用于部署我们自己的release构件，Snapshots用于部署我们自己的snapshot构件，而3rd Party用于部署第三方构件，有些构件如Oracle的JDBC驱动，我们不能从公共仓库下载到，我们就需要将其部署到自己的仓库中。</P>
+<P>当然你也可以创建自己的本地仓库，步骤和创建代理仓库类似，点击Repository面板上方的Add按钮，然后选择Hosted Repository，然后在下方的配置面板中输入id和name，注意这里我们不再需要填写远程仓库地址，Repository Type则为不可修改的hosted，而关于Repository Policy，你可以根据自己的需要选择Release或者Snapshot，如图：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/8d2b0297-9e7c-3808-aa99-c3b93dbff73a.png" height="342" alt="" style="vertical-align: baseline;" width="600">
+</P>
+<P>&nbsp;</P>
+<H2>管理Maven仓库组</H2>
+<P>Nexus中仓库组的概念是Maven没有的，在Maven看来，不管你是hosted也好，proxy也好，或者group也好，对我都是一样的，我只管根据groupId，artifactId，version等信息向你要构件。为了方便Maven的配置，Nexus能够将多个仓库，hosted或者proxy合并成一个group，这样，Maven只需要依赖于一个group，便能使用所有该group包含的仓库的内容。</P>
+<P>Nexus预定义了“Public Repositories”和“Public Snapshot Repositories”两个仓库组，前者默认合并所有预定义的Release仓库，后者默认合并所有预定义的Snapshot仓库。我们在本文前面的部分创建了一个名为“Sonatype Repository”的仓库，现在将其合并到“Public Repositories”中。</P>
+<P>点击仓库列表中的“Public Repositories”，然后选择下方的"Configuration" Tab，在配置面板中，将右边“Avaiable Repositories”中的“Sonatype Repository”拖拽到左边的“Ordered Group Repository”中，如图：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/6d83cb84-8270-3917-9568-85fb7677ba57.png" height="339" alt="" style="vertical-align: baseline;" width="597">
+</P>
+<P>创建仓库组和创建proxy及hosted仓库类似，这里不再赘述。需要注意的是format字段需要填写“maven2”，添加你感兴趣的仓库即可。</P>
+<P>&nbsp;</P>
+<H2>搜索构件</H2>
+<P>在浩大的Maven仓库中一下下点击链接，浏览路径以寻找感兴趣的构件是一件很郁闷的事情。Nexus基于nexus-indexer提供构件搜索功能，要想对仓库进行搜索，无论是hosted，proxy，或者group，你都必须确认索引文件存在。这一点对于代理仓库尤其重要，有些远程仓库可能根本就没有索引，所以你无法搜索这些代理仓库。有些远程仓库的远程索引非常大，如中央仓库达到了70M左右，那么第一次下载索引需要花很多时间，所以要期望得到搜索结果，确保看到如下的文件：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/b7ea68b0-2f1e-32df-b31f-7c88a2ea6434.png" height="340" alt="" style="vertical-align: baseline;" width="600">
+</P>
+<P>一旦你的Nexus拥有了本地或者远程仓库的索引文件，你就可以享受Nexus的构件搜索功能了。不论登陆与否，你都可以使用关键字进行模糊搜索，比如我在左边导航栏上部的搜索框内输入junit，然后点击搜索按钮，右边立刻会分页显示500多条的junit相关构件信息。如果你了解更多的信息，你也可以通过限定groupId，artifactId，version进行搜索，点击导航栏中的“Advanced Search”，点击右边所有页面左上角的下拉框，选择“GAV Search”。笔者这里输入junit:junit:4.4，然后回车：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/53e38196-56fb-3faa-ab22-c81c2aff92c8.png" height="341" alt="" style="vertical-align: baseline;" width="600">
+</P>
+<P>选择一项搜索结果，在页面下方会显示“Artifact Information”的面板，你可以点击"artifact"或者"pom"下载对应文件，而该面板右边更显示了一个Maven依赖配置，你可以直接复制该配置到Maven POM中，这是个十分方便的特性。</P>
+<P>此外，值得一提的是，Nexus还支持基于classname的搜索，你只需点击搜索页面右上角的下拉框，选择“Classname Search”，然后输入类名即可，这里我不再赘述。</P>
+<P>&nbsp;</P>
+<H2>配置Maven使用Nexus</H2>
+<P>默认情况下，Maven依赖于中央仓库，这是为了能让Maven开箱即用，但仅仅这么做明显是错误的，这会造成大量的时间及带宽的浪费。既然文章的前面已经介绍了如何安装和配置Nexus，现在我们就要配置Maven来使用本地的Nexus，以节省时间和带宽资源。</P>
+<P>我们可以将Repository配置到POM中，但一般来说这不是很好的做法，原因很简单，你需要为所有的Maven项目重复该配置。因此，这里我将Repository的配置放到$user_home/.m2/settings.xml中：</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3Csettings%3E%0A...%0A%3Cprofiles%3E%0A%20%20%3Cprofile%3E%0A%20%20%20%20%3Cid%3Edev%3C%2Fid%3E%0A%20%20%20%20%3Crepositories%3E%0A%20%20%20%20%20%20%3Crepository%3E%0A%20%20%20%20%20%20%20%20%3Cid%3Elocal-nexus%3C%2Fid%3E%0A%20%20%20%20%20%20%20%20%3Curl%3Ehttp%3A%2F%2F127.0.0.1%3A8080%2Fnexus%2Fcontent%2Fgroups%2Fpublic%2F%3C%2Furl%3E%0A%20%20%20%20%20%20%20%20%3Creleases%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cenabled%3Etrue%3C%2Fenabled%3E%0A%20%20%20%20%20%20%20%20%3C%2Freleases%3E%0A%20%20%20%20%20%20%20%20%3Csnapshots%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cenabled%3Etrue%3C%2Fenabled%3E%0A%20%20%20%20%20%20%20%20%3C%2Fsnapshots%3E%0A%20%20%20%20%20%20%3C%2Frepository%3E%0A%20%20%20%20%3C%2Frepositories%3E%0A%20%20%3C%2Fprofile%3E%0A%3C%2Fprofiles%3E%0A%3CactiveProfiles%3E%0A%20%20%3CactiveProfile%3Edev%3C%2FactiveProfile%3E%0A%3C%2FactiveProfiles%3E%0A...%0A%3C%2Fsettings%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">settings</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">profiles</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">profile</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>dev</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">repositories</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">repository</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>local-nexus</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">url</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>http://127.0.0.1:8080/nexus/content/groups/public/</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">url</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">releases</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">enabled</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>true</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">enabled</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">releases</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">snapshots</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">enabled</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>true</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">enabled</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">snapshots</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">repository</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">repositories</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">profile</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">profiles</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">activeProfiles</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">activeProfile</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>dev</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">activeProfile</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">activeProfiles</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">settings</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;settings&gt;
+...
+&lt;profiles&gt;
+  &lt;profile&gt;
+    &lt;id&gt;dev&lt;/id&gt;
+    &lt;repositories&gt;
+      &lt;repository&gt;
+        &lt;id&gt;local-nexus&lt;/id&gt;
+        &lt;url&gt;http://127.0.0.1:8080/nexus/content/groups/public/&lt;/url&gt;
+        &lt;releases&gt;
+          &lt;enabled&gt;true&lt;/enabled&gt;
+        &lt;/releases&gt;
+        &lt;snapshots&gt;
+          &lt;enabled&gt;true&lt;/enabled&gt;
+        &lt;/snapshots&gt;
+      &lt;/repository&gt;
+    &lt;/repositories&gt;
+  &lt;/profile&gt;
+&lt;/profiles&gt;
+&lt;activeProfiles&gt;
+  &lt;activeProfile&gt;dev&lt;/activeProfile&gt;
+&lt;/activeProfiles&gt;
+...
+&lt;/settings&gt;</PRE>
+<P>由于我们不能直接在settings.xml中插入&lt;repositories&gt;元素，这里我们编写了一个profile，并添加了一个profile并使用&lt;activeProfile&gt;元素自动将这个profile激活。这里的local-nexus仓库指向了刚才我们配置的Nexus中“Public Repositories”仓库组，也就是说，所有该仓库组包含的仓库都能供我们使用。此外，我们通过&lt;releases&gt;和&lt;snapshots&gt;元素激活了Maven对于仓库所有类型构件下载的支持，当然你也可以调节该配置，比如说禁止Maven从Nexus下载snapshot构件。</P>
+<P>使用该配置，Maven就会从你的Nexus服务器下载构件了，速度和从Central下载可不是一个数量级的。</P>
+<P>&nbsp;</P>
+<H2>部署构件至Nexus</H2>
+<P>Nexus提供了两种方式来部署构件，你可以从UI直接上传，也可以配置Maven部署构件。</P>
+<P>&nbsp;</P>
+<H4><EM>通过Nexus UI部署</EM>
+</H4>
+<P>有时候有个jar文件你无法从公共Maven仓库找到，但是你能从其它得到这个jar文件（甚至是POM），那么你完全可以将这个文件部署到Nexus中，使其成为标准流程的一部分。步骤如下：</P>
+<P>点击左边导航栏的"Repository"，在右边的仓库列表中选择一个仓库，如“3rd Party”，然后会看到页面下方有四个tab，选择最后一个“Upload”，你会看到构件上传界面。选择你要上传的构件，并指定POM，（或者手工编写GAV等信息），最后点击Upload，该构件就直接被部署到了Nexus的"3rd Party"仓库中。如图：</P>
+<P><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/a882a8bc-80aa-3ce6-8365-6935b9f7aa55.png" height="339" alt="" style="vertical-align: baseline;" width="600">
+</P>
+<H4><BR>
+</H4>
+<H4><EM>通过Maven部署</EM>
+</H4>
+<P>更常见的用例是：团队在开发一个项目的各个模块，为了让自己开发的模块能够快速让其他人使用，你会想要将snapshot版本的构件部署到Maven仓库中，其他人只需要在POM添加一个对于你开发模块的依赖，就能随时拿到最新的snapshot。</P>
+<P>以下的pom.xml配置和settings.xml能让你通过Maven自动化部署构件：</P>
+<P><EM>pom.xml</EM></P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3Cproject%3E%0A...%0A%3CdistributionManagement%3E%0A%20%20%3Crepository%3E%0A%20%20%20%20%3Cid%3Enexus-releases%3C%2Fid%3E%0A%20%20%20%20%20%20%3Cname%3ENexus%20Release%20Repository%3C%2Fname%3E%0A%20%20%20%20%20%20%3Curl%3Ehttp%3A%2F%2F127.0.0.1%3A8080%2Fnexus%2Fcontent%2Frepositories%2Freleases%2F%3C%2Furl%3E%0A%20%20%3C%2Frepository%3E%0A%20%20%3CsnapshotRepository%3E%0A%20%20%20%20%3Cid%3Enexus-snapshots%3C%2Fid%3E%0A%20%20%20%20%3Cname%3ENexus%20Snapshot%20Repository%3C%2Fname%3E%0A%20%20%20%20%3Curl%3Ehttp%3A%2F%2F127.0.0.1%3A8080%2Fnexus%2Fcontent%2Frepositories%2Fsnapshots%2F%3C%2Furl%3E%0A%20%20%3C%2FsnapshotRepository%3E%0A%3C%2FdistributionManagement%3E%0A...%0A%3C%2Fproject%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">project</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">distributionManagement</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">repository</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>nexus-releases</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">name</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Nexus&nbsp;Release&nbsp;Repository</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">name</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">url</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>http://127.0.0.1:8080/nexus/content/repositories/releases/</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">url</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">repository</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">snapshotRepository</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>nexus-snapshots</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">name</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>Nexus&nbsp;Snapshot&nbsp;Repository</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">name</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">url</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>http://127.0.0.1:8080/nexus/content/repositories/snapshots/</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">url</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">snapshotRepository</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">distributionManagement</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">project</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;project&gt;
+...
+&lt;distributionManagement&gt;
+  &lt;repository&gt;
+    &lt;id&gt;nexus-releases&lt;/id&gt;
+      &lt;name&gt;Nexus Release Repository&lt;/name&gt;
+      &lt;url&gt;http://127.0.0.1:8080/nexus/content/repositories/releases/&lt;/url&gt;
+  &lt;/repository&gt;
+  &lt;snapshotRepository&gt;
+    &lt;id&gt;nexus-snapshots&lt;/id&gt;
+    &lt;name&gt;Nexus Snapshot Repository&lt;/name&gt;
+    &lt;url&gt;http://127.0.0.1:8080/nexus/content/repositories/snapshots/&lt;/url&gt;
+  &lt;/snapshotRepository&gt;
+&lt;/distributionManagement&gt;
+...
+&lt;/project&gt;</PRE>
+<P><EM>settings.xml</EM>
+</P>
+<DIV class="dp-highlighter"><DIV class="bar"><DIV class="tools">Xml代码 <EMBED src="/javascripts/syntaxhighlighter/clipboard_new.swf" width="14" height="15" flashvars="clipboard=%3Csettings%3E%0A...%0A%3Cservers%3E%0A%20%20%3Cserver%3E%0A%20%20%20%20%3Cid%3Enexus-releases%3C%2Fid%3E%0A%20%20%20%20%3Cusername%3Eadmin%3C%2Fusername%3E%0A%20%20%20%20%3Cpassword%3Eadmin123%3C%2Fpassword%3E%0A%20%20%3C%2Fserver%3E%0A%20%20%3Cserver%3E%0A%20%20%20%20%3Cid%3Enexus-snapshots%3C%2Fid%3E%0A%20%20%20%20%3Cusername%3Eadmin%3C%2Fusername%3E%0A%20%20%20%20%3Cpassword%3Eadmin123%3C%2Fpassword%3E%0A%20%20%3C%2Fserver%3E%20%20%0A%3C%2Fservers%3E%0A...%0A%3C%2Fsettings%3E" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></DIV></DIV><OL start="1" class="dp-xml"><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">settings</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">servers</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">server</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>nexus-releases</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">username</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>admin</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">username</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">password</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>admin123</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">password</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">server</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">server</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>nexus-snapshots</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">id</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">username</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>admin</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">username</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;<SPAN class="tag">&lt;</SPAN><SPAN class="tag-name">password</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>admin123</SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">password</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>&nbsp;&nbsp;<SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">server</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">servers</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI><LI><SPAN>...&nbsp;&nbsp;</SPAN></LI><LI><SPAN><SPAN class="tag">&lt;/</SPAN><SPAN class="tag-name">settings</SPAN><SPAN class="tag">&gt;</SPAN><SPAN>&nbsp;&nbsp;</SPAN></SPAN></LI></OL></DIV><PRE name="code" class="xml" style="display: none; ">&lt;settings&gt;
+...
+&lt;servers&gt;
+  &lt;server&gt;
+    &lt;id&gt;nexus-releases&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin123&lt;/password&gt;
+  &lt;/server&gt;
+  &lt;server&gt;
+    &lt;id&gt;nexus-snapshots&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin123&lt;/password&gt;
+  &lt;/server&gt;  
+&lt;/servers&gt;
+...
+&lt;/settings&gt;</PRE>
+<P>这里我们配置所有的snapshot版本构件部署到Nexus的Snapshots仓库中， 所有的release构件部署到Nexus的Releases仓库中。由于部署需要登陆，因为我们在settings.xml中配置对应Repository id的用户名和密码。</P>
+<P>然后，在项目目录中执行<STRONG>mvn deploy</STRONG>
+，你会看到maven将项目构件部署到Nexus中，浏览Nexus对应的仓库，就可以看到刚才部署的构件。当其他人构建其项目时，Maven就会从Nexus寻找依赖并下载。</P>
+<P>&nbsp;</P>
+<H2>总结</H2>
+<P>本文介绍强大的仓库管理器——Nexus，包括如何下载安装Nexus，配置Nexus代理中央仓库，管理Nexus的代理仓库，本地仓库，以及仓库组。并帮助你了解如何通过Nexus搜索构件。最后，如何在Maven中配置Nexus仓库，以及如何部署构件到Nexus仓库中。这些都是Nexus中最基本也是最常用的功能。随着使用的深入，你会发现Nexus还有很多其它的特性，如用户管理，角色权限管理等等。</P>
+<P>Nexus的OSS版本是完全开源的，如果你有兴趣，你可以学习其源码，甚至自己实现一个REST客户端。</P>
+<P>马上拥抱Nexus吧，它是免费的！</P>
+<P>&nbsp;</P>
+  </DIV>
+
+  
+
+  
+
+  
+  <DIV id="digg_bottom" class="clearfix"><A href="http://juvenshun.javaeye.com/blog/349534#" onclick="digg(&quot;blogs&quot;, 349534, false);return false;"><DIV><STRONG>24</STRONG> <BR>顶</DIV></A><A href="http://juvenshun.javaeye.com/blog/349534#" onclick="digg(&quot;blogs&quot;, 349534, true);return false;"><DIV><STRONG>7</STRONG> <BR>踩</DIV></A></DIV>
+
+  <DIV class="blog_bottom">
+    <UL>
+      <LI>23:07</LI>
+      <LI>浏览 (2825)</LI>
+            <LI><A href="http://juvenshun.javaeye.com/blog/349534#comments">评论</A> (27)</LI>
+      <LI>分类: <A href="http://juvenshun.javaeye.com/category/34725">Maven</A></LI>
+      
+      
+        <LI><A href="http://app.javaeye.com/links?user_favorite%5Btitle%5D=Nexus%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E5%9B%BE%E6%96%87%EF%BC%89&user_favorite%5Burl%5D=http%3A%2F%2Fjuvenshun.javaeye.com%2Fblog%2F349534" target="_blank" class="favorite">收藏</A></LI>
+        
+      
+      
+      <LI class="last"><A href="http://www.javaeye.com/wiki/topic/349534" target="_blank" class="more">相关推荐</A></LI>
+    </UL>
+  </DIV>
+
+  <DIV class="blog_comment">
+    <H5>评论</H5>
+    <A id="comments" name="comments"></A>
+    <DIV id="bc1080146">
+  <DIV class="comment_title">
+    27 楼
+    <A href="http://hantsy.javaeye.com/" target="_blank">hantsy</A>
+    2009-07-06&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1080146);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">这个开放版本的试用过，相对其它repository mananger工具没有太大的优势。<BR>pro我很喜欢的一个特性，staging，这个要收费才行。<BR>nexus book 中后面几篇都是基于pro版本的。<BR>希望 maven book 的翻译， nexus章节部分已经从 maven book 抽出成为 nexus book，能够保持在抽出前的版本。</DIV>
+</DIV>
+<DIV id="bc1048829">
+  <DIV class="comment_title">
+    26 楼
+    <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+    2009-06-10&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1048829);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">pinghe 写道</DIV><DIV class="quote_div"><BR>juvenshun 写道pinghe 写道还发现一个问题，使用pro版本，集成LDAP于windows 活动目录，用户的主要组在Selected Role中没有罗列出来pro可是要收费的，仅玩玩试用版，还是你想买阿？试用一下。前面帖子发现中文支持也有问题<BR></DIV><BR>Nexus暂时还没有考虑国际化哦</DIV>
+</DIV>
+<DIV id="bc1047967">
+  <DIV class="comment_title">
+    25 楼
+    <A href="http://pinghe.javaeye.com/" target="_blank">pinghe</A>
+    2009-06-09&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1047967);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">juvenshun 写道</DIV><DIV class="quote_div"><BR>pinghe 写道还发现一个问题，使用pro版本，集成LDAP于windows 活动目录，用户的主要组在Selected Role中没有罗列出来pro可是要收费的，仅玩玩试用版，还是你想买阿？<BR></DIV><BR>试用一下。前面帖子发现中文支持也有问题</DIV>
+</DIV>
+<DIV id="bc1047962">
+  <DIV class="comment_title">
+    24 楼
+    <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+    2009-06-09&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1047962);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">pinghe 写道</DIV><DIV class="quote_div"><BR>还发现一个问题，使用pro版本，集成LDAP于windows 活动目录，用户的主要组在Selected Role中没有罗列出来<BR></DIV><BR>pro可是要收费的，仅玩玩试用版，还是你想买阿？</DIV>
+</DIV>
+<DIV id="bc1047945">
+  <DIV class="comment_title">
+    23 楼
+    <A href="http://pinghe.javaeye.com/" target="_blank">pinghe</A>
+    2009-06-09&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1047945);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">还发现一个问题，使用pro版本，集成LDAP于windows 活动目录，用户的主要组在Selected Role中没有罗列出来</DIV>
+</DIV>
+<DIV id="bc1046877">
+  <DIV class="comment_title">
+    22 楼
+    <A href="http://pinghe.javaeye.com/" target="_blank">pinghe</A>
+    2009-06-09&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1046877);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">nexus 如何支持中文，比如 Repository Targets 中修改name为"无源码"，再重新打开中文显示为乱码。<BR>实际存储在xml中也有问题。<BR>&nbsp;&nbsp;&nbsp; &lt;repositoryTarget&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;id&gt;3&lt;/id&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;name&gt;All but sources (Maven2)无源砄1�7&lt;/name&gt;<BR><BR><BR>Apache Archiva 在Web.xml 中增加<BR>&lt;filter&gt;<BR>&lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;<BR>&lt;filter-class&gt; org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;<BR>&lt;init-param&gt;<BR>&lt;param-name&gt;encoding&lt;/param-name&gt;<BR>&lt;param-value&gt;UTF-8&lt;/param-value&gt;<BR>&lt;/init-param&gt;<BR>&lt;init-param&gt;<BR>&lt;param-name&gt;forceEncoding&lt;/param-name&gt;<BR>&lt;param-value&gt;true&lt;/param-value&gt;<BR>&lt;/init-param&gt;<BR>&lt;/filter&gt;<BR><BR>&lt;filter-mapping&gt;<BR>&lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;<BR>&lt;url-pattern&gt;/*&lt;/url-pattern&gt;<BR>&lt;/filter-mapping&gt;<BR><BR>可以解决。但nexus使用的是plexus，不知道如何配置。</DIV>
+</DIV>
+<DIV id="bc1040217">
+  <DIV class="comment_title">
+    21 楼
+    <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+    2009-06-03&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1040217);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">pinghe 写道</DIV><DIV class="quote_div"><BR>你好，请教一下，两个用户，一个只允许读取二进制jar包，一个还允许获取源代码jar包。应该如何设置？<BR></DIV><BR>看一下repository target，你可以设置正则表达式，然后建立对应的权限</DIV>
+</DIV>
+<DIV id="bc1039890">
+  <DIV class="comment_title">
+    20 楼
+    <A href="http://pinghe.javaeye.com/" target="_blank">pinghe</A>
+    2009-06-03&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(1039890);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">你好，请教一下，两个用户，一个只允许读取二进制jar包，一个还允许获取源代码jar包。应该如何设置？</DIV>
+</DIV>
+<DIV id="bc953628">
+  <DIV class="comment_title">
+    19 楼
+    <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+    2009-04-03&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(953628);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">kimmking 写道</DIV><DIV class="quote_div"><BR>juvenshun 写道<BR>kimmking 写道<BR>从官网下载的war包，放到tomcat里啥也出不来，也没报错解压了war包一看，一个网页都没有。~~汗~~Nexus用了ExtJS，所有页面都是动态生成的，所以你看不到html。我天天用tomcat用作Nexus的开发测试环境，工作的很好，不知你出了什么错误~~<BR><BR>必须是tomcat6吗？<BR>我用的是tomcat5.0，控制台提示加载了各个仓库。所有的日志都没有错误信息。<BR>浏览器访问项目就是啥也没有。~~<BR></DIV><BR>没有测试过tomcat5，呵呵，web容器太多，不可能做到面面聚到阿。</DIV>
+</DIV>
+<DIV id="bc953585">
+  <DIV class="comment_title">
+    18 楼
+    <A href="http://setting.javaeye.com/" target="_blank">kimmking</A>
+    2009-04-03&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(953585);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">juvenshun 写道</DIV><DIV class="quote_div">
+<BR>kimmking 写道
+<BR>从官网下载的war包，放到tomcat里啥也出不来，也没报错解压了war包一看，一个网页都没有。~~汗~~Nexus用了ExtJS，所有页面都是动态生成的，所以你看不到html。我天天用tomcat用作Nexus的开发测试环境，工作的很好，不知你出了什么错误~~
+<BR></DIV>
+<BR>必须是tomcat6吗？
+<BR>我用的是tomcat5.0，控制台提示加载了各个仓库。所有的日志都没有错误信息。
+<BR>浏览器访问项目就是啥也没有。~~</DIV>
+</DIV>
+<DIV id="bc953166">
+  <DIV class="comment_title">
+    17 楼
+    <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+    2009-04-03&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(953166);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">kimmking 写道</DIV><DIV class="quote_div"><BR>从官网下载的war包，放到tomcat里啥也出不来，也没报错<BR>解压了war包一看，一个网页都没有。~~<BR>汗~~<BR></DIV><BR>Nexus用了ExtJS，所有页面都是动态生成的，所以你看不到html。<BR>我天天用tomcat用作Nexus的开发测试环境，工作的很好，不知你出了什么错误~~</DIV>
+</DIV>
+<DIV id="bc952964">
+  <DIV class="comment_title">
+    16 楼
+    <A href="http://setting.javaeye.com/" target="_blank">kimmking</A>
+    2009-04-03&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(952964);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">juvenshun 写道</DIV><DIV class="quote_div">
+<BR>Dony 写道
+<BR>Nexus是免费的? 不是吧; 一年的授权要近3k刀呢;&amp;amp;nbsp; EVALUATION版本倒是免费的, 但又不能用于商业环境.You are licensed to use this Software solely for testing and evaluation purposes. You may not use this Software for any productive purpose. This Software may cease operation and/or Sonatype may terminate your right to use this Software at any time.Nexus有开源版本和商业版本，前者免费，后者如你所说。
+<BR></DIV>
+<BR>
+<BR>从官网下载的war包，放到tomcat里啥也出不来，也没报错
+<BR>解压了war包一看，一个网页都没有。~~
+<BR>汗~~</DIV>
+</DIV>
+<DIV id="bc936549">
+  <DIV class="comment_title">
+    15 楼
+    <A href="http://harbey.javaeye.com/" target="_blank">harbey</A>
+    2009-03-21&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(936549);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">不错，学习 一下！
+<BR>按照上面的步骤搭配成功了！</DIV>
+</DIV>
+<DIV id="bc933555">
+  <DIV class="comment_title">
+    14 楼
+    <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+    2009-03-19&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(933555);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">Dony 写道</DIV><DIV class="quote_div"><BR>Nexus是免费的? 不是吧; 一年的授权要近3k刀呢;&amp;nbsp; EVALUATION版本倒是免费的, 但又不能用于商业环境.You are licensed to use this Software solely for testing and evaluation purposes. You may not use this Software for any productive purpose. This Software may cease operation and/or Sonatype may terminate your right to use this Software at any time.<BR></DIV><BR>Nexus有开源版本和商业版本，前者免费，后者如你所说。</DIV>
+</DIV>
+<DIV id="bc933509">
+  <DIV class="comment_title">
+    13 楼
+    <A href="http://dony.javaeye.com/" target="_blank">Dony</A>
+    2009-03-19&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(933509);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">Nexus是免费的? 不是吧; 一年的授权要近3k刀呢;&nbsp; EVALUATION版本倒是免费的, 但又不能用于商业环境.<BR>You are licensed to use this Software solely for testing and evaluation purposes. You may not use this Software for any productive purpose. This Software may cease operation and/or Sonatype may terminate your right to use this Software at any time.</DIV>
+</DIV>
+<DIV id="bc931937">
+  <DIV class="comment_title">
+    12 楼
+    <A href="http://reverocean.javaeye.com/" target="_blank">reverocean</A>
+    2009-03-18&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(931937);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">谢谢你的回复。<BR>因为我需要代理才能上网，我先只设置了setting.xml的代理，没设其它，之后运行mvn&nbsp; archetype:create的时候就没有我要问你的问题了，它从Maven Center下载了一些jar包。<BR>之后我将.m2文件夹下的repository删了，将setting.xml改成你上门写的那种配置，就是从本地Nexus处下载，结果也好用了<BR><BR><BR>不明白是为什么。<BR><BR>再次感谢你的文章，对我很有帮助。</DIV>
+</DIV>
+<DIV id="bc931807">
+  <DIV class="comment_title">
+    11 楼
+    <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+    2009-03-18&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(931807);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">reverocean 写道</DIV><DIV class="quote_div"><BR>楼主再问一个问题，不好意思，刚学maven，问题比较多在我按照我上一个问题里这么设置之后，我运行mvn archetype:create -DgroupId=org.sonatype.mavenbook.ch04 -DartifactId=simple-weather -DpackageName=org.sonatype.mavenbook -Dversion=1.0我也按照你说的设置settings.xml了， 他提示[INFO] The plugin 'org.apache.maven.plugins:maven-archetype-plugin' does not exist or no valid version could be found但是我在Nexus里搜索maven-archetype-plugin我能搜到呀？另外，我的settings.xml文件里只有你所给出的内容，是不是内容不全呀？能不能给个完整的？谢谢了先<BR></DIV><BR>您好，鉴于我无法从你提供的内容看到问题所在，请加入qq group: 55170521，或者google group: http://groups.google.com/group/maven-zh 大家会帮助你，谢谢</DIV>
+</DIV>
+<DIV id="bc930677">
+  <DIV class="comment_title">
+    10 楼
+    <A href="http://reverocean.javaeye.com/" target="_blank">reverocean</A>
+    2009-03-17&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(930677);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">楼主再问一个问题，不好意思，刚学maven，问题比较多<BR><BR>在我按照我上一个问题里这么设置之后，我运行<BR>mvn archetype:create -DgroupId=org.sonatype.mavenbook.ch04 -DartifactId=simple-weather -DpackageName=org.sonatype.mavenbook -Dversion=1.0<BR><BR>我也按照你说的设置settings.xml了， <BR>他提示<BR>[INFO] The plugin 'org.apache.maven.plugins:maven-archetype-plugin' does not exist or no valid version could be found<BR><BR>但是我在Nexus里搜索maven-archetype-plugin我能搜到呀？<BR><BR>另外，我的settings.xml文件里只有你所给出的内容，是不是内容不全呀？<BR>能不能给个完整的？<BR><BR>谢谢了先<BR></DIV>
+</DIV>
+<DIV id="bc930606">
+  <DIV class="comment_title">
+    9 楼
+    <A href="http://reverocean.javaeye.com/" target="_blank">reverocean</A>
+    2009-03-17&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(930606);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content">楼主好文章，我前几天配没配明白，今天看了你的文章总算知道都是干啥的了<BR><BR>请问一下楼主，我按照你所说的设置了“代理Maven中央仓库”，因为我在公司不能直接上网，我设置了下面的HTTP代理之后，Repository Status那列有“In Service -Checking Remote"变为”In Service"了，之后也看见有你所提到的index文件，但是我搜索junit的时候，却没有结果。<BR><BR>然后我又在Artifact Procurement添加了Maven Central之后，我搜索就能搜到东西了。<BR>请问这是什么原因？<BR><BR>谢谢<IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/icon_biggrin.gif"> </DIV>
+</DIV>
+<DIV id="bc930040">
+  <DIV class="comment_title">
+    8 楼
+    <A href="http://flyfan.javaeye.com/" target="_blank">flyfan</A>
+    2009-03-17&nbsp;&nbsp;
+    <A href="http://juvenshun.javaeye.com/blog/349534#" onclick="quote_comment(930040);return false;">引用</A>
+    
+  </DIV>
+  <DIV class="comment_content"><DIV class="quote_title">juvenshun 写道</DIV><DIV class="quote_div">
+<BR>flyfan 写道
+<BR>介绍的很详细，之前参考了网上的很多Nexus的配置，都无法更新远程索引，无法下载构件，不知什么原因，可以直接上网，设了代理也不行，之后换了artifactory就可以了，也很好用，只是不能远程索引（或者我不知道）由于中国网络的原因，而且central的索引比较大，下载该索引文件会花较长的时间，且失败几率较大，不过耐心多试几次就好。
+<BR></DIV>
+<BR>
+<BR>谢谢你的回答，现在又下载试试
+<BR></DIV>
+</DIV>
+
+    
+    <DIV class="pagination"><SPAN class="disabled prev_page">« 上一页</SPAN> <SPAN class="current">1</SPAN> <A href="http://juvenshun.javaeye.com/blog/349534?page=2#comments" rel="next">2</A> <A href="http://juvenshun.javaeye.com/blog/349534?page=2#comments" class="next_page" rel="next">下一页 »</A></DIV>
+  </DIV>
+
+  <DIV class="blog_comment">
+    <H5>发表评论</H5>
+          
+      
+        <A href="http://juvenshun.javaeye.com/index/forum_certify" target="_blank">完成论坛规则小测验以后，您才能在论坛发帖和回复。</A>
+      
+      </DIV>
+</DIV>
+
+
+<SCRIPT type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.blog_content img'), 700);
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'Post'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);}
+    });
+  }
+</SCRIPT>
+
+
+        </DIV>
+
+        <DIV id="local">
+          <DIV class="local_top"></DIV>
+          <DIV id="blog_owner">
+            <DIV id="blog_owner_logo"><A href="http://juvenshun.javaeye.com/"><IMG alt="juvenshun的博客" class="logo" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/dcf18ded-046a-36ff-95d3-9ce249e7b331.jpg" title="juvenshun的博客: Maven中文"></A></DIV>
+            <DIV id="blog_owner_name">juvenshun</DIV>
+          </DIV>
+          
+            <DIV id="twitter_decorate">&nbsp;</DIV>
+            <DIV id="twitter" class="twitter clearfix">
+              
+《Maven权威指南》完整发布，带官方PDF： <A href="http://juvenshun.javaeye.com/blog/420589">http://juvenshun.javaeye.com/blog/420589</A>
+<BR><EM><A href="http://juvenshun.javaeye.com/blog/chat/34252">2009-07-06</A>
+ 通过<A href="http://twitter.com/juvenxu">Twitter</A>
+ 
+</EM>
+       <A href="http://app.javaeye.com/chat?twitter%5Bbody%5D=%40juvenshun+&twitter%5Breply_to_id%5D=34252" title="回复这个闲聊"><IMG alt="Reply_twitter" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/reply_twitter.gif"></A>
+              <DIV class="right"><A href="http://juvenshun.javaeye.com/blog/chat">&gt;&gt;更多闲聊</A></DIV>
+            </DIV>
+          
+          <DIV id="blog_actions">
+            <UL>
+              <LI>浏览: 60428 次</LI>
+              <LI>性别: <IMG alt="Icon_minigender_1" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/icon_minigender_1.gif" title="男"></LI>
+              <LI>来自: 苏州</LI>
+              <LI><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/offline.gif"></LI>
+              <LI>
+                <A href="http://juvenshun.javaeye.com/blog/profile" class="profile">详细资料</A>
+                <A href="http://juvenshun.javaeye.com/blog/guest_book" class="guest_book">留言簿</A>
+              </LI>
+              
+                <LI>
+                  <A href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=juvenshun" class="message" title="发送站内短信">发短消息</A>
+                  
+                    <A href="http://app.javaeye.com/feed?subscription%5Bsubscribed_user_name%5D=juvenshun" class="subscription" onclick="var f = document.createElement(&#39;form&#39;); f.style.display = &#39;none&#39;; this.parentNode.appendChild(f); f.method = &#39;POST&#39;; f.action = this.href;f.submit();return false;">订阅</A>
+                  
+                </LI>
+              
+            </UL>
+            <H5>搜索本博客</H5>
+            <FORM action="http://juvenshun.javaeye.com/blog/search" method="get">              <INPUT class="text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text">
+              <INPUT class="submit" type="submit" value="搜索">
+            </FORM>          </DIV>
+          
+            <DIV id="user_visits" class="clearfix">
+              <H5>最近访客 <SPAN style="font-weight:normal;font-size:12px;padding-left:30px;"><A href="http://juvenshun.javaeye.com/blog/user_visits">&gt;&gt;更多访客</A></SPAN></H5>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://frankswu.javaeye.com/" target="_blank"><IMG alt="frankswu的博客" class="logo" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/user-logo-thumb.gif" title="frankswu的博客: "></A></DIV>
+                  <DIV class="left"><A href="http://frankswu.javaeye.com/" target="_blank">frankswu</A></DIV>
+                </DIV>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://wozailongyou.javaeye.com/" target="_blank"><IMG alt="wozailongyou的博客" class="logo" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/c328fa03-e4b2-39c0-a951-1c89e6e09818-thumb.jpg" title="wozailongyou的博客: Y.out"></A></DIV>
+                  <DIV class="left"><A href="http://wozailongyou.javaeye.com/" target="_blank">wozailongyou</A></DIV>
+                </DIV>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://rory-wu.javaeye.com/" target="_blank"><IMG alt="rory.wu的博客" class="logo" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/user-logo-thumb.gif" title="rory.wu的博客: rory.wu"></A></DIV>
+                  <DIV class="left"><A href="http://rory-wu.javaeye.com/" target="_blank">rory.wu</A></DIV>
+                </DIV>
+              
+                <DIV class="user_visit">
+                  <DIV class="logo"><A href="http://hjg1988.javaeye.com/" target="_blank"><IMG alt="hjg1988的博客" class="logo" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/user-logo-thumb.gif" title="hjg1988的博客: "></A></DIV>
+                  <DIV class="left"><A href="http://hjg1988.javaeye.com/" target="_blank">hjg1988</A></DIV>
+                </DIV>
+              
+            </DIV>
+          
+                      <DIV id="blog_menu">
+              <H5>博客分类</H5>
+              <UL>
+                <LI><A href="http://juvenshun.javaeye.com/">全部博客 (47)</A></LI>
+                
+                  <LI><A href="http://juvenshun.javaeye.com/category/34725">Maven (47)</A></LI>
+                
+              </UL>
+            </DIV>
+            
+              <DIV id="blog_album">
+                <H5>我的相册</H5>
+                <DIV class="picture_thumb" style="float: none">
+                  <DIV><SPAN class="thumb_box"><A href="http://juvenshun.javaeye.com/album"><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/d61a2d65-a00b-3a5d-93eb-c4a0e1fd960d-thumb.png"></A></SPAN></DIV>
+                  <SPAN>eclipse_09.png<BR> <A href="http://juvenshun.javaeye.com/album">共 27 张</A></SPAN>
+                </DIV>
+              </DIV>
+            
+            
+              <DIV id="guest_books">
+                <H5>我的留言簿 <SPAN style="font-weight:normal;font-size:12px;padding-left:20px;"><A href="http://juvenshun.javaeye.com/blog/guest_book">&gt;&gt;更多留言</A></SPAN></H5>
+                <UL>
+                  
+                    <LI>
+                      congdepeng 写道博主，我说句实话，你别生气，你的照片笑的太猥琐了。。。。 ...<BR>
+                      -- by <A href="http://juvenshun.javaeye.com/blog/guest_book#7988">juvenshun</A>
+                    </LI>
+                  
+                    <LI>
+                      博主，我说句实话，你别生气，你的照片笑的太猥琐了。。。。。。。。。<BR>
+                      -- by <A href="http://juvenshun.javaeye.com/blog/guest_book#7911">congdepeng</A>
+                    </LI>
+                  
+                    <LI>
+                      juvenshun 写道
+不是所有传递性依赖都要显式声明的，只有当传递性依赖不清晰 ...<BR>
+                      -- by <A href="http://juvenshun.javaeye.com/blog/guest_book#7719">classtwo5367</A>
+                    </LI>
+                  
+                </UL>
+              </DIV>
+            
+            <DIV id="blog_others">
+              <H5>其他分类</H5>
+              <UL>
+                <LI><A href="http://juvenshun.javaeye.com/blog/favorite">我的收藏</A> (0)</LI>
+                
+                  <LI><A href="http://juvenshun.javaeye.com/blog/pdf">我的书籍</A> (1) </LI>
+                                                  <LI><A href="http://juvenshun.javaeye.com/blog/news">我的新闻</A> (4) </LI>
+                                <LI><A href="http://juvenshun.javaeye.com/blog/forum">我的论坛帖子</A> (4)</LI>
+                <LI><A href="http://juvenshun.javaeye.com/blog/article">我的精华良好贴</A> (0)</LI>
+                              </UL>
+            </DIV>
+            
+            <DIV id="recent_groups">
+              <H5>最近加入圈子</H5>
+              <UL>
+                
+                  <LI><A href="http://maven.group.javaeye.com/">maven</A></LI>
+                
+              </UL>
+            </DIV>
+            
+              <DIV id="user_links">
+                <H5>链接</H5>
+                <UL>
+                  
+                    <LI><A href="http://www.sonatype.com/book/index.html" target="_blank">Maven: The Definitive Guide</A></LI>
+                  
+                    <LI><A href="http://www.sonatype.com/book/reference_zh/public-book.html#" target="_blank">Maven权威指南</A></LI>
+                  
+                </UL>
+              </DIV>
+            
+            
+                          <DIV id="month_blogs">
+                <H5>存档</H5>
+                <UL>
+                  
+                    <LI><A href="http://juvenshun.javaeye.com/blog/monthblog/2009-09">2009-09</A> (2)</LI>
+                  
+                    <LI><A href="http://juvenshun.javaeye.com/blog/monthblog/2009-07">2009-07</A> (1)</LI>
+                  
+                    <LI><A href="http://juvenshun.javaeye.com/blog/monthblog/2009-05">2009-05</A> (1)</LI>
+                  
+                  <LI><A href="http://juvenshun.javaeye.com/blog/monthblog_more">更多存档...</A></LI>
+                </UL>
+              </DIV>
+                        <DIV id="recent_comments">
+              <H5>最新评论</H5>
+              <UL>
+                
+                  <LI>
+                    <A href="http://juvenshun.javaeye.com/blog/467815#comments" title="你最常用的构建和发布管理工具是什么？">你最常用的构建和发布管理 ...</A><BR>
+                    woaiwofengkuang 写道不明白为什么非要用ANT之类的工具呢。它的存在 ...<BR>
+                    -- by <A href="http://bill4j.javaeye.com/" target="_blank">bill4j</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://juvenshun.javaeye.com/blog/467815#comments" title="你最常用的构建和发布管理工具是什么？">你最常用的构建和发布管理 ...</A><BR>
+                    woaiwofengkuang 写道不明白为什么非要用ANT之类的工具呢。它的存在 ...<BR>
+                    -- by <A href="http://juvenshun.javaeye.com/" target="_blank">juvenshun</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://juvenshun.javaeye.com/blog/467815#comments" title="你最常用的构建和发布管理工具是什么？">你最常用的构建和发布管理 ...</A><BR>
+                    不明白为什么非要用ANT之类的工具呢。它的存在到底给我们带来了哪些好处。你用ecl ...<BR>
+                    -- by <A href="http://woaiwofengkuang.javaeye.com/" target="_blank">woaiwofengkuang</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://juvenshun.javaeye.com/blog/465176#comments" title="策划编写《Maven实战》&mdash;&mdash;初步目录">策划编写《Maven实战》— ...</A><BR>
+                    顶，利国利民的好事<BR>
+                    -- by <A href="http://zhuangguolin-gmail-com.javaeye.com/" target="_blank">无可奈何</A>
+                  </LI>
+                
+                  <LI>
+                    <A href="http://juvenshun.javaeye.com/blog/465176#comments" title="策划编写《Maven实战》&mdash;&mdash;初步目录">策划编写《Maven实战》— ...</A><BR>
+                    建议增加例子。配置如如何使用maven搭建SSH框架
+如何使用maven搭建fle ...<BR>
+                    -- by <A href="http://adamed.javaeye.com/" target="_blank">adamed</A>
+                  </LI>
+                
+              </UL>
+            </DIV>
+            <DIV id="comments_top">
+              <H5>评论排行榜</H5>
+              <UL>
+                
+                  <LI><A href="http://juvenshun.javaeye.com/blog/295196" title="Maven权威指南">Maven权威指南</A></LI>
+                
+                  <LI><A href="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/Nexus入门指南（图文） - Maven中文 - JavaEye技术网站.htm" title="Nexus入门指南（图文）">Nexus入门指南（图文）</A></LI>
+                
+                  <LI><A href="http://juvenshun.javaeye.com/blog/420589" title="《Maven权威指南》完整发布，带官方PDF">《Maven权威指南》完整发布，带官方PDF</A></LI>
+                
+                  <LI><A href="http://juvenshun.javaeye.com/blog/250258" title="&quot;Maven: The Definitive Guide&quot;在国外出版了">"Maven: The Definitive Guide"在国外出版 ...</A></LI>
+                
+                  <LI><A href="http://juvenshun.javaeye.com/blog/376422" title="Maven最佳实践：版本管理">Maven最佳实践：版本管理</A></LI>
+                
+              </UL>
+            </DIV>
+            <DIV id="rss">
+              <UL>
+                <LI><A href="http://juvenshun.javaeye.com/rss" target="_blank"><IMG alt="Rss" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/rss.png"></A></LI>
+                <LI><A href="http://fusion.google.com/add?feedurl=http://juvenshun.javaeye.com/rss" target="_blank"><IMG alt="Rss_google" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/rss_google.gif"></A></LI>
+                <LI><A href="http://www.zhuaxia.com/add_channel.php?url=http://juvenshun.javaeye.com/rss" target="_blank"><IMG alt="Rss_zhuaxia" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/rss_zhuaxia.gif"></A></LI>
+                <LI><A href="http://www.xianguo.com/subscribe.php?url=http://juvenshun.javaeye.com/rss" target="_blank"><IMG alt="Rss_xianguo" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/rss_xianguo.jpg"></A></LI>
+                <LI><A href="http://www.google.com/search?hl=zh-CN&q=RSS">[什么是RSS?]</A></LI>
+              </UL>
+            </DIV>
+            <DIV class="local_bottom"></DIV>
+          
+        </DIV>
+      </DIV>
+
+      <DIV id="footer" class="clearfix">
+        <DIV id="copyright">
+          <HR>
+          声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<BR>
+          © 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ]
+        </DIV>
+      </DIV>
+    </DIV>
+    
+  <DIV id="chat_input" style="display:none;">
+    <IFRAME id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowtransparency="true"></IFRAME>
+  </DIV>
+  <DIV id="chat_button"><A href="http://juvenshun.javaeye.com/blog/349534#" style="text-decoration:none;color:black" onclick="$(&#39;chat_input&#39;).show();$(&#39;chat_iframe&#39;).src=&#39;/chat/widget&#39;;return false;">说点啥吧 <IMG alt="Chat" src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/chat.gif"></A></DIV>
+
+<SCRIPT type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</SCRIPT><IMG src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/saved_resource" width="0" height="0">
+    
+<SCRIPT type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT><SCRIPT src="./Nexus入门指南（图文） - Maven中文 - JavaEye技术网站_files/ga.js" type="text/javascript"></SCRIPT>
+<SCRIPT type="text/javascript">
+var pageTracker = _gat._getTracker("UA-6162091-1");
+pageTracker._trackPageview();
+</SCRIPT>
+      
+  
+
+</BODY></HTML>
