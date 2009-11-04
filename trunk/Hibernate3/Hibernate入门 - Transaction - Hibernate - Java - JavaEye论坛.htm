@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Hibernate入门 - Transaction - Hibernate - Java - JavaEye论坛</title>
+    <meta name="description" content="hibernate入门 - Transaction Hibernate是对JDBC的轻量级对象封装，Hibernate本身是不具备Transaction处理功能的，Hibernate的Transaction实际上是底层的JDBC Transaction的封装，或者是JTA Transaction的封装，下面我们详细的分析： Hibernate可以配置为JDBCTransaction或者是JTATra ..." />
+    <meta name="keywords" content=" Hibernate Java" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link href="/rss/board/Java" rel="alternate" title="JavaEye论坛" type="application/rss+xml" />
+    <link href="http://www.javaeye.com/stylesheets/forum.css?1251689224" media="screen" rel="stylesheet" type="text/css" />
+    <script src="http://www.javaeye.com/javascripts/application.js?1248170042" type="text/javascript"></script>
+      <link href="http://www.javaeye.com/javascripts/syntaxhighlighter/SyntaxHighlighter.css?1201588027" media="screen" rel="stylesheet" type="text/css" />
+  <script src="http://www.javaeye.com/javascripts/syntaxhighlighter/shCoreCommon.js?1238329845" type="text/javascript"></script>
+<script src="http://www.javaeye.com/javascripts/hotkey.js?1238403289" type="text/javascript"></script>
+          <script src="http://www.javaeye.com/javascripts/dragdrop.js?1231828836" type="text/javascript"></script>
+          </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="clearfix"><div id="user_nav">
+      <a href="http://frankswu.javaeye.com" title="查看我的博客首页" class="welcome">欢迎frankswu</a>
+    
+      <a href="http://app.javaeye.com/messages" title="你有新的站内短信"><img alt="Newpm" src="http://www.javaeye.com/images/newpm.gif?1193643365" />收件箱(1)</a>
+    
+    
+      <a href="http://app.javaeye.com" title="我的应用首页">我的应用</a>
+    
+    <div class="quick_menu" style="display:none;">
+      <a href="http://app.javaeye.com/feed" title="我订阅的好友动态消息">我的订阅</a>
+      <a href="http://app.javaeye.com/feed/my" title="我参与的话题更新的消息">我的参与</a>
+      <a href="http://app.javaeye.com/chat" title="用闲聊发表简短的话题">我的闲聊</a>
+      <a href="http://app.javaeye.com/mygroup" title="我加入的圈子最新话题">我的圈子</a>
+      <a href="http://app.javaeye.com/links" title="我收藏的网络资源链接">我的收藏</a>
+      <a href="http://app.javaeye.com/myresume" title="我的个人简历">我的简历</a>
+    </div>
+        <a href="http://frankswu.javaeye.com/admin" title="管理我的博客">我的博客</a>
+    <a href="http://app.javaeye.com/profile" title="修改我的个人设置">设置</a>
+    <a href="/logout" class="nobg" onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'put'); f.appendChild(m);f.submit();return false;">退出</a>
+  </div></div>
+        <div class="clearfix">
+          <div id="branding">
+            <a href="http://www.javaeye.com"><img alt="JavaEye-最棒的软件开发交流社区" src="http://www.javaeye.com/images/logo.gif?1242180259" title="JavaEye-最棒的软件开发交流社区" /></a>
+          </div>
+          <div id="ad">
+<script type="text/javascript">
+document.observe('dom:loaded',function() {$("ad").innerHTML = '<img src="http://ftp.javaeye.com/public/javaeye/banner.jpg"/>';});
+</script>
+</div>
+        </div>
+      </div>
+
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+          
+
+<div class="clearfix">
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/tag/Hibernate">Hibernate</a> <span class="arrow">&rarr;</span>
+    <h1>Hibernate入门 - Transaction</h1>
+  </div>
+</div>
+
+<div id="forum_tag_list">
+  <a href='/forums/board/Java'>全部</a>
+      <a href='/forums/tag/Hibernate'>Hibernate</a>
+      <a href='/forums/tag/Spring'>Spring</a>
+      <a href='/forums/tag/Struts'>Struts</a>
+      <a href='/forums/tag/iBATIS'>iBATIS</a>
+      <a href='/forums/tag/J2EE'>企业应用</a>
+      <a href='/forums/tag/Design-Pattern'>设计模式</a>
+      <a href='/forums/tag/DAO'>DAO</a>
+      <a href='/forums/tag/Object-Domain'>领域模型</a>
+      <a href='/forums/tag/OO'>OO</a>
+      <a href='/forums/tag/Tomcat'>Tomcat</a>
+      <a href='/forums/tag/SOA'>SOA</a>
+      <a href='/forums/tag/JBoss'>JBoss</a>
+      <a href='/forums/tag/Swing'>Swing</a>
+  </div>
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper">
+    <div id="forum_advert_f4"></div>
+    
+    <div class="info">浏览 28261 次</div>
+  </div>
+</div>
+
+
+
+<table id="forum_main" cellspacing="1">
+  <thead>
+    <tr>
+      <th colspan="2" class="topic_title">
+        <div class="wrapper"><span class='locked'>已锁定</span> <a href="/topic/264">主题：Hibernate入门 - Transaction</a></div>
+        <div id='topic_rate_box'><strong class='highlight'>该帖已经被评为精华帖</strong></div>
+      </th>
+    </tr>
+    <tr>
+      <td class="first_col">作者</td>
+      <td class="last_col">正文</td>
+    </tr>
+  </thead>
+  <tbody id="posts">
+    <tr id="806">
+  <td class="postauthor">
+    <ul>
+      <li class="name">robbin</li>
+      <li>等级: <img src="/images/dimd5.gif" alt="五钻会员" title="五钻会员"/></li>
+      <li><a href='http://robbin.javaeye.com' target='_blank'><img alt="robbin的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/85928/52a4f42f-2fd6-3d06-ae24-3e1d5217a997.jpg?1237476800" title="robbin的博客: robbin的自言自语" /></a></li>
+      <li>文章: 5904</li>
+      <li>积分: 2285</li>
+      <li>来自: 上海</li>
+      <li><a href='/forums' target='_blank'><img src='/images/status/forums.gif'/></a></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2003-09-16
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=Hibernate%E5%85%A5%E9%97%A8+-+Transaction&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F264' target='_blank' class='favorite'>收藏</a>
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+                                            <div id="related_topics">相关文章: <span class="close"><a href="#" onclick="$('related_topics').hide();return false;" title="关闭">&nbsp;</a></span>
+              <ul>
+                                    <li><a href='http://www.javaeye.com/topic/186068' title='open session and Hibernate事务处理机制' target='_blank'>open session and Hibernate事务处理机制</a></li>
+                                      <li><a href='http://www.javaeye.com/topic/280746' title='Hibernate事务处理机制' target='_blank'>Hibernate事务处理机制</a></li>
+                                      <li><a href='http://www.javaeye.com/topic/388994' title='Hibernate事务处理机制' target='_blank'>Hibernate事务处理机制</a></li>
+                                  </ul>
+                <br/><span>推荐圈子: <a href="http://tapestrying.group.javaeye.com" target="_blank">Tapestry</a></span>
+                <br/><a href="/wiki/topic/264" target="_blank">更多相关推荐</a>
+              </div>
+              <script type="text/javascript">
+                new Draggable("related_topics");
+              </script>
+                              
+        hibernate入门 - Transaction<br /><br />Hibernate是对JDBC的轻量级对象封装，Hibernate本身是不具备Transaction处理功能的，Hibernate的Transaction实际上是底层的JDBC Transaction的封装，或者是JTA Transaction的封装，下面我们详细的分析：<br /><br />Hibernate可以配置为JDBCTransaction或者是JTATransaction，这取决于你在hibernate.properties中的配置:<br /><br /><div class="quote_title">引用</div><div class="quote_div">#hibernate.transaction.factory_class net.sf.hibernate.transaction.JTATransactionFactory<br />#hibernate.transaction.factory_class net.sf.hibernate.transaction.JDBCTransactionFactory</div><br /><br />如果你什么都不配置，默认情况下使用JDBCTransaction，如果你配置为：<br /><br /><div class="quote_title">引用</div><div class="quote_div">hibernate.transaction.factory_class net.sf.hibernate.transaction.JTATransactionFactory</div><br /><br />将使用JTATransaction<br /><br />不管你准备让Hibernate使用JDBCTransaction，还是JTATransaction，我的忠告就是什么都不配，将让它保持默认状态，如下：<br /><br /><div class="quote_title">引用</div><div class="quote_div">#hibernate.transaction.factory_class net.sf.hibernate.transaction.JTATransactionFactory<br />#hibernate.transaction.factory_class net.sf.hibernate.transaction.JDBCTransactionFactory</div><br /><br />在下面的分析中我会给出原因。<br /><br />一、JDBC Transaction<br /><br />看看使用JDBC Transaction的时候我们的代码例子：<br /><br /><pre name="code" class="java">Session session = sf.openSession();;
+Transaction tx = session.beginTransactioin();;
+...
+session.flush();;
+tx.commit();;
+session.close();;</pre><br /><br />这是默认的情况，当你在代码中使用Hibernate的Transaction的时候实际上就是JDBCTransaction。那么JDBCTransaction究竟是什么东西呢？来看看源代码就清楚了：<br /><br />Hibernate2.0.3源代码中的类<pre name="code" class="java">net.sf.hibernate.transaction.JDBCTransaction:
+
+public void begin(); throws HibernateException {
+	
+	log.debug("begin");;	
+	try {
+		toggleAutoCommit = session.connection();.getAutoCommit();;
+		if (toggleAutoCommit); session.connection();.setAutoCommit(false);;
+	}
+	catch (SQLException e); {
+		log.error("Begin failed", e);;
+		throw new TransactionException("Begin failed with SQL exception: ", e);;
+	}	
+	begun = true;
+}</pre><br />这是启动Transaction的方法，看到	connection().setAutoCommit(false) 了吗？是不是很熟悉？<br /><br />再来看<br /><br /><pre name="code" class="java">public void commit(); throws HibernateException {	
+	if (!begun); throw new TransactionException("Transaction not successfully started");;	
+	log.debug("commit");;	
+	try {
+		if ( session.getFlushMode();!=FlushMode.NEVER ); session.flush();;
+		try {
+			session.connection();.commit();;
+			committed = true;
+		}
+		catch (SQLException e); {
+			log.error("Commit failed", e);;
+			throw new TransactionException("Commit failed with SQL exception: ", e);;
+		}
+	}
+	finally {
+		session.afterTransactionCompletion();;
+	}
+	toggleAutoCommit();;
+}</pre>	<br />这是提交方法，看到connection().commit() 了吗？下面就不用我多说了，这个类代码非常简单易懂，通过阅读使我们明白Hibernate的Transaction都在干了些什么？我现在把用Hibernate写的例子翻译成JDBC，大家就一目了然了：<br /><br /><pre name="code" class="java">Connection conn = ...;         &lt;---   session = sf.openSession();;
+
+conn.setAutoCommit(false);;     &lt;---   tx = session.beginTransactioin();;
+
+...                            &lt;---   ...
+
+conn.commit();;                 &lt;---   tx.commit();; (对应左边的两句);
+conn.setAutoCommit(true);;
+
+conn.close();;                  &lt;---   session.close();;</pre><br />看明白了吧，Hibernate的JDBCTransaction根本就是conn.commit而已，根本毫无神秘可言，只不过在Hibernate中，Session打开的时候，就会自动conn.setAutoCommit(false)，不像一般的JDBC，默认都是true，所以你最后不写commit也没有关系，由于Hibernate已经把AutoCommit给关掉了，所以用Hibernate的时候，你在程序中不写Transaction的话，数据库根本就没有反应。<br /><br /><br />二、JTATransaction<br /><br />如果你在EJB中使用Hibernate，或者准备用JTA来管理跨Session的长事务，那么就需要使用JTATransaction，先看一个例子：<br /><br /><pre name="code" class="java">javax.transaction.UserTransaction tx = new InitialContext();.lookup("javax.transaction.UserTransaction");;
+
+Session s1 = sf.openSession();;
+...
+s1.flush();;
+s1.close();;
+
+...
+
+Session s2 = sf.openSession();;
+...
+s2.flush();;
+s2.close();;
+
+tx.commit();;</pre><br />这是标准的使用JTA的代码片断，Transaction是跨Session的，它的生命周期比Session要长。如果你在EJB中使用Hibernate，那么是最简单不过的了，你什么Transaction代码统统都不要写了，直接在EJB的部署描述符上配置某某方法是否使用事务就可以了。<br /><br />现在我们来分析一下JTATransaction的源代码， net.sf.hibernate.transaction.JTATransaction:<br /><br /><pre name="code" class="java">public void begin(InitialContext context, ...
+  ...
+  ut = (UserTransaction); context.lookup(utName);;
+  ...</pre><br />看清楚了吗？ 和我上面写的代码 tx = new InitialContext().lookup("javax.transaction.UserTransaction"); 是不是完全一样？<br /><br /><pre name="code" class="java">public void commit(); ...
+  ...
+  if (newTransaction); ut.commit();;
+  ...</pre>&nbsp; <br />JTATransaction的控制稍微复杂，不过仍然可以很清楚的看出来Hibernate是如何封装JTA的Transaction代码的。<br /><br />但是你现在是否看到了什么问题？ 仔细想一下，Hibernate Transaction是从Session中获得的，tx = session.beginTransaction()，最后要先提交tx，然后再session.close，这完全符合JDBC的Transaction的操作顺序，但是这个顺序是和JTA的Transactioin操作顺序彻底矛盾的！！！ JTA是先启动Transaction，然后启动Session，关闭Session，最后提交Transaction，因此当你使用JTA的Transaction的时候，那么就千万不要使用Hibernate的Transaction，而是应该像我上面的JTA的代码片断那样使用才行。<br /><br />总结：<br /><br />1、在JDBC上使用Hibernate<br /><br />必须写上Hibernate Transaction代码，否则数据库没有反应。此时Hibernate的Transaction就是Connection.commit而已<br /><br />2、在JTA上使用Hibernate<br /><br />写JTA的Transaction代码，不要写Hibernate的Transaction代码，否则程序会报错<br /><br />3、在EJB上使用Hibernate<br /><br />什么Transactioin代码都不要写，在EJB的部署描述符里面配置<br /><br /><br /><pre name="code" class="java">
+|---CMT(Container Managed Transaction);
+|
+|---BMT(Bean Managed Transaction);
+        |
+        |----JDBC Transaction
+        |
+        |----JTA Transaction
+</pre><br /><br /><br />robbin:<br />你说“Hibernate的JDBCTransaction根本就是conn.commit而已，根本毫无神秘可言，只不过在Hibernate中，Session打开的时候，就会自动conn.setAutoCommit(false)，不像一般的JDBC，默认都是true，所以你最后不写commit也没有关系，由于Hibernate已经把AutoCommit给关掉了，所以用Hibernate的时候，你在程序中不写Transaction的话，数据库根本就没有反应”<br />但sf.opengSession()时，并没有setAutoCommit(false)，我想问的是，如果不编写任何事务代码，如：<br /><pre name="code" class="java">Session s = sf.openSession();;
+......
+s.close();;</pre>数据库会不会有反应（此时应该是默认AutoCommit为true）。<br /><br />另外，我想问一下：<br />1. s.flush()是不是必须的<br />2. s.close()是不是一定要关闭<br />比如你上面提到的：<br /><pre name="code" class="java">javax.transaction.UserTransaction tx = new InitialContext();.lookup("javax.transaction.UserTransaction");; 
+
+Session s1 = sf.openSession();; 
+... 
+s1.flush();; 
+s1.close();; 
+
+... 
+
+Session s2 = sf.openSession();; 
+... 
+s2.flush();; 
+s2.close();; 
+
+tx.commit();;</pre><br /><br />s1不关闭，使用s2进行操作的代码中使用s1可不可以（我觉得这样更加节约资源，不需要反复的连接、关闭）<br /><br /><br /><br /><div class="quote_title">引用</div><div class="quote_div">但sf.opengSession()时，并没有setAutoCommit(false)，我想问的是，如果不编写任何事务代码，如： <br />Session s = sf.openSession(); <br />...... <br />s.close(); <br />数据库会不会有反应（此时应该是默认AutoCommit为true）。</div><br /><br />不会有反应。在sf.openSession() 创建Session实例的时候，就已经调用了conn.setAutoCommit(false)了。<br /><br /><br /><div class="quote_title">引用</div><div class="quote_div">另外，我想问一下： <br />1. s.flush()是不是必须的 <br />2. s.close()是不是一定要关闭 </div><br /><br />s.flush不是必须的，s.close()会调用一次s.flush()<br /><br />s.close()正常情况下应该关闭，除非你是用ThreadLocal管理Session。<br /><br /><br /><div class="quote_title">引用</div><div class="quote_div">s1不关闭，使用s2进行操作的代码中使用s1可不可以（我觉得这样更加节约资源，不需要反复的连接、关闭）</div><br /><br />在这个例子中看不出来JTA的作用。<br />假设<br /><pre name="code" class="java">Class A  {
+  find(); {
+    Session s1 = sf.openSession();; 
+    ... 
+    s1.flush();; 
+    s1.close();; 
+  }
+}</pre><br /><br /><pre name="code" class="java">Class B  {
+  find(); {
+    Session s2 = sf.openSession();; 
+    ... 
+    s2.flush();; 
+    s2.close();; 
+  }
+}</pre><br /><br /><pre name="code" class="java">Main {
+
+  tx = ...;
+  A.find();;
+  B.find();;
+  tx.commit();;
+}</pre><br /><br />看明白了吗？JTA的Transaction管理是跨类调用的。
+      </div>
+
+      
+      
+
+              <div id="topic_copyright">声明：JavaEye文章版权属于作者，受法律保护。没有作者书面许可不得转载。 </div>
+        <div id="forum_advert_f5"><span>推荐链接</span><ul class='adverts'><li><a href='/clicks/170' target='_blank'><span style="color:blue;font-weight:bold;"> 【8月推荐】JAVA技术沙龙活动通知--欢迎并期待您的参与!</span></a></li></ul></div>
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://robbin.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=robbin" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://robbin.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                
+      </div>
+                        </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="238776">
+  <td class="postauthor">
+    <ul>
+      <li class="name">卒子99</li>
+      <li>等级: <img src="/images/star1.gif" alt="一星会员" title="一星会员"/></li>
+      <li><a href='http://bbobchen.javaeye.com' target='_blank'><img alt="卒子99的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/50119/ecc73c71-61ff-41ed-86ce-d2132abdc2de.gif?1236835040" title="卒子99的博客: 卒子99" /></a></li>
+      <li>文章: 145</li>
+      <li>积分: 143</li>
+      <li>来自: 上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2007-03-15
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=%E5%8D%92%E5%AD%9099%E5%9B%9E%E8%B4%B4%3AHibernate%E5%85%A5%E9%97%A8+-+Transaction&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F264%23238776' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        分析得够仔细了，再一次理解了事务。反正用JTA的时候，注意不要出现事务嵌套，其它感觉就没有什么需要注意的了
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://bbobchen.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://bbobchen.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=%E5%8D%92%E5%AD%9099" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://bbobchen.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#238776" title="卒子99回帖:Hibernate入门 - Transaction">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_238776' class='post_rate_box'><a href='#' onclick='rate_post(238776, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(238776, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="239078">
+  <td class="postauthor">
+    <ul>
+      <li class="name">devilbaby</li>
+      <li>等级: <img src="/images/star5.gif" alt="五星会员" title="五星会员"/></li>
+      <li><a href='http://devilbaby.javaeye.com' target='_blank'><img alt="devilbaby的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/14910/7721f667-10c7-3592-b37e-53df2158555c.jpg?1236832276" title="devilbaby的博客: devilbaby" /></a></li>
+      <li>文章: 113</li>
+      <li>积分: 476</li>
+      <li>来自: 珠海-&gt;上海</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2007-03-16
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=devilbaby%E5%9B%9E%E8%B4%B4%3AHibernate%E5%85%A5%E9%97%A8+-+Transaction&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F264%23239078' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        <div class="quote_title">robbin 写道</div><div class="quote_div">但仔细想一下，Hibernate Transaction是从Session中获得的，tx = session.beginTransaction()，最后要先提交tx，然后再session.close，这完全符合JDBC的Transaction的操作顺序，但是这个顺序是和JTA的Transactioin操作顺序彻底矛盾的！！！ JTA是先启动Transaction，然后启动Session，关闭Session，最后提交Transaction，因此当你使用JTA的Transaction的时候，那么就千万不要使用Hibernate的Transaction，而是应该像我上面的JTA的代码片断那样使用才行</div><br /><br />可能正是这个原因，对于多个connection的事务问题，也只能用JTA解决。不过JTA一般是依赖容器的，我觉得jotm对这方面的事务处理做得比较出色，让JTA不依赖容器。<br />我现在有个问题，如果我用的是spring+hibernate，那我怎么处理这种分布式事务问题呢？
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://devilbaby.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://devilbaby.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=devilbaby" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://devilbaby.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#239078" title="devilbaby回帖:Hibernate入门 - Transaction">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_239078' class='post_rate_box'><a href='#' onclick='rate_post(239078, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(239078, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="249180">
+  <td class="postauthor">
+    <ul>
+      <li class="name">voff12</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://voff12.javaeye.com' target='_blank'><img alt="voff12的博客" class="logo" src="http://www.javaeye.com/upload/logo/user/40177/102ac08e-93b5-4482-804d-08677e8fdf71.jpg?1236834132" title="voff12的博客: 惊水中鱼，梦想开拓创新编程之旅！" /></a></li>
+      <li>文章: 35</li>
+      <li>积分: 41</li>
+      <li>来自: 北京</li>
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2007-03-26
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=voff12%E5%9B%9E%E8%B4%B4%3AHibernate%E5%85%A5%E9%97%A8+-+Transaction&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F264%23249180' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        2003-09-16 16:28写的，历史悠久！不错，要是将整个hibernate的缓存，再谈至jdbc,然后一直深入的mysql的缓存机制，接着深入到数据结构。一杆见地就好了。
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://voff12.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://voff12.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=voff12" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://voff12.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#249180" title="voff12回帖:Hibernate入门 - Transaction">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_249180' class='post_rate_box'><a href='#' onclick='rate_post(249180, "good"); return false;' class='good' title='好'>1</a> <a href='#' onclick='rate_post(249180, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+<tr id="251357">
+  <td class="postauthor">
+    <ul>
+      <li class="name">seapigxie</li>
+      <li>等级: 初级会员</li>
+      <li><a href='http://seapigxie.javaeye.com' target='_blank'><img alt="seapigxie的博客" class="logo" src="http://www.javaeye.com/images/user-logo.gif?1194185304" title="seapigxie的博客: seapigxie" /></a></li>
+      <li>文章: 9</li>
+      <li>积分: 38</li>
+      
+      <li><img src='/images/status/offline.gif'/></li>
+    </ul>
+  </td>
+  <td class="postcontent">
+    <div class="postactions">
+      <div class="description">
+        发表时间：2007-03-29
+        
+      </div>
+      <div class="links">
+        
+          
+          
+            
+            <a href='http://app.javaeye.com/links?user_favorite%5Btitle%5D=seapigxie%E5%9B%9E%E8%B4%B4%3AHibernate%E5%85%A5%E9%97%A8+-+Transaction&amp;user_favorite%5Burl%5D=http%3A%2F%2Fwww.javaeye.com%2Ftopic%2F264%23251357' target='_blank' class='favorite'>收藏</a>
+            
+            
+          
+        
+      </div>
+    </div>
+    <div class="postbody clearfix">
+      
+        呵呵，经典。温故而知新
+      </div>
+
+      
+      
+
+          </td>
+  </tr>
+  <tr>
+    <td class="postauthor"><a href="#">返回顶楼</a></td>
+    <td class="postcontent">
+      <div class="icons">
+        <a href='http://seapigxie.javaeye.com' class='icon_www' title='浏览作者的博客'>&nbsp;</a>
+        <a href='http://seapigxie.javaeye.com/blog/profile' class='icon_profile' title='浏览作者资料'>&nbsp;</a>
+        <a href="http://app.javaeye.com/messages/new?message%5Breceiver_name%5D=seapigxie" class="icon_pm" title="发送站内短信">&nbsp;</a>
+        <a href='http://seapigxie.javaeye.com/blog/guest_book' class='icon_guestbook' title='给作者留言'>&nbsp;</a>
+        
+                  <a href="#251357" title="seapigxie回帖:Hibernate入门 - Transaction">回帖地址</a>
+                
+      </div>
+                        <div id='post_rate_box_251357' class='post_rate_box'><a href='#' onclick='rate_post(251357, "good"); return false;' class='good' title='好'>0</a> <a href='#' onclick='rate_post(251357, "hidden"); return false;' class='hidden' title='差'>0</a> </div>                  </td>
+  </tr>
+  <tr class="sep2"><td colspan="2"></td></tr>
+
+  </tbody>
+</table>
+
+
+<div class="actions">
+  <div class="buttons"></div>
+  <div class="wrapper"></div>
+</div>
+
+<div>
+  <div class="crumbs">
+    <a href="/forums">论坛首页</a> <span class="arrow">&rarr;</span>
+    <a href="/forums/board/Java">Java编程和Java企业应用版</a>
+     <span class="arrow">&rarr;</span> <a href='/forums/tag/Hibernate'>Hibernate</a>
+    <br/><br/>跳转论坛:<select id="forum_urlname" name="forum[urlname]" onchange="window.location='/forums/board/'+this.value"><option value="Java" selected="selected">Java编程和Java企业应用</option>
+<option value="web">Web前端技术：AJAX和RIA</option>
+<option value="mobile">移动编程和手机应用开发</option>
+<option value="Ruby">Ruby</option>
+<option value="Python">Python</option>
+<option value="PHP">PHP</option>
+<option value="Flash">Flash编程</option>
+<option value="dotnet">Microsoft .Net</option>
+<option value="Tech">综合技术</option>
+<option value="New">入门讨论</option>
+<option value="develop">软件开发和项目管理</option>
+<option value="Industry">行业应用</option>
+<option value="vendor">厂商论坛</option>
+<option value="Job">招聘求职</option>
+<option value="Life">海阔天空</option></select>
+    <div id="forum_advert_f6"></div>
+  </div>
+
+  
+</div>
+
+<div style="display:none">
+  <form action="/posts/rate" id="post_rate_form" method="post" onsubmit="new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;">
+    <input type="hidden" id="post_rate_id" name="id"/>
+    <input type="hidden" id="post_rate_type" name="type"/>
+  </form></div>
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  fix_image_size($$('div.postbody img'), 760);
+
+  function rate_post(id, type) {
+    Element.update('post_rate_box_' + id, '提交中...');
+    new Ajax.Request('/posts/rate', {asynchronous:true, evalScripts:true, parameters:{"id":id, "type":type}});
+  }
+
+  function rate_topic(type) {
+    Element.update('topic_rate_box', '提交中...');
+    new Ajax.Request('/topics/rate', {asynchronous:true, evalScripts:true, parameters:{"id":264, "type":type}});
+  }
+</script>
+
+
+        </div>
+        <div id="nav">
+  <div class="wrapper">
+    <ul>
+            <li><a href="http://www.javaeye.com/">首页</a></li>
+      <li><a href="http://www.javaeye.com/news">新闻</a></li>
+      <li><a href="http://www.javaeye.com/forums" class='selected'>论坛</a></li>
+      <li><a href="http://www.javaeye.com/ask">问答</a></li>
+      <li><a href="http://www.javaeye.com/wiki">知识库</a></li>
+      <li><a href="http://www.javaeye.com/blogs">博客</a></li>
+      <li><a href="http://www.javaeye.com/groups">圈子</a></li>
+      <li><a href="http://www.javaeye.com/job">招聘</a></li>
+      <li><a href="http://www.javaeye.com/index/service">服务</a></li>
+      <li class="last"><a href="http://www.javaeye.com/search">搜索</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="channel_nav">
+  <ul>
+    <li><a href="http://java.javaeye.com" >Java</a></li>
+    <li><a href="http://ajax.javaeye.com" >AJAX</a></li>
+    <li><a href="http://ruby.javaeye.com" >Ruby</a></li>
+    <li><a href="http://python.javaeye.com" >Python</a></li>
+    <li><a href="http://agile.javaeye.com" >敏捷</a></li>
+    <li><a href="http://mysql.javaeye.com" >MySQL</a></li>
+    <li><a href="http://primeton.javaeye.com" >普元</a></li>
+    <li><a href="http://dorado.javaeye.com" >Dorado</a></li>
+    <!--li><a href="http://kingdee.javaeye.com" >金蝶中间件</a></li-->
+    <li class="last"><a href="http://book.javaeye.com" >图书</a></li>
+  </ul>
+</div>
+      </div>
+      <div id="footer">
+  <div id="site_nav">
+    <ul>
+      <li><a href="/index/service">广告服务</a></li>
+      <li><a href="http://webmaster.javaeye.com">JavaEye黑板报</a></li>
+      <li><a href="/index/aboutus">关于我们</a></li>
+      <li><a href="/index/contactus">联系我们</a></li>
+      <li class="last"><a href="/index/friend_links">友情链接</a></li>
+    </ul>
+  </div>
+  <div id="copyright">
+    &copy; 2003-2009 JavaEye.com.   All rights reserved. 上海炯耐计算机软件有限公司 [ 沪ICP备05023328号 ] 
+  </div>
+</div>
+
+    </div>
+    
+  <div id="chat_input" style="display:none;">
+    <iframe id="chat_iframe" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowTransparency="true"></iframe>
+  </div>
+  <div id="chat_button"><a href="#" style="text-decoration:none;color:black" onclick="$('chat_input').show();$('chat_iframe').src='/chat/widget';return false;">说点啥吧 <img alt="Chat" src="http://www.javaeye.com/images/app/chat.gif?1236064059" /></a></div>
+
+<script type="text/javascript">
+  document.write("<img src='http://stat.javaeye.com/?url="+ encodeURIComponent(document.location.href) + "&referrer=" + encodeURIComponent(document.referrer) + "&logged_in=yes" + "' width='0' height='0' />");
+</script>
+  </body>
+</html>

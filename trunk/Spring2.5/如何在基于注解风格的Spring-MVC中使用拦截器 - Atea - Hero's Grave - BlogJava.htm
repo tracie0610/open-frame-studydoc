@@ -1,0 +1,787 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head id="Head"><title>
+	如何在基于注解风格的Spring-MVC中使用拦截器 - Atea - Hero's Grave - BlogJava
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta id="metaKeywords" name="keywords" content="如何在基于注解风格的Spring-MVC中使用拦截器" /><link id="MainCss" type="text/css" rel="stylesheet" href="http://www.blogjava.net/Skins/Cogitation/style.css" /><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.blogjava.net/atealxt/rss.aspx" /></head>
+<body>
+    <form name="Form1" method="post" action="spring_mvc_annotation_interceptor_gae.html" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=PyW-m2hLmppJ9byT1bYEqw2&amp;t=633740135971222506" type="text/javascript"></script>
+
+<script language=JavaScript>
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language=JavaScript>function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="/ScriptResource.axd?d=Io4r5Qx-zmHVyf9RpZLpA94PR0yylGVrHR75KduCbtx9Wbjv2jQEzXmeH0no0z7nxVOXJo-onw_3WI2pcwKr3w2&amp;t=633740135971222506" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=Io4r5Qx-zmHysvkgwLW9yk7rUGj5M-geQRTOmI9WMPaWNcTLoZx7IpNZpIR4LFVQ0&amp;t=633065726440000000" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=Io4r5Qx-zmHysvkgwLW9yk7rUGj5M-geQRTOmI9WMPaVSfXvXlH0xWaTv3M_TRDPzVKh75E08VU1&amp;t=633065726440000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+        
+<div id="top">
+	
+<div>
+	<table>
+		<tr>
+			<td class="HeaderTitles">
+				<h1 class="HeaderTitle"><a id="Header1_HeaderTitle" class="HeaderMainTitle" href="http://www.blogjava.net/atealxt/">Atea - Hero's Grave</a></h1>
+				<p id="tagline">面向对象，开源，框架，敏捷，云计算，编程思想。</p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="HeaderBar">
+	<table id="HeaderBar" class="HeaderBar" cellpadding="0" cellspacing="0">
+		<tr>
+			<td class="HeaderBarTab" nowrap>
+&nbsp;
+<a id="Header1_MyLinks1_HomeLink" href="http://www.blogjava.net/">BlogJava</a>&nbsp;::
+<a id="Header1_MyLinks1_MyHomeLink" href="http://www.blogjava.net/atealxt/">首页</a>&nbsp;::
+<a id="Header1_MyLinks1_NewPostLink" href="http://www.blogjava.net/atealxt/admin/EditPosts.aspx?opt=1">新随笔</a>&nbsp;::
+<a id="Header1_MyLinks1_ContactLink" accesskey="9" href="http://www.blogjava.net/atealxt/contact.aspx?id=1">联系</a>&nbsp;::
+<a id="Header1_MyLinks1_Syndication" href="http://www.blogjava.net/atealxt/rss">聚合</a>
+<a id="Header1_MyLinks1_XMLLink" class="XMLLink" href="http://www.blogjava.net/atealxt/rss"><img src="http://www.blogjava.net/images/xml.gif" style="border-width:0px;" /></a>&nbsp;::
+<a id="Header1_MyLinks1_Admin" href="http://www.blogjava.net/atealxt/admin/EditPosts.aspx">管理</a>&nbsp;::
+
+</td>
+			<td><img id="Header1_BlueTab" src="../../../../../Skins/Cogitation/Images/BlueTabRight.gif" align="absmiddle" style="border-width:0px;" /></td>
+			<td class="HeaderBarTabBack" nowrap width="100%">
+				
+<div class="BlogStatsBar">
+	<table class="BlogStatsBar">
+		<tr>
+			<td width="100%">
+			</td>
+			<td class="BlogStatsBar" nowrap>
+				&nbsp;
+				25 
+				随笔&nbsp;::
+				0 文章
+				::
+				17 评论
+				::
+				0 Trackbacks
+			</td>
+		</tr>
+	</table>
+</div>
+
+			</td>
+		</tr>
+	</table>
+</div>
+
+</div>
+<div id="leftmenu" style="display:none">
+	
+	    <table id="Calendar1_entryCal" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0" style="border-width:1px;border-style:solid;border-collapse:collapse;">
+	<tr><td colspan="7" style="background-color:Silver;"><table class="CalTitle" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+		<tr><td class="CalNextPrev" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3500')" style="color:Black" title="Go to the previous month">&lt;</a></td><td align="center" style="width:70%;">2009年9月</td><td class="CalNextPrev" align="right" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3561')" style="color:Black" title="Go to the next month">&gt;</a></td></tr>
+	</table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">31</td><td align="center" style="width:14%;">1</td><td align="center" style="width:14%;">2</td><td align="center" style="width:14%;">3</td><td align="center" style="width:14%;">4</td><td class="CalWeekendDay" align="center" style="width:14%;">5</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">6</td><td align="center" style="width:14%;">7</td><td align="center" style="width:14%;">8</td><td align="center" style="width:14%;">9</td><td align="center" style="width:14%;">10</td><td align="center" style="width:14%;">11</td><td class="CalWeekendDay" align="center" style="width:14%;">12</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">13</td><td align="center" style="width:14%;">14</td><td align="center" style="width:14%;">15</td><td align="center" style="width:14%;">16</td><td align="center" style="width:14%;">17</td><td align="center" style="width:14%;">18</td><td class="CalWeekendDay" align="center" style="width:14%;">19</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html"><u>20</u></a></td><td class="CalTodayDay" align="center" style="width:14%;">21</td><td align="center" style="width:14%;">22</td><td align="center" style="width:14%;">23</td><td align="center" style="width:14%;">24</td><td align="center" style="width:14%;">25</td><td class="CalWeekendDay" align="center" style="width:14%;">26</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">27</td><td align="center" style="width:14%;">28</td><td align="center" style="width:14%;">29</td><td align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">1</td><td class="CalOtherMonthDay" align="center" style="width:14%;">2</td><td class="CalOtherMonthDay" align="center" style="width:14%;">3</td></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">4</td><td class="CalOtherMonthDay" align="center" style="width:14%;">5</td><td class="CalOtherMonthDay" align="center" style="width:14%;">6</td><td class="CalOtherMonthDay" align="center" style="width:14%;">7</td><td class="CalOtherMonthDay" align="center" style="width:14%;">8</td><td class="CalOtherMonthDay" align="center" style="width:14%;">9</td><td class="CalOtherMonthDay" align="center" style="width:14%;">10</td></tr>
+</table>
+
+		
+<h3>公告</h3>
+<div class="News">
+	网站访问统计<br />
+<img src="http://www4.clustrmaps.com/counter/index2.php?url=http://www.blogjava.net/atealxt/" style="border: 0px none ;" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onerror="this.onerror=null; this.src='http://www2.clustrmaps.com/images/clustrmaps-back-soon.jpg'; " /><br />
+<br />
+最近在看的书<br />
+<img alt="" src="/images/blogjava_net/atealxt/ee31ab4b34f87dd08d1f6cd3.jpg" height="214" width="160" /><br />
+
+</div>
+
+		
+<H3>留言簿<span style="font-size:11px;font-weight:normal;">(2)</span></H3>
+<ul>
+	<li>
+		<a id="SingleColumn1_ctl00_lnkMessages" href="http://www.blogjava.net/atealxt/Contact.aspx?id=1">给我留言</a>
+	<li>
+		<a id="SingleColumn1_ctl00_lnkPublicMsgView" href="http://www.blogjava.net/atealxt/default.aspx?opt=msg">查看公开留言</a>
+	<li>
+		<a id="SingleColumn1_ctl00_lnkPrivateMsgView" href="http://www.blogjava.net/atealxt/admin/MyMessages.aspx">查看私人留言</a>
+	</li>
+</ul>
+
+		<h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" href="http://www.blogjava.net/atealxt/category/33069.html">Ant(2)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to Ant(2)" href="http://www.blogjava.net/atealxt/category/33069.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" href="http://www.blogjava.net/atealxt/category/33063.html">Database(3)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to Database(3)" href="http://www.blogjava.net/atealxt/category/33063.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" href="http://www.blogjava.net/atealxt/category/33064.html">Else(2)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to Else(2)" href="http://www.blogjava.net/atealxt/category/33064.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" href="http://www.blogjava.net/atealxt/category/40051.html">GAE(4)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to GAE(4)" href="http://www.blogjava.net/atealxt/category/40051.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link" href="http://www.blogjava.net/atealxt/category/33065.html">Hibernate(3)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to Hibernate(3)" href="http://www.blogjava.net/atealxt/category/33065.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link" href="http://www.blogjava.net/atealxt/category/34340.html">IDE(1)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to IDE(1)" href="http://www.blogjava.net/atealxt/category/34340.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_Link" href="http://www.blogjava.net/atealxt/category/33062.html">Java language(4)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_RssLink" title="Subscribe to Java language(4)" href="http://www.blogjava.net/atealxt/category/33062.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_Link" href="http://www.blogjava.net/atealxt/category/33066.html">Javascript (3)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_RssLink" title="Subscribe to Javascript (3)" href="http://www.blogjava.net/atealxt/category/33066.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_Link" href="http://www.blogjava.net/atealxt/category/39451.html">S2dao(1)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_RssLink" title="Subscribe to S2dao(1)" href="http://www.blogjava.net/atealxt/category/39451.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_Link" href="http://www.blogjava.net/atealxt/category/33862.html">Spring(3)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_RssLink" title="Subscribe to Spring(3)" href="http://www.blogjava.net/atealxt/category/33862.html/rss">(rss)</a></li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_Link" href="http://www.blogjava.net/atealxt/category/33522.html">Struts(2)</a> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_RssLink" title="Subscribe to Struts(2)" href="http://www.blogjava.net/atealxt/category/33522.html/rss">(rss)</a></li>
+			
+				</ul>
+			
+	
+		<h3>技术网站</h3>
+		
+				<ul>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" href="http://community.csdn.net/">CSDN</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" href="http://www-128.ibm.com/developerworks/cn/java/index.html">DeveloperWorks</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" href="http://www.infoq.com/cn/">InfoQ</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" href="http://www.javaeye.com/">JavaEye</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl05_Link" href="http://www.javalobby.org/">Javalobby</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl06_Link" href="http://www.javaworld.com/features/index.html">JavaWorld</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl07_Link" href="http://www.jdon.com/jivejdon/">Jdon</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl08_Link" href="http://www.matrix.org.cn">Matrix</a> </li>
+			
+				<li><a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl09_Link" href="http://www.theserverside.com/">TheServerSide</a> </li>
+			
+				</ul>
+			
+	
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0 || evt.type =='click')
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location=url;
+				return false;
+			}
+		}
+</script>
+<H3>搜索</H3>
+<ul>
+	<li>
+		<li><input style="WIDTH: 130px" type="text" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/atealxt')">&nbsp;<input onclick="SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/atealxt')" type="button" value="搜索" name="sa">
+	</li>
+</ul>
+
+<h3>最新评论
+	<a id="SingleColumn1__68f0d1_RSSHyperlink1" href="http://www.blogjava.net/atealxt/CommentsRSS.aspx"><img src="/images/xml.gif" style="border-width:0px;" /></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__68f0d1_CommentList_ctl01_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2009/05/28/252777.html#278344">1. re: 一种org.hibernate.exception.ConstraintViolationException</a>
+			</li>
+			<li style="word-break:break-all">
+				@匿名<br>怎么个解决不了问题？
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Atea</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__68f0d1_CommentList_ctl02_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2009/05/25/252777.html#277846">2. re: 一种org.hibernate.exception.ConstraintViolationException</a>
+			</li>
+			<li style="word-break:break-all">
+				解决不了问题啊
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--匿名</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__68f0d1_CommentList_ctl03_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2008/11/18/226736.html#241112">3. re: 用eclipse启动server超时的解决办法</a>
+			</li>
+			<li style="word-break:break-all">
+				方法3:<br>  直接点击ECLIPSE 的菜单 WINDOWS--&gt;preferences,选择SERVER,进行设置
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--啊啊阿</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__68f0d1_CommentList_ctl04_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2008/11/12/239880.html#239982">4. re: ORACLE中CHAR类型自动补足空格的问题</a>
+			</li>
+			<li style="word-break:break-all">
+				@yy<br>要是我也用VARCHAR2。<br>猜想可能是沿用以前的表设计。在网上也看到一种说法说CHAR比VARCHAR速度快。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Atea</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__68f0d1_CommentList_ctl05_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2008/11/11/239880.html#239951">5. re: ORACLE中CHAR类型自动补足空格的问题[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				为什么一定要用char????<br>oracle推荐使用VARCHAR2
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--yy</li>
+		
+			</ul>
+		
+</div>
+
+<ul><li>
+<div id="cnblogsgooglead" width="180" height="150"></div>
+<div id="cnblogsgoogleadcode" style="display:none">
+<script type="text/javascript"><!--
+google_ad_client = "pub-4210569241504288";
+google_ad_width = 180;
+google_ad_height = 150;
+google_ad_format = "180x150_as";
+google_ad_channel ="";
+google_ad_type = "text";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</li></ul>
+	
+	<!--
+	<br><br>
+	<p align="center">
+	<a href="http://www.WebHost4Life.com/default.asp?refid=MarkHWagner">
+	<img src="http://www.WebHost4Life.com/images/banner3.gif" width="120"
+	height="60" border="0" alt="Join WebHost4Life.com"></a>
+	</p>
+-->
+</div>
+<div id="main">
+	
+					
+<div class="post">
+	<div class="postTitle">
+		<a id="viewpost1_TitleUrl" href="http://www.blogjava.net/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html">如何在基于注解风格的Spring-MVC中使用拦截器</a>
+	</div>
+	
+	<div class="postText">
+		Spring-MVC如何使用拦截器，官方文档只给出了非注解风格的例子。那么基于注解风格如何使用拦截器呢？<br />
+<br />
+基于注解基本上有2个可使用的定义类，分别是DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter：<br />
+<div style="border: 1px solid #cccccc; padding: 4px 5px 4px 4px; background-color: #eeeeee; font-size: 13px; width: 98%;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean&nbsp;</span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"</span><span style="color: #0000ff;">/&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean&nbsp;</span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"</span><span style="color: #0000ff;">/&gt;</span></div>
+<br />
+1、DefaultAnnotationHandlerMapping<br />
+DefaultAnnotationHandlerMapping本身支持自定义拦截器，只需按如下进行配置：<br />
+<div style="border: 1px solid #cccccc; padding: 4px 5px 4px 4px; background-color: #eeeeee; font-size: 13px; width: 98%;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: #008080;">1</span>&nbsp;<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean&nbsp;</span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">2</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property&nbsp;</span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="interceptors"</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">3</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">list</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">4</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean&nbsp;</span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="packageName.XXXInterceptor"</span><span style="color: #ff0000;">&nbsp;</span><span style="color: #0000ff;">/&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">5</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">list</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">6</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">7</span>&nbsp;<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">bean</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span></div>
+<br />
+Interceptor的定义为：<br />
+<div style="border: 1px solid #cccccc; padding: 4px 5px 4px 4px; background-color: #eeeeee; font-size: 13px; width: 98%;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: #008080;">&nbsp;1</span>&nbsp;<span style="color: #0000ff;">public</span><span style="color: #000000;">&nbsp;</span><span style="color: #0000ff;">class</span><span style="color: #000000;">&nbsp;XXXInterceptor&nbsp;</span><span style="color: #0000ff;">extends</span><span style="color: #000000;">&nbsp;HandlerInterceptorAdapter&nbsp;{<br />
+</span><span style="color: #008080;">&nbsp;2</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&#64;Override<br />
+</span><span style="color: #008080;">&nbsp;3</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">public</span><span style="color: #000000;">&nbsp;</span><span style="color: #0000ff;">boolean</span><span style="color: #000000;">&nbsp;preHandle(HttpServletRequest&nbsp;req,&nbsp;HttpServletResponse&nbsp;resp,&nbsp;Object&nbsp;handler)&nbsp;{<br />
+</span><span style="color: #008080;">&nbsp;4</span>&nbsp;<span style="color: #000000;">&nbsp;<br />
+</span><span style="color: #008080;">&nbsp;5</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;className&nbsp;</span><span style="color: #000000;">=</span><span style="color: #000000;">&nbsp;handler.getClass().getName();</span><span style="color: #008000;">//</span><span style="color: #008000;"> package</span><span style="color: #008000;">Name</span><span style="color: #008000;">.ClassName</span><span style="color: #008000;"><br />
+</span><span style="color: #008080;">&nbsp;6</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">if</span><span style="color: #000000;">&nbsp;(Error)&nbsp;{<br />
+</span><span style="color: #008080;">&nbsp;7</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">return</span><span style="color: #000000;"> </span><span style="color: #0000ff;">false</span><span style="color: #000000;">;<br />
+</span><span style="color: #008080;">&nbsp;8</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+</span><span style="color: #008080;">&nbsp;9</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">return</span><span style="color: #000000;"> </span><span style="color: #0000ff;">true</span><span style="color: #000000;">;<br />
+</span><span style="color: #008080;">10</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+</span><span style="color: #008080;">11</span>&nbsp;<span style="color: #000000;">}</span></div>
+<br />
+2、AnnotationMethodHandlerAdapter<br />
+目前，笔者没找到如何给AnnotationMethodHandlerAdapter配置自定义Interceptor的方法，但是有个customArgumentResolver可以利用一下，来充当Interceptor。<br />
+<div style="border: 1px solid #cccccc; padding: 4px 5px 4px 4px; background-color: #eeeeee; font-size: 13px; width: 98%;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: #008080;">1</span>&nbsp;<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean&nbsp;</span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">2</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">property&nbsp;</span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="customArgumentResolver"</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">3</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">bean&nbsp;</span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="packageName.XXXResolver"</span><span style="color: #0000ff;">/&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">4</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">property</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;"><br />
+</span><span style="color: #008080;">5</span>&nbsp;<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">bean</span><span style="color: #0000ff;">&gt;</span></div>
+<br />
+Resolver的定义为：<br />
+<div style="border: 1px solid #cccccc; padding: 4px 5px 4px 4px; background-color: #eeeeee; font-size: 13px; width: 98%;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: #008080;">&nbsp;1</span>&nbsp;<span style="color: #0000ff;">public</span><span style="color: #000000;">&nbsp;</span><span style="color: #0000ff;">class</span><span style="color: #000000;">&nbsp;XXXResolver&nbsp;</span><span style="color: #0000ff;">implements</span><span style="color: #000000;">&nbsp;WebArgumentResolver&nbsp;{<br />
+</span><span style="color: #008080;">&nbsp;2</span>&nbsp;<span style="color: #000000;">&nbsp;<br />
+</span><span style="color: #008080;">&nbsp;3</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&#64;Override<br />
+</span><span style="color: #008080;">&nbsp;4</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000ff;">public</span><span style="color: #000000;">&nbsp;Object&nbsp;resolveArgument(MethodParameter&nbsp;methodParameter,&nbsp;NativeWebRequest&nbsp;webRequest)&nbsp;</span><span style="color: #0000ff;">throws</span><span style="color: #000000;">&nbsp;Exception&nbsp;{<br />
+</span><span style="color: #008080;">&nbsp;5</span>&nbsp;<span style="color: #000000;">&nbsp;<br />
+</span><span style="color: #008080;">&nbsp;6</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;className&nbsp;</span><span style="color: #000000;">=</span><span style="color: #000000;">&nbsp;methodParameter.getMethod().getDeclaringClass().getName();</span><span style="color: #008000;">//</span><span style="color: #008000;">&nbsp;packageName.ClassName<br />
+</span><span style="color: #008080;">&nbsp;7</span>&nbsp;<span style="color: #008000;"><br />
+</span><span style="color: #008080;">&nbsp;8</span>&nbsp;<span style="color: #008000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #008000;">//</span><span style="color: #008000;">&nbsp;如何取得Response和Request</span><span style="color: #008000;"><br />
+</span><span style="color: #008080;">&nbsp;9</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HttpServletResponse&nbsp;resp&nbsp;</span><span style="color: #000000;">=</span><span style="color: #000000;">&nbsp;(HttpServletResponse)&nbsp;webRequest.getNativeResponse();<br />
+</span><span style="color: #008080;">10</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HttpServletRequest&nbsp;req&nbsp;</span><span style="color: #000000;">=</span><span style="color: #000000;">&nbsp;(HttpServletRequest)&nbsp;webRequest.getNativeRequest();<br />
+</span><span style="color: #008080;">11</span>&nbsp;<span style="color: #000000;">&nbsp;<br />
+</span><span style="color: #008080;">12</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: #0000ff;">if</span><span style="color: #000000;">&nbsp;(Error)&nbsp;{<br />
+</span><span style="color: #008080;">13</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!resp.isCommitted()) resp.sendError(ERROR_STATUS);<br />
+</span><span style="color: #008080;">14</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+</span><span style="color: #008080;">15</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: #0000ff;">return</span><span style="color: #000000;">&nbsp;UNRESOLVED;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+</span><span style="color: #008080;">16</span>&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+</span><span style="color: #008080;">17</span>&nbsp;<span style="color: #000000;">}<br />
+</span><span style="color: #008080;">18</span>&nbsp;</div>
+<br />
+仔细的人会看出，第二种方法其实根本不是拦截。其实第二种只是在映射Controller，调用方法的时候，给每一个方法的参数增加了一个切点。<br />
+上例在出错的时候往<span style="color: #000000;">HttpServletResponse</span>写错误状态，来通知web容器进行错误重定向，达到了拦截器的作用。<br />
+这么做有一个缺点，就是每个参数都有自己的切点，比如方法有3个参数就会调3次<span style="color: #000000;">resolveArgument。为了避免出错，需要判断一下</span><span style="color: #000000;">resp.isCommitted</span>。<br />
+<br />
+customArgumentResolver的初衷不是用来做Interceptor的，但有些环境却不得不使用它，比如部署在GAE上。<br />
+GAE是不支持DefaultAnnotationHandlerMapping的，因为此类用到了org.springframework.beans.BeanUtils.findEditorByConvention，这个方法会调用java.lang.ClassLoader.getSystemClassLoader，而这正是GAE所不允许的。<br />
+<br />
+PS：<br />
+文中提到软件的版本：<br />
+spring - 2.5.X<br />
+google app engine - 1.2.5<br />
+<br />
+参考资料<br />
+http://www.scottmurphy.info/spring_framework_annotation_based_controller_interceptors<br />
+http://groups.google.com/group/google-appengine-java/browse_thread/thread/54aadf8164be7bf0<br />
+
+	</div>
+	
+	<div class="postfoot">
+		posted on 2009-09-20 20:23 <a href='http://www.blogjava.net/atealxt/'>Atea</a> 阅读(245) <a href='#Post'>评论(0)</a> &nbsp;<a href="http://www.blogjava.net/atealxt/admin/EditPosts.aspx?postid=295768">编辑</a> &nbsp;<a href="http://www.blogjava.net/atealxt/AddToFavorite.aspx?id=295768">收藏</a>  所属分类: <a href='http://www.blogjava.net/atealxt/category/33862.html'>Spring</a> 、<a href='http://www.blogjava.net/atealxt/category/40051.html'>GAE</a> 
+	</div>
+</div>
+<img src ="http://www.blogjava.net/atealxt/aggbug/295768.html?webview=1" width = "1" height = "1" />
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.blogjava.net/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html"
+dc:identifier="http://www.blogjava.net/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html"
+dc:title="如何在基于注解风格的Spring-MVC中使用拦截器"
+trackback:ping="http://www.blogjava.net/atealxt/services/trackbacks/295768.aspx" />
+</rdf:RDF>
+-->
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<STYLE>.userData { BEHAVIOR: url(#default#userdata) }
+	</STYLE>
+<DIV class="userData" id="CommentsPersistDiv"></DIV>
+
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+<div id="divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px"><a href="http://news.cnblogs.com/">IT新闻</a>&nbsp;&nbsp;<a href="/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</a>&nbsp;&nbsp;</div>
+<div class="commentform">
+<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+</script>
+<script type="text/javascript">
+try{
+  GS_googleAddAdSenseService("ca-pub-4210569241504288");
+  GS_googleEnableAllServices();
+  } catch (e) { }
+</script>
+<script type="text/javascript">
+try{
+  GA_googleAddSlot("ca-pub-4210569241504288", "blogjava_commentbox_up");
+  GA_googleAddSlot("ca-pub-4210569241504288", "blogjava_blogpost_bottom");
+  GA_googleAddSlot("ca-pub-4210569241504288", "blogjava_blogpost_bottom1");
+  } catch (e) { }
+</script>
+<script type="text/javascript">
+try{
+  GA_googleFetchAds();
+  } catch (e) { }
+</script>
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br />
+<a name="Feedback"></a>
+	<TABLE cellSpacing="1" cellPadding="1" border="0">
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD width="75"></TD>
+			<TD></TD>
+			<TD></TD>
+		</TR>
+		<TR>
+			<TD width="55">标题</TD>
+			<TD><input name="AjaxHolder$PostComment$tbTitle" type="text" value="re: 如何在基于注解风格的Spring-MVC中使用拦截器" id="AjaxHolder_PostComment_tbTitle" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color:Red;visibility:hidden;">请输入标题</span></TD>
+		</TR>
+		<TR>
+			<TD>姓名</TD>
+			<TD><input name="AjaxHolder$PostComment$tbName" type="text" id="AjaxHolder_PostComment_tbName" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color:Red;visibility:hidden;">请输入你的姓名</span></TD>
+		</TR>
+		<TR>
+			<TD>主页</TD>
+			<TD><input name="AjaxHolder$PostComment$tbUrl" type="text" id="AjaxHolder_PostComment_tbUrl" class="commenttb" style="width:320" /></TD>
+			<TD><FONT face="宋体"></FONT></TD>
+		</TR>
+		<tr>
+			<td align="left" colSpan="3">
+				<table id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<td colspan="3">
+							<span id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color:Red;display:none;">请输入验证码</span>
+							<span id="AjaxHolder_PostComment_lblImage" style="color:Red;font-weight:bold;"></span>
+						</td>
+		</tr>
+		<tr>
+			<td width="78">验证码</td>
+			<td><input name="AjaxHolder$PostComment$CodeNumberTextBox" type="text" id="AjaxHolder_PostComment_CodeNumberTextBox" />*&nbsp;&nbsp;<img src="http://www.blogjava.net/Modules/CaptchaImage/JpegImage.aspx?cacheid=20090921090926"/></td>
+			<td align="left"></td>
+		</tr>
+	</table>
+	
+			</td>
+		</tr>
+		<TR>
+			<TD colSpan="3">内容(请不要发表任何与政治相关的内容)
+				<span id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color:Red;visibility:hidden;">请输入评论内容</span><BR>
+				<textarea name="AjaxHolder$PostComment$tbComment" rows="10" cols="50" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')" style="Width:480;Height:220"></textarea></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+		<span id="AjaxHolder_PostComment_Message" style="color:Red;"></span>
+		</td>
+		<TR>
+			<TD colSpan="3"><input id="AjaxHolder_PostComment_chkRemember" type="checkbox" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1" /><label for="AjaxHolder_PostComment_chkRemember">Remember Me?</label></TD>
+		</TR>
+		<TR>
+			<TD height="23"><input type="submit" name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" class="commentButton" />
+				</TD>
+			<td colSpan="2" height="23">&nbsp;
+				<a id="AjaxHolder_PostComment_lnkLogin" href="http://www.blogjava.net/login.aspx?ReturnURL=http://www.blogjava.net/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html&amp;SourceURL=/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html">登录</a>&nbsp;&nbsp;<!--<a id="AjaxHolder_PostComment_linkLoginComment" OnClick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" href="http://www.blogjava.net/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html?login=1#Post">使用高级评论</a>&nbsp;&nbsp;<a href="http://www.blogjava.net/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<A href="#Top">返回页首</A>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_lbRestore" OnClick="Restore('AjaxHolder_PostComment_tbComment'); return false;" href="/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html#Post">恢复上次提交</a>&nbsp;&nbsp;-->&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+		</TR>
+		<TR>
+			<TD colSpan="3"><label class="CtrlEnter">[使用Ctrl+Enter键可以直接提交]</label></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3"><a href="http://space.cnblogs.com/group/windows7/" target="_blank"><span style="color:red">Windows 7交流小组</span></a></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">该文被作者在 2009-09-20 20:26 编辑过</TD>
+		</TR>
+		<!--
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>	
+		-->
+		<TR>
+			<TD colSpan="3">
+<script type="text/javascript">
+try{
+  GA_googleFillSlot("blogjava_blogpost_bottom1");
+  } catch (e) { }
+</script>
+<br/>
+<script type="text/javascript">
+try{
+  GA_googleFillSlot("blogjava_blogpost_bottom");
+  } catch (e) { }
+</script>
+<br/></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="1">网站导航:<div id="blogsite">
+			<a href="http://www.cnblogs.com">博客园</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://home.cnblogs.com">个人主页</a>&nbsp;&nbsp;
+			<a href="http://www.cnweblog.com">博客生活</a>&nbsp;&nbsp;
+			<a href="http://www.cnitblog.com">IT博客网</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com">C++博客</a>&nbsp;&nbsp;
+			<a href="http://space.cnblogs.com">博客园社区</a>
+			<a href="/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html?opt=admin">管理</a>
+			</div>
+		</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;padding-left:0px;">
+		
+			<li style='list-style:none;display:none'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl01_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2009/09/20/spring_mvc_annotation_interceptor_gae.html">如何在基于注解风格的Spring-MVC中使用拦截器</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl02_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2008/09/19/Spring_lifecycle_scope.html">Spring学习笔记 -- lifecycle & bean's scope</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl03_Hyperlink1" href="http://www.blogjava.net/atealxt/archive/2008/08/18/Spring_XML_AOP_aspect.html">Spring学习笔记——XML配置带参AOP(aspect)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</TD>
+		</TR>	
+		<TR>
+			<TD colSpan="3">&nbsp;</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+				
+<br/>
+<br/>
+<iframe marginheight="0" marginwidth="0" frameborder="0" width="468" height="0" scrolling="no" src="/ad.htm" style="border:0px solid #666" allowTransparency="true"></iframe>
+<br/>
+
+
+</TD>
+		</TR>		
+	</TABLE>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+
+</div>
+
+				
+</div>
+
+
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a id="Footer1_Hyperlink3" NAME="Hyperlink1" href="http://www.blogjava.net/" style="font-family:Verdana;font-size:12px;">BlogJava</a>
+	<br />
+	Copyright &copy; Atea
+</p>
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/script/ShowHidden.js"></script>
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-476124-3");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+</body>
+</html>

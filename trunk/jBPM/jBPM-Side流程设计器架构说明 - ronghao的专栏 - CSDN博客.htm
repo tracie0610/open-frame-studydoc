@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>
+	jBPM-Side流程设计器架构说明 - ronghao的专栏 - CSDN博客
+</title>
+	<script src="http://hi.images.csdn.net/js/public/jquery-1.2.3.pack.js" type="text/javascript"></script>
+	<script src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/jquery.highlighter.js?v=20090609" type="text/javascript"></script>
+	<script src="http://hi.images.csdn.net/js/blog/SyntaxHighlighter/highlighter.js?v=20090609" type="text/javascript"></script>
+	<script src="/Scripts/common.js?version=20090916" type="text/javascript"></script>
+	<link href="http://hi.images.csdn.net/css/Cogitation/Cogitation_1.css" type="text/css" rel="stylesheet" media="all"/><link href="http://hi.images.csdn.net/css/csdn_favbykimi.css" type="text/css" rel="stylesheet" media="all" /><link rel="Shortcut Icon" href="http://profile.csdn.net/ronghao100/picture/1.ico"/><link href="http://feeds.feedsky.com/csdn.net/ronghao100" title="RSS" type="application/rss+xml" rel="alternate" /></head>
+<body id="defaultuser">
+	<div id="csdnblog_allwrap">
+	    <div id="csdnblog_midwrap">
+		    
+<div id="csdnblog_header">
+    <h1><a href="http://blog.csdn.net/ronghao100">ronghao的专栏</a></h1><h2></h2>
+    <ul id="personalnav">
+		<li style="display:none;"><a id="a_login" href="http://passport.csdn.net/UserLogin.aspx">登录</a></li>
+		<li style="display:none;"><a id="a_register" href="http://passport.csdn.net/CSDNUserRegister.aspx">注册</a></li>
+		<li style="display:none;"><a id="a_welcome" href="http://hi.csdn.net/" target="_blank">欢迎</a></li>
+		<li style="display:none;"><a id="a_exit" href="http://writeblog.csdn.net/Signout.aspx">退出</a></li>
+		<li style="display:none;"><a id="a_myblog" href="http://blog.csdn.net/">我的博客</a></li>
+		<li style="display:none;"><a id="a_configure" href="http://writeblog.csdn.net/configure.aspx" target="_blank">配置</a></li>
+		<li style="display:none;"><a id="a_postedit" href="http://writeblog.csdn.net/PostEditPlain.aspx" target="_blank">写文章</a></li>
+		<li style="display:none;"><a id="a_postlist" href="http://writeblog.csdn.net/PostList.aspx" target="_blank">文章管理</a></li>
+		<li style="display:none;"><a id="a_bloghome" href="http://blog.csdn.net" target="_blank">博客首页</a></li>
+	</ul>
+    <ul id="blogsearchsty">
+		<li><input id="inputSearch" type="text" class="bolgsearch"/></li>
+		<li class="selectsty">
+			<select name="Search:ddlSearchScope" id="Search_ddlSearchScope">
+				<option value="all">全站</option>
+				<option value="ronghao100">当前博客</option>
+			</select>
+		</li>
+		<li><input type="button" id="buttonSearch" value="搜索" class="bolggobtn" /></li>
+	</ul>
+    <ul id="menu">
+		<li><a href="http://hi.csdn.net/ronghao100">空间</a></li>
+		<li><a href="http://blog.csdn.net/ronghao100" class="on">博客</a></li>
+		<li><a href="http://hi.csdn.net/ronghao100/profile/contactlist/1.html">好友</a></li>
+		<li><a href="http://album.hi.csdn.net/views/albums/ronghao100" target="_blank">相册</a></li>
+		<li><a href="http://hi.csdn.net/ronghao100/profile/notebook/1.html" class="last">留言</a></li>
+	</ul>
+</div>
+<script type="text/javascript">
+	var CurrentUserName = 'ronghao100';
+</script>
+		    
+<div id="csdnblog_sidebar">
+	<div class="gutter">
+		<div class="aboutauthor">
+			<dl>
+				<dt>用户操作</dt>
+				<dd class="middle">
+					<a href="http://hi.csdn.net/Admin/WriteMessage.aspx?Receiver=ronghao100" target="_blank">[发私信]</a>&nbsp;
+					<a href="http://webim.csdn.net/AddFriends/ronghao100.ashx" target="_blank">[加为好友]</a>&nbsp;
+				</dd>
+				<span id="userInfo"></span>
+				<span id="SubscriptionList">
+					<dt>订阅我的博客</dt>
+					<dd>
+						<a href="http://feeds.feedsky.com/csdn.net/ronghao100">
+							<img border="0" alt="XML聚合" src="http://img.feedsky.com/feeds/csdn.net/ronghao100/sc/gif"/>
+						</a>&nbsp;&nbsp;
+						<a href="http://feeds.feedsky.com/csdn.net/ronghao100" target="_blank">
+							<img border="0" alt="FeedSky" src="http://hi.images.csdn.net/images/blog/feedsky.gif"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://www.xianguo.com/subscribe.php?url=http://feeds.feedsky.com/csdn.net/ronghao100" target="_blank">
+							<img border="0" alt="订阅到鲜果" src="http://hi.images.csdn.net/images/blog/rss_xianguo.jpg"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://fusion.google.com/add?feedurl=http://feeds.feedsky.com/csdn.net/ronghao100" target="_blank">
+							<img border="0" alt="订阅到Google" src="http://hi.images.csdn.net/images/blog/rss_google.gif"/>
+						</a>
+					</dd>
+					<dd>
+						<a href="http://www.zhuaxia.com/add_channel.php?url=http://feeds.feedsky.com/csdn.net/ronghao100" target="_blank">
+							<img border="0" alt="订阅到抓虾" src="http://hi.images.csdn.net/images/blog/rss_zhuaxia.gif"/>
+						</a>
+					</dd>
+				</span>
+				<dt>
+					ronghao100的公告
+				</dt>
+				<dd></dd>
+				<dt>文章分类</dt>
+				<dd>
+					<div class="publiclist_sidebar">
+						<ul><li><a href="/ronghao100/category/401953.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/ronghao100/category/401953.aspx">java技术</a></li><li><a href="/ronghao100/category/401950.aspx/rss"><img src="http://hi.images.csdn.net/images/blog/rss.gif" alt="(RSS)"></a><a href="/ronghao100/category/401950.aspx">工作流、BPM</a></li></ul>
+					</div>
+				</dd>
+				
+				
+				<dt>存档</dt>
+				<dd>
+					<div class="publiclist_sidebar">
+						<ul><li><a href="/ronghao100/archive/2009/09.aspx">2009年09月(1)</a></li><li><a href="/ronghao100/archive/2009/03.aspx">2009年03月(2)</a></li><li><a href="/ronghao100/archive/2008/11.aspx">2008年11月(1)</a></li><li><a href="/ronghao100/archive/2008/10.aspx">2008年10月(1)</a></li><li><a href="/ronghao100/archive/2008/09.aspx">2008年09月(1)</a></li><li><a href="/ronghao100/archive/2008/08.aspx">2008年08月(1)</a></li><li><a href="/ronghao100/archive/2008/07.aspx">2008年07月(4)</a></li><li><a href="/ronghao100/archive/2008/06.aspx">2008年06月(3)</a></li><li><a href="/ronghao100/archive/2008/05.aspx">2008年05月(3)</a></li><li><a href="/ronghao100/archive/2008/03.aspx">2008年03月(2)</a></li><li><a href="/ronghao100/archive/2008/02.aspx">2008年02月(2)</a></li><li><a href="/ronghao100/archive/2005/06.aspx">2005年06月(1)</a></li></ul>
+					</div>
+				</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+
+		    
+<div id="csdnblog_content">
+	<div class="gutter">
+		<div class="default_contents">
+			<div class="user_article">
+				<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/LoadFeedbackCount.js"></script>
+				<h1 class="title_txt">
+					<img src="http://hi.images.csdn.net/images/blog/authorship.gif" border="0" width="15" height="16" alt="原创"/>&nbsp;
+					jBPM-Side流程设计器架构说明
+					<cite class="fav_csdnstylebykimi">
+						<a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a>
+					</cite>
+					
+				</h1>
+				<div class="blogstory">
+					<script type="text/javascript">
+						document.body.oncopy = function() {
+							if (window.clipboardData) {
+								setTimeout(function() {
+									var text = clipboardData.getData("text"); 
+									if (text && text.length>300) {
+										text = text + "\r\n\n本文来自CSDN博客，转载请标明出处：" + location.href;
+										clipboardData.setData("text", text); 
+									}
+								}, 100);
+							}
+						}
+					</script>
+					<script type="text/javascript">function StorePage(){d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(keyit=window.open('http://www.365key.com/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'keyit','scrollbars=no,width=475,height=575,left=75,top=20,status=no,resizable=yes'));keyit.focus();}</script>
+					<p><strong><br />
+一、&nbsp;&nbsp;&nbsp; 代码主要结构</strong>
+<br />
+所谓流程设计器者，无怪乎读取xml文件，图形展现，操作图形元素，改变xml文件，回写，如此而已。<br />
+<br />
+既然如此，设计器的流程结构就非常清晰：首先是xml框架解析xml文件为Model模型组件，然后Model模型组件被展现为Component视图组件；用户对Component视图组件进行操作，这些操作被同步的修改到Model模型组件；最后用户保存时，Model模型组件经过xml框架解析回xml文件，该文件被上传到服务器或本地覆盖原有的xml文件。<br />
+<br />
+那么代码结构就很清晰了：xml框架、Model模型组件和Component视图组件。但是等等，Model与Component如何交互呢？这里就需要GEF框架嫁接起两者的联系。同时，一个流程设计器往往要同时编辑多个流程定义，相比具体的流程定义而言，设计器拥有一些全局的对象，这些全局对象包括系统菜单栏、工具条、整个设计器布局框架（ProcessDesigner）、设计器入口（ProcessEditor），还有就是负责保存全局属性和发布/订阅定制事件的TheModel对象。<br />
+<br />
+<strong>二、&nbsp;&nbsp;&nbsp; Component视图组件</strong>
+<br />
+很直接，Component视图组件指的是与用户打交道的、与流程定义相关的视图元素。注意这里的一个定语：与流程定义相关的，即不包括系统菜单、工具条这些东东。这些视图元素很简单，包括画图板、各种节点元素和连接线元素。<br />
+<br />
+代码位于org.jbpmside.view.component和org.jbpmside.view.component.node下。主要类SurfaceComponent、NodeComponent和ConnectionComponent。看类名就很清晰这些类分别代表着什么组件：<br />
+&bull;&nbsp;&nbsp;&nbsp; SurfaceComponent代表画图板；<br />
+&bull;&nbsp;&nbsp;&nbsp; NodeComponent代表节点；<br />
+&bull;&nbsp;&nbsp;&nbsp; ConnectionComponent代表连接线；<br />
+<br />
+org.jbpmside.view.component.node下的类就是NodeComponent类的子类，代表具体的单个节点类型了，包括开始节点、结束节点、Fork节点、Join节点等等。<br />
+<br />
+Component视图组件使用了degrafa来渲染表现形式。<br />
+<br />
+目前缺少一个属性弹出框组件，职责展现和修改节点/连接线属性。<br />
+<br />
+<strong>三、&nbsp;&nbsp;&nbsp; Model模型组件</strong>
+<br />
+Xml流程定义文件解析为本地Model模型组件，本地建模和jBPM4的PVM建模一致，代码位于org.jbpmside.model下，重要的类：<br />
+&bull;&nbsp;&nbsp;&nbsp; ProcessModel代表流程定义；<br />
+&bull;&nbsp;&nbsp;&nbsp; NodeModel代表节点定义；<br />
+&bull;&nbsp;&nbsp;&nbsp; ConnectionModel代表连接线定义；<br />
+剩下的就是具体节点类型的模型类，例如StartNode/EndNode/TaskNode等。<br />
+<br />
+目前模型类还非常简单，因为前段时间主要关注Component视图组件部分，接下来很快会与jPDL规范完全同步，同时ProcessModel/NodeModel/ConnectionModel会进行重构，目标是与jBPM4模型完全一致。<br />
+<br />
+&nbsp;最新的模型位于org.jbpmside.model.common下，对jpdl4的支持位于org.jbpmside.model.jpdl4下，未来需要将Component与Model的关联迁移至common包下。<br />
+<br />
+<strong>四、&nbsp;&nbsp;&nbsp; GEF框架</strong>
+<br />
+GEF框架嫁接Model与Component。<br />
+<br />
+<strong>1、&nbsp;&nbsp;&nbsp; IGraphicalEditor与IEditPart</strong>
+<br />
+IGraphicalEditor与IEditPart是GEF框架里最重要的两个接口：<br />
+&bull;&nbsp;&nbsp;&nbsp; IGraphicalEditor代表整个图形编辑器，IGraphicalEditor里最重要的方法：<br />
+<br />
+<textarea cols="50" rows="15" name="code" class="javascript">function get graphicViewer():GraphicViewer;</textarea>
+ <br />
+<br />
+返回当前的图形视图。在当前的设计里，设计器支持多个TabPane，每个流程定义会拥有一个单独的图形视图（即一个TabPane），这里的图形视图即指当前处于激活（编辑）状态的画图板；很显然IGraphicalEditor是一个全局类。<br />
+<br />
+&bull;&nbsp;&nbsp;&nbsp; IEditPart代表单个的图形编辑元素，很显然，这些元素是和Component组件一致的，IEditPart里最为重要的方法：<br />
+<textarea cols="50" rows="15" name="code" class="c-sharp">function get model():Object;
+function set model(_model:Object):void;</textarea>
+ <br />
+Component组件继承于IEditPart，这样就瞬间将Component组件与Model关联起来。IEditPart重要的实现类包括GraphicViewer与GraphicEditPart。<br />
+GraphicViewer被SurfaceComponent继承；<br />
+GraphicEditPart被NodeComponent和ConnectionComponent继承。<br />
+&nbsp;<img src="http://dl.javaeye.com/upload/attachment/148739/e852027a-6f15-3f96-927d-81802bd62be1.png" alt="" />
+ <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/ronghao100/EntryImages/20090920/model.png" alt="对象关联图" width="838" height="502" />
+<br />
+<strong>2、&nbsp;&nbsp;&nbsp; Tool</strong>
+<br />
+Flex应用程序是基于事件驱动的，用户对界面的操作即反映到各种鼠标和键盘事件上。在原先的设计里，由Component组件自己来处理各种原生事件，当需要其他组件协作时，通过TheModel发出应用定制事件。在GEF的设计里，Component组件的原生事件处理被委派到Tool类进行处理。Component组件只管理自身的图形渲染和变化。<br />
+例如SurfaceComponent处理鼠标点击事件代码：<br />
+<br />
+<textarea cols="50" rows="15" name="code" class="c-sharp">public function mouseClickHandler(event:MouseEvent):void
+        {
+            &hellip; &hellip;
+            this.tool.mouseClick(event, compX, compY);
+        }</textarea>
+ <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+注意this.tool方法，这个方法同样是由GraphicViewer和GraphicEditPart分别&nbsp; 引入的。注意有些时候组件的Tool是需要切换的，例如鼠标点击面板，通常会导致被选中的节点或连接线选中状态消失，但是当工具条选中一个节点时，这个鼠标事件会导致向面板增加相应的节点。这时需要ToolManager来进行Tool却换的管理，针对SurfaceComponent/NodeComponent/ConnectionComponent分别有SurfaceToolsManager/NodeToolsManager/ConnectionToolsManager来管理不同的Tool切换策略。需要注意的是ToolManager和Tool都是无状态的，全局唯一，所有视图组件共用。<br />
+<br />
+<strong>3、&nbsp;&nbsp;&nbsp; Command</strong>
+<br />
+视图组件的变化会导致Model组件的变化。Tool处理视图原生事件、调用CommandService执行各个Command具体操作视图组件和Model对象实现视图组件和Model组件的变化。<br />
+<br />
+CommandService与SurfaceComponent进行一对一绑定。CommandService持有CommandStack，实现单个Tab编辑界面内Command的redo和undo。<br />
+<br />
+具体操作视图组件和Model对象必须通过Command。<br />
+<br />
+<strong>五、&nbsp;&nbsp;&nbsp; TheModel全局类的用途</strong>
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TheModel全局唯一，职责如下：<br />
+&bull;&nbsp;&nbsp;&nbsp; 负责应用所有定制事件的订阅/分发；<br />
+&bull;&nbsp;&nbsp;&nbsp; 负责持有工具条和系统菜单属性；<br />
+&bull;&nbsp;&nbsp;&nbsp; 负责持有剪贴板，实现各个画板之间的节点拷贝/剪切。<br />
+<br />
+<strong>六、&nbsp;&nbsp;&nbsp; ProcessDesigner与ProcessEditor</strong>
+<br />
+ProcessDesigner负责整个应用的布局，目前由三部分组成，系统菜单、工具条和TabNavigator（TabBar管理器），TabBar管理器负责添加和删除Tab，由Tab加载画板，这样实现对多流程定义同时编辑的支持（即多Tab）。<br />
+<br />
+ProcessEditor是应用的入口，它持有ProcessDesigner，实现了IGraphicalEditor接口。目前其对graphicViewer（）方法的实现是返回当前激活状态Tab的画板。<br />
+<br />
+同时，ProcessEditor负责统一监听工具条/键盘事件，并将这些事件处理委派给当前处于激活状态的Tab画板处理。<br />
+<br />
+<strong>七、&nbsp;&nbsp;&nbsp; Xml框架</strong>
+<br />
+位于org.jbpmside.xml下，使用E4X，使用binding对各种类型的节点进行解析，不集中在一个文件完成解析和转换，一个节点类型对应一个binding。使用代码如下：<br />
+<textarea cols="50" rows="15" name="code" class="c-sharp">public function parse(xml:String):ProcessDefinition{
+    var parser:Parser=new Parser();
+    return parser.createParse().setString(xml).
+          execute().getProcessDefinition() as ProcessDefinition;
+}</textarea>
+ <br />
+<br />
+测试代码位于test目录下，是目前唯一可以进行单元测试的部分。<br />
+<br />
+<strong>八、&nbsp;&nbsp;&nbsp; 还需要完成的工作</strong>
+<br />
+1、&nbsp;&nbsp;&nbsp; xml框架还需要大量的解析工作完成（以支持jpdl4）<br />
+2、&nbsp;&nbsp;&nbsp; 第一个版本为本地应用，需要增加对本地文件操作的支持<br />
+3、&nbsp;&nbsp;&nbsp; 模型迁移至org.jbpmside.model.common<br />
+4、&nbsp;&nbsp;&nbsp; 工具条使用flexlib重写，新的16位图标,节点属性弹出框<br />
+5、&nbsp;&nbsp;&nbsp; Command目前只实现了对undo的支持，需要实现对redo的支持</p>
+					<p class="right articalinfo">
+						发表于 @ 2009年09月20日　21:23:00&nbsp;&#124;
+						<a id="a_comment" href="#FeedBack" Title = "评论">
+							评论(
+							<span id="FeedbackCount_4573766">loading...</span>
+							<script type="text/javascript">
+								AddFeedbackCountStack("4573766")
+							</script>)
+						</a>&#124;
+						<span style="display:none;"><a id="a_postedit" href="http://writeblog.csdn.net/PostEdit.aspx?entryId=4573766" title="编辑">编辑</a>&#124</span>
+						<a href='m&#97;ilto&#58;yuexn&#64;csdn&#46;net?subject=Article%20Report!!!&body=Author:ronghao100%0D%0AURL:http://blog.csdn.net/ArticleContent.aspx?UserName=ronghao100&Entryid=4573766'>举报</a>&#124;
+						<cite class="fav_csdnstylebykimi">
+							<a href="JavaScript:d=document;t=d.selection?(d.selection.type!='None'?d.selection.createRange().text:''):(d.getSelection?d.getSelection():'');void(saveit=window.open('http://wz.csdn.net/storeit.aspx?t='+escape(d.title)+'&u='+escape(d.location.href)+'&c='+escape(t),'saveit','scrollbars=no,width=590,height=300,left=75,top=20,status=no,resizable=yes'));saveit.focus();" class="fav_csdnstylebykimi" title="收藏到我的网摘中，并分享给我的朋友">收藏</a>
+						</cite>
+					</p>
+					<span id="Post.ascx_ViewPost_PreviousAndNextEntriesDown"><h3 class="pagego"><a href="/ronghao100/archive/2009/03/30/4035394.aspx">旧一篇:JbpmSide介绍</a></h3></span>
+				</div>
+			</div>
+			<a name="FeedBack"></a>
+			<div class="commentslist">
+				<script type="text/javascript">
+					var CurrentEntryId = '4573766';
+				</script>
+				<script type="text/javascript" src="http://hi.images.csdn.net/js/blog/feedback.js?v=2009060916"></script>
+				<div id="commentslist"></div>
+			</div>
+			<div class="spacecommment">
+			</div>
+			<script type="text/javascript">
+			LoadFeedbackCount();
+			document.write("<img src='http://counter.csdn.net/pv.aspx?id=24' border=0 width=0 height=0>");
+			</script>
+		</div>
+	</div>
+</div>
+		    
+<div id="pubfooter">
+<dl>
+	<dt></dt>
+	<dd>Csdn Blog version 3.1a</dd>
+	<dd>Copyright &copy; ronghao100</dd>
+</dl>
+</div>
+
+<script type="text/javascript" src="http://www.csdn.net/ui/scripts/Csdn/counter.js"></script>
+<script type="text/javascript" src="http://www.google-analytics.com/ga.js"></script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-2688088-9");
+	pageTracker._trackPageview();
+} catch (err) { }
+</script>
+
+
+	    </div>
+    </div>
+    <img src='/Scripts/count.aspx?blogid=77114&entryid=4573766&title=jBPM-Side流程设计器架构说明&url=http://www.google.com/reader/view/?hl=zh-CN&tab=wy' height=0 width=0>
+</body>
+</html>

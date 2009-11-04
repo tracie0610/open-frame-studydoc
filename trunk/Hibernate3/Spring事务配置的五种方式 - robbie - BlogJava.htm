@@ -1,0 +1,1195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head id="Head"><title>
+	Spring事务配置的五种方式 - robbie - BlogJava
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta id="metaKeywords" name="keywords" content="Spring事务配置的五种方式" /><link id="MainCss" type="text/css" rel="stylesheet" href="http://www.blogjava.net/Skins/sea/style.css" /><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.blogjava.net/robbie/rss.aspx" /></head>
+<body>
+    <form name="Form1" method="post" action="264003.html" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=PyW-m2hLmppJ9byT1bYEqw2&amp;t=633740135971222506" type="text/javascript"></script>
+
+<script language=JavaScript>
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language=JavaScript>function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="/ScriptResource.axd?d=Io4r5Qx-zmHVyf9RpZLpA94PR0yylGVrHR75KduCbtx9Wbjv2jQEzXmeH0no0z7nxVOXJo-onw_3WI2pcwKr3w2&amp;t=633740135971222506" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=Io4r5Qx-zmHysvkgwLW9yk7rUGj5M-geQRTOmI9WMPaWNcTLoZx7IpNZpIR4LFVQ0&amp;t=633065726440000000" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=Io4r5Qx-zmHysvkgwLW9yk7rUGj5M-geQRTOmI9WMPaVSfXvXlH0xWaTv3M_TRDPzVKh75E08VU1&amp;t=633065726440000000" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+        
+<!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.blogjava.net/robbie/">robbie</a><br>
+		
+	</div>
+</div>
+
+</div>
+
+<div id="mytopmenu" >
+	
+		<div id="mylinks">
+<!--done-->
+<a id="MyLinks1_HomeLink" class="menu" href="http://www.blogjava.net/">BlogJava</a>&nbsp;&nbsp;
+<a id="MyLinks1_MyHomeLink" class="menu" href="http://www.blogjava.net/robbie/">首页</a>&nbsp;&nbsp;
+<a id="MyLinks1_NewPostLink" class="menu" href="http://www.blogjava.net/robbie/admin/EditPosts.aspx?opt=1">新随笔</a>
+<a id="MyLinks1_ContactLink" class="menu" href="http://www.blogjava.net/robbie/contact.aspx?id=1">联系</a>&nbsp;&nbsp;
+<a id="MyLinks1_Syndication" class="menu" href="http://www.blogjava.net/robbie/rss">聚合</a><a id="MyLinks1_XMLLink" href="http://www.blogjava.net/robbie/rss"><img src="http://www.blogjava.net/images/xml.gif" style="border-width:0px;" /></a>&nbsp;&nbsp;
+<a id="MyLinks1_Admin" class="menu" href="http://www.blogjava.net/robbie/admin/EditPosts.aspx">管理</a>
+</div>
+		<DIV id="mystats">
+<!--done-->
+随笔-60&nbsp;
+评论-57&nbsp;
+文章-5&nbsp;
+trackbacks-0
+</DIV>
+	
+</div>
+<div id="centercontent" >
+	
+					
+<!--done-->
+<div class = "post">
+	<div class = "postTitle">
+		<a id="viewpost1_TitleUrl" class="postTitle2" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html">Spring事务配置的五种方式</a>
+	</div>
+	<p>&nbsp;&nbsp;&nbsp; 前段时间对Spring的事务配置做了比较深入的研究，在此之间对Spring的事务配置虽说也配置过，但是一直没有一个清楚的认识。通过这次的学习发觉Spring的事务配置只要把思路理清，还是比较好掌握的。</p>
+<p>&nbsp;&nbsp;&nbsp; 总结如下：</p>
+<p>&nbsp;&nbsp;&nbsp; Spring配置文件中关于事务配置总是由三个组成部分，分别是DataSource、TransactionManager和代理机制这三部分，无论哪种配置方式，一般变化的只是代理机制这部分。</p>
+<p>&nbsp;&nbsp;&nbsp; DataSource、TransactionManager这两部分只是会根据数据访问方式有所变化，比如使用Hibernate进行数据访问时，DataSource实际为SessionFactory，TransactionManager的实现为HibernateTransactionManager。</p>
+<p>&nbsp;&nbsp;&nbsp; 具体如下图：</p>
+<p><a href="http://www.blogjava.net/images/blogjava_net/robbie/WindowsLiveWriter/Spring_9C9C/Spring%E4%BA%8B%E5%8A%A1%E9%85%8D%E7%BD%AE%20(2).jpg"><img style="border: 0px none ;" alt="Spring事务配置 (2)" src="http://www.blogjava.net/images/blogjava_net/robbie/WindowsLiveWriter/Spring_9C9C/Spring%E4%BA%8B%E5%8A%A1%E9%85%8D%E7%BD%AE%20(2)_thumb.jpg" border="0" width="654" height="378" /></a> </p>
+<p>&nbsp;&nbsp;&nbsp; 根据代理机制的不同，总结了五种Spring事务的配置方式，配置文件如下：</p>
+<p>&nbsp;&nbsp;&nbsp; 第一种方式：每个Bean都有一个代理</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br />
+</span><span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置DAO </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);"> class</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.UserDaoImpl"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDao"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务管理器 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="target"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="proxyInterfaces"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.GeneratorDao"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务属性 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionAttributes"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">prop </span><span style="color: rgb(255, 0, 0);">key</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">PROPAGATION_REQUIRED</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">prop</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; </span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>&nbsp;&nbsp;&nbsp; 第二种方式：所有Bean共享一个代理基类</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionBase"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lazy-init</span><span style="color: rgb(0, 0, 255);">="true"</span><span style="color: rgb(255, 0, 0);"> abstract</span><span style="color: rgb(0, 0, 255);">="true"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务管理器 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务属性 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionAttributes"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">prop </span><span style="color: rgb(255, 0, 0);">key</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">PROPAGATION_REQUIRED</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">prop</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置DAO </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);"> class</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.UserDaoImpl"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDao"</span><span style="color: rgb(255, 0, 0);"> parent</span><span style="color: rgb(0, 0, 255);">="transactionBase"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="target"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>第三种方式：使用拦截器</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br />
+</span><span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;<br />
+&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionInterceptor"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.transaction.interceptor.TransactionInterceptor"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务属性 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionAttributes"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">prop </span><span style="color: rgb(255, 0, 0);">key</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">PROPAGATION_REQUIRED</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">prop</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">class</span><span style="color: rgb(0, 0, 255);">="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="beanNames"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">*Dao</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="interceptorNames"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">transactionInterceptor</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置DAO </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDao"</span><span style="color: rgb(255, 0, 0);"> class</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.UserDaoImpl"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>第四种方式：使用tx标签配置的拦截器</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:tx</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/tx"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:annotation-config </span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:component-scan </span><span style="color: rgb(255, 0, 0);">base-package</span><span style="color: rgb(0, 0, 255);">="com.bluesky"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:advice </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="txAdvice"</span><span style="color: rgb(255, 0, 0);"> transaction-manager</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:attributes</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:method </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(255, 0, 0);"> propagation</span><span style="color: rgb(0, 0, 255);">="REQUIRED"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">tx:attributes</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">tx:advice</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">aop:config</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">aop:pointcut </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="interceptorPointCuts"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; expression</span><span style="color: rgb(0, 0, 255);">="execution(* com.bluesky.spring.dao.*.*(..))"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">aop:advisor </span><span style="color: rgb(255, 0, 0);">advice-ref</span><span style="color: rgb(0, 0, 255);">="txAdvice"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointcut-ref</span><span style="color: rgb(0, 0, 255);">="interceptorPointCuts"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">aop:config</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>第五种方式：全注解<br />
+<!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--></p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xmlns:tx</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/tx"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:annotation-config </span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:component-scan </span><span style="color: rgb(255, 0, 0);">base-package</span><span style="color: rgb(0, 0, 255);">="com.bluesky"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:annotation-driven </span><span style="color: rgb(255, 0, 0);">transaction-manager</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br />
+&nbsp;&nbsp;&nbsp; <br />
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>此时在DAO上需加上&#64;Transactional注解，如下：</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">package</span><span style="color: rgb(0, 0, 0);"> com.bluesky.spring.dao;<br />
+<br />
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> java.util.List;<br />
+<br />
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.hibernate.SessionFactory;<br />
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.springframework.beans.factory.annotation.Autowired;<br />
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.springframework.orm.hibernate3.support.HibernateDaoSupport;<br />
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.springframework.stereotype.Component;<br />
+<br />
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> com.bluesky.spring.domain.User;<br />
+<br />
+&#64;Transactional<br />
+&#64;Component(</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">userDao</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">)<br />
+</span><span style="color: rgb(0, 0, 255);">public</span><span style="color: rgb(0, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">class</span><span style="color: rgb(0, 0, 0);"> UserDaoImpl </span><span style="color: rgb(0, 0, 255);">extends</span><span style="color: rgb(0, 0, 0);"> HibernateDaoSupport </span><span style="color: rgb(0, 0, 255);">implements</span><span style="color: rgb(0, 0, 0);"> UserDao {<br />
+<br />
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">public</span><span style="color: rgb(0, 0, 0);"> List</span><span style="color: rgb(0, 0, 0);">&lt;</span><span style="color: rgb(0, 0, 0);">User</span><span style="color: rgb(0, 0, 0);">&gt;</span><span style="color: rgb(0, 0, 0);"> listUsers() {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">return</span><span style="color: rgb(0, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">this</span><span style="color: rgb(0, 0, 0);">.getSession().createQuery(</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">from User</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">).list();<br />
+&nbsp;&nbsp;&nbsp; }<br />
+&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; <img alt="" src="http://www.blogjava.net/Images/dot.gif" /><br />
+}</span></div>
+<p><br />
+</p>
+<p><span style="color: rgb(0, 0, 255);"><br />
+</span></p>
+
+	<div class = "postDesc">posted on 2009-04-05 16:38 <a href='http://www.blogjava.net/robbie/'>The Matrix</a> 阅读(4482) <a href='#Post'>评论(10)</a> &nbsp;<a href="http://www.blogjava.net/robbie/admin/EditPosts.aspx?postid=264003">编辑</a> &nbsp;<a href="http://www.blogjava.net/robbie/AddToFavorite.aspx?id=264003">收藏</a>  所属分类: <a href='http://www.blogjava.net/robbie/category/17709.html'>Spring</a> </div>
+</div>
+<img src ="http://www.blogjava.net/robbie/aggbug/264003.html?webview=1" width = "1" height = "1" />
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html"
+dc:identifier="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html"
+dc:title="Spring事务配置的五种方式"
+trackback:ping="http://www.blogjava.net/robbie/services/trackbacks/264003.aspx" />
+</rdf:RDF>
+-->
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    <a name="pagedcomment"></a>
+<!--done-->
+<br>
+<b>评论:</b>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#264014">#</a>&nbsp;<a name="264014"></a>re: Spring事务配置的五种方式
+				2009-04-05 19:41 | <a id="AjaxHolder_Comments_CommentList_ctl00_NameLink" href="http://www.blogjava.net/heyang/" target="_blank">heyang</a><br>
+				<div align=left>请问第一个图是拿什么软件画的？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;heyang&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=heyang" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl00_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl00$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl00_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#264015">#</a>&nbsp;<a name="264015"></a>re: Spring事务配置的五种方式
+				2009-04-05 19:47 | <a id="AjaxHolder_Comments_CommentList_ctl01_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align=left>&#64;heyang<br>Mindjet7.0，呵呵&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl01_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl01$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl01_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#264059">#</a>&nbsp;<a name="264059"></a>re: Spring事务配置的五种方式
+				2009-04-06 10:13 | <a id="AjaxHolder_Comments_CommentList_ctl02_NameLink" href="http://www.blogjava.net/crabboy/" target="_blank">虎啸龙吟</a><br>
+				<div align=left>用什么画的图啊？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;虎啸龙吟&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e8%99%8e%e5%95%b8%e9%be%99%e5%90%9f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl02_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl02$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl02_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#264124">#</a>&nbsp;<a name="264124"></a>re: Spring事务配置的五种方式
+				2009-04-06 16:00 | <a id="AjaxHolder_Comments_CommentList_ctl03_NameLink" href="http://www.blogjava.net/RhythmOfRain/" target="_blank">雨奏</a><br>
+				<div align=left>&#64;The Matrix<br>请问能否再简要说说这几种方式各自的好处与不足，或适用的场景？谢谢&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;雨奏&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%9b%a8%e5%a5%8f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl03_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl03$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl03_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#264162">#</a>&nbsp;<a name="264162"></a>re: Spring事务配置的五种方式
+				2009-04-06 23:00 | <a id="AjaxHolder_Comments_CommentList_ctl04_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align=left>&#64;雨奏<br>第一种方式与第二种方式是类似的，在所有方式中，第一种方式所需写的配置文件最多。<br>在Spring2.0时，一般都采用方式三，主要带来的好处就是配置文件的量变小。<br>在Spring2.5时，可以采用方式五，这样基本可以做到0配置了:)&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl04_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl04$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl04_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#264411">#</a>&nbsp;<a name="264411"></a>re: Spring事务配置的五种方式
+				2009-04-08 10:53 | <a id="AjaxHolder_Comments_CommentList_ctl05_NameLink" href="http://www.blogjava.net/RhythmOfRain/" target="_blank">雨奏</a><br>
+				<div align=left>&#64;The Matrix<br>谢谢你的耐心解答。目前我倒是常用第4种方式&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;雨奏&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%9b%a8%e5%a5%8f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl05_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl05$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl05_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#266124">#</a>&nbsp;<a name="266124"></a>re: Spring事务配置的五种方式
+				2009-04-17 12:50 | <a id="AjaxHolder_Comments_CommentList_ctl06_NameLink" target="_blank">Woden</a><br>
+				<div align=left>我想请教一个疑问：<br>假如我采用了第四种配置方式，然后我在某一个类*.dao.Test中调用了两个对象，诸如*.dao.UserDao和*.dao.RoleDao，那么此时的事物拦截机制是怎样？<br><br>如：<br>Test中有方法：<br>execute(){<br> userDao.insert();<br> roleDao.insert();<br>}<br><br>那么这个execute是否算一个事务？<br><br>望解答。多谢。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Woden&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Woden" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl06_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl06$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl06_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#266216">#</a>&nbsp;<a name="266216"></a>re: Spring事务配置的五种方式
+				2009-04-17 19:54 | <a id="AjaxHolder_Comments_CommentList_ctl07_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align=left>&#64;Woden<br>如果事务拦截机制对Test类中的execute方法生效，那么两个dao的insert方法是在一个事务，否则两个dao的insert方法就不在一个事务中。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl07_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl07$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl07_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#268465">#</a>&nbsp;<a name="268465"></a>re: Spring事务配置的五种方式
+				2009-05-01 10:36 | <a id="AjaxHolder_Comments_CommentList_ctl08_NameLink" href="http://www.blogjava.net/rongxh7/" target="_blank">心梦帆影</a><br>
+				<div align=left>不错的文章，收藏了。有一个问题想请教你：<br>第五种方式中，如果UserDaoImpl类中有很多方法，但不是全部方法都加上事务，那应怎么处理？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;心梦帆影&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e5%bf%83%e6%a2%a6%e5%b8%86%e5%bd%b1" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl08_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl08$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl08_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class = "feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="/robbie/archive/2009/04/05/264003.html#268544">#</a>&nbsp;<a name="268544"></a>re: Spring事务配置的五种方式<a name="Post"></a>
+				2009-05-01 21:28 | <a id="AjaxHolder_Comments_CommentList_ctl09_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align=left>&#64;心梦帆影<br>没有测试，但我想是否可以只在方法上加&#64;Transactional注解<br><br>最近太忙了，要同时面临好几件事情，兄弟有测试结果，可以告知我一下，呵呵&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl09_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl09$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl09_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+
+
+
+
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<STYLE>.userData { BEHAVIOR: url(#default#userdata) }
+	</STYLE>
+<DIV class="userData" id="CommentsPersistDiv"></DIV>
+
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+<div id="divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px"><a href="http://news.cnblogs.com/">IT新闻</a>&nbsp;&nbsp;<a href="/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</a>&nbsp;&nbsp;</div>
+<div class="commentform">
+<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+</script>
+<script type="text/javascript">
+try{
+  GS_googleAddAdSenseService("ca-pub-4210569241504288");
+  GS_googleEnableAllServices();
+  } catch (e) { }
+</script>
+<script type="text/javascript">
+try{
+  GA_googleAddSlot("ca-pub-4210569241504288", "blogjava_commentbox_up");
+  GA_googleAddSlot("ca-pub-4210569241504288", "blogjava_blogpost_bottom");
+  GA_googleAddSlot("ca-pub-4210569241504288", "blogjava_blogpost_bottom1");
+  } catch (e) { }
+</script>
+<script type="text/javascript">
+try{
+  GA_googleFetchAds();
+  } catch (e) { }
+</script>
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br />
+<a name="Feedback"></a>
+	<TABLE cellSpacing="1" cellPadding="1" border="0">
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD width="75"></TD>
+			<TD></TD>
+			<TD></TD>
+		</TR>
+		<TR>
+			<TD width="55">标题</TD>
+			<TD><input name="AjaxHolder$PostComment$tbTitle" type="text" value="re: Spring事务配置的五种方式" id="AjaxHolder_PostComment_tbTitle" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator1" style="color:Red;visibility:hidden;">请输入标题</span></TD>
+		</TR>
+		<TR>
+			<TD>姓名</TD>
+			<TD><input name="AjaxHolder$PostComment$tbName" type="text" id="AjaxHolder_PostComment_tbName" class="commenttb" style="width:320" /></TD>
+			<TD><span id="AjaxHolder_PostComment_RequiredFieldValidator2" style="color:Red;visibility:hidden;">请输入你的姓名</span></TD>
+		</TR>
+		<TR>
+			<TD>主页</TD>
+			<TD><input name="AjaxHolder$PostComment$tbUrl" type="text" id="AjaxHolder_PostComment_tbUrl" class="commenttb" style="width:320" /></TD>
+			<TD><FONT face="宋体"></FONT></TD>
+		</TR>
+		<tr>
+			<td align="left" colSpan="3">
+				<table id="AjaxHolder_PostComment_tbCaptchaImage" class="CommentForm" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<td colspan="3">
+							<span id="AjaxHolder_PostComment_Requiredfieldvalidator4" style="color:Red;display:none;">请输入验证码</span>
+							<span id="AjaxHolder_PostComment_lblImage" style="color:Red;font-weight:bold;"></span>
+						</td>
+		</tr>
+		<tr>
+			<td width="78">验证码</td>
+			<td><input name="AjaxHolder$PostComment$CodeNumberTextBox" type="text" id="AjaxHolder_PostComment_CodeNumberTextBox" />*&nbsp;&nbsp;<img src="http://www.blogjava.net/Modules/CaptchaImage/JpegImage.aspx?cacheid=20090831110829"/></td>
+			<td align="left"></td>
+		</tr>
+	</table>
+	
+			</td>
+		</tr>
+		<TR>
+			<TD colSpan="3">内容(请不要发表任何与政治相关的内容)
+				<span id="AjaxHolder_PostComment_RequiredFieldValidator3" style="color:Red;visibility:hidden;">请输入评论内容</span><BR>
+				<textarea name="AjaxHolder$PostComment$tbComment" rows="10" cols="50" id="AjaxHolder_PostComment_tbComment" class="commentTextBox" onkeydown="ctlent(event,'AjaxHolder_PostComment_tbComment')" style="Width:480;Height:220"></textarea></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+		<span id="AjaxHolder_PostComment_Message" style="color:Red;"></span>
+		</td>
+		<TR>
+			<TD colSpan="3"><input id="AjaxHolder_PostComment_chkRemember" type="checkbox" name="AjaxHolder$PostComment$chkRemember" checked="checked" tabindex="-1" /><label for="AjaxHolder_PostComment_chkRemember">Remember Me?</label></TD>
+		</TR>
+		<TR>
+			<TD height="23"><input type="submit" name="AjaxHolder$PostComment$btnSubmit" value="提交" onclick="TempSave('AjaxHolder_PostComment_tbComment');WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;AjaxHolder$PostComment$btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="AjaxHolder_PostComment_btnSubmit" class="commentButton" />
+				</TD>
+			<td colSpan="2" height="23">&nbsp;
+				<a id="AjaxHolder_PostComment_lnkLogin" href="http://www.blogjava.net/login.aspx?ReturnURL=http://www.blogjava.net/robbie/archive/2009/04/05/264003.html&amp;SourceURL=/robbie/archive/2009/04/05/264003.html">登录</a>&nbsp;&nbsp;<!--<a id="AjaxHolder_PostComment_linkLoginComment" OnClick="if(document.getElementById('AjaxHolder_PostComment_tbComment').value != '') return confirm('未提交的评论内容将会丢失, 你真的要进入高级评论吗?');" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html?login=1#Post">使用高级评论</a>&nbsp;&nbsp;<a href="http://www.blogjava.net/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<A href="#Top">返回页首</A>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_lbRestore" OnClick="Restore('AjaxHolder_PostComment_tbComment'); return false;" href="/robbie/archive/2009/04/05/264003.html#Post">恢复上次提交</a>&nbsp;&nbsp;-->&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+		</TR>
+		<TR>
+			<TD colSpan="3"><label class="CtrlEnter">[使用Ctrl+Enter键可以直接提交]</label></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">该文被作者在 2009-04-05 17:12 编辑过</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3"><a href="http://www.tarena.net/kc_content.asp?id=14" target="_blank"><span style="color:red">8月28日Java软件外包企业就业班</span></a></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3"><a href="http://www.syitpromotion.cn/syc.php?u=A67" target="_blank">来思远学软件，笔记本电脑送给你</a></TD>
+		</TR>	
+		<TR>
+			<TD colSpan="3">
+<br/>
+<script type="text/javascript">
+try{
+  GA_googleFillSlot("blogjava_blogpost_bottom1");
+  } catch (e) { }
+</script>
+<br/>
+<script type="text/javascript">
+try{
+  GA_googleFillSlot("blogjava_blogpost_bottom");
+  } catch (e) { }
+</script></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">		<TR>
+			<TD colSpan="3" height="1">网站导航:<div id="blogsite">
+			<a href="http://www.cnblogs.com">博客园</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://home.cnblogs.com">博客园个人主页</a>&nbsp;&nbsp;
+			<a href="http://www.cnweblog.com">博客生活</a>&nbsp;&nbsp;
+			<a href="http://www.cnitblog.com">IT博客网</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com">C++博客</a>&nbsp;&nbsp;
+			<a href="http://space.cnblogs.com">博客园社区</a>
+			<a href="/robbie/archive/2009/04/05/264003.html?opt=admin">管理</a>
+			</div></TD>
+		</TR></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;padding-left:0px;">
+		
+			<li style='list-style:none;display:none'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl01_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html">Spring事务配置的五种方式</a>
+			</li>
+		
+			<li style='list-style:none;'>
+				<a id="AjaxHolder_PostComment_ctl06_RelativePostsList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/16/260119.html">今天犯了一个愚蠢的错误</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</TD>
+		</TR>	
+		<TR>
+			<TD colSpan="3">&nbsp;</TD>
+		</TR>
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>
+		<TR>
+			<TD colSpan="3">
+				
+<br/>
+<br/>
+<iframe marginheight="0" marginwidth="0" frameborder="0" width="468" height="0" scrolling="no" src="/ad.htm" style="border:0px solid #666" allowTransparency="true"></iframe>
+<br/>
+
+
+</TD>
+		</TR>		
+	</TABLE>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+
+</div>
+
+				
+</div>
+<div id="leftcontent" style="display:none">
+	
+		<DIV id="leftcontentcontainer">
+			
+			<table id="Calendar1_entryCal" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0" style="border-width:1px;border-style:solid;border-collapse:collapse;">
+	<tr><td colspan="7" style="background-color:Silver;"><table class="CalTitle" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+		<tr><td class="CalNextPrev" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3347')" style="color:Black" title="Go to the previous month">&lt;</a></td><td align="center" style="width:70%;">2009年4月</td><td class="CalNextPrev" align="right" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3408')" style="color:Black" title="Go to the next month">&gt;</a></td></tr>
+	</table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">29</td><td class="CalOtherMonthDay" align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">31</td><td align="center" style="width:14%;">1</td><td align="center" style="width:14%;">2</td><td align="center" style="width:14%;">3</td><td class="CalWeekendDay" align="center" style="width:14%;">4</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/05.html"><u>5</u></a></td><td align="center" style="width:14%;">6</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/07.html"><u>7</u></a></td><td align="center" style="width:14%;">8</td><td align="center" style="width:14%;">9</td><td align="center" style="width:14%;">10</td><td class="CalWeekendDay" align="center" style="width:14%;">11</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/12.html"><u>12</u></a></td><td align="center" style="width:14%;">13</td><td align="center" style="width:14%;">14</td><td align="center" style="width:14%;">15</td><td align="center" style="width:14%;">16</td><td align="center" style="width:14%;">17</td><td class="CalWeekendDay" align="center" style="width:14%;">18</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/19.html"><u>19</u></a></td><td align="center" style="width:14%;">20</td><td align="center" style="width:14%;">21</td><td align="center" style="width:14%;">22</td><td align="center" style="width:14%;">23</td><td align="center" style="width:14%;">24</td><td class="CalWeekendDay" align="center" style="width:14%;">25</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">26</td><td align="center" style="width:14%;">27</td><td align="center" style="width:14%;">28</td><td align="center" style="width:14%;">29</td><td align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">1</td><td class="CalOtherMonthDay" align="center" style="width:14%;">2</td></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">3</td><td class="CalOtherMonthDay" align="center" style="width:14%;">4</td><td class="CalOtherMonthDay" align="center" style="width:14%;">5</td><td class="CalOtherMonthDay" align="center" style="width:14%;">6</td><td class="CalOtherMonthDay" align="center" style="width:14%;">7</td><td class="CalOtherMonthDay" align="center" style="width:14%;">8</td><td class="CalOtherMonthDay" align="center" style="width:14%;">9</td></tr>
+</table>
+<br>
+			
+<!--done-->
+
+		<h1 class = "catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(57)</span></h1>
+		
+				<ul class = "catList">
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/robbie/category/22240.html">EJB3(3)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to EJB3(3)" class="listitem" href="http://www.blogjava.net/robbie/category/22240.html/rss"><img title="Subscribe to EJB3(3)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16723.html">Flex(10)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to Flex(10)" class="listitem" href="http://www.blogjava.net/robbie/category/16723.html/rss"><img title="Subscribe to Flex(10)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36350.html">Hibernate(7)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to Hibernate(7)" class="listitem" href="http://www.blogjava.net/robbie/category/36350.html/rss"><img title="Subscribe to Hibernate(7)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16725.html">Java(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to Java(1)" class="listitem" href="http://www.blogjava.net/robbie/category/16725.html/rss"><img title="Subscribe to Java(1)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36431.html">JBoss Seam/JSF(7)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to JBoss Seam/JSF(7)" class="listitem" href="http://www.blogjava.net/robbie/category/36431.html/rss"><img title="Subscribe to JBoss Seam/JSF(7)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36465.html">Kettle(4)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to Kettle(4)" class="listitem" href="http://www.blogjava.net/robbie/category/36465.html/rss"><img title="Subscribe to Kettle(4)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_Link" class="listitem" href="http://www.blogjava.net/robbie/category/31677.html">Linux(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_RssLink" title="Subscribe to Linux(2)" class="listitem" href="http://www.blogjava.net/robbie/category/31677.html/rss"><img title="Subscribe to Linux(2)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36355.html">MySQL(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_RssLink" title="Subscribe to MySQL(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36355.html/rss"><img title="Subscribe to MySQL(1)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36356.html">Oracle(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_RssLink" title="Subscribe to Oracle(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36356.html/rss"><img title="Subscribe to Oracle(1)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36351.html">OSGi</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_RssLink" title="Subscribe to OSGi" class="listitem" href="http://www.blogjava.net/robbie/category/36351.html/rss"><img title="Subscribe to OSGi" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_Link" class="listitem" href="http://www.blogjava.net/robbie/category/40910.html">Ruby(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_RssLink" title="Subscribe to Ruby(1)" class="listitem" href="http://www.blogjava.net/robbie/category/40910.html/rss"><img title="Subscribe to Ruby(1)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl12_Link" class="listitem" href="http://www.blogjava.net/robbie/category/17709.html">Spring(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl12_RssLink" title="Subscribe to Spring(2)" class="listitem" href="http://www.blogjava.net/robbie/category/17709.html/rss"><img title="Subscribe to Spring(2)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl13_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36667.html">SQL Server(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl13_RssLink" title="Subscribe to SQL Server(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36667.html/rss"><img title="Subscribe to SQL Server(1)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl14_Link" class="listitem" href="http://www.blogjava.net/robbie/category/37909.html">Struts2(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl14_RssLink" title="Subscribe to Struts2(2)" class="listitem" href="http://www.blogjava.net/robbie/category/37909.html/rss"><img title="Subscribe to Struts2(2)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl15_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36352.html">设计模式(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl15_RssLink" title="Subscribe to 设计模式(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36352.html/rss"><img title="Subscribe to 设计模式(1)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl16_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36354.html">软件工程</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl16_RssLink" title="Subscribe to 软件工程" class="listitem" href="http://www.blogjava.net/robbie/category/36354.html/rss"><img title="Subscribe to 软件工程" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl17_Link" class="listitem" href="http://www.blogjava.net/robbie/category/31872.html">软件设计(4)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl17_RssLink" title="Subscribe to 软件设计(4)" class="listitem" href="http://www.blogjava.net/robbie/category/31872.html/rss"><img title="Subscribe to 软件设计(4)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl18_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16727.html">随笔(9)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl18_RssLink" title="Subscribe to 随笔(9)" class="listitem" href="http://www.blogjava.net/robbie/category/16727.html/rss"><img title="Subscribe to 随笔(9)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl19_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36442.html">项目总结(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl19_RssLink" title="Subscribe to 项目总结(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36442.html/rss"><img title="Subscribe to 项目总结(1)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				</ul>
+			
+	
+		<h1 class = "catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(52)</span></h1>
+		
+				<ul class = "catList">
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/07.html">2009年7月 (2)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/04.html">2009年4月 (4)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/03.html">2009年3月 (3)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/02.html">2009年2月 (1)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl05_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/12.html">2008年12月 (18)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl06_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/11.html">2008年11月 (2)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl07_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/08.html">2008年8月 (1)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl08_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/07.html">2008年7月 (4)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl09_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/06.html">2008年6月 (2)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl10_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/05.html">2008年5月 (4)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl11_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/10.html">2007年10月 (1)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl12_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/06.html">2007年6月 (1)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl13_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/05.html">2007年5月 (3)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl14_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/01.html">2007年1月 (4)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl15_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2006/11.html">2006年11月 (1)</a></li>
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl16_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2006/10.html">2006年10月 (1)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class = "catListTitle">文章分类<span style="font-size:11px;font-weight:normal">(5)</span></h1>
+		
+				<ul class = "catList">
+			
+				<li class = "catListItem"> <a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16728.html">Flex2(5)</a><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_RssLink" title="Subscribe to Flex2(5)" class="listitem" href="http://www.blogjava.net/robbie/category/16728.html/rss"><img title="Subscribe to Flex2(5)" src="/Skins/sea/Images/xml.gif" style="border-width:0px;" /></a></li>
+			
+				</ul>
+			
+	
+
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0 || evt.type =='click')
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location=url;
+				return false;
+			}
+		}
+</script>
+<H3>搜索</H3>
+<ul>
+	<li>
+		<li><input style="WIDTH: 130px" type="text" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/robbie')">&nbsp;<input onclick="SearchGoogle(document.getElementById('q'),event,'www.blogjava.net/robbie')" type="button" value="搜索" name="sa">
+	</li>
+</ul>
+
+<h3>最新评论
+	<a id="SingleColumn1__fea973_RSSHyperlink1" href="http://www.blogjava.net/robbie/CommentsRSS.aspx"><img src="/images/xml.gif" style="border-width:0px;" /></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl01_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/08/21/257201.html#292161">1. 可否指导下 ，下面错误怎么解决[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Jack</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/08/14/244464.html#291191">2. re: Kettle初探</a>
+			</li>
+			<li style="word-break:break-all">
+				我的job里面设置了最小日志，但是在用命令行调用kettle运行时还是基本日志，kitchen.bat有没有日志参数，求解？
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--hpf1908</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl03_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/06/28/257201.html#284461">3. re: Struts2 + ExtJS 做的小程序源代码</a>
+			</li>
+			<li style="word-break:break-all">
+				我也不会用svn，对这个还是第一次看到，比较新奇，<br>也希望你能能在你百忙之中给我发一呀。 <br>我的邮箱是：yangzl0123@163.com<br>谢谢了。。。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--yangzl</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl04_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/05/31/257201.html#279265">4. re: Struts2 + ExtJS 做的小程序源代码[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				不会用svn，能不能在你百忙之中给我发一呀。<br><br>我的邮箱是：<br><br><br><br>     yangkezhi110@live.cn
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--yang</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl05_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/05/31/257201.html#279264">5. re: Struts2 + ExtJS 做的小程序源代码[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				不会用svn，能不能在你百忙之中给我发一呀。<br><br><br>谢谢你呀
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--yang</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl06_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/05/31/257201.html#279137">6. re: Struts2 + ExtJS 做的小程序源代码</a>
+			</li>
+			<li style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--leeawan</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl07_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/05/13/244464.html#270487">7. re: Kettle初探</a>
+			</li>
+			<li style="word-break:break-all">
+				我的邮箱是lanseyouyu1998@163.com
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--初学者</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl08_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/05/13/244464.html#270486">8. re: Kettle初探</a>
+			</li>
+			<li style="word-break:break-all">
+				您好，能不能把源码给我一份，我一直下不下来
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--初学者</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl09_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/05/05/246271.html#269028">9. re: Kettle的第二个实践--数据获取并转换</a>
+			</li>
+			<li style="word-break:break-all">
+				我想要从上面的查询结果来获取数据怎么办？<br>你这里是从系统参数里来获取的，谢谢。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--初学者</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__fea973_CommentList_ctl10_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/05/01/257201.html#268548">10. re: Struts2 + ExtJS 做的小程序源代码</a>
+			</li>
+			<li style="word-break:break-all">
+				@qiang<br>是不是试试JDK1.6呢
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--The Matrix</li>
+		
+			</ul>
+		
+</div>
+
+<h3>阅读排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html">1. Spring事务配置的五种方式(4482)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/07/264359.html">2. Hibernate缓存配置(1910)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/01/257201.html">3. Struts2 + ExtJS 做的小程序源代码(1887)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/28/262674.html">4. 推荐一个很好用的界面原型绘制工具(1806)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/25/248354.html">5. JBossSeam学习系列之五--完结篇(1624)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl06_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/02/26/256723.html">6. Struts2 + ExtJS做的小程序(1562)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl07_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/19/266409.html">7. 《深入浅出EXT JS》书评(1371)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl08_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/14/246271.html">8. Kettle的第二个实践--数据获取并转换(1312)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl09_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/09/245162.html">9. Oracle移动数据文件(1153)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__17eaefb_TopList_ctl10_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/18/247245.html">10. JBossSeam学习系列之四--第二个例子(1121)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>评论排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl01_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/01/257201.html">1. Struts2 + ExtJS 做的小程序源代码(18)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html">2. Spring事务配置的五种方式(10)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/02/26/256723.html">3. Struts2 + ExtJS做的小程序(8)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/04/244464.html">4. Kettle初探(7)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/25/248354.html">5. JBossSeam学习系列之五--完结篇(6)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl06_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/14/246271.html">6. Kettle的第二个实践--数据获取并转换(3)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl07_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/07/264359.html">7. Hibernate缓存配置(2)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl08_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/28/262674.html">8. 推荐一个很好用的界面原型绘制工具(1)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl09_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/19/247372.html">9. 使用Axis1.4、Spring在tomcat环境下提供web service服务(1)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__35c31e6_TopList_ctl10_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/19/266409.html">10. 《深入浅出EXT JS》书评(1)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</DIV>
+	
+</div>
+
+<!--done-->
+<div class="footer">
+	Powered by: <a href="http://www.cnblogs.com">博客园</a>	模板提供：<a href="http://blog.hjenglish.com">沪江博客</a>
+	Copyright &copy;2009 The Matrix
+</div>
+
+
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+var Page_Validators =  new Array(document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2"), document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4"), document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_RequiredFieldValidator1 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator1"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator1");
+AjaxHolder_PostComment_RequiredFieldValidator1.controltovalidate = "AjaxHolder_PostComment_tbTitle";
+AjaxHolder_PostComment_RequiredFieldValidator1.errormessage = "请输入标题";
+AjaxHolder_PostComment_RequiredFieldValidator1.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator1.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator2 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator2"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator2");
+AjaxHolder_PostComment_RequiredFieldValidator2.controltovalidate = "AjaxHolder_PostComment_tbName";
+AjaxHolder_PostComment_RequiredFieldValidator2.errormessage = "请输入你的姓名";
+AjaxHolder_PostComment_RequiredFieldValidator2.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator2.initialvalue = "";
+var AjaxHolder_PostComment_Requiredfieldvalidator4 = document.all ? document.all["AjaxHolder_PostComment_Requiredfieldvalidator4"] : document.getElementById("AjaxHolder_PostComment_Requiredfieldvalidator4");
+AjaxHolder_PostComment_Requiredfieldvalidator4.controltovalidate = "AjaxHolder_PostComment_CodeNumberTextBox";
+AjaxHolder_PostComment_Requiredfieldvalidator4.errormessage = "请输入验证码";
+AjaxHolder_PostComment_Requiredfieldvalidator4.display = "Dynamic";
+AjaxHolder_PostComment_Requiredfieldvalidator4.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_Requiredfieldvalidator4.initialvalue = "";
+var AjaxHolder_PostComment_RequiredFieldValidator3 = document.all ? document.all["AjaxHolder_PostComment_RequiredFieldValidator3"] : document.getElementById("AjaxHolder_PostComment_RequiredFieldValidator3");
+AjaxHolder_PostComment_RequiredFieldValidator3.controltovalidate = "AjaxHolder_PostComment_tbComment";
+AjaxHolder_PostComment_RequiredFieldValidator3.errormessage = "请输入评论内容";
+AjaxHolder_PostComment_RequiredFieldValidator3.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+AjaxHolder_PostComment_RequiredFieldValidator3.initialvalue = "";
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator1'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator2'));
+}
+
+document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_Requiredfieldvalidator4'));
+}
+
+document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('AjaxHolder_PostComment_RequiredFieldValidator3'));
+}
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/script/ShowHidden.js"></script>
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	try {
+	var pageTracker = _gat._getTracker("UA-476124-3");
+	pageTracker._trackPageview();
+	} catch(err) {}</script>
+</body>
+</html>
